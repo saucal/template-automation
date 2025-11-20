@@ -1,0 +1,50 @@
+name: Ghost Inspector sync
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * *' # daily at 06:00 UTC (adjust as needed)
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    env:
+      GHOST_INSPECTOR_API_KEY: ${{ secrets.GHOST_INSPECTOR_API_KEY }}
+      GHOST_INSPECTOR_FOLDER_ID: ${{ secrets.GHOST_INSPECTOR_FOLDER_ID }}
+      GHOST_INSPECTOR_SUITE_URL_TEMPLATE: ${{ secrets.GHOST_INSPECTOR_SUITE_URL_TEMPLATE }}
+      GHOST_INSPECTOR_EXPORT_URL_TEMPLATE: ${{ secrets.GHOST_INSPECTOR_EXPORT_URL_TEMPLATE }}
+      GHOST_INSPECTOR_FOLDER_URL_TEMPLATE: ${{ secrets.GHOST_INSPECTOR_FOLDER_URL_TEMPLATE }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run Ghost Inspector sync script
+        run: |
+          node ./scripts/ghostinspector-sync.js
+
+      - name: Check for changes
+        id: check
+        run: |
+          if git status --porcelain | grep -q .; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create pull request with changes
+        if: steps.check.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ghostinspector-sync-${{ github.run_number }}
+          commit-message: "chore: sync Ghost Inspector suites #${{ github.run_number }}"
+          title: "chore: sync Ghost Inspector suites #${{ github.run_number }}"
+          body: |
+            Automated sync of Ghost Inspector suites from folder.
+            Fetches suite list from folder API, then for each suite: downloads/unzips test files, syncs to folders (adds new, updates existing, removes deleted), and saves suite JSON.
+          base: InitialLoad
