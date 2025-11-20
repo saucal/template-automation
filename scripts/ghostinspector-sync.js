@@ -10,6 +10,10 @@ const suiteUrlTemplate = process.env.GHOST_INSPECTOR_SUITE_URL_TEMPLATE || 'http
 const exportUrlTemplate = process.env.GHOST_INSPECTOR_EXPORT_URL_TEMPLATE || 'https://api.ghostinspector.com/v1/suites/{suiteId}/export/json/?apiKey={apiKey}';
 const folderUrlTemplate = process.env.GHOST_INSPECTOR_FOLDER_URL_TEMPLATE || 'https://api.ghostinspector.com/v1/folders/{folderId}/suites/?apiKey={apiKey}';
 
+function sanitizeFolderName(name) {
+  return name.replace(/\//g, '-').replace(/^\.+/, '').replace(/\.+$/, '');
+}
+
 function buildSuiteUrl(suiteId) {
   return suiteUrlTemplate.replace('{suiteId}', encodeURIComponent(suiteId)).replace('{apiKey}', encodeURIComponent(apiKey || ''));
 }
@@ -61,18 +65,21 @@ async function fetchJson(url) {
       const suiteUrl = buildSuiteUrl(suiteId);
       const suiteData = await fetchJson(suiteUrl);
       const currentName = suiteData.name || suite.name;
+      const sanitizedName = sanitizeFolderName(currentName);
 
-      // Update mapping to current name
-      const oldFolder = updatedMapping[suiteId];
-      updatedMapping[suiteId] = currentName;
+      // Get old folder name from existing mapping
+      const oldFolder = existingMapping[suiteId];
 
-      console.log(`For suite ${suiteId}, currentName: '${currentName}', oldFolder: '${oldFolder}'`);
+      console.log(`For suite ${suiteId}, currentName: '${currentName}', sanitized: '${sanitizedName}', oldFolder: '${oldFolder}'`);
 
       // If folder name changed, rename the folder
-      if (oldFolder && oldFolder !== currentName && fs.existsSync(oldFolder)) {
-        fs.renameSync(oldFolder, currentName);
-        console.log(`Renamed folder from ${oldFolder} to ${currentName}`);
+      if (oldFolder && oldFolder !== sanitizedName && fs.existsSync(oldFolder)) {
+        fs.renameSync(oldFolder, sanitizedName);
+        console.log(`Renamed folder from ${oldFolder} to ${sanitizedName}`);
       }
+
+      // Update mapping to sanitized name
+      updatedMapping[suiteId] = sanitizedName;
 
       const folder = updatedMapping[suiteId];
 

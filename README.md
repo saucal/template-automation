@@ -38,15 +38,16 @@ These have default values but can be customized:
 
 1. Fetches the list of suites from the specified Ghost Inspector folder
 2. For each suite:
+   - Sanitizes the suite name to create a valid folder name (replaces `/` with `-`)
    - Downloads the test files as a ZIP archive
-   - Extracts and syncs files to a local folder named after the suite
+   - Extracts and syncs files to a local folder named after the sanitized suite name
    - Saves suite metadata to `suite.json`
-3. Updates a mapping file (`scripts/suite-mapping.json`) to track suite IDs and folder names
+3. Updates a mapping file (`scripts/suite-mapping.json`) to track suite IDs and sanitized folder names
 4. Handles folder renames if suite names change
 
 ## File Structure
 
 After running, your repository will contain:
-- `scripts/suite-mapping.json`: Maps suite IDs to folder names
-- Folders for each suite containing test files and `suite.json`
+- `scripts/suite-mapping.json`: Maps suite IDs to sanitized folder names
+- Folders for each suite (with sanitized names) containing test files and `suite.json`
 
