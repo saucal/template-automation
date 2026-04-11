@@ -47,4 +47,4 @@ jobs:
           body: |
             Automated sync of Ghost Inspector suites from folder.
             Fetches suite list from folder API, then for each suite: downloads/unzips test files, syncs to folders (adds new, updates existing, removes deleted), and saves suite JSON.
-          base: InitialLoad
+          base: main
