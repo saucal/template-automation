@@ -1,0 +1,26 @@
+name: Sync to Ghost Inspector
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    env:
+      GHOST_INSPECTOR_API_KEY: ${{ secrets.GHOST_INSPECTOR_API_KEY }}
+      GHOST_INSPECTOR_FOLDER_ID: ${{ secrets.GHOST_INSPECTOR_FOLDER_ID }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run sync to Ghost Inspector script
+        run: |
+          node ./scripts/sync-to-ghostinspector.js
