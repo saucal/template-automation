@@ -58,6 +58,14 @@ async function deleteRequest(url) {
   return await res.json();
 }
 
+function sanitizeForGhostInspector(testJson) {
+  if (!testJson || typeof testJson !== 'object') return testJson;
+  const copy = structuredClone(testJson);
+  // Local-only metadata; Ghost Inspector APIs may reject unknown fields.
+  delete copy._gi;
+  return copy;
+}
+
 (async () => {
   try {
     // Load mapping
@@ -66,6 +74,8 @@ async function deleteRequest(url) {
       process.exit(1);
     }
     const mapping = JSON.parse(fs.readFileSync(mappingFile, 'utf8'));
+
+    const missingTests = [];
 
     for (const suiteId of Object.keys(mapping)) {
       const folder = mapping[suiteId];
@@ -97,12 +107,10 @@ async function deleteRequest(url) {
         giTests[test.name] = { id: test._id, name: test.name };
       }
 
-      // Create missing tests
+      // Collect missing tests for logging
       for (const name of Object.keys(localTests)) {
         if (!giTests[name]) {
-          console.log(`Creating test ${name} in suite ${suiteId}`);
-          const importUrl = buildImportUrl(suiteId);
-          await postJson(importUrl, localTests[name]);
+          missingTests.push({ suiteId, name, id: localTests[name]._id });
         }
       }
 
@@ -121,7 +129,7 @@ async function deleteRequest(url) {
           if (JSON.stringify(localJson) !== JSON.stringify(giJson)) {
             console.log(`Updating test ${name} (${testId})`);
             const updateUrl = buildUpdateUrl(testId);
-            await postJson(updateUrl, localJson);
+            await postJson(updateUrl, sanitizeForGhostInspector(localJson));
           }
         }
       }
@@ -134,6 +142,13 @@ async function deleteRequest(url) {
           const deleteUrl = buildDeleteUrl(testId);
           await deleteRequest(deleteUrl);
         }
+      }
+    }
+
+    if (missingTests.length > 0) {
+      console.log('\nThe following tests are present locally but missing in Ghost Inspector and need to be restored manually:');
+      for (const test of missingTests) {
+        console.log(`- Suite ${test.suiteId}: ${test.name} (${test.id})`);
       }
     }
 
