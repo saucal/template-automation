@@ -212,7 +212,9 @@ function typeDOMQueries(code) {
   const _jsGlobals = new Set(['null', 'undefined', 'true', 'false', 'this', 'self',
     'document', 'window', 'navigator', 'location', 'Array', 'Object', 'String', 'Number',
     'Boolean', 'Math', 'console', 'Promise', 'Date', 'JSON', 'RegExp', 'Error', 'NaN',
-    'Infinity', 'vars']);
+    'Infinity', 'vars',
+    // JS keywords that can appear right after 'return' — not valid variable names
+    'new', 'typeof', 'void', 'await', 'yield', 'delete', 'instanceof']);
   const _undeclaredReturnRefs = [];
   for (const [, name] of code.matchAll(/\breturn\s+([a-zA-Z_$][\w$]*)/gm)) {
     if (!_skipKeywords.has(name) && !_jsGlobals.has(name) && !_declared.has(name)) {
