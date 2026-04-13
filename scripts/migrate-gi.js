@@ -432,7 +432,7 @@ function genStep(step, indent, chain, imports) {
 
     case 'pause': {
       const ms = parseInt(value, 10) || 1000;
-      lines.push(`${ind}await page.waitForTimeout(${ms}); // TODO: replace with a proper wait`);
+      lines.push(`${ind}await page.waitForTimeout(${ms});`);
       break;
     }
 
@@ -461,6 +461,23 @@ function genStep(step, indent, chain, imports) {
     case 'screenshotComparison': {
       const name = slugify(value || 'screenshot');
       lines.push(`${ind}await expect(page).toHaveScreenshot(${singleQuote(`${name}.png`)}, { fullPage: true });`);
+      break;
+    }
+
+    case 'screenshot': {
+      if (loc) {
+        lines.push(`${ind}await ${loc}.screenshot();`);
+      } else {
+        lines.push(`${ind}await page.screenshot();`);
+      }
+      break;
+    }
+
+    // ── Keyboard ─────────────────────────────────────────────────────────────
+    case 'keypress': {
+      const keyMap = { '8': 'Backspace', '9': 'Tab', '13': 'Enter', '27': 'Escape', '46': 'Delete' };
+      const key = keyMap[value] || value;
+      lines.push(`${ind}await page.keyboard.press(${singleQuote(key)});`);
       break;
     }
 
