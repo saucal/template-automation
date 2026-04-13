@@ -144,6 +144,22 @@ function interpolate(str) {
   return str.replace(/\{\{(\w+)\}\}/g, (_, n) => `\${vars.${n} ?? ''}`);
 }
 
+// Close any unclosed string literals caused by truncated GI source data.
+// E.g. "return '{{country}}' === 'CA" → "return '{{country}}' === 'CA'"
+function closeUnclosedStrings(code) {
+  let inStr = null;
+  for (let i = 0; i < code.length; i++) {
+    const ch = code[i];
+    if (ch === '\\' && inStr !== null) { i++; continue; } // skip escaped char
+    if (ch === "'" || ch === '"') {
+      if (inStr === null) inStr = ch;
+      else if (inStr === ch) inStr = null;
+    }
+  }
+  if (inStr !== null) code += inStr; // close the unclosed string
+  return code;
+}
+
 // Replace GI {{varName}} with vars.varName — for code inside page.evaluate() bodies.
 // Quoted forms '{{x}}' / "{{x}}" have their surrounding quotes removed too.
 function interpolateForBrowser(str) {
@@ -175,6 +191,8 @@ function typeDOMQueries(code) {
   // Pass 0: Prevent type-narrowing issues in evaluate bodies — declare all locals as 'any',
   // and auto-add 'let' for any bare undeclared variable assignments.
   const _declared = new Set(Array.from(code.matchAll(/\b(?:let|const|var)\s+(\w+)/g)).map(m => m[1]));
+  // 0a-pre: Add ': any' to let/const/var declarations that have no initializer (e.g. 'let x;')
+  code = code.replace(/\b(?:let|const|var)\s+(\w+)\s*;/g, (_, name) => `let ${name}: any;`);
   // 0a: Change let/const declarations to 'let name: any =' so TypeScript won't narrow the type
   code = code.replace(/\b(?:let|const)\s+(\w+)\s*=(?!=)/g, (_, name) => {
     _declared.add(name);
@@ -188,6 +206,26 @@ function typeDOMQueries(code) {
     _declared.add(name);
     return `${indent}let ${name}: any ${eq}`;
   });
+  // 0c: Auto-declare any identifier used in a 'return' expression that isn't yet declared.
+  // Handles GI source bugs where a variable is referenced in 'return' but never declared in
+  // the same evaluate body (e.g. 'return shippingIndex + 1' with no 'let shippingIndex').
+  const _jsGlobals = new Set(['null', 'undefined', 'true', 'false', 'this', 'self',
+    'document', 'window', 'navigator', 'location', 'Array', 'Object', 'String', 'Number',
+    'Boolean', 'Math', 'console', 'Promise', 'Date', 'JSON', 'RegExp', 'Error', 'NaN',
+    'Infinity', 'vars']);
+  const _undeclaredReturnRefs = [];
+  for (const [, name] of code.matchAll(/\breturn\s+([a-zA-Z_$][\w$]*)/gm)) {
+    if (!_skipKeywords.has(name) && !_jsGlobals.has(name) && !_declared.has(name)) {
+      _undeclaredReturnRefs.push(name);
+      _declared.add(name);
+    }
+  }
+  if (_undeclaredReturnRefs.length > 0) {
+    const decls = _undeclaredReturnRefs
+      .map(n => `let ${n}: any; // auto-declared: referenced in return but missing in GI source`)
+      .join('\n');
+    code = decls + '\n' + code;
+  }
 
   // Pass 1: Add generics only to document.querySelector(All)? calls
   // (other objects like targetTfoot may be "any", causing "Untyped function calls" errors)
@@ -247,7 +285,7 @@ function singleQuote(str) {
  * browser context (DOM queries, etc.).
  */
 function conditionToTS(statement) {
-  let s = statement.trim();
+  let s = closeUnclosedStrings(statement.trim());
 
   // If the condition accesses the DOM, keep it in page.evaluate
   if (/document\.|querySelector|getElement/.test(s)) {
@@ -724,7 +762,9 @@ if (!fs.existsSync(TESTS_DIR)) {
   console.log(`✓  Created ${TESTS_DIR}`);
 }
 const testsPkg = path.join(TESTS_DIR, 'package.json');
+let testsPkgCreated = false;
 if (!fs.existsSync(testsPkg)) {
+  testsPkgCreated = true;
   const repoName = path.basename(path.resolve('.')).replace(/[^a-z0-9-]/gi, '-').toLowerCase();
   const pkg = {
     name: `${repoName}-playwright`,
@@ -746,7 +786,7 @@ if (!fs.existsSync(testsPkg)) {
   fs.writeFileSync(testsPkg, JSON.stringify(pkg, null, 2) + '\n');
   console.log(`✓  Created ${testsPkg}`);
 }
-if (!fs.existsSync(path.join(TESTS_DIR, 'node_modules'))) {
+if (testsPkgCreated || !fs.existsSync(path.join(TESTS_DIR, 'node_modules'))) {
   const { execSync } = require('child_process');
   console.log('  Running npm install in tests/ ...');
   execSync('npm install', { cwd: TESTS_DIR, stdio: 'inherit' });
