@@ -138,10 +138,16 @@ function escInner(str) {
   return str.replace(/\\/g, '\\\\').replace(/`/g, '\\`');
 }
 
+// Returns the safe TypeScript property access for a GI variable name.
+// e.g. 'foo' → 'vars.foo', '3ds' → "vars['3ds']", 'a-b' → "vars['a-b']"
+function varProp(name) {
+  return /^[a-zA-Z_$][\w$]*$/.test(name) ? `vars.${name}` : `vars['${name}']`;
+}
+
 // Replace GI {{varName}} with ${vars.varName ?? ''} — for TypeScript template literals
 function interpolate(str) {
   if (!str) return '';
-  return str.replace(/\{\{(\w+)\}\}/g, (_, n) => `\${vars.${n} ?? ''}`);
+  return str.replace(/\{\{(\w+)\}\}/g, (_, n) => `\${${varProp(n)} ?? ''}`);
 }
 
 // Close any unclosed string literals caused by truncated GI source data.
@@ -164,8 +170,8 @@ function closeUnclosedStrings(code) {
 // Quoted forms '{{x}}' / "{{x}}" have their surrounding quotes removed too.
 function interpolateForBrowser(str) {
   if (!str) return '';
-  str = str.replace(/['"](\{\{(\w+)\}\})['"]/g, (_, __, n) => `vars.${n}`);
-  str = str.replace(/\{\{(\w+)\}\}/g, (_, n) => `vars.${n}`);
+  str = str.replace(/['"](\{\{(\w+)\}\})['"]/g, (_, __, n) => varProp(n)); // quoted {{x}} → strip quotes
+  str = str.replace(/\{\{(\w+)\}\}/g, (_, n) => varProp(n));
   return typeDOMQueries(str);
 }
 
@@ -190,7 +196,10 @@ const DOM_TAG_TYPE_MAP = {
 function typeDOMQueries(code) {
   // Pass 0: Prevent type-narrowing issues in evaluate bodies — declare all locals as 'any',
   // and auto-add 'let' for any bare undeclared variable assignments.
-  const _declared = new Set(Array.from(code.matchAll(/\b(?:let|const|var)\s+(\w+)/g)).map(m => m[1]));
+  const _declared = new Set([
+    ...Array.from(code.matchAll(/\b(?:let|const|var)\s+(\w+)/g)).map(m => m[1]),
+    ...Array.from(code.matchAll(/\bfunction\s+(\w+)/g)).map(m => m[1]),
+  ]);
   // 0a-pre: Add ': any' to let/const/var declarations that have no initializer (e.g. 'let x;')
   code = code.replace(/\b(?:let|const|var)\s+(\w+)\s*;/g, (_, name) => `let ${name}: any;`);
   // 0a: Change let/const declarations to 'let name: any =' so TypeScript won't narrow the type
@@ -305,8 +314,8 @@ function conditionToTS(statement) {
     for (let i = 0; i < condLines.length; i++) {
       const declMatch = condLines[i].match(/^(?:let|const|var)\s+(\w+)\s*=\s*["']?\{\{(\w+)\}\}["']?\s*;?\s*$/);
       if (declMatch) {
-        varMap[declMatch[1]] = `vars.${declMatch[2]}`;
-      } else if (/^return\s/.test(condLines[i])) {
+        varMap[declMatch[1]] = varProp(declMatch[2]);
+      } else if (/^return\b/.test(condLines[i])) {
         returnStart = i;
         break;
       }
@@ -341,7 +350,7 @@ function conditionToTS(statement) {
   s = s.replace(/window\.location\.href/g, 'page.url()');
 
   // Replace quoted and bare GI {{var}} → vars.var
-  s = s.replace(/['"]?\{\{(\w+)\}\}['"]?/g, (_, name) => `vars.${name}`);
+  s = s.replace(/['"]?\{\{(\w+)\}\}['"]?/g, (_, name) => varProp(name)); // {{var}} → vars.var
 
   // Vars are stored as strings — adjust bare boolean comparisons:
   //   vars.x === true  →  vars.x === 'true'
@@ -462,7 +471,7 @@ function genStep(step, indent, chain, imports) {
     }
 
     case 'assertVariable':
-      lines.push(`${ind}expect(vars.${variableName}).toBe(${tpl(value)});`);
+      lines.push(`${ind}expect(${varProp(variableName)}).toBe(${tpl(value)});`);
       break;
 
     // ── Interactions ────────────────────────────────────────────────────────
@@ -542,20 +551,20 @@ function genStep(step, indent, chain, imports) {
     // ── Variables ────────────────────────────────────────────────────────────
     case 'store':
       if (variableName) {
-        lines.push(`${ind}vars.${variableName} = ${tpl(value)};`);
+        lines.push(`${ind}${varProp(variableName)} = ${tpl(value)};`);
       }
       break;
 
     case 'extract':
       if (variableName && loc) {
-        lines.push(`${ind}vars.${variableName} = ((await ${loc}.textContent()) ?? '').trim();`);
+        lines.push(`${ind}${varProp(variableName)} = ((await ${loc}.textContent()) ?? '').trim();`);
       }
       break;
 
     case 'extractEval': {
       const code = interpolateForBrowser(value);
       if (variableName) {
-        lines.push(ind + `vars.${variableName} = String(await page.evaluate((vars: any) => { ` + code + ` }, vars));`);
+        lines.push(ind + `${varProp(variableName)} = String(await page.evaluate((vars: any) => { ` + code + ` }, vars));`);
       }
       break;
     }
