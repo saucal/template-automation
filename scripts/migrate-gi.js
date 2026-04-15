@@ -55,16 +55,34 @@ function mkdirp(dir) {
 // ─── Load all GI tests ────────────────────────────────────────────────────────
 
 const testMap = {}; // testId → parsed JSON
+const suiteStartUrls = {};         // suiteName → startUrl
+const suiteViewports = {};         // suiteName → { width, height }
+const suiteScreenshotThresholds = {}; // suiteName → maxDiffPixelRatio (when screenshotCompareEnabled)
+const suiteVariables = {};         // suiteName → [{ name, value }] (non-private, no GI dynamic tokens)
+let orgVariables = [];             // organization-level variables (lowest priority, overridden by suite vars)
 
 function loadDir(dir) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const full = path.join(dir, entry.name);
     if (entry.isDirectory()) {
       loadDir(full);
-    } else if (entry.name.endsWith('.json') && entry.name !== 'suite.json') {
+    } else if (entry.name.endsWith('.json')) {
       try {
         const data = JSON.parse(fs.readFileSync(full, 'utf8'));
-        if (data._gi?.testId) {
+        if (entry.name === 'suite.json') {
+          const suite = data.data ?? data;
+          if (suite.name) {
+            if (suite.startUrl) suiteStartUrls[suite.name] = suite.startUrl;
+            if (suite.viewportSize) suiteViewports[suite.name] = suite.viewportSize;
+            if (suite.screenshotCompareEnabled && suite.screenshotCompareThreshold != null) {
+              suiteScreenshotThresholds[suite.name] = suite.screenshotCompareThreshold;
+            }
+            if (Array.isArray(suite.variables)) {
+              const usable = suite.variables.filter(v => !v.private && !/\{\{/.test(v.value));
+              if (usable.length > 0) suiteVariables[suite.name] = usable;
+            }
+          }
+        } else if (data._gi?.testId) {
           testMap[data._gi.testId] = data;
         }
       } catch (e) {
@@ -75,6 +93,18 @@ function loadDir(dir) {
 }
 
 loadDir(SUITES_DIR);
+
+// Load organization-level variables from _organization.json (written by ghostinspector-sync.js)
+const orgFile = path.join(SUITES_DIR, '_organization.json');
+if (fs.existsSync(orgFile)) {
+  try {
+    const orgData = JSON.parse(fs.readFileSync(orgFile, 'utf8'));
+    if (Array.isArray(orgData.variables)) {
+      orgVariables = orgData.variables.filter(v => !v.private && !/\{\{/.test(v.value));
+    }
+  } catch { /* ignore malformed file */ }
+}
+
 console.log(`\nLoaded ${Object.keys(testMap).length} GI tests from ${SUITES_DIR}\n`);
 
 // ─── Build helper function map ────────────────────────────────────────────────
@@ -274,6 +304,19 @@ function typeDOMQueries(code) {
   return code;
 }
 
+// Strip the origin from an absolute URL so Playwright uses baseURL from the config.
+// e.g. "https://staging.example.com/shop/?sale=1" → "/shop/?sale=1"
+// Falls back to the original string if it can't be parsed (e.g. already relative).
+function toRelativePath(urlStr) {
+  if (!urlStr) return '/';
+  try {
+    const u = new URL(urlStr);
+    return (u.pathname + u.search + u.hash) || '/';
+  } catch {
+    return urlStr;
+  }
+}
+
 // Build a TypeScript template-literal value: `...${vars.x ?? ''}...`
 // Uses string concatenation so the generator template literal never sees the ${.
 function tpl(str) {
@@ -362,6 +405,11 @@ function conditionToTS(statement) {
   return s;
 }
 
+// Injected at the start of every page.evaluate body so vars.X returns '' for any key
+// not explicitly set — mirrors GI's default-to-empty-string behaviour.
+// The Node.js Proxy is lost during JSON serialisation; this re-creates it in the browser.
+const EVAL_PROXY = `vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); `;
+
 // ─── Step code generator ──────────────────────────────────────────────────────
 
 /**
@@ -393,7 +441,7 @@ function genStep(step, indent, chain, imports) {
     } else {
       // Complex condition — needs browser context
       const cond = interpolateForBrowser(condition.statement);
-      lines.push(ind + 'if (await page.evaluate((vars: any) => { ' + cond + ' }, vars)) {');
+      lines.push(ind + 'if (await page.evaluate((vars: any) => { ' + EVAL_PROXY + cond + ' }, vars)) {');
     }
     ind += '  ';
   }
@@ -416,10 +464,15 @@ function genStep(step, indent, chain, imports) {
 
       const helper = helperFnMap[value];
       if (helper) {
-        // importOnly test → call the generated helper function
-        if (!imports[helper.slug]) imports[helper.slug] = new Set();
-        imports[helper.slug].add(helper.fnName);
-        lines.push(`${ind}await ${helper.fnName}(page, vars);`);
+        // Known GI helpers that map directly to native Playwright calls
+        if (helper.fnName === 'pageFullLoaded') {
+          lines.push(`${ind}await page.waitForLoadState('load');`);
+        } else {
+          // importOnly test → call the generated helper function
+          if (!imports[helper.slug]) imports[helper.slug] = new Set();
+          imports[helper.slug].add(helper.fnName);
+          lines.push(`${ind}await ${helper.fnName}(page, vars);`);
+        }
       } else {
         // Non-importOnly test → inline its steps (with comment markers)
         lines.push(`${ind}// ↓ ${ref.name}`);
@@ -434,39 +487,39 @@ function genStep(step, indent, chain, imports) {
 
     // ── Assertions ──────────────────────────────────────────────────────────
     case 'assertElementPresent':
-      // Element exists in DOM — does not need to be visible
-      lines.push(`${ind}await expect(${loc}).toBeAttached();`);
+      // .first() avoids strict mode violations when multiple elements match
+      lines.push(`${ind}await expect(${loc}.first()).toBeAttached();`);
       break;
 
     case 'assertElementNotPresent':
-      lines.push(`${ind}await expect(${loc}).not.toBeAttached();`);
+      lines.push(`${ind}await expect(${loc}.first()).not.toBeAttached();`);
       break;
 
     case 'assertElementVisible':
-      lines.push(`${ind}await expect(${loc}).toBeVisible();`);
+      lines.push(`${ind}await expect(${loc}.first()).toBeVisible();`);
       break;
 
     case 'assertElementNotVisible':
-      lines.push(`${ind}await expect(${loc}).not.toBeVisible();`);
+      lines.push(`${ind}await expect(${loc}.first()).not.toBeVisible();`);
       break;
 
     case 'assertText':
-      lines.push(`${ind}await expect(${loc}).toHaveText(${tpl(value)});`);
+      lines.push(`${ind}await expect(${loc}.first()).toHaveText(${tpl(value)});`);
       break;
 
     case 'assertTextPresent':
-      lines.push(`${ind}await expect(${loc}).toContainText(${tpl(value)});`);
+      lines.push(`${ind}await expect(${loc}.first()).toContainText(${tpl(value)});`);
       break;
 
     case 'assertEval': {
       const code = interpolateForBrowser(value);
-      lines.push(ind + 'expect(await page.evaluate((vars: any) => { ' + code + ' }, vars)).toBeTruthy();');
+      lines.push(ind + 'expect(await page.evaluate((vars: any) => { ' + EVAL_PROXY + code + ' }, vars)).toBeTruthy();');
       break;
     }
 
     case 'eval': {
       const code = interpolateForBrowser(value);
-      lines.push(ind + 'await page.evaluate((vars: any) => { ' + code + ' }, vars);');
+      lines.push(ind + 'await page.evaluate((vars: any) => { ' + EVAL_PROXY + code + ' }, vars);');
       break;
     }
 
@@ -476,41 +529,41 @@ function genStep(step, indent, chain, imports) {
 
     // ── Interactions ────────────────────────────────────────────────────────
     case 'click':
-      lines.push(`${ind}await ${loc}.click();`);
+      lines.push(`${ind}await ${loc}.first().click();`);
       break;
 
     case 'assign':
-      lines.push(`${ind}await ${loc}.fill(${tpl(value)});`);
+      lines.push(`${ind}await ${loc}.first().fill(${tpl(value)});`);
       break;
 
     case 'mouseOver':
     case 'hover':
-      lines.push(`${ind}await ${loc}.hover();`);
+      lines.push(`${ind}await ${loc}.first().hover();`);
       break;
 
     case 'scrollTo':
-      lines.push(`${ind}await ${loc}.scrollIntoViewIfNeeded();`);
+      lines.push(`${ind}await ${loc}.first().scrollIntoViewIfNeeded();`);
       break;
 
     case 'select':
-      lines.push(`${ind}await ${loc}.selectOption(${tpl(value)});`);
+      lines.push(`${ind}await ${loc}.first().selectOption(${tpl(value)});`);
       break;
 
     case 'check':
-      lines.push(`${ind}await ${loc}.check();`);
+      lines.push(`${ind}await ${loc}.first().check();`);
       break;
 
     case 'uncheck':
-      lines.push(`${ind}await ${loc}.uncheck();`);
+      lines.push(`${ind}await ${loc}.first().uncheck();`);
       break;
 
     case 'type':
     case 'sendKeys':
-      lines.push(`${ind}await ${loc}.pressSequentially(${tpl(value)});`);
+      lines.push(`${ind}await ${loc}.first().pressSequentially(${tpl(value)});`);
       break;
 
     case 'clear':
-      lines.push(`${ind}await ${loc}.clear();`);
+      lines.push(`${ind}await ${loc}.first().clear();`);
       break;
 
     // ── Navigation ──────────────────────────────────────────────────────────
@@ -535,11 +588,11 @@ function genStep(step, indent, chain, imports) {
     // ── Waits ────────────────────────────────────────────────────────────────
     case 'waitForElement':
     case 'waitForElementPresent':
-      lines.push(`${ind}await ${loc}.waitFor({ state: 'attached' });`);
+      lines.push(`${ind}await ${loc}.first().waitFor({ state: 'attached' });`);
       break;
 
     case 'waitForElementNotPresent':
-      lines.push(`${ind}await ${loc}.waitFor({ state: 'detached' });`);
+      lines.push(`${ind}await ${loc}.first().waitFor({ state: 'detached' });`);
       break;
 
     case 'pause': {
@@ -557,14 +610,14 @@ function genStep(step, indent, chain, imports) {
 
     case 'extract':
       if (variableName && loc) {
-        lines.push(`${ind}${varProp(variableName)} = ((await ${loc}.textContent()) ?? '').trim();`);
+        lines.push(`${ind}${varProp(variableName)} = ((await ${loc}.first().textContent()) ?? '').trim();`);
       }
       break;
 
     case 'extractEval': {
       const code = interpolateForBrowser(value);
       if (variableName) {
-        lines.push(ind + `${varProp(variableName)} = String(await page.evaluate((vars: any) => { ` + code + ` }, vars));`);
+        lines.push(ind + `${varProp(variableName)} = String(await page.evaluate((vars: any) => { ` + EVAL_PROXY + code + ` }, vars));`);
       }
       break;
     }
@@ -578,7 +631,7 @@ function genStep(step, indent, chain, imports) {
 
     case 'screenshot': {
       if (loc) {
-        lines.push(`${ind}await ${loc}.screenshot();`);
+        lines.push(`${ind}await ${loc}.first().screenshot();`);
       } else {
         lines.push(`${ind}await page.screenshot();`);
       }
@@ -702,9 +755,10 @@ for (const [suiteName, tests] of Object.entries(suites)) {
       const stepImports = {};
       const stepLines = [];
 
-      if (t.startUrl) {
-        stepLines.push(`    await page.goto(\`${escInner(interpolate(t.startUrl))}\`);`);
-        stepLines.push(`    await page.waitForLoadState('load');`);
+      const startUrl = t.startUrl || suiteStartUrls[suiteName];
+      if (startUrl) {
+        const relPath = toRelativePath(startUrl);
+        stepLines.push(`    await page.goto(\`${escInner(interpolate(relPath))}\`);`);
       }
 
       stepLines.push('');
@@ -717,7 +771,6 @@ for (const [suiteName, tests] of Object.entries(suites)) {
       }
 
       bodyLines.push(`  test(${singleQuote(t.name)}, async ({ page }) => {`);
-      bodyLines.push(`    const vars: Record<string, string> = {};`);
       bodyLines.push(...stepLines);
       bodyLines.push(`  });`);
       bodyLines.push('');
@@ -734,8 +787,31 @@ for (const [suiteName, tests] of Object.entries(suites)) {
       lines.push(`import { ${[...fns].sort().join(', ')} } from '../helpers/${s}';`);
     }
 
+    // vars declared at describe scope so values persist across sequential tests.
+    // Proxy returns '' for missing keys, matching GI's default-to-empty-string behaviour.
+    // Priority (lowest → highest): org vars → suite vars (suite vars override org vars by key).
+    const svars = suiteVariables[suiteName] || [];
+    const suiteVarNames = new Set(svars.map(v => v.name));
+    const mergedVars = [
+      ...orgVariables.filter(v => !suiteVarNames.has(v.name)),
+      ...svars,
+    ];
+    const varsDecl = [];
+    const proxyHandler = `{ get: (o: Record<string, string>, k: string) => (k in o ? o[k] : '') }`;
+    if (mergedVars.length > 0) {
+      varsDecl.push(`  const vars = new Proxy<Record<string, string>>({`);
+      for (const v of mergedVars) {
+        varsDecl.push(`    ${JSON.stringify(v.name)}: ${JSON.stringify(v.value)},`);
+      }
+      varsDecl.push(`  }, ${proxyHandler});`);
+    } else {
+      varsDecl.push(`  const vars = new Proxy<Record<string, string>>({}, ${proxyHandler});`);
+    }
+
     lines.push('');
-    lines.push(`test.describe.serial(${singleQuote(suiteName)}, () => {`);
+    lines.push(`test.describe(${singleQuote(suiteName)}, () => {`);
+    lines.push('');
+    lines.push(...varsDecl);
     lines.push('');
     lines.push(...bodyLines);
     lines.push(`});`);
@@ -797,10 +873,34 @@ if (!fs.existsSync(testsPkg)) {
   fs.writeFileSync(testsPkg, JSON.stringify(pkg, null, 2) + '\n');
   console.log(`✓  Created ${testsPkg}`);
 }
+
+if (testsPkgCreated || !fs.existsSync(path.join(TESTS_DIR, 'node_modules'))) {
+  const { execSync } = require('child_process');
+  console.log('  Running npm init playwright@latest ...');
+  execSync(
+    `npm init playwright@latest --yes -- . --quiet --browser=chromium --browser=firefox --browser=webkit --lang=ts --gha`,
+    { cwd: TESTS_DIR, stdio: 'inherit' }
+  );
+  console.log('✓  Playwright init done');
+}
+
 const relSpecsDir = path.relative(TESTS_DIR, path.join(OUT_DIR, 'specs')).replace(/\\/g, '/');
 
 const playwrightConfig = path.join(TESTS_DIR, 'playwright.config.ts');
-if (!fs.existsSync(playwrightConfig)) {
+{
+  // Pick the most common value across all suites (falls back to null if none found)
+  function mostCommon(values) {
+    if (values.length === 0) return null;
+    const counts = {};
+    for (const v of values) {
+      const key = JSON.stringify(v);
+      counts[key] = (counts[key] || 0) + 1;
+    }
+    return JSON.parse(Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0]);
+  }
+  const viewport          = mostCommon(Object.values(suiteViewports));
+  const screenshotThreshold = mostCommon(Object.values(suiteScreenshotThresholds));
+
   const configContent = [
     `import { defineConfig, devices } from '@playwright/test';`,
     `import dotenv from 'dotenv';`,
@@ -811,9 +911,12 @@ if (!fs.existsSync(playwrightConfig)) {
     `export default defineConfig({`,
     `  testDir: '${relSpecsDir}',`,
     `  timeout: 240_000,`,
-    `  expect: { timeout: 15_000 },`,
+    `  expect: {`,
+    `    timeout: 15_000,`,
+    ...(screenshotThreshold != null ? [`    toHaveScreenshot: { maxDiffPixelRatio: ${screenshotThreshold} },`] : []),
+    `  },`,
     `  fullyParallel: false,`,
-    `  workers: 2,`,
+    `  workers: 1,`,
     `  retries: process.env.CI ? 1 : 0,`,
     `  reporter: [`,
     `    ['html', { outputFolder: 'reports', open: 'never' }],`,
@@ -821,6 +924,7 @@ if (!fs.existsSync(playwrightConfig)) {
     `  ],`,
     `  use: {`,
     `    baseURL: process.env.BASE_URL,`,
+    ...(viewport ? [`    viewport: { width: ${viewport.width}, height: ${viewport.height} },`] : []),
     `    actionTimeout: 15_000,`,
     `    trace: 'on',`,
     `    screenshot: 'on',`,
@@ -843,7 +947,7 @@ if (!fs.existsSync(playwrightConfig)) {
     ``,
   ].join('\n');
   fs.writeFileSync(playwrightConfig, configContent);
-  console.log(`✓  Created ${playwrightConfig}`);
+  console.log(`✓  Updated ${playwrightConfig}`);
 }
 
 const globalSetup = path.join(TESTS_DIR, 'global-setup.ts');
@@ -899,11 +1003,33 @@ if (!fs.existsSync(rootTsconfig)) {
   console.log(`✓  Created ${rootTsconfig}`);
 }
 
-if (testsPkgCreated || !fs.existsSync(path.join(TESTS_DIR, 'node_modules'))) {
-  const { execSync } = require('child_process');
-  console.log('  Running npm install in tests/ ...');
-  execSync('npm install', { cwd: TESTS_DIR, stdio: 'inherit' });
-  console.log('✓  npm install done');
+// ─── .env.example ────────────────────────────────────────────────────────────
+const envExample = path.join(TESTS_DIR, '.env.example');
+if (!fs.existsSync(envExample)) {
+  const envContent = [
+    '# Base URL of the test site (no trailing slash)',
+    'BASE_URL=https://your-test-site.local',
+    '',
+    '# WordPress admin credentials — used for browser session (global-setup)',
+    'WP_ADMIN_USER=admin',
+    'WP_ADMIN_PASS=password',
+    '',
+    '# WordPress REST API — Application Password for a dedicated API user',
+    '# Used for /wp/v2/ endpoints (site settings, plugin versions)',
+    'WP_API_USER=demouser',
+    'WP_API_PASS=xxxx xxxx xxxx xxxx xxxx xxxx',
+    '',
+    '# WooCommerce REST API — OAuth 1.0a Consumer Key / Secret',
+    '# Used for /wc/v3/ endpoints (orders, products, etc.)',
+    'WC_CONSUMER_KEY=ck_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    'WC_CONSUMER_SECRET=cs_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    '',
+    '# WP test user password (for logged-in shopper flows)',
+    'WP_USER_PASS=password',
+    '',
+  ].join('\n');
+  fs.writeFileSync(envExample, envContent);
+  console.log(`✓  Created ${envExample}`);
 }
 
 // ─── Summary ──────────────────────────────────────────────────────────────────

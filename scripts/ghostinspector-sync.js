@@ -5,6 +5,7 @@ const { execSync } = require('child_process');
 
 const apiKey = process.env.GHOST_INSPECTOR_API_KEY;
 const folderId = process.env.GHOST_INSPECTOR_FOLDER_ID;
+const orgId = process.env.GHOST_INSPECTOR_ORG_ID || '';
 const suiteUrlTemplate = process.env.GHOST_INSPECTOR_SUITE_URL_TEMPLATE || 'https://api.ghostinspector.com/v1/suites/{suiteId}/?apiKey={apiKey}&format=json';
 const exportUrlTemplate = process.env.GHOST_INSPECTOR_EXPORT_URL_TEMPLATE || 'https://api.ghostinspector.com/v1/suites/{suiteId}/export/json/?apiKey={apiKey}';
 const folderUrlTemplate = process.env.GHOST_INSPECTOR_FOLDER_URL_TEMPLATE || 'https://api.ghostinspector.com/v1/folders/{folderId}/suites/?apiKey={apiKey}';
@@ -28,6 +29,10 @@ function buildTestExportUrl(testId) {
 
 function buildFolderUrl() {
   return folderUrlTemplate.replace('{folderId}', encodeURIComponent(folderId)).replace('{apiKey}', encodeURIComponent(apiKey || ''));
+}
+
+function buildOrgUrl() {
+  return `https://api.ghostinspector.com/v1/organizations/${encodeURIComponent(orgId)}/?apiKey=${encodeURIComponent(apiKey || '')}`;
 }
 function sanitizeFolderName(folderName) {
 	return folderName.replace(/[^a-zA-Z0-9_-\s]/g, '-').replace(/-+/g, '-').trim();
@@ -155,6 +160,16 @@ async function fetchJson(url) {
       console.log(`Saved extra test to ${destPath}`);
 
       execSync(`rm -f "${tempFile}"`, { stdio: 'inherit' });
+    }
+
+    // Fetch and save organization variables
+    if (orgId) {
+      const orgData = await fetchJson(buildOrgUrl());
+      const org = orgData.data ?? orgData;
+      const variables = Array.isArray(org.variables) ? org.variables : [];
+      const orgFilePath = path.join(suitesDir, '_organization.json');
+      fs.writeFileSync(orgFilePath, JSON.stringify({ variables }, null, 2), 'utf8');
+      console.log(`Saved ${variables.length} organization variable(s) to _organization.json`);
     }
 
     console.log('All suites processed.');
