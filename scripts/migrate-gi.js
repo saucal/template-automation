@@ -797,6 +797,53 @@ if (!fs.existsSync(testsPkg)) {
   fs.writeFileSync(testsPkg, JSON.stringify(pkg, null, 2) + '\n');
   console.log(`✓  Created ${testsPkg}`);
 }
+const playwrightConfig = path.join(TESTS_DIR, 'playwright.config.ts');
+if (!fs.existsSync(playwrightConfig)) {
+  const configContent = [
+    `import { defineConfig, devices } from '@playwright/test';`,
+    `import dotenv from 'dotenv';`,
+    `import path from 'path';`,
+    ``,
+    `dotenv.config({ path: path.join(__dirname, '.env') });`,
+    ``,
+    `export default defineConfig({`,
+    `  testDir: './specs',`,
+    `  timeout: 240_000,`,
+    `  expect: { timeout: 15_000 },`,
+    `  fullyParallel: false,`,
+    `  workers: 2,`,
+    `  retries: process.env.CI ? 1 : 0,`,
+    `  reporter: [`,
+    `    ['html', { outputFolder: 'reports', open: 'never' }],`,
+    `    ['list'],`,
+    `  ],`,
+    `  use: {`,
+    `    baseURL: process.env.BASE_URL,`,
+    `    actionTimeout: 15_000,`,
+    `    trace: 'on',`,
+    `    screenshot: 'on',`,
+    `    video: {`,
+    `      mode: 'on',`,
+    `    },`,
+    `    launchOptions: {`,
+    `      slowMo: 250,`,
+    `    },`,
+    `    ignoreHTTPSErrors: true,`,
+    `  },`,
+    `  globalSetup: './global-setup.ts',`,
+    `  projects: [`,
+    `    {`,
+    `      name: 'chromium',`,
+    `      use: { ...devices['Desktop Chrome'] },`,
+    `    },`,
+    `  ],`,
+    `});`,
+    ``,
+  ].join('\n');
+  fs.writeFileSync(playwrightConfig, configContent);
+  console.log(`✓  Created ${playwrightConfig}`);
+}
+
 if (testsPkgCreated || !fs.existsSync(path.join(TESTS_DIR, 'node_modules'))) {
   const { execSync } = require('child_process');
   console.log('  Running npm install in tests/ ...');
