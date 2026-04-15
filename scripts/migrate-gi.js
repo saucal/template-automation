@@ -797,6 +797,8 @@ if (!fs.existsSync(testsPkg)) {
   fs.writeFileSync(testsPkg, JSON.stringify(pkg, null, 2) + '\n');
   console.log(`✓  Created ${testsPkg}`);
 }
+const relSpecsDir = path.relative(TESTS_DIR, path.join(OUT_DIR, 'specs')).replace(/\\/g, '/');
+
 const playwrightConfig = path.join(TESTS_DIR, 'playwright.config.ts');
 if (!fs.existsSync(playwrightConfig)) {
   const configContent = [
@@ -807,7 +809,7 @@ if (!fs.existsSync(playwrightConfig)) {
     `dotenv.config({ path: path.join(__dirname, '.env') });`,
     ``,
     `export default defineConfig({`,
-    `  testDir: './specs',`,
+    `  testDir: '${relSpecsDir}',`,
     `  timeout: 240_000,`,
     `  expect: { timeout: 15_000 },`,
     `  fullyParallel: false,`,
@@ -842,6 +844,41 @@ if (!fs.existsSync(playwrightConfig)) {
   ].join('\n');
   fs.writeFileSync(playwrightConfig, configContent);
   console.log(`✓  Created ${playwrightConfig}`);
+}
+
+const globalSetup = path.join(TESTS_DIR, 'global-setup.ts');
+if (!fs.existsSync(globalSetup)) {
+  const gsContent = [
+    'import { chromium } from \'@playwright/test\';',
+    'import path from \'path\';',
+    'import fs from \'fs\';',
+    'import dotenv from \'dotenv\';',
+    '',
+    'dotenv.config({ path: path.join(__dirname, \'.env\') });',
+    '',
+    'export default async function globalSetup() {',
+    '  const authDir = path.join(__dirname, \'auth\');',
+    '  if (!fs.existsSync(authDir)) {',
+    '    fs.mkdirSync(authDir, { recursive: true });',
+    '  }',
+    '',
+    '  const browser = await chromium.launch();',
+    '  const ctx = await browser.newContext({ ignoreHTTPSErrors: true });',
+    '  const page = await ctx.newPage();',
+    '',
+    '  await page.goto(`${process.env.BASE_URL}/wp-admin`);',
+    '  await page.locator(\'#user_login\').fill(process.env.WP_ADMIN_USER!);',
+    '  await page.locator(\'#user_pass\').fill(process.env.WP_ADMIN_PASS!);',
+    '  await page.locator(\'#wp-submit\').click();',
+    '  await page.waitForURL(\'**/wp-admin/**\');',
+    '',
+    '  await ctx.storageState({ path: path.join(authDir, \'admin.json\') });',
+    '  await browser.close();',
+    '}',
+    '',
+  ].join('\n');
+  fs.writeFileSync(globalSetup, gsContent);
+  console.log(`✓  Created ${globalSetup}`);
 }
 
 if (testsPkgCreated || !fs.existsSync(path.join(TESTS_DIR, 'node_modules'))) {
