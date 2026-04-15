@@ -32,7 +32,7 @@ function getArg(flag, def) {
 
 const SUITES_DIR  = path.resolve(getArg('--suites', './suites'));
 const OUT_DIR     = path.resolve(getArg('--output',  './generated'));
-const TESTS_DIR   = path.resolve(getArg('--tests',   './tests'));   // where node_modules lives
+const TESTS_DIR   = path.resolve(getArg('--tests',   '.'));   // where node_modules lives (project root keeps @playwright/test resolvable by VS Code)
 
 // ─── Utilities ────────────────────────────────────────────────────────────────
 
@@ -879,6 +879,24 @@ if (!fs.existsSync(globalSetup)) {
   ].join('\n');
   fs.writeFileSync(globalSetup, gsContent);
   console.log(`✓  Created ${globalSetup}`);
+}
+
+const rootTsconfig = path.join(TESTS_DIR, 'tsconfig.json');
+if (!fs.existsSync(rootTsconfig)) {
+  const rootTsconfigContent = {
+    compilerOptions: {
+      target: 'ESNext',
+      module: 'ESNext',
+      moduleResolution: 'bundler',
+      lib: ['ESNext', 'DOM'],
+      strict: false,
+      esModuleInterop: true,
+      typeRoots: ['node_modules/@types'],
+    },
+    include: ['playwright.config.ts', 'global-setup.ts'],
+  };
+  fs.writeFileSync(rootTsconfig, JSON.stringify(rootTsconfigContent, null, 2) + '\n');
+  console.log(`✓  Created ${rootTsconfig}`);
 }
 
 if (testsPkgCreated || !fs.existsSync(path.join(TESTS_DIR, 'node_modules'))) {
