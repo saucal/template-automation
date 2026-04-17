@@ -53,6 +53,30 @@ function mkdirp(dir) {
   fs.mkdirSync(dir, { recursive: true });
 }
 
+// GI keypress values are JS key codes — map to Playwright key names.
+const KEY_CODE_MAP = {
+  '8':  'Backspace',
+  '9':  'Tab',
+  '13': 'Enter',
+  '16': 'Shift',
+  '17': 'Control',
+  '18': 'Alt',
+  '27': 'Escape',
+  '32': 'Space',
+  '35': 'End',
+  '36': 'Home',
+  '37': 'ArrowLeft',
+  '38': 'ArrowUp',
+  '39': 'ArrowRight',
+  '40': 'ArrowDown',
+  '46': 'Delete',
+};
+
+function keyCodeToName(val) {
+  const s = String(val ?? '').trim();
+  return KEY_CODE_MAP[s] || s;
+}
+
 // Strip scheme+host from a GI startUrl so page.goto() uses a relative path.
 function toRelativePath(urlStr) {
   if (!urlStr) return '/';
@@ -505,6 +529,19 @@ function genStep(step, indent, chain, imports) {
     case 'clear':
       lines.push(`${ind}await ${loc}.first().clear();`);
       break;
+
+    case 'keypress': {
+      const rawSel = Array.isArray(target) ? (target[0]?.selector || '') : (target || '');
+      const key = keyCodeToName(value);
+      const known = Object.values(KEY_CODE_MAP).includes(key) || key.length === 1;
+      if (!known) lines.push(`${ind}// TODO: unknown keypress value=${JSON.stringify(value)}`);
+      if (!rawSel.trim() || rawSel.trim().toLowerCase() === 'body') {
+        lines.push(`${ind}await page.keyboard.press(${singleQuote(key)});`);
+      } else {
+        lines.push(`${ind}await ${loc}.first().press(${singleQuote(key)});`);
+      }
+      break;
+    }
 
     // ── Navigation ──────────────────────────────────────────────────────────
     case 'open':
