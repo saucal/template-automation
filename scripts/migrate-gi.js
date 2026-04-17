@@ -41,9 +41,12 @@ function slugify(str) {
 }
 
 function toCamelCase(str) {
-  return str
+  let out = str
     .replace(/[^a-zA-Z0-9]+(.)/g, (_, c) => c.toUpperCase())
+    .replace(/[^a-zA-Z0-9]+/g, '')       // strip any residual non-alphanum (e.g. trailing ')')
     .replace(/^(.)/, c => c.toLowerCase());
+  if (/^\d/.test(out)) out = `_${out}`;  // prefix if it starts with a digit (invalid JS identifier)
+  return out;
 }
 
 function mkdirp(dir) {
@@ -289,14 +292,13 @@ function singleQuote(str) {
  */
 function conditionToTS(statement) {
   let s = statement.trim();
-  // Strip leading "return "
-  s = s.replace(/^return\s+/, '');
 
   // Replace window.location.href → page.url() (synchronous in Playwright)
   s = s.replace(/window\.location\.href/g, 'page.url()');
 
-  // If the condition still accesses the DOM, keep it in page.evaluate
-  if (/document\.|querySelector|getElement/.test(s)) {
+  // If the condition still accesses the DOM or other browser-only globals,
+  // keep it in page.evaluate.
+  if (/document\.|querySelector|getElement|\bwindow\.|\bnavigator\.|\blocation\./.test(s)) {
     return null;
   }
 
@@ -310,7 +312,19 @@ function conditionToTS(statement) {
   s = s.replace(/!==\s*true\b/g, "!== 'true'");
   s = s.replace(/!==\s*false\b/g, "!== 'false'");
 
-  return s;
+  // Detect multi-statement bodies: variable/function declarations, or a
+  // `return` that's not the first token (meaning there are statements before it).
+  const stripped = s.replace(/^return\s+/, '');
+  const isMulti = /\b(?:let|const|var|function)\b/.test(s) || /\breturn\b/.test(stripped);
+
+  if (isMulti) {
+    // Must contain a return inside — otherwise we can't produce a truthy value.
+    if (!/\breturn\b/.test(s)) return null;
+    return `(() => { ${s} })()`;
+  }
+
+  // Single expression — strip leading "return "
+  return stripped;
 }
 
 // ─── Step code generator ──────────────────────────────────────────────────────
@@ -659,6 +673,7 @@ for (const [suiteName, tests] of Object.entries(suites)) {
 
     // Assemble final file with imports
     const lines = [
+      `// @ts-nocheck`,
       `// Auto-generated from Ghost Inspector suite: "${suiteName}"`,
       `// Review all TODOs before using in production.`,
       `import { expect, type Page } from '@playwright/test';`,
@@ -721,6 +736,7 @@ for (const [suiteName, tests] of Object.entries(suites)) {
 
     // Assemble final file with imports
     const lines = [
+      `// @ts-nocheck`,
       `// Auto-generated from Ghost Inspector suite: "${suiteName}"`,
       `// Review all TODOs before running.`,
     ];
