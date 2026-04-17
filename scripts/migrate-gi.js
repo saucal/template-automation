@@ -8,7 +8,7 @@
  * Defaults:
  *   --suites  ./suites
  *   --output  ./generated
- *   --tests   ./tests       (directory containing node_modules with @playwright/test)
+ *   --tests   .             (project root — where package.json and node_modules live)
  *
  * Output structure:
  *   generated/
@@ -32,7 +32,7 @@ function getArg(flag, def) {
 
 const SUITES_DIR  = path.resolve(getArg('--suites', './suites'));
 const OUT_DIR     = path.resolve(getArg('--output',  './generated'));
-const TESTS_DIR   = path.resolve(getArg('--tests',   '.'));   // where node_modules lives (project root keeps @playwright/test resolvable by VS Code)
+const TESTS_DIR   = path.resolve(getArg('--tests',   '.'));   // where node_modules lives (project root)
 
 // ─── Utilities ────────────────────────────────────────────────────────────────
 
@@ -41,25 +41,34 @@ function slugify(str) {
 }
 
 function toCamelCase(str) {
-  const result = str
+  return str
     .replace(/[^a-zA-Z0-9]+(.)/g, (_, c) => c.toUpperCase())
-    .replace(/^(.)/, c => c.toLowerCase())
-    .replace(/[^a-zA-Z0-9_]/g, '');  // strip any remaining non-identifier chars (e.g. trailing ')')
-  return /^[0-9]/.test(result) ? '_' + result : result;
+    .replace(/^(.)/, c => c.toLowerCase());
 }
 
 function mkdirp(dir) {
   fs.mkdirSync(dir, { recursive: true });
 }
 
+// Strip scheme+host from a GI startUrl so page.goto() uses a relative path.
+function toRelativePath(urlStr) {
+  if (!urlStr) return '/';
+  try {
+    const u = new URL(urlStr);
+    return (u.pathname + u.search + u.hash) || '/';
+  } catch {
+    return urlStr; // already a relative path
+  }
+}
+
 // ─── Load all GI tests ────────────────────────────────────────────────────────
 
 const testMap = {}; // testId → parsed JSON
-const suiteStartUrls = {};         // suiteName → startUrl
-const suiteViewports = {};         // suiteName → { width, height }
-const suiteScreenshotThresholds = {}; // suiteName → maxDiffPixelRatio (when screenshotCompareEnabled)
-const suiteVariables = {};         // suiteName → [{ name, value }] (non-private, no GI dynamic tokens)
-let orgVariables = [];             // organization-level variables (lowest priority, overridden by suite vars)
+const suiteStartUrls = {}; // suiteName → startUrl
+const suiteViewports = {}; // suiteName → { width, height }
+const suiteScreenshotThresholds = {}; // suiteName → maxDiffPixelRatio
+const suiteVariables = {}; // suiteName → [{ name, value, private }]
+let orgVariables = [];     // organization-level variables (lowest priority)
 
 function loadDir(dir) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -78,7 +87,7 @@ function loadDir(dir) {
               suiteScreenshotThresholds[suite.name] = suite.screenshotCompareThreshold;
             }
             if (Array.isArray(suite.variables)) {
-              const usable = suite.variables.filter(v => !v.private && !/\{\{/.test(v.value));
+              const usable = suite.variables.filter(v => !/\{\{/.test(v.value.replace(/\{\{alphanumeric\}\}/g, '')));
               if (usable.length > 0) suiteVariables[suite.name] = usable;
             }
           }
@@ -92,20 +101,36 @@ function loadDir(dir) {
   }
 }
 
-loadDir(SUITES_DIR);
-
-// Load organization-level variables from _organization.json (written by ghostinspector-sync.js)
+// Load organization-level variables from _organization.json
 const orgFile = path.join(SUITES_DIR, '_organization.json');
 if (fs.existsSync(orgFile)) {
   try {
     const orgData = JSON.parse(fs.readFileSync(orgFile, 'utf8'));
     if (Array.isArray(orgData.variables)) {
-      orgVariables = orgData.variables.filter(v => !v.private && !/\{\{/.test(v.value));
+      orgVariables = orgData.variables.filter(v => !/\{\{/.test(v.value.replace(/\{\{alphanumeric\}\}/g, '')));
     }
   } catch { /* ignore malformed file */ }
 }
 
+loadDir(SUITES_DIR);
 console.log(`\nLoaded ${Object.keys(testMap).length} GI tests from ${SUITES_DIR}\n`);
+
+// ─── Variable helpers ─────────────────────────────────────────────────────────
+
+// Returns the safe TypeScript property access for a GI variable name.
+// e.g. 'foo' → 'vars.foo', '3ds' → "vars['3ds']", 'a-b' → "vars['a-b']"
+function varProp(name) {
+  return /^[a-zA-Z_$][\w$]*$/.test(name) ? `vars.${name}` : `vars['${name}']`;
+}
+
+// Convert camelCase/PascalCase variable name to SCREAMING_SNAKE_CASE for env vars.
+// e.g. payPalPass → PAY_PAL_PASS, password2 → PASSWORD2
+function toEnvVar(name) {
+  return name
+    .replace(/([a-z])([A-Z])/g, '$1_$2')
+    .replace(/([A-Z]+)([A-Z][a-z])/g, '$1_$2')
+    .toUpperCase();
+}
 
 // ─── Build helper function map ────────────────────────────────────────────────
 // For every test that will end up in a helper file, pre-compute its function
@@ -168,39 +193,23 @@ function escInner(str) {
   return str.replace(/\\/g, '\\\\').replace(/`/g, '\\`');
 }
 
-// Returns the safe TypeScript property access for a GI variable name.
-// e.g. 'foo' → 'vars.foo', '3ds' → "vars['3ds']", 'a-b' → "vars['a-b']"
-function varProp(name) {
-  return /^[a-zA-Z_$][\w$]*$/.test(name) ? `vars.${name}` : `vars['${name}']`;
-}
-
 // Replace GI {{varName}} with ${vars.varName ?? ''} — for TypeScript template literals
 function interpolate(str) {
   if (!str) return '';
   return str.replace(/\{\{(\w+)\}\}/g, (_, n) => `\${${varProp(n)} ?? ''}`);
 }
 
-// Close any unclosed string literals caused by truncated GI source data.
-// E.g. "return '{{country}}' === 'CA" → "return '{{country}}' === 'CA'"
-function closeUnclosedStrings(code) {
-  let inStr = null;
-  for (let i = 0; i < code.length; i++) {
-    const ch = code[i];
-    if (ch === '\\' && inStr !== null) { i++; continue; } // skip escaped char
-    if (ch === "'" || ch === '"') {
-      if (inStr === null) inStr = ch;
-      else if (inStr === ch) inStr = null;
-    }
-  }
-  if (inStr !== null) code += inStr; // close the unclosed string
-  return code;
-}
-
 // Replace GI {{varName}} with vars.varName — for code inside page.evaluate() bodies.
 // Quoted forms '{{x}}' / "{{x}}" have their surrounding quotes removed too.
+// Template literal forms `...{{x}}...` keep the backticks but use ${vars.x}.
 function interpolateForBrowser(str) {
   if (!str) return '';
-  str = str.replace(/['"](\{\{(\w+)\}\})['"]/g, (_, __, n) => varProp(n)); // quoted {{x}} → strip quotes
+  // Quoted forms: '{{x}}' / "{{x}}" → vars.x (strip surrounding quotes)
+  str = str.replace(/['"](\{\{(\w+)\}\})['"]/g, (_, __, n) => varProp(n));
+  // Template literal context: `...{{x}}...` → `...${vars.x}...`
+  // [^`]* matches any char including newlines except backtick, covering multi-line tpls.
+  str = str.replace(/`[^`]*`/g, tpl => tpl.replace(/\{\{(\w+)\}\}/g, (_, n) => `\${${varProp(n)}}`));
+  // Bare {{x}} anywhere else → vars.x
   str = str.replace(/\{\{(\w+)\}\}/g, (_, n) => varProp(n));
   return typeDOMQueries(str);
 }
@@ -224,50 +233,6 @@ const DOM_TAG_TYPE_MAP = {
 };
 
 function typeDOMQueries(code) {
-  // Pass 0: Prevent type-narrowing issues in evaluate bodies — declare all locals as 'any',
-  // and auto-add 'let' for any bare undeclared variable assignments.
-  const _declared = new Set([
-    ...Array.from(code.matchAll(/\b(?:let|const|var)\s+(\w+)/g)).map(m => m[1]),
-    ...Array.from(code.matchAll(/\bfunction\s+(\w+)/g)).map(m => m[1]),
-  ]);
-  // 0a-pre: Add ': any' to let/const/var declarations that have no initializer (e.g. 'let x;')
-  code = code.replace(/\b(?:let|const|var)\s+(\w+)\s*;/g, (_, name) => `let ${name}: any;`);
-  // 0a: Change let/const declarations to 'let name: any =' so TypeScript won't narrow the type
-  code = code.replace(/\b(?:let|const)\s+(\w+)\s*=(?!=)/g, (_, name) => {
-    _declared.add(name);
-    return `let ${name}: any =`;
-  });
-  // 0b: Auto-declare bare 'identifier = expr' assignments that have no prior let/const/var
-  const _skipKeywords = new Set(['if', 'else', 'return', 'throw', 'while', 'for', 'function',
-    'class', 'switch', 'case', 'break', 'continue', 'do', 'vars']);
-  code = code.replace(/^(\s*)([a-zA-Z_$][\w$]*)\s*(=)(?!=)/gm, (match, indent, name, eq) => {
-    if (_skipKeywords.has(name) || _declared.has(name)) return match;
-    _declared.add(name);
-    return `${indent}let ${name}: any ${eq}`;
-  });
-  // 0c: Auto-declare any identifier used in a 'return' expression that isn't yet declared.
-  // Handles GI source bugs where a variable is referenced in 'return' but never declared in
-  // the same evaluate body (e.g. 'return shippingIndex + 1' with no 'let shippingIndex').
-  const _jsGlobals = new Set(['null', 'undefined', 'true', 'false', 'this', 'self',
-    'document', 'window', 'navigator', 'location', 'Array', 'Object', 'String', 'Number',
-    'Boolean', 'Math', 'console', 'Promise', 'Date', 'JSON', 'RegExp', 'Error', 'NaN',
-    'Infinity', 'vars',
-    // JS keywords that can appear right after 'return' — not valid variable names
-    'new', 'typeof', 'void', 'await', 'yield', 'delete', 'instanceof']);
-  const _undeclaredReturnRefs = [];
-  for (const [, name] of code.matchAll(/\breturn\s+([a-zA-Z_$][\w$]*)/gm)) {
-    if (!_skipKeywords.has(name) && !_jsGlobals.has(name) && !_declared.has(name)) {
-      _undeclaredReturnRefs.push(name);
-      _declared.add(name);
-    }
-  }
-  if (_undeclaredReturnRefs.length > 0) {
-    const decls = _undeclaredReturnRefs
-      .map(n => `let ${n}: any; // auto-declared: referenced in return but missing in GI source`)
-      .join('\n');
-    code = decls + '\n' + code;
-  }
-
   // Pass 1: Add generics only to document.querySelector(All)? calls
   // (other objects like targetTfoot may be "any", causing "Untyped function calls" errors)
   code = code.replace(
@@ -295,26 +260,10 @@ function typeDOMQueries(code) {
   // Pass 3: Fix Array.from(any) → unknown[] by adding explicit <any> type param
   code = code.replace(/\bArray\.from\(/g, 'Array.from<any>(');
 
-  // Pass 4: Fix .checked on DOM elements → cast as HTMLInputElement
-  // Handle method calls like document.getElementById(...).checked
-  code = code.replace(/((?:document|element)\.\w+\([^)]*\))\.checked\b/g, '($1 as HTMLInputElement).checked');
-  // Handle simple variable access like el.checked
-  code = code.replace(/\b(\w+)\.checked\b/g, '($1 as HTMLInputElement).checked');
+  // Pass 4: Fix .checked on Element → assert as HTMLInputElement
+  code = code.replace(/(\w+)\.checked\b/g, '($1 as HTMLInputElement).checked');
 
   return code;
-}
-
-// Strip the origin from an absolute URL so Playwright uses baseURL from the config.
-// e.g. "https://staging.example.com/shop/?sale=1" → "/shop/?sale=1"
-// Falls back to the original string if it can't be parsed (e.g. already relative).
-function toRelativePath(urlStr) {
-  if (!urlStr) return '/';
-  try {
-    const u = new URL(urlStr);
-    return (u.pathname + u.search + u.hash) || '/';
-  } catch {
-    return urlStr;
-  }
 }
 
 // Build a TypeScript template-literal value: `...${vars.x ?? ''}...`
@@ -339,61 +288,20 @@ function singleQuote(str) {
  * browser context (DOM queries, etc.).
  */
 function conditionToTS(statement) {
-  let s = closeUnclosedStrings(statement.trim());
-
-  // If the condition accesses the DOM, keep it in page.evaluate
-  if (/document\.|querySelector|getElement/.test(s)) {
-    return null;
-  }
-
-  // Handle multiline GI conditions:
-  //   let admin = "{{admin}}"
-  //   return admin === "yes" && ...
-  // Extract the variable bindings and the return expression, then inline them.
-  const condLines = s.split('\n').map(l => l.trim());
-  if (condLines.length > 1) {
-    const varMap = {};
-    let returnStart = -1;
-    for (let i = 0; i < condLines.length; i++) {
-      const declMatch = condLines[i].match(/^(?:let|const|var)\s+(\w+)\s*=\s*["']?\{\{(\w+)\}\}["']?\s*;?\s*$/);
-      if (declMatch) {
-        varMap[declMatch[1]] = varProp(declMatch[2]);
-      } else if (/^return\b/.test(condLines[i])) {
-        returnStart = i;
-        break;
-      }
-    }
-    if (returnStart !== -1) {
-      // If any pre-return non-blank line isn't a simple var binding, fall back to page.evaluate
-      const preReturn = condLines.slice(0, returnStart).filter(l => l !== '');
-      const allSimple = preReturn.every(l =>
-        /^(?:let|const|var)\s+(\w+)\s*=\s*['"]{1}\{\{\w+\}\}['"]{1}\s*;?\s*$/.test(l)
-      );
-      if (!allSimple) return null;
-
-      let returnExpr = condLines.slice(returnStart).join(' ');
-      returnExpr = returnExpr.replace(/^return\s+/, '');
-      returnExpr = returnExpr.replace(/;\s*$/, '').trim(); // strip trailing semicolons
-      // When multiple vars are substituted, cast each to (vars.X as string) to prevent
-      // TypeScript's control-flow narrowing from producing false TS2367 "no overlap" errors.
-      const multiVar = Object.keys(varMap).length > 1;
-      for (const [localVar, tsVar] of Object.entries(varMap)) {
-        const replacement = multiVar ? `(${tsVar} as string)` : tsVar;
-        returnExpr = returnExpr.replace(new RegExp(`\\b${localVar}\\b`, 'g'), replacement);
-      }
-      s = returnExpr;
-    }
-  }
-
-  // Strip leading "return " for single-line conditions, and trailing semicolons
+  let s = statement.trim();
+  // Strip leading "return "
   s = s.replace(/^return\s+/, '');
-  s = s.replace(/;\s*$/, '').trim();
 
   // Replace window.location.href → page.url() (synchronous in Playwright)
   s = s.replace(/window\.location\.href/g, 'page.url()');
 
+  // If the condition still accesses the DOM, keep it in page.evaluate
+  if (/document\.|querySelector|getElement/.test(s)) {
+    return null;
+  }
+
   // Replace quoted and bare GI {{var}} → vars.var
-  s = s.replace(/['"]?\{\{(\w+)\}\}['"]?/g, (_, name) => varProp(name)); // {{var}} → vars.var
+  s = s.replace(/['"]?\{\{(\w+)\}\}['"]?/g, (_, name) => `vars.${name}`);
 
   // Vars are stored as strings — adjust bare boolean comparisons:
   //   vars.x === true  →  vars.x === 'true'
@@ -404,11 +312,6 @@ function conditionToTS(statement) {
 
   return s;
 }
-
-// Injected at the start of every page.evaluate body so vars.X returns '' for any key
-// not explicitly set — mirrors GI's default-to-empty-string behaviour.
-// The Node.js Proxy is lost during JSON serialisation; this re-creates it in the browser.
-const EVAL_PROXY = `vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); `;
 
 // ─── Step code generator ──────────────────────────────────────────────────────
 
@@ -441,7 +344,7 @@ function genStep(step, indent, chain, imports) {
     } else {
       // Complex condition — needs browser context
       const cond = interpolateForBrowser(condition.statement);
-      lines.push(ind + 'if (await page.evaluate((vars: any) => { ' + EVAL_PROXY + cond + ' }, vars)) {');
+      lines.push(ind + `if (await page.evaluate((vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); ` + cond + ` }, vars)) {`);
     }
     ind += '  ';
   }
@@ -464,22 +367,21 @@ function genStep(step, indent, chain, imports) {
 
       const helper = helperFnMap[value];
       if (helper) {
-        // Known GI helpers that map directly to native Playwright calls
-        if (helper.fnName === 'pageFullLoaded') {
+        // Known helpers replaced with native Playwright equivalents
+        if (/^page.?full.?loaded$/i.test(ref.name.trim())) {
           lines.push(`${ind}await page.waitForLoadState('load');`);
-        } else {
-          // importOnly test → call the generated helper function
-          if (!imports[helper.slug]) imports[helper.slug] = new Set();
-          imports[helper.slug].add(helper.fnName);
-          lines.push(`${ind}await ${helper.fnName}(page, vars);`);
+          break;
         }
+
+        // importOnly test → call the generated helper function
+        if (!imports[helper.slug]) imports[helper.slug] = new Set();
+        imports[helper.slug].add(helper.fnName);
+        lines.push(`${ind}await ${helper.fnName}(page, vars);`);
       } else {
         // Non-importOnly test → inline its steps (with comment markers)
         lines.push(`${ind}// ↓ ${ref.name}`);
-        const next = new Set(chain).add(value);
-        for (const s of ref.steps) {
-          lines.push(...genStep(s, ind, next, imports));
-        }
+        const childChain = new Set(chain).add(value);
+        lines.push(...genSteps(ref.steps, ind, childChain, imports));
         lines.push(`${ind}// ↑ end ${ref.name}`);
       }
       break;
@@ -487,12 +389,12 @@ function genStep(step, indent, chain, imports) {
 
     // ── Assertions ──────────────────────────────────────────────────────────
     case 'assertElementPresent':
-      // .first() avoids strict mode violations when multiple elements match
-      lines.push(`${ind}await expect(${loc}.first()).toBeAttached();`);
+      // At least one element matches — not.toHaveCount(0) avoids strict mode violations
+      lines.push(`${ind}await expect(${loc}).not.toHaveCount(0);`);
       break;
 
     case 'assertElementNotPresent':
-      lines.push(`${ind}await expect(${loc}.first()).not.toBeAttached();`);
+      lines.push(`${ind}await expect(${loc}).toHaveCount(0);`);
       break;
 
     case 'assertElementVisible':
@@ -513,28 +415,52 @@ function genStep(step, indent, chain, imports) {
 
     case 'assertEval': {
       const code = interpolateForBrowser(value);
-      lines.push(ind + 'expect(await page.evaluate((vars: any) => { ' + EVAL_PROXY + code + ' }, vars)).toBeTruthy();');
+      lines.push(ind + `expect(await page.evaluate((vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); ` + code + ` }, vars)).toBeTruthy();`);
       break;
     }
 
     case 'eval': {
       const code = interpolateForBrowser(value);
-      lines.push(ind + 'await page.evaluate((vars: any) => { ' + EVAL_PROXY + code + ' }, vars);');
+      lines.push(ind + `await page.evaluate((vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); ` + code + ` }, vars);`);
       break;
     }
 
     case 'assertVariable':
-      lines.push(`${ind}expect(${varProp(variableName)}).toBe(${tpl(value)});`);
+      lines.push(`${ind}expect(vars.${variableName}).toBe(${tpl(value)});`);
       break;
 
     // ── Interactions ────────────────────────────────────────────────────────
-    case 'click':
-      lines.push(`${ind}await ${loc}.first().click();`);
+    case 'click': {
+      const rawSel = Array.isArray(target) ? (target[0]?.selector || '') : (target || '');
+      // GI pattern for Select2 dropdowns: click parent select, then click option[value="..."].
+      // Convert the option click to selectOption() on the parent; skip the preceding select click.
+      const optionMatch = rawSel.match(/^(.+?)\s*>\s*option\[value=["']?(.+?)["']?\]$/i);
+      if (optionMatch) {
+        // click on "parent > option[value='X']" → selectOption('X') on parent
+        const parentLoc = singleLocator(optionMatch[1].trim());
+        const optVal = tpl(optionMatch[2]);
+        lines.push(`${ind}await ${parentLoc}.first().selectOption(${optVal});`);
+      } else if (/^select[\s#.\[]/i.test(rawSel.trim())) {
+        // Click on a <select> element — skip, selectOption() doesn't need the dropdown open.
+        lines.push(`${ind}// skipped: select-open click on '${rawSel}' — use selectOption instead`);
+      } else {
+        lines.push(`${ind}await ${loc}.first().click();`);
+      }
       break;
+    }
 
-    case 'assign':
-      lines.push(`${ind}await ${loc}.first().fill(${tpl(value)});`);
+    case 'assign': {
+      const rawSel = Array.isArray(target) ? (target[0]?.selector || '') : (target || '');
+      if (/input\[type=["']?file["']?\]/i.test(rawSel)) {
+        // File upload — GI value is a URL; Playwright needs a local path or buffer.
+        lines.push(`${ind}// TODO: file upload — replace URL with a local file path or fetch buffer`);
+        lines.push(`${ind}await ${loc}.first().setInputFiles(${tpl(value)});`);
+      } else {
+        // Most targets are text inputs; some are <select> — try fill(), fall back to selectOption().
+        lines.push(`${ind}try { await ${loc}.first().fill(${tpl(value)}); } catch { await ${loc}.first().selectOption(${tpl(value)}); }`);
+      }
       break;
+    }
 
     case 'mouseOver':
     case 'hover':
@@ -588,36 +514,36 @@ function genStep(step, indent, chain, imports) {
     // ── Waits ────────────────────────────────────────────────────────────────
     case 'waitForElement':
     case 'waitForElementPresent':
-      lines.push(`${ind}await ${loc}.first().waitFor({ state: 'attached' });`);
+      lines.push(`${ind}await ${loc}.waitFor({ state: 'attached' });`);
       break;
 
     case 'waitForElementNotPresent':
-      lines.push(`${ind}await ${loc}.first().waitFor({ state: 'detached' });`);
+      lines.push(`${ind}await ${loc}.waitFor({ state: 'detached' });`);
       break;
 
     case 'pause': {
       const ms = parseInt(value, 10) || 1000;
-      lines.push(`${ind}await page.waitForTimeout(${ms});`);
+      lines.push(`${ind}await page.waitForTimeout(${ms}); // TODO: replace with a proper wait`);
       break;
     }
 
     // ── Variables ────────────────────────────────────────────────────────────
     case 'store':
       if (variableName) {
-        lines.push(`${ind}${varProp(variableName)} = ${tpl(value)};`);
+        lines.push(`${ind}vars.${variableName} = ${tpl(value)};`);
       }
       break;
 
     case 'extract':
       if (variableName && loc) {
-        lines.push(`${ind}${varProp(variableName)} = ((await ${loc}.first().textContent()) ?? '').trim();`);
+        lines.push(`${ind}vars.${variableName} = ((await ${loc}.textContent()) ?? '').trim();`);
       }
       break;
 
     case 'extractEval': {
       const code = interpolateForBrowser(value);
       if (variableName) {
-        lines.push(ind + `${varProp(variableName)} = String(await page.evaluate((vars: any) => { ` + EVAL_PROXY + code + ` }, vars));`);
+        lines.push(ind + `vars.${variableName} = String(await page.evaluate((vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); ` + code + ` }, vars));`);
       }
       break;
     }
@@ -626,23 +552,6 @@ function genStep(step, indent, chain, imports) {
     case 'screenshotComparison': {
       const name = slugify(value || 'screenshot');
       lines.push(`${ind}await expect(page).toHaveScreenshot(${singleQuote(`${name}.png`)}, { fullPage: true });`);
-      break;
-    }
-
-    case 'screenshot': {
-      if (loc) {
-        lines.push(`${ind}await ${loc}.first().screenshot();`);
-      } else {
-        lines.push(`${ind}await page.screenshot();`);
-      }
-      break;
-    }
-
-    // ── Keyboard ─────────────────────────────────────────────────────────────
-    case 'keypress': {
-      const keyMap = { '8': 'Backspace', '9': 'Tab', '13': 'Enter', '27': 'Escape', '46': 'Delete' };
-      const key = keyMap[value] || value;
-      lines.push(`${ind}await page.keyboard.press(${singleQuote(key)});`);
       break;
     }
 
@@ -667,12 +576,34 @@ function genStep(step, indent, chain, imports) {
 
 /**
  * Generate TypeScript lines for an array of GI steps.
- * Each top-level step starts with a fresh cycle-guard chain.
+ *
+ * @param {object[]} steps   - GI step objects
+ * @param {string}   indent  - current indentation string
+ * @param {Set}      chain   - testIds on the call stack (cycle guard); pass new Set() at top level
+ * @param {object}   imports - accumulated imports: { helperSlug → Set<fnName> }
  */
-function genSteps(steps, indent, imports) {
+function genSteps(steps, indent, chain, imports) {
   const lines = [];
-  for (const step of steps) {
-    lines.push(...genStep(step, indent, new Set(), imports));
+  for (let i = 0; i < steps.length; i++) {
+    const step = steps[i];
+    const nextStep = steps[i + 1];
+
+    // Detect Select2 two-step pattern:
+    //   step[i]:   click('#billing_country')                         ← opens the dropdown
+    //   step[i+1]: click('#billing_country > option[value="US"]')    ← picks the value
+    // Skip step[i] because step[i+1] will be converted to selectOption() on the parent.
+    if (step.command === 'click' && nextStep?.command === 'click') {
+      const rawSel     = Array.isArray(step.target)     ? (step.target[0]?.selector     || '') : (step.target     || '');
+      const nextRawSel = Array.isArray(nextStep.target) ? (nextStep.target[0]?.selector || '') : (nextStep.target || '');
+      const optMatch   = nextRawSel.match(/^(.+?)\s*>\s*option\[value=["']?(.+?)["']?\]$/i);
+      if (optMatch && optMatch[1].trim() === rawSel.trim()) {
+        // Skip this "open select" click — the next step handles the value via selectOption()
+        lines.push(`${indent}// skipped: select-open click on '${rawSel}' (Select2 pattern)`);
+        continue;
+      }
+    }
+
+    lines.push(...genStep(step, indent, chain, imports));
   }
   return lines;
 }
@@ -710,7 +641,7 @@ for (const [suiteName, tests] of Object.entries(suites)) {
     for (const t of tests) {
       const fn = toCamelCase(t.name);
       const stepImports = {};
-      const stepLines = genSteps(t.steps, '  ', stepImports);
+      const stepLines = genSteps(t.steps, '  ', new Set(), stepImports);
 
       // Merge step-level imports, skipping self-references
       for (const [s, fns] of Object.entries(stepImports)) {
@@ -759,10 +690,11 @@ for (const [suiteName, tests] of Object.entries(suites)) {
       if (startUrl) {
         const relPath = toRelativePath(startUrl);
         stepLines.push(`    await page.goto(\`${escInner(interpolate(relPath))}\`);`);
+        stepLines.push(`    await page.waitForLoadState('load');`);
       }
 
       stepLines.push('');
-      stepLines.push(...genSteps(t.steps, '    ', stepImports));
+      stepLines.push(...genSteps(t.steps, '    ', new Set(), stepImports));
 
       // Merge step-level imports
       for (const [s, fns] of Object.entries(stepImports)) {
@@ -776,17 +708,6 @@ for (const [suiteName, tests] of Object.entries(suites)) {
       bodyLines.push('');
     }
 
-    // Assemble final file with imports
-    const lines = [
-      `// Auto-generated from Ghost Inspector suite: "${suiteName}"`,
-      `// Review all TODOs before running.`,
-      `import { test, expect } from '@playwright/test';`,
-    ];
-
-    for (const [s, fns] of Object.entries(fileImports).sort()) {
-      lines.push(`import { ${[...fns].sort().join(', ')} } from '../helpers/${s}';`);
-    }
-
     // vars declared at describe scope so values persist across sequential tests.
     // Proxy returns '' for missing keys, matching GI's default-to-empty-string behaviour.
     // Priority (lowest → highest): org vars → suite vars (suite vars override org vars by key).
@@ -796,12 +717,38 @@ for (const [suiteName, tests] of Object.entries(suites)) {
       ...orgVariables.filter(v => !suiteVarNames.has(v.name)),
       ...svars,
     ];
-    const varsDecl = [];
+    const hasPrivateVars = mergedVars.some(v => v.private);
+
+    // Assemble final file with imports
+    const lines = [
+      `// Auto-generated from Ghost Inspector suite: "${suiteName}"`,
+      `// Review all TODOs before running.`,
+    ];
+    if (hasPrivateVars) {
+      lines.push(`import dotenv from 'dotenv';`);
+      lines.push(`dotenv.config();`);
+    }
+    lines.push(`import { test, expect } from '@playwright/test';`);
+
+    for (const [s, fns] of Object.entries(fileImports).sort()) {
+      lines.push(`import { ${[...fns].sort().join(', ')} } from '../helpers/${s}';`);
+    }
+
+    // Build describe-scope vars block
     const proxyHandler = `{ get: (o: Record<string, string>, k: string) => (k in o ? o[k] : '') }`;
+    const varsDecl = [];
     if (mergedVars.length > 0) {
       varsDecl.push(`  const vars = new Proxy<Record<string, string>>({`);
       for (const v of mergedVars) {
-        varsDecl.push(`    ${JSON.stringify(v.name)}: ${JSON.stringify(v.value)},`);
+        if (v.private) {
+          varsDecl.push(`    ${JSON.stringify(v.name)}: process.env.${toEnvVar(v.name)} ?? '',`);
+        } else if (/\{\{alphanumeric\}\}/.test(v.value)) {
+          const escaped = v.value.replace(/`/g, '\\`').replace(/\$\{/g, '\\${');
+          const tplVal = escaped.replace(/\{\{alphanumeric\}\}/g, '${Math.random().toString(36).substring(2, 10)}');
+          varsDecl.push(`    ${JSON.stringify(v.name)}: \`${tplVal}\`,`);
+        } else {
+          varsDecl.push(`    ${JSON.stringify(v.name)}: ${JSON.stringify(v.value)},`);
+        }
       }
       varsDecl.push(`  }, ${proxyHandler});`);
     } else {
@@ -822,32 +769,9 @@ for (const [suiteName, tests] of Object.entries(suites)) {
   }
 }
 
-// ─── Generated tsconfig.json ──────────────────────────────────────────────────
-// Extends the main tests/ config for module resolution, but relaxes strict mode
-// since this is auto-generated code that will be refactored later.
-const relTests = path.relative(OUT_DIR, TESTS_DIR).replace(/\\/g, '/');
-const tsconfig = {
-  compilerOptions: {
-    target: 'ESNext',
-    module: 'ESNext',
-    moduleResolution: 'bundler',
-    lib: ['ESNext', 'DOM'],
-    strict: false,
-    esModuleInterop: true,
-    typeRoots: [`${relTests}/node_modules/@types`],
-    paths: {
-      '@playwright/test': [`${relTests}/node_modules/@playwright/test`]
-    }
-  },
-  include: ['**/*.ts']
-};
-fs.writeFileSync(path.join(OUT_DIR, 'tsconfig.json'), JSON.stringify(tsconfig, null, 2) + '\n');
+// ─── Ensure tests/ has a package.json and node_modules ───────────────────────
 
-// ─── Scaffold tests/ directory ────────────────────────────────────────────────
-if (!fs.existsSync(TESTS_DIR)) {
-  fs.mkdirSync(TESTS_DIR, { recursive: true });
-  console.log(`✓  Created ${TESTS_DIR}`);
-}
+mkdirp(TESTS_DIR);
 const testsPkg = path.join(TESTS_DIR, 'package.json');
 let testsPkgCreated = false;
 if (!fs.existsSync(testsPkg)) {
@@ -859,46 +783,41 @@ if (!fs.existsSync(testsPkg)) {
     private: true,
     scripts: {
       test: 'playwright test',
-      'setup:browsers': 'playwright install chromium'
+      'setup:browsers': 'playwright install chromium',
     },
     dependencies: {
-      dotenv: '^16.0.0'
+      dotenv: '^16.0.0',
     },
     devDependencies: {
       '@playwright/test': '^1.49.0',
-      '@types/node': '^22.0.0',
-      typescript: '^5.0.0'
-    }
+      '@types/node': '^20.0.0',
+    },
   };
   fs.writeFileSync(testsPkg, JSON.stringify(pkg, null, 2) + '\n');
   console.log(`✓  Created ${testsPkg}`);
 }
-
 if (testsPkgCreated || !fs.existsSync(path.join(TESTS_DIR, 'node_modules'))) {
   const { execSync } = require('child_process');
   console.log('  Running npm init playwright@latest ...');
   execSync(
-    `npm init playwright@latest --yes -- . --quiet --browser=chromium --browser=firefox --browser=webkit --lang=ts --gha`,
+    'npm init playwright@latest --yes -- . --quiet --browser=chromium --browser=firefox --browser=webkit --lang=ts --gha',
     { cwd: TESTS_DIR, stdio: 'inherit' }
   );
   console.log('✓  Playwright init done');
 }
 
-const relSpecsDir = path.relative(TESTS_DIR, path.join(OUT_DIR, 'specs')).replace(/\\/g, '/');
+// ─── playwright.config.ts ─────────────────────────────────────────────────────
 
+const relSpecsDir = path.relative(TESTS_DIR, path.join(OUT_DIR, 'specs')).replace(/\\/g, '/');
 const playwrightConfig = path.join(TESTS_DIR, 'playwright.config.ts');
 {
-  // Pick the most common value across all suites (falls back to null if none found)
   function mostCommon(values) {
     if (values.length === 0) return null;
     const counts = {};
-    for (const v of values) {
-      const key = JSON.stringify(v);
-      counts[key] = (counts[key] || 0) + 1;
-    }
+    for (const v of values) { const k = JSON.stringify(v); counts[k] = (counts[k] || 0) + 1; }
     return JSON.parse(Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0]);
   }
-  const viewport          = mostCommon(Object.values(suiteViewports));
+  const viewport           = mostCommon(Object.values(suiteViewports));
   const screenshotThreshold = mostCommon(Object.values(suiteScreenshotThresholds));
 
   const configContent = [
@@ -928,20 +847,13 @@ const playwrightConfig = path.join(TESTS_DIR, 'playwright.config.ts');
     `    actionTimeout: 15_000,`,
     `    trace: 'on',`,
     `    screenshot: 'on',`,
-    `    video: {`,
-    `      mode: 'on',`,
-    `    },`,
-    `    launchOptions: {`,
-    `      slowMo: 250,`,
-    `    },`,
+    `    video: { mode: 'on' },`,
+    `    launchOptions: { slowMo: 250 },`,
     `    ignoreHTTPSErrors: true,`,
     `  },`,
     `  globalSetup: './global-setup.ts',`,
     `  projects: [`,
-    `    {`,
-    `      name: 'chromium',`,
-    `      use: { ...devices['Desktop Chrome'] },`,
-    `    },`,
+    `    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },`,
     `  ],`,
     `});`,
     ``,
@@ -950,41 +862,7 @@ const playwrightConfig = path.join(TESTS_DIR, 'playwright.config.ts');
   console.log(`✓  Updated ${playwrightConfig}`);
 }
 
-const globalSetup = path.join(TESTS_DIR, 'global-setup.ts');
-if (!fs.existsSync(globalSetup)) {
-  const gsContent = [
-    'import { chromium } from \'@playwright/test\';',
-    'import path from \'path\';',
-    'import fs from \'fs\';',
-    'import dotenv from \'dotenv\';',
-    '',
-    'dotenv.config({ path: path.join(__dirname, \'.env\') });',
-    '',
-    'export default async function globalSetup() {',
-    '  const authDir = path.join(__dirname, \'auth\');',
-    '  if (!fs.existsSync(authDir)) {',
-    '    fs.mkdirSync(authDir, { recursive: true });',
-    '  }',
-    '',
-    '  const browser = await chromium.launch();',
-    '  const ctx = await browser.newContext({ ignoreHTTPSErrors: true });',
-    '  const page = await ctx.newPage();',
-    '',
-    '  await page.goto(`${process.env.BASE_URL}/wp-admin`);',
-    '  await page.locator(\'#user_login\').fill(process.env.WP_ADMIN_USER!);',
-    '  await page.locator(\'#user_pass\').fill(process.env.WP_ADMIN_PASS!);',
-    '  await page.locator(\'#wp-submit\').click();',
-    '  await page.waitForURL(\'**/wp-admin/**\');',
-    '',
-    '  await ctx.storageState({ path: path.join(authDir, \'admin.json\') });',
-    '  await browser.close();',
-    '}',
-    '',
-  ].join('\n');
-  fs.writeFileSync(globalSetup, gsContent);
-  console.log(`✓  Created ${globalSetup}`);
-}
-
+// ─── Root tsconfig.json (covers playwright.config.ts + global-setup.ts) ───────
 const rootTsconfig = path.join(TESTS_DIR, 'tsconfig.json');
 if (!fs.existsSync(rootTsconfig)) {
   const rootTsconfigContent = {
@@ -1003,34 +881,90 @@ if (!fs.existsSync(rootTsconfig)) {
   console.log(`✓  Created ${rootTsconfig}`);
 }
 
+// ─── global-setup.ts ─────────────────────────────────────────────────────────
+const globalSetup = path.join(TESTS_DIR, 'global-setup.ts');
+if (!fs.existsSync(globalSetup)) {
+  const gsContent = [
+    `import { chromium } from '@playwright/test';`,
+    `import path from 'path';`,
+    `import fs from 'fs';`,
+    `import dotenv from 'dotenv';`,
+    ``,
+    `dotenv.config({ path: path.join(__dirname, '.env') });`,
+    ``,
+    `export default async function globalSetup() {`,
+    `  const authDir = path.join(__dirname, 'auth');`,
+    `  if (!fs.existsSync(authDir)) fs.mkdirSync(authDir, { recursive: true });`,
+    ``,
+    `  const browser = await chromium.launch();`,
+    `  const ctx = await browser.newContext({ ignoreHTTPSErrors: true });`,
+    `  const page = await ctx.newPage();`,
+    ``,
+    `  await page.goto(\`\${process.env.BASE_URL}/wp-admin\`);`,
+    `  await page.locator('#user_login').fill(process.env.WP_ADMIN_USER!);`,
+    `  await page.locator('#user_pass').fill(process.env.ADMIN_PASS!);`,
+    `  await page.locator('#wp-submit').click();`,
+    `  await page.waitForURL('**/wp-admin/**');`,
+    ``,
+    `  await ctx.storageState({ path: path.join(authDir, 'admin.json') });`,
+    `  await browser.close();`,
+    `}`,
+    ``,
+  ].join('\n');
+  fs.writeFileSync(globalSetup, gsContent);
+  console.log(`✓  Created ${globalSetup}`);
+}
+
 // ─── .env.example ────────────────────────────────────────────────────────────
+
 const envExample = path.join(TESTS_DIR, '.env.example');
 if (!fs.existsSync(envExample)) {
-  const envContent = [
+  // Collect all private var names across org + all suite variables, deduplicated.
+  const allPrivate = new Map(); // envVarName → GI varName
+  for (const v of [...orgVariables, ...Object.values(suiteVariables).flat()]) {
+    if (v.private) allPrivate.set(toEnvVar(v.name), v.name);
+  }
+
+  const lines = [
     '# Base URL of the test site (no trailing slash)',
     'BASE_URL=https://your-test-site.local',
     '',
     '# WordPress admin credentials — used for browser session (global-setup)',
     'WP_ADMIN_USER=admin',
-    'WP_ADMIN_PASS=password',
+    'ADMIN_PASS=password',
     '',
-    '# WordPress REST API — Application Password for a dedicated API user',
-    '# Used for /wp/v2/ endpoints (site settings, plugin versions)',
-    'WP_API_USER=demouser',
-    'WP_API_PASS=xxxx xxxx xxxx xxxx xxxx xxxx',
-    '',
-    '# WooCommerce REST API — OAuth 1.0a Consumer Key / Secret',
-    '# Used for /wc/v3/ endpoints (orders, products, etc.)',
-    'WC_CONSUMER_KEY=ck_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-    'WC_CONSUMER_SECRET=cs_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-    '',
-    '# WP test user password (for logged-in shopper flows)',
-    'WP_USER_PASS=password',
-    '',
-  ].join('\n');
-  fs.writeFileSync(envExample, envContent);
+  ];
+
+  if (allPrivate.size > 0) {
+    lines.push('# Test credentials (private GI variables)');
+    for (const [envKey] of allPrivate) {
+      if (envKey !== 'ADMIN_PASS') lines.push(`${envKey}=`);
+    }
+    lines.push('');
+  }
+
+  fs.writeFileSync(envExample, lines.join('\n'));
   console.log(`✓  Created ${envExample}`);
 }
+
+// ─── generated/tsconfig.json (for generated files — relaxed, references root node_modules) ───
+const relTests = path.relative(OUT_DIR, TESTS_DIR).replace(/\\/g, '/');
+const tsconfig = {
+  compilerOptions: {
+    target: 'ESNext',
+    module: 'ESNext',
+    moduleResolution: 'bundler',
+    lib: ['ESNext', 'DOM'],
+    strict: false,
+    esModuleInterop: true,
+    typeRoots: [`${relTests}/node_modules/@types`],
+    paths: {
+      '@playwright/test': [`${relTests}/node_modules/@playwright/test`]
+    }
+  },
+  include: ['**/*.ts']
+};
+fs.writeFileSync(path.join(OUT_DIR, 'tsconfig.json'), JSON.stringify(tsconfig, null, 2) + '\n');
 
 // ─── Summary ──────────────────────────────────────────────────────────────────
 
