@@ -515,12 +515,29 @@ function genStep(step, indent, chain, imports) {
             : `page.locator('option'${hasText})`;
           lines.push(`${ind}try { await ${loc}.filter({ visible: true }).first().click(); } catch { await page.locator('select').filter({ has: ${optionLoc} }).first().selectOption(${arg}); }`);
         } else {
-          // Universal click fallback: filter to visible (avoids picking hidden duplicate
-          // selectors when classic + blocks markup coexist), try click; on failure
-          // retry with click({ force: true }) — bypasses overlay/actionability checks
-          // and skips Playwright's post-click state verification (which can falsely
-          // trip on AJAX-driven re-renders, e.g. WC classic update_checkout).
-          lines.push(`${ind}try { await ${loc}.filter({ visible: true }).first().click(); } catch { await ${loc}.filter({ visible: true }).first().click({ force: true }); }`);
+          // When target is a #id selector, prefer clicking <label for="id"> if present.
+          // Hidden 1×1 radio/checkbox inputs (WC payment methods) toggle reliably via
+          // their associated label; force-click on the input is a fallback.
+          const ids = [];
+          for (const t of targets) {
+            const m = ((t && t.selector) || '').match(/^#([\w-]+)$/);
+            if (m) ids.push(m[1]);
+          }
+          if (ids.length > 0) {
+            const labelChain = ids
+              .map(id => `page.locator(\`label[for="${id}"]\`)`)
+              .reduce((a, b) => `${a}.or(${b})`);
+            lines.push(`${ind}{`);
+            lines.push(`${ind}  const _lbl = ${labelChain}.filter({ visible: true });`);
+            lines.push(`${ind}  if (await _lbl.count() > 0) { await _lbl.first().click(); }`);
+            lines.push(`${ind}  else { await ${loc}.filter({ visible: true }).first().click({ force: true }); }`);
+            lines.push(`${ind}}`);
+          } else {
+            // Force-click: bypasses overlay/actionability checks and skips Playwright's
+            // post-click state verification. filter({ visible: true }) avoids picking
+            // hidden duplicates when classic + blocks markup coexist.
+            lines.push(`${ind}await ${loc}.filter({ visible: true }).first().click({ force: true });`);
+          }
         }
       }
       break;
