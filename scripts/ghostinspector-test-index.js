@@ -136,7 +136,9 @@ function readSuiteIdForFolder(suiteFolder) {
   if (!fs.existsSync(suiteJsonPath)) return null;
   try {
     const suiteData = JSON.parse(fs.readFileSync(suiteJsonPath, 'utf8'));
-    return suiteData && (suiteData._id || suiteData.id) ? (suiteData._id || suiteData.id) : null;
+    // GI API wraps response in { code, data: { _id, ... } }
+    const inner = suiteData?.data ?? suiteData;
+    return inner?._id || inner?.id || null;
   } catch {
     return null;
   }

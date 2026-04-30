@@ -231,8 +231,17 @@ function interpolate(str) {
 // Template literal forms `...{{x}}...` keep the backticks but use ${vars.x}.
 function interpolateForBrowser(str) {
   if (!str) return '';
-  // Quoted forms: '{{x}}' / "{{x}}" → vars.x (strip surrounding quotes)
-  str = str.replace(/['"](\{\{(\w+)\}\})['"]/g, (_, __, n) => varProp(n));
+  // Convert any quoted string containing {{var}} to a backtick template literal.
+  // Runs before strip-quotes to preserve nested quotes (e.g. JSON strings with
+  // embedded vars: '{"first_name":"{{firstName}}"}' → `{"first_name":"${vars.firstName}"}`).
+  // Also handles mixed-content like "{{startUrl}}wp-json/..." → `${vars.startUrl}wp-json/...`.
+  str = str.replace(/(['"])((?:\\.|(?!\1).)*?\{\{\w+\}\}(?:\\.|(?!\1).)*?)\1/g, (_, q, body) => {
+    const tpl = body
+      .replace(/`/g, '\\`')
+      .replace(/\$\{/g, '\\${')
+      .replace(/\{\{(\w+)\}\}/g, (_, n) => `\${${varProp(n)}}`);
+    return '`' + tpl + '`';
+  });
   // Template literal context: `...{{x}}...` → `...${vars.x}...`
   // [^`]* matches any char including newlines except backtick, covering multi-line tpls.
   str = str.replace(/`[^`]*`/g, tpl => tpl.replace(/\{\{(\w+)\}\}/g, (_, n) => `\${${varProp(n)}}`));
@@ -326,8 +335,8 @@ function conditionToTS(statement) {
     return null;
   }
 
-  // Replace quoted and bare GI {{var}} → vars.var
-  s = s.replace(/['"]?\{\{(\w+)\}\}['"]?/g, (_, name) => `vars.${name}`);
+  // Replace quoted and bare GI {{var}} → vars.var (or vars['var'] for non-identifier names)
+  s = s.replace(/['"]?\{\{(\w+)\}\}['"]?/g, (_, name) => varProp(name));
 
   // Vars are stored as strings — adjust bare boolean comparisons:
   //   vars.x === true  →  vars.x === 'true'
@@ -574,7 +583,7 @@ function genStep(step, indent, chain, imports) {
 
     case 'pause': {
       const ms = parseInt(value, 10) || 1000;
-      lines.push(`${ind}await page.waitForTimeout(${ms}); // TODO: replace with a proper wait`);
+      lines.push(`${ind}await page.waitForTimeout(${ms});`);
       break;
     }
 
