@@ -513,11 +513,12 @@ function genStep(step, indent, chain, imports) {
           const optionLoc = optByValue
             ? `page.locator(\`option[value="${escInner(interpolate(optByValue)).replace(/"/g, '\\"')}"]\`)`
             : `page.locator('option'${hasText})`;
-          lines.push(`${ind}try { await ${loc}.first().click(); } catch { await page.locator('select').filter({ has: ${optionLoc} }).first().selectOption(${arg}); }`);
+          lines.push(`${ind}try { await ${loc}.filter({ visible: true }).first().click(); } catch { await page.locator('select').filter({ has: ${optionLoc} }).first().selectOption(${arg}); }`);
         } else {
-          // Universal click fallback: try click; if blocked (label overlay, intercepted
-          // pointer events on radio/checkbox), retry with check({ force: true }).
-          lines.push(`${ind}try { await ${loc}.first().click(); } catch (e) { try { await ${loc}.first().check({ force: true }); } catch { throw e; } }`);
+          // Universal click fallback: filter to visible (avoids picking hidden duplicate
+          // selectors when classic + blocks markup coexist), try click, then on failure
+          // retry with check({ force: true }) to bypass label overlays on radio/checkbox.
+          lines.push(`${ind}try { await ${loc}.filter({ visible: true }).first().click(); } catch (e) { try { await ${loc}.filter({ visible: true }).first().check({ force: true }); } catch { throw e; } }`);
         }
       }
       break;
