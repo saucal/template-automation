@@ -491,7 +491,32 @@ function genStep(step, indent, chain, imports) {
         // Click on a <select> element — skip, selectOption() doesn't need the dropdown open.
         lines.push(`${ind}// skipped: select-open click on '${rawSel}' — use selectOption instead`);
       } else {
-        lines.push(`${ind}await ${loc}.first().click();`);
+        // Detect option-by-text/value fallbacks (Select2 <li> + native <option> mixed targets).
+        // Native <option> isn't clickable — fall back to selectOption() on its parent <select>.
+        const targets = Array.isArray(target) ? target : [{ selector: target }];
+        let optByText = null;
+        let optByValue = null;
+        for (const t of targets) {
+          const sel = (t && t.selector) || '';
+          const m1 = sel.match(/^(?:xpath=)?\/\/option\[contains\(\s*text\(\)\s*,\s*['"`](.+?)['"`]\s*\)\]$/i);
+          if (m1) { optByText = m1[1]; continue; }
+          const m2 = sel.match(/^(?:xpath=)?\/\/option\[@?value=['"`](.+?)['"`]\]$/i);
+          if (m2) { optByValue = m2[1]; continue; }
+        }
+        if (optByText || optByValue) {
+          const arg = optByText
+            ? `{ label: ${tpl(optByText)} }`
+            : `{ value: ${tpl(optByValue)} }`;
+          const hasText = optByText
+            ? `, { hasText: ${tpl(optByText)} }`
+            : '';
+          const optionLoc = optByValue
+            ? `page.locator(\`option[value="${escInner(interpolate(optByValue)).replace(/"/g, '\\"')}"]\`)`
+            : `page.locator('option'${hasText})`;
+          lines.push(`${ind}try { await ${loc}.first().click(); } catch { await page.locator('select').filter({ has: ${optionLoc} }).first().selectOption(${arg}); }`);
+        } else {
+          lines.push(`${ind}await ${loc}.first().click();`);
+        }
       }
       break;
     }
