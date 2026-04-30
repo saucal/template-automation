@@ -210,6 +210,23 @@ for (const [id, data] of Object.entries(testMap)) {
 function singleLocator(sel) {
   if (!sel) return null;
   sel = sel.trim();
+  // Cross-iframe selectors: "iframe[...] X" and "iframe[A] iframe[B] X" need
+  // page.locator(iframe).first().contentFrame() chains because plain CSS doesn't
+  // pierce iframe documents. Use .first().contentFrame() instead of frameLocator()
+  // to avoid strict-mode violations when multiple iframes share the same src match.
+  if (!sel.startsWith('//') && !sel.startsWith('(//')) {
+    const iframeRe = /iframe\[[^\]]+\]/g;
+    const iframes = sel.match(iframeRe) || [];
+    const tail = sel.replace(iframeRe, '').trim();
+    if (iframes.length > 0 && tail) {
+      let chain = 'page';
+      for (let i = 0; i < iframes.length; i++) {
+        chain += '.locator(`' + escInner(interpolate(iframes[i])) + '`).first().contentFrame()';
+      }
+      chain += '.locator(`' + escInner(interpolate(tail)) + '`)';
+      return chain;
+    }
+  }
   // Interpolate GI {{vars}} first so selectors like tfoot:nth-of-type({{idx}})
   // become live TypeScript template expressions: tfoot:nth-of-type(${vars.idx ?? ''})
   const escaped = escInner(interpolate(sel));
@@ -535,28 +552,43 @@ function genStep(step, indent, chain, imports) {
             : `page.locator('option'${hasText})`;
           lines.push(`${ind}try { await ${loc}.filter({ visible: true }).first().click(); } catch { await page.locator('select').filter({ has: ${optionLoc} }).first().selectOption(${arg}); }`);
         } else {
-          // When target is a #id selector, prefer clicking <label for="id"> if present.
-          // Hidden 1×1 radio/checkbox inputs (WC payment methods) toggle reliably via
-          // their associated label; force-click on the input is a fallback.
-          const ids = [];
-          for (const t of targets) {
-            const m = ((t && t.selector) || '').match(/^#([\w-]+)$/);
-            if (m) ids.push(m[1]);
-          }
-          if (ids.length > 0) {
-            const labelChain = ids
-              .map(id => `page.locator(\`label[for="${id}"]\`)`)
-              .reduce((a, b) => `${a}.or(${b})`);
+          // Iframe-mixed fallbacks: Playwright disallows frameLocator inside .or().
+          // When any target crosses an iframe boundary, emit a per-candidate cascade
+          // (try each independently) instead of an OR-chain.
+          const hasIframe = targets.some(t => /iframe\[/.test((t && t.selector) || ''));
+          if (hasIframe) {
+            const candidates = targets.map(t => singleLocator(t.selector)).filter(Boolean);
             lines.push(`${ind}{`);
-            lines.push(`${ind}  const _lbl = ${labelChain}.filter({ visible: true });`);
-            lines.push(`${ind}  if (await _lbl.count() > 0) { await _lbl.first().click(); }`);
-            lines.push(`${ind}  else { await ${loc}.filter({ visible: true }).first().click({ force: true }); }`);
+            lines.push(`${ind}  let _ok = false;`);
+            for (const c of candidates) {
+              lines.push(`${ind}  if (!_ok) { try { await ${c}.first().click({ force: true }); _ok = true; } catch {} }`);
+            }
+            lines.push(`${ind}  if (!_ok) throw new Error('No clickable candidate matched');`);
             lines.push(`${ind}}`);
           } else {
-            // Force-click: bypasses overlay/actionability checks and skips Playwright's
-            // post-click state verification. filter({ visible: true }) avoids picking
-            // hidden duplicates when classic + blocks markup coexist.
-            lines.push(`${ind}await ${loc}.filter({ visible: true }).first().click({ force: true });`);
+            // When target is a #id selector, prefer clicking <label for="id"> if present.
+            // Hidden 1×1 radio/checkbox inputs (WC payment methods) toggle reliably via
+            // their associated label; force-click on the input is a fallback.
+            const ids = [];
+            for (const t of targets) {
+              const m = ((t && t.selector) || '').match(/^#([\w-]+)$/);
+              if (m) ids.push(m[1]);
+            }
+            if (ids.length > 0) {
+              const labelChain = ids
+                .map(id => `page.locator(\`label[for="${id}"]\`)`)
+                .reduce((a, b) => `${a}.or(${b})`);
+              lines.push(`${ind}{`);
+              lines.push(`${ind}  const _lbl = ${labelChain}.filter({ visible: true });`);
+              lines.push(`${ind}  if (await _lbl.count() > 0) { await _lbl.first().click(); }`);
+              lines.push(`${ind}  else { await ${loc}.filter({ visible: true }).first().click({ force: true }); }`);
+              lines.push(`${ind}}`);
+            } else {
+              // Force-click: bypasses overlay/actionability checks and skips Playwright's
+              // post-click state verification. filter({ visible: true }) avoids picking
+              // hidden duplicates when classic + blocks markup coexist.
+              lines.push(`${ind}await ${loc}.filter({ visible: true }).first().click({ force: true });`);
+            }
           }
         }
       }
@@ -670,7 +702,10 @@ function genStep(step, indent, chain, imports) {
     case 'extractEval': {
       const code = interpolateForBrowser(value);
       if (variableName) {
-        lines.push(ind + `vars.${variableName} = String(await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); ` + code + ` }, vars));`);
+        // Don't coerce to String — GI stores raw return value, including objects/arrays.
+        // Stringifying an order JSON to "[object Object]" loses meta_data and breaks
+        // downstream `jsonOrder.meta_data.find(...)` style accesses.
+        lines.push(ind + `vars.${variableName} = await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); ` + code + ` }, vars);`);
       }
       break;
     }
