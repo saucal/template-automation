@@ -515,7 +515,9 @@ function genStep(step, indent, chain, imports) {
             : `page.locator('option'${hasText})`;
           lines.push(`${ind}try { await ${loc}.first().click(); } catch { await page.locator('select').filter({ has: ${optionLoc} }).first().selectOption(${arg}); }`);
         } else {
-          lines.push(`${ind}await ${loc}.first().click();`);
+          // Universal click fallback: try click; if blocked (label overlay, intercepted
+          // pointer events on radio/checkbox), retry with check({ force: true }).
+          lines.push(`${ind}try { await ${loc}.first().click(); } catch (e) { try { await ${loc}.first().check({ force: true }); } catch { throw e; } }`);
         }
       }
       break;
