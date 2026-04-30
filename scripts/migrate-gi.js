@@ -34,6 +34,26 @@ const SUITES_DIR  = path.resolve(getArg('--suites', './suites'));
 const OUT_DIR     = path.resolve(getArg('--output',  './generated'));
 const TESTS_DIR   = path.resolve(getArg('--tests',   '.'));   // where node_modules lives (project root)
 
+// ─── Generated runtime helpers ───────────────────────────────────────────────
+// Injected near the top of every generated helper / spec file. Wraps page.evaluate
+// with retry-on-navigation: if a click triggered an AJAX rerender (WC classic
+// update_checkout) the eval frame is destroyed; we wait and retry instead of
+// failing the test.
+const GI_EVAL_HELPER = [
+  `async function _giEval(page: any, fn: any, vars: any): Promise<any> {`,
+  `  for (let i = 0; i < 3; i++) {`,
+  `    try { return await page.evaluate(fn, vars); }`,
+  `    catch (e: any) {`,
+  `      if (i < 2 && /Execution context was destroyed|Target page, context or browser has been closed|frame got detached/i.test(e?.message || '')) {`,
+  `        await page.waitForLoadState('domcontentloaded').catch(() => {});`,
+  `        continue;`,
+  `      }`,
+  `      throw e;`,
+  `    }`,
+  `  }`,
+  `}`,
+].join('\n');
+
 // ─── Utilities ────────────────────────────────────────────────────────────────
 
 function slugify(str) {
@@ -391,7 +411,7 @@ function genStep(step, indent, chain, imports) {
     } else {
       // Complex condition — needs browser context
       const cond = interpolateForBrowser(condition.statement);
-      lines.push(ind + `if (await page.evaluate((vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); ` + cond + ` }, vars)) {`);
+      lines.push(ind + `if (await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); ` + cond + ` }, vars)) {`);
     }
     ind += '  ';
   }
@@ -462,13 +482,13 @@ function genStep(step, indent, chain, imports) {
 
     case 'assertEval': {
       const code = interpolateForBrowser(value);
-      lines.push(ind + `expect(await page.evaluate((vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); ` + code + ` }, vars)).toBeTruthy();`);
+      lines.push(ind + `expect(await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); ` + code + ` }, vars)).toBeTruthy();`);
       break;
     }
 
     case 'eval': {
       const code = interpolateForBrowser(value);
-      lines.push(ind + `await page.evaluate((vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); ` + code + ` }, vars);`);
+      lines.push(ind + `await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); ` + code + ` }, vars);`);
       break;
     }
 
@@ -650,7 +670,7 @@ function genStep(step, indent, chain, imports) {
     case 'extractEval': {
       const code = interpolateForBrowser(value);
       if (variableName) {
-        lines.push(ind + `vars.${variableName} = String(await page.evaluate((vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); ` + code + ` }, vars));`);
+        lines.push(ind + `vars.${variableName} = String(await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); ` + code + ` }, vars));`);
       }
       break;
     }
@@ -776,7 +796,7 @@ for (const [suiteName, tests] of Object.entries(suites)) {
       lines.push(`import { ${[...fns].sort().join(', ')} } from './${s}';`);
     }
 
-    lines.push('', ...bodyLines);
+    lines.push('', GI_EVAL_HELPER, '', ...bodyLines);
 
     fs.writeFileSync(outFile, lines.join('\n'));
     console.log(`✓  helpers/${slug}.ts  (${tests.length} functions)`);
@@ -864,6 +884,8 @@ for (const [suiteName, tests] of Object.entries(suites)) {
       varsDecl.push(`  const vars = new Proxy<Record<string, string>>({}, ${proxyHandler});`);
     }
 
+    lines.push('');
+    lines.push(GI_EVAL_HELPER);
     lines.push('');
     lines.push(`test.describe(${singleQuote(suiteName)}, () => {`);
     lines.push('');
