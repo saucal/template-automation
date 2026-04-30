@@ -516,9 +516,11 @@ function genStep(step, indent, chain, imports) {
           lines.push(`${ind}try { await ${loc}.filter({ visible: true }).first().click(); } catch { await page.locator('select').filter({ has: ${optionLoc} }).first().selectOption(${arg}); }`);
         } else {
           // Universal click fallback: filter to visible (avoids picking hidden duplicate
-          // selectors when classic + blocks markup coexist), try click, then on failure
-          // retry with check({ force: true }) to bypass label overlays on radio/checkbox.
-          lines.push(`${ind}try { await ${loc}.filter({ visible: true }).first().click(); } catch (e) { try { await ${loc}.filter({ visible: true }).first().check({ force: true }); } catch { throw e; } }`);
+          // selectors when classic + blocks markup coexist), try click; on failure
+          // retry with click({ force: true }) — bypasses overlay/actionability checks
+          // and skips Playwright's post-click state verification (which can falsely
+          // trip on AJAX-driven re-renders, e.g. WC classic update_checkout).
+          lines.push(`${ind}try { await ${loc}.filter({ visible: true }).first().click(); } catch { await ${loc}.filter({ visible: true }).first().click({ force: true }); }`);
         }
       }
       break;
