@@ -711,6 +711,10 @@ function genStep(step, indent, chain, imports) {
     }
 
     // ── Screenshots ──────────────────────────────────────────────────────────
+    case 'screenshot': {
+      lines.push(`${ind}await page.screenshot({ fullPage: true });`);
+      break;
+    }
     case 'screenshotComparison': {
       const name = slugify(value || 'screenshot');
       lines.push(`${ind}await expect(page).toHaveScreenshot(${singleQuote(`${name}.png`)}, { fullPage: true });`);
