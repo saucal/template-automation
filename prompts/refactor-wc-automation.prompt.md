@@ -142,9 +142,15 @@ Blocks library quirks the helpers don't cover:
     "typecheck": "tsc --noEmit"
   },
   "dependencies": { "@woocommerce/e2e-utils-playwright": "^0.4.0", "dotenv": "^16.0.0" },
-  "devDependencies": { "@playwright/test": "^1.59.1", "@types/node": "^20.0.0", "typescript": "^5.0.0" }
+  "devDependencies": {
+    "@babel/runtime": "^7.29.2",
+    "@playwright/test": "^1.59.1",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  }
 }
 ```
+**`@babel/runtime` is required.** `@woocommerce/e2e-utils-playwright` is built with Babel and emits `require('@babel/runtime/helpers/...')` calls (e.g. `interopRequireDefault`). The package declares it as a runtime dep but the version pin is loose; if it isn't resolvable in the consumer project the first call into the library throws `Cannot find module '@babel/runtime/helpers/...'` at test time. Pin it explicitly in `devDependencies`.
 11. **Multi-region (au/ca/us)** — region as outermost dimension. Per-region SuiteVars from per-region API. Per-region constants in a typed map (`regionConfig: Record<'au'|'ca'|'us', { currency, taxRate, ... }>`) inside the site helper.
 12. **WP multisite — subsite-per-project (payoneer pattern):** each subsite is a Playwright project; `baseURL` ends with subsite path + trailing slash. **Never use leading `/`** in `page.goto` — strips subsite path. Always relative (`'cart/'`, `'wp-admin/'`, `'./'`). Refund/destructive specs run on a single project (`REFUND_PROJECT` env) — replicating across all 4 wastes time. Admin user must exist on EACH subsite (network-add or per-subsite User → Add Existing) — admin AJAX rejects users not registered to subsite.
 ```typescript
