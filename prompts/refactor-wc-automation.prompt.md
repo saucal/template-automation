@@ -105,6 +105,7 @@ Migration gotchas when swapping a hand-rolled `fetch` client to `createClient`:
 - **Axios-shaped responses** — read via `.data`, not as the body directly.
 - **Query params as object** — `client.get(path, { status: 'failed' })`. Don't manually build query strings.
 - **No `patch`** on the returned client. Retry Proxy whitelists `['get', 'post', 'put', 'delete']` only.
+- **Silence the bogus "Basic Auth over HTTP" warning.** Library checks `baseURL.startsWith('http')` to decide whether to warn — that prefix matches `https://...` too, so the warning fires on every non-localhost URL even when traffic is encrypted. Filter just that substring at module init: `console.warn = (...a) => { if (typeof a[0] === 'string' && a[0].includes('Basic Auth over HTTP')) return; orig(...a); }`.
 
 **9. Classic vs blocks branch** — single `isBlockCheckout(page)` helper picks the path. Blocks uses `fillBillingCheckoutBlocks` / `fillShippingCheckoutBlocks` from e2e-utils; classic keeps hand-rolled selectors.
 
@@ -114,6 +115,7 @@ Blocks library quirks the helpers don't cover:
 - **Short codes for state/country** — library passes value to a `<select>`, so `state: 'FL'`, `country: 'US'`. Keep both forms on `BillingDetails` (`shortState`/`shortCountry` for blocks, `state`/`country` for classic select2).
 - **`address_2` is hidden behind `.wc-block-components-address-form__address_2-toggle`** — reveal then fill `#billing-address_2` / `#shipping-address_2` if needed.
 - **Field map** — library accepts `{ firstName, lastName, address, city, state, zip, country, phone }`. Map your `BillingDetails` (don't pass `street`, `zipCode`, `shortState`, etc.).
+- **Create-account password input is lazy.** Clicking the "Create an account?" checkbox reveals the password field — selector returns 0 elements before the click, so the next `.fill()` times out without a `waitFor`. Prefer a label-based selector (`page.getByLabel('Password', { exact: true })`) with a class fallback (`div.wc-block-components-address-form__password > input`), then `await password.first().waitFor({ state: 'visible', timeout: 15_000 })` before filling. Apply the same pattern (label-or-class) to the create-account checkbox itself — theme/plugin overrides change the wrapper class.
 
 **Cart helpers — pick the right one (or none).** `addAProductToCart(page, id)` goes via `/shop/?add-to-cart=ID`; `addOneOrMoreProductToCart(page, slug)` goes via `/product/{slug}`. If your existing flow uses `/checkout/?add-to-cart=ID` (lands directly on checkout), keep the hand-rolled helper — switching costs an extra `goto('checkout/')` and depends on a published shop page or accurate slug map.
 
@@ -191,6 +193,22 @@ expect(notes.some((n) => pattern.test(n)),
 - **Per-public-function JSDoc**: one-sentence summary + non-self-evident inputs/outputs (`returns undefined if X — callers treat as 'no value available'`) + side effects (`lands on /checkout/`) + numbered steps for orchestrators.
 - **Inline comments only for non-obvious WHY**: why a wait is needed, why `force: true` is justified, why a particular DOM shape is targeted, why a value is converted (`blocks state field expects ISO short code`). Cross-reference plugin/library when behaviour leaks (`see @woocommerce/e2e-utils-playwright/src/checkout.js`).
 - **Don't comment** restating well-named code, bare TODOs without owner/expiry, decorative banners with no info.
+
+21. **Classic vs block checkout — copy and DOM diverge; branch the assertion.** Applies to every project that touches WC checkout — payment-gateway suites (bluesnap, mastercard, payoneer) AND full-site maintenance projects (repurposedmaterials, no-pong). The same plugin / theme / page can render different output per checkout style. Two families to handle:
+
+- **Multi-line notice / banner text.** Classic templates render `<ul>` lists where each line is its own `<li>` — `textContent` puts a real `\n` between them. Blocks renders a single container that concatenates the lines with no separator. `toHaveText('Line A\nLine B')` only passes against classic. Use `toContainText` per line:
+```typescript
+const notice = page.locator('.woocommerce-error')
+  .or(page.locator('div.wc-block-store-notice.is-error > div > div')).first();
+await expect(notice, 'should display the headline').toContainText('Headline');
+await expect(notice, 'should display the body line').toContainText('Detailed instruction');
+```
+
+- **Order-note / system-message copy differs.** Same plugin / theme can emit different note text on classic vs blocks (gateway example: classic emits `Payment via <Method> (<txid>).`, blocks emits `Payment complete.`; coupon / shipping / email plugins show similar splits). When the structured info is also exposed elsewhere (admin meta box, WC REST, email body), assert that for parity and branch the note-text assertion on `suiteVars.blog.includes('block')` (or however the project labels its block subsite).
+
+**Don't weaken assertions to paper over real bugs.** If a value goes missing because of an async race (webhook hasn't fired yet, transient meta, plugin hook ordering), keep the strict assertion — let the test surface the bug. Add a wait / polling helper, raise the issue with the plugin maintainer, or split the assertion into "fast path" (synchronous DOM) + "eventual" (REST polled with timeout). Loosening a substring match to hide an empty `${chargeId}` (or any other empty plugin output) costs you the next regression.
+
+The unifying rule: prefer **per-line `toContainText`** over `toHaveText` for any text with more than one logical line, and **branch assertions on classic vs block** whenever a plugin / theme's user-facing copy isn't identical between the two.
 
 ---
 
