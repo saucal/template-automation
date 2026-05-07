@@ -210,6 +210,39 @@ await expect(notice, 'should display the body line').toContainText('Detailed ins
 
 The unifying rule: prefer **per-line `toContainText`** over `toHaveText` for any text with more than one logical line, and **branch assertions on classic vs block** whenever a plugin / theme's user-facing copy isn't identical between the two.
 
+22. **Maintenance projects — warn (don't fail) when Tax or Shipping rows are missing.** On full-site maintenance suites (repurposedmaterials, no-pong, etc.) it is sometimes legitimate to ship a checkout with no tax line (digital-only catalog, tax-exempt region) or no shipping line (virtual products only, free-shipping zone covering the test address). On other sites the absence is a real config regression — a tax class got unassigned, a shipping zone was deleted, a product type got switched.
+
+Don't hard-fail on absence. Detect and emit a `console.warn` so the test still runs, the report flags the situation, and QA reviews whether it is expected for that site:
+
+```typescript
+// helpers/<site>.ts (or assertions.ts) — call after the cart/checkout totals settle
+export async function warnIfNoTaxOrShipping(page: Page, ctx: { testId: string }): Promise<void> {
+  const taxCount = await page
+    .locator('tr.tax-rate, tr.fee.tax, .wc-block-components-totals-taxes')
+    .count();
+  const shippingCount = await page
+    .locator('tr.shipping, .wc-block-components-totals-shipping')
+    .count();
+  if (taxCount === 0) {
+    console.warn(`[${ctx.testId}] no Tax row found at checkout — verify tax classes / region for this site`);
+  }
+  if (shippingCount === 0) {
+    console.warn(`[${ctx.testId}] no Shipping row found at checkout — verify shipping zones / product types for this site`);
+  }
+}
+```
+
+When the suite expects tax/shipping for a specific test (e.g. `runRefundFlow` reading `seed.shippingTotal` / `seed.shippingTax` to reverse the shipping line), promote the missing-row case to a hard `expect(...)` with a message so the failure points at the config, not the refund code:
+
+```typescript
+expect(
+  Number(seed.shippingTotal),
+  `[${config.testId}] expected a non-zero shipping_total on the order — site has no shipping configured`
+).toBeGreaterThan(0);
+```
+
+Tax-rate-dependent calculations (partial refund splits, line-tax assertions) must derive the rate from the order itself (`order.shipping_tax / order.shipping_total`, or `line.total_tax / line.total`) rather than hard-coding a percentage — sites under maintenance can have any rate from 0% upwards, including changes between runs.
+
 ---
 
 ## Output format
