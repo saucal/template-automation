@@ -210,24 +210,37 @@ await expect(notice, 'should display the body line').toContainText('Detailed ins
 
 The unifying rule: prefer **per-line `toContainText`** over `toHaveText` for any text with more than one logical line, and **branch assertions on classic vs block** whenever a plugin / theme's user-facing copy isn't identical between the two.
 
-22. **Maintenance projects — warn (don't fail) when Tax or Shipping rows are missing.** On full-site maintenance suites (repurposedmaterials, no-pong, etc.) it is sometimes legitimate to ship a checkout with no tax line (digital-only catalog, tax-exempt region) or no shipping line (virtual products only, free-shipping zone covering the test address). On other sites the absence is a real config regression — a tax class got unassigned, a shipping zone was deleted, a product type got switched.
+22. **Maintenance projects — warn (don't fail) when Tax or Shipping is missing OR $0.** On full-site maintenance suites (repurposedmaterials, no-pong, etc.) it is sometimes legitimate to ship a checkout with no tax line (digital-only catalog, tax-exempt region) or no shipping line (virtual products only, free-shipping zone covering the test address). On other sites the absence — or a present-but-`$0` value — is a real config regression: a tax class got unassigned, a shipping zone was deleted, a rate got zeroed, a product type got switched. Treat tax and shipping as **expected-by-default**: warn on both the missing-row case and the `$0` case.
 
-Don't hard-fail on absence. Detect and emit a `console.warn` so the test still runs, the report flags the situation, and QA reviews whether it is expected for that site:
+Don't hard-fail. Detect and emit a `console.warn` so the test still runs, the report flags the situation, and QA reviews whether it is expected for that site. **`Free` shipping is an acceptable configured value — do NOT warn on it; only warn when shipping is missing or literally `$0.00`.**
 
 ```typescript
 // helpers/<site>.ts (or assertions.ts) — call after the cart/checkout totals settle
+// Strip currency/whitespace → number. "Free" → NaN (acceptable, not zero). Empty/missing handled by caller.
+function isZeroAmount(text: string): boolean {
+  const n = parseFloat((text || '').replace(/[^0-9.-]/g, ''));
+  return !Number.isNaN(n) && n === 0; // "Free" → NaN → false (don't treat as zero)
+}
+
 export async function warnIfNoTaxOrShipping(page: Page, ctx: { testId: string }): Promise<void> {
-  const taxCount = await page
-    .locator('tr.tax-rate, tr.fee.tax, .wc-block-components-totals-taxes')
-    .count();
-  const shippingCount = await page
-    .locator('tr.shipping, .wc-block-components-totals-shipping')
-    .count();
-  if (taxCount === 0) {
+  const tax = page.locator('tr.tax-rate, tr.fee.tax, .wc-block-components-totals-taxes');
+  const shipping = page.locator('tr.shipping, .wc-block-components-totals-shipping');
+
+  const taxMissing = (await tax.count()) === 0;
+  const shipMissing = (await shipping.count()) === 0;
+  const taxZero = !taxMissing && isZeroAmount(await tax.first().innerText());
+  // "Free" reads as NaN → not zero → no warning (a configured free-shipping method is valid)
+  const shipZero = !shipMissing && isZeroAmount(await shipping.first().innerText());
+
+  if (taxMissing) {
     console.warn(`[${ctx.testId}] no Tax row found at checkout — verify tax classes / region for this site`);
+  } else if (taxZero) {
+    console.warn(`[${ctx.testId}] Tax row is $0 — verify tax is configured for this site`);
   }
-  if (shippingCount === 0) {
+  if (shipMissing) {
     console.warn(`[${ctx.testId}] no Shipping row found at checkout — verify shipping zones / product types for this site`);
+  } else if (shipZero) {
+    console.warn(`[${ctx.testId}] Shipping row is $0 — verify shipping is configured (a "Free" method is fine; literal $0.00 is suspect)`);
   }
 }
 ```
@@ -242,6 +255,21 @@ expect(
 ```
 
 Tax-rate-dependent calculations (partial refund splits, line-tax assertions) must derive the rate from the order itself (`order.shipping_tax / order.shipping_total`, or `line.total_tax / line.total`) rather than hard-coding a percentage — sites under maintenance can have any rate from 0% upwards, including changes between runs.
+
+23. **Resilient locators — tiered fallback per action AND assertion (pure Playwright first, Stagehand last).** Maintenance-cycle suites must survive selector drift. Wrap every action and assertion in a tiered fallback. Stagehand AI is the **last resort only** — the primary path stays pure Playwright (fast, free, deterministic; if the suite already passes on Playwright, Stagehand is drift insurance, not the driver).
+
+**General elements** (Playwright official locator priority, most→least resilient):
+1. **Primary — ARIA/role:** `getByRole(role, { name })`, `getByLabel(...)`.
+2. **Fallback 1 — text/CSS:** a *different* Playwright strategy: `getByText`/`getByPlaceholder` or a stable CSS/`.or()` locator.
+3. **Fallback 2 — Stagehand AI:** `stagehand.act("<NL instruction>", { page })` for actions; `stagehand.extract(instruction, zodSchema, { page })` for reads/assertions.
+
+**Stable selectors** (stable IDs/names — checkout `#billing_*`/`#shipping_*`, `#place_order`, `#terms`, product variation selects): **skip Fallback 1**, use primary ID → **Stagehand-only** fallback. No value in a second CSS guess when the ID is stable.
+
+**Stagehand setup** (per-project, shared util): `new Stagehand({ env: 'LOCAL', model: { modelName: 'anthropic/claude-sonnet-4-6', apiKey: process.env.ANTHROPIC_API_KEY }, selfHeal: true })` → `chromium.connectOverCDP({ wsEndpoint: stagehand.connectURL() })`, bridging `testInfo.project.use` into context options. (v3: use `model`, NOT top-level `modelName`/`modelClientOptions` — those are ignored and Stagehand silently defaults to OpenAI. No `enableCaching` option.) Prefer `observe()`→`act(action)` for reused steps (no LLM on the act); raw `act("NL")` is fine for the rare fallback path. Deps: `@browserbasehq/stagehand`, `playwright-core`, `zod`; env `ANTHROPIC_API_KEY`.
+
+Build a shared wrapper so specs/helpers call `resilientClick/Fill/Select/Check/Text({ primary, alt?, ai })` (omit `alt` for stable-selector → Stagehand-only). Each tier in try/catch; on final failure throw the original error with all tiers logged. Keep return/capture shapes identical so flow/assertion logic is unchanged. → reference design **`docs/locator-fallback-strategy.md`**.
+
+**MANDATORY when refactoring: route EVERY action and assertion through the resilient wrapper.** In `helpers/*` and specs, do not call raw `page.locator(...).click()/.fill()/.selectOption()/.check()` or `expect(locator)` for content — use `resilientClick/Fill/Select/Check` for actions and `resilientText` (then assert on the returned string) for reads/assertions. `ai` is a NOUN phrase naming the element ("the Add to cart button", "the order total"); the wrapper composes the verb. The ONLY allowed raw calls: navigation/waits (`goto`, `waitForLoadState`, `waitFor`), `setInputFiles` (no wrapper for uploads), and genuinely custom JS interactions (e.g. clicking a plugin-injected `<a>` via `page.evaluate`). Build the helper at `helpers/resilient.ts` + wire it into fixtures via a worker-global `setActiveStagehand`/`ctxFor(page)` so helpers keep their `(page)` signatures. → reference implementation **`helpers/resilient.ts`** + **`fixtures/index.ts`**.
 
 ---
 
