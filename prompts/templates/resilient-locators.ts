@@ -67,13 +67,36 @@ async function withFallback<T>(
   }
 
   if (ctx.stagehand) {
+    // Reaching the AI tier means the primary (and alt) locators broke — surface it
+    // so the brittle selector gets fixed rather than silently leaning on AI.
+    console.warn(`[resilient] locators failed → using Stagehand for "${target.ai}". Fix the selector.`);
     try {
       return await aiAction(ctx.stagehand);
-    } catch (err) {
-      console.warn(`[resilient] Stagehand fallback failed for "${target.ai}": ${(err as Error).message}`);
+    } catch (aiErr) {
+      // Every tier failed (Playwright + Stagehand) — throw an aggregated error so
+      // the report shows both failure reasons, not just the Playwright one.
+      throw new Error(
+        `All resilient tiers failed for "${target.ai}".\n` +
+          `  Playwright: ${(firstError as Error)?.message ?? firstError}\n` +
+          `  Stagehand:  ${(aiErr as Error)?.message ?? aiErr}`
+      );
     }
   }
   throw firstError;
+}
+
+/**
+ * Stagehand action via observe → act. observe() returns the concrete element(s)
+ * matching the instruction; if it finds NONE we throw instead of letting act()
+ * click/fill an arbitrary element (prevents silent wrong-target actions). We then
+ * act on the observed result, so the action targets exactly what observe matched.
+ */
+async function aiAct(sh: Stagehand, page: Page, instruction: string): Promise<void> {
+  const actions = await sh.observe(instruction, { page });
+  if (!actions || actions.length === 0) {
+    throw new Error(`Stagehand observe() found no element for: ${instruction}`);
+  }
+  await sh.act(actions[0], { page });
 }
 
 export async function resilientClick(ctx: ResilientCtx, target: Target): Promise<void> {
@@ -81,7 +104,7 @@ export async function resilientClick(ctx: ResilientCtx, target: Target): Promise
     ctx,
     target,
     (loc) => loc.click({ timeout: TIER_TIMEOUT }),
-    (sh) => sh.act(`click ${target.ai}`, { page: ctx.page }).then(() => undefined)
+    (sh) => aiAct(sh, ctx.page, `click ${target.ai}`)
   );
 }
 
@@ -90,7 +113,7 @@ export async function resilientFill(ctx: ResilientCtx, target: Target, value: st
     ctx,
     target,
     (loc) => loc.fill(value, { timeout: TIER_TIMEOUT }),
-    (sh) => sh.act(`fill ${target.ai} with "${value}"`, { page: ctx.page }).then(() => undefined)
+    (sh) => aiAct(sh, ctx.page, `fill ${target.ai} with "${value}"`)
   );
 }
 
@@ -99,7 +122,7 @@ export async function resilientSelect(ctx: ResilientCtx, target: Target, value: 
     ctx,
     target,
     (loc) => loc.selectOption(value, { timeout: TIER_TIMEOUT }).then(() => undefined),
-    (sh) => sh.act(`select "${value}" in ${target.ai}`, { page: ctx.page }).then(() => undefined)
+    (sh) => aiAct(sh, ctx.page, `select the option "${value}" in ${target.ai}`)
   );
 }
 
@@ -108,7 +131,7 @@ export async function resilientCheck(ctx: ResilientCtx, target: Target): Promise
     ctx,
     target,
     (loc) => loc.check({ timeout: TIER_TIMEOUT }),
-    (sh) => sh.act(`check ${target.ai}`, { page: ctx.page }).then(() => undefined)
+    (sh) => aiAct(sh, ctx.page, `check ${target.ai}`)
   );
 }
 
@@ -117,7 +140,7 @@ export async function resilientUncheck(ctx: ResilientCtx, target: Target): Promi
     ctx,
     target,
     (loc) => loc.uncheck({ timeout: TIER_TIMEOUT }),
-    (sh) => sh.act(`uncheck ${target.ai}`, { page: ctx.page }).then(() => undefined)
+    (sh) => aiAct(sh, ctx.page, `uncheck ${target.ai}`)
   );
 }
 
