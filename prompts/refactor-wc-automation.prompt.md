@@ -4,6 +4,17 @@ Refactor a WooCommerce Ghost Inspector migration project into a clean, config-dr
 
 **Templates referenced below live under `prompts/templates/`** — copy them into the new project and adapt rather than re-deriving from prose.
 
+## Before you start — read `docs/migration-playbook.md`
+
+Lessons that turn multi-iteration debugging into first-try wins. The essentials:
+
+- **Live-explore the real site first** (playwright-cli) — the GI export's selectors have drifted and its migrated TS is a lossy starting point, not truth. Confirm the actual flow + selectors before writing code.
+- **Triage GI tests, don't 1:1 port** — nav/screenshot → one data-driven visual spec; duplicates → skip; genuinely-new → build.
+- **Real events, never eval** — `el.value=…; dispatch('change')` won't trigger WC `update_checkout`/variations/composite validity; use Playwright `selectOption`/`fill`/`check`.
+- **Cart/checkout AJAX races** — `.blockUI` intercepts clicks (navigate remove-URLs instead); wait for a positive signal (recalc landed), not just "overlay hidden".
+- **Money/text DOM is messy** — currency symbol in its own span, thousands commas, double-spaced labels, `<del>list</del><ins>discount</ins>`, discount-as-fee, select2 hidden natives → normalize + capture the right node.
+- **Capture-once parity + 3-context fixture + resilient wrapper + Mailpit email + unique per-run data** — see the playbook for each.
+
 ## Input you must provide
 
 1. All generated spec files from `generated/specs/*.spec.ts`
