@@ -34,3 +34,17 @@ test('suiteDir uses _no-folder when folder id is unknown', () => {
     'suites/_no-folder/X'
   );
 });
+
+test('annotateGi injects _gi when test name matches the map', () => {
+  const data = { name: 'Buy now', steps: [] };
+  const out = m.annotateGi(data, { 'Buy now': 't1' }, 's1', 'My Suite');
+  assert.deepStrictEqual(out.matched, true);
+  assert.deepStrictEqual(data._gi, { testId: 't1', suiteId: 's1', suiteName: 'My Suite' });
+});
+
+test('annotateGi reports unmatched and leaves _gi absent', () => {
+  const data = { name: 'Ghost', steps: [] };
+  const out = m.annotateGi(data, { 'Buy now': 't1' }, 's1', 'My Suite');
+  assert.strictEqual(out.matched, false);
+  assert.strictEqual(data._gi, undefined);
+});

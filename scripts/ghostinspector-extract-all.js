@@ -24,4 +24,13 @@ function suiteDir(root, suite, folders) {
   return path.join(root, sanitizeName(folderName), sanitizeName(suite.name));
 }
 
-module.exports = { sanitizeName, sanitizeTestName, suiteDir };
+// Inject _gi { testId, suiteId, suiteName } by matching data.name in nameToId.
+// Returns { matched } so the caller can warn on misses. Mutates `data` in place.
+function annotateGi(data, nameToId, suiteId, suiteName) {
+  const testId = nameToId[data && data.name];
+  if (!testId) return { matched: false };
+  data._gi = { testId, suiteId, suiteName };
+  return { matched: true };
+}
+
+module.exports = { sanitizeName, sanitizeTestName, suiteDir, annotateGi };
