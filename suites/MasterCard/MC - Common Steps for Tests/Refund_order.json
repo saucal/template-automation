@@ -1,0 +1,302 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "details": "Full Refund - One time payment order - Paid with CC",
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Refund order",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "button[type=\"button\"].button.refund-items",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\nreturn refund === 'full'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "input[placeholder=\"0\"][type=\"number\"].refund_order_item_qty",
+      "value": "1",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\nreturn refund === 'full'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "tr.shipping > td.line_cost > .refund > input[placeholder=\"0\"][type=\"text\"].refund_line_total.wc_input_price",
+      "value": "{{shippingTotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\nreturn refund === 'full'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "tr.shipping > td.line_tax > .refund > input[placeholder=\"0\"][type=\"text\"].refund_line_tax.wc_input_price",
+      "value": "{{shippingTaxTotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\nreturn refund === 'partial'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "let total = '{{total}}'\ntotal = parseFloat(total.replace('$',''))\ntotal = total/4\nreturn total.toFixed(2)",
+      "variableName": "partialRefund"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\nreturn refund === 'exceed'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "let total = '{{total}}'\ntotal = parseFloat(total.replace('$',''))\ntotal = total - {{partialRefund}} + 0.01\nreturn total.toFixed(2)",
+      "variableName": "partialRefund"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\nreturn refund === 'partial' || refund === 'exceed'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "let total = {{partialRefund}}\ntotal = total*0.1\nreturn total.toFixed(2)",
+      "variableName": "partialRefundTax"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\nreturn refund === 'partial' || refund === 'exceed'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "let total = {{partialRefund}}\ntotal = total*0.9\nreturn total.toFixed(2)",
+      "variableName": "partialRefundItem"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\nreturn refund === 'partial' || refund === 'exceed'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": ".refund_line_total.wc_input_price",
+      "value": "{{partialRefundItem}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\nreturn refund === 'partial' || refund === 'exceed'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": ".refund_line_tax.wc_input_price",
+      "value": "{{partialRefundTax}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "#refund_reason",
+      "value": "{{id}}",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "676ec1fb35aed64d30777b56",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": ".wc-order-data-row.wc-order-refund-items > table.wc-order-totals > tbody > tr:nth-of-type(1) > td.total",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "button[type=\"button\"].button.button-primary.do-api-refund > .wc-order-refund-amount > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\nreturn refund === 'full'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "tr.refund > td.line_cost > .view > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\nreturn refund === 'full'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "td.total.refunded-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\nreturn refund === 'full'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "#select2-order_status-container",
+      "value": "Refunded",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\nreturn refund === 'full'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "li.note.system-note:nth-of-type(2) > .note_content > p",
+      "value": "Refund of {{total}} processed. Reason: {{id}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\nreturn refund === 'full'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "li.note.system-note:nth-of-type(1) > .note_content > p",
+      "value": "Order status changed from Processing to Refunded.",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\nreturn refund === 'partial'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "tr.refund > td.line_cost > .view > .woocommerce-Price-amount.amount",
+      "value": "{{partialRefund}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\nreturn refund === 'partial'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "td.total.refunded-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{partialRefund}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\nreturn refund === 'partial'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "#select2-order_status-container",
+      "value": "Processing",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\nreturn refund === 'partial'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "li.note.system-note:nth-of-type(1) > .note_content > p",
+      "value": "Refund of ${{partialRefund}} processed. Reason: {{id}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "678a5cf8e9793a100010a4d6",
+    "suiteId": "676eb96835aed64d3077072a",
+    "suiteName": "MC - Common Steps for Tests"
+  }
+}

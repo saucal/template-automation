@@ -1,0 +1,57 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Delete Playgrounds Email",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": {
+        "statement": "return '{{extraFilter}}' === ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "",
+      "variableName": "extraFilter"
+    },
+    {
+      "command": "eval",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": " return new Promise(async (resolve, reject) => {   \n    const data = new URLSearchParams();\n    data.append('action', 'delete_mail');\n    data.append('email', '{{playgroundsEmail}}');\n    data.append('extraFilter', '{{extraFilter}}');\n    \n    const response = await fetch(ajax_object.ajax_url, {\n        method: 'POST',\n        body: data,\n        credentials: 'same-origin',\n        headers: {\n            'Content-Type': 'application/x-www-form-urlencoded',\n        },\n    });\n    \n    const result = await response.json();\n    \n    if (!result.success) {\n        console.error('Failed to delete mail');\n        reject();\n    } else {\n        console.log('Mail deleted successfully');\n        resolve()\n    }\n})",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "67adf606e66fdcb2f9ab01c2",
+    "suiteId": "676eb96835aed64d3077072a",
+    "suiteName": "MC - Common Steps for Tests"
+  }
+}

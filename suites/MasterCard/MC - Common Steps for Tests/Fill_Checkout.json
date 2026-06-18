@@ -1,0 +1,350 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Fill Checkout",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "#billing_first_name"
+        },
+        {
+          "selector": "#billing-first_name"
+        },
+        {
+          "selector": "#shipping-first_name"
+        }
+      ],
+      "value": "{{firstName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "#billing_last_name"
+        },
+        {
+          "selector": "#billing-last_name"
+        },
+        {
+          "selector": "#shipping-last_name"
+        }
+      ],
+      "value": "{{lastName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "#billing_company"
+        },
+        {
+          "selector": "#billing-company"
+        },
+        {
+          "selector": "#shipping-company"
+        }
+      ],
+      "value": "{{company}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": "#select2-billing_country-container"
+        },
+        {
+          "selector": "select#billing-country"
+        },
+        {
+          "selector": "select#shipping-country"
+        }
+      ]
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 4,
+      "target": "span > span:nth-of-type(1) > input[type=\"text\"]",
+      "value": "{{country}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "//li[contains(text(), \"{{country}}\")]"
+        },
+        {
+          "selector": "//option[contains(text(), \"{{country}}\")]"
+        }
+      ]
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "#billing_address_1"
+        },
+        {
+          "selector": "#billing-address_1"
+        },
+        {
+          "selector": "#shipping-address_1"
+        }
+      ],
+      "value": "{{street}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "#billing_address_2"
+        },
+        {
+          "selector": "#billing-address_2"
+        },
+        {
+          "selector": "#shipping-address_2"
+        }
+      ],
+      "value": "{{address2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "#billing_city"
+        },
+        {
+          "selector": "#billing-city"
+        },
+        {
+          "selector": "#shipping-city"
+        }
+      ],
+      "value": "{{city}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "#select2-billing_state-container"
+        },
+        {
+          "selector": "select#billing-state"
+        },
+        {
+          "selector": "select#shipping-state"
+        }
+      ]
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 10,
+      "target": "span > span:nth-of-type(1) > input[type=\"text\"]",
+      "value": "{{state}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": [
+        {
+          "selector": "//li[contains(text(), \"{{state}}\")]"
+        },
+        {
+          "selector": "//option[contains(text(), \"{{state}}\")]"
+        }
+      ]
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": [
+        {
+          "selector": "#billing_postcode"
+        },
+        {
+          "selector": "#billing-postcode"
+        },
+        {
+          "selector": "#shipping-postcode"
+        }
+      ],
+      "value": "{{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": [
+        {
+          "selector": "#billing_phone"
+        },
+        {
+          "selector": "#billing-phone"
+        },
+        {
+          "selector": "#shipping-phone"
+        }
+      ],
+      "value": "{{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": [
+        {
+          "selector": "#billing_email"
+        },
+        {
+          "selector": "#email"
+        }
+      ],
+      "value": "{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let user = \"{{user}}\"\n\nreturn user === \"new\" && '{{subscription}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"Create an account?\")]"
+        },
+        {
+          "selector": ".form-row > label.woocommerce-form__label.woocommerce-form__label-for-checkbox.checkbox > span"
+        },
+        {
+          "selector": "//span[contains(text(), \"Create an account with Testing Site\")]"
+        },
+        {
+          "selector": "div.wc-block-components-checkbox.fwc-block-checkout__create-account > label > span"
+        }
+      ]
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let user = \"{{user}}\"\n\nreturn user === \"new\" || '{{subscription}}' == 'yes'"
+      },
+      "optional": false,
+      "private": true,
+      "sequence": 16,
+      "target": [
+        {
+          "selector": "#account_password"
+        },
+        {
+          "selector": "div.wc-block-components-address-form__password > input"
+        }
+      ],
+      "value": "{{password}}",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "676eba5935aed64d307712f3",
+    "suiteId": "676eb96835aed64d3077072a",
+    "suiteName": "MC - Common Steps for Tests"
+  }
+}

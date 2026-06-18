@@ -1,0 +1,494 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Check Order on My Account",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 0,
+      "target": "img#sa_close",
+      "value": ""
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "{{subtotalProduct}}",
+      "variableName": "subtotalPrice"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": ".woocommerce-notice",
+      "value": "Thank you. Your order has been received.",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": ".order > strong"
+        },
+        {
+          "selector": ".order > span"
+        }
+      ],
+      "value": "",
+      "variableName": "orderNumber"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": ".email > strong"
+        },
+        {
+          "selector": ".email > span"
+        }
+      ],
+      "value": "{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "strong > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "span > .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": ".method > strong",
+      "value": "{{paymentMethod}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{weight}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "tr > td > a[href*=\"/product/\"]",
+      "value": "{{prod_desc}} - {{weight}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{size}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "tr > td > a[href*=\"/product/\"]",
+      "value": "{{prod_desc}} - {{size}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{prod_desc}}'.includes('Ball')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "ul.wc-item-meta",
+      "value": "Drilling Protection:\n\nYes - Covers Cracking During Ball Drilling\n\nExtra 365 Warranty Coverage:\n\nYes - Add 365 Warranty Coverage\n\nSpecific Requests:\n\nTesting request\n\nMoney Saving Options:\n\nAdd Max Tack Ball Cleaner 8oz.\n\nMoney Saving Options:\n\nAdd BowlersMart Blue Shammy"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{prod_desc}}'.includes('Shoes')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "ul.wc-item-meta",
+      "value": "Extra 365 Warranty Coverage:\n\nYes - Add 365 Warranty Coverage\n\nMoney Saving Options:\n\nAdd KR Strikeforce Pure Slide Conditioner\n\nMoney Saving Options:\n\nAdd 3G Shoe Fresheners\n\nFREE Gift with Purchase!:\n\n{{shirt}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": [
+        {
+          "selector": "td.woocommerce-table__product-total > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe td.woocommerce-table__product-total > .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": [
+        {
+          "selector": "tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": [
+        {
+          "selector": "tfoot > tr:nth-of-type(2) > td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "tfoot > tr:nth-of-type(2) > td"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe tfoot > tr:nth-of-type(2) > td > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "FREE",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "tr:nth-of-type(3) > td > .woocommerce-Price-amount.amount",
+      "value": "{{shippingProtection}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "tr:nth-of-type(4) > td > .woocommerce-Price-amount.amount",
+      "value": "{{taxPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "tr:nth-of-type(6) > td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": [
+        {
+          "selector": ".woocommerce-column.woocommerce-column--1 > address"
+        },
+        {
+          "selector": ".woocommerce-customer-details > address"
+        }
+      ],
+      "value": "{{firstName}} {{lastName}}\n{{street}}\n{{street2}}\n{{city}}, {{state}} {{zipCode}}\n\n{{phone}}\n\n{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": ".woocommerce-column.woocommerce-column--2 > address",
+      "value": "{{firstName}} {{lastName2}}\n{{street3}}\n{{street4}}\n{{city}}, {{state}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": ".woocommerce-column.woocommerce-column--2 > address",
+      "value": "{{firstName}} {{lastName}}\n{{street}}\n{{street2}}\n{{city}}, {{state}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "",
+      "value": "{{startUrl}}my-account/",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": [
+        {
+          "selector": ".woocommerce-MyAccount-navigation-link > a[href*=\"/my-account/orders/\"]"
+        },
+        {
+          "selector": ".woocommerce-MyAccount-navigation-link > a[href*=\"/account/orders/\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "td.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-status",
+      "value": "Processing",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 23,
+      "target": "tr:nth-of-type(1) > td.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-total > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "added condition to skip leggari",
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "//a[contains(text(),'{{orderNumber}}')]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{weight}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "tr > td > a[href*=\"/product/\"]",
+      "value": "{{prod_desc}} - {{weight}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{size}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "tr > td > a[href*=\"/product/\"]",
+      "value": "{{prod_desc}} - {{size}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{prod_desc}}'.includes('Ball')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "ul.wc-item-meta",
+      "value": "Drilling Protection:\n\nYes - Covers Cracking During Ball Drilling\n\nExtra 365 Warranty Coverage:\n\nYes - Add 365 Warranty Coverage\n\nSpecific Requests:\n\nTesting request\n\nMoney Saving Options:\n\nAdd Max Tack Ball Cleaner 8oz.\n\nMoney Saving Options:\n\nAdd BowlersMart Blue Shammy"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{prod_desc}}'.includes('Shoes')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "ul.wc-item-meta",
+      "value": "Extra 365 Warranty Coverage:\n\nYes - Add 365 Warranty Coverage\n\nMoney Saving Options:\n\nAdd KR Strikeforce Pure Slide Conditioner\n\nMoney Saving Options:\n\nAdd 3G Shoe Fresheners\n\nFREE Gift with Purchase!:\n\n{{shirt}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": [
+        {
+          "selector": "tfoot > tr:nth-of-type(2) > td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "tfoot > tr:nth-of-type(2) > td"
+        }
+      ],
+      "value": "FREE",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "tr:nth-of-type(3) > td > .woocommerce-Price-amount.amount",
+      "value": "{{shippingProtection}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": "tr:nth-of-type(4) > td > .woocommerce-Price-amount.amount",
+      "value": "{{taxPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": "tr:nth-of-type(6) > td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": [
+        {
+          "selector": ".woocommerce-column.woocommerce-column--1 > address"
+        },
+        {
+          "selector": ".woocommerce-customer-details > address"
+        }
+      ],
+      "value": "{{firstName}} {{lastName}}\n{{street}}\n{{street2}}\n{{city}}, {{state}} {{zipCode}}\n\n{{phone}}\n\n{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": ".woocommerce-column.woocommerce-column--2 > address",
+      "value": "{{firstName}} {{lastName2}}\n{{street3}}\n{{street4}}\n{{city}}, {{state}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": ".woocommerce-column.woocommerce-column--2 > address",
+      "value": "{{firstName}} {{lastName}}\n{{street}}\n{{street2}}\n{{city}}, {{state}} {{zipCode}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "681ab0975a5ac9fb568aca7f",
+    "suiteId": "681a7c585a5ac9fb5686c74e",
+    "suiteName": "BM - Common steps"
+  }
+}

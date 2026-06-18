@@ -1,0 +1,72 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Calculate bulk discount",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let qty = document.querySelector(\"input.qty\").getAttribute(\"value\");\nqty = parseInt(qty);\nreturn qty == 2;"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "let bulk;\nlet unitPrice = '{{unitPrice}}';\nunitPrice = unitPrice.slice(1);\nunitPrice = parseFloat(unitPrice);\n//let qty = document.querySelector(\"input.qty\").getAttribute(\"value\");\nqty = parseInt('{{quantity}}');\nlet subTotal = unitPrice * qty;\nbulk = Math.round(subTotal/10)\nreturn bulk;\n",
+      "variableName": "bulkDiscount"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "\nlet qty = document.querySelector(\"input.qty\").getAttribute(\"value\");\nqty = parseInt(qty);\nreturn qty > 2;"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "let bulk;\nlet unitPrice = '{{unitPrice}}';\nunitPrice = unitPrice.slice(1);\nunitPrice = parseFloat(unitPrice);\n//let qty = document.querySelector(\"input.qty\").getAttribute(\"value\");\nqty = parseInt('{{quantity}}');\nlet subTotal = unitPrice * qty;\nbulk = (subTotal/20).toFixed(2);\nreturn bulk;\n",
+      "variableName": "bulkDiscount"
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "let bulk = document.querySelector(\"tr.cart-discount > td > .woocommerce-Price-amount.amount \");\nreturn bulk == null;"
+      },
+      "notes": "validating if bulk discount is present in checkout, it also could be validated if quantity is 1 or < 2",
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "0.00",
+      "variableName": "bulkDiscount"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6761ffeb7a599a5bc84b7288",
+    "suiteId": "675cc6c97a599a5bc8c00816",
+    "suiteName": "Top G supplements common steps"
+  }
+}

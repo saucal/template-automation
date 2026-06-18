@@ -1,0 +1,72 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "New Product page Redesigned",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "{{startUrl}}shop/jester-sunglasses/",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 1,
+      "target": "svg.needsclick > path"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "div.melon-optics-customizer-section:nth-of-type(1) > .melon-optics-customizer-pre-made-combinations-list > li.melon-best-seller-thumbnail:nth-of-type(1) > img.attachment-woocommerce_gallery_thumbnail",
+      "value": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "/* --------------------------------------------------------------\n   1. Your gallery images\n   -------------------------------------------------------------- */\nconst images = document.querySelectorAll('.woocommerce-product-gallery__wrapper.slick-initialized .slick-slide:nth-of-type(1) .melon-optics-composite-images > span > img');\n\n/* --------------------------------------------------------------\n   2. The attribute object (exactly as you posted)\n   -------------------------------------------------------------- */\nconst attributes = JSON.parse(document.querySelector('div.melon-optics-customizer-section:nth-of-type(1) > .melon-optics-customizer-pre-made-combinations-list > li.melon-best-seller-thumbnail:nth-of-type(1)').getAttribute('data-combination-params'));\n\n/* --------------------------------------------------------------\n   3. Expected order (frame → lens → nose‑rubber → icon)\n   -------------------------------------------------------------- */\nconst attrOrder = [\n  attributes['pa_frame'],\n  attributes['pa_lens'],\n  attributes['pa_nose-rubber'],\n  attributes['pa_icon']\n];\n\n/* --------------------------------------------------------------\n   4. Validation function – returns boolean + failure message\n   -------------------------------------------------------------- */\nfunction areGalleryImagesCorrect() {\n  // 1. Count check\n  if (images.length !== attrOrder.length) {\n    const msg = `Count mismatch: ${images.length} images but ${attrOrder.length} attributes expected.`;\n    console.error('%c' + msg, 'color:red; font-weight:bold;');\n    return false;\n  }\n\n  const failures = [];\n\n  images.forEach((img, idx) => {\n    const expected = attrOrder[idx];\n    const src = (img.currentSrc || img.src || img.getAttribute('src') || '').trim();\n\n    const ok = src && ( src.toLowerCase().includes(expected.replaceAll('-','').toLowerCase()) || src.toLowerCase().includes(expected.toLowerCase()) );\n\n    // visual feedback\n    img.style.border = ok ? '3px solid lime' : '3px solid red';\n    img.title = ok\n      ? `Correct: ${expected}`\n      : `MISSING: \"${expected}\"`;\n\n    if (!ok) {\n      failures.push({\n        position: idx + 1,\n        expected: expected,\n        actual: src || '(no src)'\n      });\n    }\n\n    console.log(`[Image ${idx + 1}] ${ok ? 'PASS' : 'FAIL'} ${src}`);\n  });\n\n  // 2. If any failures → print detailed message\n  if (failures.length > 0) {\n    console.groupCollapsed('%cGallery validation FAILED', 'color:red; font-weight:bold;');\n    console.warn('The following images do NOT contain the required slug:');\n    failures.forEach(f => {\n      console.warn(\n        `Image ${f.position} → Expected slug: \"${f.expected}\"\\n` +\n        `Current URL: ${f.actual}`\n      );\n    });\n    console.warn('Fix the filenames so each URL contains its attribute slug.');\n    console.groupEnd();\n\n    return false;\n  }\n\n  // 3. All good\n  console.log('%cAll images are correct!', 'color:lime; font-weight:bold;');\n  return true;\n}\n\n/* --------------------------------------------------------------\n   5. Run it\n   -------------------------------------------------------------- */\nconst result = areGalleryImagesCorrect();\nconsole.log('%cFINAL RESULT → ' + result, `font-weight:bold; color:${result?'lime':'red'};`);\n\nreturn result",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "691250e6638b7297929e88f5",
+    "suiteId": "6290cfb04b7dbf9dc950dccc",
+    "suiteName": "Melon - Basic WooCommerce Test - UK Site"
+  }
+}

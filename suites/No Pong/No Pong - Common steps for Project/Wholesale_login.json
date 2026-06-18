@@ -1,0 +1,93 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Wholesale login",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "https://no-pong-au-develop.go-vip.net/wholesale-products/",
+  "steps": [
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return '{{role}}' === 'wholesale'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "#username",
+      "value": "qa+gi_wholesale@saucal.com",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return '{{role}}' === 'bulk'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "#username",
+      "value": "qa+gi_wholesale@saucal.com",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return '{{role}}' === 'wholesale'"
+      },
+      "optional": false,
+      "private": true,
+      "sequence": 2,
+      "target": "#password",
+      "value": "%AS2sS%DH$jO&fUgPrA2RGOW",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return '{{role}}' === 'bulk'"
+      },
+      "optional": false,
+      "private": true,
+      "sequence": 3,
+      "target": "#password",
+      "value": "oxL2wi8f@lwQBlZnRdq8WIkj",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "#customer_login > div.u-column1.col-1 > form > p:nth-child(3) button",
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6462a57caf1e488d251eb81a",
+    "suiteId": "6022c8a7262f437a9afa49ca",
+    "suiteName": "No Pong - Common steps for Project"
+  }
+}

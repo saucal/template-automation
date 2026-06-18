@@ -1,0 +1,206 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Subscription Upgrade, Manual renew, Cancel, Change payment MEthod",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"My Subscription\")]"
+        },
+        {
+          "selector": "a[href*=\"/my-account/view-subscription/{{subscriptionID}}/\"]"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const manualRenew = '{{manualRenew}}'\n\nreturn manualRenew === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"Renew now\")]"
+        },
+        {
+          "selector": "a[href*=\"/my-account/?subscription_renewal_early=4992&subscription_renewal=true\"]"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const upgrade = '{{upgrade}}'\n\nreturn upgrade === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"Upgrade or Downgrade\")]"
+        },
+        {
+          "selector": "a[href*=\"/product/variable-subscription/?switch-subscription=\"]"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const upgrade = '{{upgrade}}'\n\nreturn upgrade === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#pa_size"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const upgrade = '{{upgrade}}'\n\nreturn upgrade === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "#pa_size",
+      "value": "l"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const upgrade = '{{upgrade}}'\n\nreturn upgrade === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "#pa_color"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const upgrade = '{{upgrade}}'\n\nreturn upgrade === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "#pa_color",
+      "value": "blue"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const upgrade = '{{upgrade}}'\n\nreturn upgrade === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "//button[contains(text(), \"Switch subscription\")]"
+        },
+        {
+          "selector": "button[type=\"submit\"].single_add_to_cart_button"
+        }
+      ]
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "const upgrade = '{{upgrade}}'\n\nreturn upgrade === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": ".woocommerce-message",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const upgrade = '{{upgrade}}'\n\nreturn upgrade === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "a[href*=\"/checkout\"]"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "676ec1fb35aed64d30777b56",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "{{payDate}}",
+      "variableName": "sessionDate"
+    },
+    {
+      "command": "pause",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "10000",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6915d94c3426ec073142dc90",
+    "suiteId": "676eb96835aed64d3077072a",
+    "suiteName": "MC - Common Steps for Tests"
+  }
+}

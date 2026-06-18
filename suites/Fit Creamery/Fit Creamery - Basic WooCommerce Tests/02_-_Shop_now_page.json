@@ -1,0 +1,96 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "02 - Shop now page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": ".elementor-element.e-con-boxed.e-con.e-parent.elementor-sticky.elementor-section--handles-inside > .e-con-inner > .elementor-element.elementor-element-ee0d55e.e-con-full.e-con.e-child > .elementor-element.elementor-align-right.elementor-widget.elementor-widget-button > .elementor-widget-container > .elementor-button-wrapper > a[href=\"#menu-slide-in\"].elementor-button.elementor-button-link > .elementor-button-content-wrapper > span.elementor-button-text"
+        },
+        {
+          "selector": "//span[contains(text(),'MENU')]"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "nav.elementor-nav-menu--main > .elementor-nav-menu.sm-vertical > li.menu-item.menu-item-type-custom.menu-item-object-custom:nth-of-type(1) > a[href*=\"/pick-your-flavor/\"].elementor-item"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "62974e21a0299821fcec4a32",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "#pick-flavor > .e-con-inner > .elementor-element.elementor-widget__width-initial.elementor-widget.elementor-widget-text-editor > .elementor-widget-container > p > span",
+      "value": "STEP 1:"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "#choose-package > .e-con-inner > .elementor-element.elementor-widget__width-initial.elementor-widget.elementor-widget-text-editor > .elementor-widget-container > p > span",
+      "value": "STEP 2:"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6851d373e5aac3e528aa1d7a",
+    "suiteId": "6851cd91e5aac3e528a9706d",
+    "suiteName": "Fit Creamery - Basic WooCommerce Tests"
+  }
+}

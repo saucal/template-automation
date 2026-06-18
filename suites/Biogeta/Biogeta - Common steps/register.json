@@ -1,0 +1,72 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "register",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": ".elementor-column.elementor-top-column.elementor-element.elementor-element-eb73e4e > .elementor-widget-wrap.elementor-element-populated > div.elementor-element.elementor-icon-list--layout-inline.elementor-align-left.elementor-list-item-link-full_width.elementor-widget.elementor-widget-icon-list:nth-of-type(1) > .elementor-widget-container > .elementor-icon-list-items.elementor-inline-items > li.elementor-icon-list-item.elementor-inline-item:nth-of-type(4) > a[href=\"/mein-konto\"] > .elementor-icon-list-text"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "#reg_email",
+      "value": "{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "button[name=\"register\"]"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": ".woocommerce-info",
+      "value": "Dein Konto mit BIOGETA® verwendet ein temporäres Passwort. Wir haben dir per E-Mail einen Link geschickt, über den du dein Passwort ändern kannst."
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6823acade75bee6181879df0",
+    "suiteId": "6823ac4cab4ff4354d27bfda",
+    "suiteName": "Biogeta - Common steps"
+  }
+}

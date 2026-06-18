@@ -1,0 +1,261 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "6.1.0",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Subscription Menu",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return document.getElementsByClassName(\"woocommerce-MyAccount-navigation-link--subscriptions\")[0].innerText === \"Subscriptions\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "a[href*=\"/my-account/subsriptions/\"]"
+        },
+        {
+          "selector": "li.woocommerce-MyAccount-navigation-link.woocommerce-MyAccount-navigation-link--subscriptions > a"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return document.getElementsByClassName(\"woocommerce-MyAccount-navigation-link--subscriptions\")[0].innerText === \"Subscriptions\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "td.subscription-id > a[href*=\"/my-account/view-subscription/{{subscriptionID}}/\"]",
+      "value": "#{{subscriptionID}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return document.getElementsByClassName(\"woocommerce-MyAccount-navigation-link--subscriptions\")[0].innerText === \"Subscriptions\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "tr.order.woocommerce-orders-table__row:nth-of-type(1) > td.subscription-status.order-status.woocommerce-orders-table__cell.woocommerce-orders-table__cell-subscription-status.woocommerce-orders-table__cell-order-status",
+      "value": "{{subStatus}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let scenario = \"{{scenario}}\"\nreturn document.getElementsByClassName(\"woocommerce-MyAccount-navigation-link--subscriptions\")[0].innerText === \"Subscriptions\" && scenario === \"multi-currency\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "tr.order.woocommerce-orders-table__row:nth-of-type(1) > td.subscription-total > .woocommerce-Price-amount.amount",
+      "value": "{{recurringTotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "a[href*=\"/my-account/view-subscription/{{subscriptionID}}/\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "h1.entry-title",
+      "value": "Subscription #{{subscriptionID}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "table.shop_table.subscription_details > tbody > tr:nth-of-type(1) > td:nth-of-type(2)",
+      "value": "{{subStatus}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": ".subscription-payment-method",
+      "value": "Via {{paymentMethodTitle}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "return \"{{subStatus}}\" === \"On hold\" \n|| \n(\"{{subStatus}}\" === \"Active\" \n&& \n((\"{{manualRenew}}\" === \"Yes\" || \"{{checklogs}}\" === \"upgrade\") && \"{{payment}}\" === \"ach\"))"
+      },
+      "notes": "added back up locator-make this step optional due to ipn response is returning faster than usual",
+      "optional": true,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "a.button[href*=\"change_subscription_to=cancelled\"]"
+        },
+        {
+          "selector": ".subscription_details > tbody > tr:nth-child(7) > td > a.cancel"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "return \"{{subStatus}}\" === \"On hold\" \n|| \n(\"{{subStatus}}\" === \"Active\" \n&& \n((\"{{manualRenew}}\" === \"Yes\" || \"{{checklogs}}\" === \"upgrade\") && \"{{payment}}\" === \"ach\"))"
+      },
+      "notes": "SCART-998 Renew now button not present while order status is on hold",
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "td:nth-child(2) > a.button.subscription_renewal_early",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "return \"{{subStatus}}\" === \"Active\" \n\n&& \"{{manualRenew}}\" !== \"Yes\" && \"{{checklogs}}\" !== \"upgrade\"\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "a.button[href*=\"change_subscription_to=cancelled\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let scenario = \"{{scenario}}\"\nlet manualRenew = \"{{manualRenew}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nlet includeTax = \"{{includeTax}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn scenario === \"multi-currency\" && manualRenew !== \"Yes\" && \n        (\n        includeTax == \"no\"\n        ||\n        (includeTax == \"yes\" && blueSnapVs[0] >= 3 && blueSnapVs[1] >= 2)    \n        )"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "div:not(.wcs_early_renew_modal_totals_table) > table td.product-total > .woocommerce-Price-amount.amount",
+      "value": "{{price}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let scenario = \"{{scenario}}\"\nlet manualRenew = \"{{manualRenew}}\"\nreturn scenario === \"multi-currency\" && manualRenew !== \"Yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount",
+      "value": "{{recurringSubtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let scenario = \"{{scenario}}\"\nlet manualRenew = \"{{manualRenew}}\"\nreturn scenario === \"multi-currency\" && manualRenew !== \"Yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "tfoot > tr:nth-of-type(2) > td > .woocommerce-Price-amount.amount",
+      "value": "{{recurringDiscount}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let scenario = \"{{scenario}}\"\nlet manualRenew = \"{{manualRenew}}\"\nlet includeTax = \"{{includeTax}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn scenario === \"multi-currency\" && manualRenew !== \"Yes\" && \n        (\n            includeTax == \"no\"\n            ||\n            (includeTax == \"yes\" && blueSnapVs[0] >= 3 && blueSnapVs[1] >= 2)\n        )"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "tfoot > tr:nth-of-type(3) > td > .woocommerce-Price-amount.amount",
+      "value": "{{recurringShipping}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let scenario = \"{{scenario}}\"\nlet manualRenew = \"{{manualRenew}}\"\nlet checklogs = \"{{checklogs}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n\nreturn scenario === \"multi-currency\" && \"{{includeTax}}\" === \"no\" && manualRenew !== \"Yes\"\n        "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "tfoot > tr:nth-of-type(4) > td > .woocommerce-Price-amount.amount",
+      "value": "{{recurringTax}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let scenario = \"{{scenario}}\"\nlet manualRenew = \"{{manualRenew}}\"\nlet checklogs = \"{{checklogs}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n\nreturn scenario === \"multi-currency\" && \"{{includeTax}}\" === \"no\" && manualRenew !== \"Yes\"\n        "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "tfoot > tr:nth-of-type(5) > td > .woocommerce-Price-amount.amount",
+      "value": "{{recurringTotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let scenario = \"{{scenario}}\"\nlet manualRenew = \"{{manualRenew}}\"\nreturn scenario === \"multi-currency\"  && \"{{includeTax}}\" === \"yes\" && manualRenew !== \"Yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "tfoot > tr:nth-of-type(4) > td > .woocommerce-Price-amount.amount",
+      "value": "{{recurringTotal}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6182caf6308b6f67448bf5f5",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

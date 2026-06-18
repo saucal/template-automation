@@ -1,0 +1,75 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Accept upsell",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "#flavor",
+      "value": "",
+      "variableName": "flavor"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "#wcf-upsell-offer > .cartflows-pro-elementor__offer-yes-no-inner-wrap > .cartflows-pro-elementor__offer-yes-no-button-content-wrap > .cartflows-pro-elementor__offer-yes-no-button-title-wrap > .cartflows-pro-elementor__offer-yes-no-button-title",
+      "value": "",
+      "variableName": "upsellPrices"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "const text = '{{upsellPrices}}';\nconst prices = text.match(/\\$[0-9]+/g);\n\nreturn prices[0] + '.00'",
+      "variableName": "upsellPrice"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#wcf-upsell-offer > .cartflows-pro-elementor__offer-yes-no-inner-wrap > .cartflows-pro-elementor__offer-yes-no-button-content-wrap > .cartflows-pro-elementor__offer-yes-no-button-title-wrap > .cartflows-pro-elementor__offer-yes-no-button-title"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6851ef4389ec07266b5006f3",
+    "suiteId": "6851d6c715b3a11549160778",
+    "suiteName": "Fit Creamery - Common steps"
+  }
+}

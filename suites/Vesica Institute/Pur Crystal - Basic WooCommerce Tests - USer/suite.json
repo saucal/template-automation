@@ -1,0 +1,157 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "66743b231aac3ea14f1e5cee",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome-traditional",
+    "dataSource": null,
+    "dateCreated": "2024-06-20T14:22:27.010Z",
+    "details": "",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "66684a491aac3ea14f40172c",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "Pur Crystal - Basic WooCommerce Tests - USer",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://stg-purcrystal-staging.kinsta.cloud/",
+    "testCount": 4,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "qty",
+        "value": "2",
+        "private": false,
+        "_id": "66743e1b1aac3ea14f1f5262"
+      },
+      {
+        "name": "Symbol",
+        "value": "$",
+        "private": false,
+        "_id": "66743f2e89e87fd839ce0925"
+      },
+      {
+        "name": "street2",
+        "value": "Ap. 4",
+        "private": false,
+        "_id": "6674447989e87fd839cf18ae"
+      },
+      {
+        "name": "city",
+        "value": "Miami",
+        "private": false,
+        "_id": "6674447989e87fd839cf18af"
+      },
+      {
+        "name": "state",
+        "value": "FL",
+        "private": false,
+        "_id": "6674447989e87fd839cf18b0"
+      },
+      {
+        "name": "phone",
+        "value": "6546546547",
+        "private": false,
+        "_id": "667449911aac3ea14f21e114"
+      },
+      {
+        "name": "stateComplete",
+        "value": "Florida",
+        "private": false,
+        "_id": "6674447989e87fd839cf18b1"
+      },
+      {
+        "name": "zipCode",
+        "value": "33126",
+        "private": false,
+        "_id": "6674447989e87fd839cf18b2"
+      },
+      {
+        "name": "company2",
+        "value": "Shipping Inc.",
+        "private": false,
+        "_id": "6674447989e87fd839cf18b3"
+      },
+      {
+        "name": "countryComplete",
+        "value": "United States (US)",
+        "private": false,
+        "_id": "687833bb2c245b961d7a7824"
+      },
+      {
+        "name": "project",
+        "value": "purCrystal",
+        "private": false,
+        "_id": "6675a0bc89e87fd83905eaaa"
+      },
+      {
+        "name": "street3",
+        "value": "AP. Shipping",
+        "private": false,
+        "_id": "6674447989e87fd839cf18b4"
+      },
+      {
+        "name": "currency",
+        "value": "USD",
+        "private": false,
+        "_id": "66743f2e89e87fd839ce0926"
+      },
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "6674447989e87fd839cf18aa"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "6674447989e87fd839cf18ab"
+      },
+      {
+        "name": "company",
+        "value": "Testing Inc.",
+        "private": false,
+        "_id": "6674447989e87fd839cf18ac"
+      },
+      {
+        "name": "street",
+        "value": "1000 NW 42nd Ave",
+        "private": false,
+        "_id": "6674447989e87fd839cf18ad"
+      },
+      {
+        "name": "shortState",
+        "value": "FL",
+        "private": false,
+        "_id": "66a177d03febff842c96506c"
+      },
+      {
+        "name": "includeTax",
+        "value": "false",
+        "private": false,
+        "_id": "68a5baa3eeab2f751a7d6381"
+      }
+    ],
+    "viewportSize": {
+      "width": 1920,
+      "height": 1080
+    }
+  }
+}

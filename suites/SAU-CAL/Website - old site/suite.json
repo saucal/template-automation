@@ -1,0 +1,48 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "62753f3d4a3a4832a26a269b",
+    "abortOnTestFailure": false,
+    "autoRetry": true,
+    "browser": "chrome-traditional",
+    "dataSource": null,
+    "dateCreated": "2022-05-06T15:31:09.716Z",
+    "details": "Automation test for SauCal's website",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "60478357449ccb4bbf30f5d8",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "Website - old site",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": false,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://saucal-develop.go-vip.net/marketing/",
+    "testCount": 22,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [],
+    "viewportSize": [
+      {
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "width": 360,
+        "height": 567
+      }
+    ]
+  }
+}

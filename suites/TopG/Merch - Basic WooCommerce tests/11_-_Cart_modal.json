@@ -1,0 +1,183 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "11 - Cart modal",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "https://merch.a6da53f9-6187-42f0-b539-f97be755016a.cc06.conves.io/",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": ".site-header-upper-inner-wrap.kadence-sticky-header.item-is-fixed > .site-main-header-wrap > div > .site-container > .site-main-header-inner-wrap.site-header-row > .site-header-main-section-left.site-header-section.site-header-section-left > .site-header-item > div > button[id=\"widget-toggle\"].drawer-toggle.widget-toggle-style-default"
+        },
+        {
+          "selector": "div#main-header > div > div > div > div > div > div.site-container > div > div > div > div > button#widget-toggle"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"ALL ITEMS\")]"
+        },
+        {
+          "selector": "h4.widget-link-h.wp-block-kadence-advancedheading.has-theme-palette-3-color.has-text-color:nth-of-type(3) > a[href*=\"/product-category/all-items/\"]"
+        },
+        {
+          "selector": "section > div > div > h4:nth-child(6) > a"
+        },
+        {
+          "selector": "section > div > div > h4:nth-child(2) > a"
+        }
+      ]
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "ul > li:nth-child(3) > div > h2 > a",
+      "value": "",
+      "variableName": "productName"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "ul > li:nth-child(3) > div > span > span > bdi",
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "a[href*=\"/product/together-we-fight/\"] > .wp-block-topg-nft-product-slider-product__add-to-cart.product-simple.added > div:nth-of-type(2) > .wp-block-topg-nft-product-slider-product__add-to-cart-wrap > .add-to-cart"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "h2.side-cart-header",
+      "value": "Review Cart"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "a[href*=\"/product/together-we-fight/\"].woocommerce-mini-cart-item-description-title",
+      "value": "{{productName}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": ".quantity-display__text",
+      "value": "1"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "let price = \"{{unitPrice}}\";\nprice = price.slice(1);\nprice = parseFloat(price);\nreturn price",
+      "variableName": "parsedPrice"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": ".sc_price__unitprice",
+      "value": "{{parsedPrice}}"
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": ".topg-mini-cart-subtotal > .woocommerce-Price-amount.amount > bdi",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "#mini_cart_coupon_code",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "button[aria-label=\"Remove this item\"]",
+      "value": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "a[href*=\"/checkout/\"].button",
+      "value": "Checkout Securely"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "677db92f2eea53436d50ce7f",
+    "suiteId": "63cfc2a0af1e488d25d070e7",
+    "suiteName": "Merch - Basic WooCommerce tests"
+  }
+}

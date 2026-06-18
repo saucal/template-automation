@@ -1,0 +1,279 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Verify Tax and Totals on Cart and Checkout",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let includeTax = \"{{includeTax}}\"\nreturn includeTax === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": " function convertCurrencyToNumber(currencyString, decimal = '') {\n      // Remove non-numeric characters (except the decimal point and comma)\n      const numericString = currencyString.replace(/[^0-9.,]/g, '');\n      let numericValue;\n      // Replace commas with dots (for consistency) and convert the numeric string to a JavaScript number\n      if (decimal === ',') {\n          numericValue = parseFloat(numericString.replace('.','').replace(',','.'));\n      } else {\n          numericValue = parseFloat(numericString.replace(',',''));\n      }\n      return numericValue;\n  }\n  \n  //let content = document.querySelectorAll(\"td > .woocommerce-Price-amount.amount, span > .woocommerce-Price-amount.amount, .cart-contents .woocommerce-Price-amount.amount\")\nlet priceProductList = document.querySelectorAll(\"tr.cart_item .woocommerce-Price-amount.amount, .wc-block-components-order-summary-item__description .wc-block-components-order-summary-item__individual-price, .wc-block-components-product-details__sign-up-fee > .wc-block-components-product-details__value\")\nlet discountList = document.querySelectorAll(\"tr.cart-discount .woocommerce-Price-amount.amount, .wc-block-components-totals-discount .wc-block-components-formatted-money-amount\")\nlet shippingList = document.querySelectorAll(\"tr.shipping .woocommerce-Price-amount.amount, .wc-block-components-totals-shipping .wc-block-formatted-money-amount\")\n\nlet result = []\n\nresult.push(priceProductList[priceProductList.length-2].textContent)\nresult.push(priceProductList[priceProductList.length-1].textContent)\nresult.push(discountList[0].textContent)\nresult.push(discountList[1].textContent)\nresult.push(shippingList[0]?.textContent || '0')\nresult.push(shippingList[shippingList.length-1]?.textContent || '0')\n\n\n\n  let parts = {{parts}}\n  let n = 0\n  let curr = \"{{curr}}\"\n  let isCurrencySymbol\n  const symbol = parts.find(part => part.type === 'currency').value\n  let length = result.length\n  \n  while (result.length > n) {\n    if (curr === 'JPY') {\n        result[n] = convertCurrencyToNumber(result[n])\n    } else {\n        result[n] = convertCurrencyToNumber(result[n], parts.find(part => part.type === 'decimal').value)\n    }\n    n++\n  }\n  //tax total Calculation\n  let subtotal = result[0]+result[1]\n  let discount = result[2]\n  let shipping = result[4]\n  let recurringSubtotal = result[0]\n  let recurringDiscount = result[3]\n  let recurringShipping = result[5]\n  let tax = (Math.round((subtotal - discount) * 0.1 * 100)/100) + (Math.round(shipping * 0.1 * 100)/100)\n  let recurringTax = (Math.round((recurringSubtotal - recurringDiscount) * 0.1 * 100)/100) + (Math.round(recurringShipping * 0.1 * 100)/100)\n  let total = Intl.NumberFormat('{{locale}}', { style: 'currency', currency: '{{currency}}'}).format((subtotal-discount)+shipping+tax)\n  let recurringTotal = Intl.NumberFormat('{{locale}}', { style: 'currency', currency: '{{currency}}'}).format((recurringSubtotal-recurringDiscount)+recurringShipping+recurringTax)\n  tax = Intl.NumberFormat('{{locale}}', { style: 'currency', currency: '{{currency}}'}).format(tax)\n  recurringTax = Intl.NumberFormat('{{locale}}', { style: 'currency', currency: '{{currency}}'}).format(recurringTax)\n  subtotal = Intl.NumberFormat('{{locale}}', { style: 'currency', currency: '{{currency}}'}).format(subtotal)\n  recurringSubtotal = Intl.NumberFormat('{{locale}}', { style: 'currency', currency: '{{currency}}'}).format(recurringSubtotal)\n  \n  \n  let totals = [tax,recurringTax,total,recurringTotal,subtotal,recurringSubtotal]\n\n  return totals",
+      "variableName": "taxTotals"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let includeTax = \"{{includeTax}}\"\nreturn includeTax === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": " function convertCurrencyToNumber(currencyString, decimal = '') {\n      // Remove non-numeric characters (except the decimal point and comma)\n      const numericString = currencyString.replace(/[^0-9.,]/g, '');\n      let numericValue;\n      // Replace commas with dots (for consistency) and convert the numeric string to a JavaScript number\n      if (decimal === ',') {\n          numericValue = parseFloat(numericString.replace('.','').replace(',','.'));\n      } else {\n          numericValue = parseFloat(numericString.replace(',',''));\n      }\n      return numericValue;\n  }\n  \nlet priceProductList = document.querySelectorAll(\"tr.cart_item .woocommerce-Price-amount.amount, .wc-block-components-order-summary-item__description .wc-block-components-order-summary-item__individual-price, .wc-block-components-product-details__sign-up-fee > .wc-block-components-product-details__value\")\nlet discountList = document.querySelectorAll(\"tr.cart-discount .woocommerce-Price-amount.amount, .wc-block-components-totals-discount .wc-block-components-formatted-money-amount\")\nlet shippingList = document.querySelectorAll(\"tr.shipping .woocommerce-Price-amount.amount, .wc-block-components-totals-shipping .wc-block-formatted-money-amount\")\n\nlet result = []\n\nresult.push(priceProductList[priceProductList.length-2].textContent)\nresult.push(priceProductList[priceProductList.length-1].textContent)\nresult.push(discountList[0].textContent)\nresult.push(discountList[1].textContent)\nresult.push(shippingList[0]?.textContent || '0')\nresult.push(shippingList[shippingList.length-1]?.textContent || '0')\n\n  let parts = {{parts}}\n  let n = 0\n  let curr = \"{{curr}}\"\n  let isCurrencySymbol\n  const symbol = parts.find(part => part.type === 'currency').value\n  let length = result.length\n  \n  while (result.length > n) {\n    if (curr === 'JPY') {\n        result[n] = convertCurrencyToNumber(result[n])\n    } else {\n        result[n] = convertCurrencyToNumber(result[n], parts.find(part => part.type === 'decimal').value)\n    }\n    n++\n  }\n  //tax total Calculation\n  let subtotal = result[0]+result[1]\n  let discount = result[2]\n  let shipping = result[4]\n  let recurringSubtotal = result[0]\n  let recurringDiscount = result[3]\n  let recurringShipping = result[5]\n  let tax = (Math.round(((subtotal - discount)/1.1*0.1)*100)/100)+(Math.round((shipping/1.1*0.1)*100)/100)\n  let recurringTax = (Math.round(((recurringSubtotal-recurringDiscount)/1.1*0.1)*100)/100) + (Math.round((recurringShipping/1.1*0.1)*100)/100)\n  let total = Intl.NumberFormat('{{locale}}', { style: 'currency', currency: '{{currency}}'}).format((subtotal-discount)+shipping)\n  let recurringTotal = Intl.NumberFormat('{{locale}}', { style: 'currency', currency: '{{currency}}'}).format((recurringSubtotal-recurringDiscount)+recurringShipping)\n  tax = Intl.NumberFormat('{{locale}}', { style: 'currency', currency: '{{currency}}'}).format(tax)\n  recurringTax = Intl.NumberFormat('{{locale}}', { style: 'currency', currency: '{{currency}}'}).format(recurringTax)\n  subtotal = Intl.NumberFormat('{{locale}}', { style: 'currency', currency: '{{currency}}'}).format(subtotal)\n  recurringSubtotal = Intl.NumberFormat('{{locale}}', { style: 'currency', currency: '{{currency}}'}).format(recurringSubtotal)\n  \n  \n  let totals = [tax,recurringTax,total,recurringTotal,subtotal,recurringSubtotal]\n\n  return totals",
+      "variableName": "taxTotals"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "let taxTotals = {{taxTotals}}\nreturn taxTotals[0]",
+      "variableName": "tax"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "let taxTotals = {{taxTotals}}\nreturn taxTotals[1]",
+      "variableName": "recurringTax"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "let taxTotals = {{taxTotals}}\nreturn taxTotals[2]",
+      "variableName": "total"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "let taxTotals = {{taxTotals}}\nreturn taxTotals[3]",
+      "variableName": "recurringTotal"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "let taxTotals = {{taxTotals}}\nreturn taxTotals[4]",
+      "variableName": "subtotal"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "let taxTotals = {{taxTotals}}\nreturn taxTotals[5]",
+      "variableName": "recurringSubtotal"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let blueSnapVs = \"{{BlueSnapVs}}\"\nconst blocks = !!document.querySelector('.wc-block-checkout, .wc-block-cart')\nblueSnapVs = blueSnapVs.split('.');\nreturn (blueSnapVs[0] >= 3 && blueSnapVs[1] >= 2 \n        &&\n        !blocks) \n        || \n        (blueSnapVs[0] >= 3 && blueSnapVs[1] >= 5 \n        &&\n        blocks)"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "tr.order-total:not(.recurring-total) strong > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": ".wc-block-components-totals-footer-item .wc-block-formatted-money-amount"
+        }
+      ],
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let blueSnapVs = \"{{BlueSnapVs}}\"\nconst blocks = !!document.querySelector('.wc-block-checkout, .wc-block-cart')\nblueSnapVs = blueSnapVs.split('.');\n\nreturn  !blocks \n        || \n        (blueSnapVs[0] >= 3 && blueSnapVs[1] >= 5 \n        &&\n        blocks)"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "tr.order-total.recurring-total strong > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": ".wcs-recurring-totals-panel__details-total .wc-block-formatted-money-amount"
+        }
+      ],
+      "value": "{{recurringTotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let includeTax = \"{{includeTax}}\"\nreturn includeTax === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": "tr.tax-rate:not(.recurring-total) .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "div.wp-block-woocommerce-checkout-order-summary-totals-block:not(.wcs-recurring-totals-panel__details) > div > div.wc-block-components-totals-taxes > .wc-block-formatted-money-amount"
+        },
+        {
+          "selector": "div.wp-block-woocommerce-cart-order-summary-totals-block:not(.wcs-recurring-totals-panel__details) > div > div.wc-block-components-totals-taxes > .wc-block-formatted-money-amount"
+        }
+      ],
+      "value": "{{tax}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let includeTax = \"{{includeTax}}\"\nreturn includeTax === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": [
+        {
+          "selector": "tr.tax-rate.recurring-total .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": ".wcs-recurring-totals-panel__details .wc-block-components-totals-taxes > .wc-block-formatted-money-amount"
+        }
+      ],
+      "value": "{{recurringTax}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let includeTax = \"{{includeTax}}\"\nreturn includeTax === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": [
+        {
+          "selector": "tr.order-total:not(.recurring-total) small > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": ".wc-block-components-totals-footer-item-tax"
+        }
+      ],
+      "value": "{{tax}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const blocks = !!document.querySelector('.wc-block-checkout, .wc-block-cart')\nlet includeTax = \"{{includeTax}}\"\nreturn !blocks && includeTax === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "tr.order-total.recurring-total small > .woocommerce-Price-amount.amount",
+      "value": "{{recurringTax}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let blueSnapVs = \"{{BlueSnapVs}}\"\nconst blocks = !!document.querySelector('.wc-block-checkout, .wc-block-cart')\nblueSnapVs = blueSnapVs.split('.');\nreturn (blueSnapVs[0] >= 3 && blueSnapVs[1] >= 2 \n        &&\n        !blocks) \n        || \n        (blueSnapVs[0] >= 3 && blueSnapVs[1] >= 5 \n        &&\n        blocks)"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": [
+        {
+          "selector": "tr.cart-subtotal:not(.recurring-total) .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": ".wp-block-woocommerce-cart-order-summary-block > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) .wc-block-components-totals-item__value"
+        }
+      ],
+      "value": "{{subtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let blueSnapVs = \"{{BlueSnapVs}}\"\nconst blocks = !!document.querySelector('.wc-block-checkout, .wc-block-cart')\nblueSnapVs = blueSnapVs.split('.');\n\nreturn  (blueSnapVs[0] >= 3 && blueSnapVs[1] >= 5 \n        &&\n        blocks)"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": ".wc-block-cart-item__total .wc-block-components-product-price__value",
+      "value": "{{subtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let blueSnapVs = \"{{BlueSnapVs}}\"\nconst blocks = !!document.querySelector('.wc-block-checkout, .wc-block-cart')\nblueSnapVs = blueSnapVs.split('.');\n\nreturn  !blocks \n        || \n        (blueSnapVs[0] >= 3 && blueSnapVs[1] >= 5 \n        &&\n        blocks)"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": [
+        {
+          "selector": "tr.cart-subtotal.recurring-total .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": ".wcs-recurring-totals-panel__details > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) .wc-block-components-totals-item__value"
+        }
+      ],
+      "value": "{{recurringSubtotal}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "65c0ddebc80ecf94ff05a002",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

@@ -1,0 +1,434 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "03 - Place order - Backend",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": false,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "yes",
+      "variableName": "admin"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "{{adminUser}}",
+      "variableName": "username"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": true,
+      "sequence": 2,
+      "target": "",
+      "value": "{{adminPass}}",
+      "variableName": "pass"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "63cfc556af1e488d25d11a75",
+      "variableName": ""
+    },
+    {
+      "command": "mouseOver",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "a[href=\"admin.php?page=wc-admin\"] > .wp-menu-name",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "a[href=\"edit.php?post_type=shop_order\"]"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "tr.iedit.author-other.level-0.type-shop_order.hentry:nth-of-type(1) > td.order_total.column-order_total > .tips > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "tr.iedit.author-other.level-0.type-shop_order.hentry:nth-of-type(1) > td:nth-of-type(1) > a:nth-of-type(2)"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": ".woocommerce-order-data__meta",
+      "value": "Payment via Credit / Debit Card",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "#select2-order_status-container",
+      "value": "Completed"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "div.order_data_column:nth-of-type(2) > .address > p:nth-of-type(1)",
+      "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{street2}}\n{{city}}, {{state}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "a[href*=\"mailto:qa+gi_order_\"]",
+      "value": "{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "a[href*=\"tel:\"]",
+      "value": "{{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 14,
+      "target": "div.order_data_column:nth-of-type(3) > .address > p:nth-of-type(1)",
+      "value": "Address:\nNo shipping address set.",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": ".order_note",
+      "value": "Customer provided note:\nTesting Notes",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{days}}' === ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "tbody#order_line_items > tr:nth-of-type(1) a[href*=\"/wp-admin/post.php?post=\"]",
+      "value": "{{prodDesc}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{days}}' === ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "tbody#order_line_items > tr:nth-of-type(2) a[href*=\"/wp-admin/post.php?post=\"]",
+      "value": "{{prodDesc}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{days}}' === ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "tbody#order_line_items > tr:nth-of-type(3) a[href*=\"/wp-admin/post.php?post=\"]",
+      "value": "{{prodDesc}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{days}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "tbody#order_line_items > tr:nth-of-type(1) a[href*=\"/wp-admin/post.php?post=\"]",
+      "value": "{{prodDesc}} - {{days}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{days}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "tbody#order_line_items > tr:nth-of-type(2) a[href*=\"/wp-admin/post.php?post=\"]",
+      "value": "{{prodDesc}} - {{days}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{days}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "tbody#order_line_items > tr:nth-of-type(3) a[href*=\"/wp-admin/post.php?post=\"]",
+      "value": "{{prodDesc}} - {{days}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "tbody#order_line_items > tr:nth-of-type(1) td.item_cost > .view > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "tbody#order_line_items > tr:nth-of-type(2) td.item_cost > .view > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "tbody#order_line_items > tr:nth-of-type(3) td.item_cost > .view > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(1) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{discount}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": ".wc-order-data-row.wc-order-totals-items > table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(2) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{discount}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{discount}}' === ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": ".wc-order-data-row.wc-order-totals-items > table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(2) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{discount}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": ".wc-order-data-row.wc-order-totals-items > table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(3) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "table.wc-order-totals:nth-of-type(2) > tbody > tr:nth-of-type(1) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "tr.item:nth-of-type(2) > td.name > .view > table.display_meta > tbody > tr:nth-of-type(2) > td > p",
+      "value": "{{firstName2}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "tr.item:nth-of-type(2) > td.name > .view > table.display_meta > tbody > tr:nth-of-type(3) > td > p",
+      "value": "{{lastName2}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": "tr.item:nth-of-type(2) > td.name > .view > table.display_meta > tbody > tr:nth-of-type(4) > td > p",
+      "value": "{{phone2}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": "tr.item:nth-of-type(2) > td.name > .view > table.display_meta > tbody > tr:nth-of-type(5) > td > p",
+      "value": "{{email2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": "tr.item:nth-of-type(2) > td.name > .view > table.display_meta > tbody > tr:nth-of-type(6) > td > p",
+      "value": "{{credentials2}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": "tr.item:nth-of-type(3) > td.name > .view > table.display_meta > tbody > tr:nth-of-type(2) > td > p",
+      "value": "{{firstName3}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": "tr.item:nth-of-type(3) > td.name > .view > table.display_meta > tbody > tr:nth-of-type(3) > td > p",
+      "value": "{{lastName3}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 37,
+      "target": "tr.item:nth-of-type(3) > td.name > .view > table.display_meta > tbody > tr:nth-of-type(4) > td > p",
+      "value": "{{phone3}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 38,
+      "target": "tr.item:nth-of-type(3) > td.name > .view > table.display_meta > tbody > tr:nth-of-type(5) > td > p",
+      "value": "{{email3}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 39,
+      "target": "tr.item:nth-of-type(3) > td.name > .view > table.display_meta > tbody > tr:nth-of-type(6) > td > p",
+      "value": "{{credentials3}}"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "67b8819704f525bbb22544b2",
+    "suiteId": "67b8644104f525bbb21ff6f3",
+    "suiteName": "PLS - Place Order"
+  }
+}

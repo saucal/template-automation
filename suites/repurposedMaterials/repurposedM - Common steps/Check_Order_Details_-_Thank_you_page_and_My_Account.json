@@ -1,0 +1,279 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "5.4.1",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": 30000,
+  "name": "Check Order Details - Thank you page and My Account",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "td.product-name",
+      "value": "{{prod_desc}}",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "return '{{product}}' === 'variable'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "6982043cf70f37399aea80e3",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "// Select all <tfoot> elements\nconst tfootSections = document.querySelectorAll('table.woocommerce-table--order-details tfoot');\n\n// Find the correct <tfoot> (one without \"Actions:\" row)\nlet tfootIndex = -1;\nArray.from(tfootSections).forEach((tfoot, index) => {\n  const hasActions = Array.from(tfoot.querySelectorAll('tr > th')).some(th => \n    th.textContent.trim() === 'Actions:'\n  );\n  if (!hasActions) {\n    tfootIndex = index + 1;\n  }\n});\n\nreturn tfootIndex",
+      "variableName": "tfootIndex"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "td.woocommerce-table__product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "table.woocommerce-table > tfoot:nth-of-type({{tfootIndex}})  > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount",
+      "value": "{{subtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "return {{coupon}} === true"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "// Select all <tfoot> elements\nconst tfootSections = document.querySelectorAll('table.woocommerce-table--order-details tfoot');\n\n// Find the correct <tfoot> (one without \"Actions:\" row)\nlet targetTfoot = null;\n\nArray.from(tfootSections).forEach((tfoot, index) => {\n  const hasActions = Array.from(tfoot.querySelectorAll('tr > th')).some(th => \n    th.textContent.trim() === 'Actions:'\n  );\n  if (!hasActions) {\n    targetTfoot = tfoot;\n  }\n});\n\n// Process the target <tfoot>\nlet result;\nlet discountIndex;\nif (targetTfoot) {\n  const tfootElements = targetTfoot.querySelectorAll('tr');\n  \n  Array.from(tfootElements).forEach((tr, index) => {\n    const th = tr.querySelector('th');\n    if (th) {\n      const thText = th.textContent.trim();\n      if (thText === 'Discount:') {\n        discountIndex = index;\n      }\n    }\n  });\n} \n  return discountIndex + 1",
+      "variableName": "discountIndex"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return {{coupon}} === true"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "table.woocommerce-table > tfoot:nth-of-type({{tfootIndex}}) > tr:nth-of-type({{discountIndex}}) > td .woocommerce-Price-amount",
+      "value": "{{discount}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "// Select all <tfoot> elements\nconst tfootSections = document.querySelectorAll('table.woocommerce-table--order-details tfoot');\n\n// Find the correct <tfoot> (one without \"Actions:\" row)\nlet targetTfoot = null;\n\nArray.from(tfootSections).forEach((tfoot, index) => {\n  const hasActions = Array.from(tfoot.querySelectorAll('tr > th')).some(th => \n    th.textContent.trim() === 'Actions:'\n  );\n  if (!hasActions) {\n    targetTfoot = tfoot;\n  }\n});\n\n// Process the target <tfoot>\nlet result;\nlet shippingIndex;\nif (targetTfoot) {\n  const tfootElements = targetTfoot.querySelectorAll('tr');\n  Array.from(tfootElements).forEach((tr, index) => {\n    const th = tr.querySelector('th');\n    if (th) {\n      const thText = th.textContent.trim();\n      if (thText === 'Shipping:') {\n        shippingIndex = index;\n      }\n    }\n  });\n}\n  return shippingIndex + 1",
+      "variableName": "shippingIndex"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "table.woocommerce-table > tfoot:nth-of-type({{tfootIndex}}) > tr:nth-of-type({{shippingIndex}}) > td > .woocommerce-Price-amount"
+        },
+        {
+          "selector": "table.woocommerce-table > tfoot:nth-of-type({{tfootIndex}}) > tr:nth-of-type({{shippingIndex}}) > td"
+        }
+      ],
+      "value": "{{shippingPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "// Select all <tfoot> elements\nconst tfootSections = document.querySelectorAll('table.woocommerce-table--order-details tfoot');\n\n// Find the correct <tfoot> (one without \"Actions:\" row)\nlet targetTfoot = null;\n\nArray.from(tfootSections).forEach((tfoot, index) => {\n  const hasActions = Array.from(tfoot.querySelectorAll('tr > th')).some(th => \n    th.textContent.trim() === 'Actions:'\n  );\n  if (!hasActions) {\n    targetTfoot = tfoot;\n  }\n});\n\n// Process the target <tfoot>\nlet result;\nlet taxIndex;\nif (targetTfoot) {\n  const tfootElements = targetTfoot.querySelectorAll('tr');\n\n  Array.from(tfootElements).forEach((tr, index) => {\n    const th = tr.querySelector('th');\n    if (th) {\n      const thText = th.textContent.trim();\n      if (thText.includes('Fee')) {\n        taxIndex = index;\n      }\n    }\n  });\n}\n  return taxIndex + 1",
+      "variableName": "feeIndex"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "table.woocommerce-table > tfoot:nth-of-type({{tfootIndex}}) > tr:nth-of-type({{feeIndex}}) > td > .woocommerce-Price-amount.amount",
+      "value": "{{fee}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "// Select all <tfoot> elements\nconst tfootSections = document.querySelectorAll('table.woocommerce-table--order-details tfoot');\n\n// Find the correct <tfoot> (one without \"Actions:\" row)\nlet targetTfoot = null;\n\nArray.from(tfootSections).forEach((tfoot, index) => {\n  const hasActions = Array.from(tfoot.querySelectorAll('tr > th')).some(th => \n    th.textContent.trim() === 'Actions:'\n  );\n  if (!hasActions) {\n    targetTfoot = tfoot;\n  }\n});\n\n// Process the target <tfoot>\nlet result;\nlet taxIndex;\nif (targetTfoot) {\n  const tfootElements = targetTfoot.querySelectorAll('tr');\n\n  Array.from(tfootElements).forEach((tr, index) => {\n    const th = tr.querySelector('th');\n    if (th) {\n      const thText = th.textContent.trim();\n      if (thText === 'Tax:') {\n        taxIndex = index;\n      }\n    }\n  });\n}\n  return taxIndex + 1",
+      "variableName": "taxIndex"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "table.woocommerce-table > tfoot:nth-of-type({{tfootIndex}}) > tr:nth-of-type({{taxIndex}}) > td > .woocommerce-Price-amount.amount",
+      "value": "{{taxPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "// Select all <tfoot> elements\nconst tfootSections = document.querySelectorAll('table.woocommerce-table--order-details tfoot');\n\n// Find the correct <tfoot> (one without \"Actions:\" row)\nlet targetTfoot = null;\n\nArray.from(tfootSections).forEach((tfoot, index) => {\n  const hasActions = Array.from(tfoot.querySelectorAll('tr > th')).some(th => \n    th.textContent.trim() === 'Actions:'\n  );\n  if (!hasActions) {\n    targetTfoot = tfoot;\n  }\n});\n\n// Process the target <tfoot>\nlet result;\nlet paymentIndex;\nif (targetTfoot) {\n  const tfootElements = targetTfoot.querySelectorAll('tr');\n  \n  Array.from(tfootElements).forEach((tr, index) => {\n    const th = tr.querySelector('th');\n    if (th) {\n      const thText = th.textContent.trim();\n      if (thText === 'Payment method:') {\n        paymentIndex = index;\n      }\n    }\n  });\n}\n  return paymentIndex + 1",
+      "variableName": "paymentIndex"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "table.woocommerce-table > tfoot:nth-of-type({{tfootIndex}}) > tr:nth-of-type({{paymentIndex}}) > td",
+      "value": "{{paymentMethod}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "// Select all <tfoot> elements\nconst tfootSections = document.querySelectorAll('table.woocommerce-table--order-details tfoot');\n\n// Find the correct <tfoot> (one without \"Actions:\" row)\nlet targetTfoot = null;\n\nArray.from(tfootSections).forEach((tfoot, index) => {\n  const hasActions = Array.from(tfoot.querySelectorAll('tr > th')).some(th => \n    th.textContent.trim() === 'Actions:'\n  );\n  if (!hasActions) {\n    targetTfoot = tfoot;\n  }\n});\n\n// Process the target <tfoot>\nlet result;\nlet totalIndex;\nif (targetTfoot) {\n  const tfootElements = targetTfoot.querySelectorAll('tr');\n  Array.from(tfootElements).forEach((tr, index) => {\n    const th = tr.querySelector('th');\n    if (th) {\n      const thText = th.textContent.trim();\n      if (thText === 'Total:') {\n        totalIndex = index;\n      }\n    }\n  });\n}\n  return totalIndex + 1",
+      "variableName": "totalIndex"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "table.woocommerce-table > tfoot:nth-of-type({{tfootIndex}}) > tr:nth-of-type({{totalIndex}}) > td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "",
+      "value": "// Select all <tfoot> elements\nconst tfootSections = document.querySelectorAll('table.woocommerce-table--order-details tfoot');\n\n// Find the correct <tfoot> (one without \"Actions:\" row)\nlet targetTfoot = null;\n\nArray.from(tfootSections).forEach((tfoot, index) => {\n  const hasActions = Array.from(tfoot.querySelectorAll('tr > th')).some(th => \n    th.textContent.trim() === 'Actions:'\n  );\n  if (!hasActions) {\n    targetTfoot = tfoot;\n  }\n});\n\n// Process the target <tfoot>\nlet result;\nlet noteIndex;\nif (targetTfoot) {\n  const tfootElements = targetTfoot.querySelectorAll('tr');\n  \n  Array.from(tfootElements).forEach((tr, index) => {\n    const th = tr.querySelector('th');\n    if (th) {\n      const thText = th.textContent.trim();\n      if (thText === 'Note:') {\n        noteIndex = index;\n      }\n    }\n  });\n} \n  return noteIndex + 1",
+      "variableName": "noteIndex"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "table.woocommerce-table > tfoot:nth-of-type({{tfootIndex}}) > tr:nth-of-type({{noteIndex}}) > td",
+      "value": "Order Note for Testing this field",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "",
+      "value": "let discountIndex;\nif ({{coupon}}) {\n    discountIndex = Number('{{discountIndex}}');\n} else {\n    discountIndex = null\n}// null or -1 if not present\nconst shippingIndex = {{shippingIndex}};\nconst feeIndex = {{feeIndex}};\nconst taxIndices = [{{taxIndex}}]; \nconst paymentIndex = {{paymentIndex}};\nconst totalIndex = {{totalIndex}};\nconst noteIndex = {{noteIndex}};\n\n\nconst orderGroups = [\n    [discountIndex].filter(index => index !== null && index !== -1), // Discount:, Points Redeemed: (optional, any order)\n    [shippingIndex],// Shipping:\n    [feeIndex],//Fee\n    taxIndices, // Tax fields (optional, any order)\n    [paymentIndex], // Payment method:\n    [totalIndex], // Total:\n    [noteIndex] // Note: must be last\n  ].filter(group => group.length > 0); \n\n  // Check order by ensuring each group's indices are greater than the previous group's\n  let maxIndex = -1;\n  let result = true;\n  for (let i = 0; i < orderGroups.length; i++) {\n    const group = orderGroups[i];\n    const minGroupIndex = Math.min(...group);\n    if (minGroupIndex <= maxIndex) {\n      console.log(`Out of order: Group ${i + 1} (indices: ${group}) appears before or at position of previous group (max index: ${maxIndex})`);\n      result = false;\n    }\n    maxIndex = Math.max(...group);\n  }\n\nreturn result\n",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": [
+        {
+          "selector": ".woocommerce-column.woocommerce-column--1 > address"
+        },
+        {
+          "selector": "section.woocommerce-customer-details > address"
+        }
+      ],
+      "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{street2}}\n{{city}}, {{state}} {{zipCode}}\n\n{{phone}}\n\n{{email}}\n\nTax ID:",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": ".woocommerce-column.woocommerce-column--2 > address",
+      "value": "{{firstName}} {{lastName2}}\n{{company2}}\n{{street3}}\n{{street4}}\n{{city}}, {{state}} {{zipCode}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6982205b76f083a5652e9260",
+    "suiteId": "6981e66cf70f37399ae4ee04",
+    "suiteName": "repurposedM - Common steps"
+  }
+}

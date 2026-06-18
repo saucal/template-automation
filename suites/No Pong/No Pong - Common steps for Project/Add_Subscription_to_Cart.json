@@ -1,0 +1,242 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.1",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Add Subscription to Cart",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": "ap-southeast-2",
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "li.menu-item a[href*=\"/monthly-club/\"]"
+        },
+        {
+          "selector": "//*[@id='menu-main-menu']/li[contains(@class, 'menu-item') and contains(@class, 'menu-item-type-post_type') and contains(@class, 'menu-item-object-page')]/a[contains(text(),'Subscriptions')]"
+        },
+        {
+          "selector": "//a[contains(text(),'Monthly Club')]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "const elements = document.querySelectorAll('#main ul.wc-block-grid__products > li a[href*=\"?add-to-cart=\"]')\nconst length = elements.length;\nconst randomNumber = Math.floor(Math.random() * length) + 1;\n\nreturn randomNumber",
+      "variableName": "n"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#main ul > li:nth-child({{n}}) > a > div.wc-block-grid__product-title",
+      "value": "",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "ul > li:nth-child({{n}}) > div.wc-block-grid__product-price.price > span.woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "ul > li:nth-child({{n}}) > div.wc-block-grid__product-price.price > span.subscription-details > span",
+      "value": "",
+      "variableName": "signUpFee"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "ul.wc-block-grid__products > li:nth-of-type({{n}}) a[href*=\"?add-to-cart=\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const siteTitle = document.title;\nif (siteTitle != \"Cart • No Pong\"){\n    return true;\n}"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "#masthead > div > div > ul > li > a"
+        },
+        {
+          "selector": "#masthead > div > ul > li > a"
+        }
+      ],
+      "value": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "6887dea4e5d3587e150d8b1a",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "2",
+      "variableName": "qty"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "td.product-quantity input[aria-label=\"Product quantity\"]",
+      "value": "{{qty}}"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": ".subscription-price > .subscription-details"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "6887df882c245b961dce64cf",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "",
+      "value": "const price = parseFloat(\"{{unitPrice}}\".replace(\"{{Symbol}}\",\"\").replaceAll(\",\",\"\").trim());\nconst subProdPrice = parseFloat(\"{{subProdPrice}}\".replace(\"{{Symbol}}\",\"\").replaceAll(\",\",\"\").trim());\nconst signUpFee = parseFloat(\"{{signUpFee}}\".replace(\"{{Symbol}}\",\"\").replaceAll(\",\",\"\").trim());\nconst totalSignUpFee = parseFloat(\"{{totalSignUpFee}}\".replace(\"{{Symbol}}\",\"\").replaceAll(\",\",\"\").trim());\nconst subtotal = parseFloat(\"{{subtotalPrice}}\".replace(\"{{Symbol}}\",\"\").replaceAll(\",\",\"\").trim());\nconst total = parseFloat(\"{{total}}\".replace(\"{{Symbol}}\",\"\").replaceAll(\",\",\"\").trim());\nconst recurringSubtotal = parseFloat(\"{{recurringSubtotal}}\".replace(\"{{Symbol}}\",\"\").replaceAll(\",\",\"\").trim());\nconst recurringTotal = parseFloat(\"{{recurringTotal}}\".replace(\"{{Symbol}}\",\"\").replaceAll(\",\",\"\").trim());\nlet taxPrice\nlet recurringTax\nif ('{{country}}' !== 'AU') {\n    taxPrice = parseFloat(\"{{taxPrice}}\".replace(\"{{Symbol}}\",\"\").replaceAll(\",\",\"\").trim());\n    recurringTax = parseFloat(\"{{recurringTax}}\".replace(\"{{Symbol}}\",\"\").replaceAll(\",\",\"\").trim());\n} else {\n    taxPrice = 0\n    recurringTax = 0\n}\nlet shippingPrice\nif ('{{shippingPrice}}'.includes('Lettermail (untracked)') || '{{shippingPrice}}'.includes('Regular')) {\n    shippingPrice = 0\n} else {\n    shippingPrice = parseFloat(\"{{shippingPrice}}\".replace(\"{{Symbol}}\",\"\").replaceAll(\",\",\"\").trim());\n\n}\nlet recurringShipping\nif ('{{recurringShipping}}'.includes('Free')) {\n    recurringShipping = 0\n} else {\n    recurringShipping  = parseFloat(\"{{recurringShipping}}\".replace(\"{{Symbol}}\",\"\").replaceAll(\",\",\"\").trim());\n}\n\nconst qty = {{qty}};\nconst subProdPrice2 = price * qty;\nconst totalSignUpFee2 = signUpFee * qty;\nconst subtotal2 = subProdPrice2 + totalSignUpFee2;\nconst total2 = parseFloat((subtotal2 + taxPrice + shippingPrice).toFixed(2))\nconst recurringTotal2 = parseFloat((recurringSubtotal + recurringTax + recurringShipping).toFixed(2))\n\nreturn subProdPrice === subProdPrice2 \n        && subtotal2 === subtotal \n        && total2 === total\n        && subProdPrice2 === recurringSubtotal\n        && recurringTotal2 === recurringTotal\n        \n        \n        \n        ",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "688150c72c245b961d5728ab",
+      "variableName": ""
+    },
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "",
+      "value": "{{startUrl}}check-out/?saucal-skip-captcha=1",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "h1.entry-title",
+      "value": "Checkout",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "688762032c245b961da6b5c4",
+    "suiteId": "6022c8a7262f437a9afa49ca",
+    "suiteName": "No Pong - Common steps for Project"
+  }
+}

@@ -1,0 +1,182 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "6927085c638b7297922a15b4",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2025-11-26T14:02:04.495Z",
+    "details": "",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "68caab6d189a381f8eff19ea",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "Hawk Ridge - Place order Backend + Email - CC",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "us-west-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "screenshotExclusions": "",
+    "startUrl": "https://hawkridgesystg.wpengine.com/",
+    "testCount": 8,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "project",
+        "value": "hawkRidge",
+        "private": false,
+        "_id": "671ba803f7c3927cffd4872d"
+      },
+      {
+        "name": "zipCode",
+        "value": "94102-5949",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf876f"
+      },
+      {
+        "name": "country",
+        "value": "US",
+        "private": false,
+        "_id": "68cab4ca576a0f46b500ccca"
+      },
+      {
+        "name": "lastName2",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8771"
+      },
+      {
+        "name": "street3",
+        "value": "298 Gough St",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8773"
+      },
+      {
+        "name": "street4",
+        "value": "5th Floor",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8774"
+      },
+      {
+        "name": "company2",
+        "value": "Shipping Inc.",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8772"
+      },
+      {
+        "name": "password2",
+        "value": "GYJ1cth1gkq.hqr5nab",
+        "private": true,
+        "_id": "671bab60f7c3927cffd53f08"
+      },
+      {
+        "name": "Symbol",
+        "value": "$",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8767"
+      },
+      {
+        "name": "password",
+        "value": "GYJ1cth1gkq.hqr5nab",
+        "private": true,
+        "_id": "671bab60f7c3927cffd53f07"
+      },
+      {
+        "name": "orderNote",
+        "value": "Testing Note",
+        "private": false,
+        "_id": "68cbf4f2189a381f8e37849c"
+      },
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8768"
+      },
+      {
+        "name": "company",
+        "value": "Test Inc.",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf876a"
+      },
+      {
+        "name": "state",
+        "value": "CA",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf876e"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8769"
+      },
+      {
+        "name": "payment",
+        "value": "stripe",
+        "private": false,
+        "_id": "69270dc9638b7297922b8edb"
+      },
+      {
+        "name": "street",
+        "value": "1658 Market St",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf876b"
+      },
+      {
+        "name": "poNumber",
+        "value": "321123123",
+        "private": false,
+        "_id": "68cbf7f4189a381f8e38378b"
+      },
+      {
+        "name": "street2",
+        "value": "Ap. 4",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf876c"
+      },
+      {
+        "name": "city",
+        "value": "San Francisco",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf876d"
+      },
+      {
+        "name": "stateComplete",
+        "value": "California",
+        "private": false,
+        "_id": "68cab4ca576a0f46b500ccc9"
+      },
+      {
+        "name": "countryComplete",
+        "value": "United States (US)",
+        "private": false,
+        "_id": "68cab4ca576a0f46b500cccb"
+      },
+      {
+        "name": "phone",
+        "value": "17412345678",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8770"
+      }
+    ],
+    "viewportSize": {
+      "width": 1920,
+      "height": 1080
+    }
+  }
+}

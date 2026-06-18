@@ -1,0 +1,723 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.2",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "18 - AU - Wholesale Place Order",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "{{startUrl}}wholesale-products/",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "6462a57caf1e488d251eb81a",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let notEmpty = document.getElementsByClassName('count');\nnotEmpty = notEmpty[1].innerText;\nnotEmpty = Number(notEmpty);\nreturn notEmpty > 0;"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "663bcce31aac3ea14f05653a",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "li:nth-of-type(1) div.wc-block-grid__product-title",
+      "value": "",
+      "variableName": "prodDesc"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "let str = \"{{prodDesc}}\";\nlet upperStr = str.toUpperCase();\nupperStr = upperStr.replace('–','-')\nreturn upperStr",
+      "variableName": "prodDesc"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "li:nth-of-type(1) a[href*='add-to-cart=']",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const siteTitle = document.title;\nif (siteTitle != \"Cart • No Pong\"){\n    return true;\n}"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "#masthead > div ul > li > a",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "xpath=//a[contains(text(), \"Calculate shipping\")]"
+        },
+        {
+          "selector": "a[href=\"#\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "button[name=\"calc_shipping\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "td > p",
+      "value": "Shipping to STEPNEY South Australia 5069.",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": [
+        {
+          "selector": "xpath=//a[contains(text(), \"← Continue shopping\")]"
+        },
+        {
+          "selector": "a[href*=\"/wholesale-products/\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "li:nth-of-type(4) div.wc-block-grid__product-title",
+      "value": "",
+      "variableName": "prodDesc2"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "let str = \"{{prodDesc2}}\";\nlet upperStr = str.toUpperCase();\nupperStr = upperStr.replace('–','-')\nreturn upperStr",
+      "variableName": "prodDesc2"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "li:nth-of-type(4) a[href*='add-to-cart=']",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const siteTitle = document.title;\r\nif (siteTitle != \"Cart • No Pong\"){\r\n    return true;\r\n}"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "#masthead > div ul > li > a",
+      "value": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "tr.woocommerce-cart-form__cart-item.cart_item:nth-of-type(1) > td.product-name",
+      "value": "{{prodDesc}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "tr.woocommerce-cart-form__cart-item.cart_item:nth-of-type(2) > td.product-name",
+      "value": "{{prodDesc2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": [
+        {
+          "selector": "tr.woocommerce-cart-form__cart-item.cart_item:nth-of-type(1) > td.product-quantity > .quantity > input[title=\"Qty\"][type=\"number\"].input-text.qty.text"
+        },
+        {
+          "selector": "(//input[@class='input-text qty text'])[1]"
+        }
+      ],
+      "value": "13",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "div .nopong-wc-table-wrapper",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": [
+        {
+          "selector": "tr.woocommerce-cart-form__cart-item.cart_item:nth-of-type(2) > td.product-quantity > .quantity > input[title=\"Qty\"][type=\"number\"].input-text.qty.text"
+        },
+        {
+          "selector": "(//input[@class='input-text qty text'])[2]"
+        }
+      ],
+      "value": "17",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "div .nopong-wc-table-wrapper",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "tr.shipping > td",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": [
+        {
+          "selector": "tr.woocommerce-cart-form__cart-item.cart_item:nth-of-type(2) > td.product-quantity > .quantity > input[title=\"Qty\"][type=\"number\"].input-text.qty.text"
+        },
+        {
+          "selector": "(//input[@class='input-text qty text'])[2]"
+        }
+      ],
+      "value": "5",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "div .nopong-wc-table-wrapper",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": [
+        {
+          "selector": "tr.woocommerce-cart-form__cart-item.cart_item:nth-of-type(1) > td.product-quantity > .quantity > input[title=\"Qty\"][type=\"number\"].input-text.qty.text"
+        },
+        {
+          "selector": "(//input[@class='input-text qty text'])[1]"
+        }
+      ],
+      "value": "9",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "h1.entry-title",
+      "value": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "tr.npl-credits-granted",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": ".npl-tooltip",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": [
+        {
+          "selector": "xpath=//a[contains(text(), \"Proceed to checkout\")]"
+        },
+        {
+          "selector": "a[href*=\"/check-out/\"].checkout-button"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": "h1.entry-title",
+      "value": "CHECKOUT",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": "tr.npl-credits-granted",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 37,
+      "target": ".npl-tooltip",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 38,
+      "target": "iframe[src*=\"js.stripe.com\"] input[name=\"number\"]",
+      "value": "4242 4242 4242 4242",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 39,
+      "target": "iframe[src*=\"js.stripe.com\"] input[name=\"expiry\"]",
+      "value": "12 / 28",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 40,
+      "target": "iframe[src*=\"js.stripe.com\"] input[name=\"cvc\"]",
+      "value": "123",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 41,
+      "target": "#terms",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 42,
+      "target": [
+        {
+          "selector": "xpath=//button[contains(text(), \"Place order\")]"
+        },
+        {
+          "selector": "#place_order"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 43,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 44,
+      "target": ".woocommerce-notice",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 45,
+      "target": [
+        {
+          "selector": "a[href*=\"href=\"/product/new-shelf-ready-tray-no-pong-cool-lavender-vegan/\"]"
+        },
+        {
+          "selector": "section.woocommerce-order-details > div > table > tbody > tr:nth-child(1) > td.woocommerce-table__product-name.product-name > a"
+        }
+      ],
+      "value": "{{prodDesc}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 46,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(1) > td.woocommerce-table__product-name.product-name > strong.product-quantity",
+      "value": "× 9",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 47,
+      "target": [
+        {
+          "selector": "a[href*=\"/product/no-pong-bicarb-free-54-unit-carton/\"]"
+        },
+        {
+          "selector": "tr:nth-child(2) > td > a"
+        }
+      ],
+      "value": "{{prodDesc2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 48,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(2) > td.woocommerce-table__product-name.product-name > strong.product-quantity",
+      "value": "× 1",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 49,
+      "target": "xpath=//tr/th[contains(text(),'Points:')]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 50,
+      "target": [
+        {
+          "selector": "a[href*=\"/my-account/\"].label"
+        },
+        {
+          "selector": "a[href*=\"/my-account/\"]"
+        }
+      ]
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 51,
+      "target": [
+        {
+          "selector": "div.woocommerce-account-dashboard > div > div:nth-child(2) p:nth-child(1)"
+        },
+        {
+          "selector": "div.woocommerce-account-dashboard > div > div:nth-child(2) > p"
+        }
+      ],
+      "value": "You currently have no points. Earn some by making purchases to unlock future rewards."
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 52,
+      "target": [
+        {
+          "selector": "div.woocommerce-account-dashboard > div > div:nth-child(2) p:nth-child(1)"
+        },
+        {
+          "selector": "div.woocommerce-account-dashboard > div > div:nth-child(2) > p"
+        }
+      ],
+      "value": "You have 0 points, which are now worth $0.00."
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 53,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"Loyalty Program\")]"
+        },
+        {
+          "selector": "a[href*=\"/my-account/loyalty/\"]"
+        }
+      ]
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 54,
+      "target": [
+        {
+          "selector": ".nopong-loyalty-credits .nopong-loyalty-value"
+        },
+        {
+          "selector": "#post-8 > div > div > div > div:nth-child(3) > p > strong:nth-child(1)"
+        }
+      ],
+      "value": "0"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 55,
+      "target": [
+        {
+          "selector": ".nopong-loyalty-credits-currency-value .woocommerce-Price-amount"
+        },
+        {
+          "selector": "div > div > div > div:nth-child(3) > p > strong:nth-child(2) > span"
+        }
+      ],
+      "value": "$0.00",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 56,
+      "target": [
+        {
+          "selector": ".nopong-loyalty-referrals > p"
+        },
+        {
+          "selector": "div > div > div > div:nth-child(4) > p"
+        }
+      ],
+      "value": "Referrals are currently disabled for your account."
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "67c09520c4c19f03ef9d2190",
+    "suiteId": "67c09520c4c19f03ef9d2168",
+    "suiteName": "AU - Wholesale"
+  }
+}

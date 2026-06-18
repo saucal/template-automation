@@ -1,0 +1,150 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "6478f36c0bf912e078bcadeb",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2023-06-01T19:37:16.811Z",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "60ddaaa91f48295b52725840",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "LIVE - Hunchie - Tests",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://hunchie.shop/",
+    "testCount": 5,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "60ddbeb61f48295b52734d75"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "60ddbeb61f48295b52734d76"
+      },
+      {
+        "name": "street",
+        "value": "123 False Street",
+        "private": false,
+        "_id": "60ddbeb61f48295b52734d77"
+      },
+      {
+        "name": "street3",
+        "value": "123 False Shipping",
+        "private": false,
+        "_id": "60ddbeb61f48295b52734d78"
+      },
+      {
+        "name": "city",
+        "value": "Calgary",
+        "private": false,
+        "_id": "60ddbeb61f48295b52734d79"
+      },
+      {
+        "name": "zipCode",
+        "value": "T2T 0A4",
+        "private": false,
+        "_id": "60ddbeb61f48295b52734d7a"
+      },
+      {
+        "name": "phone",
+        "value": "6135465467",
+        "private": false,
+        "_id": "60ddbeb61f48295b52734d7b"
+      },
+      {
+        "name": "password",
+        "value": "fric2171Biot",
+        "private": true,
+        "_id": "60ddbeb61f48295b52734d7c"
+      },
+      {
+        "name": "password2",
+        "value": "fric2172Biot",
+        "private": true,
+        "_id": "60ddbeb61f48295b52734d7d"
+      },
+      {
+        "name": "lastName2",
+        "value": "{{alphanumeric}} Ship",
+        "private": false,
+        "_id": "60ddbeb61f48295b52734d7e"
+      },
+      {
+        "name": "project",
+        "value": "hunchie",
+        "private": false,
+        "_id": "627ab58e97a3bd06e0fdc649"
+      },
+      {
+        "name": "countryComplete",
+        "value": "Canada",
+        "private": false,
+        "_id": "627abe4d26939cd046ddafb0"
+      },
+      {
+        "name": "state",
+        "value": "AB",
+        "private": false,
+        "_id": "627abe4d26939cd046ddafb1"
+      },
+      {
+        "name": "stateComplete",
+        "value": "Alberta",
+        "private": false,
+        "_id": "627abe4d26939cd046ddafb2"
+      },
+      {
+        "name": "Symbol",
+        "value": "C$",
+        "private": false,
+        "_id": "627abfee26939cd046ddf906"
+      },
+      {
+        "name": "admin_user",
+        "value": "saucal",
+        "private": false,
+        "_id": "6477abe90bf912e0786b99b5"
+      },
+      {
+        "name": "admin_pass",
+        "value": "i0x)rJauML*t6eVEP(xRhv5L",
+        "private": true,
+        "_id": "6477abe90bf912e0786b99b6"
+      },
+      {
+        "name": "country",
+        "value": "CA",
+        "private": false,
+        "_id": "6477b0925bf68ad286262479"
+      }
+    ],
+    "viewportSize": {
+      "width": 1440,
+      "height": 900
+    }
+  }
+}

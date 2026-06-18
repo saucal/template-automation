@@ -1,0 +1,199 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "03 - Simple Product Page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"talkbox\" && \"{{project}}\" !== \"leggari\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "646b8d2a33135384bb052b2f",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"talkbox\" && \"{{project}}\" !== \"icg\" \n&& \"{{project}}\" !== \"leggari\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "li.product-type-simple > a[href*=\"/product/\"] > img",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return \"{{project}}\" == \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "div.trade-product__title > h3 > a[href*=\"/product/\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "refresh",
+      "condition": {
+        "statement": "return \"{{project}}\" == \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "#site-navigation > div > ul > li:nth-child(2)",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"talkbox\""
+      },
+      "notes": "",
+      "optional": true,
+      "private": false,
+      "sequence": 5,
+      "target": "div > div:nth-child(2) > div > div > div > div > div > div > a.kb-button",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "notes": "added selector for new talkbox product page",
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "h1.product_title"
+        },
+        {
+          "selector": "h3.product_title"
+        },
+        {
+          "selector": "p > mark.has-inline-color > em"
+        }
+      ],
+      "value": "",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "return \"{{project}}\" == \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "let prod_desc = \"{{prod_desc}}\"\nprod_desc = prod_desc.replace(/–/g, \"-\");\nreturn prod_desc",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"icg\" && \"{{project}}\" != \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "div.summary > p.price > ins > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "div.summary > p.price > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "div.summary > p.price > span > ins > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "div.summary > p.price > span > .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "return \"{{project}}\" == \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": ".icg-price > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "let price = document.querySelector('h2 > strong > mark.has-inline-color').textContent\nprice = price.slice(0,3)\nreturn price",
+      "variableName": "unitPrice"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "646b8d2a33135384bb052b30",
+    "suiteId": "646b8d2a33135384bb052b1c",
+    "suiteName": "Template WooCommerce Tests"
+  }
+}

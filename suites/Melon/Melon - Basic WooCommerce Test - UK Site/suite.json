@@ -1,0 +1,168 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "6290cfb04b7dbf9dc950dccc",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2022-05-27T13:18:40.213Z",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "6290cec74b7dbf9dc9508e51",
+    "globalStepDelay": 750,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 20000,
+    "name": "Melon - Basic WooCommerce Test - UK Site",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "eu-west-2",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://melonoptics-maintenance.mystagingwebsite.com/",
+    "testCount": 21,
+    "testFrequency": 0,
+    "viewportSize": {
+      "width": 1440,
+      "height": 900
+    },
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "Symbol",
+        "value": "£",
+        "private": false,
+        "_id": "6290f36a4b7dbf9dc959f049"
+      },
+      {
+        "name": "project",
+        "value": "melon",
+        "private": false,
+        "_id": "6290f9224b7dbf9dc95b1c37"
+      },
+      {
+        "name": "city",
+        "value": "Cardiff",
+        "private": false,
+        "_id": "6290f9224b7dbf9dc95b1c3c"
+      },
+      {
+        "name": "zipCode",
+        "value": "CF10 1DY",
+        "private": false,
+        "_id": "6290f9224b7dbf9dc95b1c3d"
+      },
+      {
+        "name": "phone",
+        "value": "3453453454",
+        "private": false,
+        "_id": "6290f9224b7dbf9dc95b1c3e"
+      },
+      {
+        "name": "year",
+        "value": "26",
+        "private": false,
+        "_id": "678e63692a21c5b64b8a0a03"
+      },
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "6290f9224b7dbf9dc95b1c3f"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "6290f9224b7dbf9dc95b1c40"
+      },
+      {
+        "name": "street3",
+        "value": "123 Shipping",
+        "private": false,
+        "_id": "6290f9224b7dbf9dc95b1c41"
+      },
+      {
+        "name": "street4",
+        "value": "block 1",
+        "private": false,
+        "_id": "6290f9224b7dbf9dc95b1c42"
+      },
+      {
+        "name": "company",
+        "value": "Testing SA",
+        "private": false,
+        "_id": "6290f9224b7dbf9dc95b1c43"
+      },
+      {
+        "name": "company2",
+        "value": "Testing Shipping",
+        "private": false,
+        "_id": "6290f9224b7dbf9dc95b1c44"
+      },
+      {
+        "name": "url",
+        "value": "https://melonoptics-maintenance.mystagingwebsite.com/",
+        "private": false,
+        "_id": "62fd0a53cd380e119c4e7289"
+      },
+      {
+        "name": "lastName2",
+        "value": "{{alphanumeric}} Shipp",
+        "private": false,
+        "_id": "6290f9f7a0299821fcfde4c9"
+      },
+      {
+        "name": "currency",
+        "value": "GBP",
+        "private": false,
+        "_id": "6324d9d20ffb6127ca25958e"
+      },
+      {
+        "name": "password",
+        "value": "fric2171Biot",
+        "private": true,
+        "_id": "639207aea67dec3a12b63164"
+      },
+      {
+        "name": "password2",
+        "value": "fric2172Biot",
+        "private": true,
+        "_id": "639207aea67dec3a12b63165"
+      },
+      {
+        "name": "country",
+        "value": "UK",
+        "private": false,
+        "_id": "6290f9224b7dbf9dc95b1c38"
+      },
+      {
+        "name": "countryComplete",
+        "value": "United Kingdom (UK)",
+        "private": false,
+        "_id": "6290f9224b7dbf9dc95b1c39"
+      },
+      {
+        "name": "street",
+        "value": "123 false street",
+        "private": false,
+        "_id": "6290f9224b7dbf9dc95b1c3a"
+      },
+      {
+        "name": "street2",
+        "value": "Ap. 4",
+        "private": false,
+        "_id": "6290f9224b7dbf9dc95b1c3b"
+      }
+    ]
+  }
+}

@@ -1,0 +1,148 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Login Admin",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "{{startUrl}}backend",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "#user_login"
+        },
+        {
+          "selector": "#username"
+        }
+      ],
+      "value": "{{adminUser}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "#user_pass"
+        },
+        {
+          "selector": "#password"
+        }
+      ],
+      "value": "{{adminPass}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 3,
+      "target": "label[for=\"jetpack_protect_answer\"]",
+      "value": "",
+      "variableName": "answer"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "const expression = \"{{answer}}\"; // Example, can be \"7 - 8 =\", \"7 * 8 =\", or \"7 / 8 =\"\nconst parts = expression.split(/\\s+/).filter(str => str !== \"=\" && str !== \"\"); // Split by one or more spaces, remove \"=\" and empty strings\nconst [num1, operator, num2] = parts;\nlet result;\n\nswitch (operator) {\n  case \"+\":\n    result = parseFloat(num1) + parseFloat(num2);\n    break;\n  case \"-\":\n    result = parseFloat(num1) - parseFloat(num2);\n    break;\n  case \"*\":\n    result = parseFloat(num1) * parseFloat(num2);\n    break;\n  case \"/\":\n    result = num2 !== \"0\" ? parseFloat(num1) / parseFloat(num2) : \"Error: Division by zero\";\n    break;\n  default:\n    result = \"Error: Invalid operator\";\n}\n\nreturn result",
+      "variableName": "result"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 5,
+      "target": "#jetpack_protect_answer",
+      "value": "{{result}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "#wp-submit"
+        },
+        {
+          "selector": "button[name=\"login\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let element = document.getElementById('correct-admin-email')\nlet admin = \"{{admin}}\"\nreturn element != null && element != undefined && admin === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "#correct-admin-email",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 8,
+      "target": "#adminmenumain",
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "685041cf388232057bd2bc60",
+    "suiteId": "684c8109388232057b6f7af1",
+    "suiteName": "SpringWell - Common steps"
+  }
+}

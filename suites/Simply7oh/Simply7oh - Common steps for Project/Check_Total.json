@@ -1,0 +1,45 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Check Total",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "\nlet unitPrice = \"{{unitPrice}}\"\nlet shippingPrice = \"{{shippingPrice}}\"\nlet subtotal = \"{{subtotalPrice}}\";\nlet discount = \"{{discount}}\"\nif (shippingPrice === \"\" || shippingPrice.includes(\"Free\") || shippingPrice.includes(\"FREE\")){\n    shippingPrice = \"0.00\";\n};\nif (discount === \"\"){\n    discount = \"0.00\";\n};\n\nlet tax = \"{{taxPrice}}\";\nif (tax === \"\"){\n    tax = \"0.00\";\n};\nlet total = \"{{total}}\";\n\nunitPrice = Number(unitPrice.replace(\"{{Symbol}}\",\"\").replace(\",\",\"\").trim());\nshippingPrice = Number(shippingPrice.replace(\"{{Symbol}}\",\"\").replace(\",\",\"\").trim());\ndiscount = Number(discount.replace(\"{{Symbol}}\",\"\").replace(\",\",\"\").trim());\nsubtotal = Number(subtotal.replace(\"{{Symbol}}\",\"\").replace(\",\",\"\").trim());\ntax = Number(tax.replace(\"{{Symbol}}\",\"\").replace(\",\",\"\").trim());\ntotal = Number(total.replace(\"{{Symbol}}\",\"\").replace(\",\",\"\").trim());\n\n\nlet total2 = Number((subtotal-discount+tax+shippingPrice).toFixed(2));\n\nreturn total === total2 && subtotal === unitPrice",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69a5c9b53dc7ceb27ca1d43e",
+    "suiteId": "69a1db738ce9cb3f625db2e7",
+    "suiteName": "Simply7oh - Common steps for Project"
+  }
+}

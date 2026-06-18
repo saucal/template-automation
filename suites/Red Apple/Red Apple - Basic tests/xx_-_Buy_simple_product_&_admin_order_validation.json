@@ -1,0 +1,456 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "xx - Buy simple product & admin order validation",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "redApple",
+      "variableName": "project"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "qa+gi_order_+{{alphanumeric}}@saucal.com",
+      "variableName": "email"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "navigate to brushes",
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "#site-navigation > div > ul >li:nth-child(4) > a",
+      "value": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "notes": "save product price in shop page",
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "li:nth-child(3) > div > div > div > div > span.price >span.amount >bdi",
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "notes": "save product name in shop page",
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "li.entry:nth-child(3) >div  >div  >div  >div  >div > h2.entry-title",
+      "value": "",
+      "variableName": "productName"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "add product to cart",
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "li.entry:nth-child(3) > div:nth-child(3) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(8) > a:nth-child(1)",
+      "value": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "notes": "validate product name in cart",
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": ".woocommerce-mini-cart-item > a:nth-child(2)",
+      "value": "{{productName}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "navigate to cart",
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "a.wc-forward:nth-child(1)",
+      "value": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "#shipping_method > li:nth-child(1) > label",
+      "value": "Flat Rate: ",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "input.input-text.qty",
+      "value": "",
+      "variableName": "qty"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "#shipping_method > li:nth-child(1) > label > span > bdi",
+      "value": "",
+      "variableName": "flatRatePrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": ".tax-total> td > span > bdi",
+      "value": "",
+      "variableName": "tax"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": ".cart-subtotal > td > span > bdi",
+      "value": "",
+      "variableName": "subtotalPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": ".order-total > td > strong > span > bdi",
+      "value": "",
+      "variableName": "cartTotal"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "td.product-name",
+      "value": "{{productName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "td.product-price",
+      "value": "{{productPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "#shipping_method > li:nth-child(2) > input",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "navigate to checkout page",
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": ".checkout-button",
+      "value": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "#billing_email",
+      "value": "{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "#billing_first_name",
+      "value": "{{firstName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "#billing_last_name",
+      "value": "{{lastName}}",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "",
+      "value": "66d9cf0289b30b261f1b0802",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "#shipping_first_name",
+      "value": "{{firstName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "#shipping_last_name",
+      "value": "{{lastName}}",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "notes": "",
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "",
+      "value": "66d9d22e89b30b261f1bcf88",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 25,
+      "target": "#shipping_phone",
+      "value": "{{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": [
+        {
+          "selector": ".shipping > td > span > bdi"
+        },
+        {
+          "selector": "#shipping_method > li:nth-child(1) > label > span > bdi"
+        }
+      ],
+      "value": "{{flatRatePrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": ".tax-total> td > span > bdi",
+      "value": "{{tax}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": ".order-total> td > strong > span > bdi",
+      "value": "{{cartTotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "",
+      "value": "666b5e403b8c989d7213578d",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "pause",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "",
+      "value": "1500",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": [
+        {
+          "selector": "div.title > h5"
+        },
+        {
+          "selector": ".order_details > li:nth-child(1) > strong"
+        }
+      ],
+      "value": "",
+      "variableName": "orderNumberInThankyou"
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "return 0 > 1"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": "",
+      "value": "0",
+      "variableName": "orderNumber"
+    },
+    {
+      "command": "eval",
+      "condition": {
+        "statement": "return 0 > 1"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": "",
+      "value": "let order = document.querySelector('div.title > h5').textContent;\norder = (order.trim().slice(6));\nconsole.log(order);\nreturn orderNumber = order;\n\n/*let order = {{orderNumber}};\norder = (order.trim());\nNumber(orderNumber);\norderNumber = (order.slice(6));\nreturn orderNumber;*/\n\n",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": "",
+      "value": "665f6e631aac3ea14f00a426",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": "",
+      "value": "665f69ba1aac3ea14ffffa9a",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 37,
+      "target": "",
+      "value": "665f631d1aac3ea14fff318e",
+      "variableName": ""
+    },
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 38,
+      "target": "",
+      "value": "{{orderLink}}",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 39,
+      "target": "",
+      "value": "646cafa833135384bb434d82",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "66562bb41aac3ea14fafd9f6",
+    "suiteId": "6650dbac89e87fd839e2eb1c",
+    "suiteName": "Red Apple - Basic tests"
+  }
+}

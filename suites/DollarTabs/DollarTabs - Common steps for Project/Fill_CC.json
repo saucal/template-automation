@@ -1,0 +1,129 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "5.4.1",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": 30000,
+  "name": "Fill CC",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "Credit/Debit Card",
+      "variableName": "paymentMethod"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let savedCC = {{savedCC}}\n\nreturn savedCC !== true"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "#authnet-card-number",
+      "value": "4111111111111111",
+      "variableName": ""
+    },
+    {
+      "command": "keypress",
+      "condition": {
+        "statement": "let savedCC = {{savedCC}}\n\nreturn savedCC !== true"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "#authnet-card-expiry",
+      "value": "49",
+      "variableName": ""
+    },
+    {
+      "command": "keypress",
+      "condition": {
+        "statement": "let savedCC = {{savedCC}}\n\nreturn savedCC !== true"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#authnet-card-expiry",
+      "value": "50",
+      "variableName": ""
+    },
+    {
+      "command": "keypress",
+      "condition": {
+        "statement": "let savedCC = {{savedCC}}\n\nreturn savedCC !== true"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "#authnet-card-expiry",
+      "value": "51",
+      "variableName": ""
+    },
+    {
+      "command": "keypress",
+      "condition": {
+        "statement": "let savedCC = {{savedCC}}\n\nreturn savedCC !== true"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "#authnet-card-expiry",
+      "value": "48",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let savedCC = {{savedCC}}\n\nreturn savedCC !== true"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "#authnet-card-cvc",
+      "value": "123",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const saveCC = {{saveCC}}\n\nreturn saveCC === true"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "#wc-authnet-new-payment-method"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69a82b73b9fc488447ef7ca0",
+    "suiteId": "69a82b73b9fc488447ef7c95",
+    "suiteName": "DollarTabs - Common steps for Project"
+  }
+}

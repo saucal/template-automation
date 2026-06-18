@@ -1,0 +1,325 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "03 - Product page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "679281cf2a21c5b64b6b730a",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "ul.mega-sub-menu > li:nth-of-type(2) > a[href*=\"/shop/diablo-mtb-goggles/\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 3,
+      "target": "svg.needsclick",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let test =\"{{test}}\"\nreturn test != \"slider\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "h1.product_title",
+      "value": "",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let test =\"{{test}}\"\nreturn test != \"slider\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "let available = document.querySelector(\"div.composite_availability\");\nlet stock;\nif (available.getAttribute(\"style\") === '' || available.getAttribute(\"style\") === null) {\n    stock = document.querySelector(\"div.composite_availability > .stock.out-of-stock.insufficient-stock\").innerText;\n    stock = stock.replace(\"Insufficient stock → \",\"\");\n    stock = stock.split(\", \");\n    for ( var i = 0; i < stock.length; i++ ) {\n        stock[i] = stock[i].toLowerCase();\n        if (stock[i] === \"outrigger/nose\") {\n            stock[i] = stock[i].replace(\"/\",\"-\");\n        }\n    }\n} else {\n    stock = []\n}\nreturn stock",
+      "variableName": "stock"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let test =\"{{test}}\"\nreturn test != \"slider\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "let prodDesc = \"{{prod_desc}}\"\nprodDesc = prodDesc.replace(\"–\",\"-\")\nreturn prodDesc",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let test =\"{{test}}\"\nlet stock = {{stock}}\nreturn test != \"slider\" && stock.length > 0"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "let stock = {{stock}}\nreturn stock[0]",
+      "variableName": "comp1"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let test =\"{{test}}\"\nlet stock = {{stock}}\nreturn test != \"slider\" && stock.length > 0"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": ".melon-optics-customizer-component-tabs > li[data-customizer-component=\"{{comp1}}\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "eval",
+      "condition": {
+        "statement": "let test =\"{{test}}\"\nlet stock = {{stock}}\nreturn test != \"slider\" && stock.length > 0"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "return new Promise(function (resolve, reject) {\n  let stock = {{stock}};\n  let available = document.querySelector(\"div.composite_availability\");\n  let components = document.querySelectorAll('div[data-customizer-component=\"'+stock[0]+'\"] > ul > li:not(.disabled)');\n  let comp = document.querySelector(\"div.composite_availability > .stock.out-of-stock.insufficient-stock\").innerText;\n      comp = comp.replace(\"Insufficient stock → \",\"\");\n      comp = comp.split(\", \");\n      comp = comp[0];\n  let inStock = document.querySelector(\"div.composite_availability > .stock.out-of-stock.insufficient-stock\").innerText;\n  let n = 0\n  function clickComponent(n) {\n    if (n >= components.length) {\n      resolve();\n      return;\n    }\n    components[n].click();\n    setTimeout(() => {\n      inStock = document.querySelector(\"div.composite_availability > .stock.out-of-stock.insufficient-stock\").innerText;\n      if (inStock.includes(comp)) {\n        available = document.querySelector(\"div.composite_availability\");\n        if (available.getAttribute(\"style\") === '' ||available.getAttribute(\"style\") === null) {\n          clickComponent(n + 1);\n        } else {\n          resolve();\n        }\n      } else {\n        resolve();\n      }\n    }, 1000);\n  }\n\n  clickComponent(n);\n})",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let test =\"{{test}}\"\nlet stock = {{stock}}\nreturn test != \"slider\" && stock.length > 1"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "let stock = {{stock}}\nreturn stock[1]",
+      "variableName": "comp2"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let test =\"{{test}}\"\nlet stock = {{stock}}\nreturn test != \"slider\" && stock.length > 1"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": ".melon-optics-customizer-component-tabs > li[data-customizer-component=\"{{comp2}}\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "eval",
+      "condition": {
+        "statement": "let test =\"{{test}}\"\nlet stock = {{stock}}\nreturn test != \"slider\" && stock.length > 1"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "return new Promise(function (resolve, reject) {\n  let stock = {{stock}};\n  let available = document.querySelector(\"div.composite_availability\");\n  let components = document.querySelectorAll('div[data-customizer-component=\"'+stock[1]+'\"] > ul > li:not(.disabled)');\n  let comp = document.querySelector(\"div.composite_availability > .stock.out-of-stock.insufficient-stock\").innerText;\n      comp = comp.replace(\"Insufficient stock → \",\"\");\n      comp = comp.split(\", \");\n      comp = comp[0];\n  let inStock = document.querySelector(\"div.composite_availability > .stock.out-of-stock.insufficient-stock\").innerText;\n  let n = 0\n  function clickComponent(n) {\n    if (n >= components.length) {\n      resolve();\n      return;\n    }\n    components[n].click();\n    setTimeout(() => {\n      inStock = document.querySelector(\"div.composite_availability > .stock.out-of-stock.insufficient-stock\").innerText;\n      if (inStock.includes(comp)) {\n        available = document.querySelector(\"div.composite_availability\");\n        if (available.getAttribute(\"style\") === '' ||available.getAttribute(\"style\") === null) {\n          clickComponent(n + 1);\n        } else {\n          resolve();\n        }\n      } else {\n        resolve();\n      }\n    }, 1000);\n  }\n\n  clickComponent(n);\n})",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let test =\"{{test}}\"\nlet stock = {{stock}}\nreturn test != \"slider\" && stock.length > 2"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "let stock = {{stock}}\nreturn stock[2]",
+      "variableName": "comp3"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let test =\"{{test}}\"\nlet stock = {{stock}}\nreturn test != \"slider\" && stock.length > 2"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": ".melon-optics-customizer-component-tabs > li[data-customizer-component=\"{{comp3}}\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "eval",
+      "condition": {
+        "statement": "let test =\"{{test}}\"\nlet stock = {{stock}}\nreturn test != \"slider\" && stock.length > 2"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "return new Promise(function (resolve, reject) {\n  let stock = {{stock}};\n  let available = document.querySelector(\"div.composite_availability\");\n  let components = document.querySelectorAll('div[data-customizer-component=\"'+stock[2]+'\"] > ul > li:not(.disabled)');\n  let comp = document.querySelector(\"div.composite_availability > .stock.out-of-stock.insufficient-stock\").innerText;\n      comp = comp.replace(\"Insufficient stock → \",\"\");\n      comp = comp.split(\", \");\n      comp = comp[0];\n  let inStock = document.querySelector(\"div.composite_availability > .stock.out-of-stock.insufficient-stock\").innerText;\n  let n = 0\n  function clickComponent(n) {\n    if (n >= components.length) {\n      resolve();\n      return;\n    }\n    components[n].click();\n    setTimeout(() => {\n      inStock = document.querySelector(\"div.composite_availability > .stock.out-of-stock.insufficient-stock\").innerText;\n      if (inStock.includes(comp)) {\n        available = document.querySelector(\"div.composite_availability\");\n        if (available.getAttribute(\"style\") === '' ||available.getAttribute(\"style\") === null) {\n          clickComponent(n + 1);\n        } else {\n          resolve();\n        }\n      } else {\n        resolve();\n      }\n    }, 1000);\n  }\n\n  clickComponent(n);\n})",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let test =\"{{test}}\"\nlet stock = {{stock}}\nreturn test != \"slider\" && stock.length > 3"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "",
+      "value": "let stock = {{stock}}\nreturn stock[3]",
+      "variableName": "comp4"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let test =\"{{test}}\"\nlet stock = {{stock}}\nreturn test != \"slider\" && stock.length > 3"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": ".melon-optics-customizer-component-tabs > li[data-customizer-component=\"{{comp4}}\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "eval",
+      "condition": {
+        "statement": "let test =\"{{test}}\"\nlet stock = {{stock}}\nreturn test != \"slider\" && stock.length > 3"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "",
+      "value": "return new Promise(function (resolve, reject) {\n  let stock = {{stock}};\n  let available = document.querySelector(\"div.composite_availability\");\n  let components = document.querySelectorAll('div[data-customizer-component=\"'+stock[3]+'\"] > ul > li:not(.disabled)');\n  let comp = document.querySelector(\"div.composite_availability > .stock.out-of-stock.insufficient-stock\").innerText;\n      comp = comp.replace(\"Insufficient stock → \",\"\");\n      comp = comp.split(\", \");\n      comp = comp[0];\n  let inStock = document.querySelector(\"div.composite_availability > .stock.out-of-stock.insufficient-stock\").innerText;\n  let n = 0\n  function clickComponent(n) {\n    if (n >= components.length) {\n      resolve();\n      return;\n    }\n    components[n].click();\n    setTimeout(() => {\n      inStock = document.querySelector(\"div.composite_availability > .stock.out-of-stock.insufficient-stock\").innerText;\n      if (inStock.includes(comp)) {\n        available = document.querySelector(\"div.composite_availability\");\n        if (available.getAttribute(\"style\") === '' ||available.getAttribute(\"style\") === null) {\n          clickComponent(n + 1);\n        } else {\n          resolve();\n        }\n      } else {\n        resolve();\n      }\n    }, 1000);\n  }\n\n  clickComponent(n);\n})",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let test =\"{{test}}\"\nreturn test != \"slider\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "div:nth-of-type(2) > ul > li.main-component:nth-of-type(1)",
+      "value": "",
+      "variableName": "straps"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let test =\"{{test}}\"\nreturn test != \"slider\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "div:nth-of-type(2) > ul > li.main-component:nth-of-type(2)",
+      "value": "",
+      "variableName": "lens"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let test =\"{{test}}\"\nreturn test != \"slider\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "div:nth-of-type(2) > ul > li.main-component:nth-of-type(3)",
+      "value": "",
+      "variableName": "outrigger"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let test =\"{{test}}\"\nreturn test != \"slider\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "div:nth-of-type(2) > ul > li.main-component:nth-of-type(4)",
+      "value": "",
+      "variableName": "frame"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let test =\"{{test}}\"\nreturn test != \"slider\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "div.composite_price > p.price > span.woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "",
+      "value": "62974e21a0299821fcec4a32",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "679281cf2a21c5b64b6b730b",
+    "suiteId": "679281cf2a21c5b64b6b72ef",
+    "suiteName": "Melon - Basic WooCommerce Test - ZA Site (TBD)"
+  }
+}

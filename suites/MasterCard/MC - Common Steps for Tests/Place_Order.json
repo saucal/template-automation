@@ -1,0 +1,503 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Place Order",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "#payment_method_acme"
+        },
+        {
+          "selector": "#radio-control-wc-payment-method-options-acme"
+        },
+        {
+          "selector": "#payment_method_mastercard_merchant_cloud"
+        },
+        {
+          "selector": "#radio-control-wc-payment-method-options-mastercard_merchant_cloud"
+        }
+      ],
+      "value": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let hosted = '{{hosted}}'\n\nreturn hosted === 'session'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "676ed4689bf3007e2b51ac1b",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let hosted = '{{hosted}}'\n\nreturn hosted === 'session'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "// Select all <tfoot> elements\nconst tfootSections = document.querySelectorAll('table.shop_table tfoot');\n\n// Find the correct <tfoot> (one without \"Actions:\" row)\nlet tfootIndex = -1;\nArray.from(tfootSections).forEach((tfoot, index) => {\n  const hasActions = Array.from(tfoot.querySelectorAll('tr > th')).some(th => \n    th.textContent.trim() === 'Actions:'\n  );\n  if (!hasActions) {\n    tfootIndex = index + 1;\n  }\n});\n\nreturn tfootIndex",
+      "variableName": "tfootIndex"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "// Select all <tfoot> elements\nconst tfootSections = document.querySelectorAll('table.shop_table tfoot');\n\n// Find the correct <tfoot> (one without \"Actions:\" row)\nlet targetTfoot = null;\n\nArray.from(tfootSections).forEach((tfoot, index) => {\n  const hasActions = Array.from(tfoot.querySelectorAll('tr > th')).some(th => \n    th.textContent.trim() === 'Actions:'\n  );\n  if (!hasActions) {\n    targetTfoot = tfoot;\n  }\n});\n\n// Process the target <tfoot>\nlet result;\nlet totalIndex;\nif (targetTfoot) {\n  const tfootElements = targetTfoot.querySelectorAll('tr');\n  Array.from(tfootElements).forEach((tr, index) => {\n    const th = tr.querySelector('th');\n    if (th) {\n      const thText = th.textContent.trim();\n      if (thText.includes('Total')) {\n        totalIndex = index;\n      }\n    }\n  });\n}\n  return totalIndex + 1",
+      "variableName": "totalIndex"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "tfoot:nth-of-type({{tfootIndex}}) > tr:nth-of-type({{totalIndex}}):not(.recurring-total) > td span.woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "div.wc-block-components-totals-item__value > span"
+        },
+        {
+          "selector": "tfoot > tr.order-total:not(.recurring-total) > td span.woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "",
+      "variableName": "total"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "const subscription = '{{subscription}}'\nconst manualRenew = '{{manualRenew}}'\n\nreturn subscription === 'yes' && manualRenew !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "tfoot > tr.order-total.recurring-total > td span.woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": ".wcs-recurring-totals-panel__title span.wc-block-components-totals-item__value"
+        }
+      ],
+      "value": "",
+      "variableName": "totalRenew"
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "#place_order"
+        },
+        {
+          "selector": "xpath=//button[contains(text(), \"Place order\")]"
+        },
+        {
+          "selector": "xpath=//div[contains(text(), \"Place Order\")]"
+        },
+        {
+          "selector": ".wc-block-components-checkout-place-order-button"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const placeOrder = document.querySelector('#place_order, .wc-block-components-checkout-place-order-button')\nfunction isElementVisible(element) {\n  if (!element) return false;\n\n  const rect = element.getBoundingClientRect();\n  const style = window.getComputedStyle(element);\n\n  return (\n    rect.width > 0 &&\n    rect.height > 0 &&\n    style.display !== \"none\" &&\n    style.visibility !== \"hidden\" &&\n    style.opacity !== \"0\"\n  );\n}\n\n\nreturn isElementVisible(placeOrder)"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "676ec1e4186faa7fdcbbc512",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "676ec1fb35aed64d30777b56",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "const hosted = '{{hosted}}'\nconst payForOrder = '{{payForOrder}}'\n\nreturn hosted === 'checkoutR' && payForOrder !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "{{payDate}}",
+      "variableName": "sessionDate"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const hosted = '{{hosted}}'\nconst session = document.querySelector('#acme_session_id, #mastercard_merchant_cloud_session_id')\n\n\nreturn hosted === 'session' && !!session"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "const session = document.querySelector('#acme_session_id, #mastercard_merchant_cloud_session_id').getAttribute('value')\nreturn session",
+      "variableName": "session"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const placeOrder = document.querySelector('#place_order, .wc-block-components-checkout-place-order-button')\nfunction isElementVisible(element) {\n  if (!element) return false;\n\n  const rect = element.getBoundingClientRect();\n  const style = window.getComputedStyle(element);\n\n  return (\n    rect.width > 0 &&\n    rect.height > 0 &&\n    style.display !== \"none\" &&\n    style.visibility !== \"hidden\" &&\n    style.opacity !== \"0\"\n  );\n}\n\n\nreturn isElementVisible(placeOrder)"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": [
+        {
+          "selector": "#place_order"
+        },
+        {
+          "selector": "xpath=//button[contains(text(), \"Place order\")]"
+        },
+        {
+          "selector": "xpath=//div[contains(text(), \"Place Order\")]"
+        },
+        {
+          "selector": ".wc-block-components-checkout-place-order-button"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const hosted = '{{hosted}}'\nconst session = '{{session}}'\n\nreturn hosted === 'session' && session == ''"
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "const session = document.querySelector('#acme_session_id , #mastercard_merchant_cloud_session_id').getAttribute('value')\nreturn session",
+      "variableName": "session"
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const hosted = '{{hosted}}'\nconst session = '{{session}}'\n\nreturn hosted === 'session' && session == ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "",
+      "value": "67adec143683d16ed63e47e4",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const hosted = '{{hosted}}'\nconst session = '{{session}}'\n\nreturn hosted === 'session' && session == ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "const logs = {{sessionPostLogs}}\n\nreturn logs[0].content[0].response.body.session.id\n",
+      "variableName": "session"
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const placeOrder = document.querySelector('#place_order, .wc-block-components-checkout-place-order-button')\nfunction isElementVisible(element) {\n  if (!element) return false;\n\n  const rect = element.getBoundingClientRect();\n  const style = window.getComputedStyle(element);\n\n  return (\n    rect.width > 0 &&\n    rect.height > 0 &&\n    style.display !== \"none\" &&\n    style.visibility !== \"hidden\" &&\n    style.opacity !== \"0\"\n  );\n}\n\n\nreturn isElementVisible(placeOrder)"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const challenge = '{{challenge}}'\nconst hosted = '{{hosted}}'\nconst threeDS = '{{3ds}}'\n\nreturn hosted === 'session' && challenge === 'yes' && threeDS !== 'inactive'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "center > h1",
+      "value": "ACS Emulator for 3DS V2",
+      "variableName": ""
+    },
+    {
+      "command": "keypress",
+      "condition": {
+        "statement": "const challenge = '{{challenge}}'\nconst hosted = '{{hosted}}'\nconst threeDS = '{{3ds}}'\n\nreturn hosted === 'session' && challenge === 'yes' && threeDS !== 'inactive'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "",
+      "value": "9",
+      "variableName": ""
+    },
+    {
+      "command": "keypress",
+      "condition": {
+        "statement": "const challenge = '{{challenge}}'\nconst hosted = '{{hosted}}'\nconst threeDS = '{{3ds}}'\n\nreturn hosted === 'session' && challenge === 'yes' && threeDS !== 'inactive'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "",
+      "value": "9",
+      "variableName": ""
+    },
+    {
+      "command": "keypress",
+      "condition": {
+        "statement": "const challenge = '{{challenge}}'\nconst hosted = '{{hosted}}'\nconst threeDS = '{{3ds}}'\n\nreturn hosted === 'session' && challenge === 'yes' && threeDS !== 'inactive'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "",
+      "value": "13",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let hosted = '{{hosted}}'\n\nreturn hosted === 'checkoutR'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "",
+      "value": "676ed4689bf3007e2b51ac1b",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const transaction = '{{transaction}}'\n\nreturn transaction !== 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "h1.entry-title",
+      "value": "Order received",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "const transaction = '{{transaction}}'\n\nreturn transaction !== 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": ".order > strong",
+      "value": "",
+      "variableName": "orderNumber"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const transaction = '{{transaction}}'\n\nreturn transaction !== 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": ".method > strong",
+      "value": "WooCommerce Gateway Acme Plugin"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let producType = '{{prodType}}'\nconst transaction = '{{transaction}}'\nconst upgrade = '{{upgrade}}'\n\nreturn  transaction !== 'declined'\n        &&\n        producType === 'physical'\n        &&\n        upgrade !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "tr:nth-of-type(4) > td",
+      "value": "WooCommerce Gateway Acme Plugin"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let producType = '{{prodType}}'\nconst transaction = '{{transaction}}'\nconst upgrade = '{{upgrade}}'\n\nreturn  transaction !== 'declined'\n        &&\n        producType === 'physical'\n        &&\n        upgrade !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "tr:nth-of-type(5) > td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let producType = '{{prodType}}'\nconst transaction = '{{transaction}}'\nconst upgrade = '{{upgrade}}'\n\nreturn  transaction !== 'declined'\n        &&\n        (\n            producType === 'virtual' \n            || \n            producType === 'download'\n            ||\n            upgrade === 'yes'\n        )"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "tr:nth-of-type(3) > td",
+      "value": "WooCommerce Gateway Acme Plugin"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let producType = '{{prodType}}'\nconst transaction = '{{transaction}}'\nconst upgrade = '{{upgrade}}'\n\nreturn  transaction !== 'declined'\n        &&\n        (\n            producType === 'virtual' \n            || \n            producType === 'download'\n            ||\n            upgrade === 'yes'\n        )"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "tr:nth-of-type(4) > td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "const subscription = '{{subscription}}'\nconst upgrade = '{{upgrade}}'\nconst manualRenew = '{{manualRenew}}'\n\nreturn subscription === 'yes' && upgrade !== 'yes' && manualRenew !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "td.subscription-id > a",
+      "value": "",
+      "variableName": "subscriptionID"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const subscription = '{{subscription}}'\nconst upgrade = '{{upgrade}}'\nconst manualRenew = '{{manualRenew}}'\n\nreturn subscription === 'yes' && upgrade !== 'yes' && manualRenew !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": "",
+      "value": "const str = \"{{subscriptionID}}\";\nconst number = str.match(/\\d+/)[0];\nreturn number",
+      "variableName": "subscriptionID"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const upgrade = '{{upgrade}}'\nconst manualRenew = '{{manualRenew}}'\n\nreturn upgrade == 'yes' || manualRenew === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": "td.subscription-id > a",
+      "value": "{{subscriptionID}}",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const user = '{{user}}'\nconst subscription = '{{subscription}}'\n\n\nreturn user ==='new' || user === 'old' || subscription === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": "",
+      "value": "6772bfba186faa7fdc3b2447",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const user = '{{user}}'\nconst transaction = '{{transaction}}'\n\nreturn  transaction === 'declined'\n        && user ==='guest'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": ".woocommerce-error",
+      "value": "Do not honour",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "676ec16435aed64d3077699b",
+    "suiteId": "676eb96835aed64d3077072a",
+    "suiteName": "MC - Common Steps for Tests"
+  }
+}

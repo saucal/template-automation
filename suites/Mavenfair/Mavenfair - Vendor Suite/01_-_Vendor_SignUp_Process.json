@@ -1,0 +1,277 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "6.1.0",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "01 - Vendor SignUp Process",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "6290d1fa4b7dbf9dc951f456",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "yes",
+      "variableName": "vendor"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": true,
+      "sequence": 2,
+      "target": "",
+      "value": "{{password}}",
+      "variableName": "pass"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "Saucal_1_{{alphanumeric}}",
+      "variableName": "userReg"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "qa+gi_{{alphanumeric}}@saucal.com",
+      "variableName": "username"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "6001e87ac5e34d38d8d5eddb",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "62baece35a1bf494e9fc6b76",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 7,
+      "target": "#pmpro_form > p:nth-of-type(1)",
+      "value": "Almost done. Review the membership information and pricing below then click the \"Complete Payment\" button to finish your order.",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "old selector value-> input[type=\"submit\"]",
+      "optional": true,
+      "private": false,
+      "sequence": 8,
+      "target": "#pmpro_submit_span > input.pmpro_btn.pmpro_btn-submit-checkout",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": ".pmpro_section > p:nth-of-type(2)",
+      "value": "You have successfully completed registration for your Standard MavenFair Maker Shop!",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "notes": "\n",
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": ".pmpro_confirmation_wrap > ul > li:nth-of-type(1)"
+        },
+        {
+          "selector": ".pmpro_invoice_wrap > ul > li:nth-of-type(1)"
+        },
+        {
+          "selector": "#pmpro_order_single-meta-bill_to"
+        }
+      ],
+      "value": "{{userReg}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "notes": ".pmpro_price_part_span.pmpro_price_part-subtotal > .pmpro_price_part_price",
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "[data-title=\"Subtotal\"]",
+      "value": "",
+      "variableName": "recurringPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "notes": ".pmpro_price_part_span.pmpro_price_part-tax > .pmpro_price_part_price",
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "[data-title=\"Tax\"]",
+      "value": "",
+      "variableName": "recurringTax"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "notes": ".pmpro_price_part_span.pmpro_price_part-total > .pmpro_price_part_price",
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "[data-title=\"Total\"]",
+      "value": "",
+      "variableName": "recurringTotal"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "",
+      "value": "603d1f20494ea848981cef9b",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "xpath=//a[contains(text(), \"Your membership confirmation for MavenFair\")]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "p > strong > a",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "mouseOver",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "a.user-link",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": [
+        {
+          "selector": "xpath=//a[contains(text(), \"My Dashboard\")]"
+        },
+        {
+          "selector": "a[href*=\"/maker-dashboard/\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": ".woocommerce-info",
+      "value": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": ".woocommerce-message",
+      "value": "- General Notice to MavenFair Makers -  Please ensure your Street Address is complete in your Store Settings. The shipping module will not work if incomplete and a buyer will not be able to complete a purchase of your items. This information is not public. Only your City and Province will be displayed in your MavenFair Shop.  Thank you."
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "66fd46b20e1aff64b4ddba92",
+    "suiteId": "66fd46b20e1aff64b4ddba72",
+    "suiteName": "Mavenfair - Vendor Suite"
+  }
+}

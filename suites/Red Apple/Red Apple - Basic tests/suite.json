@@ -1,0 +1,175 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "6650dbac89e87fd839e2eb1c",
+    "abortOnTestFailure": false,
+    "autoRetry": true,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2024-05-24T18:25:48.423Z",
+    "details": "Test suite to use in maintenance process",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "6650db2b89e87fd839e2e22a",
+    "globalStepDelay": 500,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 0,
+    "maxWaitDelay": 15000,
+    "name": "Red Apple - Basic tests",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": false,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://b55bbf98-2935-4d85-980f-44080a73c7c1.cc12.conves.io/",
+    "testCount": 9,
+    "testFrequency": 0,
+    "viewportSize": {
+      "width": 1920,
+      "height": 1080
+    },
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "streetBilling",
+        "value": "727 EAST MARKET STREET",
+        "private": false,
+        "_id": "665632611aac3ea14fb0dbf3"
+      },
+      {
+        "name": "streetShipping",
+        "value": "101 S Franklin St",
+        "private": false,
+        "_id": "665635bf89e87fd8396b3bb9"
+      },
+      {
+        "name": "cityBilling",
+        "value": "Louisville",
+        "private": false,
+        "_id": "66d9d4d989b30b261f1c7189"
+      },
+      {
+        "name": "stateBilling",
+        "value": "Kentucky",
+        "private": false,
+        "_id": "66d9d4d989b30b261f1c718a"
+      },
+      {
+        "name": "adminPass",
+        "value": "O4rjopRC&$8HMAsz",
+        "private": true,
+        "_id": "6657672689e87fd8399fe122"
+      },
+      {
+        "name": "billingAddress2",
+        "value": "Building D",
+        "private": false,
+        "_id": "66563c1689e87fd8396c0f84"
+      },
+      {
+        "name": "shippingAddress2",
+        "value": "First Floor",
+        "private": false,
+        "_id": "6660d83889e87fd839e11461"
+      },
+      {
+        "name": "cityShipping",
+        "value": "Greensburg",
+        "private": false,
+        "_id": "6660d83889e87fd839e11462"
+      },
+      {
+        "name": "stateShipping",
+        "value": "Indiana",
+        "private": false,
+        "_id": "6660d83889e87fd839e11463"
+      },
+      {
+        "name": "stateShippingShort",
+        "value": "IN",
+        "private": false,
+        "_id": "6660d83889e87fd839e11464"
+      },
+      {
+        "name": "password",
+        "value": "holamundo123",
+        "private": true,
+        "_id": "665698511aac3ea14fbc2c60"
+      },
+      {
+        "name": "project",
+        "value": "redApple",
+        "private": false,
+        "_id": "666b409889e87fd839936184"
+      },
+      {
+        "name": "phone",
+        "value": "(512) 942-2061",
+        "private": false,
+        "_id": "66563c1689e87fd8396c0f85"
+      },
+      {
+        "name": "countryShort",
+        "value": "US",
+        "private": false,
+        "_id": "66d9d91078ca24491e68510a"
+      },
+      {
+        "name": "countryBilling",
+        "value": "United States (US)",
+        "private": false,
+        "_id": "665635bf89e87fd8396b3bba"
+      },
+      {
+        "name": "countryShipping",
+        "value": "United States (US)",
+        "private": false,
+        "_id": "665635bf89e87fd8396b3bbb"
+      },
+      {
+        "name": "postCodeShipping",
+        "value": "47240",
+        "private": false,
+        "_id": "665635bf89e87fd8396b3bbc"
+      },
+      {
+        "name": "postCodeBilling",
+        "value": "40202",
+        "private": false,
+        "_id": "665635bf89e87fd8396b3bbd"
+      },
+      {
+        "name": "firstName",
+        "value": "Maintenance",
+        "private": false,
+        "_id": "66563c1689e87fd8396c0f82"
+      },
+      {
+        "name": "lastName",
+        "value": "Test",
+        "private": false,
+        "_id": "66563c1689e87fd8396c0f83"
+      },
+      {
+        "name": "adminUser",
+        "value": "guest@saucal.com",
+        "private": false,
+        "_id": "6657672689e87fd8399fe121"
+      },
+      {
+        "name": "stateBillingShort",
+        "value": "KY",
+        "private": false,
+        "_id": "66d9da6d78ca24491e68a91c"
+      }
+    ]
+  }
+}

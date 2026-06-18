@@ -1,0 +1,183 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "6.1.0",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "verify currency on refund",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"full\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "return Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}', minimumFractionDigits: 2}).format(0.00)",
+      "variableName": "totalRefunded"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"full\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": ".wc-order-data-row.wc-order-refund-items > table.wc-order-totals > tbody > tr:nth-of-type(2) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{totalRefunded}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"full\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": ".wc-order-data-row.wc-order-refund-items > table.wc-order-totals > tbody > tr:nth-of-type(3) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n\nreturn test === \"full\" && blueSnapVs[0] >= 3 && blueSnapVs[1] >= 2"
+      },
+      "notes": "Currency symbol changed after adding the amount that was going to be refunded",
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "button[type=\"button\"].button.button-primary.do-manual-refund > .wc-order-refund-amount > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n\nreturn test === \"full\" && blueSnapVs[0] >= 3 && blueSnapVs[1] >= 2"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "button[type=\"button\"].button.button-primary.do-api-refund > .wc-order-refund-amount > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"partial\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "return Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}', minimumFractionDigits: 2}).format(0.00)",
+      "variableName": "totalRefunded"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"partial\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": ".wc-order-data-row.wc-order-refund-items > table.wc-order-totals > tbody > tr:nth-of-type(2) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{totalRefunded}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"partial\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": ".wc-order-data-row.wc-order-refund-items > table.wc-order-totals > tbody > tr:nth-of-type(3) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"partial\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "#refund_amount",
+      "value": "{{partialRefund}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"partial\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "let result = {{partialRefund}}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(result)\n",
+      "variableName": "partialRefund"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"partial\""
+      },
+      "notes": "Currency symbol changed after adding the amount that was going to be refunded",
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "button[type=\"button\"].button.button-primary.do-manual-refund > .wc-order-refund-amount > .woocommerce-Price-amount.amount",
+      "value": "{{partialRefund}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"partial\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "button[type=\"button\"].button.button-primary.do-api-refund > .wc-order-refund-amount > .woocommerce-Price-amount.amount",
+      "value": "{{partialRefund}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6452af88af1e488d25284065",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

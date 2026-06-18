@@ -1,0 +1,505 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Check Order on My Account",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": ".elementor-column.elementor-inner-column.elementor-element.elementor-element-4bc17b98 > .elementor-widget-wrap.elementor-element-populated > div.elementor-element.elementor-widget.elementor-widget-text-editor:nth-of-type(1) > .elementor-widget-container > p",
+      "value": "Deine Bestellung ist bei uns eingegangen."
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "div.elementor-column.elementor-inner-column.elementor-element:nth-of-type(2) > .elementor-widget-wrap.elementor-element-populated > div.elementor-element.elementor-widget.elementor-widget-text-editor:nth-of-type(1) > .elementor-widget-container > p",
+      "value": "",
+      "variableName": "orderNumber"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "let orderNumber = '{{orderNumber}}'.match(/\\d+/)[0];\n\nreturn orderNumber",
+      "variableName": "orderNumber"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": ".wfty_2_col_left > .wfty_view",
+      "value": "{{email}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": ".wfty_2_col_right > .wfty_view",
+      "value": "{{phone}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": ".wfty_2_col_left > .wfty_text > .wfty_view",
+      "value": "{{firstName}} {{lastName}}\n{{street3}}\n{{zipCode}} {{city}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": ".wfty_2_col_right > .wfty_text > .wfty_view",
+      "value": "{{firstName}} {{lastName}}\n{{street3}}\n{{zipCode}} {{city}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "div.wfty_pro_list.wfty_clearfix:nth-of-type(1) > .wfty_rightDiv > .woocommerce-Price-amount.amount",
+      "value": "{{totalProd}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "div.wfty_pro_list:nth-of-type(1) a > .wfty_t",
+      "value": "{{prod_desc}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "div.wfty_pro_list:nth-of-type(2) > .wfty_leftDiv.wfty_clearfix > .wfty_p_name",
+      "value": "{{prod_desc}} → HOME Harmonizer - M",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "div.wfty_pro_list.wfty_clearfix:nth-of-type(2) > .wfty_rightDiv > .woocommerce-Price-amount.amount",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "div.wfty_pro_list:nth-of-type(3) > .wfty_leftDiv.wfty_clearfix > .wfty_p_name",
+      "value": "{{prod_desc}} → {{prod_desc2}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "div.wfty_pro_list.wfty_clearfix:nth-of-type(3) > .wfty_rightDiv > .woocommerce-Price-amount.amount",
+      "value": "{{unitPrice2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "div.wfty_pro_list:nth-of-type(4) > .wfty_leftDiv.wfty_clearfix > .wfty_p_name",
+      "value": "{{prod_desc}} → {{prod_desc3}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "div.wfty_pro_list.wfty_clearfix:nth-of-type(4) > .wfty_rightDiv > .woocommerce-Price-amount.amount",
+      "value": "{{unitPrice3}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "div.wfty_pro_list:nth-of-type(5) > .wfty_leftDiv.wfty_clearfix > .wfty_p_name",
+      "value": "{{prod_desc}} → {{prod_desc4}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "div.wfty_pro_list.wfty_clearfix:nth-of-type(5) > .wfty_rightDiv > .woocommerce-Price-amount.amount",
+      "value": "{{unitPrice4}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "div.wfty_pro_list.wfty_clearfix:nth-of-type(6) > .wfty_leftDiv.wfty_clearfix > .wfty_p_name",
+      "value": "{{prod_desc}} → {{prod_desc5}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "div.wfty_pro_list.wfty_clearfix:nth-of-type(6) > .wfty_rightDiv > .woocommerce-Price-amount.amount",
+      "value": "{{unitPrice5}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount",
+      "value": "{{subtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "tr:nth-of-type(2) > td",
+      "value": "Free shipping"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "tr:nth-of-type(3) > td",
+      "value": "{{paymentMethod}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "tr:nth-of-type(4) > td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"» Weiter Einkaufen\")]"
+        },
+        {
+          "selector": "a[href=\"/\"] > .elementor-button-content-wrapper > .elementor-button-text"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": ".elementor-column.elementor-top-column.elementor-element.elementor-element-eb73e4e > .elementor-widget-wrap.elementor-element-populated > div.elementor-element.elementor-icon-list--layout-inline.elementor-align-left.elementor-list-item-link-full_width.elementor-widget.elementor-widget-icon-list:nth-of-type(1) > .elementor-widget-container > .elementor-icon-list-items.elementor-inline-items > li.elementor-icon-list-item.elementor-inline-item:nth-of-type(4) > a[href=\"/mein-konto\"] > .elementor-icon-list-text"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": ".woocommerce-MyAccount-navigation-link > a[href*=\"/de/mein-konto/orders/\"]"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "td.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-status",
+      "value": "In Bearbeitung",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "tr:nth-of-type(1) > td.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-total > p > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "",
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "th.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-number > p > a[href*=\"view-order/{{orderNumber}}/\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "tr.woocommerce-table__line-item.order_item.wooco-cart-item.wooco-cart-parent > td.woocommerce-table__product-name.product-name > a[href*=\"/de/produkt/home-harmonizer/\"]",
+      "value": "{{prod_desc}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "tr.woocommerce-table__line-item.order_item.wooco-cart-item.wooco-cart-parent > td.woocommerce-table__product-total.product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{totalProd}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "tr.woocommerce-table__line-item.order_item.wooco-cart-item.wooco-cart-child.wooco-item-child:nth-of-type(2) > td.woocommerce-table__product-name.product-name",
+      "value": "{{prod_desc}} → HOME Harmonizer – M × 1",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": "tr.woocommerce-table__line-item.order_item.wooco-cart-item.wooco-cart-child.wooco-item-child:nth-of-type(2) > td.woocommerce-table__product-total.product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": "tr.woocommerce-table__line-item.order_item.wooco-cart-item.wooco-cart-child.wooco-item-child:nth-of-type(3) > td.woocommerce-table__product-name.product-name",
+      "value": "{{prod_desc}} → {{prod_desc2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": "tr.woocommerce-table__line-item.order_item.wooco-cart-item.wooco-cart-child.wooco-item-child:nth-of-type(3) > td.woocommerce-table__product-total.product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": "tr.woocommerce-table__line-item.order_item.wooco-cart-item.wooco-cart-child.wooco-item-child:nth-of-type(4) > td.woocommerce-table__product-name.product-name",
+      "value": "{{prod_desc}} → {{prod_desc3}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": "tr.woocommerce-table__line-item.order_item.wooco-cart-item.wooco-cart-child.wooco-item-child:nth-of-type(4) > td.woocommerce-table__product-total.product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice3}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 37,
+      "target": "tr.woocommerce-table__line-item.order_item.wooco-cart-item.wooco-cart-child.wooco-item-child:nth-of-type(5) > td.woocommerce-table__product-name.product-name",
+      "value": "{{prod_desc}} → {{prod_desc4}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 38,
+      "target": "tr.woocommerce-table__line-item.order_item.wooco-cart-item.wooco-cart-child.wooco-item-child:nth-of-type(5) > td.woocommerce-table__product-total.product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice4}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 39,
+      "target": "tr.woocommerce-table__line-item.order_item.wooco-cart-item.wooco-cart-child.wooco-item-child:nth-of-type(6) > td.woocommerce-table__product-name.product-name",
+      "value": "{{prod_desc}} → ELEKTROSMOG minimieren – Video-Kurs + E-Book",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 40,
+      "target": "tr.woocommerce-table__line-item.order_item.wooco-cart-item.wooco-cart-child.wooco-item-child:nth-of-type(6) > td.woocommerce-table__product-total.product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice5}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 41,
+      "target": "tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount",
+      "value": "{{subtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 42,
+      "target": "tfoot > tr:nth-of-type(2) > td",
+      "value": "Free shipping"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 43,
+      "target": "tfoot > tr:nth-of-type(4) > td",
+      "value": "{{paymentMethod}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 44,
+      "target": "tfoot > tr:nth-of-type(3) > td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 45,
+      "target": ".woocommerce-column.woocommerce-column--1 > address",
+      "value": "{{firstName}} {{lastName}}\n{{street3}}\n{{zipCode}} {{city}}\n\n{{phone}}\n\n{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 46,
+      "target": ".woocommerce-column.woocommerce-column--2 > address",
+      "value": "{{firstName}} {{lastName}}\n{{street3}}\n{{zipCode}} {{city}}\n\n{{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 47,
+      "target": ".woocommerce-order-downloads",
+      "value": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6823b7c2ab4ff4354d29ca7b",
+    "suiteId": "6823ac4cab4ff4354d27bfda",
+    "suiteName": "Biogeta - Common steps"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Next Payment date",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "function extractAllMonthDayYearDates(text) {\n  const monthNames = [\n    \"January\",\"February\",\"March\",\"April\",\"May\",\"June\",\n    \"July\",\"August\",\"September\",\"October\",\"November\",\"December\"\n  ].join(\"|\");\n\n  // \\b = word boundary → avoids matching inside other words\n  const regex = new RegExp(`\\\\b(${monthNames})\\\\s+(\\\\d{1,2}),\\\\s+(\\\\d{4})\\\\b`, \"gi\");\n\n  const dates = [];\n  let match;\n\n  while ((match = regex.exec(text)) !== null) {\n    dates.push({\n      full: match[0],     // \"March 10, 2026\"\n      month: match[1],\n      day:   match[2],\n      year:  match[3]\n    });\n  }\n\n  return dates;\n}\nlet nextPay = extractAllMonthDayYearDates(\"{{nextPay}}\");\n\nnextPay = Date.parse(nextPay[0].full);\nnextPay = new Date(nextPay);\n\nconst now = new Date();\nconst formatter = new Intl.DateTimeFormat('en-US', {\n    timeZone: 'Europe/Berlin',\n    year: 'numeric',\n    month: '2-digit',\n    day: '2-digit',\n    hour: '2-digit',\n    minute: '2-digit',\n    second: '2-digit',\n    hour12: true, // Use false for 24-hour format\n});\n\nconst date = new Date(formatter.format(now));\n\nreturn date.getDate() === nextPay.getDate() &&\n       (date.getMonth() + 1) === nextPay.getMonth() &&\n       date.getFullYear() === nextPay.getFullYear();",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "698b9a405fe00b498f41602e",
+    "suiteId": "677efdbe35aed64d30179cf0",
+    "suiteName": "Merch - common test steps"
+  }
+}

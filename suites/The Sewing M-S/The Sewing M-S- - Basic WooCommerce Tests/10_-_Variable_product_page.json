@@ -1,0 +1,153 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "10 - Variable product page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "mouseOver",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "#mega-menu-item-16674 > a",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"Sewing Furniture\")]"
+        },
+        {
+          "selector": "#mega-menu-item-1239 > a"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return !document.querySelector('li.product-type-variable.instock > a')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "#fl-main-content > div > div > div.fl-content.fl-woo-content-right.fl-content-right > nav.woocommerce-pagination > ul > li:nth-child(2) > a",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return !document.querySelector('li.product-type-variable.instock > a')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#fl-main-content > div > div > div.fl-content.fl-woo-content-right.fl-content-right > nav.woocommerce-pagination > ul > li:nth-child(4) > a",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return false === !document.querySelector('li.product-type-variable.instock > a')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "li.product-type-variable.instock > a",
+      "value": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "h1.product_title",
+      "value": "",
+      "variableName": "{{prod_desc}}"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return false === !document.querySelector('#color')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "#color"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return false === !document.querySelector('#color')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "#color",
+      "value": "Gray"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "return false === !document.querySelector('#color')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "#color",
+      "value": "",
+      "variableName": "color"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": ".summary > .price > ins > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": ".summary > .price > .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "",
+      "variableName": "unitPrice"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69022b3834ec47aacc023465",
+    "suiteId": "68fe82e80c38c58f6ea3984c",
+    "suiteName": "The Sewing M.S. - Basic WooCommerce Tests"
+  }
+}

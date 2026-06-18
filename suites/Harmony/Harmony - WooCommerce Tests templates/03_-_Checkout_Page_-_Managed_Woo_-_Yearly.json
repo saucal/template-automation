@@ -1,0 +1,338 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "6.0.2",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "03 - Checkout Page - Managed Woo - Yearly",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "{{startUrl}}product/managed-woocommerce/",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "67d4901692add9437d67563a",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#plan",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "#plan",
+      "value": "Growth",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "#recurrence",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "#recurrence",
+      "value": "Yearly",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "button[type=\"submit\"].single_add_to_cart_button",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": ".wc-block-components-notice-banner a[href*=\"/cart/\"].button.wc-forward"
+        },
+        {
+          "selector": ".woocommerce-message a[href*=\"/cart/\"].button.wc-forward"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "xpath=//a[contains(text(), \"Proceed to checkout\")]"
+        },
+        {
+          "selector": "a[href*=\"/checkout/\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "return '{{country}}' === 'CA'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "#payment_method_bacs",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "return '{{country}}' === 'CA'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "#payment_method_stripe",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return '{{country}}' === 'CA'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "#payment_method_bacs",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "return '{{country}}' === 'CA'"
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 14,
+      "target": ".payment_box.payment_method_bacs > p > a",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "return '{{country}}' === 'CA'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "let element = document.querySelector(\".payment_box.payment_method_bacs > p > a\")\nelement = element.getAttribute(\"href\")\nreturn element === \"{{bankAccount}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "return '{{country}}' !== 'CA'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "#payment_method_fastspring",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "return '{{country}}' !== 'CA'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "#payment_method_bacs",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "return '{{country}}' !== 'CA'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "#payment_method_stripe",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "return '{{country}}' === 'CA'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "",
+      "value": "let urlElement = document.querySelector('#terms_acceptance_field > span label > a:first-of-type');\nlet url = urlElement ? urlElement.getAttribute('href') : null;\n\nreturn url === '{{startUrl}}?post_type=page&p=124120'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "return '{{country}}' !== 'CA'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "",
+      "value": "let urlElement = document.querySelector('#terms_acceptance_field > span label > a:first-of-type');\nlet url = urlElement ? urlElement.getAttribute('href') : null;\n\nreturn url === '{{startUrl}}?post_type=page&p=124115'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "return '{{country}}' === 'CA'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "",
+      "value": "let urlElement = document.querySelector('#terms_acceptance_field > span label > a:nth-of-type(2)');\nlet url = urlElement ? urlElement.getAttribute('href') : null;\n\nreturn url === '{{startUrl}}?post_type=post&p=124176'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "return '{{country}}' !== 'CA'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "",
+      "value": "let urlElement = document.querySelector('#terms_acceptance_field > span label > a:nth-of-type(2)');\nlet url = urlElement ? urlElement.getAttribute('href') : null;\n\nreturn url === '{{startUrl}}?post_type=post&p=124175'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "return '{{country}}' === 'CA'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "",
+      "value": "let urlElement = document.querySelector('#terms_acceptance_field > span label > a:last-of-type');\nlet url = urlElement ? urlElement.getAttribute('href') : null;\n\nreturn url === '{{startUrl}}?post_type=post&p=124178'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "return '{{country}}' !== 'CA'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "",
+      "value": "let urlElement = document.querySelector('#terms_acceptance_field > span label > a:last-of-type');\nlet url = urlElement ? urlElement.getAttribute('href') : null;\n\nreturn url === '{{startUrl}}?post_type=post&p=124177'",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68ee4c90a5c7995601dc9723",
+    "suiteId": "68ee4c90a5c7995601dc9707",
+    "suiteName": "Harmony - WooCommerce Tests templates"
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "69c16cc8de491b5fc5f1b489",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2026-03-23T16:39:36.318Z",
+    "details": "",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "69c1482cde491b5fc5e92529",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 2,
+    "maxWaitDelay": 15000,
+    "name": "Leggari Academy - Basic WooCommerce test",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": false,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://stg-schoolofepoxy-staging.kinsta.cloud/",
+    "testCount": 10,
+    "testFrequency": 0,
+    "viewportSize": {
+      "width": 1280,
+      "height": 800
+    },
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "username",
+        "value": "qa+gi_staging_user@saucal.com",
+        "private": false,
+        "_id": "69c17d38c37b235f986d153f"
+      },
+      {
+        "name": "password2",
+        "value": "xOvH5u7k0sSz41eW1kUZDBcR830BwhdhQS",
+        "private": true,
+        "_id": "69c17d38c37b235f986d1540"
+      },
+      {
+        "name": "password",
+        "value": "xOvH5u7k0sSz41eW1kUZDBcR830BwhdhQS",
+        "private": true,
+        "_id": "69c17d38c37b235f986d1541"
+      }
+    ]
+  }
+}

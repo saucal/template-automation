@@ -1,0 +1,154 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "12 - Contact Us Page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "footer a[href=\"/contact-us/\"]"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "68bec4b8eeab2f751a2da7a8",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "#input_3_1_3",
+      "value": "QA",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#input_3_1_6",
+      "value": "Test",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "#input_3_2",
+      "value": "{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "#input_3_3",
+      "value": "(304) 564-5654",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "#input_3_10",
+      "value": "Yes"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "#input_3_7",
+      "value": "General Question"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "#input_3_5",
+      "value": "Testing Description"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "file": {
+        "filename": "bowling.jpg",
+        "size": 125513,
+        "path": "uploads/78d27f93-93cb-40e7-aca0-ac7a8824694e.jpg",
+        "url": "https://ghostinspector-prod.s3.amazonaws.com/uploads/78d27f93-93cb-40e7-aca0-ac7a8824694e.jpg"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "input[type='file']",
+      "value": "https://ghostinspector-prod.s3.amazonaws.com/uploads/78d27f93-93cb-40e7-aca0-ac7a8824694e.jpg",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "#gform_submit_button_3"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "#gform_confirmation_message_3",
+      "value": "QA,\n\nThank you for contacting the customer excellence team here at BowlersMart.com! We have received your email and are looking into your inquiry. We strive to provide an excellent customer service experience and will respond to your request shortly.\n\nWarm Regards,\nCustomer Excellence Team\nBowlersMart.com",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "681e5d38ab4ff4354d54504a",
+    "suiteId": "681212cfff841a20f20fe1e3",
+    "suiteName": "BM - Basic WooCommerce Tests"
+  }
+}

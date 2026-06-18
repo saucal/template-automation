@@ -1,0 +1,217 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36",
+  "dataSource": null,
+  "details": "This Test is checking the Registration process, My Account Links and the Login Process",
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "5.3.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Registration",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let vendor = \"{{vendor}}\"\nreturn vendor != \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "xpath=//a[contains(text(), \"JOIN\")]"
+        },
+        {
+          "selector": "a[href*=\"/membership-checkout/?level=11\"].header-button"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let vendor = \"{{vendor}}\"\nreturn vendor === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "a[href*=\"/sell-handmade/\"].header-button",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let vendor = \"{{vendor}}\"\nreturn vendor === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "a[href*=\"/membership-checkout/?level=7\"] > button[type=\"button\"].ubtn.ult-adjust-bottom-margin.ult-responsive.ubtn-large.ubtn-bottom-bg.none.ubtn-center > .ubtn-data.ubtn-text",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#username",
+      "value": "{{userReg}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "#password",
+      "value": "{{password}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "#password2",
+      "value": "{{password}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "#bemail",
+      "value": "{{username}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "#bconfirmemail",
+      "value": "{{username}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "#select2-country-container",
+      "value": "{{countryComplete}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"Choose a province\")]"
+        },
+        {
+          "selector": "#select2-province-container > span"
+        }
+      ]
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "input[type=\"search\"]",
+      "value": "Ontario"
+    },
+    {
+      "command": "keypress",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "input[type=\"search\"]",
+      "value": "13"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "input[name=\"tos\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "#pmpro_btn-submit",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let vendor = \"{{vendor}}\"\nreturn vendor != \"yes\""
+      },
+      "notes": ".pmpro_confirmation_wrap > p:nth-of-type(3)",
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": ".pmpro_section > p:nth-of-type(2)",
+      "value": "You have successfully completed registration as a MavenFair Member",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6001e87ac5e34d38d8d5eddb",
+    "suiteId": "606ca53940a5d817bae1ba01",
+    "suiteName": "Mavenfair - Common steps for project"
+  }
+}

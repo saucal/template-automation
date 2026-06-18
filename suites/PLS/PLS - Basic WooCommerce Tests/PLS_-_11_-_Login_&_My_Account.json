@@ -1,0 +1,307 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "PLS - 11 - Login & My Account",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"My account\")]"
+        },
+        {
+          "selector": "a[href*=\"/my-account/\"] > .menu-text"
+        },
+        {
+          "selector": "//a[contains(text(), \"My account\")]"
+        },
+        {
+          "selector": "a[href*=\"/my-account/\"]"
+        }
+      ]
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "qa+gi_staging_user@saucal.com",
+      "variableName": "username"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": true,
+      "sequence": 2,
+      "target": "",
+      "value": "{{password}}",
+      "variableName": "pass"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "63cfc556af1e488d25d11a75",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "let element = document.querySelector('.woocommerce-error > li')\n\nreturn element !== null"
+      },
+      "optional": false,
+      "private": true,
+      "sequence": 4,
+      "target": "",
+      "value": "{{password2}}",
+      "variableName": "pass"
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let element = document.querySelector('.woocommerce-error > li')\n\nreturn element !== null"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "63cfc556af1e488d25d11a75",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": ".woocommerce-MyAccount-content",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": ".woocommerce-MyAccount-navigation-link > a[href*=\"/my-account/orders/\"]"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": ".woocommerce-message"
+        },
+        {
+          "selector": ".woocommerce-info"
+        }
+      ],
+      "value": "No order has been made yet.",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "a[href*=\"/my-account/subscriptions/\"] > .ast-woo-nav-link-name"
+        },
+        {
+          "selector": "a[href*=\"/my-account/subscriptions/\"]"
+        }
+      ]
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": ".no_subscriptions",
+      "value": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 11,
+      "target": "a[href*=\"/my-courses\"].woocommerce-button",
+      "value": "Access your active on-demand webinars"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"Coupons\")]"
+        },
+        {
+          "selector": "a[href*=\"/my-account/wc-smart-coupons/\"] > .ast-woo-nav-link-name"
+        },
+        {
+          "selector": "a[href*=\"/my-account/wc-smart-coupons/\"]"
+        },
+        {
+          "selector": "//a[contains(text(), \"Coupons\")]"
+        }
+      ]
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": ".woocommerce-MyAccount-content > h2",
+      "value": "Available Coupons & Store Credits",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"Address\")]"
+        },
+        {
+          "selector": "a[href*=\"/my-account/edit-address/\"] > .ast-woo-nav-link-name"
+        },
+        {
+          "selector": "a[href*=\"/my-account/edit-address/\"]"
+        },
+        {
+          "selector": "//a[contains(text(), \"Address\")]"
+        }
+      ]
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": ".woocommerce-MyAccount-content .woocommerce-Address-title.title",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"Payment methods\")]"
+        },
+        {
+          "selector": "a[href*=\"/my-account/payment-methods/\"] > .ast-woo-nav-link-name"
+        },
+        {
+          "selector": "a[href*=\"/my-account/payment-methods/\"]"
+        },
+        {
+          "selector": "//a[contains(text(), \"Payment methods\")]"
+        }
+      ]
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": ".woocommerce-info",
+      "value": "No saved methods found."
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"Account details\")]"
+        },
+        {
+          "selector": "a[href*=\"/my-account/edit-account/\"] > .ast-woo-nav-link-name"
+        },
+        {
+          "selector": "a[href*=\"/my-account/edit-account/\"]"
+        },
+        {
+          "selector": "//a[contains(text(), \"Account details\")]"
+        }
+      ]
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "form.woocommerce-EditAccountForm",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "li.woocommerce-MyAccount-navigation-link.woocommerce-MyAccount-navigation-link--dashboard",
+      "value": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "67b7a36f04f525bbb202a505",
+    "suiteId": "67b7870c2abcf638e941971e",
+    "suiteName": "PLS - Basic WooCommerce Tests"
+  }
+}

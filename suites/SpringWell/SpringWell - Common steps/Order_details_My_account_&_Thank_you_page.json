@@ -1,0 +1,303 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Order details My account & Thank you page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "tr:nth-of-type(3).order_item a[href*=\"/product/\"]"
+        },
+        {
+          "selector": "tr:nth-of-type(1).order_item a[href*=\"/product/\"]"
+        }
+      ],
+      "value": "{{prod_desc}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{variable2}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "tr:nth-of-type(3).order_item"
+        },
+        {
+          "selector": "tr:nth-of-type(1).order_item"
+        }
+      ],
+      "value": "{{variable2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{variable1}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "tr:nth-of-type(3).order_item"
+        },
+        {
+          "selector": "tr:nth-of-type(1).order_item"
+        }
+      ],
+      "value": "{{variable1}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": "tr:nth-of-type(3).order_item > td.woocommerce-table__product-total > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "tr:nth-of-type(1).order_item > td.woocommerce-table__product-total > .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{upgrade_desc}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "tr:nth-of-type(1).order_item a[href*=\"/product/\"]",
+      "value": "{{upgrade_desc}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{upgrade_desc}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "tr:nth-of-type(1).order_item > td.woocommerce-table__product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{upgrade}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{addon_desc}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "tr:nth-of-type(2).order_item a[href*=\"/product/\"]",
+      "value": "{{addon_desc}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{addon_desc}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "tr:nth-of-type(2).order_item > td.woocommerce-table__product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{addon}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{subtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "tfoot > tr:nth-of-type(2) > td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "tfoot > tr:nth-of-type(2) > td"
+        }
+      ],
+      "value": "{{shippingPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "tfoot > tr:nth-of-type(3) > td > .woocommerce-Price-amount.amount",
+      "value": "{{taxPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "tfoot > tr:nth-of-type(4) > td",
+      "value": "{{paymentMethod}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "tfoot > tr:nth-of-type(5) > td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "tfoot > tr:nth-of-type(6) > td",
+      "value": "{{notes}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": [
+        {
+          "selector": ".woocommerce-column.woocommerce-column--1 > address"
+        },
+        {
+          "selector": ".woocommerce-customer-details > address"
+        }
+      ],
+      "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{street2}}\n{{city}}, {{state}} {{zipCode}}\n\n{{phone}}\n\n{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": ".woocommerce-column.woocommerce-column--2 > address",
+      "value": "{{firstName}} {{lastName2}}\n{{company2}}\n{{street3}}\n{{street4}}\n{{city}}, {{state}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "a[href*=\"/account/view-subscription/\"][aria-label*=\"View subscription number\"]",
+      "value": "",
+      "variableName": "subscriptionID"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "",
+      "value": "return '{{subscriptionID}}'.replace('#','')",
+      "variableName": "subscriptionID"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "td.subscription-status",
+      "value": "Active"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "td.subscription-total",
+      "value": "{{total}} {{freq}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "685039ca388232057bd06d85",
+    "suiteId": "684c8109388232057b6f7af1",
+    "suiteName": "SpringWell - Common steps"
+  }
+}

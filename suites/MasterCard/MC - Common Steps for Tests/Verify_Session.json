@@ -1,0 +1,419 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Verify Session",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const addPaymentMethod = '{{addPaymentMethod}}'\nreturn addPaymentMethod !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "const logs = {{sessionPostLogs}}\n\nreturn logs[0].content[0]",
+      "variableName": "log"
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const addPaymentMethod = '{{addPaymentMethod}}'\nreturn addPaymentMethod !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.request.type === 'POST' || log.request.type === 'PUT'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const addPaymentMethod = '{{addPaymentMethod}}'\nreturn addPaymentMethod !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.request.url === 'https://test-gateway.mastercard.com/api/rest/version/100/merchant/TESTSAUCAL1/session' \n        ||\n       log.request.url === 'https://test-gateway.mastercard.com/api/rest/version/100/merchant/TESTSAUCAL1/session/{{session}}'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const addPaymentMethod = '{{addPaymentMethod}}'\nreturn addPaymentMethod !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.result === 'SUCCESS'\n        ||\n       log.response.body.session.updateStatus === 'SUCCESS'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const addPaymentMethod = '{{addPaymentMethod}}'\nreturn addPaymentMethod !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.session.id === '{{session}}'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const hosted = '{{hosted}}'\n\nreturn hosted === 'checkoutR'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.request.body.apiOperation === 'INITIATE_CHECKOUT'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const hosted = '{{hosted}}'\n\nreturn hosted === 'checkoutR'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "const log = {{log}}\nlet total = '{{total}}'\n\n    const currencyStr = '{{total}}'\n    // Remove any non-numeric characters except commas, dots, and minus signs\n    let cleaned = currencyStr.replace(/[^\\d,.-]/g, '');\n\n    // If the string has both '.' and ',', determine which is the decimal separator\n    if (cleaned.includes('.') && cleaned.includes(',')) {\n        if (cleaned.lastIndexOf('.') > cleaned.lastIndexOf(',')) {\n            // Case: US format \"$1,000.00\" (comma as thousands separator, dot as decimal)\n            cleaned = cleaned.replace(/,/g, '');\n        } else {\n            // Case: EU format \"1.000,87 €\" (dot as thousands separator, comma as decimal)\n            cleaned = cleaned.replace(/\\./g, '').replace(',', '.');\n        }\n    } else {\n        // If only a comma exists, assume EU format\n        if (cleaned.includes(',')) {\n            cleaned = cleaned.replace(',', '.');\n        }\n        // If only a dot exists, assume US format (no change needed)\n    }\n\nreturn log.request.body.order.amount === cleaned\n\n",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const hosted = '{{hosted}}'\n\nreturn hosted === 'checkoutR'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.request.body.order.currency === 'USD'\n\n",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const hosted = '{{hosted}}'\n\nreturn hosted === 'checkoutR'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "const log = {{log}}\nconst transaction_id = '{{transaction_id}}'\nreturn log.request.body.order.id === transaction_id",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const hosted = '{{hosted}}'\n\nreturn hosted === 'checkoutR'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.request.body.order.reference === {{orderNumber}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const hosted = '{{hosted}}'\nconst savedCC = '{{savedCC}}'\n\nreturn hosted === 'session' && savedCC === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "const logs = {{sessionGetLogs}}\n\nreturn logs[0].content[0]",
+      "variableName": "log"
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const hosted = '{{hosted}}'\nconst savedCC = '{{savedCC}}'\n\nreturn hosted === 'session' && savedCC === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.request.url === 'https://test-gateway.mastercard.com/api/rest/version/100/merchant/TESTSAUCAL1/session/{{session}}'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const hosted = '{{hosted}}'\nconst savedCC = '{{savedCC}}'\n\nreturn hosted === 'session' && savedCC === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.request.type === 'PUT'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const hosted = '{{hosted}}'\nconst savedCC = '{{savedCC}}'\n\nreturn hosted === 'session' && savedCC === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.request.body.apiOperation === 'UPDATE_SESSION'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const hosted = '{{hosted}}'\nconst savedCC = '{{savedCC}}'\n\nreturn hosted === 'session' && savedCC === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.request.body.sourceOfFunds.token === '{{token}}'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const hosted = '{{hosted}}'\nconst savedCC = '{{savedCC}}'\n\nreturn hosted === 'session' && savedCC === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.session.id === '{{session}}'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const hosted = '{{hosted}}'\nconst savedCC = '{{savedCC}}'\n\nreturn hosted === 'session' && savedCC === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.session.updateStatus === 'SUCCESS'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const hosted = '{{hosted}}'\nconst savedCC = '{{savedCC}}'\n\nreturn hosted === 'session' && savedCC === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.sourceOfFunds.token === '{{token}}'",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const hosted = '{{hosted}}'\nconst savedCC = '{{savedCC}}'\n\nreturn hosted === 'session' && savedCC !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "",
+      "value": "const logs = {{sessionGetLogs}}\n\nreturn logs[0].content[0]",
+      "variableName": "log"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const hosted = '{{hosted}}'\nconst savedCC = '{{savedCC}}'\n\nreturn hosted === 'session' && savedCC === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "",
+      "value": "const logs = {{sessionGetLogs}}\n\nreturn logs[0].content[1]",
+      "variableName": "log"
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const hosted = '{{hosted}}'\n\nreturn hosted === 'session'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.request.url === 'https://test-gateway.mastercard.com/api/rest/version/100/merchant/TESTSAUCAL1/session/{{session}}'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const hosted = '{{hosted}}'\n\nreturn hosted === 'session'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.request.type === 'GET'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const hosted = '{{hosted}}'\n\nreturn hosted === 'session'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.session.id === '{{session}}'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const hosted = '{{hosted}}'\n\nreturn hosted === 'session'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.session.updateStatus === 'SUCCESS'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const savedCC = '{{savedCC}}'\nconst hosted = '{{hosted}}'\n\nreturn savedCC !== 'yes' && hosted === 'session'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.sourceOfFunds.provided.card.brand === '{{ShortName}}'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const savedCC = '{{savedCC}}'\nconst hosted = '{{hosted}}'\n\nreturn savedCC !== 'yes' && hosted === 'session'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "",
+      "value": "const log = {{log}}\nlet month = '{{month}}'\nmonth = Number(month)\n\nreturn log.response.body.sourceOfFunds.provided.card.expiry.month === month.toString()\n",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const savedCC = '{{savedCC}}'\nconst hosted = '{{hosted}}'\n\nreturn savedCC !== 'yes' && hosted === 'session'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "",
+      "value": "const log = {{log}}\nlet year = '{{year}}'\nyear = Number(year)\n\nreturn log.response.body.sourceOfFunds.provided.card.expiry.year === year.toString()",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const savedCC = '{{savedCC}}'\nconst hosted = '{{hosted}}'\n\nreturn savedCC !== 'yes' && hosted === 'session'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.sourceOfFunds.provided.card.number === '{{sixDigits}}xxxxxx{{fourDigits}}'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const savedCC = '{{savedCC}}'\nconst hosted = '{{hosted}}'\n\nreturn savedCC !== 'yes' && hosted === 'session'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.sourceOfFunds.provided.card.scheme === '{{ShortName}}'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const savedCC = '{{savedCC}}'\nconst hosted = '{{hosted}}'\n\nreturn savedCC !== 'yes' && hosted === 'session'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.sourceOfFunds.provided.card.securityCode === 'xxx'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const savedCC = '{{savedCC}}'\nconst hosted = '{{hosted}}'\n\nreturn savedCC === 'yes' && hosted === 'session'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.sourceOfFunds.token === '{{token}}'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const hosted = '{{hosted}}'\n\nreturn hosted === 'session'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.sourceOfFunds.type === 'CARD'",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "677beece04ed5cc20e98de60",
+    "suiteId": "676eb96835aed64d3077072a",
+    "suiteName": "MC - Common Steps for Tests"
+  }
+}

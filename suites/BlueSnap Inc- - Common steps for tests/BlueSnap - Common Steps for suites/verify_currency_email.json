@@ -1,0 +1,556 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "6.1.0",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "verify currency email",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "https://email.ghostinspector.com/message/637b9cb149df2a2def915850",
+  "steps": [
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nlet checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\nlet includeTax = \"{{includeTax}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nconst blog = '{{blog}}'\n\nreturn  (\n            (blueSnapVs[0] >= 3 && blueSnapVs[1] >= 2 && !blog.includes('block')\n            ||\n            (blueSnapVs[0] >= 3 && blueSnapVs[1] >= 5 && blog.includes('block')\n        \n "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "iframe[srcdoc] div:nth-of-type(1) > table.td > tbody > tr.order_item > td.td:nth-of-type(3) > .woocommerce-Price-amount.amount",
+      "value": "{{totalProd}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "iframe[srcdoc] div:nth-of-type(1) > table.td > tfoot > tr:nth-of-type(1) > td.td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "iframe[srcdoc] tbody > tr.order-totals-subtotal > td.td > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{subtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nreturn freeTrial != \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "iframe[srcdoc] div:nth-of-type(1) > table.td > tfoot > tr:nth-of-type(2) > td.td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "iframe[srcdoc] tbody > tr.order-totals-discount > td.td > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{discount}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nreturn freeTrial === \"yes\" "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": "iframe[srcdoc] div:nth-of-type(1) > table.td > tfoot > tr:nth-of-type(2) > td.td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "iframe[srcdoc] tbody > tr.order-totals-tax > td.td > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{tax}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nlet includeTax = \"{{includeTax}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn checklogs != \"upgrade\" && freeTrial != \"yes\"  && \n        (\n            includeTax == \"no\"\n            ||\n            (includeTax == \"yes\" && blueSnapVs[0] >= 3 && blueSnapVs[1] >= 2)\n        )\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": "iframe[srcdoc] div:nth-of-type(1) > table.td > tfoot > tr:nth-of-type(3) > td.td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "iframe[srcdoc] tbody > tr.order-totals-shipping > td.td > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{shipping}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\nreturn checklogs != \"upgrade\" && freeTrial != \"yes\" && \"{{includeTax}}\" === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "iframe[srcdoc] div:nth-of-type(1) > table.td > tfoot > tr:nth-of-type(4) > td.td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "iframe[srcdoc] tbody > tr.order-totals-tax > td.td > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{tax}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nreturn checklogs === \"upgrade\" "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "iframe[srcdoc] div:nth-of-type(1) > table.td > tfoot > tr:nth-of-type(3) > td.td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "iframe[srcdoc] tbody > tr.order-totals-tax > td.td > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{tax}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{includeTax}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "iframe[srcdoc] small.includes_tax > .woocommerce-Price-amount.amount",
+      "value": "{{tax}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nreturn checklogs === \"upgrade\" && \"{{includeTax}}\" === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "iframe[srcdoc] div:nth-of-type(1) > table.td > tfoot > tr:nth-of-type(5) > td.td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "iframe[srcdoc] tbody > tr.order-totals-total > td.td > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nreturn checklogs === \"upgrade\" && \"{{includeTax}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "iframe[srcdoc] div:nth-of-type(1) > table.td > tfoot > tr:nth-of-type(4) > td.td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "iframe[srcdoc] tbody > tr.order-totals-total > td.td > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nreturn freeTrial === \"yes\" && \"{{includeTax}}\" === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": "iframe[srcdoc] div:nth-of-type(1) > table.td > tfoot > tr:nth-of-type(4) > td.td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "iframe[srcdoc] tbody > tr.order-totals-total > td.td > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nreturn freeTrial === \"yes\" && \"{{includeTax}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": [
+        {
+          "selector": "iframe[srcdoc] div:nth-of-type(1) > table.td > tfoot > tr:nth-of-type(3) > td.td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "iframe[srcdoc] tbody > tr.order-totals-total > td.td > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nlet test = \"{{test}}\"\nlet freeTrial = \"{{freeTrial}}\"\nreturn checklogs != \"upgrade\" && test != \"partial\" && test != \"full\" \n&& freeTrial != \"yes\" && \"{{includeTax}}\" === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": [
+        {
+          "selector": "iframe[srcdoc] div:nth-of-type(1) > table.td > tfoot > tr:nth-of-type(6) > td.td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "iframe[srcdoc] tbody > tr.order-totals-total > td.td > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nlet test = \"{{test}}\"\nlet freeTrial = \"{{freeTrial}}\"\nreturn checklogs != \"upgrade\" && test != \"partial\" && test != \"full\" \n&& freeTrial != \"yes\" && \"{{includeTax}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": [
+        {
+          "selector": "iframe[srcdoc] div:nth-of-type(1) > table.td > tfoot > tr:nth-of-type(5) > td.td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "iframe[srcdoc] tbody > tr.order-totals-total > td.td > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"full\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": [
+        {
+          "selector": "iframe[srcdoc] div:nth-of-type(1) > table.td > tfoot > tr:nth-of-type(6) > td.td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "iframe[srcdoc] tbody > tr.order-totals-refund > td.td > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "-{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"full\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": [
+        {
+          "selector": "iframe[srcdoc] div:nth-of-type(1) > table.td > tfoot > tr:nth-of-type(7) > td.td > del"
+        },
+        {
+          "selector": "iframe[srcdoc] tbody > tr.order-totals-total > td.td > del"
+        }
+      ],
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"full\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": [
+        {
+          "selector": "iframe[srcdoc] div:nth-of-type(1) > table.td > tfoot > tr:nth-of-type(7) > td.td > ins > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "iframe[srcdoc] tbody > tr.order-totals-total > td.td > ins > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "0.00",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"partial\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "",
+      "value": "let total = \"{{total}}\"\ntotal = total.replace(\"{{symbol}}\",\"\").trim();\nreturn total",
+      "variableName": "total"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"partial\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "",
+      "value": "let total = {{total}}-{{partialRefund}}\nreturn Intl.NumberFormat('{{locale}}', { style: 'currency', currency: '{{currency}}'}).format(total)",
+      "variableName": "restTotal"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"partial\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "",
+      "value": "return Intl.NumberFormat('{{locale}}', { style: 'currency', currency: '{{currency}}'}).format({{total}})",
+      "variableName": "total"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"partial\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": [
+        {
+          "selector": "iframe[srcdoc] div:nth-of-type(1) > table.td > tfoot > tr:nth-of-type(6) > td.td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "iframe[srcdoc] tbody > tr.order-totals-refund > td.td > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "-{{partialRefund}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"partial\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": [
+        {
+          "selector": "iframe[srcdoc] div:nth-of-type(1) > table.td > tfoot > tr:nth-of-type(7) > td.td > del"
+        },
+        {
+          "selector": "iframe[srcdoc] tbody > tr.order-totals-total > td.td > del"
+        }
+      ],
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"partial\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": [
+        {
+          "selector": "iframe[srcdoc] div:nth-of-type(1) > table.td > tfoot > tr:nth-of-type(7) > td.td > ins > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "iframe[srcdoc] tbody > tr.order-totals-total > td.td > ins > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{restTotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"subscription\" "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "iframe[srcdoc] td.td:nth-of-type(4) > .woocommerce-Price-amount.amount",
+      "value": "{{recurringTotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nreturn checklogs === \"upgrade\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "iframe[srcdoc] div:nth-of-type(3) > table.td > tbody > tr.order_item > td.td:nth-of-type(3) > .woocommerce-Price-amount.amount",
+      "value": "{{price}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nreturn checklogs === \"upgrade\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": [
+        {
+          "selector": "iframe[srcdoc] div:nth-of-type(3) > table.td > tfoot > tr:nth-of-type(1) > td.td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "iframe[srcdoc] tbody > tr.order-totals-subtotal > td.td > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{recurringSubtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nreturn checklogs === \"upgrade\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": [
+        {
+          "selector": "iframe[srcdoc] div:nth-of-type(3) > table.td > tfoot > tr:nth-of-type(2) > td.td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "iframe[srcdoc] tbody > tr.order-totals-discount > td.td > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{recurringDiscount}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nreturn checklogs === \"upgrade\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": [
+        {
+          "selector": "iframe[srcdoc] div:nth-of-type(3) > table.td > tfoot > tr:nth-of-type(3) > td.td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "iframe[srcdoc] tbody > tr.order-totals-shipping > td.td > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{recurringShipping}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nreturn checklogs === \"upgrade\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": [
+        {
+          "selector": "iframe[srcdoc] tr:nth-of-type(4) > td.td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "iframe[srcdoc] tbody > tr.order-totals-tax > td.td > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{recurringTax}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nreturn checklogs === \"upgrade\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": [
+        {
+          "selector": "iframe[srcdoc] tr:nth-of-type(6) > td.td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "iframe[srcdoc] tbody > tr.order-totals-total > td.td > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{recurringTotal}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "637b9f845a27ff0806a9467f",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

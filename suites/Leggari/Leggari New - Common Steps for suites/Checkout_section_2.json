@@ -1,0 +1,228 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Checkout section 2",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "ul#shipping_method > li:nth-child(1) label",
+      "value": "FedEx",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "ul#shipping_method > li:nth-child(2) label",
+      "value": "Local pickup in Pasco, WA (Call to schedule a pickup 844-534-4274)",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#shipping_method > li:nth-child(1) div > span.woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "shippingPrice"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "return '{{role}}' === 'contractor'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "let shippingPrice = '{{shippingPrice}}'\n\nshippingPrice = parseFloat(shippingPrice.replace('{{Symbol}}','').trim())\n\nlet discount = shippingPrice * 0.1\n\nreturn '{{Symbol}}'+discount.toFixed(2)\n",
+      "variableName": "shipDiscount"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{product}}\" === \"composite\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": ".wfacp_mini_cart_item_title",
+      "value": "{{prod_desc}}\n\n{{square}} ft²\n\n ",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{product}}\" === \"simple\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": ".wfacp_mini_cart_item_title",
+      "value": "{{prod_desc}} ",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{product}}\" === \"variable\""
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 7,
+      "target": ".wfacp_mini_cart_item_title",
+      "value": "{{prod_desc}} \n{{base}} {{highlight}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return \"{{product}}\" === \"variable\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": ".wfacp_mini_cart_item_title",
+      "value": "{{prod_desc}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "td.product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "tr.cart-subtotal > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{role}}' === 'contractor'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "tr.fee:nth-of-type(2) > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "-{{prodDiscount}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "span > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{shippingPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{role}}' === 'contractor'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "tr.fee:nth-of-type(4) > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "-{{shipDiscount}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "tr.tax-total > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "taxPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "strong > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "total"
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "",
+      "value": "let unit = \"{{subtotalPrice}}\";\nlet prodDiscount = \"{{prodDiscount}}\"\nlet shipping = \"{{shippingPrice}}\";\nlet shipDiscount = \"{{shipDiscount}}\";\nif (shipping.includes(\"Free\")){\n    shipping = \"0.00\";\n};\nif (prodDiscount === \"\"){\n    prodDiscount = \"0.00\";\n};\nif (shipDiscount === \"\"){\n    shipDiscount = \"0.00\";\n};\nlet tax = \"{{taxPrice}}\";\nlet total = \"{{total}}\";\n\n\nunit = unit.replace(\",\",\"\");\nshipping = shipping.replace(\",\",\"\");\nprodDiscount = prodDiscount.replace(\",\",\"\");\nshipDiscount = shipDiscount.replace(\",\",\"\");\ntax = tax.replace(\",\",\"\");\ntotal = total.replace(\",\",\"\");\n\nunit = Number(unit.replace(\"{{Symbol}}\",\"\"));\nshipping = Number(shipping.replace(\"{{Symbol}}\",\"\"));\nprodDiscount = Number(prodDiscount.replace(\"{{Symbol}}\",\"\"));\nshipDiscount = Number(shipDiscount.replace(\"{{Symbol}}\",\"\"));\ntax = Number(tax.replace(\"{{Symbol}}\",\"\"));\ntotal = Number(total.replace(\"{{Symbol}}\",\"\"));\n\nlet total2 = unit-prodDiscount+shipping-shipDiscount+tax;\ntotal2 = Number(total2.toFixed(2));\n\nreturn total === total2",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "#wfacp_checkout_form > div.wfacp-left-panel.wfacp_page.pre_built.single_step > div.wfacp-two-step-erap.wfacp-next-btn-wrap > button",
+      "value": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "654a9a904ee1df25e03d3f56",
+    "suiteId": "61effe223e617932e957b5b8",
+    "suiteName": "Leggari New - Common Steps for suites"
+  }
+}

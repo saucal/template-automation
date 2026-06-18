@@ -1,0 +1,109 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "05 - Simple product page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"Shop All Products\")]"
+        },
+        {
+          "selector": ".menu-item.menu-item-type-post_type > a[href*=\"/view-all-products/\"] > .avia-menu-text"
+        }
+      ]
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "6981e67476f083a56521e0ab",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": " const maxPrice = 100.0;\n\n  var items = document.querySelectorAll(\n    'ul.products > li.instock.product-type-simple'\n  );\n\n  function parsePrice(li) {\n    // Prefer sale price (<ins>) when present, else the first amount.\n    var amt =\n      li.querySelector('.price ins .woocommerce-Price-amount') ||\n      li.querySelector('.price .woocommerce-Price-amount');\n    if (!amt) return NaN;\n    return parseFloat(amt.textContent.replace(/[^0-9.]/g, ''));\n  }\n\n  function buildSelector(li) {\n    // 1-based position among <li> siblings, for nth-of-type uniqueness.\n    var idx =\n      Array.prototype.filter.call(li.parentNode.children, function (n) {\n        return n.tagName === 'LI';\n      }).indexOf(li) + 1;\n    return (\n      'ul.products > li.instock.product-type-simple:nth-of-type(' +\n      idx +\n      ') > div'\n    );\n  }\n\n  for (var i = 0; i < items.length; i++) {\n    var li = items[i];\n    var price = parsePrice(li);\n    if (isNaN(price) || price >= maxPrice) continue;\n    if (!li.querySelector(':scope > div')) continue;\n\n    var title = li.querySelector('.woocommerce-loop-product__title');\n    \n    return buildSelector(li)\n    \n  }\n\n  return { found: false, maxPrice: maxPrice };",
+      "variableName": "selector"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "{{selector}}",
+      "value": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "h1.product_title",
+      "value": "",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": ".product-summary > .price > span > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "6981e67476f083a56521e0ab",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6981f4ac76f083a56524599e",
+    "suiteId": "6981e50d76f083a56521a3f5",
+    "suiteName": "repurposedM - Basic WooCommerce tests"
+  }
+}

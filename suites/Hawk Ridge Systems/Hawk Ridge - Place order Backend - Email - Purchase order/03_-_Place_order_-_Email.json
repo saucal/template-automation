@@ -1,0 +1,222 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "03 - Place order - Email",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "68caff45576a0f46b511fba2",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "//a[contains(text(), \"order has been received!\")]"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "tr.order_item:nth-child(1) div.yaymail-product-name",
+      "value": "{{prodDesc}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "tr.order_item:nth-child(1) .yaymail_item_price_content > .woocommerce-Price-amount.amount",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{product}}' === 'bundle'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "tr.order_item:nth-child(2) .yaymail-product-name",
+      "value": "{{prodTitle1}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{product}}' === 'bundle'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "tr.order_item:nth-child(3) .yaymail-product-name",
+      "value": "{{prodTitle2}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{product}}' === 'bundle'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "tr.order_item:nth-child(4) .yaymail-product-name",
+      "value": "{{prodTitle3}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{product}}' === 'bundle'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "tr.order_item:nth-child(5) .yaymail-product-name",
+      "value": "{{prodTitle4}}"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{product}}' === 'bundle'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "tr.order_item:nth-child(2) > .yaymail_item_price_content .woocommerce-Price-amount.amount",
+      "value": "{{prodPrice1}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{product}}' === 'bundle'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "tr.order_item:nth-child(3) .yaymail_item_price_content .woocommerce-Price-amount.amount",
+      "value": "{{prodPrice2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{product}}' === 'bundle'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "tr.order_item:nth-child(4) .yaymail_item_price_content .woocommerce-Price-amount.amount",
+      "value": "{{prodPrice3}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{product}}' === 'bundle'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "tr.order_item:nth-child(5) .yaymail_item_price_content .woocommerce-Price-amount.amount",
+      "value": "{{prodPrice4}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "tfoot .yaymail-order-detail-row-cart_subtotal  span.woocommerce-Price-amount.amount",
+      "value": "{{subtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "tfoot > tr.yaymail-order-detail-row-tax  span.woocommerce-Price-amount.amount",
+      "value": "{{taxPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "tfoot .yaymail-order-detail-row-payment_method > td",
+      "value": "{{paymentMethod}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "tfoot > tr.yaymail-order-detail-row-order_total > td > span.woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "tfoot > tr.yaymail-order-detail-row-order_note > td",
+      "value": "{{orderNote}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "td:nth-of-type(1) address",
+      "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{street2}}\n{{city}}, {{state}} {{zipCode}}\n{{phone}}\n{{email}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68caab53189a381f8eff133f",
+    "suiteId": "68caab53189a381f8eff1326",
+    "suiteName": "Hawk Ridge - Place order Backend + Email - Purchase order"
+  }
+}

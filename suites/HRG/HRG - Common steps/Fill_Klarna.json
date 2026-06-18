@@ -1,0 +1,291 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Fill Klarna",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotExclusions": "div.elementor-background-slideshow__slide > div.elementor-background-slideshow__slide__image, li.product > div > a > div > div.shoptimizer-plp-image-wrapper > img",
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "Klarna",
+      "variableName": "paymentMethod"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "#payment_method_cpsw_klarna"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "62753765c5f501e7105625b8",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"Continue\")]"
+        },
+        {
+          "selector": "#onContinue__text"
+        }
+      ]
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "[data-testid=\"kaf-field\"]"
+        },
+        {
+          "selector": "#otp_field"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "[data-testid=\"kaf-field\"]"
+        },
+        {
+          "selector": "#otp_field"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "[data-testid=\"kaf-field\"]"
+        },
+        {
+          "selector": "#otp_field"
+        }
+      ],
+      "value": "123456"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"Continue\")]"
+        },
+        {
+          "selector": "#onContinue__text"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const element = document.querySelector('input[name=\"offers__group\"]')\n\nreturn !!element"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "input[name=\"offers__group\"]"
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": "#offers-selector-continue-button__text"
+        },
+        {
+          "selector": "#offers-selector-continue-button"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": [
+        {
+          "selector": "#offers-selector-continue-button__text"
+        },
+        {
+          "selector": "#offers-selector-continue-button"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": [
+        {
+          "selector": "#offers-selector-continue-button__text"
+        },
+        {
+          "selector": "#offers-selector-continue-button"
+        }
+      ]
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": [
+        {
+          "selector": "xpath=//span[contains(text(), \"Pay with\")]"
+        },
+        {
+          "selector": "#buy_button__text"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": [
+        {
+          "selector": "xpath=//span[contains(text(), \"Pay with\")]"
+        },
+        {
+          "selector": "#buy_button__text"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"Pay with\")]"
+        },
+        {
+          "selector": "#buy_button__text"
+        }
+      ]
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 16,
+      "target": "#loader > circle-loader",
+      "value": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 17,
+      "target": "",
+      "value": "return new Promise((resolve) => {\n  const checkExistence = setInterval(() => {\n    let block = document.querySelectorAll('#loader > circle-loader');\n\n    if (block.length === 0) { // Explicitly check if NodeList is empty\n      clearInterval(checkExistence);\n      resolve(true);\n    }\n  }, 100);\n})",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 18,
+      "target": "#loader > circle-loader",
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "693c69870e1e837d8cc570f7",
+    "suiteId": "6920608128d2a810e8ddb16d",
+    "suiteName": "HRG - Common steps"
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Get Woo order failed",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "return new Promise(function (resolve, reject) {\n  const username = \"{{woo_user}}\"; \n  const password = \"{{woo_pass}}\"; \n  const url = \"{{startUrl}}wp-json/wc/v3/orders?status=failed\";\n  let headers = new Headers();\n  headers.set('Content-Type', 'application/json');\n  headers.set('Authorization', 'Basic ' + btoa(username + \":\" + password));\n  fetch(url, {method:'GET',\n      headers: headers, \n      credentials: 'omit'\n      \n      })\n  .then(function(response) {\n    if (response.ok) {\n    resolve(response.json())\n    } else {\n    reject(new Error('error'))\n    } \n  })\n})",
+      "variableName": "myOrders"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let test = \"{{3ds}}\"\nreturn test != \"1.0d\" && test != \"2.0d\" && test != \"2.0dW\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "const jsonOrder = {{myOrders}}\nreturn jsonOrder[0].id",
+      "variableName": "orderNumber"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let test = \"{{3ds}}\"\nreturn test != \"1.0d\" && test != \"2.0d\" && test != \"2.0dW\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "const jsonOrder = {{myOrders}}\nreturn jsonOrder[0].date_modified",
+      "variableName": "payDate"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let test = \"{{3ds}}\"\nreturn test != \"1.0d\" && test != \"2.0d\" && test != \"2.0dW\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "const jsonOrder = {{myOrders}}\nreturn jsonOrder[0].payment_method_title",
+      "variableName": "paymentMethodTitle"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "61793652e3892d651a992c7e",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

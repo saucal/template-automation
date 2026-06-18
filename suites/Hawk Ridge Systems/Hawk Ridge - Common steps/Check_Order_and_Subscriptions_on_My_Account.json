@@ -1,0 +1,157 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Check Order and Subscriptions on My Account",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "68cbfac7576a0f46b539af05",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "a[href=\"/my-account\"] > svg.e-far-user"
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "return 'stripe' === '{{payment}}'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "6927432a46538043d23eaa0e",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"Orders\")]"
+        },
+        {
+          "selector": ".woocommerce-MyAccount-navigation-link > a[href*=\"/my-account/orders\"]"
+        }
+      ]
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "a[href*=\"/my-account/view-order/{{orderNumber}}\"][aria-label=\"View order number {{orderNumber}}\"]",
+      "value": "#{{orderNumber}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return 'purchase' === '{{payment}}'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "td.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-status",
+      "value": "On hold"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return 'stripe' === '{{payment}}' && '{{shippingPrice}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "td.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-status",
+      "value": "Processing"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return 'stripe' === '{{payment}}' && '{{shippingPrice}}' === ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "td.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-status",
+      "value": "Completed"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "td.woocommerce-orders-table__cell > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"View\")]"
+        },
+        {
+          "selector": "a[href*=\"/my-account/view-order/{{orderNumber}}\"][aria-label=\"View order {{orderNumber}}\"]"
+        }
+      ]
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "68cbfac7576a0f46b539af05",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68cbf8ff576a0f46b5393cb9",
+    "suiteId": "68cafa6a576a0f46b511339a",
+    "suiteName": "Hawk Ridge - Common steps"
+  }
+}

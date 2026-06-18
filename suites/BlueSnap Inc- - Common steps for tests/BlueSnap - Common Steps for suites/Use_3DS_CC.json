@@ -1,0 +1,157 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Use 3DS CC",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": {
+        "statement": "let cc = \"{{3ds}}\"\nreturn cc === \"1.0a\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "4000000000000002",
+      "variableName": "CCard"
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "let cc = \"{{3ds}}\"\nreturn cc === \"1.0d\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "4000000000000028",
+      "variableName": "CCard"
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "let cc = \"{{3ds}}\"\nreturn cc === \"2.0a\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "4000000000002701",
+      "variableName": "CCard"
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "let cc = \"{{3ds}}\"\nreturn cc === \"2.0aW\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "4000000000002503",
+      "variableName": "CCard"
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "let cc = \"{{3ds}}\"\nreturn cc === \"2.0d\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "4000000000002925",
+      "variableName": "CCard"
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "let cc = \"{{3ds}}\"\nreturn cc === \"2.0dW\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "4000000000002370",
+      "variableName": "CCard"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "01",
+      "variableName": "month"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "let year = new Date().getFullYear()+3\nyear = year.toString().substr(-2)\nreturn year\n",
+      "variableName": "year"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "123",
+      "variableName": "cvv"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "VISA",
+      "variableName": "ShortName"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "Visa",
+      "variableName": "CCName"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "620bf570329c2fb1fecab703",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

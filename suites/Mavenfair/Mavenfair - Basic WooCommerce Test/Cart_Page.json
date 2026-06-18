@@ -1,0 +1,183 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Cart Page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "ul > li.product-type-simple > div > div > a",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let variations = document.querySelectorAll('table.variations')\nreturn variations !== null\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "let variations = document.querySelectorAll('table.variations > tbody > tr')\nreturn variations.length",
+      "variableName": "variations"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return {{variations}} >= 1"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "tr:nth-child(1) > td > select",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return {{variations}} >= 1"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "tr:nth-child(1) > td > select > option:nth-child(2)",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return {{variations}} >= 2"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "tr:nth-child(2) > td > select",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return {{variations}} >= 2"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "tr:nth-child(2) > td > select > option:nth-child(2)",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return {{variations}} >= 3"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "tr:nth-child(3) > td > select > option:nth-child(2)",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return {{variations}} >= 3"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "tr:nth-child(3) > td > select",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "h1.product_title.entry-title",
+      "value": "",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "p.price > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "p.price > ins .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "button.single_add_to_cart_button.button.alt",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": [
+        {
+          "selector": ".wc-block-components-notice-banner>.wc-block-components-notice-banner__content .wc-forward"
+        },
+        {
+          "selector": ".woocommerce-message .wc-forward"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6001e87ac5e34d38d8d5edd5",
+    "suiteId": "6001e87ac5e34d38d8d5edcf",
+    "suiteName": "Mavenfair - Basic WooCommerce Test"
+  }
+}

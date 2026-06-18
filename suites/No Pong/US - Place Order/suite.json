@@ -1,0 +1,177 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "67c09815c4c19f03ef9fe1f5",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2025-02-27T16:51:33.320Z",
+    "details": "Basic WooCommerce Test",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "6022b367262f437a9af8c1f8",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 1,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "US - Place Order",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://no-pong-america-develop.go-vip.net/us/",
+    "testCount": 5,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2480"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2481"
+      },
+      {
+        "name": "phone",
+        "value": "+14165551234",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2489"
+      },
+      {
+        "name": "adminUser",
+        "value": "qa+giadmin@saucal.com",
+        "private": false,
+        "_id": "67c9a6b8c4c19f03ef070969"
+      },
+      {
+        "name": "street3",
+        "value": "123 False Shipping",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a248b"
+      },
+      {
+        "name": "adminPass",
+        "value": "nba_wbc8ycn.ycj3JHB",
+        "private": true,
+        "_id": "67c9a6b8c4c19f03ef07096a"
+      },
+      {
+        "name": "Symbol",
+        "value": "$",
+        "private": false,
+        "_id": "6283ba364b7dbf9dc9ad4af3"
+      },
+      {
+        "name": "state",
+        "value": "FL",
+        "private": false,
+        "_id": "6284eabda0299821fc845da3"
+      },
+      {
+        "name": "country",
+        "value": "US",
+        "private": false,
+        "_id": "6284eabda0299821fc845da4"
+      },
+      {
+        "name": "countryComplete",
+        "value": "United States (US)",
+        "private": false,
+        "_id": "6284eabda0299821fc845da5"
+      },
+      {
+        "name": "project",
+        "value": "nopong",
+        "private": false,
+        "_id": "6284eabda0299821fc845da6"
+      },
+      {
+        "name": "password",
+        "value": "fric2171Biot",
+        "private": true,
+        "_id": "6284eabda0299821fc845da7"
+      },
+      {
+        "name": "currency",
+        "value": "USD",
+        "private": false,
+        "_id": "639ca67f903428273607f876"
+      },
+      {
+        "name": "password2",
+        "value": "fric2172Biot",
+        "private": true,
+        "_id": "6284eabda0299821fc845da8"
+      },
+      {
+        "name": "includeTax",
+        "value": "false",
+        "private": false,
+        "_id": "689b37c7753c2677769deefe"
+      },
+      {
+        "name": "lastName2",
+        "value": "{{alphanumeric}} Shipping",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2482"
+      },
+      {
+        "name": "company",
+        "value": "Saucal Test",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2483"
+      },
+      {
+        "name": "company2",
+        "value": "Saucal Shipping",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2484"
+      },
+      {
+        "name": "street",
+        "value": "123 False Street",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2485"
+      },
+      {
+        "name": "city",
+        "value": "Miami",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2486"
+      },
+      {
+        "name": "stateComplete",
+        "value": "Florida",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2487"
+      },
+      {
+        "name": "zipCode",
+        "value": "33126",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2488"
+      }
+    ],
+    "viewportSize": {
+      "width": 1366,
+      "height": 768
+    },
+    "httpAuthPassword": "xmb!ata4gup_qke@KNK",
+    "httpAuthUsername": "stg-nopong-america"
+  }
+}

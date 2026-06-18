@@ -1,0 +1,109 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "10 - Variable Product page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "{{startUrl}}shop/",
+      "variableName": ""
+    },
+    {
+      "command": "eval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "let element = document.querySelectorAll('li.instock.product-type-variable > a > .woocommerce-LoopProduct-image-wrapper > div:nth-of-type(2) > img');\nlet viewMore = document.querySelector('#product-loop > div.row > div > div > span');\nlet maxAttempts = 3;\nlet attempts = 0;\n\nfunction checkAndClick() {\n    let newElements = document.querySelectorAll('li.instock.product-type-variable > a > .woocommerce-LoopProduct-image-wrapper > div:nth-of-type(2) > img');\n    if (newElements.length === 0 && attempts < maxAttempts) {\n        if (viewMore) {\n            viewMore.click();\n            console.log('click, attempt', attempts + 1);\n            attempts++;\n            // Check again after a short delay to allow DOM updates\n            setTimeout(checkAndClick, 5000);\n        } else {\n            console.log('View more element not found');\n        }\n    } else if (newElements.length > 0) {\n        console.log('Elements found:', newElements.length);\n        element = newElements; // Update the element reference\n    } else {\n        console.log('Max attempts reached, no elements found');\n    }\n}\n\n// Initial check and start the process\nif (element.length === 0 && viewMore) {\n    viewMore.click();\n    console.log('click, attempt 1');\n    attempts++;\n    setTimeout(checkAndClick, 5000); // Start checking after the first click\n} else if (element.length > 0) {\n    console.log('Elements already found:', element.length);\n} else {\n    console.log('View more element not found');\n}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "li.instock.product-type-variable > a > .woocommerce-LoopProduct-image-wrapper > div:nth-of-type(2) > img"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "h1.product-title",
+      "value": "",
+      "variableName": "prodDesc"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "div.product-add-to-cart-radio:nth-of-type(1) > label > .product-add-to-cart-price > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": ".product-add-to-cart-price.product-add-to-cart-price-subscription-scheme > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "div:nth-child(2) > label > div.product-add-to-cart-price"
+        }
+      ],
+      "value": "",
+      "variableName": "subPrice"
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "#product-description > .toggle-heading",
+      "value": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68c08262029c694b8f77e527",
+    "suiteId": "68c0700d029c694b8f7575be",
+    "suiteName": "Gruum - Basic WooCommerce Tests"
+  }
+}

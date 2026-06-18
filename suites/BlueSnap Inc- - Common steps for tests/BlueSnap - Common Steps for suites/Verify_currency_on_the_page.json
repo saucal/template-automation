@@ -1,0 +1,83 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Verify currency on the page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let includeTax = \"{{includeTax}}\"\nlet includeShipping = \"{{includeShipping}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn  Number(blueSnapVs[0]) >= 3 && Number(blueSnapVs[1]) >= 5\n        &&\n        includeTax === \"yes\"\n        &&\n        includeShipping === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "function compareNumbers(a, b) {\n    return a - b;\n  }\n  function convertCurrencyToNumber(currencyString, decimal = '') {\n      // Remove non-numeric characters (except the decimal point and comma)\n      const numericString = currencyString.replace(/[^0-9.,]/g, '');\n      let numericValue;\n      // Replace commas with dots (for consistency) and convert the numeric string to a JavaScript number\n      if (decimal === ',') {\n          numericValue = parseFloat(numericString.replace('.','').replace(',','.'));\n      } else {\n          numericValue = parseFloat(numericString.replace(',',''));\n      }\n      return numericValue;\n  }\n  \n  let result = {{resultEURShipping}}\n  let resultDefault = {{resultDefaultShipping}}\n  let parts = {{parts}}\n  let defaultParts = {{defaultParts}}\n  let rate = {{rate}}\n  let n = 0\n  let boolean = true\n  let boolean2 = true\n  let boolean3 = true\n  let price\n  let price2\n  let curr = \"{{curr}}\"\n  let defaultCurr = \"{{defaultCurr}}\"\n  let isCurrencySymbol\n  const symbol = parts.find(part => part.type === 'currency').value\n  \n  if (curr === \"EUR\") {\n      isCurrencySymbol = (currentValue) => currentValue.endsWith(\" \" + symbol) || currentValue.endsWith(String.fromCharCode(160)+symbol);\n  } else {\n      isCurrencySymbol = (currentValue) => currentValue.startsWith(symbol);\n  }\n  boolean2 = result.every(isCurrencySymbol);\n  console.log(\"boolean2 is \"+boolean2);\n  \n  while (result.length > n) {\n    if (curr === 'JPY') {\n        result[n] = convertCurrencyToNumber(result[n])\n    } else {\n        result[n] = convertCurrencyToNumber(result[n], parts.find(part => part.type === 'decimal').value)\n    }\n    n++\n  }\n  result = result.sort(compareNumbers);\n  \n  n = 0;\n  \n  while (resultDefault.length > n) {\n    if (defaultCurr === 'JPY') {\n        resultDefault[n] = convertCurrencyToNumber(resultDefault[n])\n    } else {\n        resultDefault[n] = convertCurrencyToNumber(resultDefault[n], defaultParts.find(part => part.type === 'decimal').value)\n    }\n    n++\n  }\n  resultDefault = resultDefault.sort(compareNumbers);\n  \n  n = 0;\n  if (result.length === resultDefault.length) {\n      console.log(\"length is correct \"+boolean3)\n  } else {\n      boolean3 = false\n      console.log(\"length is not correct \"+boolean3)\n  }\n  \n  while (result.length > n) {\n          price = resultDefault[n] / 1.1\n\n          if ( curr === \"JPY\") {\n              price = Math.round(price * rate)+Math.round((price*0.1) * rate)\n          } else {\n              price = (Math.round(price*rate*100)+Math.round((price*0.1)*rate*100))/100\n          }\n          \n          price2 = result[n]\n          \n          \n          if (price2 !== price) {\n              boolean = false\n              console.log(\"price is \"+price)\n              console.log(\"price2 is \"+price2)\n              console.log(n+\" is \"+boolean)\n              break;\n          } else {\n              console.log(n + \"price: \"+ price + \", and price 2: \"+price2)\n              n++\n          }\n      }    \n  \n  return boolean2 && boolean && boolean3",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let includeTax = \"{{includeTax}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn  Number(blueSnapVs[0]) >= 3 && Number(blueSnapVs[1]) >= 5\n        &&\n        includeTax === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "function compareNumbers(a, b) {\n    return a - b;\n  }\n  function convertCurrencyToNumber(currencyString, decimal = '') {\n      // Remove non-numeric characters (except the decimal point and comma)\n      const numericString = currencyString.replace(/[^0-9.,]/g, '');\n      let numericValue;\n      // Replace commas with dots (for consistency) and convert the numeric string to a JavaScript number\n      if (decimal === ',') {\n          numericValue = parseFloat(numericString.replace('.','').replace(',','.'));\n      } else {\n          numericValue = parseFloat(numericString.replace(',',''));\n      }\n      return numericValue;\n  }\n  \n  let result = {{resultEUR}}\n  let resultDefault = {{resultDefault}}\n  let parts = {{parts}}\n  let defaultParts = {{defaultParts}}\n  let rate = {{rate}}\n  let n = 0\n  let boolean = true\n  let boolean2 = true\n  let boolean3 = true\n  let price\n  let price2\n  let curr = \"{{curr}}\"\n  let defaultCurr = \"{{defaultCurr}}\"\n  let isCurrencySymbol\n  const symbol = parts.find(part => part.type === 'currency').value\n  \n  if (curr === \"EUR\") {\n      isCurrencySymbol = (currentValue) => currentValue.endsWith(\" \" + symbol) || currentValue.endsWith(String.fromCharCode(160)+symbol);\n  } else {\n      isCurrencySymbol = (currentValue) => currentValue.startsWith(symbol);\n  }\n  boolean2 = result.every(isCurrencySymbol);\n  console.log(\"boolean2 is \"+boolean2);\n  \n  while (result.length > n) {\n    if (curr === 'JPY') {\n        result[n] = convertCurrencyToNumber(result[n])\n    } else {\n        result[n] = convertCurrencyToNumber(result[n], parts.find(part => part.type === 'decimal').value)\n    }\n    n++\n  }\n  result = result.sort(compareNumbers);\n  \n  n = 0;\n  \n  while (resultDefault.length > n) {\n    if (defaultCurr === 'JPY') {\n        resultDefault[n] = convertCurrencyToNumber(resultDefault[n])\n    } else {\n        resultDefault[n] = convertCurrencyToNumber(resultDefault[n], defaultParts.find(part => part.type === 'decimal').value)\n    }\n    n++\n  }\n  resultDefault = resultDefault.sort(compareNumbers);\n  \n  n = 0;\n  if (result.length === resultDefault.length) {\n      console.log(\"length is correct \"+boolean3)\n  } else {\n      boolean3 = false\n      console.log(\"length is not correct \"+boolean3)\n  }\n  \n  while (result.length > n) {\n          price = resultDefault[n]\n\n          if ( curr === \"JPY\") {\n              price = Math.round(price * rate)\n          } else {\n              price = Math.round(price * rate * 100) / 100\n          }\n          \n          price2 = result[n]\n\n          if (price2 !== price) {\n              boolean = false\n              console.log(\"price is \"+price)\n              console.log(\"price2 is \"+price2)\n              console.log(n+\" is \"+boolean)\n              break;\n          } else {\n              console.log(n + \"price: \"+ price + \", and price 2: \"+price2)\n              n++\n          }\n      }    \n  \n  return boolean2 && boolean && boolean3",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let includeTax = \"{{includeTax}}\"\nlet includeShipping = \"{{includeShipping}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn  Number(blueSnapVs[0]) >= 3 && Number(blueSnapVs[1]) >= 5\n        &&\n        (includeTax === \"no\" || includeTax === \"\")\n        &&\n    includeShipping === 'yes'\n        "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "function compareNumbers(a, b) {\n    return a - b;\n  }\n  function convertCurrencyToNumber(currencyString, decimal = '') {\n      // Remove non-numeric characters (except the decimal point and comma)\n      const numericString = currencyString.replace(/[^0-9.,]/g, '');\n      let numericValue;\n      // Replace commas with dots (for consistency) and convert the numeric string to a JavaScript number\n      if (decimal === ',') {\n          numericValue = parseFloat(numericString.replace('.','').replace(',','.'));\n      } else {\n          numericValue = parseFloat(numericString.replace(',',''));\n      }\n      return numericValue;\n  }\n  \n  let result = {{resultEURShipping}}\n  let resultDefault = {{resultDefaultShipping}}\n  let parts = {{parts}}\n  let defaultParts = {{defaultParts}}\n  let rate = {{rate}}\n  let n = 0\n  let boolean = true\n  let boolean2 = true\n  let boolean3 = true\n  let price\n  let price2\n  let curr = \"{{curr}}\"\n  let defaultCurr = \"{{defaultCurr}}\"\n  let isCurrencySymbol\n  const symbol = parts.find(part => part.type === 'currency').value\n  \n  if (curr === \"EUR\") {\n      isCurrencySymbol = (currentValue) => currentValue.endsWith(\" \" + symbol) || currentValue.endsWith(String.fromCharCode(160)+symbol);\n  } else {\n      isCurrencySymbol = (currentValue) => currentValue.startsWith(symbol);\n  }\n  boolean2 = result.every(isCurrencySymbol);\n  console.log(\"boolean2 is \"+boolean2);\n  \n  while (result.length > n) {\n    if (curr === 'JPY') {\n        result[n] = convertCurrencyToNumber(result[n])\n    } else {\n        result[n] = convertCurrencyToNumber(result[n], parts.find(part => part.type === 'decimal').value)\n    }\n    n++\n  }\n  result = result.sort(compareNumbers);\n  \n  n = 0;\n  \n  while (resultDefault.length > n) {\n    if (defaultCurr === 'JPY') {\n        resultDefault[n] = convertCurrencyToNumber(resultDefault[n])\n    } else {\n        resultDefault[n] = convertCurrencyToNumber(resultDefault[n], defaultParts.find(part => part.type === 'decimal').value)\n    }\n    n++\n  }\n  resultDefault = resultDefault.sort(compareNumbers);\n  \n  n = 0;\n  if (result.length === resultDefault.length) {\n      console.log(\"length is correct \"+boolean3)\n  } else {\n      boolean3 = false\n      console.log(\"length is not correct \"+boolean3)\n  }\n  \n  while (result.length > n) {\n          price = resultDefault[n]\n          \n           if ( curr === \"JPY\") {\n              price = Math.round(price * rate)\n          } else {\n              price = Math.round(price * rate * 100) / 100\n          }\n          price2 = result[n]\n          \n          if (price2 !== price) {\n              boolean = false\n              console.log(\"price is \"+price)\n              console.log(\"price2 is \"+price2)\n              console.log(n+\" is \"+boolean)\n              break;\n          } else {\n              console.log(n + \"price: \"+ price + \", and price 2: \"+price2)\n              n++\n          }\n      }    \n  \n  return boolean2 && boolean && boolean3",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let includeTax = \"{{includeTax}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn  Number(blueSnapVs[0]) >= 3 && Number(blueSnapVs[1]) >= 5\n        &&\n        (includeTax === \"no\" || includeTax === \"\")"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "function compareNumbers(a, b) {\n    return a - b;\n  }\n  function convertCurrencyToNumber(currencyString, decimal = '') {\n      // Remove non-numeric characters (except the decimal point and comma)\n      const numericString = currencyString.replace(/[^0-9.,]/g, '');\n      let numericValue;\n      // Replace commas with dots (for consistency) and convert the numeric string to a JavaScript number\n      if (decimal === ',') {\n          numericValue = parseFloat(numericString.replace('.','').replace(',','.'));\n      } else {\n          numericValue = parseFloat(numericString.replace(',',''));\n      }\n      return numericValue;\n  }\n  \n  let result = {{resultEUR}}\n  let resultDefault = {{resultDefault}}\n  let parts = {{parts}}\n  let defaultParts = {{defaultParts}}\n  let rate = {{rate}}\n  let n = 0\n  let boolean = true\n  let boolean2 = true\n  let boolean3 = true\n  let price\n  let price2\n  let curr = \"{{curr}}\"\n  let defaultCurr = \"{{defaultCurr}}\"\n  let isCurrencySymbol\n  const symbol = parts.find(part => part.type === 'currency').value\n  \n  if (curr === \"EUR\") {\n      isCurrencySymbol = (currentValue) => currentValue.endsWith(\" \" + symbol) || currentValue.endsWith(String.fromCharCode(160)+symbol);\n  } else {\n      isCurrencySymbol = (currentValue) => currentValue.startsWith(symbol);\n  }\n  boolean2 = result.every(isCurrencySymbol);\n  console.log(\"boolean2 is \"+boolean2);\n  \n  while (result.length > n) {\n    if (curr === 'JPY') {\n        result[n] = convertCurrencyToNumber(result[n])\n    } else {\n        result[n] = convertCurrencyToNumber(result[n], parts.find(part => part.type === 'decimal').value)\n    }\n    n++\n  }\n  result = result.sort(compareNumbers);\n  \n  n = 0;\n  \n  while (resultDefault.length > n) {\n    if (defaultCurr === 'JPY') {\n        resultDefault[n] = convertCurrencyToNumber(resultDefault[n])\n    } else {\n        resultDefault[n] = convertCurrencyToNumber(resultDefault[n], defaultParts.find(part => part.type === 'decimal').value)\n    }\n    n++\n  }\n  resultDefault = resultDefault.sort(compareNumbers);\n  \n  n = 0;\n  if (result.length === resultDefault.length) {\n      console.log(\"length is correct \"+boolean3)\n  } else {\n      boolean3 = false\n      console.log(\"length is not correct \"+boolean3)\n  }\n  \n  while (result.length > n) {\n          price = resultDefault[n]\n\n           if ( curr === \"JPY\") {\n              price = Math.round(price * rate)\n          } else {\n              price = Math.round(price * rate * 100) / 100\n          }\n          price2 = result[n]\n          \n          if (price2 !== price) {\n              boolean = false\n              console.log(\"price is \"+price)\n              console.log(\"price2 is \"+price2)\n              console.log(n+\" is \"+boolean)\n              break;\n          } else {\n              console.log(n + \"price: \"+ price + \", and price 2: \"+price2)\n              n++\n          }\n      }    \n  \n  return boolean2 && boolean && boolean3",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "630e5a9ecd380e119c7bcdea",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

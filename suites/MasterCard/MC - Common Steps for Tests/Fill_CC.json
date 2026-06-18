@@ -1,0 +1,515 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Fill CC",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "https://stgamazontest.wpengine.com/checkout-2/",
+  "steps": [
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let savedCC = '{{savedCC}}'\nlet element = document.querySelectorAll('div.payment_method_acme li.woocommerce-SavedPaymentMethods-token, label > input[name=\"radio-control-wc-payment-method-saved-tokens\"] , div.payment_method_mastercard_merchant_cloud li.woocommerce-SavedPaymentMethods-token');\n\nreturn savedCC != 'yes' && element.length >= 1"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "#wc-mastercard_merchant_cloud-payment-token-new"
+        },
+        {
+          "selector": "#radio-control-wc-payment-method-options-mastercard_merchant_cloud"
+        },
+        {
+          "selector": "#wc-acme-payment-token-new"
+        },
+        {
+          "selector": "#radio-control-wc-payment-method-options-acme"
+        }
+      ]
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let savedCC = '{{savedCC}}'\nlet element = document.querySelectorAll('div.payment_method_acme li.woocommerce-SavedPaymentMethods-token, label > input[name=\"radio-control-wc-payment-method-saved-tokens\"] , div.payment_method_mastercard_merchant_cloud li.woocommerce-SavedPaymentMethods-token');\n\nreturn savedCC != 'yes' && element.length >= 1"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let savedCC = '{{savedCC}}'\n\nreturn savedCC != 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "iframe[src*=\"test-gateway.mastercard.com\"] #number",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let savedCC = '{{savedCC}}'\n\nreturn savedCC != 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let savedCC = '{{savedCC}}'\n\nreturn savedCC != 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "iframe[src*=\"test-gateway.mastercard.com\"] #number",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let savedCC = '{{savedCC}}'\n\nreturn savedCC != 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "iframe[src*=\"test-gateway.mastercard.com\"] #number",
+      "value": "{{CCard}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let savedCC = '{{savedCC}}'\n\nreturn savedCC != 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "iframe[src*=\"test-gateway.mastercard.com\"] #expiryMonth",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let savedCC = '{{savedCC}}'\n\nreturn savedCC != 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let savedCC = '{{savedCC}}'\n\nreturn savedCC != 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "iframe[src*=\"test-gateway.mastercard.com\"] #expiryMonth",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let savedCC = '{{savedCC}}'\n\nreturn savedCC != 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "iframe[src*=\"test-gateway.mastercard.com\"] #expiryMonth",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let savedCC = '{{savedCC}}'\n\nreturn savedCC != 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "iframe[src*=\"test-gateway.mastercard.com\"] #expiryMonth",
+      "value": "{{month}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let savedCC = '{{savedCC}}'\n\nreturn savedCC != 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "iframe[src*=\"test-gateway.mastercard.com\"] #expiryYear",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let savedCC = '{{savedCC}}'\n\nreturn savedCC != 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let savedCC = '{{savedCC}}'\n\nreturn savedCC != 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "iframe[src*=\"test-gateway.mastercard.com\"] #expiryYear",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let savedCC = '{{savedCC}}'\n\nreturn savedCC != 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "iframe[src*=\"test-gateway.mastercard.com\"] #expiryYear",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let savedCC = '{{savedCC}}'\n\nreturn savedCC != 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "iframe[src*=\"test-gateway.mastercard.com\"] #expiryYear",
+      "value": "{{year}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let savedCC = '{{savedCC}}'\n\nreturn savedCC != 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "iframe[src*=\"test-gateway.mastercard.com\"] #securityCode",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let savedCC = '{{savedCC}}'\n\nreturn savedCC != 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let savedCC = '{{savedCC}}'\n\nreturn savedCC != 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "iframe[src*=\"test-gateway.mastercard.com\"] #securityCode",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let savedCC = '{{savedCC}}'\n\nreturn savedCC != 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "iframe[src*=\"test-gateway.mastercard.com\"] #securityCode",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let savedCC = '{{savedCC}}'\n\nreturn savedCC != 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "iframe[src*=\"test-gateway.mastercard.com\"] #securityCode",
+      "value": "{{cvv}}",
+      "variableName": ""
+    },
+    {
+      "command": "keypress",
+      "condition": {
+        "statement": "let savedCC = '{{savedCC}}'\n\nreturn savedCC != 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "",
+      "value": "9",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotVisible",
+      "condition": {
+        "statement": "const user = \"{{user}}\"\nconst tokenizedCards = '{{tokenizedCards}}'\nconst checkout = document.querySelector('form.woocommerce-checkout')\n\nreturn user === \"guest\" && tokenizedCards !== 'inactive' && !!checkout\n"
+      },
+      "notes": "",
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": [
+        {
+          "selector": "xpath=//label[contains(text(), \"Save to account\")]"
+        },
+        {
+          "selector": "label[for=\"wc-acme-new-payment-method\"]"
+        },
+        {
+          "selector": "label[for=\"wc-mastercard_merchant_cloud-new-payment-method\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "const user = \"{{user}}\"\nconst tokenizedCards = '{{tokenizedCards}}'\nconst checkout = document.querySelector('.wp-block-woocommerce-checkout')\n\nreturn user === \"guest\" && tokenizedCards !== 'inactive'  && !!checkout"
+      },
+      "notes": "",
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": [
+        {
+          "selector": "xpath=//span[contains(text(), \"Save payment information to my account for future purchases.\")]"
+        },
+        {
+          "selector": "div.wc-block-components-payment-methods__save-card-info"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "const tokenizedCards = '{{tokenizedCards}}'\nconst subscription = '{{subscription}}'\n\nreturn tokenizedCards === 'inactive' || subscription === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": [
+        {
+          "selector": "label[for=\"wc-acme-new-payment-method\"]"
+        },
+        {
+          "selector": "label[for=\"wc-mastercard_merchant_cloud-new-payment-method\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "const tokenizedCards = '{{tokenizedCards}}'\nconst subscription = '{{subscription}}'\n\nreturn tokenizedCards === 'inactive' || subscription === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "//li[@class='wc_payment_method payment_method_mastercard_merchant_cloud']//label[contains(text(), \"Save to account\")]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "const tokenizedCards = '{{tokenizedCards}}'\nconst subscription = '{{subscription}}'\n\nreturn tokenizedCards === 'inactive' || subscription === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "xpath=//span[contains(text(), \"Save payment information to my account for future purchases.\")]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "const tokenizedCards = '{{tokenizedCards}}'\nconst subscription = '{{subscription}}'\n\nreturn tokenizedCards === 'inactive' || subscription === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "div.wc-block-components-payment-methods__save-card-info.input",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": {
+        "statement": "const user = \"{{user}}\"\nconst tokenizedCards = '{{tokenizedCards}}'\nconst addPaymentMethod = '{{addPaymentMethod}}'\n\nreturn  user === \"new\" \n        &&\n        tokenizedCards !== 'inactive' \n        && \n        addPaymentMethod !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": [
+        {
+          "selector": "xpath=//label[contains(text(), \"Save to account\")]"
+        },
+        {
+          "selector": "label[for=\"wc-acme-new-payment-method\"]"
+        },
+        {
+          "selector": "xpath=//span[contains(text(), \"Save payment information to my account for future purchases.\")]"
+        },
+        {
+          "selector": "div.wc-block-components-payment-methods__save-card-info.input"
+        },
+        {
+          "selector": "label[for=\"wc-mastercard_merchant_cloud-new-payment-method\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const savingCC = \"{{savingCC}}\"\nconst checkbox = document.querySelector('input#wc-acme-new-payment-method, div.wc-block-components-payment-methods__save-card-info input, input#wc-mastercard_merchant_cloud-new-payment-method');\nconst tokenizedCards = '{{tokenizedCards}}'\n\n\nreturn savingCC === \"yes\" && checkbox.checked === false "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": [
+        {
+          "selector": "xpath=//label[contains(text(), \"Save to account\")]"
+        },
+        {
+          "selector": "label[for=\"wc-acme-new-payment-method\"]"
+        },
+        {
+          "selector": "xpath=//span[contains(text(), \"Save payment information to my account for future purchases.\")]"
+        },
+        {
+          "selector": "div.wc-block-components-payment-methods__save-card-info input"
+        },
+        {
+          "selector": "label[for=\"wc-mastercard_merchant_cloud-new-payment-method\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let savedCC = '{{savedCC}}'\n\nreturn savedCC === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "",
+      "value": "let element = document.querySelectorAll('li.woocommerce-SavedPaymentMethods-token > label, label > input[name=\"radio-control-wc-payment-method-saved-tokens\"]')\n\nreturn element.length",
+      "variableName": "n"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let savedCC = '{{savedCC}}'\n\nreturn savedCC === 'yes' "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": [
+        {
+          "selector": "li:nth-of-type({{n}}).woocommerce-SavedPaymentMethods-token > label"
+        },
+        {
+          "selector": "label[for*='radio-control-wc-payment-method-saved-tokens']:nth-of-type({{n}}) > div"
+        }
+      ],
+      "value": "{{CCName}} ending in {{fourDigits}} (expires {{month}}/{{year}})"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let savedCC = '{{savedCC}}'\n\nreturn savedCC === 'yes' "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": [
+        {
+          "selector": "li:nth-of-type({{n}}).woocommerce-SavedPaymentMethods-token > input"
+        },
+        {
+          "selector": "label:nth-of-type({{n}}) > input[name='radio-control-wc-payment-method-saved-tokens']"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "67852ea435aed64d30bd1cfd",
+    "suiteId": "676eb96835aed64d3077072a",
+    "suiteName": "MC - Common Steps for Tests"
+  }
+}

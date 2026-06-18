@@ -1,0 +1,202 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Login",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": null,
+      "notes": "step added to clear domain from email",
+      "optional": true,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "const regex = /\\w+\\+?\\w+[^@]/g;\nconst str = `{{username}}`;\nlet m;\nm = regex.exec(str)\nreturn m[0]",
+      "variableName": "emailUser"
+    },
+    {
+      "command": "open",
+      "condition": {
+        "statement": "let admin = \"{{admin}}\"\nreturn admin === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "{{startUrl}}wp-admin",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let admin = \"{{admin}}\"\nreturn admin === \"yes\" "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "#user_login"
+        },
+        {
+          "selector": "#username"
+        }
+      ],
+      "value": "{{username}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let admin = \"{{admin}}\"\nreturn admin === \"yes\" "
+      },
+      "optional": false,
+      "private": true,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": "#user_pass"
+        },
+        {
+          "selector": "#password"
+        }
+      ],
+      "value": "{{pass}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let admin = \"{{admin}}\"\nreturn admin === \"yes\" "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": "#wp-submit"
+        },
+        {
+          "selector": "button[name=\"login\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let element = document.getElementById('correct-admin-email')\nlet admin = \"{{admin}}\"\nreturn element != null && element != undefined && admin === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "#correct-admin-email",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "let admin = \"{{admin}}\"\nreturn admin === \"yes\" "
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 6,
+      "target": "#adminmenumain",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let admin = \"{{admin}}\"\nreturn admin != \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "#username"
+        },
+        {
+          "selector": "input[name=\"username\"]"
+        },
+        {
+          "selector": "div.lwa-username > input"
+        }
+      ],
+      "value": "{{username}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let admin = \"{{admin}}\"\nreturn admin != \"yes\""
+      },
+      "optional": false,
+      "private": true,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "#password"
+        },
+        {
+          "selector": "input[name=\"password\"]"
+        },
+        {
+          "selector": "div.lwa-password > input"
+        }
+      ],
+      "value": "{{password}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let admin = \"{{admin}}\"\nreturn admin != \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "button[name=\"login\"]"
+        },
+        {
+          "selector": "input.button-primary[value=\"Log In\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68a33bf5753c2677767eb934",
+    "suiteId": "6088547de6a043402e3e69f7",
+    "suiteName": "2M - Common tests for suite"
+  }
+}

@@ -1,0 +1,513 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "01 - Place order - New User",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "68cac20d576a0f46b504beb8",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "form.bundle_form > div:nth-child(1) > .details > h4.bundled_product_title.product_title > .bundled_product_title_inner > .item_title",
+      "value": "",
+      "variableName": "prodTitle1"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "form.bundle_form > div:nth-child(1) > .details > .cart > .bundled_item_wrap > .bundled_item_cart_content > .bundled_item_cart_details > .price > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "prodPrice1"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "form.bundle_form > div:nth-child(2) > .details > h4.bundled_product_title.product_title > .bundled_product_title_inner > .item_title",
+      "value": "",
+      "variableName": "prodTitle2"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "form.bundle_form > div:nth-child(2) > .details > .cart > .bundled_item_wrap > .bundled_item_cart_content > .bundled_item_cart_details > .price > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "prodPrice2"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "form.bundle_form > div:nth-child(3) > .details > h4.bundled_product_title.product_title > .bundled_product_title_inner > .item_title",
+      "value": "",
+      "variableName": "prodTitle3"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "form.bundle_form > div:nth-child(3) > .details > .cart > .bundled_item_wrap > .bundled_item_cart_content > .bundled_item_cart_details > .price > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "prodPrice3"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "form.bundle_form > div:nth-child(4) > .details > h4.bundled_product_title.product_title > .bundled_product_title_inner > .item_title",
+      "value": "",
+      "variableName": "prodTitle4"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "form.bundle_form > div:nth-child(4) > .details > .cart > .bundled_item_wrap > .bundled_item_cart_content > .bundled_item_cart_details > .price > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "prodPrice4"
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "const unitPrice = parseFloat('{{unitPrice}}'.replace('$','').replaceAll(',',''));\nconst prodPrice1 = parseFloat('{{prodPrice1}}'.replace('$','').replaceAll(',',''));\nconst prodPrice2 = parseFloat('{{prodPrice2}}'.replace('$','').replaceAll(',',''));\nconst prodPrice3 = parseFloat('{{prodPrice3}}'.replace('$','').replaceAll(',',''));\nconst prodPrice4 = parseFloat('{{prodPrice4}}'.replace('$','').replaceAll(',',''));\nconst unitPrice2 = parseFloat((prodPrice1 + prodPrice2 + prodPrice3 + prodPrice4).toFixed(2));\n\nreturn unitPrice === unitPrice2",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": "//button[contains(text(), \"Add to cart\")]"
+        },
+        {
+          "selector": "button[name=\"add-to-cart\"]"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const element = document.querySelector('.bdt-offcanvas-bar.bdt-text-left.bdt-offcanvas-bar-animation')\n\nreturn !element"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "div.elementor-element.e-con-full.e-con.e-child:nth-of-type(3) > .elementor-element.elementor-align-center.wc-cart-icon--yes.wc-cart-icon--cart-medium.wc-cart-badge--yes.elementor-widget.elementor-widget-global.elementor-widget-bdt-wc-mini-cart > .elementor-widget-container > .bdt-mini-cart-wrapper > a[href=\"#\"].bdt-offcanvas-button.bdt-mini-cart-button > .bdt-mini-cart-inner > .bdt-mini-cart-button-icon > .bdt-cart-icon > i.ep-icon-cart"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": ".bdt-offcanvas-bar.bdt-text-left.bdt-offcanvas-bar-animation > .widget_shopping_cart_content > .bdt-mini-cart-products.woocommerce-mini-cart.cart.woocommerce-cart-form__contents > .bdt-mini-cart-product-item.cart_item.bundle_table_item > div:nth-of-type(2) > .bdt-mini-cart-product-name > a[href*=\"/product/solidworks-premium-perpetual-with-1-year-elite-success-plan?bundle_quantity_97=1&bundle_quantity_99=1&bundle_quantity_98=1&bundle_quantity_100=1\"]",
+      "value": "{{prodDesc}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": ".bdt-offcanvas-bar.bdt-text-left.bdt-offcanvas-bar-animation > .widget_shopping_cart_content > .bdt-mini-cart-products.woocommerce-mini-cart.cart.woocommerce-cart-form__contents > div.bdt-mini-cart-product-item.cart_item.bundled_table_item:nth-of-type(2) > div:nth-of-type(2) > .bdt-mini-cart-product-name",
+      "value": "{{prodTitle1}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": ".bdt-offcanvas-bar.bdt-text-left.bdt-offcanvas-bar-animation > .widget_shopping_cart_content > .bdt-mini-cart-products.woocommerce-mini-cart.cart.woocommerce-cart-form__contents > div.bdt-mini-cart-product-item.cart_item.bundled_table_item:nth-of-type(3) > div:nth-of-type(2) > .bdt-mini-cart-product-name",
+      "value": "{{prodTitle2}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": ".bdt-offcanvas-bar.bdt-text-left.bdt-offcanvas-bar-animation > .widget_shopping_cart_content > .bdt-mini-cart-products.woocommerce-mini-cart.cart.woocommerce-cart-form__contents > div.bdt-mini-cart-product-item.cart_item.bundled_table_item:nth-of-type(4) > div:nth-of-type(2) > .bdt-mini-cart-product-name",
+      "value": "{{prodTitle3}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": ".bdt-offcanvas-bar.bdt-text-left.bdt-offcanvas-bar-animation > .widget_shopping_cart_content > .bdt-mini-cart-products.woocommerce-mini-cart.cart.woocommerce-cart-form__contents > div.bdt-mini-cart-product-item.cart_item.bundled_table_item:nth-of-type(5) > div:nth-of-type(2) > .bdt-mini-cart-product-name",
+      "value": "{{prodTitle4}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": ".bdt-offcanvas-bar.bdt-text-left.bdt-offcanvas-bar-animation > .widget_shopping_cart_content > .bdt-mini-cart-products.woocommerce-mini-cart.cart.woocommerce-cart-form__contents > .bdt-mini-cart-product-item.cart_item.bundle_table_item > div:nth-of-type(2) > .bdt-mini-cart-product-price > .quantity > .woocommerce-Price-amount.amount",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": ".bdt-offcanvas-bar.bdt-text-left.bdt-offcanvas-bar-animation > .widget_shopping_cart_content > .bdt-mini-cart-products.woocommerce-mini-cart.cart.woocommerce-cart-form__contents > div.bdt-mini-cart-product-item.cart_item.bundled_table_item:nth-of-type(2) > div:nth-of-type(2) > .bdt-mini-cart-product-price > .quantity > .bundled_table_item_price > .woocommerce-Price-amount.amount",
+      "value": "{{prodPrice1}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": ".bdt-offcanvas-bar.bdt-text-left.bdt-offcanvas-bar-animation > .widget_shopping_cart_content > .bdt-mini-cart-products.woocommerce-mini-cart.cart.woocommerce-cart-form__contents > div.bdt-mini-cart-product-item.cart_item.bundled_table_item:nth-of-type(3) > div:nth-of-type(2) > .bdt-mini-cart-product-price > .quantity > .bundled_table_item_price > .woocommerce-Price-amount.amount",
+      "value": "{{prodPrice2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": ".bdt-offcanvas-bar.bdt-text-left.bdt-offcanvas-bar-animation > .widget_shopping_cart_content > .bdt-mini-cart-products.woocommerce-mini-cart.cart.woocommerce-cart-form__contents > div.bdt-mini-cart-product-item.cart_item.bundled_table_item:nth-of-type(4) > div:nth-of-type(2) > .bdt-mini-cart-product-price > .quantity > .bundled_table_item_price > .woocommerce-Price-amount.amount",
+      "value": "{{prodPrice3}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": ".bdt-offcanvas-bar.bdt-text-left.bdt-offcanvas-bar-animation > .widget_shopping_cart_content > .bdt-mini-cart-products.woocommerce-mini-cart.cart.woocommerce-cart-form__contents > div.bdt-mini-cart-product-item.cart_item.bundled_table_item:nth-of-type(5) > div:nth-of-type(2) > .bdt-mini-cart-product-price > .quantity > .bundled_table_item_price > .woocommerce-Price-amount.amount",
+      "value": "{{prodPrice4}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": ".bdt-offcanvas-bar.bdt-text-left.bdt-offcanvas-bar-animation > .widget_shopping_cart_content > div:nth-of-type(2) > .bdt-mini-cart-subtotal > div:nth-of-type(2) > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": ".bdt-offcanvas-bar.bdt-text-left.bdt-offcanvas-bar-animation > .widget_shopping_cart_content > div:nth-of-type(2) > .bdt-mini-cart-footer-buttons > a[href*=\"/checkout\"].bdt-button.bdt-button-checkout > .bdt-button-text"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "",
+      "value": "68cbf43cb6e829f430725775",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "tr.cart_item.bundle_table_item > td.product-name",
+      "value": "{{prodDesc}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "td.product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "tr.cart_item.bundled_table_item:nth-of-type(2) > td.product-name > .bundled-product-name.bundled_table_item_indent",
+      "value": "{{prodTitle1}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "tr.cart_item.bundled_table_item:nth-of-type(2) > td.product-total > .bundled_table_item_subtotal > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{prodPrice1}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "tr.cart_item.bundled_table_item:nth-of-type(3) > td.product-name > .bundled-product-name.bundled_table_item_indent",
+      "value": "{{prodTitle2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "tr.cart_item.bundled_table_item:nth-of-type(3) > td.product-total > .bundled_table_item_subtotal > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{prodPrice2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "tr.cart_item.bundled_table_item:nth-of-type(4) > td.product-name > .bundled-product-name.bundled_table_item_indent",
+      "value": "{{prodTitle3}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": "tr.cart_item.bundled_table_item:nth-of-type(4) > td.product-total > .bundled_table_item_subtotal > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{prodPrice3}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": "tr.cart_item.bundled_table_item:nth-of-type(5) > td.product-name > .bundled-product-name.bundled_table_item_indent",
+      "value": "{{prodTitle4}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": "tr.cart_item.bundled_table_item:nth-of-type(5) > td.product-total > .bundled_table_item_subtotal > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{prodPrice4}}",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": "",
+      "value": "{{unitPrice}}",
+      "variableName": "subtotal"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": "tr.cart-subtotal > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "return 'bundle' !== '{{product}}'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 37,
+      "target": [
+        {
+          "selector": "#shipping_method > li > label > span > bdi"
+        },
+        {
+          "selector": "#shipping_method > li > label"
+        }
+      ],
+      "value": "",
+      "variableName": "shippingPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 38,
+      "target": "tr.tax-total > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "taxPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 39,
+      "target": "strong > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "total"
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 40,
+      "target": "",
+      "value": "const subtotal = parseFloat('{{subtotal}}'.replace('$','').replaceAll(',',''));\nlet shippingPrice\nif ('{{shippingPrice}}' !== '') {\n    shippingPrice = parseFloat('{{shippingPrice}}'.replace('$','').replaceAll(',',''));\n} else {\n    shippingPrice = 0\n}\nconst taxPrice = parseFloat('{{taxPrice}}'.replace('$','').replaceAll(',',''));\nconst total = parseFloat('{{total}}'.replace('$','').replaceAll(',',''));\nconst total2 = parseFloat((subtotal + taxPrice + shippingPrice).toFixed(2));\n\nreturn total === total2",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 41,
+      "target": "",
+      "value": "68cbf50e7f80fc466d5d0100",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 42,
+      "target": "",
+      "value": "62753765c5f501e7105625b8",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 43,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 44,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 45,
+      "target": "",
+      "value": "68cbf890b6e829f4307375fa",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 46,
+      "target": "",
+      "value": "68cbf8ff576a0f46b5393cb9",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68caab53189a381f8eff133d",
+    "suiteId": "68caab53189a381f8eff1326",
+    "suiteName": "Hawk Ridge - Place order Backend + Email - Purchase order"
+  }
+}

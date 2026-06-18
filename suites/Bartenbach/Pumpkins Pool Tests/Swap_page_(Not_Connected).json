@@ -1,0 +1,134 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Swap page (Not Connected)",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return window.innerWidth > 1024"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "li.menu-item.menu-item-type-custom.menu-item-object-custom.menu-item-has-children.menu-item--has-toggle:nth-of-type(3) > a[href=\"#\"] > .nav-drop-title-wrap"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return window.innerWidth > 1024"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": ".menu-item.menu-item-type-custom.menu-item-object-custom.menu-item-has-children.menu-item--has-toggle > .sub-menu > li.menu-item.menu-item-type-post_type.menu-item-object-page:nth-of-type(3) > a[href*=\"/swap/\"]"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return window.innerWidth <= 1024"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "svg.kadence-svg-icon.kadence-menu-svg",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return window.innerWidth <= 1024"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": "#mobile-menu > li.menu-item.menu-item-type-custom.menu-item-object-custom.current-menu-ancestor.current-menu-parent.menu-item-has-children.menu-item-1415 > div > button"
+        },
+        {
+          "selector": "//*[@id=\"mobile-menu\"]/li[3]/div/button"
+        }
+      ],
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return window.innerWidth <= 1024"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": ".sub-menu.pop-animated > li.menu-item.menu-item-type-post_type.menu-item-object-page:nth-of-type(3) > a[href*=\"/swap/\"]",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": ".pumpkin-token-swap-form",
+      "value": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "6022b62a262f437a9af8d3f1",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "62974e21a0299821fcec4a32",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68d31ca5e572969a06330a34",
+    "suiteId": "684186006fbaa32660f3adc9",
+    "suiteName": "Pumpkins Pool Tests"
+  }
+}

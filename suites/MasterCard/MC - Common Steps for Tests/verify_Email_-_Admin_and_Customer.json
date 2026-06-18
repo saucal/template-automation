@@ -1,0 +1,125 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "verify Email - Admin and Customer",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "{{email}}",
+      "variableName": "playgroundsEmail"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "67adf606e66fdcb2f9ab0208",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "const f = document.querySelector('iframe[srcdoc]');                 // or [...document.querySelectorAll('iframe')] if several\nconst doc = f.contentDocument || f.contentWindow.document;\n\n\nlet len = doc.querySelectorAll(\"#body_content_inner > div:nth-of-type(1) > table > tfoot > tr > td.td\")\nlen = len.length -1\nreturn len",
+      "variableName": "n"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": "iframe[srcdoc] tr.order-totals.order-totals-payment_method > td"
+        },
+        {
+          "selector": "#body_content_inner > div:nth-of-type(1) > table > tfoot > tr:nth-of-type({{n}}) > td.td"
+        },
+        {
+          "selector": "tr.order-totals.order-totals-payment_method > td"
+        },
+        {
+          "selector": "iframe[srcdoc] #body_content_inner > div:nth-of-type(1) > table > tfoot > tr:nth-of-type({{n}}) > td.td"
+        }
+      ],
+      "value": "{{paymentMethodTitle}}",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "christian+admin@saucal.com",
+      "variableName": "playgroundsEmail"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "67adf606e66fdcb2f9ab0208",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "iframe[srcdoc] tr.order-totals.order-totals-payment_method > td"
+        },
+        {
+          "selector": "iframe[srcdoc] tfoot > tr:nth-of-type({{n}}) > td.td"
+        }
+      ],
+      "value": "{{paymentMethodTitle}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "67adf606e66fdcb2f9ab024e",
+    "suiteId": "676eb96835aed64d3077072a",
+    "suiteName": "MC - Common Steps for Tests"
+  }
+}

@@ -1,0 +1,248 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "02 - Place order - CC - 01 - New User",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "68bec4b8eeab2f751a2da7a8",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "68683c3215b3a115492abda7",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "//button[contains(text(), \"Add to cart\")]"
+        },
+        {
+          "selector": "button[type=\"submit\"].single_add_to_cart_button"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "a[href*=\"/checkout/\"].button.checkout"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "const prod_desc = '{{prod_desc}}'.replaceAll(\"’\",\"'\")\n\nreturn prod_desc",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "td.product-name",
+      "value": "{{prod_desc}} - {{size}}  × 1\nExtra 365 Warranty Coverage:\n\nYes - Add 365 Warranty Coverage\n\nMoney Saving Options:\n\nAdd KR Strikeforce Pure Slide Conditioner\n\nMoney Saving Options:\n\nAdd 3G Shoe Fresheners\n\nFREE Gift with Purchase!:\n\n{{shirt}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "td.product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotalProduct}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "tr.cart-subtotal > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotalProduct}}",
+      "variableName": ""
+    },
+    {
+      "command": "eval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "(function ($) {\n  'use strict';\n\n  let submitCount = 0;\n\n  // When the form submits\n  $('form.checkout').on('submit', function (e) {\n    submitCount++;\n    console.log('checkout_form_submitted #' + submitCount);\n\n    // Create or update a debug div\n    let debugDiv = $('#debug-info');\n    if (!debugDiv.length) {\n      $('body').prepend('<div id=\"debug-info\" style=\"position:fixed;top:0;left:0;background:red;color:white;z-index:9999;padding:10px;\"></div>');\n      debugDiv = $('#debug-info');\n    }\n    debugDiv.append(\n      `Submit #${submitCount} at ${new Date().toISOString()}<br>Stack: ${new Error().stack}<br><br>`\n    );\n\n    // Disable the button after first submit\n    const btn = $('#place_order');\n    if (submitCount === 1 && btn.length) {\n      btn.prop('disabled', true).addClass('disabled');\n      console.log('place_order disabled after first submit');\n    }\n  });\n\n  // Log clicks\n  $('#place_order').on('click', function () {\n    console.log('place_order_clicked');\n  });\n\n  // If checkout fails, Woo fires `checkout_error` → re-enable the button\n  $(document.body).on('checkout_error', function () {\n    $('#place_order').prop('disabled', false).removeClass('disabled');\n    console.log('place_order re-enabled after checkout_error');\n  });\n\n})(jQuery);\n",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "681a9283c233b949d21dc2d8",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "tr.fee > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "shippingProtection"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "tr.tax-total > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "taxPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "strong > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "total"
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "let subtotalProduct = parseFloat('{{subtotalProduct}}'.replace('$','').trim())\nlet shippingProtection\n\nif ('{{shippingProtection}}' === '') {\n    shippingProtection = 0\n} else {\n    shippingProtection  = parseFloat('{{shippingProtection}}'.replace('$','').trim())\n}\n\nlet tax = parseFloat('{{taxPrice}}'.replace('$','').trim())\nlet total = parseFloat('{{total}}'.replace('$','').trim())\n\nlet total2 = subtotalProduct + shippingProtection + tax\ntotal2 = Number(total2.toFixed(2))\n\nreturn total === total2",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "",
+      "value": "681a936dc233b949d21e0a45",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "",
+      "value": "62753765c5f501e7105625b8",
+      "variableName": ""
+    },
+    {
+      "command": "pause",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "",
+      "value": "60000",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "",
+      "value": "681ab0975a5ac9fb568aca7f",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6824952cab4ff4354d524fb6",
+    "suiteId": "6824952cab4ff4354d524f9e",
+    "suiteName": "BM - Place order Backend + Email - CC"
+  }
+}

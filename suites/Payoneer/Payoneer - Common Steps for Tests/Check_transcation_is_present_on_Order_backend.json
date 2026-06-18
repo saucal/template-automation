@@ -1,0 +1,254 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Check transcation is present on Order backend",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "{{url}}/wp-admin/",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let element = document.getElementsByClassName('wp-menu-name')\n\nreturn element.length === 0"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "69778cc365fd97d14e2468bd",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "let hpos = document.querySelectorAll('a[href=\"admin.php?page=wc-orders\"]')\nlet legacy = document.querySelectorAll('a[href=\"edit.php?post_type=shop_order\"]')\n\nif (hpos.length !== 0) {\n    return \"on\"\n}\n\nif (legacy.length !== 0) {\n    return \"off\"\n}\n",
+      "variableName": "hpos"
+    },
+    {
+      "command": "open",
+      "condition": {
+        "statement": "return \"{{hpos}}\" === \"off\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "{{startUrl}}wp-admin/post.php?post={{orderNumber}}&action=edit",
+      "variableName": ""
+    },
+    {
+      "command": "open",
+      "condition": {
+        "statement": "return \"{{hpos}}\" === \"on\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "{{startUrl}}wp-admin/admin.php?page=wc-orders&action=edit&id={{orderNumber}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\nconst transaction = '{{transaction}}'\n\nreturn transactionType === 'capture'\n        &&\n        transaction !== 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "tbody > tr:nth-child(2) > td:nth-child(1) > span.description",
+      "value": "{{paymentMethod}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const transaction = '{{transaction}}'\n\nreturn transaction !== 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": ".woocommerce-order-data__meta",
+      "value": "Payment via {{paymentMethod}} ({{transaction_id}})",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const transaction = '{{transaction}}'\n\nreturn transaction === 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": ".woocommerce-order-data__meta",
+      "value": "Payment via {{paymentMethod}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let producType = '{{prodType}}'\nconst transactionType = '{{transactionType}}'\nconst transaction = '{{transaction}}'\n\nreturn (producType === 'virtual' || producType === 'physical')\n        && \n        transactionType === 'capture'\n        &&\n        transaction !== 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "#select2-order_status-container",
+      "value": "Processing"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let producType = '{{prodType}}'\nconst transactionType = '{{transactionType}}'\nconst transaction = '{{transaction}}'\n\nreturn producType === 'download'\n        && \n        transactionType === 'capture'\n        &&\n        transaction !== 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "#select2-order_status-container",
+      "value": "Completed"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\nconst transaction = '{{transaction}}'\n\nreturn transactionType === 'authorize'\n        &&\n        transaction !== 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "#select2-order_status-container",
+      "value": "On hold"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const transaction = '{{transaction}}'\n\nreturn transaction === 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "#select2-order_status-container",
+      "value": "Failed"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\nconst transactionType = '{{transactionType}}'\nconst threeDS = '{{threeDS}}'\nconst transaction = '{{transaction}}'\n\nreturn refund !== 'exceed' && transactionType === 'capture'\n        && threeDS !== 'inactive'\n        && transaction !== 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "li.note.system-note:nth-of-type(2) > .note_content > p",
+      "value": "{{paymentMethod}} payment was Captured (Order ID: {{transaction_id}})"
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const transaction = '{{transaction}}'\nconst challenge = '{{challenge}}'\n\nreturn transaction === 'declined' && challenge !== 'fail'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "function checkAdminNote(note) {\n    const pattern = /Failure message is Your card was declined\\.\\. Notification ID is [0-9]+/;\n    return pattern.test(note);\n}\n\n// Select all <p> elements within ul.order_notes > li > div > p\nconst notes = document.querySelectorAll('ul.order_notes > li > div > p');\n\n// Check if any note matches the pattern\nreturn Array.from(notes).some(note => checkAdminNote(note.textContent));",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const transaction = '{{transaction}}'\nconst challenge = '{{challenge}}'\n\nreturn transaction === 'declined' && challenge === 'fail'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "function checkAdminNote(note) {\n    const pattern = /Failure message is The provided PaymentMethod has failed authentication\\. You can provide payment_method_data or a new PaymentMethod to attempt to fulfill this PaymentIntent again\\.\\. Notification ID is [0-9]+/;\n    return pattern.test(note);\n}\n\n// Select all <p> elements within ul.order_notes > li > div > p\nconst notes = document.querySelectorAll('ul.order_notes > li > div > p');\n\n// Check if any note matches the pattern\nreturn Array.from(notes).some(note => checkAdminNote(note.textContent));",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\nconst transactionType = '{{transactionType}}'\nconst transaction = '{{transaction}}'\n\nreturn refund !== 'exceed' && transactionType === 'authorize'\n        &&\n        transaction !== 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "li.note.system-note:nth-of-type(2) > .note_content > p",
+      "value": "{{paymentMethod}} payment was Authorized (Order ID: {{transaction_id}})"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\nconst transactionType = '{{transactionType}}'\nconst threeDS = '{{threeDS}}'\nconst transaction = '{{transaction}}'\n\nreturn refund !== 'exceed' && transactionType === 'capture'\n        && \n        threeDS === 'inactive'\n        &&\n        transaction !== 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "li.note.system-note:nth-of-type(2) > .note_content > p",
+      "value": "{{paymentMethod}} payment was Captured (Order ID: {{transaction_id}})"
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const subscription = '{{subscription}}'\n\nreturn subscription === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "",
+      "value": "69778cc365fd97d14e2468aa",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\nconst transaction = '{{transaction}}'\n\nreturn refund !== 'exceed'\n        &&\n        transaction !== 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "",
+      "value": "69778cc365fd97d14e2468de",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const transaction = '{{transaction}}'\n\nreturn transaction === 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "",
+      "value": "69778cc365fd97d14e2468df",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69778cc365fd97d14e2468ac",
+    "suiteId": "69778cc265fd97d14e24689f",
+    "suiteName": "Payoneer - Common Steps for Tests"
+  }
+}

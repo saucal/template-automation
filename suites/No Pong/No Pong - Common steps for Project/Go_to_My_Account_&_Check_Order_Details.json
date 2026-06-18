@@ -1,0 +1,394 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "5.4.1",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": 30000,
+  "name": "Go to My Account & Check Order Details",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "688b5c8f9e92b1323620e35c",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "//*[contains(text(),'My Account')]"
+        },
+        {
+          "selector": "//a[contains(text(),'Account')]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "return '{{country}}' !== 'AU'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "const phrase = `{{prod_desc}}`;\nconst result = phrase\n  .toLowerCase() // Convert entire string to lowercase\n  .split(/(\\s+|-|,|\")/) // Split by spaces, hyphens, or commas, keeping delimiters\n  .map(word => \n    word.match(/^[a-zA-Z]/) ? // Check if word starts with a letter\n      word.charAt(0).toUpperCase() + word.slice(1) : // Capitalize first letter\n      word // Keep non-letter words (like '35G', '-', ',') unchanged\n  )\n  .join(''); // Join back together\n\n return result",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": ".dashboard-box-content > ul > li"
+        },
+        {
+          "selector": "div > div.dashboard-box.last-order > ul > li"
+        }
+      ],
+      "value": "{{prod_desc}} × {{qty}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": ".dashboard-box-content > div:nth-of-type(1) > span"
+        },
+        {
+          "selector": "div > div.dashboard-box.last-order > div:nth-child(2) > span"
+        }
+      ],
+      "value": "#{{orderNumber}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "div:nth-of-type(1) > strong",
+      "value": "Processing"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": ".total > strong > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "div.dashboard-box.last-order > div.dashboard-box-content > div.total > span:nth-child(2) > span"
+        }
+      ],
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": ".dashboard-box > a[href*=\"/my-account/orders/\"]"
+        },
+        {
+          "selector": ".dashboard-box-actions > a[href*=\"/my-account/orders/\"]"
+        }
+      ],
+      "value": "view all orders"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "div.dashboard-box:nth-of-type(2) > p"
+        },
+        {
+          "selector": "div.dashboard-box:nth-of-type(2) > .dashboard-box-content > p:nth-child(1)"
+        }
+      ],
+      "value": "You have {{balance}} points, which are now worth {{balanceTotal}}.",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{subscription}}' !== 'true'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": ".dashboard-box.subscriptions > p"
+        },
+        {
+          "selector": ".dashboard-box.subscriptions > .dashboard-box-content > p"
+        }
+      ],
+      "value": "You have no active subscriptions."
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'true'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "img.attachment-thumbnail",
+      "value": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'true'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "figure > figcaption",
+      "value": "{{qty}}"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'true'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": [
+        {
+          "selector": "p:nth-of-type(1) > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "div.dashboard-box.subscriptions > div.dashboard-box-content > div.total > span:nth-child(2) > span.woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{recurringTotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'true'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": [
+        {
+          "selector": "p:nth-of-type(2) > small"
+        },
+        {
+          "selector": "div.dashboard-box.subscriptions > div.dashboard-box-content > div.order-subheader > span:nth-child(2)"
+        }
+      ],
+      "value": "{{nextPay}}"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{country}}' === 'AU'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": [
+        {
+          "selector": ".dashboard-box.addresses > p:nth-of-type(1)"
+        },
+        {
+          "selector": ".dashboard-box.addresses > .dashboard-box-content > p:nth-of-type(1)"
+        }
+      ],
+      "value": "Edit\nShipping:\n{{firstName}} {{lastName2}}\n{{company2}}\n{{street3}}\n{{street4}}\n{{city}} {{stateComplete}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{country}}' === 'CA'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": [
+        {
+          "selector": ".dashboard-box.addresses > p:nth-of-type(1)"
+        },
+        {
+          "selector": ".dashboard-box.addresses > .dashboard-box-content > p:nth-of-type(1)"
+        }
+      ],
+      "value": "Edit\nShipping:\n{{company2}}\n{{firstName}} {{lastName2}}\n{{street3}}\n{{street4}}\n{{city}} {{state}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{country}}' === 'AU'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": [
+        {
+          "selector": ".dashboard-box.addresses > p:nth-of-type(2)"
+        },
+        {
+          "selector": ".dashboard-box.addresses > .dashboard-box-content > p:nth-of-type(2)"
+        }
+      ],
+      "value": "Edit\nBilling:\n{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{street2}}\n{{city}} {{stateComplete}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{country}}' === 'CA'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": [
+        {
+          "selector": ".dashboard-box.addresses > p:nth-of-type(2)"
+        },
+        {
+          "selector": ".dashboard-box.addresses > .dashboard-box-content > p:nth-of-type(2)"
+        }
+      ],
+      "value": "Edit\nBilling:\n{{company}}\n{{firstName}} {{lastName}}\n{{street}}\n{{street2}}\n{{city}} {{state}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": ".woocommerce-MyAccount-navigation-link > a[href*=\"/my-account/orders/\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "tr:first-child td.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-status",
+      "value": "Processing",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "tr:first-child > td.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-total > span",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "a[href*=\"/my-account/view-order/{{orderNumber}}/\"].woocommerce-button",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "mark.order-status",
+      "value": "Processing",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "",
+      "value": "const prod_desc = '{{prod_desc}}'.toUpperCase();\n\nreturn prod_desc",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "",
+      "value": "688246a92c245b961d9e6401",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68824ab82c245b961d9fa9ef",
+    "suiteId": "6022c8a7262f437a9afa49ca",
+    "suiteName": "No Pong - Common steps for Project"
+  }
+}

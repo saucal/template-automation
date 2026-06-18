@@ -1,0 +1,45 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Check Total",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "\nlet unitPrice = \"{{unitPrice}}\"\nlet shippingPice = \"{{shippingPice}}\"\nlet subtotal = \"{{subtotal}}\";\nlet discount = \"{{discount}}\"\nif (shippingPice === \"\"){\n    shippingPice = \"0.00\";\n};\nif (discount === \"\"){\n    discount = \"0.00\";\n};\n\nlet tax = \"{{taxPrice}}\";\nif (tax === \"\"){\n    tax = \"0.00\";\n};\nlet total = \"{{total}}\";\n\nunitPrice = Number(unitPrice.replace(\"{{Symbol}}\",\"\").replace(\",\",\"\").trim());\nshippingPice = Number(shippingPice.replace(\"{{Symbol}}\",\"\").replace(\",\",\"\").trim());\ndiscount = Number(discount.replace(\"{{Symbol}}\",\"\").replace(\",\",\"\").trim());\nsubtotal = Number(subtotal.replace(\"{{Symbol}}\",\"\").replace(\",\",\"\").trim());\ntax = Number(tax.replace(\"{{Symbol}}\",\"\").replace(\",\",\"\").trim());\ntotal = Number(total.replace(\"{{Symbol}}\",\"\").replace(\",\",\"\").trim());\n\n\nlet total2 = Number((subtotal-discount+tax+shippingPice).toFixed(2));\n\nreturn total === total2 && subtotal === unitPrice",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69022f141a085ce44eca287c",
+    "suiteId": "68fe8de75e36fea7308c19e5",
+    "suiteName": "The Sewing M.S. - Common steps"
+  }
+}

@@ -1,0 +1,509 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "03 - Vendor Dashboard - Add Simple product Downloadable",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "6001e87ac5e34d38d8d5edd8",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "a[href*=\"/members/\"].user-link > img.avatar.photo"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "#nav-bar-filter > .menu-item.menu-item-type-custom.menu-item-object-custom > a[href*=\"/maker-dashboard/\"]"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#dashboard-menu-item-product > a[href*=\"/maker-dashboard/product\"]"
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "a[href*=\"/maker-dashboard/settings/#featured_products\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"Add Product\")]"
+        },
+        {
+          "selector": "a[href*=\"/maker-dashboard/product/edit\"]"
+        }
+      ]
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "#post_title",
+      "value": "Downloadable product test {{alphanumeric}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "#post_excerpt-html",
+      "value": "2"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "#post_excerpt",
+      "value": "Short Descritpion Downloadable",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "#post_content-html"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "#post_content",
+      "value": "Description of the product Downloadable",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "file": {
+        "filename": "d50fc92e-92db-4111-996c-c28778a22114.png",
+        "size": 63441,
+        "path": "uploads/d2962dfa-4c81-4ec7-a29b-60ea1aca5802.png",
+        "url": "https://ghostinspector-prod.s3.amazonaws.com/uploads/d2962dfa-4c81-4ec7-a29b-60ea1aca5802.png"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": [
+        {
+          "selector": "xpath=//a[contains(text(), \"Set featured image\")]"
+        },
+        {
+          "selector": "a[href=\"#\"].wcv-media-uploader-featured-add"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "file": {
+        "filename": "fbac1fa4-11c6-421d-af07-790da62a244d.png",
+        "size": 51555,
+        "path": "uploads/3c62db6d-7cb5-4a7b-9c64-4a21c69dcdad.png",
+        "url": "https://ghostinspector-prod.s3.amazonaws.com/uploads/3c62db6d-7cb5-4a7b-9c64-4a21c69dcdad.png"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "div:not([style*=\"display: none;\"]) > div > div > div > div > input[type=\"file\"]",
+      "value": "https://ghostinspector-prod.s3.amazonaws.com/uploads/3c62db6d-7cb5-4a7b-9c64-4a21c69dcdad.png",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "",
+      "value": "680fcbe027a20ea152510391",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": [
+        {
+          "selector": "//button[contains(text(), \"Set Product Feature Image\")]"
+        },
+        {
+          "selector": "button[type=\"button\"].button.media-button"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "input[name=\"_virtual\"]"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": [
+        {
+          "selector": "//label[contains(text(), \"Downloadable\")]"
+        },
+        {
+          "selector": "li:nth-of-type(2) > label"
+        }
+      ]
+    },
+    {
+      "command": "assertElementNotVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "div.shipping-container",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "button[type=\"button\"].wcv-button.wcv-ac-buttons"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"SELECT\")]"
+        },
+        {
+          "selector": "#select2-ac_temp_category_id-container"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": [
+        {
+          "selector": "//li[contains(text(), \"Art & Crafts\")]"
+        },
+        {
+          "selector": "#select2-ac_temp_category_id-results > li:nth-of-type(2)"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"SELECT\")]"
+        },
+        {
+          "selector": "#select2-ac_temp_category_id-container"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": [
+        {
+          "selector": "//li[contains(text(), \"Art Dolls & Miniatures\")]"
+        },
+        {
+          "selector": "#select2-ac_temp_category_id-results > li:nth-of-type(2)"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"SELECT\")]"
+        },
+        {
+          "selector": "#select2-ac_temp_category_id-container"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": [
+        {
+          "selector": "//li[contains(text(), \"Art Dolls\")]"
+        },
+        {
+          "selector": "#select2-ac_temp_category_id-results > li:nth-of-type(2)"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "button[type=\"button\"].wcv-button.wcv-ac-add-category-done"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "input[placeholder=\"Search or add a tag…\"]"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "input[placeholder=\"Search or add a tag…\"]",
+      "value": "test"
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "#select2-product_tags-results > li:nth-of-type(2)",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "#select2-product_tags-results > li:nth-of-type(2)"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "a.button.insert",
+      "value": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": "input[name=\"_wc_file_names[]\"]",
+      "value": "File test"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"Choose file\")]"
+        },
+        {
+          "selector": "a[href=\"#\"].button.upload_file_button"
+        }
+      ]
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "file": {
+        "filename": "fbac1fa4-11c6-421d-af07-790da62a244d.png",
+        "size": 51555,
+        "path": "uploads/3c62db6d-7cb5-4a7b-9c64-4a21c69dcdad.png",
+        "url": "https://ghostinspector-prod.s3.amazonaws.com/uploads/3c62db6d-7cb5-4a7b-9c64-4a21c69dcdad.png"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": "div:not([style*=\"display: none;\"]) > div > div > div > div > input[type=\"file\"]",
+      "value": "https://ghostinspector-prod.s3.amazonaws.com/uploads/3c62db6d-7cb5-4a7b-9c64-4a21c69dcdad.png",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": [
+        {
+          "selector": "//button[contains(text(), \"Insert file URL\")]"
+        },
+        {
+          "selector": "div:not([style*=\"display: none;\"]) > div > div > div > div > div > div > button[type=\"button\"].button.media-button"
+        }
+      ]
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": "input[name=\"_regular_price\"]",
+      "value": "41"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 37,
+      "target": "#product_save_button"
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 38,
+      "target": "#product_save_button",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 39,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 40,
+      "target": ".wcvendors-table.wcvendors-table-product.wcv-table",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 41,
+      "target": ".wcvendors-dashboard-wrapper > div.woocommerce-message:nth-of-type(2)",
+      "value": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "680fa66c800b73c348ec1801",
+    "suiteId": "66fd46b20e1aff64b4ddba72",
+    "suiteName": "Mavenfair - Vendor Suite"
+  }
+}

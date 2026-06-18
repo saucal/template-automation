@@ -1,0 +1,45 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "First letter Capitalized",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "const phrase = `{{prod_desc}}`;\nconst result = phrase\n  .toLowerCase() // Convert entire string to lowercase\n  .split(/(\\s+|-|,|\")/) // Split by spaces, hyphens, or commas, keeping delimiters\n  .map(word => \n    word.match(/^[a-zA-Z]/) ? // Check if word starts with a letter\n      word.charAt(0).toUpperCase() + word.slice(1) : // Capitalize first letter\n      word // Keep non-letter words (like '35G', '-', ',') unchanged\n  )\n  .join(''); // Join back together\n\n return result",
+      "variableName": "prod_desc"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69a1db738ce9cb3f625db2fc",
+    "suiteId": "69a1db738ce9cb3f625db2e7",
+    "suiteName": "Simply7oh - Common steps for Project"
+  }
+}

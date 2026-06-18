@@ -1,0 +1,229 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "required fields",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "1",
+      "variableName": "qty"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "no",
+      "variableName": "variable"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "yes",
+      "variableName": "subscription"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "new",
+      "variableName": "user"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "62753765c5f501e7105625b8",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "iframe[src*=\"js.stripe.com\"] input[name=\"number\"]",
+      "value": "4242 4242 4242 4242",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "iframe[src*=\"js.stripe.com\"] input[name=\"expiry\"]",
+      "value": "12 / 26",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "iframe[src*=\"js.stripe.com\"] input[name=\"cvc\"]",
+      "value": "123",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "step added due to an error not finding empty shipping fields in talkbox",
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "#billing_same_as_shipping",
+      "value": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "62753765c5f501e7105625b8",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let width = window.innerWidth\nconst CCrew = '{{CCrew}}'\n\n\nreturn width === 1920 && CCrew !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": [
+        {
+          "selector": ".wc-block-components-notice-banner.is-error"
+        },
+        {
+          "selector": ".woocommerce-error"
+        }
+      ],
+      "value": "Invalid recurring shipping method.\nBilling First name is a required field.\nBilling Last name is a required field.\nBilling Email is a required field.\nBilling Street address is a required field.\nBilling Town / City is a required field.\nBilling Postcode is a required field.\nShipping Street address is a required field.\nShipping Town / City is a required field.\nShipping Postcode is a required field.\nPlease read and accept the terms and conditions to proceed with your order.",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let width = window.innerWidth\nconst CCrew = '{{CCrew}}'\nreturn width === 360 && CCrew !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": [
+        {
+          "selector": ".wc-block-components-notice-banner.is-error"
+        },
+        {
+          "selector": ".woocommerce-error"
+        }
+      ],
+      "value": "Invalid recurring shipping method.\nBilling Email is a required field.\nBilling First name is a required field.\nBilling Last name is a required field.\nBilling Street address is a required field.\nBilling Town / City is a required field.\nBilling Postcode is a required field.\nShipping Street address is a required field.\nShipping Town / City is a required field.\nShipping Postcode is a required field.\nPlease read and accept the terms and conditions to proceed with your order.",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "699f0a918ce9cb3f62ee32ea",
+    "suiteId": "63a1c5229034282736afc2e8",
+    "suiteName": "Talkbox - Common steps"
+  }
+}

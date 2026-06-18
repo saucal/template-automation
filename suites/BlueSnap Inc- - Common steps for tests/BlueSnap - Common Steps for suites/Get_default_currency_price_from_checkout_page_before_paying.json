@@ -1,0 +1,547 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Get default currency price from checkout page before paying",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nlet checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\nreturn test === \"subscription\" && checklogs != \"upgrade\" && freeTrial !=\"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "tbody > tr > td > .subscription-price > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "div.wc-block-components-order-summary-item__description > div.wc-block-cart-item__prices > span > span"
+        },
+        {
+          "selector": "div.wc-block-components-order-summary-item__description > div > div > div > span.wc-block-components-product-details__value > span"
+        }
+      ],
+      "value": "",
+      "variableName": "price"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nlet checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\nreturn test === \"subscription\" && checklogs != \"upgrade\" && freeTrial !=\"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "let content = document.querySelectorAll(\"tbody > tr > td > .subscription-price .woocommerce-Price-amount.amount, div.wc-block-components-order-summary-item__description .woocommerce-Price-amount.amount, div.wc-block-components-order-summary-item__description > div.wc-block-cart-item__prices > span > span, div.wc-block-components-order-summary-item__description > div > div > div > span.wc-block-components-product-details__value > span\")\nlet result = []\nlet n = 0\nlet totalProd = 0\n\nconst formatter = new Intl.NumberFormat('{{locale}}', {\n    style: 'currency',\n    currency: '{{currency}}',\n    minimumFractionDigits: '{{currency}}' === 'JPY' ? 0 : 2\n  });\n\nconst parts = formatter.formatToParts(1000.1);\nlet decimalSeparator;\nif ('{{currency}}' != 'JPY') {\n decimalSeparator = parts.find(part => part.type === 'decimal').value;\n}\nconst groupSeparator = parts.find(part => part.type === 'group').value;\nconst curr = parts.find(part => part.type === 'currency').value;\n\nfor (let i = 0; i < content.length; i++) {\n        result.push(content[i].textContent);\n    }\n    \nwhile (result.length > n) {\n    result[n] = result[n].replace(curr, '') // remove currency symbol\n                         .replace(new RegExp(`\\\\${groupSeparator}`, 'g'), '') // remove group separators\n                         .trim(); // remove whitespace\n    if ('{{currency}}' != 'JPY') {\n        result[n] = result[n].replace(decimalSeparator, '.') // replace decimal separator\n    }\n    totalProd = totalProd + Number(result[n])\n    n++\n}\ntotalProd = Intl.NumberFormat('{{locale}}', { style: 'currency', currency: '{{currency}}'}).format(totalProd)\n\nreturn totalProd",
+      "variableName": "totalProd"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nlet checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\n\nreturn test === \"subscription\" && (checklogs === \"upgrade\" || freeTrial ===\"yes\")"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "tbody > tr > td > .subscription-price > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "div.wc-block-components-order-summary-item__description > div.wc-block-cart-item__prices > span > ins"
+        },
+        {
+          "selector": "div.wc-block-components-order-summary-item__description > div.wc-block-cart-item__prices > span > span"
+        }
+      ],
+      "value": "",
+      "variableName": "price"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nlet checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\n\nreturn test === \"subscription\" && (checklogs === \"upgrade\" || freeTrial ===\"yes\")"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": "tbody > tr > td > .subscription-price > span > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "div.wc-block-components-order-summary-item__description .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "",
+      "variableName": "totalProd"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test != \"subscription\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": "tbody > tr > td.product-total > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "div.wc-block-components-order-summary-item__description > span > ins"
+        },
+        {
+          "selector": "div.wc-block-components-order-summary-item__description > div> span > span"
+        }
+      ],
+      "value": "",
+      "variableName": "totalProd"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": ".wp-block-woocommerce-checkout-order-summary-subtotal-block .wc-block-components-totals-item__value"
+        }
+      ],
+      "value": "",
+      "variableName": "subtotal"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\nreturn checklogs != \"upgrade\" && freeTrial !=\"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "label[for=\"shipping_method_0_flat_rate1\"] > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": ".wc-block-components-totals-shipping .wc-block-components-totals-item__value"
+        }
+      ],
+      "value": "",
+      "variableName": "shipping"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nreturn freeTrial !=\"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "tr.cart-discount:nth-of-type(2) > td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": ".wc-block-components-totals-discount .wc-block-components-totals-item__value"
+        }
+      ],
+      "value": "",
+      "variableName": "discount"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nreturn freeTrial !=\"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "return '{{discount}}'.replace('-','')",
+      "variableName": "discount"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\nreturn checklogs != \"upgrade\" && freeTrial !=\"yes\" && \"{{includeTax}}\" === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "tr.tax-rate:nth-of-type(4) > td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": ".wc-block-components-totals-taxes .wc-block-components-totals-item__value"
+        }
+      ],
+      "value": "",
+      "variableName": "tax"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\nreturn (checklogs === \"upgrade\" || freeTrial ===\"yes\") && \"{{includeTax}}\" === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": "tr.tax-rate:nth-of-type(3) > td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": ".wc-block-components-totals-taxes .wc-block-components-totals-item__value"
+        }
+      ],
+      "value": "",
+      "variableName": "tax"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "const element = document.querySelector('.wc-block-checkout')\n\nreturn \"{{includeTax}}\" === \"yes\" && !element"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "tr.order-total:not(.recurring-total) small.includes_tax > span",
+      "value": "",
+      "variableName": "tax"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const element = document.querySelector('.wc-block-checkout')\n\nreturn \"{{includeTax}}\" === \"yes\" && !!element"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "const element = document.querySelector('div.wc-block-components-totals-item__description > p.wc-block-components-totals-footer-item-tax')\n\nlet tax = element.textContent.replace(/[^\\d.,]/g, '')\nconst currency = '{{currency}}'\n\nif ('EUR' === currency) {\n    tax = Number(tax.replace(',','.'))\n} else {\n    tax = Number(tax)\n}\n\nreturn Intl.NumberFormat('{{locale}}', { style: 'currency', currency: '{{currency}}'}).format(tax)\n\n",
+      "variableName": "tax"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": [
+        {
+          "selector": "strong > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": ".wc-block-components-totals-footer-item .wc-block-components-totals-item__value"
+        }
+      ],
+      "value": "",
+      "variableName": "total"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const element = document.querySelector('.wc-block-checkout')\nconst test = \"{{test}}\"\n\nreturn !!element && test === \"subscription\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": ".wcs-recurring-totals-panel__details .wc-block-components-panel__button",
+      "value": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"subscription\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": [
+        {
+          "selector": "tr.cart-subtotal.recurring-total > td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "div.wc-block-components-panel__content > div:nth-child(1) > div:nth-child(1) > span.wc-block-components-totals-item__value"
+        }
+      ],
+      "value": "",
+      "variableName": "recurringSubtotal"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nlet checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\nreturn test === \"subscription\" && checklogs != \"upgrade\" && freeTrial !=\"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": [
+        {
+          "selector": "tr.shipping.recurring-total > td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": ".wcs-recurring-totals-panel__details .wc-block-components-totals-shipping .wc-block-components-totals-item__value"
+        }
+      ],
+      "value": "",
+      "variableName": "recurringShipping"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\nreturn checklogs === \"upgrade\" || freeTrial ===\"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": [
+        {
+          "selector": "li:nth-of-type(1) > label > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": ".wcs-recurring-totals-panel__details .wc-block-components-totals-shipping .wc-block-components-totals-item__value"
+        }
+      ],
+      "value": "",
+      "variableName": "recurringShipping"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"subscription\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": [
+        {
+          "selector": "tr.cart-discount.recurring-total > td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": ".wcs-recurring-totals-panel__details .wc-block-components-totals-discount .wc-block-components-totals-item__value"
+        }
+      ],
+      "value": "",
+      "variableName": "recurringDiscount"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"subscription\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "",
+      "value": "return '{{recurringDiscount}}'.replace('-','')",
+      "variableName": "recurringDiscount"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"subscription\" && \"{{includeTax}}\" === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": [
+        {
+          "selector": "tr.tax-rate.recurring-total > td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": ".wcs-recurring-totals-panel__details .wc-block-components-totals-taxes .wc-block-components-totals-item__value"
+        }
+      ],
+      "value": "",
+      "variableName": "recurringTax"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "const element = document.querySelector('.wc-block-checkout')\n\nlet test = \"{{test}}\"\nreturn test === \"subscription\" && \"{{includeTax}}\" === \"yes\" && !element"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "tr.order-total.recurring-total small.includes_tax > span",
+      "value": "",
+      "variableName": "recurringTax"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"subscription\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": [
+        {
+          "selector": "tr.order-total.recurring-total > td > strong > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": ".wcs-recurring-totals-panel__details-total .wc-block-components-totals-item__value"
+        }
+      ],
+      "value": "",
+      "variableName": "recurringTotal"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const element = document.querySelector('.wc-block-checkout')\n\nlet test = \"{{test}}\"\nreturn test === \"subscription\" && \"{{includeTax}}\" === \"yes\" && !!element"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "",
+      "value": "const total = '{{recurringTotal}}'\n\nconst totalWOT;\nconst currency = '{{currency}}'\n\ntotalWOT = total.replace(/[^\\d.,]/g, '')\n\nif ('EUR' === currency) {\n    totalWOT = Number(total.replace(',','.')) / 1.1\n} else {\n    totalWOT = Number(total) / 1.1\n}\n\nconst tax = totalWOT * 0.1\n\nreturn Intl.NumberFormat('{{locale}}', { style: 'currency', currency: '{{currency}}'}).format(tax)\n",
+      "variableName": "recurringTax"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\nreturn checklogs != \"upgrade\" && freeTrial !=\"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "",
+      "value": "\nlet result = [\"{{totalProd}}\",\"{{subtotal}}\",\"{{discount}}\",\"{{shipping}}\",\"{{tax}}\",\"{{total}}\",\"{{price}}\",\"{{recurringSubtotal}}\",\"{{recurringDiscount}}\",\"{{recurringShipping}}\",\"{{recurringTax}}\",\"{{recurringTotal}}\"]\nlet n = 0\n\nconst formatter = new Intl.NumberFormat('{{locale}}', {\n    style: 'currency',\n    currency: '{{currency}}',\n    minimumFractionDigits: '{{currency}}' === 'JPY' ? 0 : 2\n  });\n\nconst parts = formatter.formatToParts(1000.1);\nlet decimalSeparator;\nif ('{{currency}}' != 'JPY') {\n decimalSeparator = parts.find(part => part.type === 'decimal').value;\n}\nconst groupSeparator = parts.find(part => part.type === 'group').value;\nconst curr = parts.find(part => part.type === 'currency').value;\n\nwhile (result.length > n) {\n    result[n] = result[n].replace(curr, '') // remove currency symbol\n                         .replace(new RegExp(`\\\\${groupSeparator}`, 'g'), '') // remove group separators\n                         .trim();\n    if ('{{currency}}' != 'JPY') {\n        result[n] = result[n].replace(decimalSeparator, '.') // replace decimal separator\n    }\n    result[n] = Number(result[n]);\n    n++\n}\n\nreturn result",
+      "variableName": "listPrices"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nreturn checklogs === \"upgrade\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "",
+      "value": "\nlet result = [\"{{totalProd}}\",\"{{subtotal}}\",\"{{discount}}\",\"{{tax}}\",\"{{total}}\",\"{{price}}\",\"{{recurringSubtotal}}\",\"{{recurringDiscount}}\",\"{{recurringShipping}}\",\"{{recurringTax}}\",\"{{recurringTotal}}\"]\nlet n = 0\n\nconst formatter = new Intl.NumberFormat('{{locale}}', {\n    style: 'currency',\n    currency: '{{currency}}',\n    minimumFractionDigits: '{{currency}}' === 'JPY' ? 0 : 2\n  });\n\nconst parts = formatter.formatToParts(1000.1);\nlet decimalSeparator;\nif ('{{currency}}' != 'JPY') {\n decimalSeparator = parts.find(part => part.type === 'decimal').value;\n}\nconst groupSeparator = parts.find(part => part.type === 'group').value;\nconst curr = parts.find(part => part.type === 'currency').value;\n\nwhile (result.length > n) {\n    result[n] = result[n].replace(curr, '') // remove currency symbol\n                         .replace(new RegExp(`\\\\${groupSeparator}`, 'g'), '') // remove group separators\n                         .trim();\n    if ('{{currency}}' != 'JPY') {\n        result[n] = result[n].replace(decimalSeparator, '.') // replace decimal separator\n    }\n    result[n] = Number(result[n]);\n    n++\n}\n\nreturn result",
+      "variableName": "listPrices"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nreturn freeTrial ===\"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "",
+      "value": "\nlet result = [\"{{totalProd}}\",\"{{subtotal}}\",\"{{tax}}\",\"{{total}}\",\"{{price}}\",\"{{recurringSubtotal}}\",\"{{recurringDiscount}}\",\"{{recurringShipping}}\",\"{{recurringTax}}\",\"{{recurringTotal}}\"]\nlet n = 0\n\nconst formatter = new Intl.NumberFormat('{{locale}}', {\n    style: 'currency',\n    currency: '{{currency}}',\n    minimumFractionDigits: '{{currency}}' === 'JPY' ? 0 : 2\n  });\n\nconst parts = formatter.formatToParts(1000.1);\nlet decimalSeparator;\nif ('{{currency}}' != 'JPY') {\n decimalSeparator = parts.find(part => part.type === 'decimal').value;\n}\nconst groupSeparator = parts.find(part => part.type === 'group').value;\nconst curr = parts.find(part => part.type === 'currency').value;\n\nwhile (result.length > n) {\n    result[n] = result[n].replace(curr, '') // remove currency symbol\n                         .replace(new RegExp(`\\\\${groupSeparator}`, 'g'), '') // remove group separators\n                         .trim();\n    if ('{{currency}}' != 'JPY') {\n        result[n] = result[n].replace(decimalSeparator, '.') // replace decimal separator\n    }\n    result[n] = Number(result[n]);\n    n++\n}\n\nreturn result",
+      "variableName": "listPrices"
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\nlet includeTax = \"{{includeTax}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nconst blocks = !document.querySelector('.wc-block-checkout, .wc-block-cart')\n\nreturn checklogs != \"upgrade\" && freeTrial !=\"yes\" && includeTax === \"no\"\n        && \n        (\n            (blueSnapVs[0] >= 3 && blueSnapVs[1] >= 2 && blocks)\n            ||\n            (blueSnapVs[0] >= 3 && blueSnapVs[1] >= 5 && !blocks)\n        )\n        \n            "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "",
+      "value": "let listPrices = {{listPrices}}\nlet totalProduct = listPrices[0]\nlet subtotal = listPrices[1]\nlet discount = listPrices[2]\nlet shipping = listPrices[3]\nlet tax = listPrices[4]\nlet total = listPrices[5]\nlet total2\nif (\"{{curr}}\" === \"JPY\") {\n    total2 = Math.round(subtotal-discount+shipping+tax)\n} else {\n    total2 = Math.round((subtotal-discount+shipping+tax)*100)/100\n}\n\nreturn totalProduct === subtotal && total === total2\n",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\nlet includeTax = \"{{includeTax}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nconst blocks = !!document.querySelector('.wc-block-checkout, .wc-block-cart')\n\nreturn checklogs != \"upgrade\" && freeTrial !=\"yes\" && includeTax === \"yes\" \n        && \n        (\n            (blueSnapVs[0] >= 3 && blueSnapVs[1] >= 2 && !blocks) \n            ||\n            (blueSnapVs[0] >= 3 && blueSnapVs[1] >= 5 && blocks)\n        )\n   \n "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "",
+      "value": "let listPrices = {{listPrices}}\nlet totalProduct = listPrices[0]\nlet subtotal = listPrices[1]\nlet discount = listPrices[2]\nlet shipping = listPrices[3]\nlet total = listPrices[5]\nlet total2\nif (\"{{curr}}\" === \"JPY\") {\n    total2 = Math.round(subtotal-discount+shipping)\n} else {\n    total2 = Math.round((subtotal-discount+shipping)*100)/100\n}\n\nreturn totalProduct === subtotal && total === total2\n",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nlet checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\nlet includeTax = \"{{includeTax}}\"\nreturn checklogs != \"upgrade\" && freeTrial !=\"yes\" && includeTax === \"no\"\n&& test === \"subscription\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "",
+      "value": "let listPrices = {{listPrices}}\nlet totalProduct = listPrices[6]\nlet subtotal = listPrices[7]\nlet discount = listPrices[8]\nlet shipping = listPrices[9]\nlet tax = listPrices[10]\nlet total = listPrices[11]\nlet total2\nif (\"{{curr}}\" === \"JPY\") {\n    total2 = Math.round(subtotal-discount+shipping+tax)\n} else {\n    total2 = Math.round((subtotal-discount+shipping+tax)*100)/100\n}\n\nreturn totalProduct === subtotal && total === total2\n",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nlet checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\nlet includeTax = \"{{includeTax}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn checklogs != \"upgrade\" && freeTrial !=\"yes\" && includeTax === \"yes\"\n        && test === \"subscription\"\n        && \n        (blueSnapVs[0] >= 3 && blueSnapVs[1] >= 2) \n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "",
+      "value": "let listPrices = {{listPrices}}\nlet totalProduct = listPrices[6]\nlet subtotal = listPrices[7]\nlet discount = listPrices[8]\nlet shipping = listPrices[9]\nlet total = listPrices[11]\nlet total2\nif (\"{{curr}}\" === \"JPY\") {\n    total2 = Math.round(subtotal-discount+shipping)\n} else {\n    total2 = Math.round((subtotal-discount+shipping)*100)/100\n}\n\nreturn totalProduct === subtotal && total === total2\n",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nreturn checklogs === \"upgrade\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "",
+      "value": "let listPrices = {{listPrices}}\nlet totalProduct = listPrices[0]\nlet subtotal = listPrices[1]\nlet discount = listPrices[2]\nlet tax = listPrices[3]\nlet total = listPrices[4]\nlet total2\nif (\"{{curr}}\" === \"JPY\") {\n    total2 = Math.round(subtotal-discount+tax)\n} else {\n    total2 = Math.round((subtotal-discount+tax)*100)/100\n}\n\nlet totalProduct2 = listPrices[5]\nlet subtotal2 = listPrices[6]\nlet discount2 = listPrices[7]\nlet shipping2 = listPrices[8]\nlet tax2 = listPrices[9]\nlet total3 = listPrices[10]\nlet total4\nif (\"{{curr}}\" === \"JPY\") {\n    total4 = Math.round(subtotal2-discount2+shipping2+tax2)\n} else {\n    total4 = Math.round((subtotal2-discount2+shipping2+tax2)*100)/100\n}\n\nreturn totalProduct === subtotal && total === total2 \n&& totalProduct2 === subtotal2 && total3 === total4",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nreturn freeTrial ===\"yes\" "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": "",
+      "value": "let listPrices = {{listPrices}}\nlet totalProduct = listPrices[0]\nlet subtotal = listPrices[1]\nlet tax = listPrices[2]\nlet total = listPrices[3]\nlet total2\nif (\"{{curr}}\" === \"JPY\") {\n    total2 = Math.round(subtotal+tax)\n} else {\n    total2 = Math.round((subtotal+tax)*100)/100\n}\n\nlet totalProduct2 = listPrices[4]\nlet subtotal2 = listPrices[5]\nlet discount2 = listPrices[6]\nlet shipping2 = listPrices[7]\nlet tax2 = listPrices[8]\nlet total3 = listPrices[9]\nlet total4\nif (\"{{curr}}\" === \"JPY\") {\n    total4 = Math.round(subtotal2-discount2+shipping2+tax2)\n} else {\n    total4 = Math.round((subtotal2-discount2+shipping2+tax2)*100)/100\n}\n\nreturn totalProduct === subtotal && total === total2 \n&& totalProduct2 === subtotal2 && total3 === total4",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "637b658bd093ba4902f5bab6",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

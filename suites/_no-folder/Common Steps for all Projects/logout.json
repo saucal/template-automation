@@ -1,0 +1,93 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "logout",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"Phlearn\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "a[href*=\"/my-account/customer-logout/?_wpnonce=\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"Phlearn\" && \"{{project}}\" !== \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "header > h1",
+      "value": "My account",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" == \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "section > h2",
+      "value": "Login",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"Phlearn\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "img.lazy.avatar.avatar-45",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"Phlearn\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": ".avatar-menu-item > ul > .menu-item.menu-item-type-custom.menu-item-object-custom > a[href*=\"/my-phlearn/customer-logout/?customer-logout=true\"]",
+      "value": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "646bd9eacc654ac751364c16",
+    "suiteId": "6022b879262f437a9af8ddf9",
+    "suiteName": "Common Steps for all Projects"
+  }
+}

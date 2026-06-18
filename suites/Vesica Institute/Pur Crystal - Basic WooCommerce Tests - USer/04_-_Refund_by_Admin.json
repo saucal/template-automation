@@ -1,0 +1,307 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "04 - Refund by Admin",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": false,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "yes",
+      "variableName": "admin"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "{{adminUser}}",
+      "variableName": "username"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "{{adminPass}}",
+      "variableName": "pass"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "63cfc556af1e488d25d11a75",
+      "variableName": ""
+    },
+    {
+      "command": "mouseOver",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "a[href=\"admin.php?page=wc-admin\"] > .wp-menu-name",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "a[href=\"edit.php?post_type=shop_order\"]"
+        },
+        {
+          "selector": "a[href=\"admin.php?page=wc-orders\"]"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "a[href*=\"/wp-admin/post.php?post={{orderNumber}}&action=edit\"] > strong"
+        },
+        {
+          "selector": "a[href*=\"/wp-admin/admin.php?page=wc-orders&action=edit&id={{orderNumber}}\"] > strong"
+        },
+        {
+          "selector": "tbody > tr:nth-of-type(1) > td:nth-of-type(1) > a:nth-of-type(2)"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "button[type=\"button\"].button.refund-items"
+    },
+    {
+      "command": "eval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "const quantityElements = document.querySelectorAll('tbody#order_line_items > tr > td.quantity > div.view');\nconsole.log('Found quantity elements:', quantityElements.length);\n\nconst quantities = [];\n\nquantityElements.forEach((element, index) => {\n    // Log raw content\n    const text = element.textContent.trim();\n    console.log(`Element ${index + 1} raw text: '${text}'`);\n    \n    // Try multiple extraction methods\n    let qty;\n    \n    // Method 1: Original regex\n    const match1 = text.match(/x\\s*(\\d+)/);\n    if (match1 && match1[1]) {\n        qty = parseInt(match1[1], 10);\n        console.log(`Element ${index + 1} - Matched with regex 1: ${qty}`);\n    } else {\n        // Method 2: Simpler digit extraction\n        const match2 = text.match(/\\d+/);\n        if (match2) {\n            qty = parseInt(match2[0], 10);\n            console.log(`Element ${index + 1} - Matched with regex 2: ${qty}`);\n        }\n    }\n    \n    if (qty !== undefined) {\n        quantities.push(qty);\n    } else {\n        console.log(`Element ${index + 1} - No quantity extracted`);\n    }\n});\n\nconsole.log('Extracted quantities:', quantities);\n\n// Assign to refund inputs\nconst refundInputs = document.querySelectorAll('input[type=\"number\"].refund_order_item_qty');\nconsole.log('Found refund inputs:', refundInputs.length);\n\nrefundInputs.forEach((input, index) => {\n    if (index < quantities.length) {\n        input.value = quantities[index];\n        console.log(`Assigned ${quantities[index]} to refund input #${index + 1}`);\n        \n        // Trigger WooCommerce recalculation\n        const event = new Event('change', { bubbles: true });\n        input.dispatchEvent(event);\n    }\n});",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "const shipping = document.querySelector('tr.shipping > td.line_cost > .view > .woocommerce-Price-amount.amount')\n\nreturn shipping !== null "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "tr.shipping > td.line_cost > .view > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "shippingPriceWithoutTax"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const shipping = document.querySelector('tr.shipping > td.line_cost > .view > .woocommerce-Price-amount.amount')\n\nreturn shipping !== null "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "tr.shipping > td.line_cost > .refund > input.refund_line_total.wc_input_price",
+      "value": "{{shippingPriceWithoutTax}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "const shipping = document.querySelector('tr.shipping > td.line_tax:nth-of-type(6) > .view > .woocommerce-Price-amount.amount')\n\nreturn shipping !== null"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "tr.shipping > td.line_tax:nth-of-type(6) > .view > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "shippingTax"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const shipping = document.querySelector('tr.shipping > td.line_tax:nth-of-type(6) > .view > .woocommerce-Price-amount.amount')\n\nreturn shipping !== null"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "let shippingTax = '{{shippingTax}}'\nshippingTax = shippingTax.replace('{{Symbol}}','')\n\nreturn shippingTax",
+      "variableName": "shippingTax"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const shipping = document.querySelector('tr.shipping > td.line_tax:nth-of-type(6) > .view > .woocommerce-Price-amount.amount')\n\nreturn shipping !== null"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "tr.shipping > td.line_tax:nth-of-type(6) > .refund > input[placeholder=\"0\"][type=\"text\"].refund_line_tax.wc_input_price",
+      "value": "{{shippingTax}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "const shipping = document.querySelector('tr.shipping > td.line_tax:nth-of-type(7) > .view > .woocommerce-Price-amount.amount')\n\nreturn shipping !== null"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "tr.shipping > td.line_tax:nth-of-type(7) > .view > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "shippingTax2"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const shipping = document.querySelector('tr.shipping > td.line_tax:nth-of-type(7) > .view > .woocommerce-Price-amount.amount')\n\nreturn shipping !== null"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "let shippingTax = '{{shippingTax2}}'\nshippingTax = shippingTax.replace('{{Symbol}}','')\n\nreturn shippingTax",
+      "variableName": "shippingTax2"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const shipping = document.querySelector('tr.shipping > td.line_tax:nth-of-type(7) > .view > .woocommerce-Price-amount.amount')\n\nreturn shipping !== null"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "tr.shipping > td.line_tax:nth-of-type(7) > .refund > input[placeholder=\"0\"][type=\"text\"].refund_line_tax.wc_input_price",
+      "value": "{{shippingTax2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "#refund_reason",
+      "value": "Testing Refund",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "button[type=\"button\"].button.button-primary > .wc-order-refund-amount > .woocommerce-Price-amount.amount",
+      "value": "{{total}}"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "button[type=\"button\"].button.button-primary > .wc-order-refund-amount > .woocommerce-Price-amount.amount"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "#select2-order_status-container",
+      "value": "Refunded"
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "tr.refund > td.name",
+      "value": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "tr.refund > td.line_cost > .view > .woocommerce-Price-amount.amount",
+      "value": "-{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "tr:nth-of-type(1) > td.total.refunded-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{total}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "67c75e2ec4f6da836c93e641",
+    "suiteId": "66743b231aac3ea14f1e5cee",
+    "suiteName": "Pur Crystal - Basic WooCommerce Tests - USer"
+  }
+}

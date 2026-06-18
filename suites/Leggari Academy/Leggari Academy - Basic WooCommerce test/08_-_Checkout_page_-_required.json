@@ -1,0 +1,152 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "08 - Checkout page - required",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "div.elementor-element.e-con-full.e-con.e-child:nth-of-type(2) > .elementor-element.elementor-align-center.pricing.elementor-widget.elementor-widget-button > .elementor-widget-container > .elementor-button-wrapper > a[href=\"#pricing\"].elementor-button.elementor-button-link > .elementor-button-content-wrapper > .elementor-button-text"
+        },
+        {
+          "selector": "body > div.elementor.elementor-17691 > div.elementor-element.elementor-element-5d2f1f9.e-con-full.elementor-hidden-tablet.elementor-hidden-mobile.e-flex.e-con.e-parent.e-lazyloaded > div.elementor-element.elementor-element-80b20c6.e-con-full.e-flex.e-con.e-child > div.elementor-element.elementor-element-4153ba5.elementor-align-center.elementor-mobile-align-center.pricing.elementor-widget.elementor-widget-button > div > div > a"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": ".elementor-element.elementor-align-center.main-cta-button > .elementor-widget-container > .elementor-button-wrapper > a[href*=\"/leggari-academy-checkout/?add-to-cart=17043&quantity=1\"].elementor-button.elementor-button-link > .elementor-button-content-wrapper > .elementor-button-text"
+        },
+        {
+          "selector": "#pricing2 > div > div > div > div.elementor-element.elementor-element-afb4471.elementor-align-center.elementor-widget-mobile__width-inherit.main-cta-button.elementor-widget.elementor-widget-button > div > div > a"
+        }
+      ]
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": "#place_order"
+        },
+        {
+          "selector": "//button[contains(text(), \"Get Leggari Academy Now!\")]"
+        }
+      ]
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": ".woocommerce-error > li",
+      "value": "Your card number is incomplete."
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "iframe[src*=\"js.stripe.com\"] #payment-numberInput"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "69c1765dc37b235f986bd0d3",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "//button[contains(text(), \"Get Leggari Academy Now!\")]"
+        },
+        {
+          "selector": "#place_order"
+        }
+      ]
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 9,
+      "target": ".woocommerce-error",
+      "value": "Billing Email * is a required field.\nBilling Create account password * is a required field.\nBilling First name * is a required field.\nBilling Last name * is a required field.\nBilling Phone number * is a required field.\nBilling Preferred language * is a required field.\nShipping Street address * is a required field.\nShipping City * is a required field.\nShipping Zip Code * is a required field.\nPlease read and accept the terms and conditions to proceed with your order.",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69c175cbc37b235f986baf58",
+    "suiteId": "69c16cc8de491b5fc5f1b489",
+    "suiteName": "Leggari Academy - Basic WooCommerce test"
+  }
+}

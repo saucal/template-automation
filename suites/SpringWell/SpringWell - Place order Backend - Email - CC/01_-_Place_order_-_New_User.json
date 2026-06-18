@@ -1,0 +1,555 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "01 - Place order - New User",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "68c7fd2a189a381f8e7f2e98",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"SHOP WATER FILTRATION\")]"
+        },
+        {
+          "selector": ".offer-one__single > a[href=\"/product/water-filters/whole-house-water-filters/\"]"
+        }
+      ]
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "h1.product_title",
+      "value": "",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "strong.color-green.variable-dt-p",
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "//*[contains(text(),'Save choices')]",
+      "value": ""
+    },
+    {
+      "command": "eval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "const upgrades = document.querySelectorAll('form > div.more_product_options > div > div input');\n\nupgrades.forEach(checkbox => {\n  if (checkbox.checked) {\n    checkbox.checked = false;\n  }\n});",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "const elements = document.querySelectorAll('form > div.more_product_options > div.product-line-item-form');\nconst visibleElements = Array.from(elements).filter(element => element.style.display !== 'none');\nconst firstVisible = visibleElements[0];\nlet selector = 'form > div.more_product_options';\n\nif (firstVisible) {\n  if (firstVisible.id) {\n    selector += ` > #${firstVisible.id}`;\n  } else {\n    const siblings = Array.from(firstVisible.parentNode.children).filter(\n      sib => sib.tagName === firstVisible.tagName\n    );\n    if (siblings.length > 1) {\n      const index = siblings.indexOf(firstVisible) + 1;\n      selector += ` > div.product-line-item-form:nth-of-type(${index})`;\n    } else {\n      selector += ' > div.product-line-item-form';\n    }\n  }\n  console.log('CSS Selector for the first visible element:', selector);\n} else {\n  console.log('No visible elements found.');\n}\n\nreturn selector",
+      "variableName": "selector1"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "{{selector1}} input"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "return document.querySelector('{{selector1}} label').textContent.trim()\n\n//#product-284 > div > div > div:nth-child(2) > div > form > div.more_product_options > div:nth-child(4) > div.prd-col-1 > label    ",
+      "variableName": "upgrade_desc"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "{{selector1}} span.priceprod",
+      "value": "",
+      "variableName": "upgrade"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "const upgrade = '{{upgrade}}'.replace('+ ','').trim()\n\nreturn upgrade\n",
+      "variableName": "upgrade"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "const elements = document.querySelectorAll('form > div.more_product_options > div.product-line-item-form');\nconst visibleElements = Array.from(elements).filter(element => element.style.display !== 'none');\nconst firstVisible = visibleElements[1];\nlet selector = 'form > div.more_product_options';\n\nif (firstVisible) {\n  if (firstVisible.id) {\n    selector += ` > #${firstVisible.id}`;\n  } else {\n    const siblings = Array.from(firstVisible.parentNode.children).filter(\n      sib => sib.tagName === firstVisible.tagName\n    );\n    if (siblings.length > 1) {\n      const index = siblings.indexOf(firstVisible) + 1;\n      selector += ` > div.product-line-item-form:nth-of-type(${index})`;\n    } else {\n      selector += ' > div.product-line-item-form';\n    }\n  }\n  console.log('CSS Selector for the first visible element:', selector);\n} else {\n  console.log('No visible elements found.');\n}\n\nreturn selector",
+      "variableName": "selector2"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "{{selector2}} input"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "return document.querySelector('{{selector2}} label').textContent.trim()\n",
+      "variableName": "addon_desc"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "{{selector2}} span.priceprod",
+      "value": "",
+      "variableName": "addon"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "const addon = '{{addon}}'.replace('+ ','').trim()\n\nreturn addon",
+      "variableName": "addon"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": ".sub-tt-pr",
+      "value": "",
+      "variableName": "subtotalProd"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "",
+      "value": "const amount = {{subtotalProd}};\nconst usdFormatter = new Intl.NumberFormat('en-US', {\n  style: 'currency',\n  currency: 'USD'\n});\nreturn usdFormatter.format(amount);\n",
+      "variableName": "subtotalProd"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "#number-of-bathrooms",
+      "value": "",
+      "variableName": "variable1"
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "",
+      "value": "const unitPrice = parseFloat('{{unitPrice}}'.replace('$','').replaceAll(',','').trim())\nconst upgrade = parseFloat('{{upgrade}}'.replace('$','').replaceAll(',','').trim())\nconst addon = parseFloat('{{addon}}'.replace('$','').replaceAll(',','').trim())\nconst subtotalProd = parseFloat('{{subtotalProd}}'.replace('$','').replaceAll(',','').trim())\n\nconst subtotalProd2 = parseFloat((unitPrice + upgrade + addon).toFixed(2))\n\nreturn subtotalProd2 === subtotalProd\n",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": [
+        {
+          "selector": "//button[contains(text(), \"Buy Now\")]"
+        },
+        {
+          "selector": "button[type=\"button\"].single_add_to_cart_button"
+        },
+        {
+          "selector": "#custom-add-to-cart"
+        }
+      ]
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "tr:nth-of-type(3) > td.product-name > a",
+      "value": "{{prod_desc}} - {{variable1}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "tr.woocommerce-cart-form__cart-item.cart_item:nth-of-type(3) > td.product-price > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "tr.woocommerce-cart-form__cart-item.cart_item:nth-of-type(3) > td.product-subtotal > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "tr:nth-of-type(1) > td.product-name > a",
+      "value": "{{upgrade_desc}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "tr.woocommerce-cart-form__cart-item.cart_item:nth-of-type(1) > td.product-price > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{upgrade}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "tr.woocommerce-cart-form__cart-item.cart_item:nth-of-type(1) > td.product-subtotal > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{upgrade}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "tr:nth-of-type(2) > td.product-name > a",
+      "value": "{{addon_desc}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "tr.woocommerce-cart-form__cart-item.cart_item:nth-of-type(2) > td.product-price > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{addon}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "tr.woocommerce-cart-form__cart-item.cart_item:nth-of-type(2) > td.product-subtotal > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{addon}}",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "",
+      "value": "{{subtotalProd}}",
+      "variableName": "subtotal"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "tr.cart-subtotal > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": "strong > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"Proceed to checkout\")]"
+        },
+        {
+          "selector": "a[href*=\"/checkout/\"].checkout-button"
+        }
+      ]
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": "",
+      "value": "685028b677cd2d1a6151a9ba",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": "tr.cart_item:nth-of-type(3) > td.product-name",
+      "value": "{{prod_desc}} - {{variable1}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": "tr.cart_item:nth-of-type(3) > td.product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 37,
+      "target": "tr.cart_item:nth-of-type(1) > td.product-name",
+      "value": "{{upgrade_desc}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 38,
+      "target": "tr.cart_item:nth-of-type(1) > td.product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{upgrade}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 39,
+      "target": "tr.cart_item:nth-of-type(2) > td.product-name",
+      "value": "{{addon_desc}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 40,
+      "target": "tr.cart_item:nth-of-type(2) > td.product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{addon}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 41,
+      "target": "tr.cart-subtotal > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 42,
+      "target": "#shipping_method > li > label",
+      "value": "",
+      "variableName": "shippingPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 43,
+      "target": "tr.tax-total > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "taxPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 44,
+      "target": "strong > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "total"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 45,
+      "target": "",
+      "value": "69aacde875b939711423dde1",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 46,
+      "target": "",
+      "value": "6850339777cd2d1a6158faba",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 47,
+      "target": "",
+      "value": "62753765c5f501e7105625b8",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 48,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 49,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 50,
+      "target": "",
+      "value": "68503443f0c060ffbcd4c114",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "685003b1f0c060ffbcc2bcad",
+    "suiteId": "685003b1f0c060ffbcc2bc96",
+    "suiteName": "SpringWell - Place order Backend + Email - CC"
+  }
+}

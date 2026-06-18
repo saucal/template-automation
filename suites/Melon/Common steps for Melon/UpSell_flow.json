@@ -1,0 +1,321 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "6.1.0",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "UpSell flow",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "return \"{{accept}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": ".wfocu-sale-price .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "price2"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "return \"{{accept}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "h1.wfocu-product-title"
+        },
+        {
+          "selector": "h2.wfocu-product-title"
+        }
+      ],
+      "value": "",
+      "variableName": "prod_desc2"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "return \"{{accept}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "let desc = \"{{prod_desc2}}\"\nif(desc === \"Diablo Clear Lens Pack (3 Lenses)\") {\n    desc = \"Diablo Lens (mtb) - Clear\"\n}\n\nreturn desc",
+      "variableName": "prod_desc2"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "return \"{{accept}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "let desc = \"{{prod_desc2}}\"\ndesc = desc.replaceAll(\"–\",\"-\")\nreturn desc",
+      "variableName": "prod_desc2"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return \"{{accept}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": ".wfocu-product-info-col > .wfocu-buy-block.wfocu-buy-block-style1 > .wfocu-buy-block-inner > .wfocu-product-bottom-sec.wfocu-text-center > div:nth-of-type(1) > a.wfocu_upsell.wfocu-button.wfocu-accept-button.wfocu-btn-full.no-effect > .wfocu-clearfix > .wfocu-text"
+        },
+        {
+          "selector": "div > div > div > div.bwf-inner-col > div.bwf-btn-wrap.wfocu-accept-button.wp-block-wrap > a > span"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return \"{{accept}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "#wfocuswal-content"
+        },
+        {
+          "selector": ".woofunnels-container"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "return \"{{accept}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": ".wfocuswal-title"
+        },
+        {
+          "selector": ".woofunnels-container"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "return \"{{accept}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": ".wfocuswal-title"
+        },
+        {
+          "selector": ".woofunnels-container"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let element = document.querySelectorAll('.wfocu-sale-price  .woocommerce-Price-amount.amount > bdi')\nreturn element.length !== 0 && \"{{accept}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": ".wfocu-sale-price .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "price3"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let element = document.querySelectorAll('.wfocu-sale-price  .woocommerce-Price-amount.amount > bdi')\nreturn element.length !== 0 && \"{{accept}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "h1.wfocu-product-title"
+        },
+        {
+          "selector": "h2.wfocu-product-title"
+        }
+      ],
+      "value": "",
+      "variableName": "prod_desc3"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let element = document.querySelectorAll('.wfocu-sale-price  .woocommerce-Price-amount.amount > bdi')\nreturn element.length !== 0 && \"{{accept}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "let desc = \"{{prod_desc3}}\"\ndesc = desc.replaceAll(\"–\",\"-\")\nreturn desc",
+      "variableName": "prod_desc3"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let element = document.querySelectorAll('.wfocu-sale-price  .woocommerce-Price-amount.amount > bdi')\nreturn element.length !== 0 && \"{{accept}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": [
+        {
+          "selector": ".wfocu-product-info-col > .wfocu-buy-block.wfocu-buy-block-style1 > .wfocu-buy-block-inner > .wfocu-product-bottom-sec.wfocu-text-center > div:nth-of-type(1) > a.wfocu_upsell.wfocu-button.wfocu-accept-button.wfocu-btn-full.no-effect > .wfocu-clearfix > .wfocu-text"
+        },
+        {
+          "selector": "div > div > div > div.bwf-inner-col > div.bwf-btn-wrap.wfocu-accept-button.wp-block-wrap > a > span"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let element = document.querySelectorAll('div.wfocu-skip-offer-wrap > a, div > div > div > div.bwf-inner-col > div.bwf-btn-wrap.wfocu-link.wfocu-reject.wp-block-wrap > a > span')\nreturn \"{{accept}}\" === \"no\" && element.length !== 0"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": [
+        {
+          "selector": "div.wfocu-skip-offer-wrap > a"
+        },
+        {
+          "selector": "div > div > div > div.bwf-inner-col > div.bwf-btn-wrap.wfocu-link.wfocu-reject.wp-block-wrap > a > span"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "pause",
+      "condition": {
+        "statement": "return \"{{accept}}\" === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "3000",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let element = document.querySelectorAll('div.wfocu-skip-offer-wrap > a, div > div > div > div.bwf-inner-col > div.bwf-btn-wrap.wfocu-link.wfocu-reject.wp-block-wrap > a > span')\nreturn \"{{accept}}\" === \"no\" && element.length !== 0"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": [
+        {
+          "selector": "div.wfocu-skip-offer-wrap > a"
+        },
+        {
+          "selector": "div > div > div > div.bwf-inner-col > div.bwf-btn-wrap.wfocu-link.wfocu-reject.wp-block-wrap > a > span"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "pause",
+      "condition": {
+        "statement": "return \"{{accept}}\" === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "3000",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let element = document.querySelectorAll('div.wfocu-skip-offer-wrap > a, div > div > div > div.bwf-inner-col > div.bwf-btn-wrap.wfocu-link.wfocu-reject.wp-block-wrap > a > span')\nreturn element.length !== 0"
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 16,
+      "target": [
+        {
+          "selector": "div.wfocu-skip-offer-wrap > a"
+        },
+        {
+          "selector": "div > div > div > div.bwf-inner-col > div.bwf-btn-wrap.wfocu-link.wfocu-reject.wp-block-wrap > a > span"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 17,
+      "target": "#wfocuswal-content",
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "63ebbbad1b9923d1cb951071",
+    "suiteId": "6324d90873b124ed89a03e98",
+    "suiteName": "Common steps for Melon"
+  }
+}

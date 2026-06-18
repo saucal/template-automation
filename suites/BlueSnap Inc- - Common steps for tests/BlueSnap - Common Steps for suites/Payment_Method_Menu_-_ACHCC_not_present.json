@@ -1,0 +1,107 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Payment Method Menu - ACH/CC not present",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": ".woocommerce-MyAccount-navigation-link > a[href*=\"/my-account/payment-methods/\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "let num = document.getElementsByClassName(\"payment-method\").length\nreturn num",
+      "variableName": "n"
+    },
+    {
+      "command": "assertTextNotPresent",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nreturn payment != \"ach\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "tr:nth-child({{n}}) > td.woocommerce-PaymentMethod.woocommerce-PaymentMethod--method",
+      "value": "{{CCName}} ending in {{fourDigits}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let test =\"{{test}}\"\nreturn test === \"002-009\" || test === \"002-021\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "tr:nth-child({{n}}) > td.woocommerce-PaymentMethod.woocommerce-PaymentMethod--method",
+      "value": "Consumer checking account ending in 44556",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nreturn payment === \"ach\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "tr:nth-child({{n}}) > td.woocommerce-PaymentMethod.woocommerce-PaymentMethod--expires",
+      "value": "N/A",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let test =\"{{test}}\"\nreturn test === \"002-011\" || test === \"002-013\" || test === \"002-012\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "tr:nth-child({{n}}) > td.woocommerce-PaymentMethod.woocommerce-PaymentMethod--method",
+      "value": "Corporate checking account ending in 44556",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "62b085c6183cb14313fe7b92",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

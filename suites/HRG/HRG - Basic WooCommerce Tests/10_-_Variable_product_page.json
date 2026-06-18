@@ -1,0 +1,193 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "10 - Variable product page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "{{startUrl}}shop/",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "li.product-type-variable.instock a"
+    },
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "{{startUrl}}product/4-inch-pod-light-kit-for-2024-2026-subaru-crosstrek/",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "h1.product_title",
+      "value": "",
+      "variableName": "{{prod_desc}}"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return !!document.querySelector('#t-shirt-size')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "#t-shirt-size"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return !!document.querySelector('#t-shirt-size')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "#t-shirt-size",
+      "value": "L"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "return !!document.querySelector('#t-shirt-size')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "#t-shirt-size",
+      "value": "",
+      "variableName": "variable1"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return !!document.querySelector('#material')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "#material"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return !!document.querySelector('#material')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "#material",
+      "value": "Steel",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "return !!document.querySelector('#material')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "#material",
+      "value": "",
+      "variableName": "variable1"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": [
+        {
+          "selector": ".woocommerce-variation-price > .price > ins > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": ".woocommerce-variation-price > .price > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "div.elementor-widget-woocommerce-product-price .price > ins > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "div.elementor-widget-woocommerce-product-price .price > .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "69207cc6638b72979295f274",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69206738638b72979292d63a",
+    "suiteId": "69206738638b72979292d62b",
+    "suiteName": "HRG - Basic WooCommerce Tests"
+  }
+}

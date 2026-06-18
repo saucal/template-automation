@@ -1,0 +1,264 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "07 - Checkout page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "68238ea4b3e7bdebe92d90ea",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "//button[contains(text(), \"Add to cart\")]"
+        },
+        {
+          "selector": "button[name=\"add-to-cart\"]"
+        }
+      ]
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": ".woocommerce-message",
+      "value": "„{{prod_desc}}“ wurde deinem Warenkorb hinzugefügt.",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "div:nth-of-type(1).fkcart--item .fkcart-item-title",
+      "value": "{{prod_desc}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": "div:nth-of-type(1).fkcart--item .fkcart-item-price > ins > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "div:nth-of-type(1).fkcart--item .fkcart-item-price > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{totalProd}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "div:nth-of-type(2).fkcart--item .fkcart-item-title",
+      "value": "{{prod_desc}} → HOME Harmonizer - M"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "div:nth-of-type(2).fkcart--item .fkcart-item-price > ins > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "div:nth-of-type(2).fkcart--item .fkcart-item-price > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "div:nth-of-type(3).fkcart--item .fkcart-item-title",
+      "value": "{{prod_desc}} → {{prod_desc2}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "div:nth-of-type(3).fkcart--item .fkcart-item-price > ins > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "div:nth-of-type(3).fkcart--item .fkcart-item-price > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{unitPrice2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "div:nth-of-type(4).fkcart--item .fkcart-item-title",
+      "value": "{{prod_desc}} → {{prod_desc3}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": "div:nth-of-type(4).fkcart--item .fkcart-item-price > ins > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "div:nth-of-type(4).fkcart--item .fkcart-item-price > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{unitPrice3}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "div:nth-of-type(5).fkcart--item .fkcart-item-title",
+      "value": "{{prod_desc}} → {{prod_desc4}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": [
+        {
+          "selector": "div:nth-of-type(5).fkcart--item .fkcart-item-price > ins > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "div:nth-of-type(5).fkcart--item .fkcart-item-price > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{unitPrice4}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "div:nth-of-type(6).fkcart--item .fkcart-item-title",
+      "value": "{{prod_desc}} → {{prod_desc5}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": [
+        {
+          "selector": "div:nth-of-type(6).fkcart--item .fkcart-item-price > ins > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "div:nth-of-type(6).fkcart--item .fkcart-item-price > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{unitPrice5}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "div.fkcart-summary-amount > strong > .woocommerce-Price-amount.amount",
+      "value": "{{totalProd}}",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "",
+      "value": "{{totalProd}}",
+      "variableName": "subtotal"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "",
+      "value": "{{totalProd}}",
+      "variableName": "total"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "#fkcart-checkout-button"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68239d9db3e7bdebe92f83b3",
+    "suiteId": "682351aaab4ff4354d15c22a",
+    "suiteName": "Biogeta - Basic WooCommerce tests"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Get all Logs request response - /recurring/ondemand/{{subsID}}",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": null,
+      "notes": "needs the payment time to get it",
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "return new Promise(function (resolve, reject) {\n  const url = '{{startUrl}}' + 'wp-json/wc-automation-helper/log-request-response-group/?datetime='+'{{payDate}}&initial_request_slug=/recurring/ondemand/{{subsID}}';\n  const username = '{{woo_user}}';\n  const password = '{{woo_pass}}';\n  let headers = new Headers();\n  headers.set('Content-Type', 'application/json');\n  headers.set('Authorization', 'Basic ' + btoa(username + \":\" + password));\n  fetch(url, {method:'GET', headers: headers, credentials: 'omit'})\n  .then(function(response) {\n    if (response.ok) {\n      resolve(response.json())\n    } else {\n      reject([])\n    } \n  })\n  })",
+      "variableName": "logsAll"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let logsAll = {{logsAll}};\nreturn logsAll.length === 0"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "let date = \"{{payDate}}\"\ndate = new Date(date);\ndate = new Date (date.getTime()+60000);\ndate = date.getFullYear()+'-'+('0'+(date.getMonth()+1)).slice(-2)+'-'+('0'+date.getDate()).slice(-2)+'T'+('0'+date.getUTCHours()).slice(-2)+\":\"+('0'+date.getMinutes()).slice(-2)+\":\"+('0'+date.getSeconds()).slice(-2);\n\nreturn new Promise(function (resolve, reject) {\n  const url = '{{startUrl}}' + 'wp-json/wc-automation-helper/log-request-response-group/?datetime='+'{{payDate}}&initial_request_slug=/recurring/ondemand/{{subsID}}';\n  const username = '{{woo_user}}';\n  const password = '{{woo_pass}}';\n  let headers = new Headers();\n  headers.set('Content-Type', 'application/json');\n  headers.set('Authorization', 'Basic ' + btoa(username + \":\" + password));\n  fetch(url, {method:'GET', headers: headers, credentials: 'omit'})\n  .then(function(response) {\n    if (response.ok) {\n      resolve(response.json())\n    } else {\n      reject([])\n    } \n  })\n })",
+      "variableName": "logsAll"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "649f045682bf299ccbf28843",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

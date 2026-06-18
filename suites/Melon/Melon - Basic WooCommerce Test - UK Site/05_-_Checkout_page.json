@@ -1,0 +1,177 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "05 - Checkout page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "6290df534b7dbf9dc95586c3",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "a[href*=\"/checkout/\"].checkout-button"
+        },
+        {
+          "selector": "#fkcart-checkout-button"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "eval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "return new Promise((resolve, reject) => {\n  const timeout = setTimeout(() => {\n    clearInterval(checkExistence);\n    reject(new Error(\"Timeout: data-time attribute not found on wfob_wrap after 30 seconds.\"));\n  }, 30000); // 30 seconds timeout\n\n  const checkExistence = setInterval(() => {\n    let wfobWrapElement = document.querySelector('#wfob_wrap[data-time]');\n    \n\n    if (wfobWrapElement !== null) {\n      clearInterval(checkExistence);\n      clearTimeout(timeout);\n      console.log(\"✅ data-time attribute detected on wfob_wrap! Blur should be removed.\");\n      resolve(true);\n    } else {\n      console.log(\"⏳ Waiting for data-time attribute to be added to wfob_wrap...\");\n    }\n  }, 1500);\n})",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": "tr.cart_item.component_container_table_item > td.product-name"
+        },
+        {
+          "selector": "div:not(.wfacp_min_cart_widget) > table > tbody > tr.cart_item.component_container_table_item.wfacp_delete_active > td.product-name-area > div.product-name.wfacp_summary_img_true > div.wfacp_cart_title_sec > span"
+        }
+      ],
+      "value": "{{prod_desc}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "td.product-total > span.woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "div:not(.wfacp_min_cart_widget) > table > tbody > tr.cart_item.component_container_table_item.wfacp_delete_active > td.product-total > span.woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": ".wfacp_mini_cart_reviews > tbody > tr.cart-subtotal > td > span",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "ul#shipping_method > li:first-child > label > span.woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": ".wfacp_mini_cart_reviews > tbody > tr.shipping_total_fee > td:nth-child(2) > span > span"
+        }
+      ],
+      "value": "",
+      "variableName": "shippingPrice"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "notes": "tr.order-total > td > strong > span.woocommerce-Price-amount.amount",
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "const subtotal = parseFloat(\"{{subtotalPrice}}\".replace(\"{{Symbol}}\",\"\").replaceAll(\",\",\"\").trim());\nconst shipping = parseFloat(\"{{shippingPrice}}\".replace(\"{{Symbol}}\",\"\").replaceAll(\",\",\"\").trim());\nlet total = subtotal + shipping;\ntotal = Intl.NumberFormat('en-IN', { style: 'currency', currency: '{{currency}}'}).format(total);\nreturn total;",
+      "variableName": "Total"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "#wfacp_mini_cart_reviews_64378bb3 > tbody > tr.order-total > td > strong > span",
+      "value": "{{Total}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "return false"
+      },
+      "notes": "small.includes_tax > span.woocommerce-Price-amount.amount",
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": ".wfacp_mini_cart_reviews > tbody > tr.order-total > td > small > span",
+      "value": "",
+      "variableName": "taxPriceSmall"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6290f173a0299821fcfc3b50",
+    "suiteId": "6290cfb04b7dbf9dc950dccc",
+    "suiteName": "Melon - Basic WooCommerce Test - UK Site"
+  }
+}

@@ -1,0 +1,192 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "07 - Checkout page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "div.elementor-element.e-con-full.e-con.e-child:nth-of-type(2) > .elementor-element.elementor-align-center.pricing.elementor-widget.elementor-widget-button > .elementor-widget-container > .elementor-button-wrapper > a[href=\"#pricing\"].elementor-button.elementor-button-link > .elementor-button-content-wrapper > .elementor-button-text"
+        },
+        {
+          "selector": "body > div.elementor.elementor-17691 > div.elementor-element.elementor-element-5d2f1f9.e-con-full.elementor-hidden-tablet.elementor-hidden-mobile.e-flex.e-con.e-parent.e-lazyloaded > div.elementor-element.elementor-element-80b20c6.e-con-full.e-flex.e-con.e-child > div.elementor-element.elementor-element-4153ba5.elementor-align-center.elementor-mobile-align-center.pricing.elementor-widget.elementor-widget-button > div > div > a"
+        }
+      ]
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "#pricing > .elementor-container.elementor-column-gap-default > .elementor-column.elementor-top-column.elementor-element > .elementor-widget-wrap.elementor-element-populated > div.elementor-element.elementor-widget.elementor-widget-text-editor:nth-of-type(5) > .elementor-widget-container"
+        },
+        {
+          "selector": "#pricing2 > div > div > div > div.elementor-element.elementor-element-8d74649.elementor-widget.elementor-widget-text-editor > div > p"
+        },
+        {
+          "selector": "#pricing2 > div > div > div > div.elementor-element.elementor-element-ff17608.elementor-widget.elementor-widget-text-editor > div"
+        }
+      ],
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": ".elementor-element.elementor-align-center.main-cta-button > .elementor-widget-container > .elementor-button-wrapper > a[href*=\"/leggari-academy-checkout/?add-to-cart=17043&quantity=1\"].elementor-button.elementor-button-link > .elementor-button-content-wrapper > .elementor-button-text"
+        },
+        {
+          "selector": "#pricing2 > div > div > div > div.elementor-element.elementor-element-afb4471.elementor-align-center.elementor-widget-mobile__width-inherit.main-cta-button.elementor-widget.elementor-widget-button > div > div > a"
+        }
+      ]
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 3,
+      "target": "li.product-item:nth-of-type(1) > .product-item-wrapper",
+      "value": "One-time payment\n\n($1799)",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "li.product-item:nth-of-type(1) > .product-item-wrapper",
+      "value": "($1799)",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 5,
+      "target": "li.product-item:nth-of-type(2) > .product-item-wrapper",
+      "value": "$999 + split-pay\n\n(3 x $399)",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "li.product-item:nth-of-type(2) > .product-item-wrapper",
+      "value": "(3 x $399)",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 7,
+      "target": "li.product-item:nth-of-type(3) > .product-item-wrapper",
+      "value": "Split-pay\n\n(2 x $999)",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "li.product-item:nth-of-type(3) > .product-item-wrapper",
+      "value": "(2 x $999)",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 9,
+      "target": "li.product-item:nth-of-type(4) > .product-item-wrapper",
+      "value": "$199 + split-pay\n\n(11 x $199)",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "li.product-item:nth-of-type(4) > .product-item-wrapper",
+      "value": "(11 x $199)",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": ".product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": ".future-payments-detail > .woocommerce-Price-amount.amount > bdi",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": ".final-payment-details > .woocommerce-Price-amount.amount > bdi",
+      "value": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69c17308de491b5fc5f31bcf",
+    "suiteId": "69c16cc8de491b5fc5f1b489",
+    "suiteName": "Leggari Academy - Basic WooCommerce test"
+  }
+}

@@ -1,0 +1,179 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "05 - Menu Mobile",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "svg.kadence-svg-icon.kadence-menu-svg"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "68caa38a189a381f8efcb5b3",
+      "variableName": ""
+    },
+    {
+      "command": "pause",
+      "condition": null,
+      "notes": "Wait for things to load",
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "2000",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "return window.location.href === \"{{startUrl}}dashboard/\"",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "svg.kadence-svg-icon.kadence-menu-svg"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "#mobile-menu > .menu-item.menu-item-type-post_type_archive.menu-item-object-artist > a[href*=\"/instructors/\"]",
+      "value": "Instructors"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "#mobile-menu > .menu-item.menu-item-type-post_type_archive.menu-item-object-sfwd-courses > a[href*=\"/courses/\"]",
+      "value": "Courses"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "#mobile-menu > .menu-item.menu-item-type-post_type.menu-item-object-page > a[href*=\"/events/\"]",
+      "value": "Live Sessions"
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "div.site-header-item:nth-of-type(2) > .vs-logged-in-false > div > a[href*=\"/join\"].button.button-size-medium.button-style-filled",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "div.site-header-item:nth-of-type(3) > .header-account-control-wrap.header-account-action-modal.header-account-style-label > button.drawer-toggle.header-account-button > .header-account-label",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": ".menu-item > a[href*=\"/dashboard/\"]",
+      "value": "Dashboard"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "#mobile-menu > li.menu-item.menu-item-type-custom.menu-item-object-custom:nth-of-type(2) > a[href*=\"/my-account/\"]",
+      "value": "Account"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "li.menu-item.menu-item-type-post_type.menu-item-object-page:nth-of-type(7) > a[href*=\"/mybookmarks/\"]",
+      "value": "My Bookmarks"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "li#menu-item-1123040 > a[href*=\"/mentor-sessions/\"]",
+      "value": "Mentor Sessions"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "li.menu-item.menu-item-type-custom.menu-item-object-custom:nth-of-type(9) > a",
+      "value": "Log out"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": {
+    "width": 480,
+    "height": 853
+  },
+  "_gi": {
+    "testId": "663cbc7289e87fd839fddf01",
+    "suiteId": "663a65cd1aac3ea14fc69327",
+    "suiteName": "Open Studio - Basic WooCommerce Tests - Member"
+  }
+}

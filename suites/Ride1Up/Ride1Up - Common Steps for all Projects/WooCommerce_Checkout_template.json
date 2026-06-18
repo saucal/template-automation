@@ -1,0 +1,1652 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "6.1.0",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "WooCommerce Checkout template",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"elka\" || project === \"harmony\" \n|| project === \"Phlearn\" || project === \"hunchie\" \n|| project === \"inspire\" || project === \"kybb\" \n|| (project === \"leggari\" && step === \"2\") || project === \"lens\" \n|| project === \"mckeen\" || project === \"mavenfair\" \n|| project ===\"weedpleez\" || project === \"nopong\"\n|| project === \"melon\" || project === \"talkbox\"\n|| project === \"botany\" || project === \"scout\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "#billing_first_name"
+        },
+        {
+          "selector": "iframe[src=\"{{url}}checkout/?iframe_checkout=1\"] #billing_first_name"
+        }
+      ],
+      "value": "{{firstName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"Deans\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "#billing_first_name"
+        }
+      ],
+      "value": "{{firstName}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"2m\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "#billing_first_name",
+      "value": "",
+      "variableName": "firstName"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"elka\" || project === \"harmony\" \n|| project === \"hunchie\" || project === \"inspire\" \n|| project === \"kybb\" || (project === \"leggari\" && step === \"2\")\n|| project === \"lens\" || project === \"mckeen\" \n|| project === \"mavenfair\" || project ===\"weedpleez\"\n|| project === \"nopong\"|| project === \"melon\"\n|| project === \"talkbox\" || project === \"botany\"\n|| project === \"scout\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#billing_last_name",
+      "value": "{{lastName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"Deans\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "#billing_last_name",
+      "value": "{{lastName}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"2m\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "#billing_last_name",
+      "value": "",
+      "variableName": "lastName"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"hunchie\" || project === \"kybb\" \n|| project === \"mckeen\" || project === \"mavenfair\" \n|| project === \"nopong\"|| project === \"melon\"\n || project === \"talkbox\" || project === \"botany\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "#ship-to-different-address-checkbox"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"leggari\" && step === \"2\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "#billing_same_as_shipping"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"elka\" || project === \"harmony\" \n|| project === \"kybb\" || project === \"lens\"\n|| ( project === \"leggari\" && step === \"2\" )\n|| project === \"mckeen\" || project === \"mavenfair\" \n|| project ===\"weedpleez\" || project === \"nopong\"\n|| project === \"melon\" || project === \"botany\"\n|| project === \"scout\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "#billing_company",
+      "value": "{{company}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"Deans\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "#billing_company",
+      "value": "{{company}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"2m\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "#billing_company",
+      "value": "",
+      "variableName": "company"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"2m\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "#aim",
+      "value": "",
+      "variableName": "licKey"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"harmony\" || project === \"2m\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "#billing_invoice_cc_email_addresses",
+      "value": "{{emailCC}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"2m\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "#po_number",
+      "value": "{{PONumber}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"Deans\" || project === \"mckeen\" \n|| project ===\"weedpleez\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "#billing_country_field > span",
+      "value": "{{countryComplete}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"harmony\" || project === \"hunchie\" \n|| project === \"kybb\"\n|| project === \"mavenfair\" || project === \"nopong\"\n|| project === \"melon\" || project === \"scout\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "#select2-billing_country-container",
+      "value": "{{countryComplete}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"2m\" || project === \"elka\" \n|| (project === \"leggari\" && step === \"2\") || project === \"lens\"\n|| project === \"talkbox\" || project === \"botany\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "#billing_country",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"2m\" || project === \"elka\" \n|| (project === \"leggari\" && step === \"2\") || project === \"lens\"\n|| project === \"talkbox\" || project === \"botany\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "#billing_country > option[value=\"{{country}}\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"Deans\" || project === \"2m\" \n|| project === \"elka\" || project === \"harmony\" \n|| project === \"hunchie\" || project === \"inspire\" \n|| project === \"kybb\"|| (project === \"leggari\" && step === \"2\") \n|| project === \"lens\" || project === \"mckeen\" \n|| project === \"mavenfair\" || project ===\"weedpleez\"\n|| project === \"nopong\" || project === \"melon\"\n|| project === \"talkbox\" || project === \"botany\"\n|| project === \"scout\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "#billing_address_1",
+      "value": "{{street}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"Deans\" || project === \"elka\"|| (project === \"leggari\" && step === \"2\") \n|| project === \"lens\" || project === \"mckeen\" \n|| project === \"mavenfair\" || project === \"melon\"\n|| project === \"talkbox\" || project === \"botany\"\n|| project === \"scout\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "#billing_address_2",
+      "value": "{{street2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"Deans\" || project === \"2m\" \n|| project === \"elka\" || project === \"harmony\"  \n|| project === \"hunchie\" || project === \"inspire\" \n|| project === \"kybb\"|| (project === \"leggari\" && step === \"2\")\n|| project === \"lens\" || project === \"mavenfair\" \n|| project ===\"weedpleez\" || project === \"nopong\"\n|| project === \"melon\" || project === \"talkbox\"\n|| project === \"botany\" || project === \"scout\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "#billing_city",
+      "value": "{{city}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mckeen\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "#billing_city_field > span",
+      "value": "{{city}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nlet country = \"{{country}}\"\nreturn project === \"Deans\" || project === \"2m\" \n|| project === \"elka\" || project === \"harmony\"\n|| project === \"inspire\" || (project === \"leggari\" && step === \"2\")\n|| project === \"lens\" || project ===\"weedpleez\"\n|| project === \"nopong\" || (project === \"melon\" && country === \"IT\")\n|| project === \"talkbox\" || project === \"botany\"\n|| project === \"scout\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "#billing_state",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nlet country = \"{{country}}\"\nreturn project === \"Deans\" || project === \"2m\" \n|| project === \"elka\" || project === \"harmony\"\n|| project === \"inspire\" || (project === \"leggari\" && step === \"2\")\n|| project === \"lens\" || project ===\"weedpleez\"\n|| project === \"nopong\" || (project === \"melon\" && country === \"IT\")\n|| project === \"talkbox\" || project === \"botany\"\n|| project === \"scout\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": [
+        {
+          "selector": "#billing_state > option[value=\"{{state}}\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"hunchie\" || project === \"kybb\" \n|| project === \"mavenfair\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "#select2-billing_state-container",
+      "value": "{{stateComplete}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mckeen\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "#billing_state_field > span",
+      "value": "{{stateComplete}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"Deans\" || project === \"Phlearn\" \n|| project === \"2m\" || project === \"elka\" \n|| project === \"harmony\" || project === \"hunchie\" \n|| project === \"inspire\" || project === \"kybb\" \n|| (project === \"leggari\" && step === \"2\") || project === \"lens\" \n|| project === \"mavenfair\" || project ===\"weedpleez\"\n|| project === \"nopong\"|| project === \"melon\"\n|| project === \"talkbox\" || project === \"botany\"\n|| project === \"scout\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": [
+        {
+          "selector": "#billing_postcode"
+        },
+        {
+          "selector": "iframe[src=\"{{url}}checkout/?iframe_checkout=1\"] #billing_postcode"
+        }
+      ],
+      "value": "{{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mckeen\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "#billing_postcode",
+      "value": "{{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"leggari\"",
+        "result": false
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 28,
+      "target": "#address_type",
+      "value": "Residential",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"leggari\"",
+        "result": false
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 29,
+      "target": "#address_type",
+      "value": "residential",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"2m\" || project === \"elka\" \n|| project === \"harmony\" || project === \"hunchie\" \n|| project === \"inspire\" || project === \"kybb\" \n|| (project === \"leggari\" && step === \"2\") || project === \"mckeen\" \n|| project === \"mavenfair\" || project ===\"weedpleez\"\n|| project === \"nopong\" || project === \"melon\"\n|| project === \"talkbox\" || project === \"botany\"\n|| project === \"scout\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "#billing_phone",
+      "value": "{{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn (project === \"leggari\" && step === \"2\")",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "#billing_phone_field .iti__selected-dial-code",
+      "value": "",
+      "variableName": "phoneCode"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"Deans\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": "#billing_phone",
+      "value": "{{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"Deans\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": "#billing_mobile_phone",
+      "value": "{{mobile}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"elka\" || project === \"harmony\" \n|| project === \"hunchie\" || project === \"inspire\" \n|| project === \"kybb\" || project === \"mckeen\" \n|| project === \"mavenfair\" || project === \"nopong\"\n|| (project === \"leggari\" && step === \"2\") || project === \"melon\"\n|| project === \"talkbox\" || project === \"botany\"\n|| project === \"scout\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": "#billing_email",
+      "value": "{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"2m\" || project === \"harmony\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": "#billing_invoice_cc_email_addresses",
+      "value": "{{emailCC}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"Deans\" || project === \"lens\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": "#billing_email",
+      "value": "{{username}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"lens\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 37,
+      "target": "#billing_custom_tax_id",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"hunchie\" || (project === \"leggari\" && step === \"2\")\n|| project === \"lens\" || project === \"mckeen\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 38,
+      "target": [
+        {
+          "selector": "#mailchimp_woocommerce_newsletter"
+        },
+        {
+          "selector": "#kl_newsletter_checkbox"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}{{type}}\"\nlet step = \"{{step}}\"\nreturn project === \"elka\" || project === \"hunchie\" \n|| project === \"inspire\" || project === \"kybb\" \n|| (project === \"leggari\" && step === \"2\") || project === \"mckeen\" \n|| project === \"mavenfair\" || project === \"nopong\"\n|| project === \"melon\" || project === \"botany\"\n|| project === \"scout\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 39,
+      "target": [
+        {
+          "selector": "#createaccount"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}{{type}}\"\nreturn project === \"inspireSub\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 40,
+      "target": [
+        {
+          "selector": "#createaccount"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"elka\" || project === \"harmony\" \n|| project === \"hunchie\" || project === \"inspire\" \n|| project === \"mckeen\" || project === \"mavenfair\"\n || project === \"nopong\" || project === \"scout\"",
+        "result": false
+      },
+      "optional": false,
+      "private": true,
+      "sequence": 41,
+      "target": "#account_password",
+      "value": "{{password}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"scout\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 42,
+      "target": "#account_username",
+      "value": "{{firstName}}{{lastName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"Deans\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 43,
+      "target": "#ship-to-different-address-checkbox",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"hunchie\" || project === \"Deans\" \n|| project === \"kybb\" || project === \"mckeen\" \n|| project === \"mavenfair\" || project === \"nopong\"\n|| project === \"melon\" || project === \"talkbox\"\n|| project === \"botany\" || project === \"scout\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 44,
+      "target": "#shipping_first_name",
+      "value": "{{firstName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"hunchie\" || project === \"Deans\" \n|| project === \"kybb\" || project === \"mckeen\" \n|| project === \"mavenfair\" || project === \"nopong\"\n|| project === \"melon\" || project === \"talkbox\"\n|| project === \"botany\" || project === \"scout\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 45,
+      "target": "#shipping_last_name",
+      "value": "{{lastName2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"Deans\" || (project === \"leggari\" && step === \"2\") \n|| project === \"mckeen\" || project === \"mavenfair\"\n || project === \"nopong\"|| project === \"melon\"\n || project === \"botany\" || project === \"scout\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 46,
+      "target": "#shipping_company",
+      "value": "{{company2}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn (project === \"leggari\" && step === \"2\") || project === \"talkbox\"\n|| project === \"botany\"\n",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 47,
+      "target": "#shipping_country",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn (project === \"leggari\" && step === \"2\") || project === \"talkbox\"\n|| project === \"botany\"\n",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 48,
+      "target": "#shipping_country > option[value=\"{{country}}\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet country = \"{{country}}\"\nreturn project === \"Deans\" || project === \"mckeen\" \n|| (project === \"nopong\" && (country === \"CA\" || country === \"US\"))",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 49,
+      "target": "#shipping_country_field > span",
+      "value": "{{countryComplete}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet country = \"{{country}}\"\nreturn project === \"hunchie\" || project === \"kybb\" \n|| project === \"mavenfair\" || (project === \"nopong\" && country === \"AU\")\n|| project === \"melon\" || project === \"scout\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 50,
+      "target": "#select2-shipping_country-container",
+      "value": "{{countryComplete}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"Deans\" || project === \"hunchie\" \n|| project === \"kybb\" || (project === \"leggari\" && step === \"2\")\n|| project === \"mckeen\" || project === \"mavenfair\"\n|| project === \"nopong\" || project === \"melon\"\n|| project === \"talkbox\" || project === \"botany\"\n|| project === \"scout\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 51,
+      "target": "#shipping_address_1",
+      "value": "{{street3}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"Deans\" || (project === \"leggari\" && step === \"2\")  \n|| project === \"mckeen\" || project === \"mavenfair\"\n|| project === \"melon\" || project === \"talkbox\"\n|| project === \"botany\" || project === \"scout\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 52,
+      "target": "#shipping_address_2",
+      "value": "{{street4}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"Deans\" || project === \"hunchie\" \n|| project === \"kybb\" || (project === \"leggari\" && step === \"2\") \n|| project === \"mavenfair\" || project === \"nopong\"\n|| project === \"melon\" || project === \"talkbox\"\n|| project === \"botany\" || project === \"scout\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 53,
+      "target": "#shipping_city",
+      "value": "{{city}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nlet country = \"{{country}}\"\nreturn project === \"Deans\" || (project === \"leggari\" && step === \"2\")\n|| project === \"nopong\" || (project === \"melon\" && country === \"IT\")\n|| project === \"talkbox\" || project === \"botany\"\n|| project === \"scout\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 54,
+      "target": "#shipping_state",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nlet country = \"{{country}}\"\nreturn project === \"Deans\" || (project === \"leggari\" && step === \"2\")\n|| project === \"nopong\" || (project === \"melon\" && country === \"IT\")\n|| project === \"talkbox\" || project === \"botany\"\n|| project === \"scout\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 55,
+      "target": [
+        {
+          "selector": "#shipping_state > option[value=\"{{state}}\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"hunchie\" || project === \"kybb\" \n|| project === \"mavenfair\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 56,
+      "target": "#select2-shipping_state-container",
+      "value": "{{stateComplete}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"Deans\" || project === \"hunchie\" \n|| project === \"kybb\" || (project === \"leggari\" && step === \"2\") \n|| project === \"mavenfair\" || project === \"nopong\"\n|| project === \"melon\" || project === \"talkbox\"\n|| project === \"botany\" || project === \"scout\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 57,
+      "target": "#shipping_postcode",
+      "value": "{{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 58,
+      "target": "",
+      "value": "63c71c660b7aefb972ffc43d",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"Deans\" || project === \"talkbox\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 59,
+      "target": "#shipping_phone",
+      "value": "{{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"Deans\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 60,
+      "target": "#shipping_mobile_phone",
+      "value": "{{mobile}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"elka\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 61,
+      "target": "div:nth-of-type(1) > a[href=\"#\"].fusion-button.button-default.fusion-button-default-size.button.continue-checkout",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"x\" || project === \"Deans\" \n|| project === \"elka\" || project === \"hunchie\" \n|| project === \"kybb\" || project === \"melon\" \n|| project === \"talkbox\" || project === \"botany\"\n|| project === \"scout\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 62,
+      "target": "#order_comments",
+      "value": "Order Note for Testing this field",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"elka\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 63,
+      "target": "div:nth-of-type(2) > a[href=\"#\"].fusion-button.button-default.fusion-button-default-size.continue-checkout.button",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"leggari\" && step === \"2\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 64,
+      "target": ".wfacp-left-panel.wfacp_page.pre_built.single_step > .wfacp-two-step-erap.wfacp-next-btn-wrap.center > button[type=\"button\"].button.button-primary.wfacp_next_page_button",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"Phlearn\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 65,
+      "target": "iframe[src=\"{{url}}checkout/?iframe_checkout=1\"] #billing-description > .billing_subtitle > .subscription-price > .woocommerce-Price-amount.amount",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"2m\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 66,
+      "target": [
+        {
+          "selector": ".subscription-price > .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "${{subPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 67,
+      "target": [
+        {
+          "selector": ".subscription-price > .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "",
+      "variableName": "subPrice"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"Deans\" || project === \"2m\" \n|| project === \"elka\" || project === \"harmony\" \n|| project === \"hunchie\" || project === \"kybb\" \n|| (project === \"leggari\" && step === \"3\") || project === \"mckeen\" \n|| project === \"mavenfair\" || project ===\"weedpleez\"\n || project === \"nopong\" || project === \"botany\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 68,
+      "target": [
+        {
+          "selector": "td.product-name"
+        },
+        {
+          "selector": "div.product-info"
+        },
+        {
+          "selector": ".wfacp_mini_cart_item_title"
+        },
+        {
+          "selector": "h3.ld-product-title"
+        }
+      ],
+      "value": "{{prod_desc}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 69,
+      "target": [
+        {
+          "selector": "tr:nth-of-type(1).cart_item > td.product-name > div > div > div.check-name"
+        }
+      ],
+      "value": "",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 70,
+      "target": [
+        {
+          "selector": "tr:nth-of-type(2).cart_item > td.product-name > div > div > div.check-name"
+        }
+      ],
+      "value": "",
+      "variableName": "prod_desc2"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"elka\" || project === \"Deans\" \n|| project === \"harmony\" || project === \"hunchie\" \n|| project === \"kybb\" || project === \"mavenfair\"\n|| (project === \"leggari\" && step === \"3\")",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 71,
+      "target": "td.product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 72,
+      "target": "tr:nth-of-type(2).cart_item > td.product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 73,
+      "target": "",
+      "value": "let subPrice = \"{{subPrice}}\"\nlet unitPrice = \"{{unitPrice}}\"\n\nsubPrice = subPrice.replace(\",\",\"\");\nunitPrice = unitPrice.replace(\",\",\"\");\n\nsubPrice = Number(subPrice.replace(\"{{Symbol}}\",\"\"));\nunitPrice = Number(unitPrice.replace(\"{{Symbol}}\",\"\"));\n\nlet subtotal = subPrice+unitPrice;\nsubtotal = \"{{Symbol}}\"+subtotal.toFixed(2);\n\nreturn subtotal",
+      "variableName": "subtotalPrice"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 74,
+      "target": "tr.cart-subtotal > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"elka\" || project === \"Deans\" \n|| project === \"harmony\" || project === \"hunchie\" \n|| project === \"kybb\" || project === \"mavenfair\"\n|| (project === \"leggari\" && step === \"3\")",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 75,
+      "target": "tr.cart-subtotal > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mckeen\" || project ===\"weedpleez\" || project === \"nopong\"\n|| project === \"melon\" || project === \"scout\"  || project === \"botany\"",
+        "result": false
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 76,
+      "target": [
+        {
+          "selector": "td.product-total > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "td.product-total > span.woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mckeen\" || project ===\"weedpleez\" || project === \"nopong\"\n|| project === \"melon\" || project === \"scout\"  || project === \"botany\"",
+        "result": false
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 77,
+      "target": [
+        {
+          "selector": "tr.cart-subtotal > td > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "tr.cart-subtotal > td > span.woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"2m\" ",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 78,
+      "target": "tr.cart-subtotal > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"2m\" ",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 79,
+      "target": "td.product-total",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"lens\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 80,
+      "target": ".ld-product-price > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"lens\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 81,
+      "target": ".amount > strong > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 82,
+      "target": "tr.cart-discount > td > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "discount"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"elka\" || project ===\"weedpleez\"\n",
+        "result": false
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 83,
+      "target": [
+        {
+          "selector": "ul#shipping_method > li:nth-child(1) > label > .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "",
+      "variableName": "shippingPrice"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"scout\"",
+        "result": false
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 84,
+      "target": [
+        {
+          "selector": "ul#shipping_method > li:nth-child(2) > label > .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"scout\"",
+        "result": false
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 85,
+      "target": [
+        {
+          "selector": "ul#shipping_method > li:nth-child(2) > label > .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "",
+      "variableName": "shippingPrice"
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"scout\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 86,
+      "target": "",
+      "value": "63c71c660b7aefb972ffc43d",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"leggari\" && step === \"3\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 87,
+      "target": [
+        {
+          "selector": "li:nth-of-type(1).wfacp_single_shipping_method > div > .wfacp_shipping_price > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "li:nth-of-type(1).wfacp_single_shipping_method > div > .wfacp_shipping_price"
+        }
+      ],
+      "value": "",
+      "variableName": "shippingPrice"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"leggari\" && step === \"3\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 88,
+      "target": [
+        {
+          "selector": "li:nth-of-type(1).wfacp_single_shipping_method > div > .wfacp_shipping_radio > label"
+        }
+      ],
+      "value": "",
+      "variableName": "shippingDesc"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"hunchie\" || project === \"Deans\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 89,
+      "target": [
+        {
+          "selector": "ul#shipping_method > li:nth-child(1) > label"
+        }
+      ],
+      "value": "Free shipping",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\"  || project === \"botany\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 90,
+      "target": "ul#shipping_method > li:nth-child(1) > label",
+      "value": "",
+      "variableName": "shippingPrice"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet country =\"{{country}}\"\nreturn project === \"nopong\" && country === \"CA\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 91,
+      "target": "ul#shipping_method > li:nth-child(1) > label",
+      "value": "Lettermail (untracked)",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet country = \"{{country}}\"\nreturn project === \"kybb\" || project === \"mckeen\"\n|| (project === \"nopong\" && (country === \"AU\" || country === \"US\"))\n|| project === \"melon\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 92,
+      "target": [
+        {
+          "selector": "ul#shipping_method > li:nth-child(1) > label > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "ul#shipping_method > li:nth-child(1) > label > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{shippingPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"leggari\" && step === \"3\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 93,
+      "target": [
+        {
+          "selector": "tr.shipping_total_fee > td:nth-of-type(2) > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "tr.shipping_total_fee > td:nth-of-type(2)"
+        }
+      ],
+      "value": "{{shippingPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet country = \"{{country}}\"\nreturn project === \"harmony\" && country === \"CA\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 94,
+      "target": "tr.tax-rate > td > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "taxPrice"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet country = \"{{country}}\"\nreturn project === \"nopong\" && country === \"AU\"\n|| project === \"melon\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 95,
+      "target": [
+        {
+          "selector": "tr.order-total > td > small > span"
+        },
+        {
+          "selector": "small.includes_tax > span.woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{taxPriceSmall}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet country = \"{{country}}\"\nreturn  project === \"kybb\" || project === \"mckeen\" \n\n|| (project === \"nopong\" && country === \"CA\")",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 96,
+      "target": "tr.tax-rate > td > .woocommerce-Price-amount.amount",
+      "value": "{{taxPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let country = \"{{country}}\"\nlet project = \"{{project}}\"\nreturn project === \"nopong\" && country === \"CA\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 97,
+      "target": "tr.tax-rate > td > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "taxPrice"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"Deans\" || project === \"elka\" \n|| (project === \"leggari\" && step === \"3\") || project === \"talkbox\"\n|| project === \"botany\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 98,
+      "target": "tr.tax-total > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "taxPrice"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 99,
+      "target": "tr.tax-total.recurring-total > td > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "recurringTax"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 100,
+      "target": "tr.order-total.recurring-total > td > strong > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "recurringTotal"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"hunchie\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 101,
+      "target": "tr.tax-total > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{taxPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"2m\" || project === \"Deans\" \n|| project === \"elka\" || project === \"harmony\" \n|| project ===\"weedpleez\" || project === \"nopong\" \n|| (project === \"leggari\" && step === \"3\") || project === \"talkbox\"\n|| project === \"botany\" || project === \"scout\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 102,
+      "target": [
+        {
+          "selector": "strong > .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "",
+      "variableName": "total"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"lens\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 103,
+      "target": [
+        {
+          "selector": "tr.order-total:nth-of-type(5) > td > strong > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "",
+      "variableName": "total"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"hunchie\" || project === \"kybb\" \n|| project === \"mckeen\" || project === \"mavenfair\"\n|| project === \"melon\"\n",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 104,
+      "target": [
+        {
+          "selector": "strong > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "tr.order-total > td > strong > span.woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"2m\" || project === \"Deans\" \n|| project === \"elka\" || project === \"harmony\" \n|| project === \"hunchie\" || project === \"kybb\" \n|| (project === \"leggari\" && step === \"3\")",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 105,
+      "target": "",
+      "value": "let unit = \"{{unitPrice}}\";\nlet shipping = \"{{shippingPrice}}\";\nif (shipping.includes(\"Free\")){\n    shipping = \"0.00\";\n};\nlet tax = \"{{taxPrice}}\";\nlet total = \"{{total}}\";\n\nunit = unit.replace(\",\",\"\");\nshipping = shipping.replace(\",\",\"\");\ntax = tax.replace(\",\",\"\");\ntotal = total.replace(\",\",\"\");\n\nunit = Number(unit.replace(\"{{Symbol}}\",\"\"));\nshipping = Number(shipping.replace(\"{{Symbol}}\",\"\"));\ntax = Number(tax.replace(\"{{Symbol}}\",\"\"));\ntotal = Number(total.replace(\"{{Symbol}}\",\"\"));\n\nlet total2 = unit+shipping+tax;\ntotal2 = Number(total2.toFixed(2));\n\nreturn total === total2",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"leggari\" && step === \"3\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 106,
+      "target": ".wfacp-left-panel.wfacp_page.two_step > .wfacp-two-step-erap.wfacp-next-btn-wrap.center > button[type=\"button\"].button.button-primary.wfacp_next_page_button",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mckeen\" || project ===\"weedpleez\"\n|| project === \"nopong\" || project === \"melon\" || project === \"talkbox\"\n|| project === \"scout\" || project === \"botany\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 107,
+      "target": "",
+      "value": "let unit = \"{{subtotalPrice}}\";\nlet shipping = \"{{shippingPrice}}\";\nlet discount = \"{{discount}}\"\nif (discount === \"\"){\n    discount = \"0.00\";\n};\nif (shipping.includes(\"Free\")){\n    shipping = \"0.00\";\n};\nlet tax = \"{{taxPrice}}\";\nif (tax === \"\"){\n    tax = \"0.00\";\n};\nlet total = \"{{total}}\";\n\nunit = unit.replace(\",\",\"\");\ndiscount = discount.replace(\",\",\"\");\nshipping = shipping.replace(\",\",\"\");\ntax = tax.replace(\",\",\"\");\ntotal = total.replace(\",\",\"\");\n\nunit = Number(unit.replace(\"{{Symbol}}\",\"\"));\ndiscount = Number(discount.replace(\"{{Symbol}}\",\"\"));\nshipping = Number(shipping.replace(\"{{Symbol}}\",\"\"));\ntax = Number(tax.replace(\"{{Symbol}}\",\"\"));\ntotal = Number(total.replace(\"{{Symbol}}\",\"\"));\n\nlet total2 = unit-discount+shipping+tax;\ntotal2 = Number(total2.toFixed(2));\n\nreturn total === total2",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"kybb\"",
+        "result": false
+      },
+      "optional": false,
+      "private": true,
+      "sequence": 108,
+      "target": "#account_password",
+      "value": "{{password}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"2m\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 109,
+      "target": "tr.cart-subtotal:nth-of-type(4) > td > .woocommerce-Price-amount.amount",
+      "value": "${{subPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"2m\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 110,
+      "target": "tr.order-total:nth-of-type(5) > td > strong > .woocommerce-Price-amount.amount",
+      "value": "${{subPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"2m\" || project === \"harmony\" \n|| project === \"mckeen\" || project === \"mavenfair\" \n|| project ===\"weedpleez\"|| project === \"nopong\"\n|| (project === \"leggari\" && step === \"3\") || project === \"talkbox\"\n|| project === \"botany\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 111,
+      "target": [
+        {
+          "selector": "#terms"
+        },
+        {
+          "selector": "#terms_acceptance"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "63c71c660b7aefb972ffc44e",
+    "suiteId": "63c71c660b7aefb972ffc439",
+    "suiteName": "Ride1Up - Common Steps for all Projects"
+  }
+}

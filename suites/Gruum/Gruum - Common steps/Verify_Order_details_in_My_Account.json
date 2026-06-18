@@ -1,0 +1,329 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Verify Order details in My Account",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "a[href*=\"/my-account/\"] > .icon > svg"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "return parseFloat('{{orderNumber}}') + 1",
+      "variableName": "subNumber"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "h3.my-account-subscriptions-heading",
+      "value": "My subscription"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": ".subscription-id",
+      "value": "#{{subNumber}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": ".subscription-status",
+      "value": "Active",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "li:nth-of-type(1) > .subscription-detail-content.clearfix > .value.pull-left",
+      "value": "",
+      "variableName": "{{orderDate}}"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "li:nth-of-type(2) > .subscription-detail-content.clearfix > .value.pull-left",
+      "value": "",
+      "variableName": "{{nextOrder}}"
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "\nlet dateStr1 = '{{orderDate}}';\nlet dateMatch = dateStr1.match(/(\\d{2})\\/(\\d{2})\\/(\\d{4})/);\nlet extractedDate = dateMatch ? `${dateMatch[1]}/${dateMatch[2]}/${dateMatch[3]}` : null;\nlet [day1, month1, year1] = extractedDate.split('/');\n\n// Create a Date object and add 2 months properly\nlet date1 = new Date(year1, month1 - 1, day1);  // month is 0-based in Date constructor\ndate1.setMonth(date1.getMonth() + 2);  // This handles overflow correctly\n\n// Second date\nlet dateStr2 = '{{nextOrder}}';\nlet [day2, month2, year2] = dateStr2.split('/');\n\nlet targetDate = new Date(year2, month2 - 1, day2);\n\n// Compare the resulting dates\nlet result = date1.getDate() === targetDate.getDate() &&\n             date1.getMonth() === targetDate.getMonth() &&\n             date1.getFullYear() === targetDate.getFullYear();\n\nreturn result\n\n",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "li:nth-of-type(3) > .subscription-detail-content.clearfix > .value.pull-left",
+      "value": "{{period2}}"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": ".value > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "i.i-order-history"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": ".order-id",
+      "value": "#{{orderNumber}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "div.order-meta:nth-of-type(3) > .order-meta-detail",
+      "value": "Processing",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{subscription}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "div.order-meta:nth-of-type(4) > .order-meta-detail",
+      "value": "One time purchase",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "div.order-meta:nth-of-type(4) > .order-meta-detail",
+      "value": "Subscription",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "i.fa.fa-solid"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "div.order-content-meta-data:nth-of-type(1) > address",
+      "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{street2}}\n{{city}}\n{{county}}\n{{zipCode}}\n\n{{phone}}\n\n{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "div.order-content-meta-data:nth-of-type(2) > address",
+      "value": "{{firstName}} {{lastName2}}\n{{company2}}\n{{street3}}\n{{street4}}\n{{city}}\n{{county}}\n{{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "",
+      "value": "return '{{prodDesc}}'.replace(' | ', '\\n');",
+      "variableName": "prodDesc2"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "tr.order-content-item:not(.bundled-item) > td.order-content-item-name",
+      "value": "{{prodDesc2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "return '{{bundle}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "",
+      "value": "const products2 = Array.from(document.querySelectorAll('tr.order-content-item.bundled-item > td.order-content-item-name')).map(item => item.textContent.trim());\nconst products = {{products}}\n\nconst areArraysEqual = products.length === products2.length && \n                      products.every((item, index) => item.replace(' | ', '') === products2[index]);\n\nreturn areArraysEqual",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": ".woocommerce-Price-amount > bdi",
+      "value": "{{subtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "div.order-total.clearfix:nth-of-type(1) > .pull-right > .woocommerce-Price-amount.amount",
+      "value": "{{subtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": [
+        {
+          "selector": "div.order-total.clearfix:nth-of-type(2) > .pull-right > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "div.order-total.clearfix:nth-of-type(2) > .pull-right"
+        }
+      ],
+      "value": "{{shippingPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "div.order-total.clearfix:nth-of-type(3) > .pull-right > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "div.order-total.clearfix:nth-of-type(4) > .pull-right",
+      "value": "{{paymentMethod}}"
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "",
+      "value": "68c1fbb683fba1b5fca9d066",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68c19fb5cee4fa6dde0d19a2",
+    "suiteId": "68c16e5b5081f036c9877178",
+    "suiteName": "Gruum - Common steps"
+  }
+}

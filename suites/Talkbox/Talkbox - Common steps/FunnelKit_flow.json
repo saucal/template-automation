@@ -1,0 +1,141 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "FunnelKit flow",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const upsell = '{{upsell}}'\n\nreturn upsell === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "const elem = document.querySelector('h1.bwf-adv-heading').innerText.trim()\n\nreturn elem",
+      "variableName": "prod_desc3"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "const upsell = '{{upsell}}'\n\nreturn upsell === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": ".wfocu-sale-price > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": ".wfocu-regular-price > .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "",
+      "variableName": "unitPrice2"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const upsell = '{{upsell}}'\n\nreturn upsell === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "div.bwf-inner-col:nth-of-type(2) > .bwf-btn-wrap.wfocu-accept-button.wp-block-wrap > a.bwf-btn.solid.wfocu_upsell > .bwf-btn-inner-text",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const upsell = '{{upsell}}'\nconst CCrew = '{{CCrew}}'\n\nreturn upsell !== 'yes' && CCrew !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": ".bwf-btn-wrap.bwf-0fef18c9 > a.bwf-btn.solid.wfocu_skip_offer > .bwf-btn-inner-text",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "#wfocuswal-content > img",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 5,
+      "target": "#wfocuswal-content > img",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 6,
+      "target": ".bwf-btn-wrap > a.bwf-btn.solid.wfocu_skip_offer > .bwf-btn-inner-text",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 7,
+      "target": "#wfocuswal-content > img",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 8,
+      "target": "#wfocuswal-content > img",
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "699f52b31bdb128593b69a16",
+    "suiteId": "63a1c5229034282736afc2e8",
+    "suiteName": "Talkbox - Common steps"
+  }
+}

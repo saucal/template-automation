@@ -1,0 +1,214 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Verify currency on the After place order",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nlet includeTax = \"{{includeTax}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nconst blog = '{{blog}}'\nreturn  (\n            (blueSnapVs[0] >= 3 && blueSnapVs[1] >= 2 && !blog.includes('block'))\n            ||\n            (blueSnapVs[0] >= 3 && blueSnapVs[1] >= 5 && blog.includes('block'))\n        )"
+      },
+      "notes": "Fixed some Rounding issues on v3.2",
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "td.woocommerce-table__product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{totalProd}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount",
+      "value": "{{subtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nreturn freeTrial !=\"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "tr:nth-of-type(2) > td > .woocommerce-Price-amount.amount",
+      "value": "{{discount}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\nlet order = \"{{order}}\"\nlet manualRenew = \"{{manualRenew}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nlet includeTax = \"{{includeTax}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn freeTrial !=\"yes\" && checklogs != \"upgrade\" && \n        (\n            (\n                includeTax == \"no\"\n                &&\n                manualRenew !== \"Yes\"\n                &&\n                order != \"fail\"\n            )\n            ||\n            (\n                includeTax == \"no\"\n                &&\n                (manualRenew === \"Yes\" || order === \"fail\")\n                &&\n                blueSnapVs[0] >= 3 && blueSnapVs[1] >= 2\n            )\n            ||\n            (\n                includeTax == \"yes\" \n                && \n                blueSnapVs[0] >= 3 && blueSnapVs[1] >= 2\n            )\n        )"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "tr:nth-of-type(3) > td > .woocommerce-Price-amount.amount",
+      "value": "{{shipping}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\nlet manualRenew = \"{{manualRenew}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nlet order = '{{order}}'\nblueSnapVs = blueSnapVs.split(\".\")\nreturn  freeTrial !=\"yes\" \n        && \n        checklogs != \"upgrade\" \n        && \n        \"{{includeTax}}\" === \"no\"\n        &&\n        (\n           (manualRenew != \"Yes\" && order !== \"fail\")\n           ||\n           (\n               (manualRenew === \"Yes\" || order === \"fail\")\n               &&\n               blueSnapVs[0] >= 3 && blueSnapVs[1] >= 2\n            )\n        )"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "tr:nth-of-type(4) > td > .woocommerce-Price-amount.amount",
+      "value": "{{tax}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nreturn freeTrial === \"yes\" && \"{{includeTax}}\" === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "tr:nth-of-type(2) > td > .woocommerce-Price-amount.amount",
+      "value": "{{tax}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nreturn checklogs === \"upgrade\" && \"{{includeTax}}\" === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "tr:nth-of-type(3) > td > .woocommerce-Price-amount.amount",
+      "value": "{{tax}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{includeTax}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "small.includes_tax > span",
+      "value": "{{tax}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nreturn checklogs === \"upgrade\" && \"{{includeTax}}\" === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "tr:nth-of-type(5) > td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nreturn checklogs === \"upgrade\" && \"{{includeTax}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "tr:nth-of-type(4) > td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\nlet manualRenew = \"{{manualRenew}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split(\".\")\nreturn  freeTrial !=\"yes\" \n        && \n        checklogs != \"upgrade\" \n        && \n        \"{{includeTax}}\" === \"no\"\n        &&\n        (\n           (manualRenew != \"Yes\" && '{{order}}' !== \"fail\")\n           ||\n           (\n               (manualRenew === \"Yes\" || '{{order}}' === \"fail\")\n               &&\n               blueSnapVs[0] >= 3 && blueSnapVs[1] >= 2\n            )\n        )"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "tr:nth-of-type(6) > td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\nreturn freeTrial !=\"yes\" && checklogs != \"upgrade\" && \"{{includeTax}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "tr:nth-of-type(5) > td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nreturn freeTrial === \"yes\" && \"{{includeTax}}\" === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "tr:nth-of-type(4) > td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nreturn freeTrial === \"yes\" && \"{{includeTax}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "tr:nth-of-type(3) > td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split(\".\")\nlet checklogs = \"{{checklogs}}\"\nreturn test === \"subscription\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "td.subscription-total > .woocommerce-Price-amount.amount",
+      "value": "{{recurringTotal}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "637b7006d093ba4902fa121c",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

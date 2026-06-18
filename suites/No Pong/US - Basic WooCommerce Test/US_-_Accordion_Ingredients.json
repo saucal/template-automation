@@ -1,0 +1,124 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.1",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "US - Accordion Ingredients",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "https://no-pong-america-develop.go-vip.net/us/",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "#menu-main-menu > li.menu-item.menu-item-type-post_type.menu-item-object-page:nth-of-type(3) > a[href*=\"/us/ingredients-directions/\"]"
+        },
+        {
+          "selector": "#menu-item-133846 > div > a"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "h1.entry-title > em",
+      "value": "Ingredients & Directions",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "div:nth-of-type(3) > .header.has-icon-align-left.has-background.has-medium-grey-background-color.has-text-color.has-white-color > div",
+      "value": "NO PONG SPICY CHAI ORIGINAL",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "div:nth-of-type(3) > .header.has-icon-align-left.has-background.has-medium-grey-background-color.has-text-color.has-white-color > svg",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": ".has-icon-align-left > div:nth-of-type(3) > div:nth-of-type(2)",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "xpath=//*[@id=\"post-1322\"]/div/div[6]/div[3]/div[2]",
+      "value": "INGREDIENTS\n\nCocos Nucifera (Coconut Oil), Sodium Bicarbonate (Baking Soda), Corn Starch, Beeswax, and a proprietary blend of 100% pure, certified organic essential oils consisting of Orange Sweet, Mandarin, Clove Bud, Cardamom, and Nutmeg.\n\n*No Pong is Palm Oil Free",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "div:nth-of-type(3) > .header.has-icon-align-left.has-background.has-medium-grey-background-color.has-text-color.has-white-color > svg",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "xpath=//*[contains(text(),'Mandarin')]",
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "644054aa00e2acd59fd08282",
+    "suiteId": "6022b3fed2fb38677e5d7a95",
+    "suiteName": "US - Basic WooCommerce Test"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "variables": [
+    {
+      "name": "email",
+      "value": "qa+gi_order_{{alphanumeric}}@saucal.com",
+      "private": false,
+      "_id": "69401ac42ab7b3e70aff0c4d"
+    },
+    {
+      "name": "emailReg",
+      "value": "qa+gi_reg_{{alphanumeric}}@saucal.com",
+      "private": false,
+      "_id": "69401ac42ab7b3e70aff0c4e"
+    },
+    {
+      "name": "emailForgot",
+      "value": "qa+gi_forgot_{{alphanumeric}}@saucal.com",
+      "private": false,
+      "_id": "69401ac42ab7b3e70aff0c4f"
+    },
+    {
+      "name": "payPalUser",
+      "value": "qa+gi_sb-8eg0v132169@saucal.com",
+      "private": false,
+      "_id": "69401ac42ab7b3e70aff0c50"
+    },
+    {
+      "name": "payPalPass",
+      "value": "awYXy$t8",
+      "private": true,
+      "_id": "69401ac42ab7b3e70aff0c51"
+    },
+    {
+      "name": "adminUser",
+      "value": "saucal_maintenance_admin",
+      "private": false,
+      "_id": "69401ac42ab7b3e70aff0c52"
+    },
+    {
+      "name": "adminPass",
+      "value": "y4Qch37A4fQ6pd9ZGDqDwShR87reySp2PL",
+      "private": true,
+      "_id": "69401ac42ab7b3e70aff0c53"
+    }
+  ]
+}

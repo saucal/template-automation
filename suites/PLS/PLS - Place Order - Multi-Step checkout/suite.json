@@ -1,0 +1,217 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "69b2aa7975b93971140df3b5",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2026-03-12T11:58:49.852Z",
+    "details": "",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "67b786ec04f525bbb2fdc6ab",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "PLS - Place Order - Multi-Step checkout",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://pls-maintenance.mystagingwebsite.com/",
+    "testCount": 5,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "67b86eaa04f525bbb22188fd"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "67b86eaa04f525bbb22188fe"
+      },
+      {
+        "name": "credentials3",
+        "value": "FTD",
+        "private": false,
+        "_id": "683a0efdc637c9246e243654"
+      },
+      {
+        "name": "zipCode",
+        "value": "33126",
+        "private": false,
+        "_id": "67b86eaa04f525bbb2218905"
+      },
+      {
+        "name": "country",
+        "value": "US",
+        "private": false,
+        "_id": "67b86eaa04f525bbb2218901"
+      },
+      {
+        "name": "midName2",
+        "value": "Mid2",
+        "private": false,
+        "_id": "69b84858c5d4926449219702"
+      },
+      {
+        "name": "midName3",
+        "value": "Mid3",
+        "private": false,
+        "_id": "69b84858c5d4926449219703"
+      },
+      {
+        "name": "Symbol",
+        "value": "$",
+        "private": false,
+        "_id": "67c5c826c4c19f03ef2922ec"
+      },
+      {
+        "name": "stateComplete",
+        "value": "Florida",
+        "private": false,
+        "_id": "67b86eaa04f525bbb2218902"
+      },
+      {
+        "name": "countryComplete",
+        "value": "United States (US)",
+        "private": false,
+        "_id": "67b86eaa04f525bbb2218900"
+      },
+      {
+        "name": "street2",
+        "value": "Ap. 4",
+        "private": false,
+        "_id": "67b86eaa04f525bbb2218907"
+      },
+      {
+        "name": "phone",
+        "value": "1231231234",
+        "private": false,
+        "_id": "67b86eaa04f525bbb2218908"
+      },
+      {
+        "name": "lastName3",
+        "value": "{{alphanumeric}}-3",
+        "private": false,
+        "_id": "683a0efdc637c9246e24364e"
+      },
+      {
+        "name": "project",
+        "value": "pls",
+        "private": false,
+        "_id": "67b86eaa04f525bbb2218909"
+      },
+      {
+        "name": "company",
+        "value": "Testing Inc.",
+        "private": false,
+        "_id": "67b86eaa04f525bbb22188ff"
+      },
+      {
+        "name": "credentials",
+        "value": "CRDH",
+        "private": false,
+        "_id": "69b82b9f75b939711483aaef"
+      },
+      {
+        "name": "email3",
+        "value": "qa+gi_part3-{{alphanumeric}}@saucal.com",
+        "private": false,
+        "_id": "683a0efdc637c9246e243650"
+      },
+      {
+        "name": "state",
+        "value": "FL",
+        "private": false,
+        "_id": "67b86eaa04f525bbb2218903"
+      },
+      {
+        "name": "email2",
+        "value": "qa+gi_part2-{{alphanumeric}}@saucal.com",
+        "private": false,
+        "_id": "683a0efdc637c9246e24364f"
+      },
+      {
+        "name": "firstName2",
+        "value": "QA2",
+        "private": false,
+        "_id": "683a0efdc637c9246e24364b"
+      },
+      {
+        "name": "firstName3",
+        "value": "QA3",
+        "private": false,
+        "_id": "683a0efdc637c9246e24364c"
+      },
+      {
+        "name": "lastName2",
+        "value": "{{alphanumeric}}-2",
+        "private": false,
+        "_id": "683a0efdc637c9246e24364d"
+      },
+      {
+        "name": "multiSteps",
+        "value": "yes",
+        "private": false,
+        "_id": "69b817e375b93971147fb45b"
+      },
+      {
+        "name": "midName",
+        "value": "Mid",
+        "private": false,
+        "_id": "69b82106c5d49264491b00af"
+      },
+      {
+        "name": "city",
+        "value": "Miami",
+        "private": false,
+        "_id": "67b86eaa04f525bbb2218904"
+      },
+      {
+        "name": "street",
+        "value": "123 False",
+        "private": false,
+        "_id": "67b86eaa04f525bbb2218906"
+      },
+      {
+        "name": "phone2",
+        "value": "123-765-4444",
+        "private": false,
+        "_id": "683a0efdc637c9246e243651"
+      },
+      {
+        "name": "phone3",
+        "value": "123-765-0988",
+        "private": false,
+        "_id": "683a0efdc637c9246e243652"
+      },
+      {
+        "name": "credentials2",
+        "value": "RDA",
+        "private": false,
+        "_id": "683a0efdc637c9246e243653"
+      }
+    ],
+    "viewportSize": {
+      "width": 1440,
+      "height": 900
+    }
+  }
+}

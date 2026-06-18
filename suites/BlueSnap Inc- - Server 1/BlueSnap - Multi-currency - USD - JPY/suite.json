@@ -1,0 +1,246 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "6633f77989e87fd839fc4e5d",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome-139",
+    "dataSource": null,
+    "dateCreated": "2024-05-02T20:28:41.440Z",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "60a26414db1e604f65e01ec5",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "BlueSnap - Multi-currency - USD > JPY",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": false,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://devbluesnap1.mystagingwebsite.com/classic/",
+    "testCount": 50,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "MASTER_a_ccard",
+        "value": "5425233430109903",
+        "private": false,
+        "_id": "604169e740439b2b3970ee76"
+      },
+      {
+        "name": "woo_user",
+        "value": "ck_91cff1f62657b5ef24b7606cd572b584fb31640b",
+        "private": true,
+        "_id": "60a273cdcda37459c851732a"
+      },
+      {
+        "name": "phone",
+        "value": "3050698798",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b87"
+      },
+      {
+        "name": "AMEX_year",
+        "value": "23",
+        "private": false,
+        "_id": "60af9f09373d3a09feedce97"
+      },
+      {
+        "name": "decimalsDefault",
+        "value": "2",
+        "private": false,
+        "_id": "65a93daa17179cd511c05060"
+      },
+      {
+        "name": "password",
+        "value": "DTK0cyg2cub9aht*kja",
+        "private": true,
+        "_id": "60ca0d461da0a93062c80519"
+      },
+      {
+        "name": "address2",
+        "value": "Apartment 2",
+        "private": false,
+        "_id": "60d08eb61da0a93062ee109d"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b82"
+      },
+      {
+        "name": "company",
+        "value": "Saucal Inc.",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b83"
+      },
+      {
+        "name": "AMEX_month",
+        "value": "05",
+        "private": false,
+        "_id": "60af9f09373d3a09feedce96"
+      },
+      {
+        "name": "MASTER_month",
+        "value": "04",
+        "private": false,
+        "_id": "60d0df771da0a93062f2723f"
+      },
+      {
+        "name": "AMEX_ShortName",
+        "value": "AMEX",
+        "private": false,
+        "_id": "60d08af4fd5d095fc93f0649"
+      },
+      {
+        "name": "MASTER_CCName",
+        "value": "MasterCard",
+        "private": false,
+        "_id": "60d0df771da0a93062f2723e"
+      },
+      {
+        "name": "defaultCurr",
+        "value": "USD",
+        "private": false,
+        "_id": "65a7ff03f7f51aa285d27ad6"
+      },
+      {
+        "name": "user_bluesnap",
+        "value": "qa@saucal.com",
+        "private": false,
+        "_id": "626960a88f4da5c1bbfd8136"
+      },
+      {
+        "name": "wp_api_pass",
+        "value": "eAFR YyTz w9Qt SRre Q3uM 8WMD",
+        "private": true,
+        "_id": "6515786ee0aa7c568d357a83"
+      },
+      {
+        "name": "scenario",
+        "value": "multi-currency",
+        "private": false,
+        "_id": "63651dae151ae3d9c5a51f3c"
+      },
+      {
+        "name": "street",
+        "value": "123 Flase Street",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b84"
+      },
+      {
+        "name": "blue_user",
+        "value": "API_16509753954602042969865",
+        "private": true,
+        "_id": "60a273cdcda37459c851732c"
+      },
+      {
+        "name": "MASTER_ShortName",
+        "value": "MASTERCARD",
+        "private": false,
+        "_id": "60d0df771da0a93062f2723d"
+      },
+      {
+        "name": "zipCode",
+        "value": "33126",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b86"
+      },
+      {
+        "name": "AMEX_a_ccard",
+        "value": "374245455400126",
+        "private": false,
+        "_id": "60af9f09373d3a09feedce94"
+      },
+      {
+        "name": "MASTER_year",
+        "value": "23",
+        "private": false,
+        "_id": "60d0df771da0a93062f27240"
+      },
+      {
+        "name": "AMEX_cvv",
+        "value": "1234",
+        "private": false,
+        "_id": "60af9f09373d3a09feedce98"
+      },
+      {
+        "name": "woo_pass",
+        "value": "cs_d488aec5bbb508cb9151e5d433c2c11b8ef574ff",
+        "private": true,
+        "_id": "60a273cdcda37459c851732b"
+      },
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b81"
+      },
+      {
+        "name": "blog",
+        "value": "mitchell_callahan_blog_6",
+        "private": false,
+        "_id": "62e8301fe3896e4c0d1b9247"
+      },
+      {
+        "name": "password_bluesnap",
+        "value": "hyr.QMY2nmx6pea3hkj",
+        "private": true,
+        "_id": "626960a88f4da5c1bbfd8135"
+      },
+      {
+        "name": "MASTER_cvv",
+        "value": "123",
+        "private": false,
+        "_id": "60d0df771da0a93062f27241"
+      },
+      {
+        "name": "AMEX_CCName",
+        "value": "American Express",
+        "private": false,
+        "_id": "60afb2b8c894e66ce1669278"
+      },
+      {
+        "name": "city",
+        "value": "Miami",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b85"
+      },
+      {
+        "name": "blue_pass",
+        "value": "JA$5uZW95NID23",
+        "private": true,
+        "_id": "60a273cdcda37459c851732d"
+      },
+      {
+        "name": "AMEX_d_ccard",
+        "value": "378282246310005",
+        "private": false,
+        "_id": "60af9f09373d3a09feedce95"
+      },
+      {
+        "name": "curr",
+        "value": "JPY",
+        "private": false,
+        "_id": "6334a7e4db1ab7e45ee4d458"
+      }
+    ],
+    "viewportSize": {
+      "width": 1280,
+      "height": 800
+    }
+  }
+}

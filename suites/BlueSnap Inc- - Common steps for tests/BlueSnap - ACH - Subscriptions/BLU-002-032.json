@@ -1,0 +1,118 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36",
+  "dataSource": null,
+  "details": "Test Case:\nShopper trying to buy a Daily Subscription",
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "5.4.1",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "BLU-002-032",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "62260e850271df9af5296257",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": ".woocommerce > .woocommerce-info"
+        },
+        {
+          "selector": ".wc-block-components-notice-banner.is-info"
+        },
+        {
+          "selector": ".woocommerce .woocommerce-info"
+        },
+        {
+          "selector": "div.wc-block-components-notices > div > div.wc-block-components-notice-banner__content > div"
+        }
+      ],
+      "value": "You can",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": ".woocommerce > .woocommerce-info"
+        },
+        {
+          "selector": ".wc-block-components-notice-banner.is-info"
+        },
+        {
+          "selector": ".woocommerce .woocommerce-info"
+        },
+        {
+          "selector": "div.wc-block-components-notices > div > div.wc-block-components-notice-banner__content > div"
+        }
+      ],
+      "value": "t purchase a subscription with a renewal period smaller than 1 week using ACH/ECP Transactions.",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "return !!document.querySelector('.checkout.woocommerce-checkout')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#payment_method_bluesnap_ach",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "return !!document.querySelector('.wp-block-woocommerce-checkout')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "#radio-control-wc-payment-method-options-bluesnap_ach",
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6846ef70388232057b7502f7",
+    "suiteId": "6846ef70388232057b7502c1",
+    "suiteName": "BlueSnap - ACH - Subscriptions"
+  }
+}

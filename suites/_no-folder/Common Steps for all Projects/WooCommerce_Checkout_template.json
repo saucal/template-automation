@@ -1,0 +1,2093 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "6.1.0",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "WooCommerce Checkout template",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": {
+        "statement": "// 2023-11-26 from Ghost Inspector Customer Support\nlet project = \"{{project}}\"\nreturn project === \"mood\";"
+      },
+      "notes": "",
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "#shipping_dif_from_billing_radio",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"elka\" || project === \"harmony\" \n|| project === \"Phlearn\" || project === \"hunchie\" \n|| project === \"inspire\" || project === \"kybb\" \n|| (project === \"leggari\" && step === \"2\") || project === \"lens\" \n|| project === \"mckeen\" || project === \"mavenfair\" \n|| project ===\"weedpleez\" || project === \"nopong\"\n|| project === \"melon\" || project === \"talkbox\"\n|| project === \"botany\" || project === \"scout\"\n|| project === \"topg-merch\" || project === \"mood\"\n|| project === \"template\" || project === \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "#billing_first_name"
+        },
+        {
+          "selector": "iframe[src=\"{{url}}checkout/?iframe_checkout=1\"] #billing_first_name"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #billing_first_name"
+        }
+      ],
+      "value": "{{firstName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"Deans\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "#billing_first_name",
+      "value": "{{firstName}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"2m\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#billing_first_name",
+      "value": "",
+      "variableName": "firstName"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"elka\" || project === \"harmony\" \n|| project === \"hunchie\" || project === \"inspire\" \n|| project === \"kybb\" || (project === \"leggari\" && step === \"2\")\n|| project === \"lens\" || project === \"mckeen\" \n|| project === \"mavenfair\" || project ===\"weedpleez\"\n|| project === \"nopong\"|| project === \"melon\"\n|| project === \"talkbox\" || project === \"botany\"\n|| project === \"scout\" || project === \"topg-merch\"\n|| project === \"mood\" || project === \"template\"\n || project === \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": "#billing_last_name"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #billing_last_name"
+        }
+      ],
+      "value": "{{lastName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"Deans\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "#billing_last_name",
+      "value": "{{lastName}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"2m\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "#billing_last_name",
+      "value": "",
+      "variableName": "lastName"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\n\nlet step = \"{{step}}\"\nreturn project === \"hunchie\" || project === \"kybb\" \n|| project === \"mckeen\" \n|| project === \"nopong\"|| project === \"melon\"\n|| project === \"botany\"\n || project === \"topg-merch\" || (project === \"template\" && \"{{subscription}}\" != \"yes\")\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "#ship-to-different-address-checkbox",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nconst role = '{{role}}'\nreturn project === \"leggari\" && step === \"2\" && role === 'contractor'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "#billing_same_as_shipping",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nconst role = '{{role}}'\nreturn project === \"leggari\" && step === \"2\" && role === 'contractor'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "div > p#billing_same_as_shipping_call_field > span",
+      "value": "If you want to ship your order to a different project location, please give us a call at 1-844-LEGGARI (534-4274).",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"elka\" || project === \"harmony\" \n|| project === \"kybb\" || project === \"lens\"\n|| project === \"mckeen\" || project === \"mavenfair\" \n|| project ===\"weedpleez\" || project === \"nopong\"\n|| project === \"melon\" || project === \"botany\"\n|| project === \"scout\" || project === \"template\"\n"
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": "#billing_company"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #billing_company"
+        }
+      ],
+      "value": "{{company}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"leggari\" && step === \"2\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "#shipping_company",
+      "value": "{{company}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"Deans\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "#billing_company",
+      "value": "{{company}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"2m\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "#billing_company",
+      "value": "",
+      "variableName": "company"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"2m\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "#aim",
+      "value": "",
+      "variableName": "licKey"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn  project === \"2m\""
+      },
+      "notes": "Removed the project === \"harmony\" || from the condition",
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "#billing_invoice_cc_email_addresses",
+      "value": "{{emailCC}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"2m\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "#po_number",
+      "value": "{{PONumber}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"Deans\" || project === \"mckeen\" \n|| project ===\"weedpleez\" || project === \"botany\" "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "#billing_country_field > span",
+      "value": "{{countryComplete}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mood\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "#billing_country_field > span option:nth-of-type(2)",
+      "value": "{{countryComplete}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"harmony\" || project === \"hunchie\" \n|| project === \"kybb\"\n|| project === \"mavenfair\" || project === \"nopong\" || project === \"scout\"\n|| project === \"icg\""
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 19,
+      "target": [
+        {
+          "selector": "#select2-billing_country-container"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #select2-billing_country-container"
+        }
+      ],
+      "value": "{{countryComplete}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nconst role ='{{role}}'\nreturn project === \"2m\" || project === \"elka\" \n|| (project === \"leggari\" && step === \"2\" && role === 'contractor') || project === \"lens\"\n|| project === \"talkbox\" || project === \"topg-merch\"\n|| project === \"template\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "#billing_country",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nconst role ='{{role}}'\nreturn project === \"2m\" || project === \"elka\" \n|| (project === \"leggari\" && step === \"2\" && role === 'contractor') || project === \"lens\"\n|| project === \"talkbox\" || project === \"topg-merch\"\n|| project === \"template\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "#billing_country > option[value=\"{{country}}\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nconst role = '{{role}}'\nreturn project === \"Deans\" || project === \"2m\" \n|| project === \"elka\" || project === \"harmony\" \n|| project === \"hunchie\" || project === \"inspire\" \n|| project === \"kybb\"|| (project === \"leggari\" && step === \"2\" && role === 'contractor') \n|| project === \"lens\" || project === \"mckeen\" \n|| project === \"mavenfair\" || project ===\"weedpleez\"\n|| project === \"nopong\" || project === \"melon\"\n|| project === \"talkbox\" || project === \"botany\"\n|| project === \"scout\" || project === \"topg-merch\"\n || project === \"mood\" || project === \"template\"\n || project === \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": [
+        {
+          "selector": "#billing_address_1"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #billing_address_1"
+        }
+      ],
+      "value": "{{street}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nlet role ='{{role}}'\nreturn project === \"Deans\" || project === \"2m\" \n|| project === \"elka\" || project === \"harmony\"  \n|| project === \"hunchie\" || project === \"inspire\" \n|| project === \"kybb\"|| (project === \"leggari\" && step === \"2\" && role === 'contractor')\n|| project === \"lens\" || project === \"mavenfair\" \n|| project ===\"weedpleez\" || project === \"nopong\"\n|| project === \"melon\" || project === \"talkbox\"\n|| project === \"botany\" || project === \"scout\"\n|| project === \"topg-merch\" || project === \"mood\"\n|| project === \"template\" || project === \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": [
+        {
+          "selector": "#billing_city"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #billing_city"
+        }
+      ],
+      "value": "{{city}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nconst role = '{{role}}'\nreturn project === \"Deans\" || project === \"elka\"\n|| (project === \"leggari\" && step === \"2\" && role === 'contractor') \n|| project === \"lens\" || project === \"mckeen\" \n|| project === \"mavenfair\" || project === \"melon\"\n|| project === \"talkbox\" || project === \"botany\"\n|| project === \"scout\" || project === \"topg-merch\"\n|| project === \"mood\" || project === \"template\"\n|| project === \"icg\"\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": [
+        {
+          "selector": "#billing_address_2"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #billing_address_2"
+        }
+      ],
+      "value": "{{street2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mckeen\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "#billing_city_field > span",
+      "value": "{{city}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nlet country = \"{{country}}\"\nconst role = '{{role}}'\nreturn project === \"Deans\" || project === \"2m\" \n|| project === \"elka\" || project === \"harmony\"\n|| project === \"inspire\" || (project === \"leggari\" && step === \"2\" && role === 'contractor')\n|| project === \"lens\" || project ===\"weedpleez\"\n|| project === \"nopong\" || (project === \"melon\" && country === \"IT\")\n|| project === \"talkbox\" || project === \"botany\"\n|| project === \"scout\" || project === \"topg-merch\"\n|| project === \"mood\" || project === \"template\"\n|| project === \"icg\"\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": [
+        {
+          "selector": "#billing_state"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #billing_state"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nlet country = \"{{country}}\"\nconst role = '{{role}}'\nreturn project === \"Deans\" || project === \"2m\" \n|| project === \"elka\" || project === \"harmony\"\n|| project === \"inspire\" || (project === \"leggari\" && step === \"2\" && role === 'contractor')\n|| project === \"lens\" || project ===\"weedpleez\"\n|| project === \"nopong\" || (project === \"melon\" && country === \"IT\")\n|| project === \"talkbox\" || project === \"botany\"\n|| project === \"scout\" || project === \"topg-merch\"\n|| project === \"mood\" || project === \"template\"\n|| project === \"icg\"\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": [
+        {
+          "selector": "#billing_state > option[value=\"{{state}}\"]"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #billing_state > option[value=\"{{state}}\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"hunchie\" || project === \"kybb\" \n|| project === \"mavenfair\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "#select2-billing_state-container",
+      "value": "{{stateComplete}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mckeen\" "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": [
+        {
+          "selector": "#billing_state_field > span"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #billing_state_field > span"
+        }
+      ],
+      "value": "{{stateComplete}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nconst role = '{{role}}'\nreturn project === \"Deans\" || project === \"Phlearn\" \n|| project === \"2m\" || project === \"elka\" \n|| project === \"harmony\" || project === \"hunchie\" \n|| project === \"inspire\" || project === \"kybb\" \n|| (project === \"leggari\" && step === \"2\" && role === 'contractor') \n|| project === \"lens\" \n|| project === \"mavenfair\" || project ===\"weedpleez\"\n|| project === \"nopong\"|| project === \"melon\"\n|| project === \"talkbox\" || project === \"botany\"\n|| project === \"scout\" || project === \"topg-merch\"\n|| project === \"mood\" || project === \"template\"\n|| project === \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": [
+        {
+          "selector": "#billing_postcode"
+        },
+        {
+          "selector": "iframe[src=\"{{url}}checkout/?iframe_checkout=1\"] #billing_postcode"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #billing_postcode"
+        }
+      ],
+      "value": "{{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mckeen\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "#billing_postcode",
+      "value": "{{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"leggari\" && step === \"2\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": [
+        {
+          "selector": "#select2-address_type-container"
+        },
+        {
+          "selector": "#address_type_field .select2-container"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "pause",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"leggari\" && step === \"2\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": "",
+      "value": "250",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"leggari\" && step === \"2\""
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 34,
+      "target": [
+        {
+          "selector": "ul#select2-address_type-results li:nth-of-type(2)"
+        },
+        {
+          "selector": "#select2-address_type-results li:nth-of-type(2)"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"leggari\" && step === \"2\""
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 35,
+      "target": "#address_type",
+      "value": "Residential",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"2m\" || project === \"elka\" \n|| project === \"harmony\" || project === \"hunchie\" \n|| project === \"inspire\" || project === \"kybb\" \n|| (project === \"leggari\" && step === \"2\") || project === \"mckeen\" \n|| project === \"mavenfair\" || project ===\"weedpleez\"\n|| project === \"nopong\" || project === \"melon\"\n|| project === \"talkbox\" || project === \"botany\"\n|| project === \"scout\" || project === \"topg-merch\"\n|| project === \"mood\" || project === \"template\"\n|| project === \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": [
+        {
+          "selector": "#billing_phone"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #billing_phone"
+        }
+      ],
+      "value": "{{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn (project === \"leggari\" && step === \"2\")"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 37,
+      "target": "#billing_phone_field .iti__selected-dial-code",
+      "value": "",
+      "variableName": "phoneCode"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"Deans\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 38,
+      "target": "#billing_phone",
+      "value": "{{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"Deans\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 39,
+      "target": "#billing_mobile_phone",
+      "value": "{{mobile}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"elka\" || project === \"harmony\" \n|| project === \"hunchie\" || project === \"inspire\" \n|| project === \"kybb\" || project === \"mckeen\" \n|| project === \"mavenfair\" || project === \"nopong\"\n|| (project === \"leggari\" && step === \"2\") || project === \"melon\"\n|| project === \"talkbox\" || project === \"botany\"\n|| project === \"scout\" || project === \"topg-merch\"\n|| project === \"mood\" || project === \"template\"\n|| project === \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 40,
+      "target": [
+        {
+          "selector": "#billing_email"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #billing_email"
+        }
+      ],
+      "value": "{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === 'elka'"
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 41,
+      "target": "button.wc_avatax_validate_address.button",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === 'elka'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 42,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === 'elka'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 43,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"topg-merch\""
+      },
+      "notes": "making this step optional due is no needed in the new design",
+      "optional": true,
+      "private": false,
+      "sequence": 44,
+      "target": "#billing_email_confirm",
+      "value": "{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"2m\" "
+      },
+      "notes": "remove the || project === \"harmony\" on the condition ",
+      "optional": false,
+      "private": false,
+      "sequence": 45,
+      "target": "#billing_invoice_cc_email_addresses",
+      "value": "{{emailCC}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"Deans\" || project === \"lens\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 46,
+      "target": "#billing_email",
+      "value": "{{username}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"lens\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 47,
+      "target": "#billing_custom_tax_id",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"hunchie\" || (project === \"leggari\" && step === \"2\")\n|| project === \"mckeen\""
+      },
+      "notes": "Deleted lens as option and added in next step",
+      "optional": false,
+      "private": false,
+      "sequence": 48,
+      "target": [
+        {
+          "selector": "#mailchimp_woocommerce_newsletter"
+        },
+        {
+          "selector": "#kl_newsletter_checkbox"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"lens\" "
+      },
+      "notes": "Step added to validate newsletter in lens distortion due to frequent changes",
+      "optional": true,
+      "private": false,
+      "sequence": 49,
+      "target": [
+        {
+          "selector": "#mailchimp_woocommerce_newsletter"
+        },
+        {
+          "selector": "#kl_newsletter_checkbox"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"+\"{{type}}\"\nlet step = \"{{step}}\"\nreturn project === \"elka\" || project === \"hunchie\" \n|| project === \"inspire\" || project === \"kybb\" \n|| (project === \"leggari\" && step === \"2\") || project === \"mckeen\" \n|| project === \"mavenfair\" || project === \"nopong\"\n|| project === \"melon\" || project === \"botany\"\n|| project === \"scout\" || project === \"topg-merch\"\n|| project === \"mood\" || (project === \"template\" && \"{{subscription}}\" != \"yes\")\n|| project === \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 50,
+      "target": [
+        {
+          "selector": "#createaccount"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #createaccount"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"+{{type}}\"\nreturn project === \"inspireSub\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 51,
+      "target": "#createaccount",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"elka\" || project === \"harmony\" \n|| project === \"hunchie\" || project === \"inspire\" \n|| project === \"mckeen\" || project === \"mavenfair\"\n || project === \"nopong\" || project === \"scout\"\n || project === \"mood\" || project === \"template\"\n || project === \"icg\""
+      },
+      "optional": false,
+      "private": true,
+      "sequence": 52,
+      "target": [
+        {
+          "selector": "#account_password"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #account_password"
+        }
+      ],
+      "value": "{{password}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"scout\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 53,
+      "target": "#account_username",
+      "value": "{{firstName}}{{lastName}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 54,
+      "target": [
+        {
+          "selector": "#ship-to-different-address-checkbox"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #ship-to-different-address-checkbox"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"Deans\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 55,
+      "target": [
+        {
+          "selector": "#ship-to-different-address-checkbox"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #ship-to-different-address-checkbox"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"hunchie\" || project === \"Deans\" \n|| project === \"kybb\" || project === \"mckeen\" \n|| project === \"nopong\"\n|| project === \"melon\" || project === \"talkbox\"\n|| project === \"botany\" || project === \"scout\"\n|| project === \"topg-merch\" || project === \"mood\"\n|| (project === \"template\" && \"{{subscription}}\" != \"yes\")\n || project === \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 56,
+      "target": [
+        {
+          "selector": "#shipping_first_name"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #shipping_first_name"
+        }
+      ],
+      "value": "{{firstName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"hunchie\" || project === \"Deans\" \n|| project === \"kybb\" || project === \"mckeen\" \n|| project === \"nopong\"\n|| project === \"melon\" || project === \"talkbox\"\n|| project === \"botany\" || project === \"scout\"\n|| project === \"topg-merch\" || project === \"mood\"\n|| (project === \"template\" && \"{{subscription}}\" != \"yes\")\n || project === \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 57,
+      "target": [
+        {
+          "selector": "#shipping_last_name"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #shipping_last_name"
+        }
+      ],
+      "value": "{{lastName2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"Deans\" || (project === \"leggari\" && step === \"2\") \n|| project === \"mckeen\" \n || project === \"nopong\"\n || project === \"botany\" || project === \"scout\"\n || project === \"mood\" || (project === \"template\" && \"{{subscription}}\" != \"yes\")\n || project === \"icg\""
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 58,
+      "target": [
+        {
+          "selector": "#shipping_company"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #shipping_company"
+        }
+      ],
+      "value": "{{company2}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn (project === \"leggari\" && step === \"2\") || project === \"talkbox\"\n|| project === \"topg-merch\" || (project === \"template\" && \"{{subscription}}\" != \"yes\")\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 59,
+      "target": "#shipping_country",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn (project === \"leggari\" && step === \"2\") || project === \"talkbox\"\n|| project === \"topg-merch\" || (project === \"template\" && \"{{subscription}}\" != \"yes\")\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 60,
+      "target": "#shipping_country > option[value=\"{{country}}\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet country = \"{{country}}\"\nreturn project === \"Deans\" || project === \"mckeen\" \n|| (project === \"nopong\" && (country === \"CA\" || country === \"US\"))\n|| project === \"botany\" "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 61,
+      "target": "#shipping_country_field > span",
+      "value": "{{countryComplete}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mood\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 62,
+      "target": "#shipping_country_field > span option:nth-of-type(2)",
+      "value": "{{countryComplete}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet country = \"{{country}}\"\nreturn project === \"hunchie\" || project === \"kybb\" \n|| (project === \"nopong\" && country === \"AU\")\n|| project === \"melon\" || project === \"scout\"  || project === \"icg\"\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 63,
+      "target": [
+        {
+          "selector": "#select2-shipping_country-container"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #select2-shipping_country-container"
+        }
+      ],
+      "value": "{{countryComplete}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"Deans\" || project === \"hunchie\" \n|| project === \"kybb\" || (project === \"leggari\" && step === \"2\")\n|| project === \"mckeen\" \n|| project === \"nopong\" || project === \"melon\"\n|| project === \"talkbox\" || project === \"botany\"\n|| project === \"scout\" || project === \"topg-merch\"\n|| project === \"mood\" || (project === \"template\" && \"{{subscription}}\" != \"yes\")\n|| project === \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 64,
+      "target": [
+        {
+          "selector": "#shipping_address_1"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #shipping_address_1"
+        }
+      ],
+      "value": "{{street3}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"Deans\" || (project === \"leggari\" && step === \"2\")  \n|| project === \"mckeen\" \n|| project === \"melon\" || project === \"talkbox\"\n|| project === \"botany\" || project === \"scout\"\n|| project === \"topg-merch\" || project === \"mood\"\n|| (project === \"template\" && \"{{subscription}}\" != \"yes\")\n || project === \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 65,
+      "target": [
+        {
+          "selector": "#shipping_address_2"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #shipping_address_2"
+        }
+      ],
+      "value": "{{street4}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"Deans\" || project === \"hunchie\" \n|| project === \"kybb\" || (project === \"leggari\" && step === \"2\") \n|| project === \"nopong\"\n|| project === \"melon\" || project === \"talkbox\"\n|| project === \"botany\" || project === \"scout\"\n|| project === \"topg-merch\" || project === \"mood\"\n|| (project === \"template\" && \"{{subscription}}\" != \"yes\")\n || project === \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 66,
+      "target": [
+        {
+          "selector": "#shipping_city"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #shipping_city"
+        }
+      ],
+      "value": "{{city}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nlet country = \"{{country}}\"\nreturn project === \"Deans\" || (project === \"leggari\" && step === \"2\")\n|| project === \"nopong\" || (project === \"melon\" && country === \"IT\")\n|| project === \"talkbox\" || project === \"botany\"\n|| project === \"scout\" || project === \"topg-merch\"\n|| project === \"mood\" || (project === \"template\" && \"{{subscription}}\" != \"yes\")\n|| project === \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 67,
+      "target": [
+        {
+          "selector": "#shipping_state"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #shipping_state"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nlet country = \"{{country}}\"\nreturn project === \"Deans\" || (project === \"leggari\" && step === \"2\")\n|| project === \"nopong\" || (project === \"melon\" && country === \"IT\")\n|| project === \"talkbox\" || project === \"botany\"\n|| project === \"scout\" || project === \"topg-merch\"\n|| project === \"mood\" || (project === \"template\" && \"{{subscription}}\" != \"yes\")\n|| project === \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 68,
+      "target": [
+        {
+          "selector": "#shipping_state > option[value=\"{{state}}\"]"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #shipping_state > option[value=\"{{state}}\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"hunchie\" || project === \"kybb\" \n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 69,
+      "target": "#select2-shipping_state-container",
+      "value": "{{stateComplete}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"Deans\" || project === \"hunchie\" \n|| project === \"kybb\" || (project === \"leggari\" && step === \"2\") \n|| project === \"nopong\"\n|| project === \"melon\" || project === \"talkbox\"\n|| project === \"botany\" || project === \"scout\"\n|| project === \"topg-merch\" || project === \"mood\"\n|| (project === \"template\" && \"{{subscription}}\" != \"yes\")\n || project === \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 70,
+      "target": [
+        {
+          "selector": "#shipping_postcode"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #shipping_postcode"
+        }
+      ],
+      "value": "{{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 71,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"Deans\" || project === \"talkbox\"\n|| project === \"mood\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 72,
+      "target": "#shipping_phone",
+      "value": "{{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"Deans\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 73,
+      "target": "#shipping_mobile_phone",
+      "value": "{{mobile}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"elka\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 74,
+      "target": "div:nth-of-type(1) > a[href=\"#\"].fusion-button.button-default.fusion-button-default-size.button.continue-checkout",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"x\" || project === \"Deans\" \n|| project === \"elka\" || project === \"hunchie\" \n|| project === \"kybb\" || project === \"melon\" \n|| project === \"talkbox\" || project === \"botany\"\n|| project === \"scout\" || project === \"topg-merch\"\n|| (project === \"template\" && \"{{subscription}}\" != \"yes\")\n|| project === \"icg\""
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 75,
+      "target": [
+        {
+          "selector": "#order_comments"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #order_comments"
+        }
+      ],
+      "value": "Order Note for Testing this field",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return '{{project}}' === \"leggari\" && '{{step}}' === '3'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 76,
+      "target": "#order_comments",
+      "value": "Test order notes",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"elka\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 77,
+      "target": "div:nth-of-type(2) > a[href=\"#\"].fusion-button.button-default.fusion-button-default-size.continue-checkout.button",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"leggari\" && step === \"2\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 78,
+      "target": ".wfacp-left-panel.wfacp_page.pre_built.single_step > .wfacp-two-step-erap.wfacp-next-btn-wrap.center > button[type=\"button\"].button.button-primary.wfacp_next_page_button",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"Phlearn\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 79,
+      "target": "iframe[src=\"{{url}}checkout/?iframe_checkout=1\"] #billing-description > .billing_subtitle > .subscription-price > .woocommerce-Price-amount.amount",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 80,
+      "target": ".subscription-price > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "subPrice"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"Deans\" \n|| project === \"elka\"  \n|| project === \"hunchie\" || project === \"kybb\" \n|| (project === \"leggari\" && step === \"3\") || project === \"mckeen\" \n|| project === \"mavenfair\" || project ===\"weedpleez\"\n || project === \"nopong\" || project === \"botany\"\n || project === \"topg-merchXX\" || project === \"mood\"\n || project === \"template\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 81,
+      "target": [
+        {
+          "selector": "td.product-name"
+        },
+        {
+          "selector": "div.product-info"
+        },
+        {
+          "selector": ".wfacp_mini_cart_item_title"
+        },
+        {
+          "selector": "h3.ld-product-title"
+        },
+        {
+          "selector": "div.cfw-cart-item-title"
+        }
+      ],
+      "value": "{{prod_desc}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"harmony\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 82,
+      "target": "td.product-name",
+      "value": "{{prod_desc}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 83,
+      "target": "tr:nth-of-type(1).cart_item > td.product-name > div > div > div.check-name",
+      "value": "",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 84,
+      "target": "tr:nth-of-type(2).cart_item > td.product-name > div > div > div.check-name",
+      "value": "",
+      "variableName": "prod_desc2"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"elka\" || project === \"Deans\" \n|| (project === \"harmony\" && \"{{subscription}}\" !== \"yes\")\n|| project === \"kybb\" || project === \"mavenfair\"\n|| (project === \"leggari\" && step === \"3\")\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 85,
+      "target": "td.product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 86,
+      "target": "tr:nth-of-type(2).cart_item > td.product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 87,
+      "target": "",
+      "value": "let subPrice = \"{{subPrice}}\"\nlet unitPrice = \"{{unitPrice}}\"\n\nsubPrice = subPrice.replace(\",\",\"\");\nunitPrice = unitPrice.replace(\",\",\"\");\n\nsubPrice = Number(subPrice.replace(\"{{Symbol}}\",\"\"));\nunitPrice = Number(unitPrice.replace(\"{{Symbol}}\",\"\"));\n\nlet subtotal = subPrice+unitPrice;\nsubtotal = \"{{Symbol}}\"+subtotal.toFixed(2);\n\nreturn subtotal",
+      "variableName": "subtotalPrice"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\" || project === \"hunchie\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 88,
+      "target": "tr.cart-subtotal > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"elka\" || project === \"Deans\" \n|| (project === \"harmony\" && \"{{subscription}}\" !== \"yes\") \n|| project === \"kybb\" || project === \"mavenfair\"\n|| (project === \"leggari\" && step === \"3\")"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 89,
+      "target": "tr.cart-subtotal > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mckeen\" || project ===\"weedpleez\" || project === \"nopong\"\n|| project === \"melon\" || project === \"scout\"  || project === \"botany\"\n|| project === \"topg-merchxx\" || project === \"mood\" || project === \"template\"\n|| project === \"hunchie\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 90,
+      "target": [
+        {
+          "selector": ".wfacp-mini-cart-block tr:nth-of-type(1) td.product-total > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "tr:nth-of-type(1) td.product-total > span.woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "td.cfw-cart-item-subtotal > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "td.product-total > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "tr > td.product-subtotal > span.woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mckeen\" || project ===\"weedpleez\" || project === \"nopong\"\n|| project === \"melon\" || project === \"scout\"  || project === \"botany\"\n|| project === \"topg-merchxx\" || project === \"mood\" || project === \"template\"\n|| project === \"hunchie\""
+      },
+      "notes": "",
+      "optional": false,
+      "private": false,
+      "sequence": 91,
+      "target": [
+        {
+          "selector": ".wfacp-mini-cart-block tbody > tr.cart-subtotal > td > span"
+        },
+        {
+          "selector": ".topg-exclusive-cart-content > div > table.shop_table > tbody > tr.cart-subtotal > td > span.amount > bdi"
+        },
+        {
+          "selector": "tr.cart-subtotal > td > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "tr.cart-subtotal > td > span.woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"topg-merch\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 92,
+      "target": "div.topg-exclusive-cart-content > div.cart_totals > table > tbody > tr.cart-subtotal > td > span.woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"lens\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 93,
+      "target": ".ld-product-price > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"lens\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 94,
+      "target": ".amount > strong > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 95,
+      "target": "tr.cart-discount > td > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "discount"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"elka\" || project === \"melon\" || project === \"weedpleez\"\n|| project === \"mavenfair\" "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 96,
+      "target": [
+        {
+          "selector": "ul#shipping_method > li:nth-child(1) > label > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "ul#shipping_method > li:nth-child(1) > label"
+        },
+        {
+          "selector": ".wfacp_mini_cart_reviews > tbody > tr.shipping_total_fee > td:nth-child(2) > span > span"
+        }
+      ],
+      "value": "",
+      "variableName": "shippingPrice"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"scout\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 97,
+      "target": "ul#shipping_method > li:nth-child(2) > label > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"scout\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 98,
+      "target": "ul#shipping_method > li:nth-child(2) > label > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "shippingPrice"
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\" || project === \"scout\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 99,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"leggari\" && step === \"3\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 100,
+      "target": [
+        {
+          "selector": "li:nth-of-type(1).wfacp_single_shipping_method > div > .wfacp_shipping_price > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "li:nth-of-type(1).wfacp_single_shipping_method > div > .wfacp_shipping_price"
+        },
+        {
+          "selector": "ul#shipping_method > li:nth-child(1) > label > .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "",
+      "variableName": "shippingPrice"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"leggari\" && step === \"3\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 101,
+      "target": [
+        {
+          "selector": "li:nth-of-type(1).wfacp_single_shipping_method > div > .wfacp_shipping_radio > label"
+        },
+        {
+          "selector": "ul#shipping_method > li:nth-child(1) > label"
+        }
+      ],
+      "value": "",
+      "variableName": "shippingDesc"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"hunchie\" || project === \"Deans\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 102,
+      "target": "ul#shipping_method > li:nth-child(1) > label",
+      "value": "Free shipping",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\"  || project === \"botany\"\n|| project === \"mood\"\n|| project === \"hunchie\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 103,
+      "target": [
+        {
+          "selector": "ul#shipping_method > li:nth-child(1) > label"
+        },
+        {
+          "selector": "ul#shipping_method > li:nth-child(1) > div > label"
+        }
+      ],
+      "value": "",
+      "variableName": "shippingPrice"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"topg-merch\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 104,
+      "target": "ul#shipping_method > li:nth-child(1) > label > span > bdi",
+      "value": "",
+      "variableName": "shippingPrice"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet country =\"{{country}}\"\nreturn project === \"nopong\" && country === \"CA\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 105,
+      "target": "ul#shipping_method > li:nth-child(1) > label .woocommerce-Price-amount.amount",
+      "value": "{{shippingPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet country = \"{{country}}\"\nreturn project === \"nopong\" && (country === \"AU\" || country === \"US\")"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 106,
+      "target": [
+        {
+          "selector": "ul#shipping_method > li:nth-child(1) > label > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "ul#shipping_method > li:nth-child(1) > label > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "",
+      "variableName": "shippingPrice"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet country = \"{{country}}\"\nreturn project === \"kybb\" || project === \"mckeen\"\n|| (project === \"nopong\" && (country === \"AU\" || country === \"US\")) || (project === \"template\" && \"{{subscription}}\" != \"yes\")"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 107,
+      "target": [
+        {
+          "selector": "ul#shipping_method > li:nth-child(1) > label > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "ul#shipping_method > li:nth-child(1) > label > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{shippingPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"leggari\" && step === \"3\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 108,
+      "target": [
+        {
+          "selector": "tr.shipping_total_fee > td:nth-of-type(2) > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "tr.shipping_total_fee > td:nth-of-type(2)"
+        }
+      ],
+      "value": "{{shippingPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet country = \"{{country}}\"\nreturn (project === \"harmony\" && \"{{subscription}}\" !== \"yes\" && country === \"CA\") || project === \"mood\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 109,
+      "target": "tr.tax-rate > td > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "taxPrice"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet elements = document.querySelectorAll(\"tr.tax-rate > td > span\")\n\nreturn project === \"mavenfair\" && elements.length >= 1"
+      },
+      "notes": "old value tr.tax-rate > td > .woocommerce-Price-amount.amount",
+      "optional": false,
+      "private": false,
+      "sequence": 110,
+      "target": "tr:nth-of-type(3).tax-rate > td > span",
+      "value": "",
+      "variableName": "taxPrice1"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet elements = document.querySelectorAll(\"tr.tax-rate > td > span\")\nreturn project === \"mavenfair\" && elements.length >= 2"
+      },
+      "notes": "step added to split both taxes",
+      "optional": false,
+      "private": false,
+      "sequence": 111,
+      "target": "tr:nth-of-type(4).tax-rate > td > span",
+      "value": "",
+      "variableName": "taxPrice2"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet country = \"{{country}}\"\nreturn project === \"nopong\" && country === \"AU\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 112,
+      "target": [
+        {
+          "selector": "tr.order-total > td > small > span"
+        },
+        {
+          "selector": "small.includes_tax > span.woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "",
+      "variableName": "taxPriceSmall"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"melon\" "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 113,
+      "target": [
+        {
+          "selector": "#wfacp_mini_cart_reviews_e081fbde > tbody > tr.order-total > td > small > span"
+        },
+        {
+          "selector": ".wfacp_mini_cart_reviews > tbody > tr.order-total > td > small > span"
+        }
+      ],
+      "value": "",
+      "variableName": "taxPriceSmall"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet country = \"{{country}}\"\nreturn project === \"nopong\" && country === \"AU\"\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 114,
+      "target": [
+        {
+          "selector": "tr.order-total > td > small > span"
+        },
+        {
+          "selector": "small.includes_tax > span.woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{taxPriceSmall}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet country = \"{{country}}\"\nreturn  project === \"kybb\" || project === \"mckeen\"\n|| (project === \"template\" && \"{{subscription}}\" != \"yes\")"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 115,
+      "target": "tr.tax-rate:not(.recurring-total) > td > .woocommerce-Price-amount.amount",
+      "value": "{{taxPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let country = \"{{country}}\"\nlet project = \"{{project}}\"\nreturn (project === \"nopong\" && country === \"CA\")\n|| (project === \"template\" && \"{{subscription}}\" === \"yes\")"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 116,
+      "target": "tr.tax-rate:not(.recurring-total) > td > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "taxPrice"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"Deans\" || project === \"elka\" \n|| (project === \"leggari\" && step === \"3\") || project === \"talkbox\"\n|| project === \"botany\" || project === \"hunchie\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 117,
+      "target": "tr.tax-total > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "taxPrice"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet subscription = \"{{subscription}}\"\nreturn project === \"template\" && subscription === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 118,
+      "target": "tr.cart-subtotal.recurring-total > td > .woocommerce-Price-amount.amount",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet subscription = \"{{subscription}}\"\nreturn project === \"template\" && subscription === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 119,
+      "target": "tr.tax-rate.recurring-total > td > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "recurringTax"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\" "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 120,
+      "target": "tr.tax-total.recurring-total > td > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "recurringTax"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet subscription = \"{{subscription}}\"\nreturn project === \"talkbox\" || (project === \"template\" && subscription === \"yes\")"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 121,
+      "target": "tr.order-total.recurring-total > td > strong > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "recurringTotal"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"hunchie\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 122,
+      "target": "tr.tax-total > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{taxPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"Deans\" \n|| project === \"elka\" || project === \"melon\" || (project === \"harmony\" && \"{{subscription}}\" !== \"yes\")\n|| project ===\"weedpleez\" || project === \"nopong\" \n|| (project === \"leggari\" && step === \"3\") || project === \"talkbox\"\n|| project === \"botany\" || project === \"scout\"\n|| project === \"mood\"\n|| project === \"template\" || project === \"mavenfair\"\n|| project === \"hunchie\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 123,
+      "target": [
+        {
+          "selector": ".wfacp_mini_cart_reviews > tbody > tr.order-total > td > strong > span"
+        },
+        {
+          "selector": "strong > .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "",
+      "variableName": "total"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"topg-merch\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 124,
+      "target": "div.topg-exclusive-cart-content > div.cart_totals > table.shop_table > tbody > tr.order-total > td > strong > span.woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "total"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"lens\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 125,
+      "target": "tr.order-total:nth-of-type(5) > td > strong > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "total"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"kybb\" \n|| project === \"mckeen\"\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 126,
+      "target": [
+        {
+          "selector": "strong > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "tr.order-total > td > strong > span.woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mavenfair\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 127,
+      "target": "",
+      "value": "let tax1 = \"{{taxPrice1}}\";\nlet tax2 = \"{{taxPrice2}}\";\nif (tax1 === \"\") {\n    tax1 = 0.00\n} else {\n    tax1 = tax1.replace(\",\",\"\");\n    tax1 = Number(tax1.replace(\"{{Symbol}}\",\"\"));\n}\nif (tax2 === \"\") {\n    tax2 = 0.00\n} else {\n    tax2 = tax2.replace(\",\",\"\");\n    tax2 = Number(tax2.replace(\"{{Symbol}}\",\"\"));\n}\n\nlet tax = tax1+tax2;\nreturn tax;",
+      "variableName": "taxPrice"
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"Deans\" \n|| project === \"elka\" || (project === \"harmony\" && \"{{subscription}}\" !== \"yes\")\n|| project === \"kybb\" \n|| (project === \"leggari\" && step === \"3\") || project === \"mavenfair\""
+      },
+      "notes": "",
+      "optional": false,
+      "private": false,
+      "sequence": 128,
+      "target": "",
+      "value": "let unit = \"{{unitPrice}}\";\nlet shipping = \"{{shippingPrice}}\";\nif (shipping.includes(\"Free\")){\n    shipping = \"0.00\";\n};\nlet tax = \"{{taxPrice}}\";\nlet total = \"{{total}}\";\n\n\nunit = unit.replace(\",\",\"\");\nshipping = shipping.replace(\",\",\"\");\ntax = tax.replace(\",\",\"\");\ntotal = total.replace(\",\",\"\");\n\nunit = Number(unit.replace(\"{{Symbol}}\",\"\"));\nshipping = Number(shipping.replace(\"{{Symbol}}\",\"\"));\ntax = Number(tax.replace(\"{{Symbol}}\",\"\"));\ntotal = Number(total.replace(\"{{Symbol}}\",\"\"));\n\nlet total2 = unit+shipping+tax;\ntotal2 = Number(total2.toFixed(2));\n\nreturn total === total2",
+      "variableName": ""
+    },
+    {
+      "command": "pause",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn  (project === \"leggari\" && step === \"2\") "
+      },
+      "notes": "Wait page load",
+      "optional": false,
+      "private": false,
+      "sequence": 129,
+      "target": "",
+      "value": "1500",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn  (project === \"leggari\" && step === \"2\") "
+      },
+      "notes": "Verify FedEx ground shipping option",
+      "optional": false,
+      "private": false,
+      "sequence": 130,
+      "target": "ul#shipping_method > li:nth-child(1) label",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn  (project === \"leggari\" && step === \"2\") "
+      },
+      "notes": "Validate FedEx ground label -> label changed to FedEx\nadded new locator 09/06/24",
+      "optional": false,
+      "private": false,
+      "sequence": 131,
+      "target": "ul#shipping_method > li:nth-child(1) label",
+      "value": "FedEx",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn  (project === \"leggari\" && step === \"2\") "
+      },
+      "notes": "Verify local pickup shipping option, making the step optional due to changes in checkout",
+      "optional": true,
+      "private": false,
+      "sequence": 132,
+      "target": "ul#shipping_method > li:nth-child(2) label",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn  (project === \"leggari\" && step === \"2\") "
+      },
+      "notes": "Validate local pickup label",
+      "optional": false,
+      "private": false,
+      "sequence": 133,
+      "target": "ul#shipping_method > li:nth-child(2) label",
+      "value": "Local pickup in Pasco, WA (Call to schedule a pickup 844-534-4274)",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"leggari\" && step === \"3\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 134,
+      "target": ".wfacp-left-panel.wfacp_page.two_step > .wfacp-two-step-erap.wfacp-next-btn-wrap.center > button[type=\"button\"].button.button-primary.wfacp_next_page_button",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mckeen\" || project ===\"weedpleez\"\n|| project === \"nopong\" || project === \"melon\" || project === \"talkbox\"\n|| project === \"scout\" || project === \"botany\" || project === \"mood\" || project === \"template\" || project === \"hunchie\"\n|| project === \"icg\""
+      },
+      "notes": "edited line 16 due to an error in no pong suite, changed from  unit = unit.replace.trim(); to unit = unit.replace(\"{{Symbol}}\",\"\").trim();",
+      "optional": false,
+      "private": false,
+      "sequence": 135,
+      "target": "",
+      "value": "let unit = \"{{subtotalPrice}}\";\nlet shipping = \"{{shippingPrice}}\";\nlet discount = \"{{discount}}\"\nif (discount === \"\"){\n    discount = \"0.00\";\n};\nif (shipping.includes(\"Free\") || shipping.includes(\"Lettermail (untracked)\")){\n    shipping = \"0.00\";\n};\nlet tax = \"{{taxPrice}}\";\nif (tax === \"\"){\n    tax = \"0.00\";\n};\nlet total = \"{{total}}\";\n\nunit = unit.replace(\",\",\"\").trim();\ndiscount = discount.replace(\",\",\"\").trim();\nshipping = shipping.replace(\",\",\"\").trim();\ntax = tax.replace(\",\",\"\").trim();\ntotal = total.replace(\",\",\"\").trim();\n\nunit = Number(unit.replace(\"{{Symbol}}\",\"\"));\ndiscount = Number(discount.replace(\"{{Symbol}}\",\"\"));\nshipping = Number(shipping.replace(\"{{Symbol}}\",\"\"));\ntax = Number(tax.replace(\"{{Symbol}}\",\"\"));\ntotal = Number(total.replace(\"{{Symbol}}\",\"\"));\n\nlet total2 = unit-discount+shipping+tax;\n\ntotal2 = Number(total2.toFixed(2));\n\n\nreturn total === total2",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"topg-merch\""
+      },
+      "notes": "step added for cobra merch",
+      "optional": false,
+      "private": false,
+      "sequence": 136,
+      "target": "",
+      "value": "let unit = \"{{unitPrice}}\";\nlet shipping = \"{{shippingPrice}}\";\nlet discount = \"{{discount}}\"\nif (discount === \"\"){\n    discount = \"0.00\";\n};\nif (shipping.includes(\"Free\") || shipping == null){\n    shipping = 0.00;\n};\nlet tax = \"{{taxPrice}}\";\nif (tax === \"\"){\n    tax = \"0.00\";\n};\nlet total = \"{{total}}\";\ntotal = total.slice(1);\nlet quantity = \"{{qty}}\";\n\nunit = unit.slice(1);\ndiscount = discount.slice(1);\nshipping = shipping.slice(1);\ntax = tax.slice(1);\n\n\nunit = parseFloat(unit);\nquantity = parseInt(quantity);\ndiscount = parseFloat(discount);\nshipping = parseFloat(shipping);\n//tax = parseFloat(tax);\ntotal = parseFloat(total).toFixed(2);\n\nlet total2 = unit*quantity-discount+shipping; ////+tax;\ntotal2 = parseFloat(total2).toFixed(2);\n\nreturn total === total2",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"kybb\""
+      },
+      "optional": false,
+      "private": true,
+      "sequence": 137,
+      "target": "#account_password",
+      "value": "{{password}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn project === \"2m\" || (project === \"harmony\" && \"{{subscription}}\" !== \"yes\")\n|| project === \"mckeen\" || project === \"mavenfair\" \n|| project ===\"weedpleez\"|| project === \"nopong\"\n|| (project === \"leggari\" && step === \"3\")\n|| project === \"botany\" || project === \"talkbox\""
+      },
+      "notes": "removing topg-merch due to terms were removed from the checkout page",
+      "optional": false,
+      "private": false,
+      "sequence": 138,
+      "target": [
+        {
+          "selector": "#terms"
+        },
+        {
+          "selector": "#terms_acceptance"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6275149f7cba5684cb53e55c",
+    "suiteId": "6022b879262f437a9af8ddf9",
+    "suiteName": "Common Steps for all Projects"
+  }
+}

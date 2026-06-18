@@ -1,0 +1,176 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Filling survey in Welcome page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": ".kt-inside-inner-col",
+      "value": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "input[type=\"submit\"].button",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "a[href*=\"/dashboard/?skip-survey=1\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "div:nth-of-type(1) > .os-survey__tooltip",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "div:nth-of-type(2) > .os-survey__tooltip",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "div:nth-of-type(3) > .os-survey__tooltip",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": {
+        "statement": "return !!document.querySelector('div:nth-of-type(4) > .os-survey__tooltip')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "div:nth-of-type(4) > .os-survey__tooltip",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "let instruments = document.querySelectorAll('div#primary input[name=\"os-survey-instrument');\n\nlet instrument = Math.floor(Math.random() * instruments.length) + 1\n\nreturn instrument\n",
+      "variableName": "instrument"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "form.os-survey > div > div:first-child > label:nth-of-type({{instrument}})"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "div#primary label:nth-of-type({{instrument}})"
+        },
+        {
+          "selector": "form.os-survey > div > div:first-child > label:nth-of-type({{instrument}})"
+        }
+      ],
+      "value": "",
+      "variableName": "instrument"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "let levels = document.querySelectorAll('div#primary input[name=\"os-survey-skill-level\"]');\nlet level = Math.floor(Math.random() * levels.length) + 1\n\nreturn level\n",
+      "variableName": "level"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "form.os-survey > div > div:last-child > div:nth-of-type({{level}}) > label"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": [
+        {
+          "selector": "div#primary div:last-child > div:nth-of-type({{level}}) > label"
+        },
+        {
+          "selector": "form.os-survey > div > div:last-child > div:nth-of-type({{level}}) > label"
+        }
+      ],
+      "value": "",
+      "variableName": "level"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "663cb98d1aac3ea14f22a85d",
+    "suiteId": "663cb8421aac3ea14f224fb2",
+    "suiteName": "Open Studio - Common steps"
+  }
+}

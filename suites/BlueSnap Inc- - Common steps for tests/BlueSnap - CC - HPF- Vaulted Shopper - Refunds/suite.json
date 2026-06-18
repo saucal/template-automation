@@ -1,0 +1,150 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "69049f5a1a085ce44e1ff60c",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome-139",
+    "dataSource": null,
+    "dateCreated": "2025-10-31T11:36:58.854Z",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "6239b8e0aacde4b98746feb0",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "BlueSnap - CC - HPF, Vaulted Shopper & Refunds",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": false,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://bluesnaptest1.mystagingwebsite.com/",
+    "testCount": 45,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "woo_user",
+        "value": "ck_91cff1f62657b5ef24b7606cd572b584fb31640b",
+        "private": true,
+        "_id": "60a273cdcda37459c851732a"
+      },
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b81"
+      },
+      {
+        "name": "password_bluesnap",
+        "value": "qkm5gjb7gec.ARG1qtz",
+        "private": true,
+        "_id": "6269606111885f8f1aa98989"
+      },
+      {
+        "name": "blog",
+        "value": "mitchell_callahan_blog_4",
+        "private": false,
+        "_id": "65b288929cc5a53dd6ce8917"
+      },
+      {
+        "name": "user_bluesnap",
+        "value": "qa@saucal.com",
+        "private": false,
+        "_id": "6269606111885f8f1aa9898a"
+      },
+      {
+        "name": "blue_user",
+        "value": "API_16509753954602042969865",
+        "private": true,
+        "_id": "60a273cdcda37459c851732c"
+      },
+      {
+        "name": "blue_pass",
+        "value": "JA$5uZW95NID23",
+        "private": true,
+        "_id": "60a273cdcda37459c851732d"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b82"
+      },
+      {
+        "name": "company",
+        "value": "Saucal Inc.",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b83"
+      },
+      {
+        "name": "street",
+        "value": "123 Flase Street",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b84"
+      },
+      {
+        "name": "city",
+        "value": "Miami",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b85"
+      },
+      {
+        "name": "defaultCurr",
+        "value": "USD",
+        "private": false,
+        "_id": "65b285b09cc5a53dd6cd9ac4"
+      },
+      {
+        "name": "zipCode",
+        "value": "33126",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b86"
+      },
+      {
+        "name": "phone",
+        "value": "3050698798",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b87"
+      },
+      {
+        "name": "password",
+        "value": "DTK0cyg2cub9aht*kja",
+        "private": true,
+        "_id": "60ca0d461da0a93062c80519"
+      },
+      {
+        "name": "woo_pass",
+        "value": "cs_d488aec5bbb508cb9151e5d433c2c11b8ef574ff",
+        "private": true,
+        "_id": "60a273cdcda37459c851732b"
+      },
+      {
+        "name": "address2",
+        "value": "Apartment 2",
+        "private": false,
+        "_id": "60d08eb61da0a93062ee109d"
+      },
+      {
+        "name": "wp_api_pass",
+        "value": "eAFR YyTz w9Qt SRre Q3uM 8WMD",
+        "private": true,
+        "_id": "65b2843eedd04af7687b9227"
+      }
+    ],
+    "viewportSize": {
+      "width": 1280,
+      "height": 800
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Change height to slider",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": null,
+  "steps": [
+    {
+      "command": "eval",
+      "condition": null,
+      "notes": "Overwrite 100% height setting for slideshow boxes",
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "setInterval(() => {\n    const query = \".vc_row-o-full-height, .bx-bg, .bx-wrapper, .bx-viewport, .bxslider, .bxslide\"\n    const elems = Array.from(document.querySelectorAll(query))\n    elems.forEach(elem => elem.style.setProperty(\"height\", \"600px\", \"important\"))\n    elems.forEach(elem => elem.style.setProperty(\"min-height\", \"600px\", \"important\"))\n}, 100)",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "602c1c1ab5325b33d6590f83",
+    "suiteId": "6022c8a7262f437a9afa49ca",
+    "suiteName": "No Pong - Common steps for Project"
+  }
+}

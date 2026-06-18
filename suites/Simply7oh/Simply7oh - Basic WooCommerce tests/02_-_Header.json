@@ -1,0 +1,109 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "02 - Header",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotTarget": "header",
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "69a1df3d3dc7ceb27c5f9b49",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": ".wp-block-kadence-navigation.is-horizontal > nav.navigation > .menu-container > .kb-navigation.menu > li.menu-item.wp-block-kadence-navigation-link:nth-of-type(1) > .kb-link-wrap > a[href*=\"/shop\"].kb-nav-link-content",
+      "value": "Shop"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": ".wp-block-kadence-navigation.is-horizontal > nav.navigation > .menu-container > .kb-navigation.menu > li.menu-item.wp-block-kadence-navigation-link:nth-of-type(2) > .kb-link-wrap > a[href=\"#\"].kb-nav-link-content",
+      "value": "Rewards"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": ".wp-block-kadence-navigation.is-horizontal > nav.navigation > .menu-container > .kb-navigation.menu > li.menu-item.wp-block-kadence-navigation-link:nth-of-type(3) > .kb-link-wrap > a[href*=\"/faq/\"].kb-nav-link-content",
+      "value": "Support"
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "#dgwt-wcas-search-input-1",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": ".wc-block-mini-cart__quantity-badge",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "a[href*=\"/account/\"]",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": ".kb-button",
+      "value": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69a1de893dc7ceb27c5f6c1c",
+    "suiteId": "69a1dd383dc7ceb27c5f126e",
+    "suiteName": "Simply7oh - Basic WooCommerce tests"
+  }
+}

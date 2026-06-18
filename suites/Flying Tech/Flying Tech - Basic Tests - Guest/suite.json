@@ -1,0 +1,74 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "673b54cb84d2a5c4a5b1409b",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome-129",
+    "dataSource": null,
+    "dateCreated": "2024-11-18T14:52:59.985Z",
+    "details": "",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "673b548e84d2a5c4a5b12ab9",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "Flying Tech - Basic Tests - Guest",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "eu-west-2",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://khrff7b2hz-staging.onrocket.site/",
+    "testCount": 15,
+    "testFrequency": 0,
+    "viewportSize": {
+      "width": 1920,
+      "height": 1080
+    },
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "project",
+        "value": "flyingTech",
+        "private": false,
+        "_id": null
+      },
+      {
+        "name": "Symbol",
+        "value": "£",
+        "private": false,
+        "_id": "673b552584d2a5c4a5b15584"
+      },
+      {
+        "name": "site",
+        "value": "https://khrff7b2hz-staging.onrocket.site/",
+        "private": false,
+        "_id": "673b552584d2a5c4a5b15585"
+      },
+      {
+        "name": "password",
+        "value": "helloWorld!23",
+        "private": true,
+        "_id": "673f4677aac72eeccc35e788"
+      },
+      {
+        "name": "password2",
+        "value": "helloWorld!34",
+        "private": true,
+        "_id": "673f4fa884d2a5c4a57fb12b"
+      }
+    ],
+    "screenshotExclusions": ".wd-carousel-item > .wd-brand-item.brand-item > img"
+  }
+}

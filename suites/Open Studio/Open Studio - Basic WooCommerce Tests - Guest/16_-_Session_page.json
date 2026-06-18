@@ -1,0 +1,276 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "16 - Session page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "{{startUrl}}events/",
+      "variableName": ""
+    },
+    {
+      "command": "pause",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "10000",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "pause",
+      "condition": null,
+      "notes": "Wait for the calendar to load",
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "2000",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "div.os-calendar-event-item.os-calendar-event-item-pro:not(.os-calendar-event-item-past) > div > div > a"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": ".os-single-event__join",
+      "value": "You need to be an Open Studio Pro member to attend this session.",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "a[href*=\"pro\"].button",
+      "value": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "a[href*=\"pro\"].button",
+      "value": "Join now"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "div.os-sessions-back-link > a",
+      "value": ""
+    },
+    {
+      "command": "pause",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "10000",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let elements = document.querySelectorAll('div.os-calendar-event-item:not(.os-calendar-event-item-past):not(.os-calendar-event-item-pro) > div > div > a');\nreturn elements.length === 0"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "a:nth-of-type(2).os-event-navigation-link",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "pause",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "10000",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let elements = document.querySelectorAll('div.os-calendar-event-item:not(.os-calendar-event-item-past):not(.os-calendar-event-item-pro) > div > div > a');\nreturn elements.length >= 1"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "div.os-calendar-event-item:not(.os-calendar-event-item-past):not(.os-calendar-event-item-pro) > div > div > a",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "return window.location.href.includes('{{startUrl}}os-sessions/')"
+      },
+      "notes": "Verifying text on a free event",
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": [
+        {
+          "selector": ".os-single-event__join"
+        },
+        {
+          "selector": ".os-event-join-event.os-login"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return window.location.href.includes('{{startUrl}}os-sessions/')"
+      },
+      "notes": "back to calendar",
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "div > div.os-sessions-back-link > a",
+      "value": ""
+    },
+    {
+      "command": "pause",
+      "condition": {
+        "statement": "return window.location.href.includes('{{startUrl}}os-sessions/')"
+      },
+      "notes": "wait for calendar to load",
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "",
+      "value": "1500",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "select an event which is Pro",
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "tbody > tr > td > div.os-calendar-event-item-pro > div.os-calendar-event-item-header > div > a",
+      "value": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "notes": "validate that pro membership is needed",
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": ".os-single-event__joindesc",
+      "value": "You need to be an Open Studio Pro member to attend this session.\nJoin now",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": [
+        {
+          "selector": ".os-single-event__join a[href*=\"/join/\"].button"
+        },
+        {
+          "selector": "div.entry-content.single-content a"
+        }
+      ],
+      "value": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "notes": "\"Log in now\" text changed to Join now",
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": [
+        {
+          "selector": ".os-single-event__join a[href*=\"/join/\"].button"
+        },
+        {
+          "selector": "div.entry-content.single-content a"
+        }
+      ],
+      "value": "Join now",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "663a44607e028d9ed99e7161",
+    "suiteId": "663a2f3089e87fd839950b50",
+    "suiteName": "Open Studio - Basic WooCommerce Tests - Guest"
+  }
+}

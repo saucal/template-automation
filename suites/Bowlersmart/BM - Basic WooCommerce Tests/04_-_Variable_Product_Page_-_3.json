@@ -1,0 +1,204 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "04 - Variable Product Page - 3",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "{{startUrl}}product/brunswick-ethos-solid-fast-track-coolwick-bowling-jersey/",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "select.wc-pao-addon-field"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "select.wc-pao-addon-field",
+      "value": "large-3"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "select.wc-pao-addon-field",
+      "value": "large-3"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "const size = document.querySelector('option[value=\"large-3\"]').textContent.trim()\nreturn size",
+      "variableName": "size"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "div.wc-pao-addon-container.wc-pao-addon:nth-of-type(2) > .form-row.wc-pao-addon-wrap > div > input[type=\"checkbox\"].wc-pao-addon-field.wc-pao-addon-checkbox"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": ".wc-pao-addon-price > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "upgrade"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "input[type=\"text\"].input-text.wc-pao-addon-field",
+      "value": "Chris"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "let text = document.querySelector(\"h2.wc-pao-addon-heading\").textContent;\nlet namePrice = text.match(/\\$\\d*\\.?\\d*/); // Matches $ followed by digits, optional dot, and optional digits\nnamePrice = namePrice ? Number(namePrice[0].replace('$', '')).toFixed(2) : \"0.00\";\nreturn `$${namePrice}`; // Add back the $ sign",
+      "variableName": "namePrice"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "div.wc-pao-addon-container.wc-pao-addon:nth-of-type(5) > .form-row.wc-pao-addon-wrap > div > input[type=\"checkbox\"].wc-pao-addon-field.wc-pao-addon-checkbox"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "div.wc-pao-addon-container.wc-pao-addon:nth-of-type(6) > .form-row.wc-pao-addon-wrap > div > input[type=\"checkbox\"].wc-pao-addon-field.wc-pao-addon-checkbox"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "h1.product_title",
+      "value": "",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": [
+        {
+          "selector": "div.product-info.summary > div > .price > ins > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "div.product-info.summary > div > .price > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "div > div > div.product-main > div > div.product-info.summary.entry-summary > div.price-wrapper > p > ins > span > bdi"
+        },
+        {
+          "selector": "div > div > div.product-main > div > div.product-info.summary.entry-summary > div.price-wrapper > p > span > bdi"
+        }
+      ],
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": [
+        {
+          "selector": "div#product-addons-total dd:nth-of-type(2) span.amount"
+        },
+        {
+          "selector": ".product-addon-totals .wc-pao-subtotal-line .price .amount"
+        }
+      ],
+      "value": "",
+      "variableName": "subtotalProduct"
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "let unitPrice = parseFloat('{{unitPrice}}'.replace('$','').trim())\nlet upgrade = parseFloat('{{upgrade}}'.replace('$','').trim()) || 0;\nlet namePrice = parseFloat('{{namePrice}}'.replace('$','').trim()) || 0;\nlet subtotalProduct = parseFloat('{{subtotalProduct}}'.replace('$','').trim())\nlet subtotal2 = unitPrice + upgrade + namePrice\nsubtotal2 = Number(subtotal2.toFixed(2))\n\nreturn subtotalProduct === subtotal2;\n",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68bec2fc029c694b8f2cbbe4",
+    "suiteId": "681212cfff841a20f20fe1e3",
+    "suiteName": "BM - Basic WooCommerce Tests"
+  }
+}

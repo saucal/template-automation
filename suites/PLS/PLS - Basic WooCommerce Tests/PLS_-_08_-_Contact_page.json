@@ -1,0 +1,232 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "PLS - 08 - Contact page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"Contact\")]"
+        },
+        {
+          "selector": "a[href*=\"/contact-us/\"] > .menu-text"
+        },
+        {
+          "selector": "//a[contains(text(), \"Contact\")]"
+        },
+        {
+          "selector": "a[href*=\"/contact-us/\"]"
+        }
+      ]
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "#form-field-name"
+        },
+        {
+          "selector": "#field116436c9431-03"
+        }
+      ],
+      "value": "{{firstName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "#form-field-field_a21cf9d"
+        },
+        {
+          "selector": "#field116433b1450-0a"
+        }
+      ],
+      "value": "{{lastName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": "div.elementor-field-type-text.elementor-field-group.elementor-column:nth-of-type(3) > input[type=\"text\"].elementor-field.elementor-field-textual"
+        },
+        {
+          "selector": "#field116438d0074-d7"
+        }
+      ],
+      "value": "{{professionalTitle}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": "#form-field-email"
+        },
+        {
+          "selector": "#field11643a07267-04"
+        }
+      ],
+      "value": "{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "input[title=\"Only numbers and phone characters (#, -, *, etc) are accepted.\"]"
+        },
+        {
+          "selector": "#field116436ed816-6f"
+        }
+      ],
+      "value": "{{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "div.elementor-field-type-text.elementor-field-group.elementor-column:nth-of-type(6) > input[type=\"text\"].elementor-field.elementor-field-textual"
+        },
+        {
+          "selector": "#field1164301677e-26"
+        }
+      ],
+      "value": "{{subject}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "#form-field-message"
+        },
+        {
+          "selector": "#field116436987af-f5"
+        }
+      ],
+      "value": "{{message}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"Send\")]"
+        },
+        {
+          "selector": ".elementor-button-text"
+        },
+        {
+          "selector": "//span[contains(text(), \"Submit\")]"
+        },
+        {
+          "selector": "button > span.kt-btn-inner-text"
+        }
+      ]
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const element = document.querySelector('.elementor-message')\n\nreturn element !== null\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": ".elementor-message"
+        },
+        {
+          "selector": ".kb-adv-form-message.kb-adv-form-success"
+        }
+      ],
+      "value": "Your submission was successful."
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const element = document.querySelector('.kb-adv-form-message.kb-adv-form-success')\n\nreturn element !== null"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": ".elementor-message"
+        },
+        {
+          "selector": ".kb-adv-form-message.kb-adv-form-success"
+        }
+      ],
+      "value": "Submission Success, Thanks for getting in touch!"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "67b7903204f525bbb2ff6e46",
+    "suiteId": "67b7870c2abcf638e941971e",
+    "suiteName": "PLS - Basic WooCommerce Tests"
+  }
+}

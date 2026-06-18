@@ -1,0 +1,180 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "FunnelKit path",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": ".bwf-inner-col > h2.bwf-adv-heading.bwf-width-default:nth-of-type(2)",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return '{{upsell}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": ".bwf-7b44ef41 > .wfocu-product-attr-wrapper > form > div > table.variations > tbody > tr > td.value > select[id=\"frequency\"][name=\"attribute_frequency\"]"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return '{{upsell}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": ".bwf-7b44ef41 > .wfocu-product-attr-wrapper > form > div > table.variations > tbody > tr > td.value > select[id=\"frequency\"][name=\"attribute_frequency\"]",
+      "value": "Annually"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "return '{{upsell}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": ".wfocu_variable_price_sale > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "span.wfocu-sale-price > span > span.woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "div.bwf-upsell-offer-wrap.wfocu-price-wrapper > div > div > div > span > span.wfocu-sale-price > span"
+        }
+      ],
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "return '{{upsell}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": ".recurring_details_wrap > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "div.recurring_details_wrap > span.woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "div.recurring_details_wrap > span.rec_price"
+        }
+      ],
+      "value": "",
+      "variableName": "totalPrice"
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "return '{{upsell}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": ".subscription-details",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "return '{{upsell}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "let days = document.querySelector('.subscription-details')\ndays = days.innerText\ndays = days.match(/\\d+/g)\n\nif (!days) {\n    days = ['']\n}\n\nreturn days[0]",
+      "variableName": "trial"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return '{{upsell}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "a.bwf-btn.solid.wfocu_upsell > .bwf-btn-inner-text",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return '{{upsell}}' === 'no' || '{{upsell}}' === ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "a.bwf-btn.solid.wfocu_skip_offer > .bwf-btn-inner-text",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 9,
+      "target": "#wfocuswal-content > img",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 10,
+      "target": "#wfocuswal-content > img",
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69e767f4fde844e9f2facd66",
+    "suiteId": "663cb8421aac3ea14f224fb2",
+    "suiteName": "Open Studio - Common steps"
+  }
+}

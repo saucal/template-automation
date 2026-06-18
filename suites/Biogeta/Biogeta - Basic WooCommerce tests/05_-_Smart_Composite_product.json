@@ -1,0 +1,359 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "05 - Smart Composite product",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "68235472ab4ff4354d168578",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "a[href=\"/produkt/home-harmonizer/\"] > .elementor-button-content-wrapper > .elementor-button-text"
+        },
+        {
+          "selector": "a[href*=\"home-harmonizer/\"] > .elementor-button-content-wrapper > .elementor-button-text"
+        }
+      ]
+    },
+    {
+      "command": "open",
+      "condition": {
+        "statement": "return !window.location.href.includes('produkt/home-harmonizer/')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "{{startUrl}}de/produkt/home-harmonizer/",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "h1.product_title",
+      "value": "",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": ".price > ins > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": ".price > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": ".wooco_component_product > div > div > div > div:nth-of-type(3) > div:nth-of-type(1)",
+      "value": "",
+      "variableName": "prod_desc2"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "div:nth-of-type(2) > span:nth-of-type(1) > ins > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "div:nth-of-type(2) > span:nth-of-type(1) > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "",
+      "variableName": "unitPrice2"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": ".wooco_component_product > div > div > div > .wooco-qty-wrap > .wooco-qty-input > .wooco_component_product_qty_btn.wooco_component_product_qty_plus.wooco-plus"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": ".wooco_component_product > div > div > div > div:nth-of-type(1) > span"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "#wooco_component_product_select_3 > div > a > small.dd-desc"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": "//label[contains(text(), \"BALANCE ANHÄNGER\")]"
+        },
+        {
+          "selector": "#wooco_component_product_select_3 > .dd-options.dd-click-off-close > li:nth-of-type(2) > a.dd-option > label.dd-option-text"
+        }
+      ]
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "#wooco_component_product_select_3 > div > a > label",
+      "value": "",
+      "variableName": "prod_desc3"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "const prod_desc3 = '{{prod_desc3}}'.split('-')[0].trim();\n\nreturn prod_desc3",
+      "variableName": "prod_desc3"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": [
+        {
+          "selector": "div > a > small.dd-desc > span:nth-of-type(1) > ins > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "div > a > small.dd-desc > span:nth-of-type(1) > .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "",
+      "variableName": "unitPrice3"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "#wooco_component_product_select_4 > div > a > small.dd-desc"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": [
+        {
+          "selector": "//label[contains(text(), \"DETOX PLATTE\")]"
+        },
+        {
+          "selector": "#wooco_component_product_select_4 > .dd-options.dd-click-off-close > li:nth-of-type(2) > a.dd-option > label.dd-option-text"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": ".wooco_component.wooco_component_4 > .wooco_component_product > .wooco_component_product_qty.wooco-qty-wrap > .wooco-qty-input > .wooco_component_product_qty_btn.wooco_component_product_qty_plus.wooco-plus"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "#wooco_component_product_select_4 > div > a > label",
+      "value": "",
+      "variableName": "prod_desc4"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": [
+        {
+          "selector": "#wooco_component_product_select_4 > div > a > small.dd-desc > span:nth-of-type(1) > ins > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "#wooco_component_product_select_4 > div > a > small.dd-desc > span:nth-of-type(1) > .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "",
+      "variableName": "unitPrice4"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "#wooco_component_product_select_5 > div > a > label"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": [
+        {
+          "selector": "//label[contains(text(), \"1 × ELEKTROSMOG  minimieren - Video-Kurs + E-Book\")]"
+        },
+        {
+          "selector": "#wooco_component_product_select_5 > .dd-options.dd-click-off-close > li:nth-of-type(2) > a.dd-option > label.dd-option-text"
+        }
+      ]
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "#wooco_component_product_select_5 > div > a > label",
+      "value": "",
+      "variableName": "prod_desc5"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "",
+      "value": "let prod_desc5 = '{{prod_desc5}}'.replace('1 × ','')\n\nreturn prod_desc5",
+      "variableName": "prod_desc5"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": [
+        {
+          "selector": "#wooco_component_product_select_5 > div > a > small.dd-desc > span:nth-of-type(1) > ins > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "#wooco_component_product_select_5 > div > a > small.dd-desc > span:nth-of-type(1) > .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "",
+      "variableName": "unitPrice5"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": [
+        {
+          "selector": ".wooco_total > ins > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": ".wooco_total > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "",
+      "variableName": "totalProd"
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "",
+      "value": "let unitPrice = parseFloat('{{unitPrice}}'.replace('{{Symbol}}','').replace('.','').replace(',','.').trim())\nlet unitPrice2 = parseFloat('{{unitPrice2}}'.replace('{{Symbol}}','').replace('.','').replace(',','.').trim())\nlet unitPrice3 = parseFloat('{{unitPrice3}}'.replace('{{Symbol}}','').replace('.','').replace(',','.').trim())\nlet unitPrice4 = parseFloat('{{unitPrice4}}'.replace('{{Symbol}}','').replace('.','').replace(',','.').trim())\nlet unitPrice5 = parseFloat('{{unitPrice5}}'.replace('{{Symbol}}','').replace('.','').replace(',','.').trim())\nlet totalProd = parseFloat('{{totalProd}}'.replace('{{Symbol}}','').replace('.','').replace(',','.').trim())\n\nlet totalProd2 = Number((unitPrice + unitPrice2 + unitPrice3 + unitPrice4 + unitPrice5).toFixed(2))\n\nreturn totalProd === totalProd2\n",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": ".price > ins > .woocommerce-Price-amount.amount",
+      "value": "{{totalProd}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68238ea4b3e7bdebe92d90ea",
+    "suiteId": "682351aaab4ff4354d15c22a",
+    "suiteName": "Biogeta - Basic WooCommerce tests"
+  }
+}

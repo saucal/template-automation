@@ -1,0 +1,163 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "67b7870c2abcf638e941971e",
+    "abortOnTestFailure": false,
+    "autoRetry": true,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2025-02-20T19:48:28.429Z",
+    "details": "",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "67b786ec04f525bbb2fdc6ab",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "PLS - Basic WooCommerce Tests",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://pls-maintenance.mystagingwebsite.com/",
+    "testCount": 16,
+    "testFrequency": 0,
+    "viewportSize": {
+      "width": 1440,
+      "height": 900
+    },
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "67b793502abcf638e943f965"
+      },
+      {
+        "name": "lastName",
+        "value": "Testing",
+        "private": false,
+        "_id": "67b793502abcf638e943f966"
+      },
+      {
+        "name": "firstName3",
+        "value": "QA3",
+        "private": false,
+        "_id": "683a144dc637c9246e25f645"
+      },
+      {
+        "name": "lastName2",
+        "value": "{{alphanumeric}}-2",
+        "private": false,
+        "_id": "683a144dc637c9246e25f646"
+      },
+      {
+        "name": "lastName3",
+        "value": "{{alphanumeric}}-3",
+        "private": false,
+        "_id": "683a144dc637c9246e25f647"
+      },
+      {
+        "name": "email2",
+        "value": "qa+gi_part2-{{alphanumeric}}@saucal.com",
+        "private": false,
+        "_id": "683a144dc637c9246e25f648"
+      },
+      {
+        "name": "email3",
+        "value": "qa+gi_part3-{{alphanumeric}}@saucal.com",
+        "private": false,
+        "_id": "683a144dc637c9246e25f649"
+      },
+      {
+        "name": "phone2",
+        "value": "432-234-2344",
+        "private": false,
+        "_id": "683a144dc637c9246e25f64a"
+      },
+      {
+        "name": "phone3",
+        "value": "123-765-0988",
+        "private": false,
+        "_id": "683a144dc637c9246e25f64b"
+      },
+      {
+        "name": "credentials2",
+        "value": "RDA",
+        "private": false,
+        "_id": "683a144dc637c9246e25f64c"
+      },
+      {
+        "name": "credentials3",
+        "value": "FTD",
+        "private": false,
+        "_id": "683a144dc637c9246e25f64d"
+      },
+      {
+        "name": "professionalTitle",
+        "value": "QA Engineer",
+        "private": false,
+        "_id": "67b793502abcf638e943f967"
+      },
+      {
+        "name": "phone",
+        "value": "1231231234",
+        "private": false,
+        "_id": "67b793502abcf638e943f968"
+      },
+      {
+        "name": "subject",
+        "value": "Testing Subject",
+        "private": false,
+        "_id": "67b793502abcf638e943f969"
+      },
+      {
+        "name": "message",
+        "value": "Testing message",
+        "private": false,
+        "_id": "67b793502abcf638e943f96a"
+      },
+      {
+        "name": "project",
+        "value": "pls",
+        "private": false,
+        "_id": "67b7a3a604f525bbb202b223"
+      },
+      {
+        "name": "password",
+        "value": "xOvH5u7k0sSz41eW1kUZDBcR830BwhdhQS",
+        "private": false,
+        "_id": "67b7ccc704f525bbb20a1acc"
+      },
+      {
+        "name": "password2",
+        "value": "xOvH5u7k0sSz41eW1kUZDBcR830BwhdhQ2",
+        "private": true,
+        "_id": "67b7ccc704f525bbb20a1acd"
+      },
+      {
+        "name": "firstName2",
+        "value": "QA2",
+        "private": false,
+        "_id": "683a144dc637c9246e25f644"
+      },
+      {
+        "name": "multiSteps",
+        "value": "yes",
+        "private": false,
+        "_id": "6a0ffdf02b101e5b0e359554"
+      }
+    ]
+  }
+}

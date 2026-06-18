@@ -1,0 +1,209 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Select PayPal",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "PayPal",
+      "variableName": "paymentMethod"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "#payment_method_ppcp-gateway"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "iframe[title=\"PayPal\"] img.paypal-logo.paypal-logo-paypal"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 4,
+      "target": "#backToInputEmailLink",
+      "value": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "input#email"
+        },
+        {
+          "selector": "input[name='login_email']"
+        },
+        {
+          "selector": "input#login_email"
+        }
+      ],
+      "value": "{{payPalUser}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "button#btnNext"
+        },
+        {
+          "selector": "button[name='btnNext']"
+        },
+        {
+          "selector": "//button[contains(text(),'Next')]"
+        },
+        {
+          "selector": "#publicCredentialSubmitForm > button"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "//a[contains(text(),'Log in with a password instead')]"
+        },
+        {
+          "selector": "//button[contains(text(),'Use Password Instead')]"
+        }
+      ],
+      "value": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "div > input#password"
+        },
+        {
+          "selector": "input[name='login_password']"
+        }
+      ],
+      "value": "{{payPalPass}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "button[data-atomic-wait-intent='Submit_Password']"
+        },
+        {
+          "selector": "button#btnLogin"
+        },
+        {
+          "selector": "button[name='btnLogin']"
+        },
+        {
+          "selector": "//button[contains(text(), \"Log In\")][1]"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": "[data-testid=\"submit-button-initial\"]"
+        },
+        {
+          "selector": "//button[contains(text(), \"Complete Purchase\")]"
+        },
+        {
+          "selector": "#payment-submit-btn"
+        },
+        {
+          "selector": "#one-time-cta > div > div > div.pe-2"
+        },
+        {
+          "selector": "//button[@id='one-time-cta']/div/div/div[contains(text(), \"Pay\")]"
+        }
+      ]
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 11,
+      "target": ".Spinner_spinner_2t_Ob",
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "681b86848723f313c7b5a815",
+    "suiteId": "681a7c585a5ac9fb5686c74e",
+    "suiteName": "BM - Common steps"
+  }
+}

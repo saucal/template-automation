@@ -1,0 +1,248 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "BLU-001-078 - 1",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "64b68ea149da953edbec06c1",
+      "variableName": ""
+    },
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "{{startUrl}}?r=1",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "let element1 = document.querySelector(\"#woocommerce-bluesnap-multicurrency-js\")\nlet element2 = document.querySelector(\"#woocommerce-bluesnap-payment-request-js\")\nlet element3 = document.querySelector(\"#woocommerce-bluesnap-gateway-general-js\")\nlet element4 = document.querySelector(\"#woocommerce-bluesnap-gateway-general-css\")\n\n\nreturn element1 === null && element2 === null && element3 === null && element4 === null\n",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "a[href*=\"/shop\"]",
+      "value": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "65cb6688d76b6bca5f578635",
+      "variableName": ""
+    },
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "{{startUrl}}shop/?r=1",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "let element1 = document.querySelector(\"#woocommerce-bluesnap-multicurrency-js\")\nlet element2 = document.querySelector(\"#woocommerce-bluesnap-payment-request-js\")\nlet element3 = document.querySelector(\"#woocommerce-bluesnap-gateway-general-js\")\nlet element4 = document.querySelector(\"#woocommerce-bluesnap-gateway-general-css\")\n\n\nreturn element1 === null && element2 === null && element3 === null && element4 === null\n",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "a[href*=\"?add-to-cart=\"]"
+        },
+        {
+          "selector": "//a[contains(text(),'Add to cart')]"
+        }
+      ],
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": "a[href*=\"/cart\"]"
+        },
+        {
+          "selector": "//a[contains(text(),'View cart')]"
+        },
+        {
+          "selector": "//a[contains(text(),'Cart')]"
+        }
+      ],
+      "value": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "65cb6688d76b6bca5f578635",
+      "variableName": ""
+    },
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "{{startUrl}}cart/?r=1",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "",
+      "value": "let element1 = document.querySelector(\"#woocommerce-bluesnap-multicurrency-js\")\nlet element2 = document.querySelector(\"#woocommerce-bluesnap-payment-request-js\")\nlet element3 = document.querySelector(\"#woocommerce-bluesnap-gateway-general-js\")\nlet element4 = document.querySelector(\"#woocommerce-bluesnap-gateway-general-css\")\n\n\nreturn element1 === null && element2 === null && element3 === null && element4 === null\n",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "a[href*=\"/checkout\"]",
+      "value": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "",
+      "value": "65cb6688d76b6bca5f578635",
+      "variableName": ""
+    },
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "",
+      "value": "{{startUrl}}checkout/?r=1",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "",
+      "value": "let element1 = document.querySelector(\"#woocommerce-bluesnap-multicurrency-js\")\nlet element2 = document.querySelector(\"#woocommerce-bluesnap-payment-request-js\")\nlet element3 = document.querySelector(\"#woocommerce-bluesnap-gateway-general-js\")\nlet element4 = document.querySelector(\"#woocommerce-bluesnap-gateway-general-css\")\n\n\nreturn element1 === null && element2 === null && element3 !== null && element4 !== null\n",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69049f5a1a085ce44e1ff64a",
+    "suiteId": "69049f5a1a085ce44e1ff60c",
+    "suiteName": "BlueSnap - CC - HPF, Vaulted Shopper & Refunds"
+  }
+}

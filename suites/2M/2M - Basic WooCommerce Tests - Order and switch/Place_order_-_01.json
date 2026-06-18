@@ -1,0 +1,990 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Place order - 01",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "{{email}}",
+      "variableName": "username"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "68a33bf5753c2677767eb934",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "select.wcpbc-currency-switcher",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "eval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "let select = document.querySelector('select.wcpbc-currency-switcher');\nlet usdOption = Array.from(select.options).find(option => option.getAttribute('data-currency') === 'USD' || option.text.trim() === 'USD');\nif (usdOption) {\n    select.value = usdOption.value;\n    select.dispatchEvent(new Event('change'));\n}",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "select.wcpbc-currency-switcher > option[data-currency='USD'][selected='selected']",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "form[action*=\"/product/user-license-premium/\"] > .single_variation_wrap > .woocommerce-variation-add-to-cart.variations_button > .quantity > input[name=\"quantity\"][aria-label=\"Product quantity\"][type=\"number\"].input-text.qty.text",
+      "value": "{{qty1}}"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "form[action*=\"/product/user-license-standard/\"] > .single_variation_wrap > .woocommerce-variation-add-to-cart.variations_button > .quantity > input[name=\"quantity\"][aria-label=\"Product quantity\"][type=\"number\"].input-text.qty.text",
+      "value": "{{qty2}}"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "form[action*=\"/product/white-label-mobile-app-ios/\"] > .single_variation_wrap > .woocommerce-variation-add-to-cart.variations_button > .quantity > input[name=\"quantity\"][aria-label=\"Product quantity\"][type=\"number\"].input-text.qty.text",
+      "value": "{{qty3}}"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "form[action*=\"/product/sql-sync/\"] > .single_variation_wrap > .woocommerce-variation-add-to-cart.variations_button > .quantity > input[name=\"quantity\"][aria-label=\"Product quantity\"][type=\"number\"].input-text.qty.text",
+      "value": "{{qty4}}"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "li.mandatory-product:nth-of-type(1) > .product-custom-price > .totals-per-line",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "li.mandatory-product:nth-of-type(1) > .product-custom-price > .totals-per-line > .changes",
+      "value": "",
+      "variableName": "priceItem1"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "li.mandatory-product:nth-of-type(2) > .product-custom-price > .totals-per-line > .changes",
+      "value": "",
+      "variableName": "priceItem2"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "li.optional-product:nth-of-type(4) > .product-custom-price > .totals-per-line > .changes",
+      "value": "",
+      "variableName": "priceItem3"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "li.optional-product:nth-of-type(4) > .subs-details > .totals-per-line > .changes",
+      "value": "",
+      "variableName": "signUpItem3"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "li.optional-product:nth-of-type(6) > .product-custom-price > .totals-per-line > .changes",
+      "value": "",
+      "variableName": "priceItem4"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": ".subtotal-prices > .totals-per-line > .changes",
+      "value": "",
+      "variableName": "recurringTotal"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": ".sign-up-fee-prices > .totals-per-line > .changes",
+      "value": "",
+      "variableName": "signUpFee"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": ".total-prices > .totals-per-line > .changes",
+      "value": "",
+      "variableName": "total"
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "",
+      "value": "let unit = `{{priceItem1}}`;\nlet unit2 = `{{priceItem2}}`;\nlet unit3 = `{{priceItem3}}`;\nlet signUpItem3 = `{{signUpItem3}}`;\nlet unit4 = `{{priceItem4}}`;\nlet subtotal = `{{recurringTotal}}`;\nlet totalsignUp = `{{signUpFee}}`\nlet total = `{{total}}`;\n\nunit = unit.replace(\",\",\"\").trim();\nunit2 = unit2.replace(\",\",\"\").trim();\nunit3 = unit3.replace(\",\",\"\").trim();\nsignUpItem3 = signUpItem3.replace(\",\",\"\").trim();\nunit4 = unit4.replace(\",\",\"\").trim();\nsubtotal = subtotal.replace(\",\",\"\").trim();\ntotalsignUp = totalsignUp.replace(\",\",\"\").trim();\ntotal = total.replace(\",\",\"\").trim();\n\nunit = Number(unit.replace(\"$\",\"\"));\nunit2 = Number(unit2.replace(\"$\",\"\"));\nunit3 = Number(unit3.replace(\"$\",\"\"));\nsignUpItem3 = Number(signUpItem3.replace(\"$\",\"\"));\nunit4 = Number(unit4.replace(\"$\",\"\"));\nsubtotal = Number(subtotal.replace(\"$\",\"\"));\ntotalsignUp = Number(totalsignUp.replace(\"$\",\"\"));\ntotal = Number(total.replace(\"$\",\"\"));\n\nlet total2 = unit+unit2+unit3+unit4+signUpItem3;\ntotal2 = Number(total2.toFixed(2));\n\nlet subtotal2 = unit+unit2+unit3+unit4;\nsubtotal2 = Number(subtotal2.toFixed(2));\n\n\nreturn total === total2 && subtotal === subtotal2 && signUpItem3 === totalsignUp",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "div.entry-content > div:nth-child(2) > div > div.custom-subscription-page > ul > li:nth-child(1) > div.component_title_wrapper.col-sm-7 > h4 > span.step_title",
+      "value": "",
+      "variableName": "prod_desc1"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "li.mandatory-product:nth-of-type(2) > .component_title_wrapper > h4.step_title_wrapper.component_title > .step_title",
+      "value": "",
+      "variableName": "prod_desc2"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "li.optional-product:nth-of-type(4) > .component_title_wrapper > h4.step_title_wrapper.component_title > .step_title",
+      "value": "",
+      "variableName": "prod_desc3"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "li.optional-product:nth-of-type(6) > .component_title_wrapper > h4.step_title_wrapper.component_title > .step_title",
+      "value": "",
+      "variableName": "prod_desc4"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": [
+        {
+          "selector": "xpath=//button[contains(text(), \"Confirm & Pay\")]"
+        },
+        {
+          "selector": "#submit-all-products"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "",
+      "value": "6275149f7cba5684cb53e55c",
+      "variableName": ""
+    },
+    {
+      "command": "eval",
+      "condition": {
+        "statement": "const input = document.querySelector('input#aim');\n\nreturn !input.value || input.value.trim() === ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "",
+      "value": "const input = document.querySelector('input#aim');\nconst nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;\nnativeInputValueSetter.call(input, '6ca64cf55317426785ba330a8e6b71b456655');\ninput.dispatchEvent(new Event('input', { bubbles: true }));",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "tr.cart_item:nth-of-type(1) > td.product-name",
+      "value": "{{prod_desc1}} - Monthly  × {{qty1}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "tr.cart_item:nth-of-type(2) > td.product-name",
+      "value": "{{prod_desc2}} - Monthly  × {{qty2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "tr.cart_item:nth-of-type(3) > td.product-name",
+      "value": "{{prod_desc3}} - Monthly  × {{qty3}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": "tr.cart_item:nth-of-type(4) > td.product-name",
+      "value": "{{prod_desc4}} - Monthly  × {{qty4}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": "tr.cart_item:nth-of-type(1) > td.product-total",
+      "value": "",
+      "variableName": "total1"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": "tr.cart_item:nth-of-type(2) > td.product-total",
+      "value": "",
+      "variableName": "total2"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": "tr.cart_item:nth-of-type(3) > td.product-total",
+      "value": "",
+      "variableName": "total3"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": "tr.cart_item:nth-of-type(4) > td.product-total",
+      "value": "",
+      "variableName": "total4"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 37,
+      "target": "td > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "subtotalOrder"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 38,
+      "target": "strong > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "totalOrder"
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 39,
+      "target": "",
+      "value": "function calculateExtraToPay(price, qty) {\n    // Example cart item\n    const productPrice = price / qty; // Price of the product\n    const cartQuantity = qty;\n // Subscription interval (e.g., monthly = 1, quarterly = 3)\n\n    // Get the number of days in the current month\n    const daysInCycle = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();\n\n    // Calculate the days until the next payment, assuming renewal is always on the 25th\n    const daysUntilNextPayment = getDaysUntilNextPayment();\n\n    // Calculate the prorated extra amount to pay\n    const extraToPay = (Math.round((productPrice / daysInCycle) * daysUntilNextPayment *100)/100) * cartQuantity\n    console.log(extraToPay)\n    return extraToPay;\n}\n\n// Function to calculate the remaining days until the next 25th\nfunction getDaysUntilNextPayment() {\n    const today = new Date();\n    const currentYear = today.getFullYear();\n    const currentMonth = today.getMonth();\n    \n    // Set the next payment date to the 25th of the current or next month\n    const nextPaymentDate = new Date(currentYear, currentMonth, 25);\n    \n    // If today is after the 25th, set the next payment date to the 25th of the next month\n    if (today.getDate() > 25) {\n        nextPaymentDate.setMonth(currentMonth + 1);\n    }\n\n    // Calculate the difference in days\n    const differenceInTime = nextPaymentDate - today;\n    const differenceInDays = Math.ceil(differenceInTime / (1000 * 3600 * 24)); // Convert milliseconds to days\n    \n    return differenceInDays;\n}\n\nlet item1 = [{{priceItem1}}, {{qty1}}, '{{total1}}']\nlet item2 = [{{priceItem2}}, {{qty2}}, '{{total2}}']\nlet item3 = [{{priceItem3}}, {{qty3}}, '{{total3}}']\nlet item4 = [{{priceItem4}}, {{qty4}}, '{{total4}}']\n\nlet extra1 = calculateExtraToPay(item1[0], item1[1]);\nlet extra2 = calculateExtraToPay(item2[0], item2[1]);\nlet extra3 = (calculateExtraToPay(item3[0], item3[1]) + {{signUpItem3}});\nlet extra4 = calculateExtraToPay(item4[0], item4[1]);\nlet totalPay = Math.round( ( extra1 + extra2 + extra3 + extra4 ) * 100) / 100\n\nconsole.log('totalpay: ', totalPay)\n\nreturn '$'+totalPay.toFixed(2) === '{{subtotalOrder}}' &&\n    '$'+totalPay.toFixed(2) === '{{totalOrder}}' &&\n    ('${{priceItem1}}  on the 25th of each month, $'+extra1.toFixed(2)+' for the current billing cycle').replaceAll(/\\s/g, '').trim() === item1[2].replaceAll(/\\s/g, '').trim() &&\n    ('${{priceItem2}}  on the 25th of each month, $'+extra2.toFixed(2)+' for the current billing cycle').replaceAll(/\\s/g, '').trim() ===item2[2].replaceAll(/\\s/g, '').trim() &&\n    ('${{priceItem3}}  on the 25th of each month and a ${{signUpItem3}} sign-up fee, $'+extra3.toFixed(2)+' for the current billing cycle').replaceAll(/\\s/g, '').trim() === item3[2].replaceAll(/\\s/g, '').trim() &&\n    ('${{priceItem4}}  on the 25th of each month, $'+extra4.toFixed(2)+' for the current billing cycle').replaceAll(/\\s/g, '').trim() === item4[2].replaceAll(/\\s/g, '').trim()\n    \n    \n    ",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 40,
+      "target": "tr.cart-subtotal:nth-of-type(4) > td > .woocommerce-Price-amount.amount",
+      "value": "${{recurringTotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 41,
+      "target": "tr.order-total:nth-of-type(5) > td > strong > .woocommerce-Price-amount.amount",
+      "value": "${{recurringTotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 42,
+      "target": "iframe[src*=\"js.stripe.com\"] input[name=\"number\"]",
+      "value": "4242 4242 4242 4242",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 43,
+      "target": "iframe[src*=\"js.stripe.com\"] input[name=\"expiry\"]",
+      "value": "1229",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 44,
+      "target": "iframe[src*=\"js.stripe.com\"] input[name=\"cvc\"]",
+      "value": "123",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 45,
+      "target": "",
+      "value": "62753765c5f501e7105625b8",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 46,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 47,
+      "target": ".order > strong",
+      "value": "",
+      "variableName": "orderNumber"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 48,
+      "target": "strong > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{totalOrder}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 49,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(1) > td.woocommerce-table__product-name.product-name",
+      "value": "{{prod_desc1}} - Monthly × {{qty1}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 50,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(1) > td.woocommerce-table__product-total.product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "item1Pay"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 51,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(2) > td.woocommerce-table__product-name.product-name",
+      "value": "{{prod_desc2}} - Monthly × {{qty2}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 52,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(2) > td.woocommerce-table__product-total.product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "item2Pay"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 53,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(3) > td.woocommerce-table__product-name.product-name",
+      "value": "{{prod_desc3}} - Monthly × {{qty3}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 54,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(3) > td.woocommerce-table__product-total.product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "item3Pay"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 55,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(4) > td.woocommerce-table__product-name.product-name",
+      "value": "{{prod_desc4}} - Monthly × {{qty4}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 56,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(4) > td.woocommerce-table__product-total.product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "item4Pay"
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 57,
+      "target": "",
+      "value": "function calculateExtraToPay(price, qty) {\n    // Example cart item\n    const productPrice = price / qty; // Price of the product\n    const cartQuantity = qty;\n // Subscription interval (e.g., monthly = 1, quarterly = 3)\n\n    // Get the number of days in the current month\n    const daysInCycle = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();\n\n    // Calculate the days until the next payment, assuming renewal is always on the 25th\n    const daysUntilNextPayment = getDaysUntilNextPayment();\n\n    // Calculate the prorated extra amount to pay\n    const extraToPay = (Math.round((productPrice / daysInCycle) * daysUntilNextPayment *100)/100) * cartQuantity\n\n    return extraToPay;\n}\n\n// Function to calculate the remaining days until the next 25th\nfunction getDaysUntilNextPayment() {\n    const today = new Date();\n    const currentYear = today.getFullYear();\n    const currentMonth = today.getMonth();\n    \n    // Set the next payment date to the 25th of the current or next month\n    const nextPaymentDate = new Date(currentYear, currentMonth, 25);\n    \n    // If today is after the 25th, set the next payment date to the 25th of the next month\n    if (today.getDate() > 25) {\n        nextPaymentDate.setMonth(currentMonth + 1);\n    }\n\n    // Calculate the difference in days\n    const differenceInTime = nextPaymentDate - today;\n    const differenceInDays = Math.ceil(differenceInTime / (1000 * 3600 * 24)); // Convert milliseconds to days\n    \n    return differenceInDays;\n}\n\nlet item1 = [{{priceItem1}}, {{qty1}}]\nlet item2 = [{{priceItem2}}, {{qty2}}]\nlet item3 = [{{priceItem3}}, {{qty3}}]\nlet item4 = [{{priceItem4}}, {{qty4}}]\nlet extra1 = calculateExtraToPay(item1[0], item1[1]);\nlet extra2 = calculateExtraToPay(item2[0], item2[1]);\nlet extra3 = calculateExtraToPay(item3[0], item3[1]) + {{signUpItem3}};\nlet extra4 = calculateExtraToPay(item4[0], item4[1]);\n\n\n    \n\n\nreturn '$'+extra1.toFixed(2) === '{{item1Pay}}' &&\n        '$'+extra2.toFixed(2) === '{{item2Pay}}' && \n        '$'+extra3.toFixed(2) === '{{item3Pay}}' &&\n        '$'+extra4.toFixed(2) === '{{item4Pay}}'\n    \n    ",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 58,
+      "target": "tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount",
+      "value": "{{subtotalOrder}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 59,
+      "target": "tfoot > tr:nth-of-type(3) > td > .woocommerce-Price-amount.amount",
+      "value": "{{totalOrder}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 60,
+      "target": "td.subscription-total > .woocommerce-Price-amount.amount",
+      "value": "${{recurringTotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 61,
+      "target": "td.subscription-status",
+      "value": "Active"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 62,
+      "target": "div > div > div > section.woocommerce-order-details > p:nth-child(3)",
+      "value": "License Key:\n{{aim}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 63,
+      "target": "div > div > div > section.woocommerce-order-details > p:nth-child(4)",
+      "value": "PO Number:\n{{PONumber}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 64,
+      "target": ".woocommerce-customer-details > address",
+      "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{city}}, {{state}} {{zipCode}}\n{{countryComplete}}\n\n{{phone}}\n\n{{username}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 65,
+      "target": [
+        {
+          "selector": "xpath=//a[contains(text(), \"View\")]"
+        },
+        {
+          "selector": "a[href*=\"/my-account/view-subscription/\"].woocommerce-button"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 66,
+      "target": "table.shop_table.subscription_details > tbody > tr:nth-of-type(1) > td:nth-of-type(2)",
+      "value": "Active",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 67,
+      "target": "tr.order_item:nth-of-type(1) > td.product-name",
+      "value": "{{prod_desc1}} - Monthly × {{qty1}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 68,
+      "target": "tr.order_item:nth-of-type(1) > td.product-total > .woocommerce-Price-amount.amount",
+      "value": "${{priceItem1}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 69,
+      "target": "tr.order_item:nth-of-type(2) > td.product-name",
+      "value": "{{prod_desc2}} - Monthly × {{qty2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 70,
+      "target": "tr.order_item:nth-of-type(2) > td.product-total > .woocommerce-Price-amount.amount",
+      "value": "${{priceItem2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 71,
+      "target": "tr.order_item:nth-of-type(3) > td.product-name",
+      "value": "{{prod_desc3}} - Monthly × {{qty3}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 72,
+      "target": "tr.order_item:nth-of-type(3) > td.product-total > .woocommerce-Price-amount.amount",
+      "value": "${{priceItem3}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 73,
+      "target": "tr.order_item:nth-of-type(4) > td.product-name",
+      "value": "{{prod_desc4}} - Monthly × {{qty4}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 74,
+      "target": "tr.order_item:nth-of-type(4) > td.product-total > .woocommerce-Price-amount.amount",
+      "value": "${{priceItem4}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 75,
+      "target": "tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount",
+      "value": "${{recurringTotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 76,
+      "target": "tfoot > tr:nth-of-type(2) > td > .woocommerce-Price-amount.amount",
+      "value": "${{recurringTotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 77,
+      "target": ".woocommerce-customer-details > address",
+      "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{city}}, {{state}} {{zipCode}}\n{{countryComplete}}\n\n{{phone}}\n\n{{username}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 78,
+      "target": [
+        {
+          "selector": "xpath=//a[contains(text(), \"History\")]"
+        },
+        {
+          "selector": "a[href*=\"/my-account/orders/\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 79,
+      "target": ".woocommerce-Price-amount",
+      "value": "{{totalOrder}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 80,
+      "target": "td.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-status",
+      "value": "Completed",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 81,
+      "target": [
+        {
+          "selector": "xpath=//a[contains(text(), \"#{{orderNumber}}\")]"
+        },
+        {
+          "selector": "td.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-number > a[href*=\"/my-account/view-order/{{orderNumber}}/\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 82,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(1) > td.woocommerce-table__product-name.product-name",
+      "value": "{{prod_desc1}} - Monthly × {{qty1}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 83,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(1) > td.woocommerce-table__product-total.product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{item1Pay}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 84,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(2) > td.woocommerce-table__product-name.product-name",
+      "value": "{{prod_desc2}} - Monthly × {{qty2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 85,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(2) > td.woocommerce-table__product-total.product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{item2Pay}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 86,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(3) > td.woocommerce-table__product-name.product-name",
+      "value": "{{prod_desc3}} - Monthly × {{qty3}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 87,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(3) > td.woocommerce-table__product-total.product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{item3Pay}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 88,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(4) > td.woocommerce-table__product-name.product-name",
+      "value": "{{prod_desc4}} - Monthly × {{qty4}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 89,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(4) > td.woocommerce-table__product-total.product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{item4Pay}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 90,
+      "target": "tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount",
+      "value": "{{subtotalOrder}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 91,
+      "target": "tfoot > tr:nth-of-type(3) > td > .woocommerce-Price-amount.amount",
+      "value": "{{totalOrder}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 92,
+      "target": ".woocommerce-customer-details > address",
+      "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{city}}, {{state}} {{zipCode}}\n{{countryComplete}}\n\n{{phone}}\n\n{{username}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6705343c091814fe3c8bea1c",
+    "suiteId": "6705343c091814fe3c8bea04",
+    "suiteName": "2M - Basic WooCommerce Tests - Order and switch"
+  }
+}

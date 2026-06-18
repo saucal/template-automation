@@ -1,0 +1,243 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Check Order on My Account",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "return '{{upsellPrice}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "const unitPrice = parseFloat('{{unitPrice}}'.replace('$','').replace(',','').trim())\nconst upsellPrice = parseFloat('{{upsellPrice}}'.replace('$','').replace(',','').trim())\n\nconst amount = unitPrice + upsellPrice;\nconst usdFormatter = new Intl.NumberFormat('en-US', {\n  style: 'currency',\n  currency: 'USD'\n});\nconst subtotal = usdFormatter.format(amount);\n\nreturn subtotal\n\n",
+      "variableName": "subtotal"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "return '{{upsellPrice}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "const subtotal = parseFloat('{{subtotal}}'.replace('$','').replace(',','').trim())\nconst discount = parseFloat('{{discount}}'.replace('$','').replace(',','').trim())\n\nconst amount = (subtotal - discount) * 0.07;\nconst usdFormatter = new Intl.NumberFormat('en-US', {\n  style: 'currency',\n  currency: 'USD'\n});\nconst tax = usdFormatter.format(amount);\n\nreturn tax\n\n",
+      "variableName": "taxPrice"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "return '{{upsellPrice}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "const subtotal = parseFloat('{{subtotal}}'.replace('$','').replace(',','').trim())\nconst discount = parseFloat('{{discount}}'.replace('$','').replace(',','').trim())\nconst tax = parseFloat('{{taxPrice}}'.replace('$','').replace(',','').trim())\n\nconst amount = subtotal - discount + tax;\nconst usdFormatter = new Intl.NumberFormat('en-US', {\n  style: 'currency',\n  currency: 'USD'\n});\nconst total = usdFormatter.format(amount);\n\nreturn total\n\n",
+      "variableName": "total"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": ".woocommerce-notice",
+      "value": "Your order details:",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": ".order > strong",
+      "value": "",
+      "variableName": "orderNumber"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": ".email > strong",
+      "value": "{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "strong > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": ".method > strong",
+      "value": "{{paymentMethod}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(1) > td.woocommerce-table__product-name.product-name",
+      "value": "{{prod_desc}} × 4",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(1) > td.woocommerce-table__product-total.product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{upsellPrice}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(2) > td.woocommerce-table__product-name.product-name",
+      "value": "Fit Sweet Ice Cream Mix - {{flavor}} × 2",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{upsellPrice}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(2) > td.woocommerce-table__product-total.product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{upsellPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount",
+      "value": "{{subtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "tfoot > tr:nth-of-type(2) > td > .woocommerce-Price-amount.amount",
+      "value": "{{discount}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "tr:nth-of-type(3) > td",
+      "value": "Free shipping"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "tr:nth-of-type(4) > td > .woocommerce-Price-amount.amount",
+      "value": "{{taxPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "tr:nth-of-type(5) > td",
+      "value": "Credit Card"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "tr:nth-of-type(6) > td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": ".woocommerce-column.woocommerce-column--1 > address",
+      "value": "{{firstName}} {{lastName}}\n{{street}}\n{{street2}}\n{{city}}, {{state}} {{zipCode}}\n\n{{phone}}\n\n{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": ".woocommerce-column.woocommerce-column--2 > address",
+      "value": "{{firstName}} {{lastName2}}\n{{street3}}\n{{street4}}\n{{city}}, {{state}} {{zipCode}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6851d69415b3a1154915e1d1",
+    "suiteId": "6851d6c715b3a11549160778",
+    "suiteName": "Fit Creamery - Common steps"
+  }
+}

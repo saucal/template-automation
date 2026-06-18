@@ -1,0 +1,60 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "60abe823386331066da36ba7",
+    "abortOnTestFailure": false,
+    "autoRetry": true,
+    "browser": "chrome",
+    "dataSource": null,
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "6239b8e0aacde4b98746feb0",
+    "globalStepDelay": 250,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 0,
+    "maxWaitDelay": 15000,
+    "name": "BlueSnap - Common Steps for suites",
+    "persistVariables": false,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "",
+    "testCount": 182,
+    "testFrequency": 0,
+    "viewportSize": {
+      "width": 1280,
+      "height": 800
+    },
+    "dateCreated": "2021-05-24T17:53:39.208Z",
+    "language": null,
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "email",
+        "value": "qa+gi_order_{{alphanumeric}}@saucal.com",
+        "private": false,
+        "_id": "60c921201da0a93062c04c24"
+      },
+      {
+        "name": "emailReg",
+        "value": "qa+gi_reg_{{alphanumeric}}@saucal.com",
+        "private": false,
+        "_id": "60c921201da0a93062c04c25"
+      },
+      {
+        "name": "emailForgot",
+        "value": "qa+gi_forgot_{{alphanumeric}}@saucal.com",
+        "private": false,
+        "_id": "60c921201da0a93062c04c26"
+      }
+    ]
+  }
+}

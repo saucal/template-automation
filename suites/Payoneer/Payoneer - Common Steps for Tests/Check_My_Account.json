@@ -1,0 +1,153 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Check My Account",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "open",
+      "condition": {
+        "statement": "const transaction = '{{transaction}}'\n\nreturn transaction !== 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "{{startUrl}}cart/",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const transaction = '{{transaction}}'\n\nreturn transaction !== 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": ".woocommerce-info"
+        },
+        {
+          "selector": ".wc-block-cart__empty-cart__title"
+        }
+      ],
+      "value": "Your cart is currently empty",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const transaction = '{{transaction}}'\n\nreturn transaction === 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "69778cc365fd97d14e2468b9",
+      "variableName": ""
+    },
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "{{startUrl}}my-account/view-order/{{orderNumber}}/",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let producType = '{{prodType}}'\nconst transactionType = '{{transactionType}}'\nconst transaction = '{{transaction}}'\n\nreturn producType === 'download'\n        && transactionType === 'capture'\n        && transaction !== 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "mark.order-status",
+      "value": "Completed"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let producType = '{{prodType}}'\nconst transactionType = '{{transactionType}}'\nconst transaction = '{{transaction}}'\n\nreturn (producType === 'virtual' || producType === 'physical')\n        && transactionType === 'capture'\n        && transaction !== 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "mark.order-status",
+      "value": "Processing"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\nconst transaction = '{{transaction}}'\n\nreturn transactionType === 'authorize' && transaction !== 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "mark.order-status",
+      "value": "On hold"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const transaction = '{{transaction}}'\n\nreturn transaction === 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "mark.order-status",
+      "value": "Failed"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return !'{{blog}}'.includes('block') "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "tr:nth-of-type({{paymentIndex}}) > td",
+      "value": "{{paymentMethod}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "tr:nth-of-type({{totalIndex}}) > td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69778cc365fd97d14e2468a9",
+    "suiteId": "69778cc265fd97d14e24689f",
+    "suiteName": "Payoneer - Common Steps for Tests"
+  }
+}

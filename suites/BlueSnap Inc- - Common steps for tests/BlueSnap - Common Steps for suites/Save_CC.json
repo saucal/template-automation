@@ -1,0 +1,201 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Save CC",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "const element = document.querySelector('form.checkout.woocommerce-checkout , form#order_review')\nreturn \"{{saveCC}}\" === \"disabled\" && element !== null && element !== undefined"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "input#wc-bluesnap-new-payment-method",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "const element = document.querySelector('.wc-block-components-form.wc-block-checkout__form')\nreturn \"{{saveCC}}\" === \"disabled\" && element !== null && element !== undefined\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "div#radio-control-wc-payment-method-options-bluesnap__content > div.wc-block-components-payment-methods__save-card-info input",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return \"{{saveCC}}\" === \"disabled\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "input#createaccount"
+        },
+        {
+          "selector": ".wc-block-checkout__create-account > label > input"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "const element = document.querySelector('form.checkout.woocommerce-checkout , form#order_review')\nreturn \"{{saveCC}}\" === \"disabled\" && element !== null && element !== undefined"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "input#wc-bluesnap-new-payment-method",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "const element = document.querySelector('.wc-block-components-form.wc-block-checkout__form')\nreturn \"{{saveCC}}\" === \"disabled\" && element !== null && element !== undefined\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "div#radio-control-wc-payment-method-options-bluesnap__content > div.wc-block-components-payment-methods__save-card-info input",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return \"{{saveCC}}\" === \"disabled\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "input#createaccount"
+        },
+        {
+          "selector": ".wc-block-checkout__create-account > label > input"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return \"{{saveCC}}\" === \"disabled\""
+      },
+      "optional": false,
+      "private": true,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "#account_password"
+        },
+        {
+          "selector": ".wc-block-components-address-form__password > input"
+        }
+      ],
+      "value": "{{password}}",
+      "variableName": ""
+    },
+    {
+      "command": "keypress",
+      "condition": {
+        "statement": "return \"{{saveCC}}\" === \"disabled\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "#account_password"
+        },
+        {
+          "selector": ".wc-block-components-address-form__password > input"
+        }
+      ],
+      "value": "50",
+      "variableName": ""
+    },
+    {
+      "command": "keypress",
+      "condition": {
+        "statement": "return \"{{saveCC}}\" === \"disabled\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "#account_password"
+        },
+        {
+          "selector": ".wc-block-components-address-form__password > input"
+        }
+      ],
+      "value": "8",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const element = document.querySelector('form.checkout.woocommerce-checkout , form#order_review')\n\nreturn \"{{saveCC}}\" !== \"disabled\" && element !== null && element !== undefined\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "input#wc-bluesnap-new-payment-method",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const element = document.querySelector('.wc-block-components-form.wc-block-checkout__form')\n\nreturn \"{{saveCC}}\" !== \"disabled\" && element !== null && element !== undefined\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "div#radio-control-wc-payment-method-options-bluesnap__content > div.wc-block-components-payment-methods__save-card-info input",
+      "value": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "614a2b454170222740a3551f",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

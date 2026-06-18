@@ -1,0 +1,45 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Check renewal Total",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "\nlet unitPrice = \"{{unitPrice}}\"\nlet subtotal = \"{{subtotalRenew}}\";\nlet discount = \"{{discountRenew}}\"\n\nif (discount === \"\"){\n    discount = \"0.00\";\n};\n\nlet tax = \"{{taxRenew}}\";\nif (tax === \"\"){\n    tax = \"0.00\";\n};\nlet total = \"{{totalRenew}}\";\n\nsubtotal = subtotal.replace(\",\",\"\").trim();\nunitPrice = unitPrice.replace(\",\",\"\").trim();\ndiscount = discount.replace(\",\",\"\").trim();\ntax = tax.replace(\",\",\"\").trim();\ntotal = total.replace(\",\",\"\").trim();\n\nunitPrice = Number(unitPrice.replace(\"{{Symbol}}\",\"\"));\ndiscount = Number(discount.replace(\"{{Symbol}}\",\"\"));\nsubtotal = Number(subtotal.replace(\"{{Symbol}}\",\"\"));\ntax = Number(tax.replace(\"{{Symbol}}\",\"\"));\ntotal = Number(total.replace(\"{{Symbol}}\",\"\"));\n\n\nlet total2 = unitPrice-discount+tax;\ntotal2 = Number(total2.toFixed(2));\n\nreturn total === total2 && subtotal === unitPrice",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "66daef8678ca24491ea1b166",
+    "suiteId": "60cc8d7d1da0a93062ddf13a",
+    "suiteName": "Harmony - Common Steps for suites"
+  }
+}

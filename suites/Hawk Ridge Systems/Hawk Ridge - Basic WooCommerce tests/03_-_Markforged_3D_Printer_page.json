@@ -1,0 +1,131 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "03 - Markforged 3D Printer page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "68cab521189a381f8e01cc3f",
+      "variableName": ""
+    },
+    {
+      "command": "mouseOver",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "li.e-n-menu-item:nth-of-type(1) > .e-n-menu-title > .e-n-menu-title-container > .e-n-menu-title-text"
+        },
+        {
+          "selector": "#menu-item-613 > a"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "div:nth-of-type(1) > p > span > a[href*=\"/markforged\"]"
+        },
+        {
+          "selector": "#menu-item-613 a[href*=\"/markforged\"]"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": ".bdt-element-link.elementor-element > .elementor-widget-container > .bdt-ep-advanced-icon-box > .bdt-ep-advanced-icon-box-icon > .bdt-ep-advanced-icon-box-icon-wrap > img.attachment-full.size-full"
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": ".elementor-element > .elementor-widget-container",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "div.bdt-ep-accordion-item:nth-of-type(1) > .bdt-ep-accordion-title.bdt-accordion-title > .bdt-ep-accordion-icon > .bdt-ep-accordion-icon-closed > svg.fa-fw.e-fas-caret-down"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "div.bdt-ep-accordion-item:nth-of-type(2) > .bdt-ep-accordion-title.bdt-accordion-title > .bdt-ep-accordion-icon > .bdt-ep-accordion-icon-closed > svg.fa-fw.e-fas-caret-down"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "#bdt-accordion-2",
+      "value": "No, the FX10 is not designed to be a high-temperature printer like the FX20, which is designed to handle applications like aircraft parts. The FX10’s heated chamber is more suitable for factory floor materials."
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "68caf9b07f80fc466df327ea",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68cab794576a0f46b501c690",
+    "suiteId": "68cab50c576a0f46b500e1e3",
+    "suiteName": "Hawk Ridge - Basic WooCommerce tests"
+  }
+}

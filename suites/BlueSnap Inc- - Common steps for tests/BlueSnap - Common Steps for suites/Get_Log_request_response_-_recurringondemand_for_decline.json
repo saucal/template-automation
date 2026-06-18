@@ -1,0 +1,78 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Get Log request response - /recurring/ondemand for decline",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": null,
+      "notes": "needs the payment time to get it",
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "\nreturn new Promise(function (resolve, reject) {\n  const url = '{{startUrl}}' + 'wp-json/wc-automation-helper/log-request-response-group/?datetime={{payDate}}&initial_request_slug=/recurring/ondemand'\n  const username = '{{woo_user}}';\n  const password = '{{woo_pass}}';\n  let headers = new Headers();\n  headers.set('Content-Type', 'application/json');\n  headers.set('Authorization', 'Basic ' + btoa(username + \":\" + password));\n  fetch(url, {method:'GET', headers: headers, credentials: 'omit',})\n  .then(function(response) {\n    if (response.ok) {\n      resolve(response.json())\n    } else {\n      resolve([])\n    } \n  })\n  })\n\n",
+      "variableName": "logs"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "let logs = {{logs}}\nlet logs1 = []\nlet length = logs.length\nlet n = 0\nwhile (n < length) {\n    if (logs[n].content.merchantTransactionId != Number({{orderNumber}}) || logs[n+1].content.merchantTransactionId != undefined){\n        n++\n    } else {\n        logs1 = [logs[n],logs[n+1]] \n        break;\n    }\n}\nreturn logs1",
+      "variableName": "logs"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let logs = {{logs}}\nlet length = logs.length\nreturn length === 0"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "let date = \"{{payDate}}\"\ndate = new Date(date);\ndate = new Date (date.getTime()+60000);\ndate = date.getFullYear()+'-'+('0'+(date.getMonth()+1)).slice(-2)+'-'+('0'+date.getDate()).slice(-2)+'T'+('0'+date.getUTCHours()).slice(-2)+\":\"+('0'+date.getMinutes()).slice(-2)+\":\"+('0'+date.getSeconds()).slice(-2);\n\n\nreturn new Promise(function (resolve, reject) {\n  const url = '{{startUrl}}' + 'wp-json/wc-automation-helper/log-request-response-group/?datetime='+date+'&initial_request_slug=/recurring/ondemand'\n  const username = '{{woo_user}}';\n  const password = '{{woo_pass}}';\n  let headers = new Headers();\n  headers.set('Content-Type', 'application/json');\n  headers.set('Authorization', 'Basic ' + btoa(username + \":\" + password));\n  fetch(url, {method:'GET', headers: headers})\n  .then(function(response) {\n    if (response.ok) {\n      resolve(response.json())\n    } else {\n      resolve([])\n    } \n  })\n  })",
+      "variableName": "logs"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "let logs = {{logs}}\nlet logs1 = []\nlet length = logs.length\nlet n = 0\nwhile (n < length) {\n    if (logs[n].content.merchantTransactionId != Number({{orderNumber}}) || logs[n+1].content.merchantTransactionId != undefined){\n        n++\n    } else {\n        logs1 = [logs[n],logs[n+1]] \n        break;\n    }\n}\nreturn logs1",
+      "variableName": "logs"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6238625aaacde4b98775894d",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

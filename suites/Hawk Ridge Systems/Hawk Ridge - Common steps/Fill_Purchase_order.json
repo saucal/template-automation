@@ -1,0 +1,90 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Fill Purchase order",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "Purchase Order",
+      "variableName": "paymentMethod"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "#payment_method_woocommerce_gateway_purchase_order"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "#po_number_field",
+      "value": "{{poNumber}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "file": {
+        "filename": "Purchase order - dummy.pdf",
+        "size": 18928,
+        "path": "uploads/a6d2d215-ecb0-4bde-b804-2f8a0bbd03a6.pdf",
+        "url": "https://ghostinspector-prod.s3.amazonaws.com/uploads/a6d2d215-ecb0-4bde-b804-2f8a0bbd03a6.pdf"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "input[type=\"file\"]",
+      "value": "https://ghostinspector-prod.s3.amazonaws.com/uploads/a6d2d215-ecb0-4bde-b804-2f8a0bbd03a6.pdf",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "input[type=\"file\"]",
+      "value": "C:\\fakepath\\Purchase order - dummy.pdf"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68cbf50e7f80fc466d5d0100",
+    "suiteId": "68cafa6a576a0f46b511339a",
+    "suiteName": "Hawk Ridge - Common steps"
+  }
+}

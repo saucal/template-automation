@@ -1,0 +1,548 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "10 - Place order - 01 - New User subscription product",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project !== \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "qa+gi_subs_{{alphanumeric}}@saucal.com",
+      "variableName": "email"
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project !== \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project !== \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "",
+      "variableName": "subtotalPrice"
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project !== \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "",
+      "variableName": "shippingPrice"
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project !== \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "",
+      "variableName": "taxPrice"
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project !== \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "",
+      "variableName": "total"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "1",
+      "variableName": "qty"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "no",
+      "variableName": "variable"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "yes",
+      "variableName": "subscription"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "new",
+      "variableName": "user"
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"template\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "646e091233135384bb9bf24c",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"nopong\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "#menu-main-menu > li.menu-item.menu-item-type-post_type.menu-item-object-page:nth-of-type(5) > a[href*=\"/monthly-club/\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"nopong\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"nopong\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "li:nth-child(1) div.wc-block-grid__product-title",
+      "value": "",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"nopong\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "li:nth-child(1) > div.wc-block-grid__product-price.price > span.woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"nopong\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "li:nth-of-type(1) > .price > span.subscription-details > .woocommerce-Price-amount",
+      "value": "",
+      "variableName": "signUpFee"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"nopong\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "li:nth-of-type(1) a[href*=\"?add-to-cart=\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"nopong\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "",
+      "value": "let unitPrice = \"{{unitPrice}}\"\nlet signUp = \"{{signUpFee}}\"\nunitPrice = unitPrice.replace(\"{{Symbol}}\",\"\").trim();\nsignUp = signUp.replace(\"{{Symbol}}\",\"\").trim();\nlet qty = {{qty}}\nlet subtotal = (unitPrice+signUp) * qty\nreturn \"{{Symbol}}\"+(Math.round(subtotal*100)/100).toFixed(2)",
+      "variableName": "subtotalPrice"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"template\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "input[name=\"quantity\"]",
+      "value": "{{qty}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"template\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "button[name=\"add-to-cart\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"template\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "a[href*=\"/cart/\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"nopong\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": [
+        {
+          "selector": "a[href*=\"/checkout/\"].checkout-button"
+        },
+        {
+          "selector": "a[href*=\"/check-out/\"].checkout-button"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\" || project === \"nopong\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\" || project === \"nopong\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "",
+      "value": "62753765c5f501e7105625b8",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"nopong\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"nopong\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": ".woocommerce-error > li",
+      "value": "Your card number is incomplete.",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "iframe[src*=\"js.stripe.com\"] input[name=\"number\"]",
+      "value": "4242 4242 4242 4242",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "iframe[src*=\"js.stripe.com\"] input[name=\"expiry\"]",
+      "value": "12 / 26",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "iframe[src*=\"js.stripe.com\"] input[name=\"cvc\"]",
+      "value": "123",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\r\nreturn project === \"talkbox\""
+      },
+      "notes": "step added due to an error not finding empty shipping fields in talkbox",
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "#ship-to-different-address-checkbox",
+      "value": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\" || project === \"nopong\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": "",
+      "value": "62753765c5f501e7105625b8",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\" || project === \"nopong\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let width = window.innerWidth\nlet project = \"{{project}}\"\nreturn width === 1920 && project === \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": [
+        {
+          "selector": ".wc-block-components-notice-banner.is-error"
+        },
+        {
+          "selector": ".woocommerce-error"
+        }
+      ],
+      "value": "Invalid recurring shipping method.\nBilling First Name is a required field.\nBilling Last Name is a required field.\nBilling Email Address is a required field.\nBilling Phone Number for Delivery is a required field.\nBilling Address is a required field.\nBilling Town / City is a required field.\nBilling State is a required field.\nBilling ZIP is a required field.\nShipping First Name is a required field.\nShipping Last Name is a required field.\nShipping Address is a required field.\nShipping Town / City is a required field.\nShipping State is a required field.\nShipping ZIP is a required field.\nPlease read and accept the terms and conditions to proceed with your order.",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let width = window.innerWidth\nlet project = \"{{project}}\"\nreturn width === 360 && project === \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": [
+        {
+          "selector": ".wc-block-components-notice-banner.is-error"
+        },
+        {
+          "selector": ".woocommerce-error"
+        }
+      ],
+      "value": "Invalid recurring shipping method.\nBilling First Name is a required field.\nBilling Last Name is a required field.\nBilling Email Address is a required field.\nBilling Phone Number for Delivery is a required field.\nBilling Address is a required field.\nBilling Town / City is a required field.\nBilling State is a required field.\nBilling ZIP is a required field.\nShipping First Name is a required field.\nShipping Last Name is a required field.\nShipping Address is a required field.\nShipping Town / City is a required field.\nShipping State is a required field.\nShipping ZIP is a required field.\nPlease read and accept the terms and conditions to proceed with your order.",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": "",
+      "value": "6275149f7cba5684cb53e55c",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 37,
+      "target": "",
+      "value": "62753765c5f501e7105625b8",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 38,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 39,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 40,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 41,
+      "target": "h3.wp-block-kadence-advancedheading",
+      "value": "CONGRATULATIONS, {{firstName}}!",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 42,
+      "target": "",
+      "value": "646e10fecc654ac751c5bb79",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "646e0f2dcc654ac751c4ec3b",
+    "suiteId": "646b8d2a33135384bb052b1c",
+    "suiteName": "Template WooCommerce Tests"
+  }
+}

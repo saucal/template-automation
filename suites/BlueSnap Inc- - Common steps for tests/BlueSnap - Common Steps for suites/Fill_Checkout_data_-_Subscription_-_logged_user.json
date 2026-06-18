@@ -1,0 +1,224 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Fill Checkout data - Subscription - logged user",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "#billing_first_name"
+        },
+        {
+          "selector": "#shipping-first_name"
+        },
+        {
+          "selector": "#billing-first_name"
+        }
+      ],
+      "value": "{{firstName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "#billing_last_name"
+        },
+        {
+          "selector": "#shipping-last_name"
+        },
+        {
+          "selector": "#billing-last_name"
+        }
+      ],
+      "value": "{{lastName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "#billing_company"
+        },
+        {
+          "selector": "#shipping-company"
+        },
+        {
+          "selector": "#billing-company"
+        }
+      ],
+      "value": "{{company}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": "#billing_address_1"
+        },
+        {
+          "selector": "#shipping-address_1"
+        },
+        {
+          "selector": "#billing-address_1"
+        }
+      ],
+      "value": "{{street}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const element = document.querySelector('.wc-block-components-address-form__address_2-toggle')\n\nreturn element !== null && element !== undefined"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"+ Add apartment, suite, etc.\")]"
+        },
+        {
+          "selector": ".wc-block-components-address-form__address_2-toggle"
+        }
+      ],
+      "value": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "#billing_address_2"
+        },
+        {
+          "selector": "#shipping-address_2"
+        },
+        {
+          "selector": "#billing-address_2"
+        }
+      ],
+      "value": "{{address2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "#billing_city"
+        },
+        {
+          "selector": "#shipping-city"
+        },
+        {
+          "selector": "#billing-city"
+        }
+      ],
+      "value": "{{city}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "#billing_postcode"
+        },
+        {
+          "selector": "#shipping-postcode"
+        },
+        {
+          "selector": "#billing-postcode"
+        }
+      ],
+      "value": "{{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "#billing_phone"
+        },
+        {
+          "selector": "#shipping-phone"
+        },
+        {
+          "selector": "#billing-phone"
+        }
+      ],
+      "value": "{{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const element = document.querySelector('.wc-block-components-checkbox.wc-block-checkout__use-address-for-billing input')\n\nif ( ! element ) {\n    console.log('Element is not present')\n    return false\n} else if ( ! element.checked ) {\n    console.log('Element is not checked')\n    return true\n} else {\n    console.log('Element is checked')\n    return false\n}\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": ".wc-block-components-checkbox.wc-block-checkout__use-address-for-billing input",
+      "value": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "61fd32354789a4030c410012",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

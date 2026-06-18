@@ -1,0 +1,113 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "6.0.2",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Subscription details Thank you page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "td.subscription-id > a[href*=\"/view-subscription/\"]",
+      "value": "",
+      "variableName": "subscriptionID"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "let ID = \"{{subscriptionID}}\"\nID = ID.replace(\"#\",\"\")\nreturn ID",
+      "variableName": "subscriptionID"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return !'{{paymentMethod}}'.includes('Bank')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "td.subscription-status",
+      "value": "Active",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{paymentMethod}}'.includes('Bank')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "td.subscription-status",
+      "value": "Pending",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "td.subscription-total > .woocommerce-Price-amount.amount",
+      "value": "{{totalRenew}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "td.subscription-next-payment",
+      "value": "",
+      "variableName": "nextPay"
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "return !'{{paymentMethod}}'.includes('Bank')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "62cd5d81760cc3cd6b6d3f7d",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68e80193bb4ffb8ae2b0cd18",
+    "suiteId": "60cc8d7d1da0a93062ddf13a",
+    "suiteName": "Harmony - Common Steps for suites"
+  }
+}

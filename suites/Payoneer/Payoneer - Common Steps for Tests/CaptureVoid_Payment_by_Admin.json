@@ -1,0 +1,400 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Capture/Void Payment by Admin",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "https://stgamazontest.wpengine.com/wp-admin/post.php?post=3495&action=edit",
+  "steps": [
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\n\nreturn transactionType !== 'void'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": ".mpgs-void-form"
+        },
+        {
+          "selector": ".acme-void-form"
+        },
+        {
+          "selector": ".mastercard_merchant_cloud-void-form"
+        }
+      ],
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\n\nreturn transactionType === 'void'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "//button[contains(text(), \"Cancel Authorization\")]"
+        },
+        {
+          "selector": "#acme_void_transaction_button"
+        },
+        {
+          "selector": "#mastercard_merchant_cloud_void_transaction_button"
+        }
+      ]
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\n\nreturn transactionType === 'void'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "69778cc365fd97d14e2468b2",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\n\nreturn transactionType === 'partialCapture'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "let total = '{{total}}'\ntotal = parseFloat(total.replace('$',''))\ntotal = total/4\nreturn total.toFixed(2)",
+      "variableName": "totalCapture"
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\n\nreturn transactionType === 'totalCapture'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "{{total}}",
+      "variableName": "totalCapture"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\n\nreturn transactionType === 'partialCapture' || transactionType === 'totalCapture'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "#acme_capture_amount"
+        },
+        {
+          "selector": "#mastercard_merchant_cloud_capture_amount"
+        }
+      ],
+      "value": "{{totalCapture}}"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\n\nreturn transactionType === 'partialCapture' || transactionType === 'totalCapture'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "//button[contains(text(), \"Capture\")]"
+        },
+        {
+          "selector": "p > button[type=\"submit\"].button.button-primary"
+        }
+      ]
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\n\nreturn transactionType === 'partialCapture' || transactionType === 'totalCapture'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "69778cc365fd97d14e2468b2",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "#message > p",
+      "value": "Order updated."
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\n\nreturn transactionType === 'partialCapture'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "#select2-order_status-container",
+      "value": "On hold"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\n\nreturn transactionType === 'void'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "#select2-order_status-container",
+      "value": "Cancelled"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let producType = '{{prodType}}'\nconst transactionType = '{{transactionType}}'\nreturn (producType === 'virtual' || producType === 'physical')\n        && transactionType === 'totalCapture'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "#select2-order_status-container",
+      "value": "Processing"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let producType = '{{prodType}}'\nconst transactionType = '{{transactionType}}'\n\nreturn producType === 'download'\n        &&  transactionType === 'totalCapture'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "#select2-order_status-container",
+      "value": "Completed"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\n\nreturn transactionType === 'partialCapture'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "li.note.system-note:nth-of-type(1) > .note_content > p",
+      "value": "{{paymentMethodTitle}} payment was Partially Captured. Captured Amount: ${{totalCapture}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\n\nreturn transactionType === 'void'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "li.note.system-note:nth-of-type(1) > .note_content > p",
+      "value": "Authorization was cancelled successfully. Order status changed from On hold to Cancelled.",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\n\nreturn transactionType === 'totalCapture'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "li.note.system-note:nth-of-type(2) > .note_content > p",
+      "value": "{{paymentMethodTitle}} payment was Captured (Order ID: {{transaction_id}})",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\n\nreturn transactionType === 'partialCapture'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "",
+      "value": "const totalCapture = {{totalCapture}}\nlet total = '{{total}}'\ntotal = parseFloat(total.replace('$',''))\nconst restTotal = total - totalCapture\n\nreturn restTotal.toFixed(2)\n",
+      "variableName": "restTotal"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\n\nreturn transactionType === 'partialCapture'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": [
+        {
+          "selector": ".mpgs-capture-form > span > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": ".acme-capture-form > span > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": ".mastercard_merchant_cloud-capture-form > span > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "${{restTotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\n\nreturn transactionType === 'totalCapture'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": ".woocommerce-order-data__meta",
+      "value": "Payment via {{paymentMethodTitle}} ({{transaction_id}})",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\n\nreturn transactionType === 'totalCapture'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "td:nth-of-type(1) > .description",
+      "value": "via {{paymentMethodTitle}}"
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\n\nreturn transactionType === 'totalCapture' || transactionType === 'void'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": ".mpgs-void-form",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\n\nreturn transactionType === 'totalCapture' || transactionType === 'void'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": ".acme-void-form",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\n\nreturn transactionType === 'totalCapture' || transactionType === 'void'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": ".mastercard_merchant_cloud-void-form",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\n\nreturn transactionType === 'partialCapture'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": [
+        {
+          "selector": ".mpgs-capture-form"
+        },
+        {
+          "selector": ".acme-capture-form"
+        },
+        {
+          "selector": ".mastercard_merchant_cloud-capture-form"
+        }
+      ],
+      "value": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\n\nreturn transactionType === 'totalCapture' || transactionType === 'void'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": ".mpgs-capture-form",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\n\nreturn transactionType === 'totalCapture' || transactionType === 'void'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": ".acme-capture-form",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\n\nreturn transactionType === 'totalCapture' || transactionType === 'void'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": ".mastercard_merchant_cloud-capture-form",
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69778cc365fd97d14e2468a8",
+    "suiteId": "69778cc265fd97d14e24689f",
+    "suiteName": "Payoneer - Common Steps for Tests"
+  }
+}

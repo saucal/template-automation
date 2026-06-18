@@ -1,0 +1,174 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Fill CC Info add new one (already present other CC) - 2.6.x",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "input#wc-bluesnap-payment-token-new"
+        },
+        {
+          "selector": "input#radio-control-wc-payment-method-options-bluesnap"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "iframe#bluesnap-hosted-iframe-ccn #ccn",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "iframe#bluesnap-hosted-iframe-ccn #ccn",
+      "value": "{{CCard}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn (Number(blueSnapVs[0]) == 2 && Number(blueSnapVs[1]) == 6) || Number(blueSnapVs[0]) >= 3"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "iframe#bluesnap-hosted-iframe-exp #exp",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn (Number(blueSnapVs[0]) == 2 && Number(blueSnapVs[1]) == 6) || Number(blueSnapVs[0]) >= 3"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "iframe#bluesnap-hosted-iframe-exp #exp",
+      "value": "{{month}}{{year}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn Number(blueSnapVs[0]) == 2 && Number(blueSnapVs[1]) == 5"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "iframe#bluesnap-hosted-iframe-exp #month",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn Number(blueSnapVs[0]) == 2 && Number(blueSnapVs[1]) == 5"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "iframe#bluesnap-hosted-iframe-exp #month",
+      "value": "{{month}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn Number(blueSnapVs[0]) == 2 && Number(blueSnapVs[1]) == 5"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "iframe#bluesnap-hosted-iframe-exp #year",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn Number(blueSnapVs[0]) == 2 && Number(blueSnapVs[1]) == 5"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "iframe#bluesnap-hosted-iframe-exp #year",
+      "value": "{{year}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "iframe#bluesnap-hosted-iframe-cvv #cvv",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "iframe#bluesnap-hosted-iframe-cvv #cvv",
+      "value": "{{cvv}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "622f38c96f3ed7a04da7cb6a",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

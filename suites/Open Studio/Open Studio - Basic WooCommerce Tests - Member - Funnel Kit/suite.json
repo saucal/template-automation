@@ -1,0 +1,73 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "69dff08eb1161572d1ac50fd",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2026-04-15T20:09:50.697Z",
+    "details": "",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "663a2ef91aac3ea14fbb709b",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "Open Studio - Basic WooCommerce Tests - Member - Funnel Kit",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://openstudio-staging.mystagingwebsite.com/",
+    "testCount": 13,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "663a797a1aac3ea14fc98ef0"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "663a797a1aac3ea14fc98ef1"
+      },
+      {
+        "name": "password",
+        "value": "fric2171Biot",
+        "private": false,
+        "_id": "663a797a1aac3ea14fc98ef2"
+      },
+      {
+        "name": "project",
+        "value": "openStudio",
+        "private": false,
+        "_id": "663cdda089e87fd839069f77"
+      },
+      {
+        "name": "password2",
+        "value": "KYWnNc6$)",
+        "private": true,
+        "_id": "6682bbc9d83f7cc0b9da1eff"
+      }
+    ],
+    "viewportSize": {
+      "width": 1920,
+      "height": 1080
+    }
+  }
+}

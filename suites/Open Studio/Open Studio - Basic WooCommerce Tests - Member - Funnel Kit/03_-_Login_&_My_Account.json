@@ -1,0 +1,593 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "03 - Login & My Account",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "{{email1}}",
+      "variableName": "username"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "{{password}}",
+      "variableName": "pass"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "",
+      "variableName": "admin"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "68caa38a189a381f8efcb5b3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "pause",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "2000",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "return window.location.href === \"{{startUrl}}welcome-to-open-studio/\"",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "663cb98d1aac3ea14f22a85d",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "input[type=\"submit\"].button",
+      "value": ""
+    },
+    {
+      "command": "mouseOver",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": ".nav-drop-title-wrap > .kadence-svg-iconset > svg",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": ".header-navigation .header-menu-container ul ul li.menu-item:nth-of-type(5) > a[href*=\"/my-account/\"]"
+        },
+        {
+          "selector": "a[href*=\"/my-account/\"] > .kadence-svg-iconset > svg"
+        }
+      ]
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "var today = new Date();\n\n// Add 14 days to today's date\nvar futureDate = new Date(today);\nfutureDate.setDate(futureDate.getDate() + {{trial}});\n\n// Define month names array\nvar monthNames = [\"January\", \"February\", \"March\", \"April\", \"May\", \"June\",\n  \"July\", \"August\", \"September\", \"October\", \"November\", \"December\"];\n\n// Format the date as \"Month Day, Year\"\nvar formattedDate = monthNames[futureDate.getMonth()] + \" \" + futureDate.getDate() + \" \" + futureDate.getFullYear();\n\n\nreturn formattedDate",
+      "variableName": "nextPayment1"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": ".os-my-dashboard__next > span",
+      "value": "{{nextPayment1}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": ".woocommerce-Price-amount",
+      "value": "{{unitPrice}}.00",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": ".os-my-dashboard__frequency > span",
+      "value": "{{freq}} subscription"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 16,
+      "target": "a[href*=\"/product/open-studio-subscription/?switch-subscription={{subID}}&item=\"]",
+      "value": "Change subscription"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "a[href*=\"/my-account/view-subscription/{{subID}}/\"].button",
+      "value": "Manage subscription"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": ".os-account-membership",
+      "value": "YOUR CURRENT PLAN\nOPEN STUDIO",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"Orders\")]"
+        },
+        {
+          "selector": "a[href*=\"/my-account/orders/\"]"
+        }
+      ]
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "th.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-number > a[href*=\"/my-account/view-order/{{orderNumber}}/\"]",
+      "value": "#{{orderNumber}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "td.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-status",
+      "value": "Completed"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": ".woocommerce-Price-amount",
+      "value": "$0.00",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"View\")]"
+        },
+        {
+          "selector": "a[href*=\"/my-account/view-order/{{orderNumber}}/\"].woocommerce-button"
+        }
+      ]
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "mark.order-number",
+      "value": "{{orderNumber}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "mark.order-status",
+      "value": "Completed"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "a[href*=\"/product/open-studio/?attribute_frequency={{freq}}\"]",
+      "value": "Open Studio - {{freq}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 27,
+      "target": "li > p",
+      "value": "{{freq}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": ".woocommerce-Price-amount > bdi",
+      "value": "$0.00",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount",
+      "value": "$0.00",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "tr:nth-of-type(2) > td > .woocommerce-Price-amount.amount",
+      "value": "$0.00",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "td.subscription-id > a[href*=\"/my-account/view-subscription/{{subID}}/\"]",
+      "value": "#{{subID}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": "td.subscription-status",
+      "value": "Active"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": "td.subscription-next-payment",
+      "value": "{{nextPayment}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": "td.subscription-total",
+      "value": "{{unitPrice}}.00 / month",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": ".woocommerce-customer-details > address",
+      "value": "{{firstName}} {{lastName}}\n\n{{email1}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"My Subscription\")]"
+        },
+        {
+          "selector": ".woocommerce-MyAccount-navigation-link > a[href*=\"/my-account/view-subscription/{{subID}}/\"]"
+        }
+      ]
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 37,
+      "target": "table.shop_table.subscription_details > tbody > tr:nth-of-type(1) > td:nth-of-type(2)",
+      "value": "Active"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 38,
+      "target": "tr:nth-of-type(4) > td:nth-of-type(2)",
+      "value": "{{nextPayment}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 39,
+      "target": "tr:nth-of-type(5) > td:nth-of-type(2)",
+      "value": "{{nextPayment}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 40,
+      "target": "a[href*=\"/product/open-studio/\"]",
+      "value": "Open Studio - {{freq}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 41,
+      "target": "li > p",
+      "value": "{{freq}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 42,
+      "target": "td.product-total",
+      "value": "{{unitPrice}}.00 / month",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 43,
+      "target": "tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount",
+      "value": "{{unitPrice}}.00",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 44,
+      "target": "tfoot > tr:nth-of-type(2) > td",
+      "value": "{{unitPrice}}.00 / month",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 45,
+      "target": ".woocommerce-customer-details > address",
+      "value": "{{firstName}} {{lastName}}\n\n{{email1}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 46,
+      "target": "a[href*=\"/my-account/my-profile/\"]"
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 47,
+      "target": "",
+      "value": "/*let options = document.querySelectorAll('select#os-survey-instrument > option[selected]');\nlet instrument;\noptions.forEach(option => {\n    if (!option.disabled) {\n        instrument = option.innerText\n    }\n});*/\n\nconst option = document.querySelector('input[name=\"os-survey-instrument\"][checked]').getAttribute('id');\n\nconst instrument = document.querySelector('label[for=\"'+option+'\"]').innerText\n\nreturn instrument === \"{{instrument}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 48,
+      "target": "",
+      "value": "/*let options = document.querySelectorAll('select#os-survey-skill-level > option[selected]');\nlet level;\noptions.forEach(option => {\n    if (!option.disabled) {\n        level = option.innerText\n    }\n});*/\n\nconst option = document.querySelector('input[name=\"os-survey-skill-level\"][checked]').getAttribute('id');\n\nconst level = document.querySelector('label[for=\"'+option+'\"]').innerText\n\nreturn level === \"{{level}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 49,
+      "target": "",
+      "value": "const instruments = document.querySelectorAll('input[name=\"os-survey-instrument\"]');\nconst instrument = Math.floor(Math.random() * instruments.length)\nconst instrumentText = document.querySelector('label[for=\"'+instruments[instrument].getAttribute('id')+'\"]').innerText\n\nreturn instrumentText",
+      "variableName": "instrument"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 50,
+      "target": "//label[contains(text(),'{{instrument}}')]"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 51,
+      "target": "",
+      "value": "const levels = document.querySelectorAll('input[name=\"os-survey-skill-level\"]');\nconst level = Math.floor(Math.random() * levels.length)\nconst levelText = document.querySelector('label[for=\"'+levels[level].getAttribute('id')+'\"]').innerText\n\nreturn levelText",
+      "variableName": "level"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 52,
+      "target": "//label[contains(text(),'{{level}}')]"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 53,
+      "target": "input[type=\"submit\"].button[value=\"Update\"]"
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 54,
+      "target": "",
+      "value": "/*let options = document.querySelectorAll('select#os-survey-instrument > option[selected]');\nlet instrument;\noptions.forEach(option => {\n    if (!option.disabled) {\n        instrument = option.innerText\n    }\n});*/\n\nconst option = document.querySelector('input[name=\"os-survey-instrument\"][checked]').getAttribute('id');\n\nconst instrument = document.querySelector('label[for=\"'+option+'\"]').innerText\n\nreturn instrument === \"{{instrument}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 55,
+      "target": "",
+      "value": "/*let options = document.querySelectorAll('select#os-survey-skill-level > option[selected]');\nlet level;\noptions.forEach(option => {\n    if (!option.disabled) {\n        level = option.innerText\n    }\n});*/\n\nconst option = document.querySelector('input[name=\"os-survey-skill-level\"][checked]').getAttribute('id');\n\nconst level = document.querySelector('label[for=\"'+option+'\"]').innerText\n\nreturn level === \"{{level}}\"",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69dff08eb1161572d1ac510c",
+    "suiteId": "69dff08eb1161572d1ac50fd",
+    "suiteName": "Open Studio - Basic WooCommerce Tests - Member - Funnel Kit"
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Create order for user by API",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "return new Promise(function (resolve, reject) {\n  const username = \"{{woo_user}}\"; \n  const password = \"{{woo_pass}}\"; \n  const url = \"{{startUrl}}wp-json/wc/v3/orders/?customer_id={{userId}}\";\n  const data = '{\"currency\":\"USD\",\"billing\":{\"first_name\":\"{{firstName}}\",\"last_name\":\"{{lastName}}\",\"company\":\"{{company}}\",\"address_1\":\"{{street}}\",\"address_2\":\"{{address2}}\",\"city\":\"{{city}}\",\"state\":\"FL\",\"postcode\":\"{{zipCode}}\",\"country\":\"US\",\"email\":\"{{email}}\",\"phone\":\"{{phone}}\"},\"line_items\":[{\"product_id\":{{productID}},\"quantity\":1}]}';\n  let headers = new Headers();\n  headers.set('Content-Type', 'application/json');\n  headers.set('Authorization', 'Basic ' + btoa(username + \":\" + password));\n  fetch(url, {method:'POST',\n      body: data,\n      headers: headers,\n      credentials: 'omit'\n      })\n  .then(function(response) {\n    if (response.ok) {\n    resolve(response.json())\n    } else {\n    reject(new Error('error'))\n    } \n  })\n})",
+      "variableName": "myOrder"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "const jsonOrder = {{myOrder}}\nreturn Number(jsonOrder.total)",
+      "variableName": "total"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "const jsonOrder = {{myOrder}}\nreturn jsonOrder.id",
+      "variableName": "orderNumber"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "62bf4dd15a1bf494e9033682",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

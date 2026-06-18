@@ -1,0 +1,45 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Calculate total",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "if(\"{{shippingCost}}\" == \"Free shipping\"){\n    shippingCost = 0.00;\n}else{ shippingCost = \"{{shippingCost}}\".slice(1)};\nshippingCost = parseFloat(shippingCost);\nlet subTotal = \"{{subTotal}}\";\nlet subtotalPrice = \"{{subtotalPrice}}\";\n\nsubTotal = subTotal.length ? parseFloat(subTotal) : parseFloat(subtotalPrice);\nconsole.log('Subtotal: ', subTotal);\nlet taxCost = \"{{taxCost}}\".slice(1);\ntaxCost = parseFloat(taxCost);\nlet total = subTotal + shippingCost + taxCost - {{bulkDiscount}}\nreturn total;\n\n",
+      "variableName": "total"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6762f20dcce3ff20fb0a4c4b",
+    "suiteId": "675cc6c97a599a5bc8c00816",
+    "suiteName": "Top G supplements common steps"
+  }
+}

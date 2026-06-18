@@ -1,0 +1,45 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Next order date",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "/*let nextPay = \"{{nextPay}}\"\nnextPay = Date.parse(nextPay)\nnextPay = new Date(nextPay)\nlet date = new Date()\n\nlet monthAssess = ( date.getMonth()+1 ) % 12 === nextPay.getMonth()\nlet yearAssess = 11 === date.getMonth() ? date.getYear() + 1 === nextPay.getYear() : date.getYear() === nextPay.getYear()\n\nreturn monthAssess && date.getDate() === nextPay.getDate() && yearAssess*/\n\nlet nextPay = \"{{nextPay}}\";\nconst country = \"{{country}}\";\n\nnextPay = Date.parse(nextPay);\nnextPay = new Date(nextPay);\n\n// Set time zone and locale based on country\nlet timeZone;\nif (country === 'AU') {\n  timeZone = 'Australia/Sydney';\n} else if (country === 'CA') {\n  timeZone = 'America/Toronto';\n} else {\n  timeZone = 'America/New_York';\n}\n\nconst now = new Date();\nconst formatter = new Intl.DateTimeFormat('en-US', {\n    timeZone: timeZone,\n    year: 'numeric',\n    month: '2-digit',\n    day: '2-digit',\n    hour: '2-digit',\n    minute: '2-digit',\n    second: '2-digit',\n    hour12: true, // Use false for 24-hour format\n});\n\nconst date = new Date(formatter.format(now));\n\nreturn date.getDate() === nextPay.getDate() &&\n       (date.getMonth() + 1) === nextPay.getMonth() &&\n       date.getFullYear() === nextPay.getFullYear();",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68c1e8ed5081f036c99b4db6",
+    "suiteId": "68c16e5b5081f036c9877178",
+    "suiteName": "Gruum - Common steps"
+  }
+}

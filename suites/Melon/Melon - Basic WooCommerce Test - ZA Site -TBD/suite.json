@@ -1,0 +1,174 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "679281cf2a21c5b64b6b72ef",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2025-01-23T17:52:15.504Z",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "6290cec74b7dbf9dc9508e51",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "Melon - Basic WooCommerce Test - ZA Site (TBD)",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": false,
+    "publicStatusEnabled": false,
+    "region": "af-south-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://melonoptics-stg.cc02.convesio.saucal.io/za/",
+    "testCount": 10,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "Symbol",
+        "value": "R",
+        "private": false,
+        "_id": "6290f36a4b7dbf9dc959f049"
+      },
+      {
+        "name": "project",
+        "value": "melon",
+        "private": false,
+        "_id": "6290f9224b7dbf9dc95b1c37"
+      },
+      {
+        "name": "stateComplete",
+        "value": "Western Cape",
+        "private": false,
+        "_id": "639c7c9f9034282736fddf52"
+      },
+      {
+        "name": "countryComplete",
+        "value": "South Africa",
+        "private": false,
+        "_id": "6290f9224b7dbf9dc95b1c39"
+      },
+      {
+        "name": "city",
+        "value": "Cape Town",
+        "private": false,
+        "_id": "6290f9224b7dbf9dc95b1c3c"
+      },
+      {
+        "name": "street",
+        "value": "123 false street",
+        "private": false,
+        "_id": "6290f9224b7dbf9dc95b1c3a"
+      },
+      {
+        "name": "street2",
+        "value": "Ap. 4",
+        "private": false,
+        "_id": "6290f9224b7dbf9dc95b1c3b"
+      },
+      {
+        "name": "zipCode",
+        "value": "8001",
+        "private": false,
+        "_id": "6290f9224b7dbf9dc95b1c3d"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "6290f9224b7dbf9dc95b1c40"
+      },
+      {
+        "name": "phone",
+        "value": "3453453454",
+        "private": false,
+        "_id": "6290f9224b7dbf9dc95b1c3e"
+      },
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "6290f9224b7dbf9dc95b1c3f"
+      },
+      {
+        "name": "street3",
+        "value": "123 Shipping",
+        "private": false,
+        "_id": "6290f9224b7dbf9dc95b1c41"
+      },
+      {
+        "name": "company2",
+        "value": "Testing Shipping",
+        "private": false,
+        "_id": "6290f9224b7dbf9dc95b1c44"
+      },
+      {
+        "name": "street4",
+        "value": "block 1",
+        "private": false,
+        "_id": "6290f9224b7dbf9dc95b1c42"
+      },
+      {
+        "name": "company",
+        "value": "Testing SA",
+        "private": false,
+        "_id": "6290f9224b7dbf9dc95b1c43"
+      },
+      {
+        "name": "lastName2",
+        "value": "{{alphanumeric}} Shipp",
+        "private": false,
+        "_id": "6290f9f7a0299821fcfde4c9"
+      },
+      {
+        "name": "password",
+        "value": "fric2171Biot",
+        "private": true,
+        "_id": "639207aea67dec3a12b63164"
+      },
+      {
+        "name": "url",
+        "value": "https://melonoptics-stg.cc02.convesio.saucal.io/za/",
+        "private": false,
+        "_id": "62fd0a53cd380e119c4e7289"
+      },
+      {
+        "name": "currency",
+        "value": "ZAR",
+        "private": false,
+        "_id": "6324d9d20ffb6127ca25958e"
+      },
+      {
+        "name": "password2",
+        "value": "fric2172Biot",
+        "private": true,
+        "_id": "639207aea67dec3a12b63165"
+      },
+      {
+        "name": "country",
+        "value": "ZA",
+        "private": false,
+        "_id": "6290f9224b7dbf9dc95b1c38"
+      },
+      {
+        "name": "state",
+        "value": "WC",
+        "private": false,
+        "_id": "639c7c9f9034282736fddf51"
+      }
+    ],
+    "viewportSize": {
+      "width": 1440,
+      "height": 900
+    }
+  }
+}

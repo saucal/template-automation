@@ -1,0 +1,195 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "67c09588c4f6da836cae81df",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2025-02-27T16:40:40.252Z",
+    "details": "Basic WooCommerce Test",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "6022b367262f437a9af8c1f8",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "CA - Subscription test",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "ca-central-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://no-pong-america-develop.go-vip.net/ca/",
+    "testCount": 4,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2480"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2481"
+      },
+      {
+        "name": "lastName2",
+        "value": "{{alphanumeric}} Shipping",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2482"
+      },
+      {
+        "name": "company",
+        "value": "Saucal Test",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2483"
+      },
+      {
+        "name": "phone",
+        "value": "+16139689789",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2489"
+      },
+      {
+        "name": "company2",
+        "value": "Saucal Shipping",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2484"
+      },
+      {
+        "name": "street",
+        "value": "123 False Street",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2485"
+      },
+      {
+        "name": "city",
+        "value": "Ottawa",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2486"
+      },
+      {
+        "name": "stateComplete",
+        "value": "Ontario",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2487"
+      },
+      {
+        "name": "zipCode",
+        "value": "K1S 3V6",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2488"
+      },
+      {
+        "name": "adminPass",
+        "value": "nba_wbc8ycn.ycj3JHB",
+        "private": true,
+        "_id": "67c9a697c4c19f03ef06fcc7"
+      },
+      {
+        "name": "street3",
+        "value": "123 False Shipping",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a248b"
+      },
+      {
+        "name": "project",
+        "value": "nopong",
+        "private": false,
+        "_id": "6284e38a4b7dbf9dc9f7c7d7"
+      },
+      {
+        "name": "adminUser",
+        "value": "qa+giadmin@saucal.com",
+        "private": false,
+        "_id": "67c9a697c4c19f03ef06fcc8"
+      },
+      {
+        "name": "Symbol",
+        "value": "$",
+        "private": false,
+        "_id": "6283ba1ea0299821fc33fb43"
+      },
+      {
+        "name": "state",
+        "value": "ON",
+        "private": false,
+        "_id": "6284e38a4b7dbf9dc9f7c7d4"
+      },
+      {
+        "name": "country",
+        "value": "CA",
+        "private": false,
+        "_id": "6284e38a4b7dbf9dc9f7c7d5"
+      },
+      {
+        "name": "countryComplete",
+        "value": "Canada",
+        "private": false,
+        "_id": "6284e38a4b7dbf9dc9f7c7d6"
+      },
+      {
+        "name": "password",
+        "value": "fric2171Biot",
+        "private": true,
+        "_id": "6284e7964b7dbf9dc9fa0b30"
+      },
+      {
+        "name": "currency",
+        "value": "CAD",
+        "private": false,
+        "_id": "639ca69d903428273607fbdf"
+      },
+      {
+        "name": "password2",
+        "value": "fric2172Biot",
+        "private": true,
+        "_id": "6284e7964b7dbf9dc9fa0b31"
+      },
+      {
+        "name": "street2",
+        "value": "Suite 100",
+        "private": false,
+        "_id": "68894f58e5d3587e155f24e2"
+      },
+      {
+        "name": "street4",
+        "value": "2nd Floor",
+        "private": false,
+        "_id": "68894f58e5d3587e155f24e3"
+      },
+      {
+        "name": "subscription",
+        "value": "true",
+        "private": false,
+        "_id": "68894f58e5d3587e155f24e4"
+      },
+      {
+        "name": "includeTax",
+        "value": "false",
+        "private": false,
+        "_id": "68894f58e5d3587e155f24e5"
+      }
+    ],
+    "viewportSize": {
+      "width": 1366,
+      "height": 768
+    },
+    "httpAuthPassword": "xmb!ata4gup_qke@KNK",
+    "httpAuthUsername": "stg-nopong-america"
+  }
+}

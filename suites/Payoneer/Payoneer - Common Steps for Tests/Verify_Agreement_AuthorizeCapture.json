@@ -1,0 +1,117 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Verify Agreement Authorize/Capture",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const renewal = '{{renewal}}'\n\nreturn renewal !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.request.body.agreement.amountVariability === 'FIXED' && \n    log.response.body.agreement.amountVariability === 'FIXED'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const renewal = '{{renewal}}'\n\nreturn renewal !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.request.body.agreement.type === 'RECURRING' &&\n    log.response.body.agreement.type === 'RECURRING'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.request.body.agreement.id === 'acme_subscription-order-{{subscriptionID}}' &&\n    log.response.body.agreement.id === 'acme_subscription-order-{{subscriptionID}}'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const renewal = '{{renewal}}'\n\nreturn renewal !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.request.body.agreement.paymentFrequency === '{{freq}}' &&\n    log.response.body.agreement.paymentFrequency === '{{freq}}'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const renewal = '{{renewal}}'\n\nreturn renewal !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "const log = {{log}}\nconst dateString = \"{{payDate}}\";\nconst date = new Date(dateString);\nconst formattedDate = date.toISOString().split('T')[0];\n\nreturn log.request.body.agreement.startDate === formattedDate &&\n    log.response.body.agreement.startDate === formattedDate",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const renewal = '{{renewal}}'\n\nreturn renewal !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "const log = {{log}}\nconst dateString = \"{{payDate}}\";\nconst frequency = \"{{freq}}\";\nlet formattedDate;\n\nif (frequency === \"MONTHLY\") {\n  const date = new Date(dateString);\n  date.setMonth(date.getMonth() + 1); // Add one month\n  formattedDate = date.toISOString().split('T')[0]; // Extract YYYY-MM-DD\n  console.log(formattedDate); // Output: \"2025-11-17\"\n}\n\nreturn log.request.body.agreement.expiryDate === formattedDate &&\n    log.response.body.agreement.expiryDate === formattedDate",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const renewal = '{{renewal}}'\n\nreturn renewal !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "const log = {{log}}\nconst dateString = \"{{payDate}}\";\nconst frequency = \"{{freq}}\";\nlet daysInMonth;\n\nif (frequency === \"MONTHLY\") {\n  const date = new Date(dateString);\n  const year = date.getFullYear();\n  const month = date.getMonth(); // 0-based month (November is 10)\n  daysInMonth = parseInt(new Date(year, month + 1, 0).getDate());\n}\n\nreturn log.request.body.agreement.minimumDaysBetweenPayments === daysInMonth &&\n    log.response.body.agreement.minimumDaysBetweenPayments === daysInMonth",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69778cc365fd97d14e2468d4",
+    "suiteId": "69778cc265fd97d14e24689f",
+    "suiteName": "Payoneer - Common Steps for Tests"
+  }
+}

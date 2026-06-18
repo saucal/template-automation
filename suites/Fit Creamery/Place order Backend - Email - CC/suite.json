@@ -1,0 +1,164 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "6851d645e5aac3e528aa6c10",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2025-06-17T20:55:33.127Z",
+    "details": "",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "6851cd6915b3a115491497aa",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "Place order Backend + Email - CC",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "screenshotExclusions": "div.grw-reviews",
+    "startUrl": "https://fitcreamery-staging.mystagingwebsite.com/",
+    "testCount": 5,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "project",
+        "value": "fitCreamery",
+        "private": false,
+        "_id": "671ba803f7c3927cffd4872d"
+      },
+      {
+        "name": "zipCode",
+        "value": "27024",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf876f"
+      },
+      {
+        "name": "phone",
+        "value": "17412345678",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8770"
+      },
+      {
+        "name": "lastName2",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8771"
+      },
+      {
+        "name": "company2",
+        "value": "Shipping Inc.",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8772"
+      },
+      {
+        "name": "street3",
+        "value": "30 Leicester Square",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8773"
+      },
+      {
+        "name": "street4",
+        "value": "5th Floor",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8774"
+      },
+      {
+        "name": "password",
+        "value": "helloworld123",
+        "private": true,
+        "_id": "671bab60f7c3927cffd53f07"
+      },
+      {
+        "name": "password2",
+        "value": "helloworld234",
+        "private": true,
+        "_id": "671bab60f7c3927cffd53f08"
+      },
+      {
+        "name": "Symbol",
+        "value": "$",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8767"
+      },
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8768"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8769"
+      },
+      {
+        "name": "company",
+        "value": "Test Inc.",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf876a"
+      },
+      {
+        "name": "street",
+        "value": "30 Leicester Square",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf876b"
+      },
+      {
+        "name": "street2",
+        "value": "Ap. 4",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf876c"
+      },
+      {
+        "name": "city",
+        "value": "LOWGAP",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf876d"
+      },
+      {
+        "name": "state",
+        "value": "NC",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf876e"
+      },
+      {
+        "name": "stateComplete",
+        "value": "North Carolina",
+        "private": false,
+        "_id": "6851d8d8e5aac3e528aac017"
+      },
+      {
+        "name": "country",
+        "value": "US",
+        "private": false,
+        "_id": "6851d8d8e5aac3e528aac018"
+      },
+      {
+        "name": "countryComplete",
+        "value": "United States (US)",
+        "private": false,
+        "_id": "6851d8d8e5aac3e528aac019"
+      }
+    ],
+    "viewportSize": {
+      "width": 1920,
+      "height": 1080
+    }
+  }
+}

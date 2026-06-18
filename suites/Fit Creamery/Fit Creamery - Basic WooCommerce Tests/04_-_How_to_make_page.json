@@ -1,0 +1,77 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "04 - How to make page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": ".elementor-element.e-con-boxed.e-con.e-parent.elementor-sticky.elementor-section--handles-inside > .e-con-inner > .elementor-element.elementor-element-ee0d55e.e-con-full.e-con.e-child > .elementor-element.elementor-align-right.elementor-widget.elementor-widget-button > .elementor-widget-container > .elementor-button-wrapper > a[href=\"#menu-slide-in\"].elementor-button.elementor-button-link > .elementor-button-content-wrapper > span.elementor-button-text"
+        },
+        {
+          "selector": "//span[contains(text(),'MENU')]"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "nav.elementor-nav-menu--main > .elementor-nav-menu.sm-vertical > li.menu-item.menu-item-type-post_type.menu-item-object-page:nth-of-type(5) > a[href*=\"/start/\"].elementor-item"
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "iframe[src*=\"player.vimeo.com\"] #player",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": ".elementor-popup-modal > div > a > svg",
+      "value": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6851d37715b3a1154915661d",
+    "suiteId": "6851cd91e5aac3e528a9706d",
+    "suiteName": "Fit Creamery - Basic WooCommerce Tests"
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "add coupon",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "xpath=//a[contains(text(), \"Click here to enter your code\")]"
+        },
+        {
+          "selector": ".woocommerce-form-coupon-toggle > .woocommerce-info > a[href=\"#\"]"
+        },
+        {
+          "selector": "div.wp-block-woocommerce-checkout-order-summary-coupon-form-block.wc-block-components-totals-wrapper > div > div"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test !== \"subscription\" "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "#coupon_code"
+        },
+        {
+          "selector": "#wc-block-components-totals-coupon__input-coupon"
+        }
+      ],
+      "value": "test",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"subscription\" "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "#coupon_code"
+        },
+        {
+          "selector": "#wc-block-components-totals-coupon__input-coupon"
+        }
+      ],
+      "value": "test2",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": "xpath=//button[contains(text(), \"Apply coupon\")]"
+        },
+        {
+          "selector": "button[name=\"apply_coupon\"]"
+        },
+        {
+          "selector": "#wc-block-components-totals-coupon__form > button"
+        },
+        {
+          "selector": "xpath=//div[contains(text(), \"Apply\")]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": ".woocommerce-message"
+        },
+        {
+          "selector": ".wc-block-components-notice-banner.is-success"
+        },
+        {
+          "selector": "div.wc-block-components-notice-banner__content"
+        }
+      ],
+      "value": "applied",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6365216d151ae3d9c5a8e127",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

@@ -1,0 +1,453 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Login",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": null,
+      "notes": "step added to clear domain from email",
+      "optional": true,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "const regex = /\\w+\\+?\\w+[^@]/g;\nconst str = `{{username}}`;\nlet m;\nm = regex.exec(str)\nreturn m[0]",
+      "variableName": "emailUser"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let url = window.location.href\nlet admin = \"{{admin}}\"\nlet project = \"{{project}}\"\nlet boolean\nif (url.includes(\"/my-account/\") || project === \"harmony\" || project === \"2m\" || project === \"Phlearn\") {\n    boolean = false\n} else {\n    boolean = true\n}\nreturn boolean === true && admin != \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "button.header-account-button > span.header-account-label"
+        },
+        {
+          "selector": "a[href*=\"/account/\"]"
+        },
+        {
+          "selector": "#menu-item-9247 > a"
+        },
+        {
+          "selector": "a[href*=\"/my-account/\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "add a logout if logged",
+      "optional": true,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": ".woocommerce-MyAccount-navigation-link--customer-logout a"
+        },
+        {
+          "selector": ".elementor-widget-pp-woo-my-account > div > div > div > div > div > p:nth-child(2) > a"
+        }
+      ],
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet admin = \"{{admin}}\"\nreturn project === \"Phlearn\" && admin != \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "i.ph-avatar",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet admin = \"{{admin}}\"\nreturn project === \"Phlearn\" && admin != \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "a[href=\"#email\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "open",
+      "condition": {
+        "statement": "let admin = \"{{admin}}\"\nreturn admin === \"yes\" && '{{project}}' != 'flyingTech'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "{{site}}wp-admin",
+      "variableName": ""
+    },
+    {
+      "command": "open",
+      "condition": {
+        "statement": "let admin = \"{{admin}}\"\nreturn  admin === \"yes\" \n        && \n        (\n            '{{project}}' === 'leggari'\n            ||\n            '{{project}}' === 'pls'\n            ||\n            '{{project}}' === 'nopong'\n            ||\n            '{{project}}' === 'Phlearn'\n            ||\n            '{{project}}' === 'harmony'\n            )"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "{{startUrl}}wp-admin",
+      "variableName": ""
+    },
+    {
+      "command": "open",
+      "condition": {
+        "statement": "let admin = \"{{admin}}\"\nreturn admin === \"yes\" &&'{{project}}' === 'flyingTech'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "{{startUrl}}lazybird",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let admin = \"{{admin}}\"\nreturn admin === \"yes\" "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "#user_login"
+        },
+        {
+          "selector": "#username"
+        }
+      ],
+      "value": "{{username}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let admin = \"{{admin}}\"\nreturn admin === \"yes\" "
+      },
+      "optional": false,
+      "private": true,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "#user_pass"
+        },
+        {
+          "selector": "#password"
+        }
+      ],
+      "value": "{{pass}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let admin = \"{{admin}}\"\nreturn admin === \"yes\" "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": "#wp-submit"
+        },
+        {
+          "selector": "button[name=\"login\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let element = document.getElementById('correct-admin-email')\nlet admin = \"{{admin}}\"\nreturn element != null && element != undefined && admin === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "#correct-admin-email",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let admin = \"{{admin}}\"\nreturn admin === \"yes\" && \"{{project}}\" === \"openStudio\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "li#wp-admin-bar-site-name > a",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "let admin = \"{{admin}}\"\nreturn admin === \"yes\" && \"{{project}}\" !== \"icg\""
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 13,
+      "target": "#adminmenumain",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let project = \"{{project}}\";\nlet isAdmin = \"{{admin}}\";\nreturn project === \"topg-merch\" && isAdmin != \"yes\";"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "",
+      "value": "let url = window.location.href\nreturn url+\"my-account/\"",
+      "variableName": "myAccountUrl"
+    },
+    {
+      "command": "open",
+      "condition": {
+        "statement": "let project = \"{{project}}\";\nlet isAdmin = \"{{admin}}\";\nreturn project === \"topg-merch\" && isAdmin != \"yes\";"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "{{myAccountUrl}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let admin = \"{{admin}}\"\nreturn admin != \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": [
+        {
+          "selector": "#username"
+        },
+        {
+          "selector": "input[name=\"username\"]"
+        },
+        {
+          "selector": "div.lwa-username > input"
+        }
+      ],
+      "value": "{{username}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let admin = \"{{admin}}\"\nreturn admin != \"yes\""
+      },
+      "optional": false,
+      "private": true,
+      "sequence": 17,
+      "target": [
+        {
+          "selector": "#password"
+        },
+        {
+          "selector": "input[name=\"password\"]"
+        },
+        {
+          "selector": "div.lwa-password > input"
+        }
+      ],
+      "value": "{{pass}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let admin = \"{{admin}}\"\nreturn admin != \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": [
+        {
+          "selector": "button[name=\"login\"]"
+        },
+        {
+          "selector": "input.button-primary[value=\"Log In\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "pause",
+      "condition": {
+        "statement": "let admin = \"{{admin}}\"\nlet project = \"{{project}}\"\nreturn admin != \"yes\" && project === \"leggari\" "
+      },
+      "notes": "Pause to wait for the confirmation email to be received ",
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "",
+      "value": "3500",
+      "variableName": ""
+    },
+    {
+      "command": "eval",
+      "condition": {
+        "statement": "let admin = \"{{admin}}\"\nlet project = \"{{project}}\"\nreturn admin != \"yes\" && project === \"leggari\" "
+      },
+      "notes": "Navigate to email inbox",
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "",
+      "value": "window.open(\"https://email.ghostinspector.com/{{emailUser}}/latest\");\n//let loginLink = document.querySelector(\"#content > a\");\n//loginLink = loginLink.href;\n//return loginLink;",
+      "variableName": ""
+    },
+    {
+      "command": "eval",
+      "condition": {
+        "statement": "let admin = \"{{admin}}\"\nlet project = \"{{project}}\"\nreturn admin != \"yes\" && project === \"leggari\" "
+      },
+      "notes": "Get email link",
+      "optional": true,
+      "private": false,
+      "sequence": 21,
+      "target": "",
+      "value": "let loginLink = document.querySelector(\"#body_content_inner > p:nth-child(5) > a\");\nloginLink = loginLink.href;\nreturn loginLink;",
+      "variableName": ""
+    },
+    {
+      "command": "open",
+      "condition": {
+        "statement": "let admin = \"{{admin}}\"\nlet project = \"{{project}}\"\nreturn admin != \"yes\" && project === \"leggari\" "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "",
+      "value": "{{loginLink}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "let admin = \"{{admin}}\"\nlet project = \"{{project}}\"\nreturn admin != \"yes\" && project === \"leggari\" "
+      },
+      "notes": "",
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": [
+        {
+          "selector": "div.woocommerce-MyAccount-content"
+        },
+        {
+          "selector": "form#order_review"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet admin = \"{{admin}}\"\nreturn admin != \"yes\" && project === \"talkbox\""
+      },
+      "notes": "",
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": [
+        {
+          "selector": "div.woocommerce-MyAccount-content"
+        },
+        {
+          "selector": "#learndash-content > div.talkbox-archive-content__wrap"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet admin = \"{{admin}}\"\nreturn admin != \"yes\" && project === \"Phlearn\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "img.lazy.avatar.avatar-45",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet admin = \"{{admin}}\"\nreturn admin != \"yes\" && project === \"Phlearn\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": ".avatar-menu-item > ul > .menu-item.menu-item-type-custom.menu-item-object-custom:nth-of-type(1) > a[href*=\"/my-phlearn/favorites/\"]",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet admin = \"{{admin}}\"\nreturn admin != \"yes\" && project === \"Phlearn\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": ".dashboard-header",
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "63cfc556af1e488d25d11a75",
+    "suiteId": "6022b879262f437a9af8ddf9",
+    "suiteName": "Common Steps for all Projects"
+  }
+}

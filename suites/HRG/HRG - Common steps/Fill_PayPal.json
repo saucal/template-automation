@@ -1,0 +1,361 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Fill PayPal",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "PayPal",
+      "variableName": "paymentMethod"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "#payment_method_ppcp-gateway",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "iframe[title=\"PayPal\"] .paypal-button.paypal-button-number-0",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 3,
+      "target": ".loader",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 4,
+      "target": ".loader",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "#email"
+        },
+        {
+          "selector": "#login_email"
+        },
+        {
+          "selector": "*[id*='email'][type='email']"
+        }
+      ],
+      "value": "{{payPalUser}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "#btnNext"
+        },
+        {
+          "selector": "xpath=//button[contains(text(),'Next')]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "#btnNext"
+        },
+        {
+          "selector": "#publicCredentialSubmitForm > button"
+        },
+        {
+          "selector": "//button[contains(text(),'Next')]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 8,
+      "target": "div > span.sr-only",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 9,
+      "target": "div > span.sr-only",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": "#identity_auth_provider > main > div:nth-child(1) > div.flex.flex-col.items-center.px-3.py-0 > form.mt-4.w-full > button"
+        },
+        {
+          "selector": "//a[contains(text(),'Log in with a password instead')]"
+        },
+        {
+          "selector": "//button[contains(text(),'Use Password Instead')]"
+        }
+      ],
+      "value": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": true,
+      "sequence": 11,
+      "target": [
+        {
+          "selector": "div > input#password[name='login_password']"
+        },
+        {
+          "selector": "div > div > input#password"
+        },
+        {
+          "selector": "#password"
+        }
+      ],
+      "value": "{{payPalPass}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": [
+        {
+          "selector": "#identity_auth_provider > main > div:nth-child(1) > div.flex.flex-col.items-center.px-3.py-0 > form.mt-4.grid.w-full > button"
+        },
+        {
+          "selector": "//button[contains(text(),'Log In')]"
+        },
+        {
+          "selector": "#btnLogin"
+        },
+        {
+          "selector": "button[type='submit']"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 13,
+      "target": "//span[contains(text(),'Logging in...')]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 14,
+      "target": "//span[contains(text(),'Logging in...')]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "pause",
+      "condition": null,
+      "notes": "Wait for paypal option available",
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "5000",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": [
+        {
+          "selector": "button[data-id='payment-submit-btn']"
+        },
+        {
+          "selector": "//*[@id=\"one-time-cta\"]/div/div/div[contains(text(),'Pay')]"
+        },
+        {
+          "selector": "button[type='submit'] > div > div > div:nth-of-type(1)"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": [
+        {
+          "selector": "button[data-id='payment-submit-btn']"
+        },
+        {
+          "selector": "//*[@id=\"one-time-cta\"]/div/div/div[contains(text(),'Pay')]"
+        },
+        {
+          "selector": "button[type='submit'] > div > div > div:nth-of-type(1)"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 18,
+      "target": [
+        {
+          "selector": ".loader"
+        },
+        {
+          "selector": "div[class*=\"Spinner_SpinnerLoader\"]"
+        },
+        {
+          "selector": "//h1[contains(text(),'Completing purchase')]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 19,
+      "target": [
+        {
+          "selector": "//h1[contains(text(),'Completing purchase')]"
+        },
+        {
+          "selector": "div[class*=\"Spinner_SpinnerLoader\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "pause",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "",
+      "value": "10000",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "693c6ebf2ab7b3e70ac5f903",
+    "suiteId": "6920608128d2a810e8ddb16d",
+    "suiteName": "HRG - Common steps"
+  }
+}

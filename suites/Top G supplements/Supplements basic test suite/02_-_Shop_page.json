@@ -1,0 +1,72 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "02 - Shop page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "",
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "div.hero-homepage-overlay > div> div.kb-buttons-wrap > a"
+        },
+        {
+          "selector": ".wp-block-kadence-column.alignfull.hero-homepage > .kt-inside-inner-col > .wp-block-kadence-column > .kt-inside-inner-col > .wp-block-kadence-advancedbtn.kb-buttons-wrap > a[href*=\"/shop/\"].kb-button.kt-button.button.kt-btn-size-large.kt-btn-width-type-auto.kb-btn-global-fill.kt-btn-has-text-true.kt-btn-has-svg-false.wp-block-kadence-singlebtn > .kt-btn-inner-text"
+        }
+      ]
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "675cc6d37a599a5bc8c00889",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "div > h1",
+      "value": "ALL SUPPLEMENTS"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "675cbdce4c952f374d1b930a",
+    "suiteId": "675cbbae7a599a5bc8bf3ecf",
+    "suiteName": "Supplements basic test suite"
+  }
+}

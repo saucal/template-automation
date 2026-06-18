@@ -1,0 +1,285 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "04 - Variable Product Page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "6819eda258d7ce73a1b30693",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "div.product-type-variable.instock a > img",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#pa_ball-weight option[selected=\"selected\"]",
+      "value": "",
+      "variableName": "weight"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const element = document.querySelector('div.single_variation_wrap > div.wc-pao-addons-container, div.single_variation_wrap > div.product-addon')\n\nreturn element != null"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": "div.wc-pao-addon:nth-of-type(1) > .form-row > select.wc-pao-addon-field"
+        },
+        {
+          "selector": "div.product-addon.product-addon-drilling-protection .form-row > select.addon-select"
+        }
+      ],
+      "value": "yes-covers-cracking-during-ball-drilling-1"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const element = document.querySelector('div.single_variation_wrap > div.wc-pao-addons-container, div.single_variation_wrap > div.product-addon')\n\nreturn element != null"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "let text = document.querySelector(\"option[value='yes-covers-cracking-during-ball-drilling-1']\").textContent\nlet crackingMatch = text.match(/\\$\\d*\\.?\\d+/);\nlet cracking = crackingMatch ? crackingMatch[0] : \"\";\nreturn cracking",
+      "variableName": "cracking"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const element = document.querySelector('div.single_variation_wrap > div.wc-pao-addons-container, div.single_variation_wrap > div.product-addon')\n\nreturn element != null"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "div.wc-pao-addon:nth-of-type(2) > .form-row > select.wc-pao-addon-field"
+        },
+        {
+          "selector": "div.product-addon.product-addon-extra-365-warranty-coverage .form-row > select.addon-select"
+        }
+      ],
+      "value": "yes-add-365-warranty-coverage-1"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const element = document.querySelector('div.single_variation_wrap > div.wc-pao-addons-container, div.single_variation_wrap > div.product-addon')\n\nreturn element != null"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "let text = document.querySelector(\"option[value='yes-add-365-warranty-coverage-1']\").textContent\nlet warrantyMatch = text.match(/\\$\\d*\\.?\\d+/);\nlet warranty = warrantyMatch ? warrantyMatch[0] : \"\";\nreturn warranty",
+      "variableName": "warranty"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const element = document.querySelector('div.single_variation_wrap > div.wc-pao-addons-container, div.single_variation_wrap > div.product-addon')\n\nreturn element != null"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "input[type=\"text\"].input-text.wc-pao-addon-field"
+        },
+        {
+          "selector": "div.product-addon.product-addon-specific-requests input[type=\"text\"].input-text"
+        }
+      ],
+      "value": "Testing request"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const element = document.querySelector('div.single_variation_wrap > div.wc-pao-addons-container, div.single_variation_wrap > div.product-addon')\n\nreturn element != null"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "div.form-row:nth-of-type(1) > div:nth-of-type(1) > input[type=\"checkbox\"].wc-pao-addon-checkbox"
+        },
+        {
+          "selector": "div.product-addon.product-addon-money-saving-options > p:nth-of-type(1) input[type=\"checkbox\"]"
+        }
+      ]
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "const element = document.querySelector('div.single_variation_wrap > div.wc-pao-addons-container, div.single_variation_wrap > div.product-addon')\n\nreturn element != null"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": "div.form-row:nth-of-type(1) > div:nth-of-type(1) .wc-pao-addon-price .woocommerce-Price-amount"
+        },
+        {
+          "selector": "div.product-addon.product-addon-money-saving-options > p:nth-of-type(1) .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "",
+      "variableName": "cleaner"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const element = document.querySelector('div.single_variation_wrap > div.wc-pao-addons-container, div.single_variation_wrap > div.product-addon')\n\nreturn element != null"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": [
+        {
+          "selector": "div.form-row:nth-of-type(1) > div:nth-of-type(2) > input[type=\"checkbox\"].wc-pao-addon-checkbox"
+        },
+        {
+          "selector": "div.product-addon.product-addon-money-saving-options > p:nth-of-type(2) input[type=\"checkbox\"]"
+        }
+      ]
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "const element = document.querySelector('div.single_variation_wrap > div.wc-pao-addons-container, div.single_variation_wrap > div.product-addon')\n\nreturn element != null"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": [
+        {
+          "selector": "div.form-row:nth-of-type(1) > div:nth-of-type(2) .wc-pao-addon-price .woocommerce-Price-amount"
+        },
+        {
+          "selector": "div.product-addon.product-addon-money-saving-options > p:nth-of-type(2) .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "",
+      "variableName": "shammy "
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "h1.product_title",
+      "value": "",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": [
+        {
+          "selector": "div > .price > ins > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "div > .price > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "div > div > div.product-main > div > div.product-info.summary.entry-summary > div.price-wrapper > p > ins > span > bdi"
+        },
+        {
+          "selector": "div > div > div.product-main > div > div.product-info.summary.entry-summary > div.price-wrapper > p > span > bdi"
+        }
+      ],
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": [
+        {
+          "selector": "div#product-addons-total dd:nth-of-type(2) span.amount"
+        },
+        {
+          "selector": ".product-addon-totals .wc-pao-subtotal-line .price .amount"
+        }
+      ],
+      "value": "",
+      "variableName": "subtotalProduct"
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "",
+      "value": "let unitPrice = parseFloat('{{unitPrice}}'.replace('$','').trim())\nlet cracking = parseFloat('{{cracking}}'.replace('$','').trim()) || 0;\nlet warranty = parseFloat('{{warranty}}'.replace('$','').trim()) || 0;\nlet cleaner = parseFloat('{{cleaner}}'.replace('$','').trim()) || 0;\nlet shammy = parseFloat('{{shammy}}'.replace('$','').trim()) || 0;\nlet subtotalProduct = parseFloat('{{subtotalProduct}}'.replace('$','').trim())\nlet subtotal2 = unitPrice + cracking + warranty + cleaner + shammy\nsubtotal2 = Number(subtotal2.toFixed(2))\n\nreturn subtotalProduct === subtotal2;\n",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "681212cfff841a20f20fe1fd",
+    "suiteId": "681212cfff841a20f20fe1e3",
+    "suiteName": "BM - Basic WooCommerce Tests"
+  }
+}

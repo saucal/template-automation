@@ -1,0 +1,67 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Phlearn BlockUI",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 0,
+      "target": "iframe[src=\"{{url}}checkout/?iframe_checkout=1\"] .blockUI",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "let iframePhlearn = document.querySelector('iframe[src=\"https://phamily-develop.go-vip.net/checkout/?iframe_checkout=1\"]');\niframeDocument = iframePhlearn.contentDocument || iframePhlearn.contentWindow.document\n\nlet block = iframeDocument.getElementsByClassName(\"blockUI\")\nreturn block.length > 0"
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 1,
+      "target": "iframe[src=\"{{url}}checkout/?iframe_checkout=1\"] .blockUI",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "pause",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "1500",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "66e9c71ecb4c47193246ce76",
+    "suiteId": "60364397fa81e86a7164a7a0",
+    "suiteName": "Phlearn - Common steps for project"
+  }
+}

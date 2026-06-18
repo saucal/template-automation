@@ -1,0 +1,117 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Verify logs T/R - AUTH_CAPTURE - Refund",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.request.method === \"PUT\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn  (\n            currency !== \"JPY\" \n            || \n            (\n                currency === \"JPY\" \n                && \n                (\n                    Number(blueSnapVs[0]) >= 3 \n                    && \n                    Number(blueSnapVs[1]) >= 5\n                )\n            )\n        ) \n        &&\n        test === \"partial\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "const logs = {{logs}}\nlet partialRefund = {{partialRefund}}\npartialRefund = partialRefund.toFixed(2)\nreturn logs.request.url === \"https://sandbox.bluesnap.com/services/2/transactions/{{transaction_id}}/refund?reason=wc_reason:{{testID}}&cancelsubscriptions=false&amount=\"+partialRefund",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn  (\n            (currency !== \"JPY\" && currency !== \"GBP\") \n            ||\n            (currency === \"JPY\" && (\n                    Number(blueSnapVs[0]) >= 3 \n                    && \n                    Number(blueSnapVs[1]) >= 5\n                )\n            ||\n            (currency === \"GBP\" && (\n                    Number(blueSnapVs[0]) == 3 \n                    && \n                    Number(blueSnapVs[1]) >= 2)\n                )\n        )\n        && \n        test != \"partial\"\n        "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.request.url === \"https://sandbox.bluesnap.com/services/2/transactions/{{transaction_id}}/refund?reason=wc_reason:{{testID}}&cancelsubscriptions=false\"",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nlet scenario = \"{{scenario}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn test === \"partial\" && scenario === \"multi-currency\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "let total = {{partialRefund}};\nlet rate = {{rate}};\nlet totalUSD = Math.round(total * rate * 100) /100;\nreturn totalUSD",
+      "variableName": "totalUSD"
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nlet scenario = \"{{scenario}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn test === \"partial\" && scenario === \"multi-currency\""
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.response_data.headers[6] === \"bluesnap-usd-refund-amount: {{totalUSD}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nlet scenario = \"{{scenario}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn test != \"partial\"  && scenario === \"multi-currency\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "let total = {{total}};\nlet rate = {{rate}};\nlet totalUSD = Math.round(total * rate * 100) /100;\nreturn totalUSD",
+      "variableName": "totalUSD"
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nlet scenario = \"{{scenario}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn test != \"partial\"  && scenario === \"multi-currency\""
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.response_data.headers[6] === \"bluesnap-usd-refund-amount: {{totalUSD}}\"",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "61fd1f259fa735249fe0d362",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

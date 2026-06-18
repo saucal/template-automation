@@ -1,0 +1,221 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Fill checkout",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const logged = '{{logged}}'\n\nreturn logged !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "#billing_first_name",
+      "value": "{{firstName}}"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const logged = '{{logged}}'\n\nreturn logged !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "#billing_last_name",
+      "value": "{{lastName}}"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const logged = '{{logged}}'\n\nreturn logged !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "#billing_company",
+      "value": "{{company}}"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const logged = '{{logged}}'\n\nreturn logged !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#billing_address_1",
+      "value": "{{street}}"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const logged = '{{logged}}'\n\nreturn logged !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "#billing_address_2",
+      "value": "{{street2}}"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const logged = '{{logged}}'\n\nreturn logged !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "#billing_city",
+      "value": "{{city}}"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const logged = '{{logged}}'\n\nreturn logged !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "#billing_state",
+      "value": "{{state}}"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const logged = '{{logged}}'\n\nreturn logged !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "#billing_postcode",
+      "value": "{{zipCode}}"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const logged = '{{logged}}'\n\nreturn logged !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "#billing_phone",
+      "value": "{{phone}}"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const logged = '{{logged}}'\n\nreturn logged !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "#billing_email",
+      "value": "{{email}}"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "#order_comments",
+      "value": "{{orderNote}}"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return '{{{payment}}' === 'stripe'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "#payment_method_stripe",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return '{{{payment}}' === 'purchase'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "#payment_method_woocommerce_gateway_purchase_order",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const element = document.querySelector('button.wc_avatax_validate_address[data-address-type=\"billing\"]')\n\nreturn element "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "button.wc_avatax_validate_address[data-address-type=\"billing\"]"
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const element = document.querySelector('button.wc_avatax_validate_address[data-address-type=\"billing\"]')\n\nreturn element "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const element = document.querySelector('button.wc_avatax_validate_address[data-address-type=\"billing\"]')\n\nreturn element "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "#wc-avatax-address-validation",
+      "value": "Address validated."
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68cbf43cb6e829f430725775",
+    "suiteId": "68cafa6a576a0f46b511339a",
+    "suiteName": "Hawk Ridge - Common steps"
+  }
+}

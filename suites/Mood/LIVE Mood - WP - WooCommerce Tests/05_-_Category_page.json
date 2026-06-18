@@ -1,0 +1,118 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "05 - Category page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "644a5943af1e488d25e42138",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "div:nth-of-type(1) > div > div.wcpf-checkbox-list > div:nth-of-type(1).wcpf-item.wcpf-checkbox-item .wcpf-product-counts",
+      "value": "",
+      "variableName": "qty"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "let qty = \"{{qty}}\";\nlet numberPattern = /\\d+/g;\nqty = qty.match(numberPattern)\nreturn qty[0]",
+      "variableName": "qty"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let width = window.innerWidth\r\nreturn width <= 767",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": ".filter-block-btn",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "div:nth-of-type(1) > div > div.wcpf-checkbox-list > div:nth-of-type(1).wcpf-item.wcpf-checkbox-item",
+      "value": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "let check = document.querySelector(\"div:nth-of-type(1) > div > div.wcpf-checkbox-list > div:nth-of-type(1).wcpf-item.wcpf-checkbox-item .wcpf-input.wcpf-input-checkbox\");\nreturn check.checked",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let width = window.innerWidth\r\nreturn width <= 767",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "div.hm-filter-close-mobile > button",
+      "value": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "let list = document.querySelectorAll(\"ul.products > li\");\nreturn list.length === {{qty}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "644a5943af1e488d25e42139",
+    "suiteId": "644a5943af1e488d25e4211d",
+    "suiteName": "LIVE Mood - WP & WooCommerce Tests"
+  }
+}

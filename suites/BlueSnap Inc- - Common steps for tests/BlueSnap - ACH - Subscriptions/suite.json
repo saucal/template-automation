@@ -1,0 +1,210 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "6846ef70388232057b7502c1",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2025-06-09T14:28:00.349Z",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "6239b8e0aacde4b98746feb0",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "BlueSnap - ACH - Subscriptions",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": false,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://devbluesnap1.mystagingwebsite.com/",
+    "testCount": 40,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "woo_user",
+        "value": "ck_91cff1f62657b5ef24b7606cd572b584fb31640b",
+        "private": true,
+        "_id": "60a273cdcda37459c851732a"
+      },
+      {
+        "name": "woo_pass",
+        "value": "cs_d488aec5bbb508cb9151e5d433c2c11b8ef574ff",
+        "private": true,
+        "_id": "60a273cdcda37459c851732b"
+      },
+      {
+        "name": "blue_pass",
+        "value": "JA$5uZW95NID23",
+        "private": true,
+        "_id": "60a273cdcda37459c851732d"
+      },
+      {
+        "name": "password",
+        "value": "DTK0cyg2cub9aht*kja",
+        "private": true,
+        "_id": "60ca0d461da0a93062c80519"
+      },
+      {
+        "name": "accountNumberA",
+        "value": "223344556",
+        "private": false,
+        "_id": "6213d603029c844528c6c7b2"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b82"
+      },
+      {
+        "name": "company",
+        "value": "Saucal Inc.",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b83"
+      },
+      {
+        "name": "city",
+        "value": "Miami",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b85"
+      },
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "6213da355f85360d3f156ca7"
+      },
+      {
+        "name": "zipCode",
+        "value": "33126",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b86"
+      },
+      {
+        "name": "blog",
+        "value": "mitchell_callahan_blog_6",
+        "private": false,
+        "_id": "65b28954edd04af7687ce1e6"
+      },
+      {
+        "name": "address2",
+        "value": "Apartment 2",
+        "private": false,
+        "_id": "60d08eb61da0a93062ee109d"
+      },
+      {
+        "name": "MASTER_CCName",
+        "value": "MasterCard",
+        "private": false,
+        "_id": "6225fca7ee28e97e1a986399"
+      },
+      {
+        "name": "MASTER_a_ccard",
+        "value": "5425233430109903",
+        "private": false,
+        "_id": "6225fca7ee28e97e1a986397"
+      },
+      {
+        "name": "routingNumberA",
+        "value": "998877665",
+        "private": false,
+        "_id": "6213d603029c844528c6c7b3"
+      },
+      {
+        "name": "password_bluesnap",
+        "value": "qkm5gjb7gec.ARG1qtz",
+        "private": true,
+        "_id": "626960a18f4da5c1bbfd7d6b"
+      },
+      {
+        "name": "accountNumberD",
+        "value": "123456789",
+        "private": false,
+        "_id": "6213d603029c844528c6c7b4"
+      },
+      {
+        "name": "routingNumberD",
+        "value": "987654321",
+        "private": false,
+        "_id": "6213d603029c844528c6c7b5"
+      },
+      {
+        "name": "MASTER_ShortName",
+        "value": "MASTERCARD",
+        "private": false,
+        "_id": "6225fca7ee28e97e1a986398"
+      },
+      {
+        "name": "user_bluesnap",
+        "value": "qa@saucal.com",
+        "private": false,
+        "_id": "626960a18f4da5c1bbfd7d6c"
+      },
+      {
+        "name": "blue_user",
+        "value": "API_16509753954602042969865",
+        "private": true,
+        "_id": "60a273cdcda37459c851732c"
+      },
+      {
+        "name": "MASTER_month",
+        "value": "04",
+        "private": false,
+        "_id": "6225fca7ee28e97e1a98639a"
+      },
+      {
+        "name": "street",
+        "value": "123 Flase Street",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b84"
+      },
+      {
+        "name": "MASTER_year",
+        "value": "23",
+        "private": false,
+        "_id": "6225fca7ee28e97e1a98639b"
+      },
+      {
+        "name": "MASTER_cvv",
+        "value": "123",
+        "private": false,
+        "_id": "6225fca7ee28e97e1a98639c"
+      },
+      {
+        "name": "wp_api_pass",
+        "value": "eAFR YyTz w9Qt SRre Q3uM 8WMD",
+        "private": true,
+        "_id": "65b2869a9cc5a53dd6cdd77a"
+      },
+      {
+        "name": "phone",
+        "value": "3050698798",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b87"
+      },
+      {
+        "name": "defaulCurr",
+        "value": "USD",
+        "private": false,
+        "_id": "65b2869a9cc5a53dd6cdd77b"
+      }
+    ],
+    "viewportSize": {
+      "width": 1280,
+      "height": 800
+    }
+  }
+}

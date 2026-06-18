@@ -1,0 +1,103 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "692e05da0e1e837d8ced22a6",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2025-12-01T21:17:14.541Z",
+    "details": "Basic WooCommerce Test",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "60364343fa81e86a7164a4be",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "Phlearn - Only order",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://phlearn-staging.mystagingwebsite.com/",
+    "testCount": 2,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "email",
+        "value": "qa+gi_order_{{alphanumeric}}@saucal.com",
+        "private": false,
+        "_id": "5fff169a0f195d59103c3582"
+      },
+      {
+        "name": "emailReg",
+        "value": "qa+gi_reg_{{alphanumeric}}@saucal.com",
+        "private": false,
+        "_id": "6001b7f897354979a955eda7"
+      },
+      {
+        "name": "emailForgot",
+        "value": "qa+gi_forgot_{{alphanumeric}}@saucal.com",
+        "private": false,
+        "_id": "602bca335e4f6e1c9700d362"
+      },
+      {
+        "name": "password",
+        "value": "fric2171Biot",
+        "private": true,
+        "_id": "603cf745fa81e86a7198fe37"
+      },
+      {
+        "name": "password2",
+        "value": "fric2172Biot",
+        "private": true,
+        "_id": "603d05e2494ea8489817ba52"
+      },
+      {
+        "name": "firstName",
+        "value": "Saucal Test",
+        "private": false,
+        "_id": "606b6df552a2f06aae998be1"
+      },
+      {
+        "name": "zipCode",
+        "value": "33126",
+        "private": false,
+        "_id": "606b6df552a2f06aae998be2"
+      },
+      {
+        "name": "project",
+        "value": "Phlearn",
+        "private": false,
+        "_id": "627a581f97a3bd06e0e40041"
+      },
+      {
+        "name": "Symbol",
+        "value": "$",
+        "private": false,
+        "_id": "627a755826939cd046ca2a96"
+      },
+      {
+        "name": "url",
+        "value": "https://phamily-develop.go-vip.net/",
+        "private": false,
+        "_id": "63ed2558af1e488d252c8426"
+      }
+    ],
+    "viewportSize": {
+      "width": 1920,
+      "height": 1080
+    }
+  }
+}

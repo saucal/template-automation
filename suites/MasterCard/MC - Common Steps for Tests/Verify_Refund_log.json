@@ -1,0 +1,191 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Verify Refund log",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\n\nreturn refund === 'exceed'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "const logs = {{transactionPutLogs}}\n\nreturn logs[0].content.length === 0",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\n\nreturn refund !== 'exceed'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "const logs = {{logs}}\n\nreturn logs[0].content[1]",
+      "variableName": "log"
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\n\nreturn refund !== 'exceed'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.request.type === 'PUT'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\n\nreturn refund !== 'exceed'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.request.url === 'https://test-gateway.mastercard.com/api/rest/version/100/merchant/TESTSAUCAL1/order/{{transaction_id}}/transaction/{{transaction_id}}-3'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\n\nreturn refund !== 'exceed'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.request.body.apiOperation === 'REFUND'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\n\nreturn refund === 'full'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "const log = {{log}}\nlet total = '{{total}}'\ntotal = total.replace('$','')\n\nreturn log.request.body.transaction.amount === total",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\n\nreturn refund === 'partial'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "const log = {{log}}\nlet total = '{{partialRefund}}'\ntotal = total.replace('$','')\n\nreturn log.request.body.transaction.amount === total",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\n\nreturn refund !== 'exceed'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.request.body.transaction.currency === 'USD'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\n\nreturn refund === 'full'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "const log = {{log}}\nlet total = '{{total}}'\ntotal = parseFloat(total.replace('$',''))\n\nreturn log.response.body.order.totalRefundedAmount === total",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\n\nreturn refund === 'partial'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.order.totalRefundedAmount === {{partialRefund}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\n\nreturn refund === 'full'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.order.status === 'REFUNDED'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\n\nreturn refund === 'partial'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.order.status === 'PARTIALLY_REFUNDED'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\n\nreturn refund !== 'exceed'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.result === 'SUCCESS'",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "67782f2d35aed64d3039253c",
+    "suiteId": "676eb96835aed64d3077072a",
+    "suiteName": "MC - Common Steps for Tests"
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Verify Transaction on logs",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "69778cc365fd97d14e2468b4",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const transaction = '{{transaction}}'\nconst refund = '{{refund}}'\n\n\nreturn transaction !== 'declined' && !refund"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "const logs = {{logs}}\n\nreturn logs[0].rows[0].includes('Successfully completed payment, CHARGE longId is {{charge_id}}')",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const transaction = '{{transaction}}'\nconst challenge = '{{challenge}}'\nconst refund = '{{refund}}'\n\nreturn transaction === 'declined' && challenge === 'fail' && !refund"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "const logs = {{logs}}\n\nreturn logs[0].rows[0].includes('The provided PaymentMethod has failed authentication. You can provide payment_method_data or a new PaymentMethod to attempt to fulfill this PaymentIntent again.')",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const transaction = '{{transaction}}'\nconst challenge = '{{challenge}}'\nconst refund = '{{refund}}'\n\nreturn transaction === 'declined' && challenge !== 'fail' && !refund"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "const logs = {{logs}}\n\nreturn logs[0].rows[0].includes('Your card was declined.')",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\n\nreturn !!refund"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "const logs = {{logs}}\nconst refundWCId = {{orderNumber}} + 1\n\nreturn  logs[0].rows[0].includes('Map WC refund '+refundWCId+' to payout {{refundID}}.')\n        &&\n        logs[0].rows[1].includes('Payout API request result: Instant refund processed successfully')",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69778cc365fd97d14e2468dc",
+    "suiteId": "69778cc265fd97d14e24689f",
+    "suiteName": "Payoneer - Common Steps for Tests"
+  }
+}

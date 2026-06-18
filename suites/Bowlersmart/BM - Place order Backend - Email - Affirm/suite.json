@@ -1,0 +1,170 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "6824908cb3e7bdebe95c1d6b",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome-139",
+    "dataSource": null,
+    "dateCreated": "2025-05-14T12:46:04.620Z",
+    "details": "",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "681212a4ff841a20f20fd886",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "BM - Place order Backend + Email - Affirm",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "us-west-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "screenshotExclusions": "",
+    "startUrl": "https://bowlersmart-com-preprod.go-vip.net/",
+    "testCount": 3,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "site",
+        "value": "https://sheepdog-united-randomly.ngrok-free.app",
+        "private": false,
+        "_id": "671ba361a655f16a8cf841cd"
+      },
+      {
+        "name": "project",
+        "value": "bowlers",
+        "private": false,
+        "_id": "671ba803f7c3927cffd4872d"
+      },
+      {
+        "name": "street4",
+        "value": "5th Floor",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8774"
+      },
+      {
+        "name": "password",
+        "value": "helloworld123",
+        "private": true,
+        "_id": "671bab60f7c3927cffd53f07"
+      },
+      {
+        "name": "Symbol",
+        "value": "$",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8767"
+      },
+      {
+        "name": "password2",
+        "value": "helloworld234",
+        "private": true,
+        "_id": "671bab60f7c3927cffd53f08"
+      },
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8768"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8769"
+      },
+      {
+        "name": "company",
+        "value": "Test Inc.",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf876a"
+      },
+      {
+        "name": "street",
+        "value": "30 Leicester Square",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf876b"
+      },
+      {
+        "name": "street2",
+        "value": "Ap. 4",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf876c"
+      },
+      {
+        "name": "city",
+        "value": "Miami",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf876d"
+      },
+      {
+        "name": "stateComplete",
+        "value": "Florida",
+        "private": false,
+        "_id": "68121497ff841a20f2104cd6"
+      },
+      {
+        "name": "state",
+        "value": "FL",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf876e"
+      },
+      {
+        "name": "country",
+        "value": "US",
+        "private": false,
+        "_id": "68121497ff841a20f2104cd7"
+      },
+      {
+        "name": "zipCode",
+        "value": "33126",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf876f"
+      },
+      {
+        "name": "countryComplete",
+        "value": "United States (US)",
+        "private": false,
+        "_id": "68121497ff841a20f2104cd8"
+      },
+      {
+        "name": "phone",
+        "value": "+12016299320",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8770"
+      },
+      {
+        "name": "lastName2",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8771"
+      },
+      {
+        "name": "company2",
+        "value": "Shipping Inc.",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8772"
+      },
+      {
+        "name": "street3",
+        "value": "30 Leicester Square",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8773"
+      }
+    ],
+    "viewportSize": {
+      "width": 1920,
+      "height": 1080
+    }
+  }
+}

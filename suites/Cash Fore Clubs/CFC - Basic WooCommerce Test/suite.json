@@ -1,0 +1,74 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "671b8f13a655f16a8cf44587",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2024-10-25T12:29:07.576Z",
+    "details": "",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "671b8ed2a655f16a8cf43ae1",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "CFC - Basic WooCommerce Test",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": false,
+    "publicStatusEnabled": false,
+    "region": "eu-west-2",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://cashforeclubs-staging.mystagingwebsite.com/",
+    "testCount": 22,
+    "testFrequency": 0,
+    "viewportSize": {
+      "width": 1920,
+      "height": 1080
+    },
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "site",
+        "value": "https://cashforeclubs-staging.mystagingwebsite.com/",
+        "private": false,
+        "_id": "671ba361a655f16a8cf841cd"
+      },
+      {
+        "name": "project",
+        "value": "cashForeClub",
+        "private": false,
+        "_id": "671ba803f7c3927cffd4872d"
+      },
+      {
+        "name": "password",
+        "value": "helloworld123",
+        "private": true,
+        "_id": "671bab60f7c3927cffd53f07"
+      },
+      {
+        "name": "password2",
+        "value": "helloworld234",
+        "private": true,
+        "_id": "671bab60f7c3927cffd53f08"
+      },
+      {
+        "name": "Symbol",
+        "value": "£",
+        "private": false,
+        "_id": "671bc5c2a655f16a8cfe65a3"
+      }
+    ],
+    "screenshotExclusions": "div.grw-reviews, li.product > div > a > div > div.shoptimizer-plp-image-wrapper > img"
+  }
+}

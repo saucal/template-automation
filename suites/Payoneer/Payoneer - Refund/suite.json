@@ -1,0 +1,150 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "6980e8b276f083a565fc7c68",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome-141",
+    "dataSource": null,
+    "dateCreated": "2026-02-02T18:10:58.016Z",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "6977856e65fd97d14e22f28b",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "Payoneer - Refund",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": true,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": false,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://payoneer.mystagingwebsite.com/",
+    "testCount": 4,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "woo_user",
+        "value": "ck_0727ad3d2c6701cfd20ef6ffbffd82913b3b1747",
+        "private": true,
+        "_id": "60a273cdcda37459c851732a"
+      },
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b81"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b82"
+      },
+      {
+        "name": "company",
+        "value": "Saucal Inc.",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b83"
+      },
+      {
+        "name": "city",
+        "value": "Miami",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b85"
+      },
+      {
+        "name": "zipCode",
+        "value": "33126",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b86"
+      },
+      {
+        "name": "street",
+        "value": "123 Flase Street",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b84"
+      },
+      {
+        "name": "password",
+        "value": "fric2171Biot",
+        "private": true,
+        "_id": "60ca0d461da0a93062c80519"
+      },
+      {
+        "name": "phone",
+        "value": "3050698798",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b87"
+      },
+      {
+        "name": "address2",
+        "value": "Apartment 2",
+        "private": false,
+        "_id": "60d08eb61da0a93062ee109d"
+      },
+      {
+        "name": "state",
+        "value": "Florida",
+        "private": false,
+        "_id": "676ebce735aed64d307734b1"
+      },
+      {
+        "name": "country",
+        "value": "United States (US)",
+        "private": false,
+        "_id": "676ebce735aed64d307734af"
+      },
+      {
+        "name": "shortCountry",
+        "value": "US",
+        "private": false,
+        "_id": "676ebce735aed64d307734b0"
+      },
+      {
+        "name": "shortState",
+        "value": "FL",
+        "private": false,
+        "_id": "676ebce735aed64d307734b2"
+      },
+      {
+        "name": "adminUser",
+        "value": "demouser",
+        "private": false,
+        "_id": "676eb860186faa7fdcbb3c43"
+      },
+      {
+        "name": "adminPass",
+        "value": "fric2171Biot",
+        "private": true,
+        "_id": "676eb860186faa7fdcbb3c44"
+      },
+      {
+        "name": "wp_api_pass",
+        "value": "qGCP rlUf qFJc skzF RlSF cQ4l",
+        "private": false,
+        "_id": "65b2843eedd04af7687b9227"
+      },
+      {
+        "name": "woo_pass",
+        "value": "cs_189a05a4978a86db3448f3b22d433e6f13c4cc95",
+        "private": true,
+        "_id": "676eb8f535aed64d30770074"
+      }
+    ],
+    "viewportSize": {
+      "width": 1440,
+      "height": 900
+    }
+  }
+}

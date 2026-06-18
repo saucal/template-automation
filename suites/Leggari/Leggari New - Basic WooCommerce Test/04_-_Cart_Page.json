@@ -1,0 +1,521 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": false,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "04 - Cart Page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": true,
+  "screenshotExclusions": "li > a > img",
+  "screenshotCompareThreshold": 0.11,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "685ac1c615b3a115491e05df",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "#leggari-start-composite",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "#leggari-sqf-for-kit",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#leggari-sqf-for-kit",
+      "value": "125",
+      "variableName": ""
+    },
+    {
+      "command": "keypress",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "9",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": ".composite_component.component.single.options-style-dropdowns.first > .component_inner > div:nth-of-type(2) > .component_options > .component_options_inner.cp_clearfix > div > select",
+      "value": "71533",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": ".composite_component.component.single.options-style-dropdowns.next > .component_inner > div:nth-of-type(2) > .component_options > .component_options_inner.cp_clearfix > div > select",
+      "value": "71535",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "div.composite_component.component.single.options-style-dropdowns:nth-of-type(4) > .component_inner > div:nth-of-type(2) > .component_options > .component_options_inner.cp_clearfix > div > select",
+      "value": "71536",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "#wccp_component_checkbox_1684742865_1",
+      "value": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "h1.product_title",
+      "value": "",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "var prodDesc = \"{{prod_desc}}\"\nprodDesc = prodDesc.replace(\"–\",\"-\")\nreturn prodDesc",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "#leggari-sqf-for-kit",
+      "value": "",
+      "variableName": "square"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": ".composite_component.component.single.options-style-dropdowns.first > .component_inner > div:nth-of-type(2) > .component_options > .component_options_inner.cp_clearfix > div > select > option[value=\"71533\"]",
+      "value": "",
+      "variableName": "coat"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": ".composite_component.component.single.options-style-dropdowns.next > .component_inner > div:nth-of-type(2) > .component_options > .component_options_inner.cp_clearfix > div > select > option[value=\"71535\"]",
+      "value": "",
+      "variableName": "additive"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "div.composite_component.component.single.options-style-dropdowns:nth-of-type(4) > .component_inner > div:nth-of-type(2) > .component_options > .component_options_inner.cp_clearfix > div > select > option[value=\"71536\"]",
+      "value": "",
+      "variableName": "vapor"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": [
+        {
+          "selector": ".composite_price > .price > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": ".composite_price > .price > ins > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "return '{{role}}' === 'contractor'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": ".composite_price > .price > del > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "wholePrice"
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "return '{{role}}' === 'contractor'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "",
+      "value": "let wholePrice = '{{wholePrice}}'\nlet unitPrice = '{{unitPrice}}'\n\nwholePrice = parseFloat(wholePrice.replace('$','').trim())\nunitPrice = parseFloat(unitPrice.replace('$','').trim())\n\nlet unitPrice2 = wholePrice * 0.89\n\nreturn Number(unitPrice.toFixed(2)) === unitPrice",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "return '{{role}}' === 'contractor'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "",
+      "value": "let wholePrice = '{{wholePrice}}'\n\nwholePrice = parseFloat(wholePrice.replace('{{Symbol}}','').trim())\n\nlet discount = wholePrice * 0.11\n\nreturn '{{Symbol}}'+discount.toFixed(2)\n",
+      "variableName": "prodDiscount"
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "button[type=\"submit\"].single_add_to_cart_button",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "button[type=\"submit\"].single_add_to_cart_button",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "a[href*=\"/product/\"]",
+      "value": "{{prod_desc}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "dd.component_value > p",
+      "value": "{{square}} ft²"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "dd.variation-UrethaneTopCoat",
+      "value": "{{coat}} × 1"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "dd.variation-GritAdditive",
+      "value": "{{additive}} × 1"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "dd.variation-VaporBarrier",
+      "value": "{{vapor}}"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{role}}' !== 'contractor'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": ".woocommerce-mini-cart__total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{role}}' === 'contractor'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "p.woocommerce-mini-cart__total.total:not(.fees) > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{wholePrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{role}}' === 'contractor'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "p.woocommerce-mini-cart__total.total.fees > span > bdi",
+      "value": "-{{prodDiscount}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": [
+        {
+          "selector": "xpath=//a[contains(text(), \"Continue to Cart\")]"
+        },
+        {
+          "selector": "a[href*=\"/cart/\"].cart-popup__product-button"
+        },
+        {
+          "selector": "xpath=//a[contains(text(), \"View cart\")]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": ".product-info-list__item > a[href*=\"/product/\"]",
+      "value": "{{prod_desc}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": [
+        {
+          "selector": ".product-subtotal > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": ".product-subtotal > ins > .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{role}}' === 'contractor'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": ".product-subtotal > del > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{wholePrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": "dl.variation.composite_configuration:nth-of-type(1) > dd.component_value > p",
+      "value": "{{square}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": "dl.variation.composite_configuration:nth-of-type(2) > dd.component_value:nth-of-type(1) > p",
+      "value": "{{coat}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": "dd.component_value:nth-of-type(3) > p",
+      "value": "{{vapor}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 37,
+      "target": "dd.component_value:nth-of-type(2) > p",
+      "value": "{{additive}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{role}}' !== 'contractor'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 38,
+      "target": "tr.cart-subtotal > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "return '{{role}}' === 'contractor'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 39,
+      "target": "",
+      "value": "{{wholePrice}}",
+      "variableName": "subtotalPrice"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{role}}' === 'contractor'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 40,
+      "target": "tr.cart-subtotal > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{role}}' === 'contractor'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 41,
+      "target": "strong > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{role}}' !== 'contractor'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 42,
+      "target": "strong > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{role}}' === 'contractor'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 43,
+      "target": "tr.fee.fee-product-discount.custom-cart-totals-style-table > td > span",
+      "value": "-{{prodDiscount}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "685ac1c615b3a115491e05e0",
+    "suiteId": "685ac1c615b3a115491e05bb",
+    "suiteName": "Leggari New - Basic WooCommerce Test"
+  }
+}

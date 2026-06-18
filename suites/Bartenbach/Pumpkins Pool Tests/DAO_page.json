@@ -1,0 +1,97 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "DAO page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return window.innerWidth > 1024"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "li.menu-item.menu-item-type-custom.menu-item-object-custom.menu-item-has-children.menu-item--has-toggle:nth-of-type(3) > a[href=\"#\"] > .nav-drop-title-wrap"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return window.innerWidth > 1024"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": ".menu-item.menu-item-type-custom.menu-item-object-custom.menu-item-has-children.menu-item--has-toggle > .sub-menu > li.menu-item.menu-item-type-post_type.menu-item-object-page:nth-of-type(2) > a[href*=\"/dao-community/\"]"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return window.innerWidth <= 1024"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "svg.kadence-svg-icon.kadence-menu-svg",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return window.innerWidth <= 1024"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "//*[@id=\"mobile-menu\"]/li[3]/div/button",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return window.innerWidth <= 1024"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": ".sub-menu.pop-animated > li.menu-item.menu-item-type-post_type.menu-item-object-page:nth-of-type(2) > a[href*=\"/dao-community/\"]",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "div > .pumpkin-dao-body-proposals-item-header > .pumpkin-dao-body-proposals-item-header-wrap",
+      "value": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68d44748e572969a066b2a3f",
+    "suiteId": "684186006fbaa32660f3adc9",
+    "suiteName": "Pumpkins Pool Tests"
+  }
+}

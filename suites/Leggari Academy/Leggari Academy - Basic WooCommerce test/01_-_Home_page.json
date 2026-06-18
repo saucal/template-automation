@@ -1,0 +1,126 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "01 - Home page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "6022b62a262f437a9af8d3f1",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "69c170ddc37b235f986a4702",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "body > div.elementor > section.elementor-section.elementor-top-section.elementor-element.elementor-section-full_width.sales-page-hero.elementor-section-height-default.elementor-section-height-default > div.elementor-container.elementor-column-gap-default > div.elementor-column.elementor-col-50.elementor-top-column.elementor-element > div > section > div > div > div > div.elementor-element.elementor-align-justify.elementor-mobile-align-center.pricing.elementor-widget.elementor-widget-button > div > div > a > span > span",
+      "value": "Join Leggari  Academy"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "iframe[src*=\"player.vimeo.com\"] .vp-target"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "iframe[src*=\"player.vimeo.com\"] .vp-target"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": ".elementor-element.elementor-element-8bd68c9 > .elementor-widget-container > .elementor-toggle > .elementor-toggle-item > .elementor-tab-title > .elementor-toggle-icon.elementor-toggle-icon-right > .elementor-toggle-icon-closed > svg.e-fas-caret-down"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": ".elementor-element.elementor-element-dfb6af6 > .elementor-widget-container > .elementor-toggle > .elementor-toggle-item > .elementor-tab-title > .elementor-toggle-icon.elementor-toggle-icon-right > .elementor-toggle-icon-closed > svg.e-fas-caret-down"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": ".elementor-element.elementor-element-8bd68c9 > .elementor-widget-container > .elementor-toggle > .elementor-toggle-item > .elementor-tab-content.elementor-clearfix > p",
+      "value": "Leggari Academy offers a more comprehensive learning experience compared to our previous in-person trainings. The online format allows us to dive deeper into each topic, providing detailed insights and covering all aspects of an installation to better reflect real-world scenarios. Although live training provided hands-on experience, it had limitations in terms of time, space, and controlled environments. Contrary to popular belief, we found that hands-on practice during live training didn’t necessarily guarantee immediate proficiency, as most attendees still needed to practice after the class to truly master the process. With this in mind, we decided to prioritize the delivery of extensive information through Leggari Academy’s online platform, ensuring a more effective and accessible learning experience."
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": ".elementor-element.elementor-element-dfb6af6 > .elementor-widget-container > .elementor-toggle > .elementor-toggle-item > .elementor-tab-content.elementor-clearfix > p",
+      "value": "Absolutely, there is significant demand for more installers in the coatings industry. The need for skilled workers currently exceeds the supply, and this trend is expected to continue for years to come. We developed Leggari Academy over two years in response to the growing demand for various coating applications. Our training encompasses both indoor and outdoor applications, such as countertops, floors, and walls, with plans to add more systems at no extra cost. Leggari Academy’s comprehensive approach, covering nine systems, enables students to work year-round, regardless of the season. The widespread exposure of coatings and resurfacing techniques on social media has increased global interest in these services, further emphasizing the need for more trained installers."
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69c16fe2832da09b9743d3a8",
+    "suiteId": "69c16cc8de491b5fc5f1b489",
+    "suiteName": "Leggari Academy - Basic WooCommerce test"
+  }
+}

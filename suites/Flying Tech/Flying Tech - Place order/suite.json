@@ -1,0 +1,163 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "673c96a884d2a5c4a5ef3724",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome-139",
+    "dataSource": null,
+    "dateCreated": "2024-11-19T13:46:16.946Z",
+    "details": "",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "673b548e84d2a5c4a5b12ab9",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "Flying Tech - Place order",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://khrff7b2hz-staging.onrocket.site/",
+    "testCount": 5,
+    "testFrequency": 0,
+    "viewportSize": {
+      "width": 1920,
+      "height": 1080
+    },
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "project",
+        "value": "flyingTech",
+        "private": false,
+        "_id": "673c9af8aac72eeccca47da1"
+      },
+      {
+        "name": "Symbol",
+        "value": "£",
+        "private": false,
+        "_id": "673c9af8aac72eeccca47da2"
+      },
+      {
+        "name": "countryComplete",
+        "value": "United Kingdom (UK)",
+        "private": false,
+        "_id": "684acd0d388232057b2abb81"
+      },
+      {
+        "name": "country",
+        "value": "UK",
+        "private": false,
+        "_id": "684acd0d388232057b2abb82"
+      },
+      {
+        "name": "zipCode",
+        "value": "CF24 4NN",
+        "private": false,
+        "_id": "673c9af8aac72eeccca47da7"
+      },
+      {
+        "name": "street",
+        "value": "52a Crwys Road",
+        "private": false,
+        "_id": "673c9af8aac72eeccca47da8"
+      },
+      {
+        "name": "county",
+        "value": "South Glamorgan",
+        "private": false,
+        "_id": "673c9fcb84d2a5c4a5f2d8f9"
+      },
+      {
+        "name": "street2",
+        "value": "Ap. 4",
+        "private": false,
+        "_id": "673c9af8aac72eeccca47da9"
+      },
+      {
+        "name": "city",
+        "value": "Cardiff",
+        "private": false,
+        "_id": "673c9af8aac72eeccca47daa"
+      },
+      {
+        "name": "street3",
+        "value": "54a Crwys Road",
+        "private": false,
+        "_id": "673c9c2184d2a5c4a5f121db"
+      },
+      {
+        "name": "adminUser",
+        "value": "guest+maintenanceAdmin@saucal.com",
+        "private": false,
+        "_id": "673e062faac72eecccfb1534"
+      },
+      {
+        "name": "adminPass",
+        "value": "y4Qch37A4fQ6pd9ZGDqDwShR87reySp2PL",
+        "private": true,
+        "_id": "673e062faac72eecccfb1535"
+      },
+      {
+        "name": "street4",
+        "value": "AP. 6",
+        "private": false,
+        "_id": "673c9c2184d2a5c4a5f121dc"
+      },
+      {
+        "name": "phone",
+        "value": "1231231234",
+        "private": false,
+        "_id": "673c9af8aac72eeccca47dab"
+      },
+      {
+        "name": "company2",
+        "value": "Shipping",
+        "private": false,
+        "_id": "673c9af8aac72eeccca47dac"
+      },
+      {
+        "name": "site",
+        "value": "https://khrff7b2hz-staging.onrocket.site/",
+        "private": false,
+        "_id": "673c9af8aac72eeccca47da3"
+      },
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "673c9af8aac72eeccca47da4"
+      },
+      {
+        "name": "password",
+        "value": "helloworld123",
+        "private": true,
+        "_id": "673ca82c84d2a5c4a5f649e3"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "673c9af8aac72eeccca47da5"
+      },
+      {
+        "name": "company",
+        "value": "Testing",
+        "private": false,
+        "_id": "673c9af8aac72eeccca47da6"
+      }
+    ]
+  }
+}

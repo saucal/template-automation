@@ -1,0 +1,45 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Get transaction details",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": null,
+  "steps": [
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "command": "extractEval",
+      "target": "",
+      "value": "return new Promise(function (resolve, reject) {\n  const transaction_id = 6394077009\n  const url = \"https://secure.inspiregateway.net/api/query.php/?security_key=G878BrDH5enF89F46tem2Fssa93DV3Ta&transaction_id=\"+transaction_id;\n  \n  let headers = new Headers();\n  headers.set('Content-Type', 'text/xml; charset=utf-8');\n  //headers.set('Authorization', 'Basic ' + btoa(username + \":\" + password));\n  fetch(url, {method:'GET',\n      mode: 'no-cors',\n      headers: headers,\n      })\n  .then(function(response) {\n    if (response.ok) {\n    resolve(response.json())\n    } else {\n    reject(new Error('error'))\n    } \n  })\n})",
+      "variableName": "myOrder"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "60df53d54d555a2279c9c9e7",
+    "suiteId": "60de04071f48295b527577f5",
+    "suiteName": "Inspire Gateway - Common Steps for suites"
+  }
+}

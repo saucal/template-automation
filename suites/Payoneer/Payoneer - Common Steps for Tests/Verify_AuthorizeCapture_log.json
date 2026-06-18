@@ -1,0 +1,743 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Verify Authorize/Capture log",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const threeDS = '{{3ds}}'\nconst hosted = '{{hosted}}'\nconst savedCC = '{{savedCC}}'\nconst challenge = '{{challenge}}'\nconst transactionType = '{{transactionType}}'\nconst payForOrder = '{{payForOrder}}'\n\nreturn  threeDS === 'active' \n        &&\n        hosted === 'session' \n        &&\n        savedCC !== 'yes'\n        &&\n        challenge !== 'yes' \n        &&\n        payForOrder !== 'yes'\n        &&\n        (\n            transactionType === 'capture' \n            ||\n            transactionType === 'authorize'\n        )"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "const logs = {{logs}}\n\nreturn logs[0].content[3]",
+      "variableName": "log"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const threeDS = '{{3ds}}'\nconst hosted = '{{hosted}}'\nconst savedCC = '{{savedCC}}'\nconst challenge = '{{challenge}}'\nconst transactionType = '{{transactionType}}'\n\nreturn  threeDS === 'active'\n        &&\n        hosted === 'session'\n        &&\n        savedCC === 'yes'\n        &&\n        challenge !== 'yes'\n        && \n        (\n            transactionType === 'capture' \n            ||\n            transactionType === 'authorize'\n        )"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "const logs = {{logs}}\n\nreturn logs[0].content[4]",
+      "variableName": "log"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const threeDS = '{{3ds}}'\nconst hosted = '{{hosted}}'\nconst savedCC = '{{savedCC}}'\nconst challenge = '{{challenge}}'\nconst transactionType = '{{transactionType}}'\nconst renewal = '{{renewal}}'\n\n\nreturn  threeDS === 'active'\n        &&\n        renewal !== 'yes'\n        &&\n        hosted === 'session' \n        &&\n        savedCC !== 'yes'\n        &&\n        challenge === 'yes'\n        && \n        (\n            transactionType === 'capture' \n            ||\n            transactionType === 'authorize'\n        )\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "const logs = {{logs}}\n\nreturn logs[0].content[5]",
+      "variableName": "log"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const threeDS = '{{3ds}}'\nconst hosted = '{{hosted}}'\nconst savedCC = '{{savedCC}}'\nconst challenge = '{{challenge}}'\nconst transactionType = '{{transactionType}}'\nconst payForOrder = '{{payForOrder}}'\n\nreturn  threeDS === 'active'\n        &&\n        hosted === 'session'\n        &&\n        (\n            (savedCC === 'yes'\n            &&\n            challenge === 'yes')\n            ||\n            (payForOrder === 'yes'\n            &&\n            challenge !== 'yes')\n        )\n        &&\n        (\n            transactionType === 'capture' \n            ||\n            transactionType === 'authorize'\n        )"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "const logs = {{logs}}\n\nreturn logs[0].content[6]",
+      "variableName": "log"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const threeDS = '{{3ds}}'\nconst hosted = '{{hosted}}'\nconst savedCC = '{{savedCC}}'\n\nreturn  (\n            threeDS === 'inactive' \n            && \n            savedCC !== 'yes'\n        )"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "const logs = {{logs}}\n\nreturn logs[0].content[1]",
+      "variableName": "log"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const threeDS = '{{3ds}}'\nconst hosted = '{{hosted}}'\nconst savedCC = '{{savedCC}}'\n\nreturn  (\n            threeDS === 'inactive' \n            && \n            savedCC === 'yes'\n        )"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "const logs = {{logs}}\n\nreturn logs[0].content[2]",
+      "variableName": "log"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\nreturn  transactionType === 'partialCapture'\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "const logs = {{logs}}\n\nreturn logs[0].content[logs[0].content.length - 2]",
+      "variableName": "log"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\nreturn transactionType === 'totalCapture'  "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "const logs = {{logs}}\n\nreturn logs[0].content[logs[0].content.length - 1]",
+      "variableName": "log"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const hosted = '{{hosted}}'\nconst renewal = '{{renewal}}'\nreturn hosted === 'checkoutR' ||  renewal === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "const logs = {{logs}}\n\nreturn logs[0].content[0]",
+      "variableName": "log"
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const hosted = '{{hosted}}'\nreturn hosted === 'session'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.request.type === 'PUT'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const hosted = '{{hosted}}'\nreturn hosted === 'checkoutR'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.request.type === 'GET'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const threeDS = '{{3ds}}'\nconst hosted = '{{hosted}}'\nconst transactionType = '{{transactionType}}'\nconst renewal = '{{renewal}}'\n\nreturn  hosted === 'session'\n        &&\n        threeDS !== 'inactive'\n        &&\n        (\n            transactionType === 'authorize'\n            ||\n            transactionType == 'capture'\n        )\n        &&\n        renewal !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.request.url === 'https://test-gateway.mastercard.com/api/rest/version/100/merchant/TESTSAUCAL1/order/{{transaction_id}}/transaction/{{transaction_id}}-2'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const threeDS = '{{3ds}}'\nconst hosted = '{{hosted}}'\nconst renewal = '{{renewal}}'\n\nreturn hosted === 'session' && (threeDS === 'inactive' || renewal === 'yes')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.request.url === 'https://test-gateway.mastercard.com/api/rest/version/100/merchant/TESTSAUCAL1/order/{{transaction_id}}/transaction/{{transaction_id}}-1'\n",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\n\nreturn  transactionType === 'partialCapture'\n        ||\n        transactionType === 'totalCapture'\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.request.url === 'https://test-gateway.mastercard.com/api/rest/version/100/merchant/TESTSAUCAL1/order/{{transaction_id}}/transaction/{{transaction_id}}-3'\n",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const hosted = '{{hosted}}'\nreturn hosted === 'checkoutR'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.request.url === 'https://test-gateway.mastercard.com/api/rest/version/100/merchant/TESTSAUCAL1/order/{{transaction_id}}'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let transactionType = '{{transactionType}}'\nconst hosted = '{{hosted}}'\nreturn  transactionType === 'capture' && hosted === 'session'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.request.body.apiOperation === 'PAY'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\n\nreturn  transactionType === 'partialCapture'\n        ||\n        transactionType === 'totalCapture'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.request.body.apiOperation === 'CAPTURE'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let transactionType = '{{transactionType}}'\nconst hosted = '{{hosted}}'\nreturn transactionType === 'authorize' && hosted === 'session'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.request.body.apiOperation === 'AUTHORIZE'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\nconst hosted = '{{hosted}}'\nconst renewal ='{{renewal}}'\n\nreturn  transactionType !== 'partialCapture'\n        &&\n        transactionType !== 'totalCapture'\n        &&\n        hosted === 'session'\n        &&\n        renewal !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.request.body.session.id === '{{session}}'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\nconst hosted = '{{hosted}}'\nconst renewal = '{{renewal}}'\n\nreturn  transactionType !== 'partialCapture'\n        &&\n        transactionType !== 'totalCapture'\n        &&\n        hosted === 'session'\n        &&\n        renewal !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "",
+      "value": "const log = {{log}}\nlet total = '{{total}}'\ntotal = total.replace('$','')\ntotal = parseFloat(total)\n\nreturn log.response.body.order.amount === total",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\nconst hosted = '{{hosted}}'\nconst renewal = '{{renewal}}'\n\nreturn  transactionType !== 'partialCapture'\n        &&\n        transactionType !== 'totalCapture'\n        &&\n        hosted === 'session'\n        &&\n        renewal !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "",
+      "value": "const log = {{log}}\nlet total = '{{total}}'\ntotal = total.replace('$','')\n\nreturn log.request.body.order.amount === total",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\nconst hosted = '{{hosted}}'\nconst renewal = '{{renewal}}'\n\nreturn  transactionType !== 'partialCapture'\n        &&\n        transactionType !== 'totalCapture'\n        &&\n        hosted === 'session'\n        &&\n        renewal === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "",
+      "value": "const log = {{log}}\nlet total = '{{totalRenew}}'\ntotal = total.replace('$','')\ntotal = parseFloat(total)\n\nreturn log.response.body.order.amount === total",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\nconst hosted = '{{hosted}}'\nconst renewal = '{{renewal}}'\n\nreturn  transactionType !== 'partialCapture'\n        &&\n        transactionType !== 'totalCapture'\n        &&\n        hosted === 'session'\n        &&\n        renewal === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "",
+      "value": "const log = {{log}}\nlet total = '{{totalRenew}}'\ntotal = total.replace('$','')\n\nreturn log.request.body.order.amount === total",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\n\nreturn  transactionType === 'partialCapture'\n        ||\n        transactionType === 'totalCapture'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "",
+      "value": "const log = {{log}}\nlet total = '{{totalCapture}}'\ntotal = total.replace('$','')\ntotal = parseFloat(total)\n\nreturn log.response.body.transaction.amount === total",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\n\nreturn  transactionType === 'partialCapture'\n        ||\n        transactionType === 'totalCapture'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "",
+      "value": "const log = {{log}}\nlet total = '{{totalCapture}}'\ntotal = total.replace('$','')\n\nreturn log.request.body.transaction.amount === total",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const hosted = '{{hosted}}'\nreturn hosted === 'checkoutR'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "",
+      "value": "const log = {{log}}\nlet total = '{{total}}'\ntotal = total.replace('$','')\ntotal = parseFloat(total)\n\nreturn log.response.body.amount === total",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\nconst hosted = '{{hosted}}'\n\nreturn  transactionType !== 'partialCapture'\n        &&\n        transactionType !== 'totalCapture'\n        &&\n        hosted === 'session'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.order.currency === 'USD'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\nconst hosted = '{{hosted}}'\n\nreturn  transactionType !== 'partialCapture'\n        &&\n        transactionType !== 'totalCapture'\n        &&\n        hosted === 'session'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.request.body.order.currency === 'USD'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\n\nreturn  transactionType === 'partialCapture'\n        ||\n        transactionType === 'totalCapture'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.transaction.currency === 'USD'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\n\nreturn  transactionType === 'partialCapture'\n        ||\n        transactionType === 'totalCapture'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.request.body.transaction.currency === 'USD'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const hosted = '{{hosted}}'\nreturn hosted === 'checkoutR'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.currency === 'USD'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const hosted = '{{hosted}}'\nlet transactionType = '{{transactionType}}'\n\nreturn  hosted === 'session'\n        &&\n        (\n            transactionType === 'capture' \n            ||\n            transactionType === 'authorize'\n        )"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.order.id === '{{transaction_id}}'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\n\nreturn  transactionType === 'partialCapture'\n        ||\n        transactionType === 'totalCapture'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.order.id === '{{transaction_id}}'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const hosted = '{{hosted}}'\nreturn hosted === 'checkoutR'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.id === '{{transaction_id}}'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const hosted = '{{hosted}}'\nlet transactionType = '{{transactionType}}'\n\nreturn  hosted === 'session'\n    &&\n        (\n            transactionType === 'capture' \n            ||\n            transactionType === 'authorize'\n        )"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.order.reference === '{{orderNumber}}'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const hosted = '{{hosted}}'\nlet transactionType = '{{transactionType}}'\n\nreturn  hosted === 'session'\n    &&\n        (\n            transactionType === 'capture' \n            ||\n            transactionType === 'authorize'\n        )"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.request.body.order.reference === {{orderNumber}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\n\nreturn  transactionType === 'partialCapture'\n        ||\n        transactionType === 'totalCapture'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.order.reference === '{{orderNumber}}'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const hosted = '{{hosted}}'\nreturn hosted === 'checkoutR'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 37,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.reference === '{{orderNumber}}'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\nconst hosted = '{{hosted}}'\nconst transaction = '{{transaction}}'\n    \nreturn  transactionType === 'capture'\n        &&\n        hosted === 'session'\n        &&\n        transaction !== 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 38,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.order.status === 'CAPTURED'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\nconst hosted = '{{hosted}}'\nconst transaction = '{{transaction}}'\n    \nreturn  transactionType === 'capture'\n        &&\n        hosted === 'session'\n        &&\n        transaction === 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 39,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.order.status === 'FAILED'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let transactionType = '{{transactionType}}'\n\nreturn transactionType === 'partialCapture'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 40,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.order.status === 'PARTIALLY_CAPTURED'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let transactionType = '{{transactionType}}'\nconst hosted = '{{hosted}}'\nreturn transactionType === 'capture' && hosted === 'checkoutR'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 41,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.status === 'CAPTURED'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let transactionType = '{{transactionType}}'\nconst hosted = '{{hosted}}'\n\nreturn  transactionType === 'authorize' \n        && \n        hosted === 'session'\n        &&\n        transaction!== 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 42,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.order.status === 'AUTHORIZED'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\nconst hosted = '{{hosted}}'\nconst transaction = '{{transaction}}'\n    \nreturn  transactionType === 'authorize'\n        &&\n        hosted === 'session'\n        &&\n        transaction === 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 43,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.order.status === 'FAILED'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let transactionType = '{{transactionType}}'\nconst hosted = '{{hosted}}'\nreturn transactionType === 'authorize' && hosted === 'checkoutR'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 44,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.status === 'AUTHORIZED'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const transaction = '{{transaction}}'\n    \nreturn transaction !== 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 45,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.result === 'SUCCESS'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const transaction = '{{transaction}}'\n    \nreturn transaction === 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 46,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.result === 'FAILURE'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 47,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.sourceOfFunds.provided.card.brand === '{{ShortName}}'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 48,
+      "target": "",
+      "value": "const log = {{log}}\nlet month = '{{month}}'\nmonth = Number(month)\n\nreturn log.response.body.sourceOfFunds.provided.card.expiry.month === month.toString()\n",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 49,
+      "target": "",
+      "value": "const log = {{log}}\nlet year = '{{year}}'\nyear = Number(year)\n\nreturn log.response.body.sourceOfFunds.provided.card.expiry.year === year.toString()",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 50,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.sourceOfFunds.provided.card.number === '{{sixDigits}}xxxxxx{{fourDigits}}'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 51,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.sourceOfFunds.provided.card.scheme === '{{ShortName}}'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 52,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.sourceOfFunds.type === 'CARD'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\nconst hosted = '{{hosted}}'\n\nreturn  transactionType !== 'partialCapture'\n        &&\n        transactionType !== 'totalCapture'\n        &&\n        hosted === 'session'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 53,
+      "target": "",
+      "value": "const log = {{log}}\nlet total = '{{total}}'\ntotal = total.replace('$','')\ntotal = parseFloat(total)\n\nreturn log.response.body.transaction.amount === total",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\nconst hosted = '{{hosted}}'\n\nreturn  transactionType !== 'partialCapture'\n        &&\n        transactionType !== 'totalCapture'\n        &&\n        hosted === 'session'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 54,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.transaction.currency === 'USD'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const threeDS = '{{3ds}}'\nconst hosted = '{{hosted}}'\nconst renewal = '{{renewal}}'\n\nreturn hosted === 'session' && (threeDS === 'inactive' || renewal === 'yes')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 55,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.transaction.id === '{{transaction_id}}-1'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const threeDS = '{{3ds}}'\nconst hosted = '{{hosted}}'\nconst transactionType = '{{transactionType}}'\nconst renewal = '{{renewal}}'\n\nreturn  hosted === 'session'\n        &&\n        threeDS !== 'inactive'\n        &&\n        renewal !== 'yes'\n        &&\n        transactionType !== 'partialCapture'\n        &&\n        transactionType !== 'totalCapture'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 56,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.transaction.id === '{{transaction_id}}-2'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\n\nreturn  transactionType === 'partialCapture'\n        ||\n        transactionType === 'totalCapture'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 57,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.transaction.id === '{{transaction_id}}-3'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const renewal = '{{renewal}}'\n\nreturn renewal === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 58,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.sourceOfFunds.token === '{{token}}'",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const subscription = '{{subscription}}'\n\nreturn subscription === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 59,
+      "target": "",
+      "value": "69778cc365fd97d14e2468d4",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69778cc365fd97d14e2468d7",
+    "suiteId": "69778cc265fd97d14e24689f",
+    "suiteName": "Payoneer - Common Steps for Tests"
+  }
+}

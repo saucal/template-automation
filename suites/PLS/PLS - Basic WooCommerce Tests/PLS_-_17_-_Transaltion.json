@@ -1,0 +1,342 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "PLS - 17 - Transaltion",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "li:nth-of-type(1) > .elementor-icon-list-text"
+        },
+        {
+          "selector": "ul.wp-block-list:nth-of-type(1) > li"
+        }
+      ],
+      "value": "A growing library of on demand dental CE with a wide range of theoretical content of current relevance to dental and allied health professionals.",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "li:nth-of-type(2) > .elementor-icon-list-text"
+        },
+        {
+          "selector": "ul.wp-block-list:nth-of-type(2) > li"
+        }
+      ],
+      "value": "Mandatory CE, in many states, for the HCP including CPR, Sexual Harassment, OSHA, HIPAA, Cultural Competence, Infection Control,  Radiation Health and Safety.",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "a[href*=\"/es/\"]"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": "li:nth-of-type(1) > .elementor-icon-list-text"
+        },
+        {
+          "selector": "ul.wp-block-list:nth-of-type(1) > li"
+        }
+      ],
+      "value": "Una creciente biblioteca de CE dental a la carta con una amplia gama de contenidos teóricos de relevancia actual para los profesionales de la odontología y la sanidad aliada."
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": "li:nth-of-type(2) > .elementor-icon-list-text"
+        },
+        {
+          "selector": "ul.wp-block-list:nth-of-type(2) > li"
+        }
+      ],
+      "value": "CE obligatorio, en muchos estados, para el HCP, incluyendo RCP, acoso sexual, OSHA, HIPAA, competencia cultural, control de infecciones, salud y seguridad radiológica.",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "#menu-item-21 > a[href*=\"/es/\"].menu-link > .menu-text"
+        },
+        {
+          "selector": "#menu-item-11957 > a"
+        }
+      ],
+      "value": "Inicio"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "li.menu-item.menu-item-type-custom.menu-item-object-custom.menu-item-has-children:nth-of-type(2) > a.menu-link > .menu-text"
+        },
+        {
+          "selector": "//li[@id='menu-item-755']//span[@class='nav-drop-title-wrap']"
+        }
+      ],
+      "value": "Cursos"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "a[href*=\"/consulting/\"] > .menu-text"
+        },
+        {
+          "selector": "a[href*=\"/es/private-ce/\"]"
+        }
+      ],
+      "value": "CE privado"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "a[href*=\"/es/faq/\"] > .menu-text"
+        },
+        {
+          "selector": "a[href*=\"/es/faq/\"]"
+        }
+      ],
+      "value": "PREGUNTAS FRECUENTES"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "a[href*=\"/blog/\"] > .menu-text"
+        },
+        {
+          "selector": "a[href*=\"/blog/\"]"
+        }
+      ],
+      "value": "Blog"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": "a[href*=\"/contact-us/\"] > .menu-text"
+        },
+        {
+          "selector": "a[href*=\"/contact-us/\"]"
+        }
+      ],
+      "value": "Póngase en contacto con"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": [
+        {
+          "selector": "a[href*=\"/es/my-account/\"] > .menu-text"
+        },
+        {
+          "selector": "a[href*=\"/es/my-account/\"]"
+        }
+      ],
+      "value": "Mi cuenta"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "a[href*=\"/\"][title=\"English\"]"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": [
+        {
+          "selector": "#menu-item-21 > a[href*=\"/\"].menu-link > .menu-text"
+        },
+        {
+          "selector": "#menu-item-11957 > a"
+        }
+      ],
+      "value": "Home"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": [
+        {
+          "selector": "li.menu-item.menu-item-type-custom.menu-item-object-custom.menu-item-has-children:nth-of-type(2) > a.menu-link > .menu-text"
+        },
+        {
+          "selector": "//li[@id='menu-item-755']//span[@class='nav-drop-title-wrap']"
+        }
+      ],
+      "value": "Courses"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": [
+        {
+          "selector": "a[href*=\"/consulting/\"] > .menu-text"
+        },
+        {
+          "selector": "a[href*=\"/private-ce/\"]"
+        }
+      ],
+      "value": "Private CE"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": [
+        {
+          "selector": "a[href*=\"/faq/\"] > .menu-text"
+        },
+        {
+          "selector": "a[href*=\"/faq/\"]"
+        }
+      ],
+      "value": "FAQ"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": [
+        {
+          "selector": "a[href*=\"/blog/\"] > .menu-text"
+        },
+        {
+          "selector": "a[href*=\"/blog/\"]"
+        }
+      ],
+      "value": "Blog"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": [
+        {
+          "selector": "a[href*=\"/contact-us/\"] > .menu-text"
+        },
+        {
+          "selector": "a[href*=\"/contact-us/\"]"
+        }
+      ],
+      "value": "Contact"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": [
+        {
+          "selector": "a[href*=\"/my-account/\"] > .menu-text"
+        },
+        {
+          "selector": "a[href*=\"/my-account/\"]"
+        }
+      ],
+      "value": "My account"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "67b88c902abcf638e96c30c2",
+    "suiteId": "67b7870c2abcf638e941971e",
+    "suiteName": "PLS - Basic WooCommerce Tests"
+  }
+}

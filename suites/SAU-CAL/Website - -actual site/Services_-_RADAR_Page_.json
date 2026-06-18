@@ -1,0 +1,91 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "5.4.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Services - RADAR Page ",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "mouseOver",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "#menu-item-11041 "
+        },
+        {
+          "selector": "#primary_menu > li:nth-child(1) "
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "#menu-item-11041 > div > div > div > div:nth-child(7) > p:nth-child(1) > a"
+        },
+        {
+          "selector": "#primary_menu > li:nth-child(1)  > div > div > div > div:nth-child(5) > p:nth-child(1) > a"
+        }
+      ]
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "notes": "validating title",
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "div > h1",
+      "value": "RADAR",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "notes": "validation of sub title",
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "div.kt-inside-inner-col > div > div.kt-inside-inner-col > p",
+      "value": "Revolutionizing WooCommerce optimization, powered by automation and expertise",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6751dd247a599a5bc82fc5a8",
+    "suiteId": "606c61ab40a5d817badf441d",
+    "suiteName": "Website - (actual site)"
+  }
+}

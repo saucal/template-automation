@@ -1,0 +1,68 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Get Alt transaction Details from Bluesnap",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": null,
+      "notes": "needs the payment time to get it",
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "return new Promise(function (resolve, reject) {\n  const url = '{{startUrl}}' + 'wp-json/wc-automation-helper/api-request/?url=alt-transactions/'+'{{transaction_id}}';\n  const username = '{{woo_user}}';\n  const password = '{{woo_pass}}';\n  let headers = new Headers();\n  headers.set('Content-Type', 'application/json');\n  headers.set('Authorization', 'Basic ' + btoa(username + \":\" + password));\n  fetch(url, {method:'GET', headers: headers, credentials: 'omit',})\n  .then(function(response) {\n    if (response.ok) {\n      resolve(response.json())\n    } else {\n      reject(new Error('error'))\n    } \n  })\n  })",
+      "variableName": "transLogs"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "const jsonOrder = {{transLogs}}\nreturn jsonOrder.vaultedShopperId",
+      "variableName": "vaultedShopperId"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let product = \"{{product}}\"\nreturn product === \"subscription\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "const jsonOrder = {{transLogs}}\nlet subsID = jsonOrder.subscriptionId\nreturn subsID",
+      "variableName": "subsID"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6213d88e5f85360d3f1496b4",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

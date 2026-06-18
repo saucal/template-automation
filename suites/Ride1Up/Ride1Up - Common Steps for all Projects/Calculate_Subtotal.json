@@ -1,0 +1,74 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Calculate Subtotal",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": null,
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let currency = \"{{currency}}\"\nlet project = \"{{project}}\"\nreturn currency === \"USD\" || currency === \"GBP\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "let price = parseFloat(\"{{unitPrice}}\".replace(\"{{Symbol}}\",\"\").trim());\nconst qty = {{qty}};\nlet subtotal = price * qty\nsubtotal = Intl.NumberFormat('en-IN', { style: 'currency', currency: '{{currency}}'}).format(subtotal)\nreturn subtotal",
+      "variableName": "subtotalPrice"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let currency = \"{{currency}}\"\nreturn currency === \"EUR\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "let price = \"{{unitPrice}}\".replace(\"{{Symbol}}\",\"\");\nprice = parseFloat(price.replace(\",\",\".\").trim());\nconst qty = {{qty}};\nlet subtotal = price * qty\nsubtotal = \"{{Symbol}}\" + Intl.NumberFormat('de-DE',{\n  minimumFractionDigits: 2,\n  maximumFractionDigits: 2,\n}).format(subtotal);\nreturn subtotal",
+      "variableName": "subtotalPrice"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let currency = \"{{currency}}\"\nlet project = \"{{project}}\"\nreturn currency === \"AUD\" || currency === \"CAD\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "const price = parseFloat(\"{{unitPrice}}\".replace(\"{{Symbol}}\",\"\").trim());\nconst qty = {{qty}};\nlet subtotal = price * qty\nsubtotal = \"{{Symbol}}\"+subtotal.toFixed(2);\nreturn subtotal",
+      "variableName": "subtotalPrice"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "63c71c660b7aefb972ffc43e",
+    "suiteId": "63c71c660b7aefb972ffc439",
+    "suiteName": "Ride1Up - Common Steps for all Projects"
+  }
+}

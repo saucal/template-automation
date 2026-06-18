@@ -1,0 +1,189 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "65b287129cc5a53dd6cdf18e",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome-139",
+    "dataSource": null,
+    "dateCreated": "2024-01-25T16:06:42.025Z",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "60a26414db1e604f65e01ec5",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "BlueSnap - ACH - Fields, Transaction, Vaulted Shopper",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": false,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://stgbluesnap1.mystagingwebsite.com/classic/",
+    "testCount": 25,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [
+      {
+        "days": [
+          2
+        ],
+        "hours": [
+          1,
+          3,
+          5
+        ],
+        "minutes": [
+          30
+        ],
+        "_id": "65d3aa88291e9cd8895d788c"
+      }
+    ],
+    "variables": [
+      {
+        "name": "woo_user",
+        "value": "ck_91cff1f62657b5ef24b7606cd572b584fb31640b",
+        "private": true,
+        "_id": "60a273cdcda37459c851732a"
+      },
+      {
+        "name": "woo_pass",
+        "value": "cs_d488aec5bbb508cb9151e5d433c2c11b8ef574ff",
+        "private": true,
+        "_id": "60a273cdcda37459c851732b"
+      },
+      {
+        "name": "user_bluesnap",
+        "value": "qa@saucal.com",
+        "private": false,
+        "_id": "62695e6d11885f8f1aa8104b"
+      },
+      {
+        "name": "blue_user",
+        "value": "API_16509753954602042969865",
+        "private": true,
+        "_id": "60a273cdcda37459c851732c"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b82"
+      },
+      {
+        "name": "street",
+        "value": "123 Flase Street",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b84"
+      },
+      {
+        "name": "blue_pass",
+        "value": "JA$5uZW95NID23",
+        "private": true,
+        "_id": "60a273cdcda37459c851732d"
+      },
+      {
+        "name": "company",
+        "value": "Saucal Inc.",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b83"
+      },
+      {
+        "name": "wp_api_pass",
+        "value": "eAFR YyTz w9Qt SRre Q3uM 8WMD",
+        "private": true,
+        "_id": "65b286e19cc5a53dd6cde687"
+      },
+      {
+        "name": "city",
+        "value": "Miami",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b85"
+      },
+      {
+        "name": "zipCode",
+        "value": "33126",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b86"
+      },
+      {
+        "name": "defaultCurr",
+        "value": "USD",
+        "private": false,
+        "_id": "65b286e19cc5a53dd6cde688"
+      },
+      {
+        "name": "address2",
+        "value": "Apartment 2",
+        "private": false,
+        "_id": "60d08eb61da0a93062ee109d"
+      },
+      {
+        "name": "phone",
+        "value": "3050698798",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b87"
+      },
+      {
+        "name": "password",
+        "value": "DTK0cyg2cub9aht*kja",
+        "private": true,
+        "_id": "60ca0d461da0a93062c80519"
+      },
+      {
+        "name": "accountNumberA",
+        "value": "223344556",
+        "private": false,
+        "_id": "6213d603029c844528c6c7b2"
+      },
+      {
+        "name": "accountNumberD",
+        "value": "123456789",
+        "private": false,
+        "_id": "6213d603029c844528c6c7b4"
+      },
+      {
+        "name": "routingNumberD",
+        "value": "987654321",
+        "private": false,
+        "_id": "6213d603029c844528c6c7b5"
+      },
+      {
+        "name": "routingNumberA",
+        "value": "998877665",
+        "private": false,
+        "_id": "6213d603029c844528c6c7b3"
+      },
+      {
+        "name": "password_bluesnap",
+        "value": "hyr.QMY2nmx6pea3hkj",
+        "private": true,
+        "_id": "62695e6d11885f8f1aa8104c"
+      },
+      {
+        "name": "blog",
+        "value": "mitchell_callahan_blog_5",
+        "private": false,
+        "_id": "65b2892e9cc5a53dd6ceb3ab"
+      },
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "6213da355f85360d3f156ca7"
+      }
+    ],
+    "viewportSize": {
+      "width": 1280,
+      "height": 800
+    }
+  }
+}

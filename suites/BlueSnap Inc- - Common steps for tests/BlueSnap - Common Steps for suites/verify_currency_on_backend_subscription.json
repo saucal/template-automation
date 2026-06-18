@@ -1,0 +1,599 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "6.1.0",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "verify currency on backend subscription",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\nreturn checklogs != \"upgrade\" && freeTrial != \"yes\" && \"{{includeTax}}\" === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "let result = {{listPrices}}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(result[6])\n",
+      "variableName": "price"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\nreturn checklogs != \"upgrade\" && freeTrial != \"yes\" && \"{{includeTax}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "let result = {{listPrices}}\nlet price = result[6]/1.1\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(price)\n",
+      "variableName": "price"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nreturn freeTrial === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "let result = {{listPrices}}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(result[4])\n",
+      "variableName": "price"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nreturn checklogs === \"upgrade\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "let result = {{listPrices}}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(result[5])\n",
+      "variableName": "price"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "td.item_cost > .view > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{price}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\nreturn checklogs != \"upgrade\" && freeTrial != \"yes\" && \"{{includeTax}}\" === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "let result = {{listPrices}}\nlet price = result[6]-result[8]\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(price)\n",
+      "variableName": "priceWithDiscount"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn checklogs != \"upgrade\" && freeTrial != \"yes\" && \"{{includeTax}}\" === \"yes\"\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "let result = {{listPrices}}\nlet price = (result[6]/1.1)-(result[8]/1.1)\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(price)\n",
+      "variableName": "priceWithDiscount"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nreturn freeTrial === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "let result = {{listPrices}}\nlet price = result[4]-result[6]\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(price)\n",
+      "variableName": "priceWithDiscount"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nreturn checklogs === \"upgrade\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "let result = {{listPrices}}\nlet price = result[5]-result[7]\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(price)\n",
+      "variableName": "priceWithDiscount"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nlet checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn (\"{{includeTax}}\" === \"yes\"\n&& (Number(blueSnapVs[0]) >= 3 && Number(blueSnapVs[1]) >= 2)) \n|| \"{{includeTax}}\" === \"no\"\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "td.line_cost > .view > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{priceWithDiscount}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\nreturn checklogs != \"upgrade\" && freeTrial != \"yes\" && \"{{includeTax}}\" === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "let result = {{listPrices}}\nlet price = (result[6]-result[8])*0.1\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(price)\n",
+      "variableName": "productTax"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\nreturn checklogs != \"upgrade\" && freeTrial != \"yes\" && \"{{includeTax}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "let result = {{listPrices}}\nlet price = ((result[6]/1.1)-(result[8]/1.1))*0.1\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(price)\n",
+      "variableName": "productTax"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nreturn freeTrial === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "let result = {{listPrices}}\nlet price = (result[4]-result[6])*0.1\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(price)\n",
+      "variableName": "productTax"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nreturn checklogs === \"upgrade\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "let result = {{listPrices}}\nlet price = (result[5]-result[7])*0.1\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(price)\n",
+      "variableName": "productTax"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "td.line_tax > .view > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{productTax}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\nreturn checklogs != \"upgrade\" && freeTrial != \"yes\" && \"{{includeTax}}\" === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "let result = {{listPrices}}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(result[8])\n",
+      "variableName": "recurringDiscount"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\nreturn checklogs != \"upgrade\" && freeTrial != \"yes\" && \"{{includeTax}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "",
+      "value": "let result = {{listPrices}}\nlet price = result[8]/1.1\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(price)\n",
+      "variableName": "recurringDiscount"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nreturn freeTrial === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "",
+      "value": "let result = {{listPrices}}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(result[6])\n",
+      "variableName": "recurringDiscount"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nreturn checklogs === \"upgrade\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "",
+      "value": "let result = {{listPrices}}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(result[7])\n",
+      "variableName": "recurringDiscount"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": ".wc-order-item-discount > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{recurringDiscount}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\nreturn checklogs != \"upgrade\" && freeTrial != \"yes\" && \"{{includeTax}}\" === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "",
+      "value": "let result = {{listPrices}}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(result[9])\n",
+      "variableName": "recurringShipping"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\nreturn checklogs != \"upgrade\" && freeTrial != \"yes\" && \"{{includeTax}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "",
+      "value": "let result = {{listPrices}}\nlet price = result[9]/1.1\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(price)\n",
+      "variableName": "recurringShipping"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nreturn freeTrial === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "",
+      "value": "let result = {{listPrices}}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(result[7])\n",
+      "variableName": "recurringShipping"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nreturn checklogs === \"upgrade\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "",
+      "value": "let result = {{listPrices}}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(result[8])\n",
+      "variableName": "recurringShipping"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn (\"{{includeTax}}\" === \"yes\"\n&& (Number(blueSnapVs[0]) >= 3 && Number(blueSnapVs[1]) >= 2)) \n|| \"{{includeTax}}\" === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "tr.shipping > td.line_cost > .view > .woocommerce-Price-amount.amount",
+      "value": "{{recurringShipping}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\nreturn checklogs != \"upgrade\" && freeTrial != \"yes\" && \"{{includeTax}}\" === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "",
+      "value": "let result = {{listPrices}}\nlet price = result[9]*0.1\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(price)\n",
+      "variableName": "shippingTax"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\nreturn checklogs != \"upgrade\" && freeTrial != \"yes\" && \"{{includeTax}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "",
+      "value": "let result = {{listPrices}}\nlet price = (result[9]/1.1)*0.1\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(price)\n",
+      "variableName": "shippingTax"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nreturn freeTrial === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "",
+      "value": "let result = {{listPrices}}\nlet price = result[7]*0.1\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(price)\n",
+      "variableName": "shippingTax"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nreturn checklogs === \"upgrade\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "",
+      "value": "let result = {{listPrices}}\nlet price = result[8]*0.1\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(price)\n",
+      "variableName": "shippingTax"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn Number(blueSnapVs[0]) >= 3 && Number(blueSnapVs[1]) >= 2"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "tr.shipping > td.line_tax > .view > .woocommerce-Price-amount.amount",
+      "value": "{{shippingTax}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\nreturn checklogs != \"upgrade\" && freeTrial != \"yes\" && \"{{includeTax}}\" === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "",
+      "value": "let result = {{listPrices}}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(result[7])\n",
+      "variableName": "recurringSubtotal"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\nreturn checklogs != \"upgrade\" && freeTrial != \"yes\" && \"{{includeTax}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "",
+      "value": "let result = {{listPrices}}\nlet price = result[7]/1.1\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(price)\n",
+      "variableName": "recurringSubtotal"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nreturn freeTrial === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": "",
+      "value": "let result = {{listPrices}}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(result[5])\n",
+      "variableName": "recurringSubtotal"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nreturn checklogs === \"upgrade\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": "",
+      "value": "let result = {{listPrices}}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(result[6])\n",
+      "variableName": "recurringSubtotal"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": "table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(1) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{recurringSubtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": ".wc-order-data-row.wc-order-totals-items > table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(2) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{recurringDiscount}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn (\"{{includeTax}}\" === \"yes\"\n&& (Number(blueSnapVs[0]) >= 3 && Number(blueSnapVs[1]) >= 2)) \n|| \"{{includeTax}}\" === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": ".wc-order-data-row.wc-order-totals-items > table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(3) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{recurringShipping}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\nreturn checklogs != \"upgrade\" && freeTrial != \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 37,
+      "target": "",
+      "value": "let result = {{listPrices}}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(result[10])\n",
+      "variableName": "recurringTax"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nreturn freeTrial === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 38,
+      "target": "",
+      "value": "let result = {{listPrices}}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(result[8])\n",
+      "variableName": "recurringTax"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nreturn checklogs === \"upgrade\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 39,
+      "target": "",
+      "value": "let result = {{listPrices}}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(result[9])\n",
+      "variableName": "recurringTax"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 40,
+      "target": "tr:nth-of-type(4) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{recurringTax}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\nreturn checklogs != \"upgrade\" && freeTrial != \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 41,
+      "target": "",
+      "value": "let result = {{listPrices}}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(result[11])\n",
+      "variableName": "recurringTotal"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nreturn freeTrial === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 42,
+      "target": "",
+      "value": "let result = {{listPrices}}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(result[9])\n",
+      "variableName": "recurringTotal"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nreturn checklogs === \"upgrade\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 43,
+      "target": "",
+      "value": "let result = {{listPrices}}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(result[10])\n",
+      "variableName": "recurringTotal"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 44,
+      "target": "tr:nth-of-type(5) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{recurringTotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nlet checklogs = \"{{checklogs}}\"\nlet freeTrial = \"{{freeTrial}}\"\nreturn test === \"subscription\" && checklogs != \"upgrade\" && freeTrial != \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 45,
+      "target": "",
+      "value": "let result = {{listPrices}}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(result[5])\n",
+      "variableName": "total"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nlet freeTrial = \"{{freeTrial}}\"\nreturn test === \"subscription\" && freeTrial === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 46,
+      "target": "",
+      "value": "let result = {{listPrices}}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(result[3])\n",
+      "variableName": "total"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nlet checklogs = \"{{checklogs}}\"\nreturn test === \"subscription\" && checklogs === \"upgrade\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 47,
+      "target": "",
+      "value": "let result = {{listPrices}}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}'}).format(result[4])\n",
+      "variableName": "total"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "637be7a2d093ba490226963b",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

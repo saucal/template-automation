@@ -1,0 +1,164 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "67c1c1f2c4f6da836c045981",
+    "abortOnTestFailure": false,
+    "autoRetry": true,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2025-02-28T14:02:26.940Z",
+    "details": "",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "67c1cb4fc4f6da836c066fc7",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "Place order Backend + Email",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "eu-west-2",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "screenshotExclusions": "div.grw-reviews",
+    "startUrl": "https://cashforeclubs-staging.mystagingwebsite.com/",
+    "testCount": 5,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "site",
+        "value": "https://cashforeclubs-staging.mystagingwebsite.com/",
+        "private": false,
+        "_id": "671ba361a655f16a8cf841cd"
+      },
+      {
+        "name": "project",
+        "value": "cashForeClub",
+        "private": false,
+        "_id": "671ba803f7c3927cffd4872d"
+      },
+      {
+        "name": "Symbol",
+        "value": "£",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8767"
+      },
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8768"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8769"
+      },
+      {
+        "name": "company",
+        "value": "Test Inc.",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf876a"
+      },
+      {
+        "name": "street",
+        "value": "30 Leicester Square",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf876b"
+      },
+      {
+        "name": "street2",
+        "value": "Ap. 4",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf876c"
+      },
+      {
+        "name": "city",
+        "value": "London",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf876d"
+      },
+      {
+        "name": "county",
+        "value": "Greater London",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf876e"
+      },
+      {
+        "name": "zipCode",
+        "value": "WC2H 7LA",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf876f"
+      },
+      {
+        "name": "phone",
+        "value": "+447412345678",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8770"
+      },
+      {
+        "name": "lastName2",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8771"
+      },
+      {
+        "name": "company2",
+        "value": "Shipping Inc.",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8772"
+      },
+      {
+        "name": "street3",
+        "value": "30 Leicester Square",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8773"
+      },
+      {
+        "name": "street4",
+        "value": "5th Floor",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8774"
+      },
+      {
+        "name": "adminUser",
+        "value": "saucal_maintenance_admin",
+        "private": false,
+        "_id": "671f8654a655f16a8c84ee87"
+      },
+      {
+        "name": "adminPass",
+        "value": "y4Qch37A4fQ6pd9ZGDqDwShR87reySp2PL",
+        "private": true,
+        "_id": "671f8654a655f16a8c84ee88"
+      },
+      {
+        "name": "password",
+        "value": "helloworld123",
+        "private": true,
+        "_id": "671bab60f7c3927cffd53f07"
+      },
+      {
+        "name": "password2",
+        "value": "helloworld234",
+        "private": true,
+        "_id": "671bab60f7c3927cffd53f08"
+      }
+    ],
+    "viewportSize": {
+      "width": 1920,
+      "height": 1080
+    }
+  }
+}

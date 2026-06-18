@@ -1,0 +1,1245 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Check Order and Subscriptions on My Account",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project !== \"talkbox\" && project !== \"leggari\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": ".woocommerce-notice"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe .woocommerce-notice"
+        }
+      ],
+      "value": "Thank you. Your order has been received.",
+      "variableName": ""
+    },
+    {
+      "command": "pause",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"leggari\""
+      },
+      "notes": "adding explicit wait to validate thank you page",
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "3500",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"leggari\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": ".woocommerce-notice",
+      "value": "{{firstName}} {{lastName}}, thank you for your order!",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": ".order > strong"
+        },
+        {
+          "selector": ".order > span"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe .order > strong"
+        }
+      ],
+      "value": "",
+      "variableName": "orderNumber"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": ".email > strong"
+        },
+        {
+          "selector": ".email > span"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe .email > strong"
+        }
+      ],
+      "value": "{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project !== \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "iframe#wcp-checkout-iframe strong > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "strong > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "span > .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"icg\""
+      },
+      "notes": "https://app.clickup.com/t/86dtb3f73 Issue with 0.01 diff",
+      "optional": true,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "iframe#wcp-checkout-iframe strong > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "strong > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "span > .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project !== \"talkbox\" && project !== \"icg\" && project !== \"leggari\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "a[href*=\"/product/\"]",
+      "value": "{{prod_desc}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project == \"leggari\" && \"{{product}}\" === \"simple\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "a[href*=\"/product/\"]",
+      "value": "{{prod_desc}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project == \"leggari\" && \"{{product}}\" == \"variable\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "td.woocommerce-table__product-name.product-name",
+      "value": "{{prodDesc}} × {{qty}}\nBase:\n\n{{base}}\n\nHighlight:\n\n{{highlight}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project == \"icg\" "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "iframe#wcp-checkout-iframe td.product-name",
+      "value": "{{prod_desc}}\n1 x {{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "a[href*=\"/product/spanish-talkboxes/?attribute_pa_how_many_talkboxes=4-talkboxes&attribute_pa_delivery_pacing=2-month\"]",
+      "value": "Spanish - The Snacks & Kitchen Box\nTalkbox.Mom Box Name:\nThe Snacks & Kitchen Box\nSKU: s-4-2",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "a[href*=\"/product/use-spanish-at-home/\"]",
+      "value": "{{prod_desc2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project !== \"talkbox\" && project !== \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": [
+        {
+          "selector": "td.woocommerce-table__product-total > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe td.woocommerce-table__product-total > .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": [
+        {
+          "selector": "td.woocommerce-table__product-total > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe td.woocommerce-table__product-total > .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(1) > td.woocommerce-table__product-total.product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{subPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(2) > td.woocommerce-table__product-total.product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": [
+        {
+          "selector": "tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project != \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": [
+        {
+          "selector": "tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{subscription}}\" != \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": [
+        {
+          "selector": "tfoot > tr:nth-of-type(2) > td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "tfoot > tr:nth-of-type(2) > td"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe tfoot > tr:nth-of-type(2) > td > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{shippingPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn \"{{subscription}}\" === \"yes\" &&  project !== \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "tr:nth-of-type(2) > td > .woocommerce-Price-amount.amount",
+      "value": "{{taxPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn \"{{subscription}}\" === \"yes\" &&  project === \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "tfoot > tr:nth-of-type(2) > td > .woocommerce-Price-amount.amount",
+      "value": "{{discount}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn \"{{subscription}}\" != \"yes\" && (project !== \"icg\" && project !== \"talkbox\")"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "tr:nth-of-type(3) > td > .woocommerce-Price-amount.amount",
+      "value": "{{taxPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn \"{{subscription}}\" === \"yes\" &&  project === \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "tr:nth-of-type(3) > td",
+      "value": "{{shippingPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn \"{{subscription}}\" === \"yes\" &&  project === \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "tr:nth-of-type(4) > td > .woocommerce-Price-amount.amount",
+      "value": "{{taxPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn \"{{subscription}}\" === \"yes\" &&  project !== \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "tr:nth-of-type(4) > td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn \"{{subscription}}\" === \"yes\" &&  project === \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "tr:nth-of-type(6) > td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "\nreturn \"{{subscription}}\" != \"yes\" && \"{{project}}\" !== \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "tr:nth-of-type(5) > td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{subscription}}\" != \"yes\" && \"{{project}}\" === \"icg\""
+      },
+      "notes": "https://app.clickup.com/t/86dtb3f73 Issue with 0.01 diff",
+      "optional": true,
+      "private": false,
+      "sequence": 28,
+      "target": "iframe#wcp-checkout-iframe tr:nth-of-type(4) > td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "table.woocommerce-table.woocommerce-table--order-details.shop_table.order_details.order_details_note > tfoot > tr > td",
+      "value": "Order Note for Testing this field",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn \"{{subscription}}\" === \"yes\" &&  project === \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "td.subscription-id > a[href*=\"/account/view-subscription\"]",
+      "value": "",
+      "variableName": "subscriptionID"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn \"{{subscription}}\" === \"yes\" &&  project === \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "td.subscription-status",
+      "value": "Active",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn \"{{subscription}}\" === \"yes\" &&  project === \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": "td.subscription-total > .woocommerce-Price-amount.amount",
+      "value": "{{recurringTotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"hunchie\" && \"{{project}}\" !== \"talkbox\" \n&& \"{{project}}\" !== \"icg\" && \"{{project}}\" !== \"leggari\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": [
+        {
+          "selector": ".woocommerce-column.woocommerce-column--1 > address"
+        },
+        {
+          "selector": ".woocommerce-customer-details > address"
+        }
+      ],
+      "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{street2}}\n{{city}}, {{state}} {{zipCode}}\n\n{{phone}}\n\n{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"leggari\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": [
+        {
+          "selector": ".woocommerce-column.woocommerce-column--1 > address"
+        },
+        {
+          "selector": ".woocommerce-customer-details > address"
+        }
+      ],
+      "value": "{{firstName}} {{lastName}}\n{{street3}}\n{{street4}}\n{{city}}, {{state}} {{zipCode}}\n\n{{phone}}\n\n{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" == \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": "iframe#wcp-checkout-iframe .woocommerce-column.woocommerce-column--1 > address",
+      "value": "{{firstName}} {{lastName}}\n{{street}}\n{{street2}}\n{{city}} {{state}} {{zipCode}}\n\n{{phone}}\n\n{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": ".woocommerce-customer-details--maincolumn > address",
+      "value": "{{firstName}} {{lastName}}\n{{street}}\n{{street2}}\n{{city}}, {{state}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\""
+      },
+      "notes": "changed locator due to  .woocommerce-customer-details--phone retrieves 2 values for phone number",
+      "optional": false,
+      "private": false,
+      "sequence": 37,
+      "target": ".col-1 .woocommerce-customer-details--phone",
+      "value": "{{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 38,
+      "target": ".woocommerce-customer-details--email",
+      "value": "{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\""
+      },
+      "notes": "added phone field",
+      "optional": false,
+      "private": false,
+      "sequence": 39,
+      "target": ".woocommerce-column > address",
+      "value": "{{firstName}} {{lastName2}}\n{{street3}}\n{{street4}}\n{{city}}, {{state}} {{zipCode}}\n\n{{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"hunchie\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 40,
+      "target": [
+        {
+          "selector": ".woocommerce-column.woocommerce-column--1 > address"
+        },
+        {
+          "selector": ".woocommerce-customer-details > address"
+        }
+      ],
+      "value": "{{firstName}} {{lastName}}\n{{street}}\n{{city}} {{state}} {{zipCode}}\n\n{{phone}}\n\n{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let user = \"{{user}}\"\nreturn (user != \"old\" && \"{{subscription}}\" != \"yes\") \n        && \n        (\"{{project}}\" !== \"hunchie\" && \"{{project}}\" !== \"talkbox\" &&  \"{{project}}\" !== \"icg\" &&  \"{{project}}\" !== \"leggari\")"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 41,
+      "target": ".woocommerce-column.woocommerce-column--2 > address",
+      "value": "{{firstName}} {{lastName2}}\n{{company2}}\n{{street3}}\n{{street4}}\n{{city}}, {{state}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"leggari\""
+      },
+      "notes": "making this step optional due to an error not yet solved step#41",
+      "optional": false,
+      "private": false,
+      "sequence": 42,
+      "target": ".woocommerce-column.woocommerce-column--2 > address",
+      "value": "{{firstName}} {{lastName}}\n{{company2}}\n{{street3}}\n{{street4}}\n{{city}}, {{state}} {{zipCode}}\n\n{{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let user = \"{{user}}\"\nreturn (user != \"old\" && \"{{subscription}}\" != \"yes\") && \"{{project}}\" == \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 43,
+      "target": "iframe#wcp-checkout-iframe .woocommerce-column.woocommerce-column--2 > address",
+      "value": "{{firstName}} {{lastName2}}\n{{street3}}\n{{street4}}\n{{city}} {{state}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let user = \"{{user}}\"\nreturn (user != \"old\" && \"{{subscription}}\" != \"yes\") && \"{{project}}\" === \"hunchie\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 44,
+      "target": ".woocommerce-column.woocommerce-column--2 > address",
+      "value": "{{firstName}} {{lastName2}}\n{{street3}}\n{{city}} {{state}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let user = \"{{user}}\"\nreturn user === \"old\" && \"{{subscription}}\" !== \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 45,
+      "target": ".woocommerce-column.woocommerce-column--2 > address",
+      "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{street2}}\n{{city}}, {{state}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"hunchie\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 46,
+      "target": ".beta > a[href*=\"/\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return \"{{project}}\" == \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 47,
+      "target": "button.ui-dialog-titlebar-close",
+      "value": ""
+    },
+    {
+      "command": "mouseOver",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 48,
+      "target": "span.header-account-username",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 49,
+      "target": [
+        {
+          "selector": "a[href*=\"/my-account/\"]"
+        },
+        {
+          "selector": "a[href*=\"/account/\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 50,
+      "target": ".u-column1 > address",
+      "value": "{{firstName}} {{lastName}}\n{{street}}\n{{street2}}\n{{city}}, {{state}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 51,
+      "target": ".u-column2 > address",
+      "value": "{{firstName}} {{lastName2}}\n{{street3}}\n{{street4}}\n{{city}}, {{state}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 52,
+      "target": [
+        {
+          "selector": ".woocommerce-MyAccount-navigation-link > a[href*=\"/my-account/orders/\"]"
+        },
+        {
+          "selector": ".woocommerce-MyAccount-navigation-link > a[href*=\"/account/orders/\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn \"{{subscription}}\" != \"yes\" && project !== \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 53,
+      "target": "td.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-status",
+      "value": "Processing",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn \"{{subscription}}\" != \"yes\" && project === \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 54,
+      "target": "td.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-status",
+      "value": "On hold",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn \"{{subscription}}\" === \"yes\" && project !== \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 55,
+      "target": "td.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-status",
+      "value": "Completed",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"talkbox\" && \"{{project}}\" !== \"icg\""
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 56,
+      "target": "tr:nth-of-type(1) > td.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-total > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" == \"icg\""
+      },
+      "notes": "https://app.clickup.com/t/86dtb3f73 Issue with 0.01 diff",
+      "optional": true,
+      "private": false,
+      "sequence": 57,
+      "target": "tr:nth-of-type(1) > td.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-total > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return \"{{project}}\" == \"leggari\""
+      },
+      "notes": "adding this step due to leggari url changed from account to my-account",
+      "optional": false,
+      "private": false,
+      "sequence": 58,
+      "target": [
+        {
+          "selector": "td.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-number > a[href*=\"/my-account/view-order/{{orderNumber}}/\"]"
+        },
+        {
+          "selector": "a[href*=\"/my-account/view-order/{{orderNumber}}/\"].woocommerce-button"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"leggari\""
+      },
+      "notes": "added condition to skip leggari",
+      "optional": false,
+      "private": false,
+      "sequence": 59,
+      "target": [
+        {
+          "selector": "td.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-number > a[href*=\"/my-account/view-order/{{orderNumber}}/\"]"
+        },
+        {
+          "selector": "a[href*=\"/account/view-order/{{orderNumber}}/\"].woocommerce-button"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return \"{{variable}}\" != \"yes\" && \"{{project}}\" !== \"talkbox\"  && \"{{project}}\" !== \"icg\" && \"{{project}}\" !== \"leggari\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 60,
+      "target": "td.woocommerce-table__product-name.product-name",
+      "value": "{{prod_desc}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project == \"leggari\" && \"{{product}}\" = \"simple\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 61,
+      "target": "td.woocommerce-table__product-name.product-name",
+      "value": "{{prod_desc}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return \"{{variable}}\" != \"yes\" && \"{{project}}\" === \"icg\""
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 62,
+      "target": "td.woocommerce-table__product-name.product-name",
+      "value": "{{prod_desc}}\n1 x {{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return \"{{variable}}\" === \"yes\" && \"{{project}}\" !== \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 63,
+      "target": "td.woocommerce-table__product-name.product-name",
+      "value": "{{prod_desc}} - {{variable1}} × {{qty}}\nSize: \n\n{{variable1}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project == \"leggari\" && \"{{product}}\" = \"variable\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 64,
+      "target": "td.woocommerce-table__product-name.product-name",
+      "value": "{{prod_desc}} × {{qty}}\nBase: \n\n{{base}}\n\nHighlight: \n\n{{highlight}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 65,
+      "target": "td.product-total > .woocommerce-Price-amount > bdi",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 66,
+      "target": "tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{subscription}}\" != \"yes\" && \"{{project}}\" !== \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 67,
+      "target": [
+        {
+          "selector": "tfoot > tr:nth-of-type(2) > td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "tfoot > tr:nth-of-type(2) > td"
+        }
+      ],
+      "value": "{{shippingPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{subscription}}\" != \"yes\" && \"{{project}}\" !== \"talkbox\" && \"{{project}}\" !== \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 68,
+      "target": "tr:nth-of-type(3) > td > .woocommerce-Price-amount.amount",
+      "value": "{{taxPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{subscription}}\" != \"yes\" && \"{{project}}\" !== \"talkbox\" && \"{{project}}\" !== \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 69,
+      "target": "tr:nth-of-type(5) > td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{subscription}}\" != \"yes\" && \"{{project}}\" == \"icg\""
+      },
+      "notes": "https://app.clickup.com/t/86dtb3f73 Issue with 0.01 diff",
+      "optional": true,
+      "private": false,
+      "sequence": 70,
+      "target": "tr:nth-of-type(4) > td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{subscription}}\" === \"yes\" && \"{{project}}\" !== \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 71,
+      "target": "tr:nth-of-type(2) > td > .woocommerce-Price-amount.amount",
+      "value": "{{taxPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{subscription}}\" === \"yes\" && \"{{project}}\" !== \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 72,
+      "target": "tr:nth-of-type(4) > td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "return \"{{subscription}}\" === \"yes\" && \"{{project}}\" !== \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 73,
+      "target": "td.subscription-id > a",
+      "value": "",
+      "variableName": "subscriptionID"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "return \"{{subscription}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 74,
+      "target": "",
+      "value": "let subscriptionID = \"{{subscriptionID}}\"\nreturn subscriptionID.replace(\"#\",\"\")",
+      "variableName": "subscriptionID"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return \"{{subscription}}\" === \"yes\" && \"{{project}}\" === \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 75,
+      "target": "td.subscription-id > a",
+      "value": "{{subscriptionID}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{subscription}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 76,
+      "target": "td.subscription-total > span",
+      "value": "{{recurringTotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"hunchie\" && \"{{project}}\" !== \"talkbox\" \n&& \"{{project}}\" !== \"icg\" && \"{{project}}\" !== \"leggari\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 77,
+      "target": [
+        {
+          "selector": ".woocommerce-column.woocommerce-column--1 > address"
+        },
+        {
+          "selector": ".woocommerce-customer-details > address"
+        }
+      ],
+      "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{street2}}\n{{city}}, {{state}} {{zipCode}}\n\n{{phone}}\n\n{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"leggari\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 78,
+      "target": [
+        {
+          "selector": ".woocommerce-column.woocommerce-column--1 > address"
+        },
+        {
+          "selector": ".woocommerce-customer-details > address"
+        }
+      ],
+      "value": "{{firstName}} {{lastName}}\n{{street3}}\n{{street4}}\n{{city}}, {{state}} {{zipCode}}\n\n{{phone}}\n\n{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 79,
+      "target": ".woocommerce-column.woocommerce-column--1 > address",
+      "value": "{{firstName}} {{lastName}}\n{{street}}\n{{street2}}\n{{city}} {{state}} {{zipCode}}\n\n{{phone}}\n\n{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"hunchie\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 80,
+      "target": [
+        {
+          "selector": ".woocommerce-column.woocommerce-column--1 > address"
+        },
+        {
+          "selector": ".woocommerce-customer-details > address"
+        }
+      ],
+      "value": "{{firstName}} {{lastName}}\n{{street}}\n{{city}} {{state}} {{zipCode}}\n\n{{phone}}\n\n{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let user = \"{{user}}\"\nreturn (user != \"old\" && \"{{subscription}}\" != \"yes\") \n        && \n        (\"{{project}}\" !== \"hunchie\" && \"{{project}}\" !== \"talkbox\" &&  \"{{project}}\" !== \"icg\" &&  \"{{project}}\" !== \"leggari\")"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 81,
+      "target": ".woocommerce-column.woocommerce-column--2 > address",
+      "value": "{{firstName}} {{lastName2}}\n{{company2}}\n{{street3}}\n{{street4}}\n{{city}}, {{state}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"leggari\""
+      },
+      "notes": "set to optional step due to an error (not yet found) II step #79",
+      "optional": false,
+      "private": false,
+      "sequence": 82,
+      "target": ".woocommerce-column.woocommerce-column--2 > address",
+      "value": "{{firstName}} {{lastName}}\n{{company2}}\n{{street3}}\n{{street4}}\n{{city}}, {{state}} {{zipCode}}\n\n{{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let user = \"{{user}}\"\nreturn (user != \"old\"  && \"{{subscription}}\" != \"yes\") && (\"{{project}}\" === \"hunchie\")"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 83,
+      "target": ".woocommerce-column.woocommerce-column--2 > address",
+      "value": "{{firstName}} {{lastName2}}\n{{street3}}\n{{city}} {{state}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let user = \"{{user}}\"\nreturn user === \"old\"  && \"{{subscription}}\" != \"yes\" && (\"{{project}}\" !== \"talkbox\" && \"{{project}}\" !== \"icg\")"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 84,
+      "target": ".woocommerce-column.woocommerce-column--2 > address",
+      "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{street2}}\n{{city}}, {{state}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let user = \"{{user}}\"\nreturn (user != \"old\"  && \"{{subscription}}\" != \"yes\") && \"{{project}}\" == \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 85,
+      "target": ".woocommerce-column.woocommerce-column--2 > address",
+      "value": "{{firstName}} {{lastName2}}\n{{street3}}\n{{street4}}\n{{city}} {{state}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "return \"{{subscription}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 86,
+      "target": "",
+      "value": "646e184c33135384bba2be3d",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "646e10fecc654ac751c5bb79",
+    "suiteId": "6022b879262f437a9af8ddf9",
+    "suiteName": "Common Steps for all Projects"
+  }
+}

@@ -1,0 +1,528 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "02 - Join OS Membership - Ignoring Upsell",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "no",
+      "variableName": "upsell"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "qa+gi_order_{{alphanumeric}}@saucal.com",
+      "variableName": "email1"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "a[href*=\"/join\"].button.header-button"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "let days = document.querySelector('span.kt-svg-icon-list-text')\ndays = days.innerText\ndays = days.match(/\\d+/g)\n\nreturn days[0]",
+      "variableName": "trial"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "#tab-monthly > a",
+      "value": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "let freq = document.querySelector(\"#tab-monthly > a > span\")\nreturn freq.innerText",
+      "variableName": "freq"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "let priceold = document.querySelector('.wp-block-kadence-advancedheading.has-theme-palette-3-color > em')\nlet price = document.querySelector(\"#post-869418 > div > div > div.kb-row-layout-wrap.kb-row-layout-id869418_af3918-fb.alignfull.kb-v-sm-hidden.kt-row-has-bg.wp-block-kadence-rowlayout > div > div > div > div > div > div > div.wp-block-kadence-tab.kt-tab-inner-content.kt-inner-tab-1.kt-inner-tabbcdbad-58 > div > div > div > div.wp-block-kadence-column.kadence-column869418_b2aafb-e4 > div > div > div > div.wp-block-kadence-column.kadence-column869418_bf8826-ef.kb-section-dir-horizontal > div > h3\")\nprice = price.innerText\nprice = price.match(/\\$\\d+/g)\n\nreturn price[0]",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "a[href*=\"/checkout/?add-to-cart=16&quantity=1\"]"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "68f0dfa8bb0792d9334217f3",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "div.os-variant-switcher__options > label.os-variant-switcher__monthly > span.os-variant-switcher__price > strong > span"
+        },
+        {
+          "selector": "#order_review > div.os-checkout-order-review > table > tbody > tr > td.product-total > span > span.woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "#order_summary_field > div > table > tbody > tr > td.product-total > div > span > span.woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "totalPrice"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "#order_summary_field > div > table > tbody > tr > td.product-total .subscription-details",
+      "value": "/ month with a {{trial}}-day free trial"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": ".product-name > span",
+      "value": "Open Studio - {{freq}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "#order_summary_field > div > table > tfoot > tr:nth-child(2) > td > strong > span > bdi",
+      "value": "$0.00",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "#order_summary_field > div > table > tfoot > tr.order-total.recurring-total > td",
+      "value": "{{totalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "#order_summary_field > div > table > tfoot > tr.order-total.recurring-total > td",
+      "value": "/ month",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "#order_summary_field > div > table > tfoot > tr.order-total.recurring-total > td",
+      "value": "Next renewal:{{nextPayment}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "input[checked='checked']#os-sub-variant-16",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "input#os-sub-variant-17[checked=\"checked\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "#billing_email",
+      "value": "{{email1}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": true,
+      "sequence": 20,
+      "target": "#account_password",
+      "value": "{{password}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "#billing_first_name",
+      "value": "{{firstName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "#billing_last_name",
+      "value": "{{lastName}}",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "",
+      "value": "693057d7638b729792060e14",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "",
+      "value": "62753765c5f501e7105625b8",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "",
+      "value": "return new Promise(function(resolve, reject) {\n  var selector = '.bwf-inner-col > h2.bwf-adv-heading.bwf-width-default';\n  var timeout = 30000;\n\n  if (document.querySelector(selector)) {\n    resolve(true);\n    return;\n  }\n\n  var timer = setTimeout(function() {\n    observer.disconnect();\n    resolve(false);\n  }, timeout);\n\n  var observer = new MutationObserver(function() {\n    if (document.querySelector(selector)) {\n      clearTimeout(timer);\n      observer.disconnect();\n      resolve(true);\n    }\n  });\n\n  var target = document.body || document.documentElement;\n  observer.observe(target, {\n    childList: true,\n    subtree: true,\n    attributes: true\n  });\n})",
+      "variableName": "upsellFlow"
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "return {{upsellFlow}}"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "",
+      "value": "69e767f4fde844e9f2facd66",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": [
+        {
+          "selector": ".order > strong"
+        },
+        {
+          "selector": "div > div > div.bwf-align-wrap-full > div > div > div > p:nth-child(1).bwf-adv-heading.bwf-width-default"
+        }
+      ],
+      "value": "",
+      "variableName": "orderNumber"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "",
+      "value": "let orderNumber = '{{orderNumber}}'.match(/\\d+/g)\n\nreturn orderNumber[0]",
+      "variableName": "orderNumber"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": [
+        {
+          "selector": ".email > strong"
+        },
+        {
+          "selector": "div > div > div.bwf-align-wrap-full > div > div > div > p.bwf-adv-heading.bwf-width-default > strong"
+        }
+      ],
+      "value": "{{email1}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": "div.wfty_box.wfty_order_details > div.wfty_pro_list_cont.wfty_show_images > div > div > div.wfty_p_name > a > span",
+      "value": "Open Studio - {{freq}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": [
+        {
+          "selector": "td.woocommerce-table__product-total > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "div.wfty_box.wfty_order_details > div.wfty_pro_list_cont.wfty_show_images > div > div.wfty_rightDiv > span"
+        }
+      ],
+      "value": "$0.00",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": [
+        {
+          "selector": "tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "div.wfty_box.wfty_order_details > div.wfty_pro_list_cont.wfty_show_images > table > tfoot > tr:nth-child(1) > td > span"
+        }
+      ],
+      "value": "$0.00",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": [
+        {
+          "selector": "tr:nth-of-type(2) > td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "div.wfty_box.wfty_order_details > div.wfty_pro_list_cont.wfty_show_images > table > tfoot > tr:nth-child(3) > td > span"
+        }
+      ],
+      "value": "$0.00",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 37,
+      "target": "td.subscription-id > a[href*=\"/my-account/view-subscription/\"]",
+      "value": "",
+      "variableName": "subID"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 38,
+      "target": "",
+      "value": "let subID = \"{{subID}}\"\nsubID = subID.match(/[0-9]+/g)\nreturn subID[0]",
+      "variableName": "subID"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 39,
+      "target": [
+        {
+          "selector": "td.subscription-status"
+        },
+        {
+          "selector": "td.subscription-id > a[href*=\"/my-account/view-subscription/\"] > small"
+        },
+        {
+          "selector": "tbody > tr > td.subscription-id.order-number > small"
+        }
+      ],
+      "value": "Active"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 40,
+      "target": "td.subscription-next-payment",
+      "value": "{{nextPayment}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 41,
+      "target": "td.subscription-total",
+      "value": "{{unitPrice}}.00 / month",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 42,
+      "target": "a[href=\"{{startUrl}}dashboard/\"]"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 43,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 44,
+      "target": "",
+      "value": "let url = window.location.href\n\nreturn url === \"{{startUrl}}dashboard/\"",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69dff08eb1161572d1ac510b",
+    "suiteId": "69dff08eb1161572d1ac50fd",
+    "suiteName": "Open Studio - Basic WooCommerce Tests - Member - Funnel Kit"
+  }
+}

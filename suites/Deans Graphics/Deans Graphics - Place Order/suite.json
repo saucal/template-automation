@@ -1,0 +1,174 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "67c1c150c4f6da836c0407fa",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2025-02-28T13:59:44.870Z",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "60881317e6a043402e3b9662",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "Deans Graphics - Place Order",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://staging-deansgraphics.kinsta.cloud",
+    "testCount": 4,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "608817624658f2361a7e449c"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "608817624658f2361a7e449d"
+      },
+      {
+        "name": "project",
+        "value": "Deans",
+        "private": false,
+        "_id": "627522954a3a4832a26391f0"
+      },
+      {
+        "name": "stateComplete",
+        "value": "Illinois",
+        "private": false,
+        "_id": "62792140c5f501e710ba0808"
+      },
+      {
+        "name": "company",
+        "value": "Saucal Maintenance",
+        "private": false,
+        "_id": "608817624658f2361a7e449e"
+      },
+      {
+        "name": "countryComplete",
+        "value": "United States (US)",
+        "private": false,
+        "_id": "627963a5c5f501e710c8a255"
+      },
+      {
+        "name": "Symbol",
+        "value": "$",
+        "private": false,
+        "_id": "627a751c97a3bd06e0ed1617"
+      },
+      {
+        "name": "phone",
+        "value": "3453453456",
+        "private": false,
+        "_id": "608818184658f2361a7e4e30"
+      },
+      {
+        "name": "pass1",
+        "value": "fric2171Biot",
+        "private": true,
+        "_id": "608818184658f2361a7e4e31"
+      },
+      {
+        "name": "pass2",
+        "value": "fric2172Biot",
+        "private": true,
+        "_id": "608818184658f2361a7e4e32"
+      },
+      {
+        "name": "admin_user",
+        "value": "guest@saucal.com",
+        "private": false,
+        "_id": "61001ba1bb4fa254c0aa799b"
+      },
+      {
+        "name": "admin_pass",
+        "value": "hkh*udr7dmb4UWA1ftm",
+        "private": true,
+        "_id": "61001ba1bb4fa254c0aa799c"
+      },
+      {
+        "name": "city",
+        "value": "Champaign",
+        "private": false,
+        "_id": "610050c8458b7b49b115d052"
+      },
+      {
+        "name": "street",
+        "value": "123 False Street",
+        "private": false,
+        "_id": "610050c8458b7b49b115d050"
+      },
+      {
+        "name": "street2",
+        "value": "4th floor",
+        "private": false,
+        "_id": "610050c8458b7b49b115d051"
+      },
+      {
+        "name": "state",
+        "value": "IL",
+        "private": false,
+        "_id": "610050c8458b7b49b115d053"
+      },
+      {
+        "name": "zipCode",
+        "value": "61822",
+        "private": false,
+        "_id": "610050c8458b7b49b115d054"
+      },
+      {
+        "name": "mobile",
+        "value": "3098987876",
+        "private": false,
+        "_id": "610050c8458b7b49b115d055"
+      },
+      {
+        "name": "lastName2",
+        "value": "Shipping",
+        "private": false,
+        "_id": "610050c8458b7b49b115d056"
+      },
+      {
+        "name": "company2",
+        "value": "Saucal Shipping",
+        "private": false,
+        "_id": "610050c8458b7b49b115d057"
+      },
+      {
+        "name": "street3",
+        "value": "123 false Shipping",
+        "private": false,
+        "_id": "610050c8458b7b49b115d058"
+      },
+      {
+        "name": "street4",
+        "value": "Shipping",
+        "private": false,
+        "_id": "610050c8458b7b49b115d059"
+      }
+    ],
+    "viewportSize": {
+      "width": 1440,
+      "height": 900
+    }
+  }
+}
