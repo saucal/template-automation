@@ -3,6 +3,10 @@ name: Ghost Inspector full-org extraction
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   extract:
     runs-on: ubuntu-latest
