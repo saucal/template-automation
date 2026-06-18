@@ -1,0 +1,146 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "64d145c26f03cb8cdbfc0e17",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2023-08-07T19:28:02.777Z",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "64d145826f03cb8cdbfc067f",
+    "globalStepDelay": 250,
+    "httpAuthPassword": "",
+    "httpAuthUsername": "",
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "BlueSnap - CC - Subscriptions + Pre Orders + Others",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": false,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://stgbluesnap2.wpengine.com/",
+    "testCount": 0,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "woo_user",
+        "value": "ck_9f30058180ed38b04128f2768c34da072282af32",
+        "private": true,
+        "_id": "60a273cdcda37459c851732a"
+      },
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b81"
+      },
+      {
+        "name": "user_bluesnap",
+        "value": "saucal_sandbox",
+        "private": false,
+        "_id": "626960ab11885f8f1aa9c87d"
+      },
+      {
+        "name": "blog",
+        "value": "mitchell_callahan_blog_2",
+        "private": false,
+        "_id": "62e8303bcd380e119c506eb8"
+      },
+      {
+        "name": "blue_user",
+        "value": "API_1534947183435641070037",
+        "private": true,
+        "_id": "60a273cdcda37459c851732c"
+      },
+      {
+        "name": "blue_pass",
+        "value": "JA$5uZW95NID27",
+        "private": true,
+        "_id": "60a273cdcda37459c851732d"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b82"
+      },
+      {
+        "name": "company",
+        "value": "Saucal Inc.",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b83"
+      },
+      {
+        "name": "street",
+        "value": "123 Flase Street",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b84"
+      },
+      {
+        "name": "city",
+        "value": "Miami",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b85"
+      },
+      {
+        "name": "zipCode",
+        "value": "33126",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b86"
+      },
+      {
+        "name": "phone",
+        "value": "3050698798",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b87"
+      },
+      {
+        "name": "password",
+        "value": "fric2171Biot",
+        "private": true,
+        "_id": "60ca0d461da0a93062c80519"
+      },
+      {
+        "name": "woo_pass",
+        "value": "cs_fa8e27ba32f6a3ef6863c9a0be26cee813c08105",
+        "private": true,
+        "_id": "60a273cdcda37459c851732b"
+      },
+      {
+        "name": "address2",
+        "value": "Apartment 2",
+        "private": false,
+        "_id": "60d08eb61da0a93062ee109d"
+      },
+      {
+        "name": "password_bluesnap",
+        "value": "jrk_MAK6xwd1zrv8wqg",
+        "private": true,
+        "_id": "626960ab11885f8f1aa9c87c"
+      },
+      {
+        "name": "url",
+        "value": "https://stgbluesnap2.wpengine.com",
+        "private": false,
+        "_id": "64d1492e6f03cb8cdbfc814b"
+      }
+    ],
+    "viewportSize": {
+      "width": 1280,
+      "height": 800
+    }
+  }
+}
