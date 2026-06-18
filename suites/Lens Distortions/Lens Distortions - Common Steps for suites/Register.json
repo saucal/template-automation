@@ -1,0 +1,274 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "6.0.1",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Register",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": ".not-logged-only > a[href=\"/my-account/\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": ".create-new-account",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "input[name=\"register\"][type=\"submit\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": ".woocommerce-error > li"
+        },
+        {
+          "selector": ".wc-block-components-notice-banner__content"
+        }
+      ],
+      "value": "Error: Please provide a valid email address.",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "#reg_email",
+      "value": "{{username}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "input[name=\"register\"][type=\"submit\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": ".woocommerce-error > li"
+        },
+        {
+          "selector": ".wc-block-components-notice-banner__content"
+        }
+      ],
+      "value": "Error: Please enter an account password.",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": true,
+      "sequence": 7,
+      "target": "#reg_password",
+      "value": "{{password}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "input[name=\"register\"][type=\"submit\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": ".woocommerce-error > li"
+        },
+        {
+          "selector": ".wc-block-components-notice-banner__content"
+        }
+      ],
+      "value": "Error: Please agree to terms before registering.",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": true,
+      "sequence": 10,
+      "target": "#reg_password",
+      "value": "{{password}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "#ld_registration_agreement",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 12,
+      "target": "iframe[title=\"reCAPTCHA\"] div.recaptcha-checkbox-checkmark",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "input[name=\"register\"][type=\"submit\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": [
+        {
+          "selector": ".woocommerce-message"
+        },
+        {
+          "selector": ".wc-block-components-notice-banner__content"
+        }
+      ],
+      "value": "Thanks for signing up! Check your email for a verification link to activate your account.",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "603d1f20494ea848981cef9b",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "a[href*=\"https://lensdistortions.flywheelstaging.com/my-account/?alg_wc_ev_verify_email\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return window.innerWidth > 540"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": [
+        {
+          "selector": ".woocommerce-message"
+        },
+        {
+          "selector": ".wc-block-components-notice-banner__content"
+        }
+      ],
+      "value": "Success: Your account is now active.",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return window.innerWidth <= 540"
+      },
+      "notes": "Message changed to a single line, changing validation, test failed changing back to 2 lines",
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": [
+        {
+          "selector": ".woocommerce-message"
+        },
+        {
+          "selector": ".wc-block-components-notice-banner__content"
+        }
+      ],
+      "value": "Success:\nYour account is now active.",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "627d2fa297a3bd06e09eaa97",
+    "suiteId": "627d2fa297a3bd06e09eaa92",
+    "suiteName": "Lens Distortions - Common Steps for suites"
+  }
+}

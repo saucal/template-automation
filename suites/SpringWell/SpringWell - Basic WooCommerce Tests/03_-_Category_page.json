@@ -1,0 +1,71 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "03 - Category page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "a[href*='/product-category/']",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "#menu-product-categories",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": ".textwidget > .woof > .woof_redraw_zone > .woof_container.woof_container_checkbox.woof_container_pa_water-type.woof_container_2.woof_container_watertype",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": ".textwidget > .woof > .woof_redraw_zone > .woof_container.woof_container_checkbox.woof_container_pa_contaminants.woof_container_4.woof_container_contaminantsreduced",
+      "value": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "684c843d388232057b6fb9d4",
+    "suiteId": "684c8070388232057b6f6ec6",
+    "suiteName": "SpringWell - Basic WooCommerce Tests"
+  }
+}

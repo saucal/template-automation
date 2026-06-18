@@ -1,0 +1,865 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "6.1.0",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Fill Checkout",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "#billing_first_name"
+        },
+        {
+          "selector": "iframe[src=\"{{url}}checkout/?iframe_checkout=1\"] #billing_first_name"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #billing_first_name"
+        }
+      ],
+      "value": "{{firstName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "#billing_last_name"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #billing_last_name"
+        }
+      ],
+      "value": "{{lastName}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const user = '{{user}}'\nreturn user === 'new'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "#billing_country",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const user = '{{user}}'\nreturn user === 'new'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#billing_country > option[value=\"{{country}}\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": "#billing_address_1"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #billing_address_1"
+        }
+      ],
+      "value": "{{street}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "#billing_city"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #billing_city"
+        }
+      ],
+      "value": "{{city}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const user = '{{user}}'\nreturn user === 'new'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "#billing_address_2_collapse_label > a",
+      "value": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "#billing_address_2"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #billing_address_2"
+        }
+      ],
+      "value": "{{street2}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const user = '{{user}}'\nreturn user === 'new'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "#billing_state",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const user = '{{user}}'\nreturn user === 'new'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "#billing_state > option[value=\"{{state}}\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": "#billing_postcode"
+        },
+        {
+          "selector": "iframe[src=\"{{url}}checkout/?iframe_checkout=1\"] #billing_postcode"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #billing_postcode"
+        }
+      ],
+      "value": "{{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const user = '{{user}}'\nreturn user === 'new'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": [
+        {
+          "selector": "#billing_phone"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #billing_phone"
+        }
+      ],
+      "value": "{{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const user = '{{user}}'\nreturn user === 'new'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": [
+        {
+          "selector": "#billing_email"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #billing_email"
+        }
+      ],
+      "value": "{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const user = '{{user}}'\nreturn user === 'new'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": [
+        {
+          "selector": "#shipping_first_name"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #shipping_first_name"
+        }
+      ],
+      "value": "{{firstName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const user = '{{user}}'\nreturn user === 'new'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": [
+        {
+          "selector": "#shipping_last_name"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #shipping_last_name"
+        }
+      ],
+      "value": "{{lastName2}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const user = '{{user}}'\nreturn user === 'new'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "#shipping_country",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const user = '{{user}}'\nreturn user === 'new'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "#shipping_country > option[value=\"{{country}}\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const user = '{{user}}'\nreturn user === 'new'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": [
+        {
+          "selector": "#shipping_address_1"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #shipping_address_1"
+        }
+      ],
+      "value": "{{street3}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const user = '{{user}}'\nreturn user === 'new'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "#shipping_address_2_collapse_label > a",
+      "value": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const user = '{{user}}'\nreturn user === 'new'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": [
+        {
+          "selector": "#shipping_address_2"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #shipping_address_2"
+        }
+      ],
+      "value": "{{street4}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const user = '{{user}}'\nreturn user === 'new'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": [
+        {
+          "selector": "#shipping_city"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #shipping_city"
+        }
+      ],
+      "value": "{{city}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const user = '{{user}}'\nreturn user === 'new'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "#shipping_state",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const user = '{{user}}'\nreturn user === 'new'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "#shipping_state > option[value=\"{{state}}\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const user = '{{user}}'\nreturn user === 'new'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": [
+        {
+          "selector": "#shipping_postcode"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #shipping_postcode"
+        }
+      ],
+      "value": "{{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const elem = document.querySelector('#shipping_phone')\n\nreturn !!elem"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "#shipping_phone",
+      "value": "{{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 26,
+      "target": [
+        {
+          "selector": "#order_comments"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #order_comments"
+        }
+      ],
+      "value": "Order Note for Testing this field",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": [
+        {
+          "selector": "#wfacp_mini_cart_items_f04a2fdd > table > tbody > tr:nth-child(1) > td.product-total > span.woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "div:nth-child(2) div:not(.wfacp_min_cart_widget) > table > tbody > tr:nth-child(1) > td.product-total > span.woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "",
+      "variableName": "subPrice"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "",
+      "value": "const elem = document.querySelector('div:nth-child(2) tbody > tr:nth-child(1) > td.product-name-area > div.product-name.wfacp_summary_img_true > div.wfacp_cart_title_sec > span').innerText\nconst beforeBreak = elem.split('\\n')[0].trim();\n\nreturn beforeBreak",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const elem = document.querySelector('.wfob_checkbox.wfob_bump_product')\n\nreturn !elem"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "",
+      "value": "const elem = document.querySelector('div:nth-child(2) div:not(.wfacp_min_cart_widget) > table > tbody > tr:nth-child(2) > td.product-name-area > div.product-name.wfacp_summary_img_true > div > span').innerText\nconst beforeBreak = elem.split('x')[0].trim();\n\nreturn beforeBreak",
+      "variableName": "prod_desc2"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "const elem = document.querySelector('.wfob_checkbox.wfob_bump_product')\n\nreturn !elem"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": [
+        {
+          "selector": "div:nth-child(2) div:not(.wfacp_min_cart_widget) > table > tbody > tr:nth-child(2) > td.product-total > ins > span.woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "div:nth-child(2) div:not(.wfacp_min_cart_widget) > table > tbody > tr:nth-child(2) > td.product-total > span.woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": "",
+      "value": "let subPrice = \"{{subPrice}}\"\nlet unitPrice = \"{{unitPrice}}\"\n\nif (unitPrice === \"\") {\n    unitPrice = \"$0.00\"\n}\n\nsubPrice = subPrice.replace(\",\",\"\");\nunitPrice = unitPrice.replace(\",\",\"\");\n\nsubPrice = Number(subPrice.replace(\"{{Symbol}}\",\"\"));\nunitPrice = Number(unitPrice.replace(\"{{Symbol}}\",\"\"));\n\nlet subtotal = subPrice+unitPrice;\nsubtotal = \"{{Symbol}}\"+subtotal.toFixed(2);\n\nreturn subtotal",
+      "variableName": "subtotalPrice"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": [
+        {
+          "selector": "tr:nth-of-type(3).cart_item > td.product-name > div > div > div.check-name"
+        },
+        {
+          "selector": "div:nth-child(2) div:not(.wfacp_min_cart_widget) > table > tbody > tr:nth-child(3) > td.product-name-area > div.product-name.wfacp_summary_img_true > div.wfacp_cart_title_sec > span"
+        }
+      ],
+      "value": "Consistency Crew Membership (renews monthly)",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": [
+        {
+          "selector": "tr:nth-of-type(3) .subscription-price > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "div:nth-child(2) div:not(.wfacp_min_cart_widget) > table > tbody > tr:nth-child(3) > td.product-total > span.woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "{{ccPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": "",
+      "value": "let subPrice = \"{{subPrice}}\"\nlet unitPrice = \"{{unitPrice}}\"\nlet ccPrice = '{{ccPrice}}'\n\nif (unitPrice === \"\") {\n    unitPrice = \"$0.00\"\n}\n\nsubPrice = subPrice.replace(\",\",\"\");\nunitPrice = unitPrice.replace(\",\",\"\");\nccPrice = ccPrice.replace(\",\",\"\");\n\nsubPrice = Number(subPrice.replace(\"{{Symbol}}\",\"\"));\nunitPrice = Number(unitPrice.replace(\"{{Symbol}}\",\"\"));\nccPrice = Number(ccPrice.replace(\"{{Symbol}}\",\"\"));\n\nlet subtotal = subPrice+unitPrice+ccPrice;\nsubtotal = \"{{Symbol}}\"+subtotal.toFixed(2);\n\nreturn subtotal",
+      "variableName": "subtotalPrice"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 37,
+      "target": "div:nth-child(2) tbody tr.cart-subtotal:not(.tax-total) > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "const elem = document.querySelector('tr.cart-discount > td > .woocommerce-Price-amount.amount')\n\nreturn !!elem"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 38,
+      "target": "div:nth-child(2) tbody tr.cart-discount > td > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "discount"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 39,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 40,
+      "target": [
+        {
+          "selector": "ul#shipping_method > li:nth-child(1) > label"
+        },
+        {
+          "selector": "ul#shipping_method > li:nth-child(1) > div > label"
+        },
+        {
+          "selector": "div:nth-child(2) tbody tr.shipping_total_fee > td:nth-child(2) > span"
+        }
+      ],
+      "value": "",
+      "variableName": "shippingPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 41,
+      "target": "div:nth-child(2) tbody tr.cart-subtotal.tax-total > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "taxPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 42,
+      "target": [
+        {
+          "selector": "div:nth-child(2) tbody > tr.order-total > td > strong > span"
+        },
+        {
+          "selector": "strong > .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "",
+      "variableName": "total"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 43,
+      "target": [
+        {
+          "selector": "tr.cart-subtotal.recurring-total > td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "tfoot > tr.cart-subtotal.recurring-total > td > span"
+        }
+      ],
+      "value": "{{subPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 44,
+      "target": "tr.cart-subtotal.recurring-total:nth-child(2) > td > .woocommerce-Price-amount.amount",
+      "value": "{{subPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 45,
+      "target": "tr.cart-subtotal.recurring-total:nth-child(3) > td > .woocommerce-Price-amount.amount",
+      "value": "{{ccPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 46,
+      "target": "tr.tax-total.recurring-total:nth-of-type(4) > td > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "recurringTax"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 47,
+      "target": "tr.tax-total.recurring-total:nth-of-type(5) > td > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "recurringTax2"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 48,
+      "target": "tr.order-total.recurring-total:nth-of-type(6) > td > strong > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "recurringTotal"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 49,
+      "target": "tr.order-total.recurring-total:nth-of-type(7) > td > strong > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "recurringTotal2"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 50,
+      "target": "tr.order-total.recurring-total:nth-of-type(6) > td",
+      "value": "every 8 months",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 51,
+      "target": "tr.order-total.recurring-total:nth-of-type(7) > td",
+      "value": "/ month",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 52,
+      "target": "tr.tax-total.recurring-total > td > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "recurringTax"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 53,
+      "target": "tr.order-total.recurring-total > td > strong > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "recurringTotal"
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "notes": "edited line 16 due to an error in no pong suite, changed from  unit = unit.replace.trim(); to unit = unit.replace(\"{{Symbol}}\",\"\").trim();",
+      "optional": false,
+      "private": false,
+      "sequence": 54,
+      "target": "",
+      "value": "let unit = \"{{subtotalPrice}}\";\nlet shipping = \"{{shippingPrice}}\";\nlet discount = \"{{discount}}\"\nif (discount === \"\"){\n    discount = \"0.00\";\n};\nif (shipping.includes(\"Free\") || shipping.includes(\"Lettermail (untracked)\")){\n    shipping = \"0.00\";\n};\nlet tax = \"{{taxPrice}}\";\nif (tax === \"\"){\n    tax = \"0.00\";\n};\nlet total = \"{{total}}\";\n\nunit = unit.replace(\",\",\"\").trim();\ndiscount = discount.replace(\",\",\"\").trim();\nshipping = shipping.replace(\",\",\"\").trim();\ntax = tax.replace(\",\",\"\").trim();\ntotal = total.replace(\",\",\"\").trim();\n\nunit = Number(unit.replace(\"{{Symbol}}\",\"\"));\ndiscount = Number(discount.replace(\"{{Symbol}}\",\"\"));\nshipping = Number(shipping.replace(\"{{Symbol}}\",\"\"));\ntax = Number(tax.replace(\"{{Symbol}}\",\"\"));\ntotal = Number(total.replace(\"{{Symbol}}\",\"\"));\n\nlet total2 = unit-discount+shipping+tax;\n\ntotal2 = Number(total2.toFixed(2));\n\n\nreturn total === total2",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "notes": "edited line 16 due to an error in no pong suite, changed from  unit = unit.replace.trim(); to unit = unit.replace(\"{{Symbol}}\",\"\").trim();",
+      "optional": false,
+      "private": false,
+      "sequence": 55,
+      "target": "",
+      "value": "let unit = \"{{subPrice}}\";\nlet shipping = \"{{recurringShipping}}\";\nlet discount = \"{{recurrintDiscount}}\"\nif (discount === \"\"){\n    discount = \"0.00\";\n};\nif (shipping.includes(\"Free\") || shipping.includes(\"Lettermail (untracked)\") || shipping === ''){\n    shipping = \"0.00\";\n};\nlet tax = \"{{recurringTax}}\";\nif (tax === \"\"){\n    tax = \"0.00\";\n};\nlet total = \"{{recurringTotal}}\";\n\nunit = unit.replace(\",\",\"\").trim();\ndiscount = discount.replace(\",\",\"\").trim();\nshipping = shipping.replace(\",\",\"\").trim();\ntax = tax.replace(\",\",\"\").trim();\ntotal = total.replace(\",\",\"\").trim();\n\nunit = Number(unit.replace(\"{{Symbol}}\",\"\"));\ndiscount = Number(discount.replace(\"{{Symbol}}\",\"\"));\nshipping = Number(shipping.replace(\"{{Symbol}}\",\"\"));\ntax = Number(tax.replace(\"{{Symbol}}\",\"\"));\ntotal = Number(total.replace(\"{{Symbol}}\",\"\"));\n\nlet total2 = unit-discount+shipping+tax;\n\ntotal2 = Number(total2.toFixed(2));\n\n\nreturn total === total2",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew === 'yes'"
+      },
+      "notes": "edited line 16 due to an error in no pong suite, changed from  unit = unit.replace.trim(); to unit = unit.replace(\"{{Symbol}}\",\"\").trim();",
+      "optional": false,
+      "private": false,
+      "sequence": 56,
+      "target": "",
+      "value": "let unit = \"{{ccPrice}}\";\nlet shipping = \"{{recurringShipping2}}\";\nlet discount = \"{{recurrintDiscount2}}\"\nif (discount === \"\"){\n    discount = \"0.00\";\n};\nif (shipping.includes(\"Free\") || shipping.includes(\"Lettermail (untracked)\") || shipping === ''){\n    shipping = \"0.00\";\n};\nlet tax = \"{{recurringTax2}}\";\nif (tax === \"\"){\n    tax = \"0.00\";\n};\nlet total = \"{{recurringTotal2}}\";\n\nunit = unit.replace(\",\",\"\").trim();\ndiscount = discount.replace(\",\",\"\").trim();\nshipping = shipping.replace(\",\",\"\").trim();\ntax = tax.replace(\",\",\"\").trim();\ntotal = total.replace(\",\",\"\").trim();\n\nunit = Number(unit.replace(\"{{Symbol}}\",\"\"));\ndiscount = Number(discount.replace(\"{{Symbol}}\",\"\"));\nshipping = Number(shipping.replace(\"{{Symbol}}\",\"\"));\ntax = Number(tax.replace(\"{{Symbol}}\",\"\"));\ntotal = Number(total.replace(\"{{Symbol}}\",\"\"));\n\nlet total2 = unit-discount+shipping+tax;\n\ntotal2 = Number(total2.toFixed(2));\n\n\nreturn total === total2",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "removing topg-merch due to terms were removed from the checkout page",
+      "optional": false,
+      "private": false,
+      "sequence": 57,
+      "target": [
+        {
+          "selector": "#terms"
+        },
+        {
+          "selector": "#terms_acceptance"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "691347b8638b729792cb6856",
+    "suiteId": "63a1c5229034282736afc2e8",
+    "suiteName": "Talkbox - Common steps"
+  }
+}

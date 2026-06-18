@@ -1,0 +1,99 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "04 - Industries page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "68cab521189a381f8e01cc3f",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "a[href*=\"/industries\"] > .e-n-menu-title-text"
+        },
+        {
+          "selector": "a[href*=\"/industries\"]"
+        }
+      ]
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": ".elementor-element.elementor-element-08fed4b > .e-con-inner",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "div.elementor-element.e-con-boxed.e-con.e-parent:nth-of-type(8) > .e-con-inner",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": ".e-con-inner > .elementor-element.elementor-widget.elementor-widget-bdt-advanced-heading > .elementor-widget-container",
+      "value": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "68caf9b07f80fc466df327ea",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68cab8ff7f80fc466de3e032",
+    "suiteId": "68cab50c576a0f46b500e1e3",
+    "suiteName": "Hawk Ridge - Basic WooCommerce tests"
+  }
+}

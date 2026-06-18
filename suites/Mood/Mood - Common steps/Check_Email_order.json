@@ -1,0 +1,224 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.1",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Check Email order",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "https://email.ghostinspector.com/message/6449228d0a69e128c5e8a993",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "xpath=//a[contains(text(), \"Your Hello Mood order has been received!\")]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "td:nth-of-type(1) > h3",
+      "value": "Order number: {{orderNumber}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "tr.order_item:nth-of-type(1) > td.td:nth-of-type(1)",
+      "value": "{{prod_desc}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let upsell = \"{{upsell}}\"\nreturn upsell != \"yes\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "tr.order_item:nth-of-type(1) > td.td:nth-of-type(3) > .woocommerce-Price-amount.amount",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let upsell = \"{{upsell}}\"\nreturn upsell === \"yes\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "tr.order_item:nth-of-type(1) > td.td:nth-of-type(3) > .woocommerce-Price-amount.amount",
+      "value": "{{prodPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let upsell = \"{{upsell}}\"\nreturn upsell === \"yes\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "tr.order_item:nth-of-type(2) > td.td:nth-of-type(1)",
+      "value": "{{prod_desc2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let upsell = \"{{upsell}}\"\nreturn upsell === \"yes\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "tr.order_item:nth-of-type(2) > td.td:nth-of-type(3) > .woocommerce-Price-amount.amount",
+      "value": "{{unitPrice2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "td.td.tvalue-subtotal > .woocommerce-Price-amount.amount",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let upsell = \"{{upsell}}\"\nreturn upsell != \"yes\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "td.td.tvalue-discount",
+      "value": "-{{discount}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let upsell = \"{{upsell}}\"\nreturn upsell != \"yes\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "td.td.tvalue-shipping",
+      "value": "{{shippingPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let upsell = \"{{upsell}}\"\nreturn upsell === \"yes\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "td.td.tvalue-shipping",
+      "value": "Free",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "td.td.tvalue-salestax > .woocommerce-Price-amount.amount",
+      "value": "{{taxPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "td.td.tvalue-total > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let upsell = \"{{upsell}}\"\nreturn upsell === \"yes\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "td.address-container > address.address > table > tbody > tr > td.address-td",
+      "value": "{{firstName}} {{lastName}}\n{{street}}\n{{street2}}\n{{city}}, {{state}} {{zipCode}}\n\n{{phone}}\n\n\n{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let upsell = \"{{upsell}}\"\nreturn upsell != \"yes\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "td.address-container > address.address > table > tbody > tr > td.address-td",
+      "value": "{{firstName}} {{lastName}}\n{{street3}}\n{{street4}}\n{{city}}, {{state}} {{zipCode}}\n\n{{phone}}\n\n\n{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "td:nth-of-type(2) > address.address > table > tbody > tr > td.address-td",
+      "value": "{{firstName}} {{lastName2}}\n{{company2}}\n{{street3}}\n{{street4}}\n{{city}}, {{state}} {{zipCode}}\n\n{{phone}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "64492700d19bd3b458584a68",
+    "suiteId": "6446b8403a008cd31c973fea",
+    "suiteName": "Mood - Common steps"
+  }
+}

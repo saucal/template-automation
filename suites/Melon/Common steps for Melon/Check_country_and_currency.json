@@ -1,0 +1,65 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "6.1.0",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Check country and currency",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "notes": "not in use, UI changed",
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "#.header-html2 > .header-html-inner > select[id=\"mo-country-dropdown\"]"
+        },
+        {
+          "selector": "select[id=\"mo-country-dropdown\"]:nth-of-type(1)"
+        }
+      ],
+      "value": "{{country}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 1,
+      "target": "div.site-container .header-html-inner > form[id=\"currency_converter\"] > div > select[id=\"currency_switcher\"].currency_switcher",
+      "value": "{{currency}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6324d91773b124ed89a041ce",
+    "suiteId": "6324d90873b124ed89a03e98",
+    "suiteName": "Common steps for Melon"
+  }
+}

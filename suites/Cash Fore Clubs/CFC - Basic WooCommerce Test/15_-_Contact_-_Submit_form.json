@@ -1,0 +1,196 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "15 - Contact - Submit form",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "{{site}}contact/",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "#input_7_4",
+      "value": "QA Test",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "qa+gi_{{alphanumeric}}@saucal.com",
+      "variableName": "username"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#input_7_2",
+      "value": "{{username}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "#input_7_5",
+      "value": "2342342345",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "#input_7_6"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "#input_7_6",
+      "value": "Build your bag"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "#input_7_3",
+      "value": "Testing message",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "#gform_submit_button_7"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "h1.elementor-size-default",
+      "value": "Thank you!"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": ".elementor-element.elementor-element-20b6db6 > .elementor-widget-container > p:nth-of-type(1)",
+      "value": "Thank you for getting in touch. We have received your inquiry and will get back to you asap."
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": ".elementor-widget-container > p:nth-of-type(2)",
+      "value": "in the meantime, why not see if you can find your perfect club?"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "603d1f20494ea848981cef9b",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "//a[contains(text(), \"Thanks for reaching out\")]",
+      "value": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "#content",
+      "value": "Hi QA Test,\n\nThank you for getting in touch. We have received your inquiry and will get back to you asap.\n\nThanks,\n\nCashFore Clubs",
+      "variableName": ""
+    },
+    {
+      "command": "goBack",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "goBack",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "",
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "671ba226f7c3927cffd31dc5",
+    "suiteId": "671b8f13a655f16a8cf44587",
+    "suiteName": "CFC - Basic WooCommerce Test"
+  }
+}

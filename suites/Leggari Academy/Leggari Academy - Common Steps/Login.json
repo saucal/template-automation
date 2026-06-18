@@ -1,0 +1,87 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Login",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return !window.location.href.includes('/login')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"Members Login\")]"
+        },
+        {
+          "selector": "a[href*=\"/login/\"] > .elementor-icon-list-text"
+        }
+      ]
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "#username",
+      "value": "{{username}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "#password",
+      "value": "{{password}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": "//button[contains(text(), \"Log in\")]"
+        },
+        {
+          "selector": "button[name=\"login\"]"
+        }
+      ]
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69c17c79c37b235f986cf5d5",
+    "suiteId": "69c170c5de491b5fc5f29b47",
+    "suiteName": "Leggari Academy - Common Steps"
+  }
+}

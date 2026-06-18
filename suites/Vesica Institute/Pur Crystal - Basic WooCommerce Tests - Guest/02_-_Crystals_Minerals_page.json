@@ -1,0 +1,73 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "02 - Crystals Minerals page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "6673410d1aac3ea14ff38aa8",
+      "variableName": ""
+    },
+    {
+      "command": "mouseOver",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "a[href=\"/crystals-minerals/\"] > .jet-mega-menu-item__title > .jet-mega-menu-item__label",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "a[href=\"/crystals-minerals/\"] > .jet-mega-menu-item__title > .jet-mega-menu-item__label"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "66741bca1aac3ea14f148ac9",
+    "suiteId": "667340de1aac3ea14ff38529",
+    "suiteName": "Pur Crystal - Basic WooCommerce Tests - Guest"
+  }
+}

@@ -1,0 +1,129 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "BLU-001-056 - Admin side",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "61d5b5207e5be41b1d21e1ed",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "a[href=\"admin.php?page=wc-admin\"] > .wp-menu-name",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "a[href=\"edit.php?post_type=shop_order\"]"
+        },
+        {
+          "selector": "a[href=\"admin.php?page=wc-orders\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": "a[href*=\"/wp-admin/post.php?post={{orderNumber}}&action=edit\"] > strong"
+        },
+        {
+          "selector": "a[href*=\"/wp-admin/admin.php?page=wc-orders&action=edit&id={{orderNumber}}\"] > strong"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "const jsonOrder = {{myOrder}}\nconst paymentMethod = jsonOrder.payment_method\nreturn paymentMethod === \"bluesnap\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "const paymentMethodT = \"{{paymentMethodTitle}}\"\nreturn paymentMethodT === \"Credit/Debit Card\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": ".woocommerce-order-data__meta",
+      "value": "Payment via {{paymentMethodTitle}} ({{transaction_id}})",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "li.note.system-note:nth-of-type(2) > .note_content > p",
+      "value": "Bluesnap transaction complete (Transaction ID: {{transaction_id}})",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69049f1434ec47aacc5be3d8",
+    "suiteId": "69049f1434ec47aacc5be3b0",
+    "suiteName": "BlueSnap - CC - Authorize Only & 3DS"
+  }
+}

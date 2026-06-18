@@ -1,0 +1,248 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "09 - Registration, My Account links and Login",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": null,
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "{{password}}",
+      "variableName": "pass"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "{{emailReg}}",
+      "variableName": "username"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "{{alphanumeric}}",
+      "variableName": "user"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "63b594411b9923d1cbcab86b",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": ".woocommerce-MyAccount-navigation-link > a[href*=\"/my-account/orders/\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": ".woocommerce-message",
+      "value": "NO ORDER HAS BEEN MADE YET.",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "a[href*=\"/my-account/downloads/\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": ".woocommerce-Message",
+      "value": "NO DOWNLOADS AVAILABLE YET.",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "a[href*=\"/my-account/wc-smart-coupons/\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": ".woocommerce-Message",
+      "value": "SORRY, NO COUPONS AVAILABLE FOR YOU.",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": "a[href*=\"/my-account/edit-address/\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": ".woocommerce-MyAccount-content > p",
+      "value": "The following addresses will be used on the checkout page by default.",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": [
+        {
+          "selector": "a[href*=\"/my-account/edit-account/\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "#account_display_name",
+      "value": "{{user}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "#account_email",
+      "value": "{{username}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": [
+        {
+          "selector": "a[href*=\"/my-account/customer-logout/?_wpnonce=\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "",
+      "value": "63b594e97371c255272bab23",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "div.mc-closeModal",
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": [
+    {
+      "width": 360,
+      "height": 567
+    },
+    {
+      "width": 1920,
+      "height": 1080
+    }
+  ],
+  "_gi": {
+    "testId": "63b58f99a67dec3a12ef1764",
+    "suiteId": "63b58f99a67dec3a12ef174c",
+    "suiteName": "STAGING - Scout Books - Tests"
+  }
+}

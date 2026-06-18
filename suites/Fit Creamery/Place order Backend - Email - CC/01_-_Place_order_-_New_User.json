@@ -1,0 +1,334 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "01 - Place order - New User",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "svg.e-eicon-close > use"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"PICK YOUR FLAVOR\")]"
+        },
+        {
+          "selector": "a[href*=\"/pick-your-flavor/\"].elementor-element.elementor-element-15cae8c5 > .e-con-inner > .elementor-element.elementor-widget.elementor-widget-text-editor > .elementor-widget-container > span"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "a[href=\"#choose-package\"].elementor-element.e-con-boxed.e-con.e-child:nth-of-type(1) > .e-con-inner > .elementor-element.elementor-widget.elementor-widget-text-editor > .elementor-widget-container > p"
+        },
+        {
+          "selector": "//a[@href='#choose-package']//p[contains(text(),'chocolate')]"
+        }
+      ]
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "a[href*=\"/step/checkout?wcf-add-to-cart=1659&wcf-qty=4\"] > .label",
+      "value": "",
+      "variableName": "prices"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "const text = `{{prices}}`;\nconst prices = text.match(/\\$[0-9]+/g);\n\nreturn prices[0] + '.00'",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "const text = `{{prices}}`;\nconst prices = text.match(/\\$[0-9]+/g);\n\nreturn prices[1] + '.00'",
+      "variableName": "salePrice"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 6,
+      "target": "//*[contains(text(),'No thanks')]",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "a[href*=\"/step/checkout?wcf-add-to-cart=1659&wcf-qty=4\"] > .label > span:nth-of-type(1)"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 8,
+      "target": "#fc-no-thanks-btn",
+      "value": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "#order_review > table.shop_table.woocommerce-checkout-review-order-table > tbody > tr.cart_item > td.product-name > .wcf-product-image > .wcf-product-name",
+      "value": "Fit Sweet Ice Cream Mix - Chocolate",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "#order_review > table.shop_table.woocommerce-checkout-review-order-table > tbody > tr.cart_item > td.product-name > .wcf-product-image > .wcf-product-name",
+      "value": "",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "#order_review > table.shop_table.woocommerce-checkout-review-order-table > tbody > tr.cart_item > td.product-name > strong.product-quantity",
+      "value": "× 4"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "6851db0615b3a11549188a1a",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "686bb63389ec07266b0aec83",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "",
+      "value": "6851dcb689ec07266b44cc90",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "#order_review > table.shop_table.woocommerce-checkout-review-order-table > tbody > tr.cart_item > td.product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "#order_review > table.shop_table.woocommerce-checkout-review-order-table > tfoot > tr.cart-subtotal > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "",
+      "value": "{{unitPrice}}",
+      "variableName": "subtotal"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "#order_review > table.shop_table.woocommerce-checkout-review-order-table > tfoot > tr.cart-discount.coupon-30-off-applied > td > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "{{discount}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "div#order_review ul#shipping_method > li:nth-of-type(1) > label",
+      "value": "Free shipping"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "#order_review > table.shop_table.woocommerce-checkout-review-order-table > tfoot > tr.tax-total > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "taxPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "#order_review > table.shop_table.woocommerce-checkout-review-order-table > tfoot > tr.order-total > td > strong > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "total"
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "",
+      "value": "const unitPrice = parseFloat('{{unitPrice}}'.replace('$','').replace(',','').trim())\nconst discount = parseFloat('{{discount}}'.replace('$','').replace(',','').trim())\nconst taxPrice = parseFloat('{{taxPrice}}'.replace('$','').replace(',','').trim())\nconst total = parseFloat('{{total}}'.replace('$','').replace(',','').trim())\nconst total2 = parseFloat((unitPrice - discount + taxPrice).toFixed(2))\n\nreturn total === total2\n",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "",
+      "value": "62753765c5f501e7105625b8",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const element = document.querySelector('#wcf-upsell-offer')\n\nreturn element !== null && element !== undefined"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "",
+      "value": "6851ef4389ec07266b5006f3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"Close this window\")]"
+        },
+        {
+          "selector": "a[href=\"#\"] > .elementor-button-content-wrapper > .elementor-button-text"
+        }
+      ]
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "",
+      "value": "6851d69415b3a1154915e1d1",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6851d645e5aac3e528aa6c27",
+    "suiteId": "6851d645e5aac3e528aa6c10",
+    "suiteName": "Place order Backend + Email - CC"
+  }
+}

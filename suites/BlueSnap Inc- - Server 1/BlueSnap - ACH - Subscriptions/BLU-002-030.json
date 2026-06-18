@@ -1,0 +1,46 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "details": "Renewal order of a Subscription with Upgrade with ACH",
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "BLU-002-030",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "6846ef70388232057b7502f5",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6633cc7f1aac3ea14f224623",
+    "suiteId": "65b287199cc5a53dd6cdf5a4",
+    "suiteName": "BlueSnap - ACH - Subscriptions"
+  }
+}

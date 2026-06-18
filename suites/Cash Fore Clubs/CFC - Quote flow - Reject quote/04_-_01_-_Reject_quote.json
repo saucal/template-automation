@@ -1,0 +1,211 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "04 - 01 - Reject quote",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "",
+      "variableName": "admin"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "{{customerLogin}}",
+      "variableName": "username"
+    },
+    {
+      "command": "mouseOver",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "//span[contains(text(), \"Selling\")]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "a[href*=\"/my-quotes/\"] > span"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "input[name=\"log\"]",
+      "value": "{{username}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": true,
+      "sequence": 6,
+      "target": "input[name=\"pwd\"]",
+      "value": "{{password}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "button[name=\"wp-submit\"]"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": ".elementor-element.e-con-full.e-con.e-parent.e-lazyloaded > .e-con-full.e-con.e-child > .elementor-element.elementor-widget.elementor-widget-button > .elementor-widget-container > .elementor-button-wrapper > a.elementor-button.elementor-button-link > .elementor-button-content-wrapper > .elementor-button-text"
+        },
+        {
+          "selector": "//span[contains(text(), \"View club\")]"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"Discussion\")]"
+        },
+        {
+          "selector": "button.e-n-tab-title:nth-of-type(2) > .e-n-tab-title-text"
+        }
+      ],
+      "value": null
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": ".comment.byuser.comment-author-saucal_maintenance_admin > .comment-body > .comment-content > .comment-text > p"
+        },
+        {
+          "selector": ".comment-content > div.comment-text > p"
+        }
+      ],
+      "value": "Testing reply"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"Quotes\")]"
+        },
+        {
+          "selector": "button.e-n-tab-title:nth-of-type(1) > .e-n-tab-title-text"
+        }
+      ],
+      "value": null
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "#kwfdeclinebtn"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": ".kwfbidder > h2",
+      "value": "Club Sale Declined"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": ".kwfbidder > p",
+      "value": "Sorry we could not agree a price on this occasion."
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": ".elementor-element.elementor-widget__width-initial.elementor-widget.elementor-widget-text-editor > .elementor-widget-container",
+      "value": "REJECTS"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "675725e87a599a5bc8bf2160",
+    "suiteId": "675725e87a599a5bc8bf2146",
+    "suiteName": "CFC - Quote flow - Reject quote"
+  }
+}

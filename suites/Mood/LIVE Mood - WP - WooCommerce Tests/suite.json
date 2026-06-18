@@ -1,0 +1,175 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "644a5943af1e488d25e4211d",
+    "abortOnTestFailure": false,
+    "autoRetry": true,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2023-04-27T11:15:15.716Z",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "64429086af1e488d254afe62",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "LIVE Mood - WP & WooCommerce Tests",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://hellomood.co/",
+    "testCount": 12,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "project",
+        "value": "mood",
+        "private": false,
+        "_id": "6447c652e36f7ecf09cf85b3"
+      },
+      {
+        "name": "password",
+        "value": "fric2171Biot",
+        "private": true,
+        "_id": "6447c652e36f7ecf09cf85b4"
+      },
+      {
+        "name": "password2",
+        "value": "fric2172Biot",
+        "private": true,
+        "_id": "6447c652e36f7ecf09cf85b5"
+      },
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "6447c746e36f7ecf09cfb221"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "6447c746e36f7ecf09cfb222"
+      },
+      {
+        "name": "countryComplete",
+        "value": "United States (US)",
+        "private": false,
+        "_id": "6447c746e36f7ecf09cfb223"
+      },
+      {
+        "name": "state",
+        "value": "FL",
+        "private": false,
+        "_id": "6447c746e36f7ecf09cfb224"
+      },
+      {
+        "name": "stateComplete",
+        "value": "Florida",
+        "private": false,
+        "_id": "6447c746e36f7ecf09cfb225"
+      },
+      {
+        "name": "Symbol",
+        "value": "$",
+        "private": false,
+        "_id": "6447c746e36f7ecf09cfb226"
+      },
+      {
+        "name": "country",
+        "value": "US",
+        "private": false,
+        "_id": "6447c746e36f7ecf09cfb227"
+      },
+      {
+        "name": "currency",
+        "value": "USD",
+        "private": false,
+        "_id": "6447c746e36f7ecf09cfb228"
+      },
+      {
+        "name": "company",
+        "value": "Testing",
+        "private": false,
+        "_id": "6447c746e36f7ecf09cfb229"
+      },
+      {
+        "name": "company2",
+        "value": "Testing Shipping",
+        "private": false,
+        "_id": "6447c746e36f7ecf09cfb22a"
+      },
+      {
+        "name": "street",
+        "value": "123 False St",
+        "private": false,
+        "_id": "6447c746e36f7ecf09cfb22b"
+      },
+      {
+        "name": "street2",
+        "value": "Ap. 4",
+        "private": false,
+        "_id": "6447c746e36f7ecf09cfb22c"
+      },
+      {
+        "name": "street3",
+        "value": "123 False Shipping",
+        "private": false,
+        "_id": "6447c746e36f7ecf09cfb22d"
+      },
+      {
+        "name": "street4",
+        "value": "Ap. Shipp",
+        "private": false,
+        "_id": "6447c746e36f7ecf09cfb22e"
+      },
+      {
+        "name": "city",
+        "value": "Miami",
+        "private": false,
+        "_id": "6447c746e36f7ecf09cfb22f"
+      },
+      {
+        "name": "zipCode",
+        "value": "33126",
+        "private": false,
+        "_id": "6447c746e36f7ecf09cfb230"
+      },
+      {
+        "name": "phone",
+        "value": "14324322345",
+        "private": false,
+        "_id": "6447c746e36f7ecf09cfb231"
+      },
+      {
+        "name": "lastName2",
+        "value": "{{alphanumeric}} Ship",
+        "private": false,
+        "_id": "6447c746e36f7ecf09cfb232"
+      }
+    ],
+    "viewportSize": [
+      {
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "width": 360,
+        "height": 567
+      }
+    ],
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
+  }
+}

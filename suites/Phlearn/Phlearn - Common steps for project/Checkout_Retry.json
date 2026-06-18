@@ -1,0 +1,46 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Checkout Retry",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let errorMes = document.querySelector('.woocommerce-NoticeGroup-checkout .woocommerce-error').textContent;\nreturn(errorMes == 'Error processing checkout. Please try again.')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "#place_order",
+      "value": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6543d83e5d4962e44b4db289",
+    "suiteId": "60364397fa81e86a7164a7a0",
+    "suiteName": "Phlearn - Common steps for project"
+  }
+}

@@ -1,0 +1,256 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "01 - Home page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": ".menu-item.wpml-ls-item > a.wpml-ls-link  .wpml-ls-native[lang=\"en\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": ".menu-item.wpml-ls-item > a.wpml-ls-link  .wpml-ls-native[lang=\"fr\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#menu-elka-main-menu > li.menu-item.menu-item-type-custom.menu-item-object-custom.menu-item-has-children.fusion-dropdown-menu:nth-of-type(1) > a[href=\"#\"] > .menu-text",
+      "value": "Products",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "#menu-elka-main-menu > li.menu-item.menu-item-type-custom.menu-item-object-custom.menu-item-has-children.fusion-dropdown-menu:nth-of-type(2) > a[href=\"#\"] > .menu-text",
+      "value": "Support",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "#menu-elka-main-menu > li.menu-item.menu-item-type-custom.menu-item-object-custom.menu-item-has-children.fusion-dropdown-menu:nth-of-type(3) > a[href=\"#\"] > .menu-text",
+      "value": "Dealers",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "#menu-elka-main-menu > li.menu-item.menu-item-type-post_type.menu-item-object-page:nth-of-type(4) > a[href*=\"/news\"] > .menu-text",
+      "value": "News",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "#menu-elka-main-menu > li.menu-item.menu-item-type-post_type.menu-item-object-page:nth-of-type(5) > a[href*=\"/shop\"] > .menu-text",
+      "value": "Shop",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "#menu-elka-main-menu > .fusion-custom-menu-item.fusion-menu-cart.fusion-main-menu-cart.fusion-widget-cart-counter > a[href*=\"/shop/cart/\"].fusion-main-menu-icon",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 9,
+      "target": ".menu-item.wpml-ls-item > a[href*=\"/fr/\"][title*=\"Français\"].wpml-ls-link > span > .wpml-ls-native",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "#menu-item-wpml-ls-42792-fr > a",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": ".menu-item.wpml-ls-item > a.wpml-ls-link  .wpml-ls-native[lang=\"fr\"]",
+      "value": "Français",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": ".menu-item.wpml-ls-item > a.wpml-ls-link  .wpml-ls-native[lang=\"en\"]",
+      "value": "English",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "#menu-menu-principal-elka > li.menu-item.menu-item-type-custom.menu-item-object-custom.menu-item-has-children.fusion-dropdown-menu:nth-of-type(1) > a[href=\"#\"] > .menu-text",
+      "value": "Produits",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "#menu-menu-principal-elka > li.menu-item.menu-item-type-custom.menu-item-object-custom.menu-item-has-children.fusion-dropdown-menu:nth-of-type(2) > a[href=\"#\"] > .menu-text",
+      "value": "Support",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "#menu-menu-principal-elka > li.menu-item.menu-item-type-custom.menu-item-object-custom.menu-item-has-children.fusion-dropdown-menu:nth-of-type(3) > a[href=\"#\"] > .menu-text",
+      "value": "Revendeurs",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "#menu-menu-principal-elka > li.menu-item.menu-item-type-post_type.menu-item-object-page:nth-of-type(4) > a[href*=\"/fr/nouvelles/\"] > .menu-text",
+      "value": "Nouvelles",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "#menu-menu-principal-elka > li.menu-item.menu-item-type-post_type.menu-item-object-page:nth-of-type(5) > a[href*=\"/fr/boutique/\"] > .menu-text",
+      "value": "Boutique",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": ".menu-item.wpml-ls-item > a[title*=\"English\"].wpml-ls-link",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "notes": "",
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": ".menu-item.wpml-ls-item > a.wpml-ls-link  .wpml-ls-native[lang=\"en\"]",
+      "value": "English",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "62c48a95fc2b9d5cf1ea25d0",
+    "suiteId": "62c48a95fc2b9d5cf1ea25be",
+    "suiteName": "Elka - Basic WooCommerce Tests"
+  }
+}

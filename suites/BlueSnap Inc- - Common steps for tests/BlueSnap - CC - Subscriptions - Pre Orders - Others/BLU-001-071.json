@@ -1,0 +1,110 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36",
+  "dataSource": null,
+  "details": "Test Case:\n- Add 2 different Subscriptions to Cart, show notification that only one is allowed",
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "5.4.1",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "BLU-001-071",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "64f5cbcbe0dfa97aa9f14eb0",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "BLU-001-071",
+      "variableName": "testID"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "62b1bf7c183cb14313425373",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "62b1c09a5dd4634dc8df2299",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "let items = document.querySelectorAll(\"tbody > tr.cart_item, tbody > tr.wc-block-cart-items__row\")\nreturn items.length === 1",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn  (Number(blueSnapVs[0]) >= 3 && Number(blueSnapVs[1]) >= 2) "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "64f5cc315e52a69a752ed5a1",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69049f8f1a085ce44e200341",
+    "suiteId": "69049f8e1a085ce44e200315",
+    "suiteName": "BlueSnap - CC - Subscriptions & Pre Orders & Others"
+  }
+}

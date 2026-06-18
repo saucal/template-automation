@@ -1,0 +1,45 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Categories page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": null,
+  "steps": [
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "command": "open",
+      "target": "",
+      "value": "https://bodybeststg.wpengine.com/shop-by-category/",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "60d48b0e95519927246fed74",
+    "suiteId": "607f606d7f3aeb2f02535e94",
+    "suiteName": "KYBB - Basic Woocomerce Tests"
+  }
+}

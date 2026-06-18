@@ -1,0 +1,54 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "6088547de6a043402e3e69f7",
+    "abortOnTestFailure": false,
+    "autoRetry": true,
+    "browser": "chrome",
+    "dataSource": null,
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "6088544b4658f2361a8111dd",
+    "globalStepDelay": 250,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 0,
+    "maxWaitDelay": 15000,
+    "name": "2M - Common tests for suite",
+    "persistVariables": false,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "staging-myforms2mobilecom.temp312.kinsta.cloud",
+    "testCount": 1,
+    "testFrequency": 0,
+    "viewportSize": {
+      "width": 1366,
+      "height": 768
+    },
+    "dateCreated": "2021-04-27T18:14:21.645Z",
+    "language": null,
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "private": false,
+        "_id": "60cb921a1da0a93062d65849",
+        "name": "username",
+        "value": "saucal@2mnetworks.com"
+      },
+      {
+        "private": true,
+        "_id": "60cb921a1da0a93062d6584a",
+        "name": "password",
+        "value": "2d$*Lj8vZN5q5hKE3SHyN5A("
+      }
+    ]
+  }
+}

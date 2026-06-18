@@ -1,0 +1,104 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "AU - Log In",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "https://no-pong-au-develop.go-vip.net/",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "#menu-main-menu > li.menu-item.menu-item-type-post_type.menu-item-object-page:nth-of-type(4) > a[href*=\"/my-account/\"] > em",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "#username",
+      "value": "{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": true,
+      "sequence": 2,
+      "target": "#password",
+      "value": "{{password}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": "xpath=//button[contains(text(), \"Log in\")]"
+        },
+        {
+          "selector": "button[name=\"login\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "keypress",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "body",
+      "value": "27",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "h1.entry-title",
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "648776b2e71b46cb751a9b2e",
+    "suiteId": "6022c8a7262f437a9afa49ca",
+    "suiteName": "No Pong - Common steps for Project"
+  }
+}

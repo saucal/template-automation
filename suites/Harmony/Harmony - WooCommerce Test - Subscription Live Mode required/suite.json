@@ -1,0 +1,186 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "66c34837423a2f787b6b848a",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2024-08-19T13:27:19.642Z",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "60cc8d2cfd5d095fc92c0a46",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "Harmony - WooCommerce Test - Subscription Live Mode required",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "ca-central-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://staging-harmonyk.kinsta.cloud/",
+    "testCount": 3,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "password",
+        "value": "fric2171Biot",
+        "private": true,
+        "_id": "60cc94f7fd5d095fc92c3bb3"
+      },
+      {
+        "name": "password2",
+        "value": "fric2172Biot",
+        "private": true,
+        "_id": "60cc94f7fd5d095fc92c3bb4"
+      },
+      {
+        "name": "adminPass",
+        "value": "qp0jewcSBhP^Ib4n",
+        "private": true,
+        "_id": "62cc734afc2b9d5cf1202001"
+      },
+      {
+        "name": "bankAccount",
+        "value": "{{url}}wp-content/uploads/2023/08/RBC-CAD-Saucal.pdf",
+        "private": false,
+        "_id": "64b1acbbf6e2b3ffb36c7de2"
+      },
+      {
+        "name": "month",
+        "value": "12",
+        "private": false,
+        "_id": "60cc99041da0a93062de5a24"
+      },
+      {
+        "name": "country",
+        "value": "CA",
+        "private": false,
+        "_id": "627a85fd97a3bd06e0f269a2"
+      },
+      {
+        "name": "cc",
+        "value": "4242424242424242",
+        "private": false,
+        "_id": "60cc99041da0a93062de5a23"
+      },
+      {
+        "name": "adminUser",
+        "value": "christian@saucal.com",
+        "private": false,
+        "_id": "62cc734afc2b9d5cf1202002"
+      },
+      {
+        "name": "firstName",
+        "value": "QA_CA",
+        "private": false,
+        "_id": "60cc9db51da0a93062de7fa2"
+      },
+      {
+        "name": "year",
+        "value": "25",
+        "private": false,
+        "_id": "60cc99041da0a93062de5a25"
+      },
+      {
+        "name": "street",
+        "value": "123 False Street",
+        "private": false,
+        "_id": "60cc9db51da0a93062de7fa4"
+      },
+      {
+        "name": "cvv",
+        "value": "123",
+        "private": false,
+        "_id": "60cc99041da0a93062de5a26"
+      },
+      {
+        "name": "state",
+        "value": "ON",
+        "private": false,
+        "_id": "60cc9db51da0a93062de7fa7"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "60cc9db51da0a93062de7fa3"
+      },
+      {
+        "name": "city",
+        "value": "Ottawa",
+        "private": false,
+        "_id": "60cc9db51da0a93062de7fa6"
+      },
+      {
+        "name": "company",
+        "value": "Testing {{alphanumeric}}",
+        "private": false,
+        "_id": "60cc9db51da0a93062de7fa5"
+      },
+      {
+        "name": "CCEmail",
+        "value": "qa+ccemail@saucal.com",
+        "private": false,
+        "_id": "60cc9db51da0a93062de7faa"
+      },
+      {
+        "name": "zipCode",
+        "value": "K1S 3V6",
+        "private": false,
+        "_id": "60cc9db51da0a93062de7fa8"
+      },
+      {
+        "name": "stateComplete",
+        "value": "Ontario",
+        "private": false,
+        "_id": "627961ae4a3a4832a2d8db25"
+      },
+      {
+        "name": "phone",
+        "value": "3254564567",
+        "private": false,
+        "_id": "60cc9db51da0a93062de7fa9"
+      },
+      {
+        "name": "project",
+        "value": "harmony",
+        "private": false,
+        "_id": "6279688d4a3a4832a2db37f2"
+      },
+      {
+        "name": "Symbol",
+        "value": "C$",
+        "private": false,
+        "_id": "60d347ee341266379a972ead"
+      },
+      {
+        "name": "site",
+        "value": "https://staging-harmonyk.kinsta.cloud/",
+        "private": false,
+        "_id": "663b80c11aac3ea14ff6a8be"
+      },
+      {
+        "name": "countryComplete",
+        "value": "Canada",
+        "private": false,
+        "_id": "627961ae4a3a4832a2d8db26"
+      }
+    ],
+    "viewportSize": {
+      "width": 1366,
+      "height": 768
+    }
+  }
+}

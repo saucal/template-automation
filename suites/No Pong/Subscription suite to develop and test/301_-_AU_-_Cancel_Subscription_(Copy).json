@@ -1,0 +1,148 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "301 - AU - Cancel Subscription (Copy)",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "https://no-pong-au-develop.go-vip.net/",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "#menu-main-menu > li.menu-item.menu-item-type-post_type.menu-item-object-page:nth-of-type(4) > a[href*=\"/my-account/\"]"
+        },
+        {
+          "selector": "#menu-item-2822> a"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "#username",
+      "value": "{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "#password",
+      "value": "{{password}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "div.u-column1.col-1 > form > p:nth-child(3) > button",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": "xpath=//a[contains(text(), \"My Subscription\")]"
+        },
+        {
+          "selector": "a[href*=\"/my-account/view-subscription/2385762/\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": ".woocommerce-MyAccount-content > h2:nth-of-type(1)",
+      "value": "Actions",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "xpath=//a[contains(text(), \"Cancel Subscription\")]"
+        },
+        {
+          "selector": "a[href=\"/my-account/view-subscription/2385762/?subscription_id=2385762&change_subscription_to=cancelled&_wpnonce=867c13ecc4\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": ".woocommerce-message",
+      "value": "Your subscription has been cancelled.",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "a[href=\"/my-account/view-subscription/2385762/?subscription_id=2385762&change_subscription_to=active&_wpnonce=6c8f169c2f\"]",
+      "value": "Reactivate",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "649d995a82bf299ccbad9148",
+    "suiteId": "6435ac87af1e488d2533a286",
+    "suiteName": "Subscription suite to develop and test"
+  }
+}

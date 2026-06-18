@@ -1,0 +1,217 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Fill AfterPay",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "Afterpay",
+      "variableName": "paymentMethod"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "#payment_method_afterpay"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "62753765c5f501e7105625b8",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const element = document.querySelector('[data-testid=\"login-identity-input\"], input[aria-label=\"E​m​ail or mobile number\"]')\n\nreturn !!element"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": "[data-testid=\"login-identity-input\"]"
+        },
+        {
+          "selector": "input[aria-label=\"E​m​ail or mobile number\"]"
+        }
+      ],
+      "value": "qa@saucal.com"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const element = document.querySelector('[data-testid=\"login-identity-button\"]')\n\nreturn !!element\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": "[data-testid=\"login-identity-button\"]"
+        },
+        {
+          "selector": "button[type=\"submit\"]"
+        }
+      ]
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "[data-testid=\"login-password-input\"]"
+        },
+        {
+          "selector": "input[name=\"password\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "[data-testid=\"login-password-input\"]"
+        },
+        {
+          "selector": "input[name=\"password\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": true,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "[data-testid=\"login-password-input\"]"
+        },
+        {
+          "selector": "input[name=\"password\"]"
+        }
+      ],
+      "value": "fric2171Biot"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"Continue\")]"
+        },
+        {
+          "selector": "[data-testid=\"login-password-button\"] > .a_p > .a_x"
+        },
+        {
+          "selector": "button[type=\"submit\"] > .a_p > .a_x"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"Confirm\")]"
+        },
+        {
+          "selector": "[data-testid=\"summary-button\"] > .a_p > .a_x"
+        },
+        {
+          "selector": "button[type=\"button\"].a_l.a_i > .a_p > .a_x"
+        }
+      ]
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": "[data-testid=\"loading-icon-svg\"] > svg"
+        },
+        {
+          "selector": ".sw_kq > svg"
+        }
+      ],
+      "value": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 11,
+      "target": [
+        {
+          "selector": "[data-testid=\"loading-icon-svg\"] > svg"
+        },
+        {
+          "selector": ".sw_kq > svg"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "693c3caf0e1e837d8cc1bc43",
+    "suiteId": "6920608128d2a810e8ddb16d",
+    "suiteName": "HRG - Common steps"
+  }
+}

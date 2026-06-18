@@ -1,0 +1,286 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "08 - My Account links and Login",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "no",
+      "variableName": "admin"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "{{email}}",
+      "variableName": "username"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "{{password}}",
+      "variableName": "pass"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "603d1f20494ea848981cef9b",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "xpath=//a[contains(text(), \"Your Top G Exclusive account has been created!\")]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "a[href*=\"/my-account/lost-password\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": true,
+      "sequence": 6,
+      "target": "#password_1",
+      "value": "{{pass}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": true,
+      "sequence": 7,
+      "target": "#password_2",
+      "value": "{{pass}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "button[type=\"submit\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "6290d1fa4b7dbf9dc951f456",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "63cfc556af1e488d25d11a75",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": ".woocommerce-MyAccount-navigation-link > a[href*=\"/my-account/orders/\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "tr.woocommerce-orders-table__row",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 13,
+      "target": "a[href*=\"/my-account/downloads/\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 14,
+      "target": "div.woocommerce-Message.woocommerce-Message--info.woocommerce-info",
+      "value": "No downloads available yet.",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "a[href*=\"/my-account/edit-address/\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": [
+        {
+          "selector": ".u-column1 > header.woocommerce-Address-title.title > h3"
+        },
+        {
+          "selector": ".u-column1 > header.woocommerce-Address-title.title > h2"
+        }
+      ],
+      "value": "Billing address",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": [
+        {
+          "selector": ".u-column2 > header.woocommerce-Address-title.title > h3"
+        },
+        {
+          "selector": ".u-column2 > header.woocommerce-Address-title.title > h2"
+        }
+      ],
+      "value": "Shipping address",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "a[href*=\"/my-account/payment-methods/\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": [
+        {
+          "selector": "p.woocommerce-Message.woocommerce-Message--info.woocommerce-info"
+        },
+        {
+          "selector": "div.woocommerce-info"
+        }
+      ],
+      "value": "No saved methods found.",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "a[href*=\"/my-account/edit-account/\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "form.woocommerce-EditAccountForm",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "a[href*=\"/my-account/customer-logout/?_wpnonce=\"]",
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "63d033bf0b7aefb972b658fa",
+    "suiteId": "63cfc2a0af1e488d25d070e7",
+    "suiteName": "Merch - Basic WooCommerce tests"
+  }
+}

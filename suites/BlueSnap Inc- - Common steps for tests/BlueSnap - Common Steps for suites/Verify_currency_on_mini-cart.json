@@ -1,0 +1,71 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Verify currency on mini-cart",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let currency = \"{{currency}}\"\nreturn currency === \"EUR\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "function compareNumbers(a, b) {\n  return a - b;\n}\n\nlet result = {{resultEUR}}\nlet resultDefault = {{resultDefault}}\nlet rate = {{rate}}\nlet n = 0\nlet boolean = true\nlet boolean2 = true\nlet boolean3 = true\nlet boolean4\nlet price\nlet price2\nlet last = result.length-1\nlet lastTotal = 0\n\nconst isCurrencySymbol = (currentValue) => currentValue.endsWith(String.fromCharCode(160)+\"€\");\nboolean2 = result.every(isCurrencySymbol);\nconsole.log(\"boolean2 is \"+boolean2);\n\nwhile (result.length > n) {\n    result[n] = result[n].replace(/[^0-9\\,]+/g,\"\")\n    result[n] = Number(result[n].replace(\",\",\".\"))\n    n++\n}\nresult = result.sort(compareNumbers);\nn = 0;\nwhile (resultDefault.length > n) {\n    resultDefault[n] = Number(resultDefault[n].replace(/[^0-9\\.]+/g,\"\"))\n    n++\n}\nresultDefault = resultDefault.sort(compareNumbers);\nn = 0;\nif (result.length === resultDefault.length) {\n    console.log(\"length is correct \"+boolean3)\n} else {\n    boolean3 = false\n    console.log(\"length is not correct \"+boolean3)\n}\nwhile (last > n) {\n        price = resultDefault[n]\n        price = price * rate\n        price = Number(price.toFixed({{decimals}}))\n        lastTotal = lastTotal + price\n        price2 = result[n]\n        if (price != price2) {\n            boolean = false\n            console.log(n+\" is \"+boolean)\n            break;\n        } else {\n            n++\n        }\n    }\n\nboolean4 = lastTotal === result[last]\nconsole.log(\"boolean4 is \"+boolean4);\n\nreturn boolean2 && boolean && boolean3 && boolean4",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let currency = \"{{currency}}\"\nreturn currency === \"GBP\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "function compareNumbers(a, b) {\n  return a - b;\n}\n\nlet result = {{resultEUR}}\nlet resultDefault = {{resultDefault}}\nlet rate = {{rate}}\nlet n = 0\nlet boolean = true\nlet boolean2 = true\nlet boolean3 = true\nlet boolean4\nlet price\nlet price2\nlet last = result.length-1\nlet lastTotal = 0\n\nconst isCurrencySymbol = (currentValue) => currentValue.startsWith(\"{{symbol}}\");\nboolean2 = result.every(isCurrencySymbol);\nconsole.log(\"boolean2 is \"+boolean2);\n\nwhile (result.length > n) {\n    result[n] = Number(result[n].replace(/[^0-9\\.]+/g,\"\"))\n    n++\n}\nresult = result.sort(compareNumbers);\nn = 0;\nwhile (resultDefault.length > n) {\n    resultDefault[n] = Number(resultDefault[n].replace(/[^0-9\\.]+/g,\"\"))\n    n++\n}\nresultDefault = resultDefault.sort(compareNumbers);\nn = 0;\nif (result.length === resultDefault.length) {\n    console.log(\"length is correct \"+boolean3)\n} else {\n    boolean3 = false\n    console.log(\"length is not correct \"+boolean3)\n}\nwhile (last > n) {\n        price = resultDefault[n]\n        price = price * rate\n        price = Number(price.toFixed({{decimals}}))\n        lastTotal = lastTotal + price\n        price2 = result[n]\n        if (price != price2) {\n            boolean = false\n            console.log(n+\" is \"+boolean)\n            break;\n        } else {\n            n++\n        }\n    }\n\nboolean4 = lastTotal === result[last]\nconsole.log(\"boolean4 is \"+boolean4);\n\nreturn boolean2 && boolean && boolean3 && boolean4",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let currency = \"{{currency}}\"\nreturn currency === \"JPY\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "function compareNumbers(a, b) {\n  return a - b;\n}\n\nlet result = {{resultEUR}}\nlet resultDefault = {{resultDefault}}\nlet rate = {{rate}}\nlet n = 0\nlet boolean = true\nlet boolean2 = true\nlet boolean3 = true\nlet boolean4\nlet price\nlet price2\nlet last = result.length-1\nlet lastTotal = 0\n\nconst isCurrencySymbol = (currentValue) => currentValue.startsWith(\"{{symbol}}\");\nboolean2 = result.every(isCurrencySymbol);\nconsole.log(\"boolean2 is \"+boolean2);\n\nwhile (result.length > n) {\n    result[n] = Number(result[n].replace(/[^0-9]+/g,\"\"))\n    n++\n}\nresult = result.sort(compareNumbers);\nn = 0;\nwhile (resultDefault.length > n) {\n    resultDefault[n] = Number(resultDefault[n].replace(/[^0-9\\.]+/g,\"\"))\n    n++\n}\nresultDefault = resultDefault.sort(compareNumbers);\nn = 0;\nif (result.length === resultDefault.length) {\n    console.log(\"length is correct \"+boolean3)\n} else {\n    boolean3 = false\n    console.log(\"length is not correct \"+boolean3)\n}\nwhile (last > n) {\n        price = resultDefault[n]\n        price = price * rate\n        price = Number(price.toFixed({{decimals}}))\n        lastTotal = lastTotal + price\n        price2 = result[n]\n        if (price != price2) {\n            boolean = false\n            console.log(n+\" is \"+boolean)\n            break;\n        } else {\n            n++\n        }\n    }\n\nboolean4 = lastTotal === result[last]\nconsole.log(\"boolean4 is \"+boolean4);\n\nreturn boolean2 && boolean && boolean3 && boolean4",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "63601f59151ae3d9c525146d",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

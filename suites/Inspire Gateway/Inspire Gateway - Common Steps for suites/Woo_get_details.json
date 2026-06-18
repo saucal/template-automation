@@ -1,0 +1,45 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Woo get details",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": null,
+  "steps": [
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "command": "extractEval",
+      "target": "",
+      "value": "return new Promise(function (resolve, reject) {\n  //const order = {{orderNumber}};\n  const username = \"ck_f807472e43ee14b9b010d9412425f9562a888ef7\"; //{{woo_user}}\"; \n  const password = \"cs_781254d09c1692fe2d08dfba93e5c6d7733df1d5\"; //{{woo_pass}}\"; \n  const url = \"https://demo:32edf066e36a@pluginmaintmax.wpengine.com/wp-json/wc/v3/orders/\"+690;\n  \n  let headers = new Headers();\n  headers.set('Content-Type', 'application/json');\n  headers.set('Authorization', 'Basic ' + btoa(username + \":\" + password));\n  fetch(url, {method:'GET',\n      //body: 'grant_type=client_credentials&client_id=' + username + '&client_secret=' + password\n      headers: headers,\n      })\n  .then(function(response) {\n    if (response.ok) {\n    resolve(response.json())\n    } else {\n    reject(new Error('error'))\n    } \n  })\n})",
+      "variableName": "myOrder"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "60df2f54f7b14768f03e82c6",
+    "suiteId": "60de04071f48295b527577f5",
+    "suiteName": "Inspire Gateway - Common Steps for suites"
+  }
+}

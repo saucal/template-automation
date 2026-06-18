@@ -1,0 +1,85 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Get order number from URL",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "6290d1fa4b7dbf9dc951f456",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "let url = window.location.href;\nlet part = url.split('/');\nlet orderNumber = part[5];\nreturn orderNumber;",
+      "variableName": "orderNumber"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "return baseUrl = window.location.protocol + \"//\" + window.location.host",
+      "variableName": "baseUrl"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "let orderLink = \"{{baseUrl}}/wp-admin/post.php?post={{orderNumber}}&action=edit\"\nconsole.log(orderLink)\nreturn orderLink;",
+      "variableName": "orderLink"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "a [href=\"{{orderLink}}\"] > strong",
+      "variableName": "orderSelector"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "665f6e631aac3ea14f00a426",
+    "suiteId": "665f62ed1aac3ea14fff2db8",
+    "suiteName": "Red Apple - Common steps for suite"
+  }
+}

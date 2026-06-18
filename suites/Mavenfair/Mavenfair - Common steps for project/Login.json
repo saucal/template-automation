@@ -1,0 +1,111 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36",
+  "dataSource": null,
+  "details": "This Test is checking the Registration process, My Account Links and the Login Process",
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "5.3.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Login",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "a[href*=\"/wp-login.php\"].header-button"
+        },
+        {
+          "selector": "a[href=\"/wp-login.php\"]"
+        },
+        {
+          "selector": "#login-message > p > a"
+        },
+        {
+          "selector": "//a[contains(text(), \"Log in\")]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "#loginform",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "#user_login",
+      "value": "{{username}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#user_pass",
+      "value": "{{pass}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "#wp-submit",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "img.avatar.avatar-100.photo",
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6001e87ac5e34d38d8d5edd8",
+    "suiteId": "606ca53940a5d817bae1ba01",
+    "suiteName": "Mavenfair - Common steps for project"
+  }
+}

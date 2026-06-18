@@ -1,0 +1,92 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Cart Page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "command": "execute",
+      "target": "",
+      "value": "60018e3f97354979a95398e5",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "#pa_selection",
+      "command": "click",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "#pa_selection > option.attached.enabled",
+      "command": "click",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": "xpath=//button[contains(text(), \"Add to cart\")]"
+        },
+        {
+          "selector": "button[type=\"submit\"]"
+        }
+      ],
+      "command": "click",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": ".header-social > .container > .header-social__holder > .social-svg_holder.cart--holder > [id=\"site-header-cart\"].site-header-cart.menu > li:nth-of-type(2) > .widget.woocommerce.widget_shopping_cart > .widget_shopping_cart_content > .woocommerce-mini-cart__buttons.buttons > a[href*=\"/cart/\"].button.wc-forward",
+      "command": "click",
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "60018ef7c5e34d38d8d2de2f",
+    "suiteId": "5fff06120f195d59103bb040",
+    "suiteName": "McKeen - Basic WooCommerce Tests - Without Order"
+  }
+}

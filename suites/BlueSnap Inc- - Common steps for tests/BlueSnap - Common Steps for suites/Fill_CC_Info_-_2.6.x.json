@@ -1,0 +1,293 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Fill CC Info - 2.6.x",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "pause",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "10000",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": ".wc_payment_method.payment_method_bluesnap > label"
+        },
+        {
+          "selector": ".woocommerce-PaymentMethod.payment_method_bluesnap > label"
+        },
+        {
+          "selector": "#radio-control-wc-payment-method-options-bluesnap__label > span"
+        },
+        {
+          "selector": "#payment_method_bluesnap"
+        }
+      ],
+      "value": "Credit/Debit Card",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "step added due to default payment option is ACH",
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": ".wc_payment_method.payment_method_bluesnap > label"
+        },
+        {
+          "selector": ".woocommerce-PaymentMethod.payment_method_bluesnap > label"
+        },
+        {
+          "selector": "#payment_method_bluesnap"
+        },
+        {
+          "selector": "#radio-control-wc-payment-method-options-bluesnap__label > span"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "\nconst element = document.querySelector('.payment_box.payment_method_bluesnap > p:first-of-type');\n\nreturn element !== null && element !== undefined \n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": ".payment_box.payment_method_bluesnap > p:first-of-type",
+      "value": "Pay using your Credit/Debit Card",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const element = document.querySelector('#radio-control-wc-payment-method-options-bluesnap__content');\n\nreturn element !== null && element !== undefined    "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "const element = document.querySelector('#radio-control-wc-payment-method-options-bluesnap__content');\nconst text = element.childNodes[0].textContent.trim();\n\nreturn text === \"Pay using your Credit/Debit Card\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "notes": "step added due to text equals was passing despite element is not visible on screen",
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": ".payment_box.payment_method_bluesnap > p:first-of-type"
+        },
+        {
+          "selector": "#radio-control-wc-payment-method-options-bluesnap__content"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "iframe#bluesnap-hosted-iframe-ccn #ccn",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "notes": "step added due to iframe refresh and cc info is deleted",
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "pause",
+      "condition": null,
+      "notes": "step added due to iframe refresh and cc info is deleted",
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "2500",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "iframe#bluesnap-hosted-iframe-ccn #ccn",
+      "value": "{{CCard}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn (Number(blueSnapVs[0]) == 2 && Number(blueSnapVs[1]) == 6) || Number(blueSnapVs[0]) >= 3"
+      },
+      "notes": "added locator due to failing default one",
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": [
+        {
+          "selector": "iframe#bluesnap-hosted-iframe-exp #exp"
+        },
+        {
+          "selector": "iframe[id=\"bluesnap-hosted-iframe-exp\"] input[id=\"exp\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn (Number(blueSnapVs[0]) == 2 && Number(blueSnapVs[1]) == 6) || Number(blueSnapVs[0]) >= 3"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": [
+        {
+          "selector": "iframe#bluesnap-hosted-iframe-exp #exp"
+        },
+        {
+          "selector": "iframe[id=\"bluesnap-hosted-iframe-exp\"] input[id=\"exp\"]"
+        }
+      ],
+      "value": "{{month}}{{year}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn Number(blueSnapVs[0]) == 2 && Number(blueSnapVs[1]) == 5"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "iframe#bluesnap-hosted-iframe-exp #month",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn Number(blueSnapVs[0]) == 2 && Number(blueSnapVs[1]) == 5"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "iframe#bluesnap-hosted-iframe-exp #month",
+      "value": "{{month}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn Number(blueSnapVs[0]) == 2 && Number(blueSnapVs[1]) == 5"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "iframe#bluesnap-hosted-iframe-exp #year",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn Number(blueSnapVs[0]) == 2 && Number(blueSnapVs[1]) == 5"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "iframe#bluesnap-hosted-iframe-exp #year",
+      "value": "{{year}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "iframe#bluesnap-hosted-iframe-cvv #cvv",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "iframe#bluesnap-hosted-iframe-cvv #cvv",
+      "value": "{{cvv}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "622f38756f3ed7a04da7918e",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

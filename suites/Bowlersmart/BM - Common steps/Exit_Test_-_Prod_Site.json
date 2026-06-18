@@ -1,0 +1,47 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Exit Test - Prod Site",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "exit",
+      "condition": {
+        "statement": "return '{{startUrl}}' === '{{prodUrl}}'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "passing",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68bec4b8eeab2f751a2da7a8",
+    "suiteId": "681a7c585a5ac9fb5686c74e",
+    "suiteName": "BM - Common steps"
+  }
+}

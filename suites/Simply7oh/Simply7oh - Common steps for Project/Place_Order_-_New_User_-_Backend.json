@@ -1,0 +1,154 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Place Order - New User - Backend",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": false,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'true'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "const str = \"{{subscriptionNumber}}\";\nconst number = str.match(/\\d+/)[0];\nreturn number",
+      "variableName": "subscriptionNumber"
+    },
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "{{startUrl}}wp-admin",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "69a1db738ce9cb3f625db2ef",
+      "variableName": ""
+    },
+    {
+      "command": "mouseOver",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "a[href=\"admin.php?page=wc-admin\"] > .wp-menu-name",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": "a[href=\"edit.php?post_type=shop_order\"]"
+        },
+        {
+          "selector": "a[href=\"admin.php?page=wc-orders\"]"
+        }
+      ]
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "tr#order-{{orderNumber}} > td.order_total.column-order_total > .tips > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "tr#post-{{orderNumber}} > td.order_total.column-order_total > .tips > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "a[href*=\"/wp-admin/post.php?post={{orderNumber}}&action=edit\"] > strong"
+        },
+        {
+          "selector": "a[href*=\"/wp-admin/admin.php?page=wc-orders&action=edit&id={{orderNumber}}\"] > strong"
+        }
+      ]
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "69a1db738ce9cb3f625db2f7",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69a1db738ce9cb3f625db301",
+    "suiteId": "69a1db738ce9cb3f625db2e7",
+    "suiteName": "Simply7oh - Common steps for Project"
+  }
+}

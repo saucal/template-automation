@@ -1,0 +1,41 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "63b593d9903428273630117f",
+    "abortOnTestFailure": false,
+    "autoRetry": true,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2023-01-04T14:57:29.528Z",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "63b58ef990342827362c6a78",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 0,
+    "maxWaitDelay": 15000,
+    "name": "Scout Books - Common Steps for suites",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": false,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "",
+    "testCount": 2,
+    "testFrequency": 0,
+    "viewportSize": {
+      "width": 1280,
+      "height": 800
+    },
+    "testFrequencyAdvanced": [],
+    "variables": []
+  }
+}

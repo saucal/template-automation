@@ -1,0 +1,143 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "verify currency price from checkout page before paying",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "tbody > tr > td.product-total > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "div.wc-block-components-order-summary-item__total-price .wc-block-components-product-price__value"
+        }
+      ],
+      "value": "{{totalProd}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": ".wp-block-woocommerce-checkout-order-summary-subtotal-block .wc-block-components-totals-item__value"
+        }
+      ],
+      "value": "{{subtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let manualRenew = \"{{manualRenew}}\"\nlet order = \"{{order}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n\nreturn (manualRenew !== \"Yes\" && order !== \"fail\"\n        (\n            (manualRenew === \"Yes\" || order === \"fail\")\n            &&\n            blueSnapVs[0] >= 3 && blueSnapVs[1] >= 2\n        )\n        "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "label[for=\"shipping_method_0_flat_rate1\"] > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": ".wc-block-components-totals-shipping .wc-block-components-totals-item__value"
+        }
+      ],
+      "value": "{{shipping}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": "tr.cart-discount:nth-of-type(2) > td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": ".wc-block-components-totals-discount .wc-block-components-totals-item__value"
+        }
+      ],
+      "value": "{{discount}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let manualRenew = \"{{manualRenew}}\"\nlet order = \"{{order}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n\nreturn (manualRenew !== \"Yes\" && order !== \"fail\") ||\n        (\n            (manualRenew === \"Yes\" || order === \"fail\")\n            &&\n            (blueSnapVs[0] >= 3 && blueSnapVs[1] >= 2)\n        )"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": "tr.tax-rate:nth-of-type(4) > td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": ".wc-block-components-totals-taxes .wc-block-components-totals-item__value"
+        }
+      ],
+      "value": "{{tax}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let manualRenew = \"{{manualRenew}}\"\nlet order = \"{{order}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n\nreturn (manualRenew !== \"Yes\" && order !== \"fail\") ||\n        (\n            (manualRenew === \"Yes\" || order === \"fail\")\n            &&\n            (blueSnapVs[0] >= 3 && blueSnapVs[1] >= 2)\n        )"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "strong > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": ".wc-block-components-totals-item .wc-block-components-totals-footer-item-tax-value"
+        }
+      ],
+      "value": "{{total}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6387657890342827367acc9c",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "02 - Software Solutions page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "68cab521189a381f8e01cc3f",
+      "variableName": ""
+    },
+    {
+      "command": "mouseOver",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "li.e-n-menu-item:nth-of-type(1) > .e-n-menu-title > .e-n-menu-title-container > .e-n-menu-title-text"
+        },
+        {
+          "selector": "#menu-item-579 > a"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "div.elementor-element.e-con-full.e-con.e-child:nth-of-type(1) > .elementor-element.elementor-widget.elementor-widget-heading > .elementor-widget-container > h2.elementor-size-default > a[href*=\"/software-solutions\"]"
+        },
+        {
+          "selector": "#menu-item-579 > a[href*=\"/software-solutions\"]"
+        }
+      ]
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": ".bdt-element-link.elementor-element.elementor-element-43afe25e > .elementor-widget-container > .bdt-ep-advanced-icon-box > .bdt-ep-advanced-icon-box-icon",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": ".bdt-element-link.elementor-element.elementor-element-43afe25e > .elementor-widget-container > .bdt-ep-advanced-icon-box > .bdt-ep-advanced-icon-box-content",
+      "value": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "68caf9b07f80fc466df327ea",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68cab708b6e829f430f0492f",
+    "suiteId": "68cab50c576a0f46b500e1e3",
+    "suiteName": "Hawk Ridge - Basic WooCommerce tests"
+  }
+}

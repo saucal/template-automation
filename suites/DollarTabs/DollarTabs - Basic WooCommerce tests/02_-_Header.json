@@ -1,0 +1,100 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "02 - Header",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotTarget": "header",
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "69a82b73b9fc488447ef7cab",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "#ast-hf-menu-1 > .menu-item.menu-item-type-post_type.menu-item-object-page.menu-item-home.current-menu-item.page_item.current_page_item > a[href*=\"/\"].menu-link > .menu-text",
+      "value": "HOME"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "#ast-hf-menu-1 > li.menu-item.menu-item-type-post_type.menu-item-object-page:nth-of-type(2) > a[href*=\"/my-account-2/\"].menu-link > .menu-text",
+      "value": "ACCOUNT"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#ast-hf-menu-1 > li.menu-item.menu-item-type-post_type.menu-item-object-page:nth-of-type(3) > a[href*=\"/contact/\"].menu-link > .menu-text",
+      "value": "CONTACT"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "#ast-hf-menu-1 > li.menu-item.menu-item-type-post_type.menu-item-object-page:nth-of-type(4) > a[href*=\"/disclaimer/\"].menu-link > .menu-text",
+      "value": "DISCLAIMER"
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": ".site-primary-header-wrap.ast-container > div > .site-header-primary-section-right.site-header-section > .ast-builder-layout-element.ast-header-woo-cart > .ast-site-header-cart.ast-menu-cart-with-border.ast-menu-cart-outline > .ast-site-header-cart-li > a[href*=\"/cart-2/\"][aria-label=\"View Shopping Cart, empty\"].cart-container > .ast-addon-cart-wrap > i.astra-icon > .ast-icon.icon-bag > svg[id=\"ast-bag-icon-svg\"]",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": ".site-primary-header-wrap.ast-container > div > .site-header-primary-section-right.site-header-section > .ast-builder-layout-element.ast-header-woo-cart > .ast-site-header-cart.ast-menu-cart-with-border.ast-menu-cart-outline > .ast-site-header-cart-li > a[href*=\"/cart-2/\"][aria-label=\"View Shopping Cart, empty\"].cart-container > .ast-addon-cart-wrap > i.astra-icon",
+      "value": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69a82ca1b9fc488447efbb22",
+    "suiteId": "69a82ca1b9fc488447efbb1a",
+    "suiteName": "DollarTabs - Basic WooCommerce tests"
+  }
+}

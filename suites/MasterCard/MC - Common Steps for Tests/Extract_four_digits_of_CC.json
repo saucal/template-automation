@@ -1,0 +1,55 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Extract four digits of CC",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "let card = '{{CCard}}'\nlet four = card.substr(card.length - 4);\nreturn four",
+      "variableName": "fourDigits"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "let card = '{{CCard}}'\nlet six = card.substr(0,6);\nreturn six",
+      "variableName": "sixDigits"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "67768c3135aed64d300ffbba",
+    "suiteId": "676eb96835aed64d3077072a",
+    "suiteName": "MC - Common Steps for Tests"
+  }
+}

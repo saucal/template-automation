@@ -1,0 +1,224 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "details": "Admin verification on canceled subscription by customer\nAdmin cancel subscription and verify issue is not present\nBug in production - Our plugin forces a notification 'Error during subscription status transition' under Subscription notes when cancelling a PayPal subscription",
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "BLU-001-082 B - SCART-1056 Admin side",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "61d5b5207e5be41b1d21e1ed",
+      "variableName": ""
+    },
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "{{adminUrl}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "notes": "Step added to validate possible subscription status (Cancelled or pending cancellation)",
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "let status = document.querySelector('p.form-field-wide > span > span > span > #select2-order_status-container').innerText;\nif (status == 'Cancelled' || status == 'Pending Cancellation'){\n    return true\n    \n}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextNotPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "ul.order_notes > li:nth-child(1) > div > p",
+      "value": "Error during subscription status transition",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextNotPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "ul.order_notes > li:nth-child(2) > div > p",
+      "value": "Error during subscription status transition",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextNotPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "ul.order_notes > li:nth-child(3) > div > p",
+      "value": "Error during subscription status transition",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": ".order-status > span:nth-child(1)",
+      "value": "",
+      "variableName": "orderStatus"
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let status = '{{orderStatus}}'\nreturn status == 'On hold';\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "650e061f043e569e6bd78f4a",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "p.form-field-wide > span > span > span > #select2-order_status-container",
+      "value": "Pending Cancellation",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"Active\")]"
+        },
+        {
+          "selector": "#select2-order_status-container"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": "//li[contains(text(), \"Cancelled\")]"
+        },
+        {
+          "selector": "#select2-order_status-result-6yyu-wc-cancelled"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": [
+        {
+          "selector": "//button[contains(text(), \"Update\")]"
+        },
+        {
+          "selector": "button[name=\"save\"]"
+        }
+      ]
+    },
+    {
+      "command": "pause",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "5000",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "#select2-order_status-container",
+      "value": "Cancelled",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextNotPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "li.note:nth-of-type(1) > .note_content",
+      "value": "Error during subscription status transition",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextNotPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "li.note.system-note:nth-of-type(2) > .note_content",
+      "value": "Error during subscription status transition",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextNotPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "li.note.system-note:nth-of-type(3) > .note_content",
+      "value": "Error during subscription status transition",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69049f8f1a085ce44e20034f",
+    "suiteId": "69049f8e1a085ce44e200315",
+    "suiteName": "BlueSnap - CC - Subscriptions & Pre Orders & Others"
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Go To Subscription with Admin ",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "a[href=\"admin.php?page=wc-admin\"] > .wp-menu-name",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "a[href=\"edit.php?post_type=shop_subscription\"]"
+        },
+        {
+          "selector": "a[href=\"admin.php?page=wc-orders--shop_subscription\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "Navigate to subscription",
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "a[href*=\"/wp-admin/post.php?post={{subscriptionID}}&action=edit\"]"
+        },
+        {
+          "selector": "a[href*=\"/wp-admin/admin.php?page=wc-orders--shop_subscription&action=edit&id={{subscriptionID}}\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "64f735715e52a69a7567ef1b",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

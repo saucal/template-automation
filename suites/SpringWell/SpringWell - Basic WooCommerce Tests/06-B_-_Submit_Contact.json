@@ -1,0 +1,195 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "06-B - Submit Contact",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "68c7fd2a189a381f8e7f2e98",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": ".container > [id=\"menu-mainmenu\"].main-navigation__list.main-menu__list > li.menu-item.menu-item-type-post_type.menu-item-object-page.menu-item-has-children:nth-of-type(7) > a[href*=\"/contact\"][title=\"Contact Us\"]"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "#input_4_7",
+      "value": "{{firstName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#input_4_8",
+      "value": "{{lastName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "#input_4_2",
+      "value": "{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "#input_4_3",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "#input_4_3",
+      "value": "{{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "#input_4_4",
+      "value": "Testing request contact"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "#choice_4_5_1"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "#input_4_10",
+      "value": "2"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "#input_4_10",
+      "value": "blue"
+    },
+    {
+      "command": "keypress",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "9",
+      "variableName": ""
+    },
+    {
+      "command": "keypress",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "32",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "#gform_submit_button_4"
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 14,
+      "target": "#gform_ajax_spinner_4",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 15,
+      "target": "#gform_ajax_spinner_4",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "h4 > span",
+      "value": "Thank you so much for contacting us."
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "684c878d388232057b7020a7",
+    "suiteId": "684c8070388232057b6f6ec6",
+    "suiteName": "SpringWell - Basic WooCommerce Tests"
+  }
+}

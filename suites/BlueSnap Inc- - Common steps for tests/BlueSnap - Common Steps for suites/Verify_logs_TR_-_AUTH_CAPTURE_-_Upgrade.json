@@ -1,0 +1,495 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Verify logs T/R - AUTH_CAPTURE - Upgrade",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": null,
+  "steps": [
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.request.method === \"PUT\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.request.url === \"https://sandbox.bluesnap.com/services/2/recurring/subscriptions/{{subsID}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.request.content.vaultedShopperId === \"{{vaultedShopperId}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.vaultedShopperId === {{vaultedShopperId}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const check = \"{{checklogs}}\"\nconst upgradeTo = \"{{upgradeTo}}\"\nreturn check === \"upgrade\" && upgradeTo != \"cc\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.request.content.paymentSource.creditCardInfo.creditCard.cardLastFourDigits === \"{{fourDigits}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const check = \"{{checklogs}}\"\nconst upgradeTo = \"{{upgradeTo}}\"\nreturn check === \"upgrade\" && upgradeTo != \"cc\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.request.content.paymentSource.creditCardInfo.creditCard.cardType === \"{{ShortName}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const check = \"{{checklogs}}\"\nconst upgradeTo = \"{{upgradeTo}}\"\nreturn check === \"upgrade\" && upgradeTo === \"cc\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.request.content.paymentSource.creditCardInfo.pfToken === \"{{pfToken}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.paymentSource.creditCardInfo.creditCard.cardLastFourDigits === \"{{fourDigits}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.paymentSource.creditCardInfo.creditCard.cardType === \"{{ShortName}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.paymentSource.creditCardInfo.creditCard.expirationMonth === \"{{month}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "const logs = {{logs}}\nconst AE_year = \"20\"+\"{{year}}\"\nreturn logs.response.paymentSource.creditCardInfo.creditCard.expirationYear === AE_year",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.request.content.paymentSource.creditCardInfo.billingContactInfo.firstName === \"{{firstName}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.paymentSource.creditCardInfo.billingContactInfo.firstName === \"{{firstName}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.request.content.paymentSource.creditCardInfo.billingContactInfo.lastName === \"{{lastName}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.paymentSource.creditCardInfo.billingContactInfo.lastName === \"{{lastName}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.request.content.paymentSource.creditCardInfo.billingContactInfo.companyName === \"{{company}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.request.content.paymentSource.creditCardInfo.billingContactInfo.email === \"{{email}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.request.content.paymentSource.creditCardInfo.billingContactInfo.country === \"US\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.paymentSource.creditCardInfo.billingContactInfo.country === \"us\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.request.content.paymentSource.creditCardInfo.billingContactInfo.state === \"FL\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.paymentSource.creditCardInfo.billingContactInfo.state === \"FL\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.request.content.paymentSource.creditCardInfo.billingContactInfo.address1 === \"{{street}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.paymentSource.creditCardInfo.billingContactInfo.address1 === \"{{street}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.request.content.paymentSource.creditCardInfo.billingContactInfo.address2 === \"{{address2}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.request.content.paymentSource.creditCardInfo.billingContactInfo.city === \"{{city}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.paymentSource.creditCardInfo.billingContactInfo.city === \"{{city}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.request.content.paymentSource.creditCardInfo.billingContactInfo.zip === \"{{zipCode}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.paymentSource.creditCardInfo.billingContactInfo.zip === \"{{zipCode}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.subscriptionId === {{subsID}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.vaultedShopperId === {{vaultedShopperId}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.status === \"ACTIVE\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.currency === \"USD\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "notes": "There is an issue on BlueSnap End",
+      "optional": true,
+      "private": false,
+      "sequence": 32,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.softDescriptor === \"BLS*BSTEST2-wpe\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.chargeFrequency === \"ONDEMAND\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.autoRenew === true",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": "",
+      "value": "const logs = {{logs}}\nconst totalOld2 = {{totalOld}}\nreturn logs.response.overrideInitialChargeAmount === totalOld2",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.payerInfo.firstName === \"{{firstName}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 37,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.payerInfo.lastName === \"{{lastName}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 38,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.payerInfo.email === \"{{email}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 39,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.payerInfo.country === \"us\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 40,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.payerInfo.state === \"FL\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 41,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.payerInfo.address === \"{{street}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 42,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.payerInfo.city === \"{{city}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 43,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.payerInfo.zip === \"{{zipCode}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 44,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.scheduled === true",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "620bce456428cd4cb35471c8",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

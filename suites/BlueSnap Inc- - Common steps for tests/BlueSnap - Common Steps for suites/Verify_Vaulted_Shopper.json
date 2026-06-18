@@ -1,0 +1,461 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Verify Vaulted Shopper",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test != \"002-012\" && test != \"002-017\" && test != \"002-011\" && test != \"002-012-B\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.request.method === \"GET\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nlet test = \"{{test}}\"\nreturn test != \"002-012\" && test != \"002-017\" && test != \"002-011\" && test != \"002-012-B\"\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.request.url === \"https://sandbox.bluesnap.com/services/2/vaulted-shoppers/{{vaultedShopperId}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test != \"002-012\" && test != \"002-017\" && test != \"002-011\" && test != \"002-012-B\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.vaultedShopperId === {{vaultedShopperId}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"002-011\" || test === \"002-012-B\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.request.method === \"PUT\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"002-011\" || test === \"002-012-B\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.vaultedShopperId === {{vaultedShopperId}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nlet test = \"{{test}}\"\nreturn test === \"002-011\" || test === \"002-012-B\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.request.url === \"https://sandbox.bluesnap.com/services/2/vaulted-shoppers/{{vaultedShopperId}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"002-012\" || test == \"002-017\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.request.method === \"POST\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nlet test = \"{{test}}\"\nreturn test === \"002-012\" || test == \"002-017\"\n    "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.request.url === \"https://sandbox.bluesnap.com/services/2/vaulted-shoppers\"",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"002-012\" || test == \"002-017\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.vaultedShopperId",
+      "variableName": "vaultedShopperId"
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.firstName === \"{{firstName}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.lastName === \"{{lastName}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test != \"002-012\" && test != \"002-017\" && test != \"002-012-B\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.companyName === \"{{company}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"002-012\" || test === \"002-017\" || test === \"002-012-B\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.companyName === undefined",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "const logs = {{logs}}\nlet email = \"{{email}}\"\nlet email2 = logs.response.email\nemail = email.toLowerCase()\nemail2 = email2.toLowerCase()\n\nreturn email === email2",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.country === \"us\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.state === \"FL\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.address === \"{{street}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.address2 === \"{{address2}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.city === \"{{city}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.zip === \"{{zipCode}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let scenario = \"{{scenario}}\"\nreturn scenario != \"multi-currency\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.shopperCurrency === \"USD\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let scenario = \"{{scenario}}\"\nreturn scenario === \"multi-currency\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.shopperCurrency === \"{{curr}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nreturn payment != \"ach\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.paymentSources.creditCardInfo.length-1",
+      "variableName": "length"
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nreturn payment != \"ach\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "",
+      "value": "const logs = {{logs}};\nlet length = {{length}};\nlet n = 0;\nlet boolean = false;\n\nfunction check() {\n    while (n <= length) {\n        if (logs.response.paymentSources.creditCardInfo[n].creditCard.cardLastFourDigits === \"{{fourDigits}}\") {\n        boolean = true\n        }\n        n++;\n    }\n    return boolean\n}\n\nreturn check();\n",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nreturn payment != \"ach\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "",
+      "value": "const logs = {{logs}};\nlet length = {{length}};\nlet n = 0;\nlet boolean = false;\n\nfunction check() {\n    while (n <= length) {\n        if (logs.response.paymentSources.creditCardInfo[n].creditCard.cardType === \"{{ShortName}}\") {\n        boolean = true\n        }\n        n++;\n    }\n    return boolean\n}\n\nreturn check();\n",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nreturn payment != \"ach\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "",
+      "value": "const logs = {{logs}}\nconst AE_month = \"{{month}}\"\nlet length = {{length}};\nlet n = 0;\nlet boolean = false;\n\nfunction check() {\n    while (n <= length) {\n        if (logs.response.paymentSources.creditCardInfo[n].creditCard.expirationMonth === AE_month) {\n        boolean = true\n        }\n        n++;\n    }\n    return boolean\n}\n\nreturn check();",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nreturn payment != \"ach\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "",
+      "value": "const logs = {{logs}};\nconst AE_year = \"20\"+\"{{year}}\";\nlet length = {{length}};\nlet n = 0;\nlet boolean = false;\n\nfunction check() {\n    while (n <= length) {\n        if (logs.response.paymentSources.creditCardInfo[n].creditCard.expirationYear === AE_year) {\n        boolean = true\n        }\n        n++;\n    }\n    return boolean\n}\n\nreturn check();",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nreturn payment != \"ach\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.lastPaymentInfo.paymentMethod === \"CC\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nreturn payment != \"ach\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.lastPaymentInfo.creditCard.cardLastFourDigits === \"{{fourDigits}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nreturn payment != \"ach\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.lastPaymentInfo.creditCard.cardType === \"{{ShortName}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nreturn payment === \"ach\" "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs.response.paymentSources.ecpDetails.length-1",
+      "variableName": "length"
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nreturn payment === \"ach\" "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "",
+      "value": "const logs = {{logs}};\nlet length = {{length}};\nlet n = 0;\nlet boolean = false;\n\nfunction check() {\n    while (n <= length) {\n        if (logs.response.paymentSources.ecpDetails[n].ecp.accountType === \"CONSUMER_CHECKING\") {\n        boolean = true\n        }\n        n++;\n    }\n    return boolean\n}\n\nreturn check();\n",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nlet trans = \"{{trans}}\"\nreturn payment === \"ach\" && trans === \"accepted\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": "",
+      "value": "const logs = {{logs}};\nlet length = {{length}};\nlet n = 0;\nlet boolean = false;\n\nfunction check() {\n    while (n <= length) {\n        if (logs.response.paymentSources.ecpDetails[n].ecp.publicAccountNumber === \"44556\") {\n        boolean = true\n        }\n        n++;\n    }\n    return boolean\n}\n\nreturn check();\n",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nlet trans = \"{{trans}}\"\nreturn payment === \"ach\" && trans === \"accepted\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": "",
+      "value": "const logs = {{logs}};\nlet length = {{length}};\nlet n = 0;\nlet boolean = false;\n\nfunction check() {\n    while (n <= length) {\n        if (logs.response.paymentSources.ecpDetails[n].ecp.publicRoutingNumber === \"77665\") {\n        boolean = true\n        }\n        n++;\n    }\n    return boolean\n}\n\nreturn check();\n",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nlet trans = \"{{trans}}\"\nlet test = \"{{test}}\"\nreturn payment === \"ach\" && trans === \"accepted\" && test === \"002-012-B\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": "",
+      "value": "const logs = {{logs}};\nlet length = {{length}};\nlet n = 0;\nlet boolean = false;\n\nfunction check() {\n    while (n <= length) {\n        if (logs.response.paymentSources.ecpDetails[n].ecp.publicAccountNumber === \"45562\") {\n        boolean = true\n        }\n        n++;\n    }\n    return boolean\n}\n\nreturn check();\n",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nlet trans = \"{{trans}}\"\nreturn payment === \"ach\" && trans === \"declined\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": "",
+      "value": "const logs = {{logs}};\nlet length = {{length}};\nlet n = 0;\nlet boolean = false;\n\nfunction check() {\n    while (n <= length) {\n        if (logs.response.paymentSources.ecpDetails[n].ecp.publicAccountNumber === \"56789\") {\n        boolean = true\n        }\n        n++;\n    }\n    return boolean\n}\n\nreturn check();\n",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nlet trans = \"{{trans}}\"\nreturn payment === \"ach\" && trans === \"declined\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": "",
+      "value": "const logs = {{logs}};\nlet length = {{length}};\nlet n = 0;\nlet boolean = false;\n\nfunction check() {\n    while (n <= length) {\n        if (logs.response.paymentSources.ecpDetails[n].ecp.publicRoutingNumber === \"54321\") {\n        boolean = true\n        }\n        n++;\n    }\n    return boolean\n}\n\nreturn check();\n",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "60e74d63ed68ff1796488ae6",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

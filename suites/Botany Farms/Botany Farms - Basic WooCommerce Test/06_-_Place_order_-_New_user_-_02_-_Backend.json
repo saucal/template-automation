@@ -1,0 +1,409 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "details": "Check backend of an order - Admin",
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "06 - Place order - New user - 02 - Backend",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "let site = window.location.href\nreturn site",
+      "variableName": "site"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "{{email}}",
+      "variableName": "username"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "603d1f20494ea848981cef9b",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "xpath=//a[contains(text(), \"Your Botany Farms order\")]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "tr.order_item > td.td:nth-of-type(1)",
+      "value": "{{prod_desc}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "tr.order_item > td.td:nth-of-type(2)",
+      "value": "{{qty}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "td.td:nth-of-type(3) > .woocommerce-Price-amount.amount",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "tfoot > tr:nth-of-type(1) > td.td > .woocommerce-Price-amount.amount",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "tr:nth-of-type(2) > td.td",
+      "value": "{{shippingPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "tr:nth-of-type(3) > td.td",
+      "value": "{{taxPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "tr:nth-of-type(4) > td.td",
+      "value": "Credit Card",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "tr:nth-of-type(5) > td.td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "td:nth-of-type(1) > address.address",
+      "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{street2}}\n{{city}}, {{state}} {{zipCode}}\n{{phone}}\n{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "td:nth-of-type(2) > address.address",
+      "value": "{{firstName}} {{lastName2}}\n{{company2}}\n{{street3}}\n{{street4}}\n{{city}}, {{state}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "",
+      "value": "yes",
+      "variableName": "admin"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "guest@saucal.com",
+      "variableName": "username"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": true,
+      "sequence": 16,
+      "target": "",
+      "value": "0*qYbn6rCIzc3aERF0c*0bIt",
+      "variableName": "pass"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "",
+      "value": "63cfc556af1e488d25d11a75",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "a[href=\"admin.php?page=wc-admin\"] > .wp-menu-name",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "a[href=\"edit.php?post_type=shop_order\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "a[href*=\"/wp-admin/post.php?post={{orderNumber}}&action=edit\"] > strong",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": ".woocommerce-order-data__meta",
+      "value": "Payment via Credit Card",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "#select2-order_status-container",
+      "value": "Processing",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "div.order_data_column:nth-of-type(2) > .address > p:nth-of-type(1)",
+      "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{street2}}\n{{city}}, {{state}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "div.order_data_column:nth-of-type(3) > .address > p",
+      "value": "{{firstName}} {{lastName2}}\n{{company2}}\n{{street3}}\n{{street4}}\n{{city}}, {{state}} {{zipCode}}Customer provided note:\nOrder Note for Testing this field",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "a[href=\"mailto:{{email}}\"]",
+      "value": "{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "a[href*=\"tel:\"]",
+      "value": "{{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "td.item_cost > .view > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "td.quantity > .view",
+      "value": "× {{qty}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "td.line_cost > .view > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "",
+      "value": "let shippingPrice = \"{{shippingPrice}}\"\nif (shippingPrice.includes(\"Free\")){\n    shippingPrice = \"$0.00\";\n};\nreturn shippingPrice",
+      "variableName": "shippingPrice"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "tr.shipping > td.line_cost > .view > .woocommerce-Price-amount.amount",
+      "value": "{{shippingPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": "table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(1) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": ".wc-order-data-row.wc-order-totals-items > table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(2) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{shippingPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": ".wc-order-data-row.wc-order-totals-items > table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(3) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{taxPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": ".wc-order-data-row.wc-order-totals-items > table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(4) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": "table.wc-order-totals:nth-of-type(2) > tbody > tr:nth-of-type(1) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{total}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": {
+    "width": 1920,
+    "height": 1080
+  },
+  "_gi": {
+    "testId": "63d81d840b7aefb972f7979a",
+    "suiteId": "6359a095db1ab7e45edc7e3d",
+    "suiteName": "Botany Farms - Basic WooCommerce Test"
+  }
+}

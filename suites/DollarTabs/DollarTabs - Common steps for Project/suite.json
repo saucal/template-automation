@@ -1,0 +1,41 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "69a82b73b9fc488447ef7c95",
+    "abortOnTestFailure": false,
+    "autoRetry": true,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2026-03-04T12:54:11.142Z",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "69a82b7e490909e59c0b04d7",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 0,
+    "maxWaitDelay": 15000,
+    "name": "DollarTabs - Common steps for Project",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": false,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "",
+    "testCount": 17,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [],
+    "viewportSize": {
+      "width": 1280,
+      "height": 800
+    }
+  }
+}

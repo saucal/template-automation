@@ -1,0 +1,57 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Check Total",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "\nlet unitPrice = \"{{unitPrice}}\"\nlet signUpFee = \"{{signUpFee}}\"\nlet subtotal = \"{{subtotal}}\";\nlet discount = \"{{discount}}\"\nif (signUpFee === \"\"){\n    signUpFee = \"0.00\";\n};\nif (discount === \"\"){\n    discount = \"0.00\";\n};\n\nlet tax = \"{{taxPrice}}\";\nif (tax === \"\"){\n    tax = \"0.00\";\n};\nlet total = \"{{total}}\";\n\nsubtotal = subtotal.replace(\",\",\"\").trim();\nsignUpFee = signUpFee.replace(\",\",\"\").trim();\nunitPrice = unitPrice.replace(\",\",\"\").trim();\ndiscount = discount.replace(\",\",\"\").trim();\ntax = tax.replace(\",\",\"\").trim();\ntotal = total.replace(\",\",\"\").trim();\n\nunitPrice = Number(unitPrice.replace(\"{{Symbol}}\",\"\"));\nsignUpFee = Number(signUpFee.replace(\"{{Symbol}}\",\"\"));\ndiscount = Number(discount.replace(\"{{Symbol}}\",\"\"));\nsubtotal = Number(subtotal.replace(\"{{Symbol}}\",\"\"));\ntax = Number(tax.replace(\"{{Symbol}}\",\"\"));\ntotal = Number(total.replace(\"{{Symbol}}\",\"\"));\n\nlet subtotal2 = unitPrice+signUpFee\nsubtotal2 = Number(subtotal2.toFixed(2));\n\nlet total2 = subtotal2-discount+tax;\ntotal2 = Number(total2.toFixed(2));\n\nreturn total === total2 && subtotal === subtotal2",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "let unit = \"{{unitPrice}}\";\nlet taxRenew = \"{{taxRenew}}\";\nlet totalRenew = \"{{totalRenew}}\";\n\nunit = unit.replace(\",\",\"\");\ntaxRenew = taxRenew.replace(\",\",\"\");\ntotalRenew = totalRenew.replace(\",\",\"\");\n\nunit = Number(unit.replace(\"{{Symbol}}\",\"\"));\ntaxRenew = Number(taxRenew.replace(\"{{Symbol}}\",\"\"));\ntotalRenew = Number(totalRenew.replace(\"{{Symbol}}\",\"\"));\n\nlet totalRenew2 = unit+taxRenew;\ntotalRenew2 = Number(totalRenew2.toFixed(2));\n\nreturn totalRenew === totalRenew2",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "66da289478ca24491e7f334e",
+    "suiteId": "60cc8d7d1da0a93062ddf13a",
+    "suiteName": "Harmony - Common Steps for suites"
+  }
+}

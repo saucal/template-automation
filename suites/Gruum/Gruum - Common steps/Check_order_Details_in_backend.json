@@ -1,0 +1,193 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Check order Details in backend",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": false,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": ".woocommerce-order-data__meta",
+      "value": "Payment via {{paymentMethod2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "return '{{product}}' !== 'bundle'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "const status = document.querySelector('#select2-order_status-container').textContent\n\nreturn status === 'Processing' || status === 'Shampoo & Conditioners'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "return '{{product}}' === 'bundle'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "const status = document.querySelector('#select2-order_status-container').textContent\n\nreturn status === 'Processing' || status === 'Holiday Heroes + items'",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "div.order_data_column:nth-of-type(2) > .address > p:nth-of-type(1)",
+      "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{street2}}\n{{city}}\n{{county}}\n{{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": "a[href*=\"mailto:gi_order_\"]"
+        },
+        {
+          "selector": "a[href*=\"mailto:gi_subs_\"]"
+        }
+      ],
+      "value": "{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "a[href*=\"tel:\"]",
+      "value": "{{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "div.order_data_column:nth-of-type(3) > .address > p:nth-of-type(1)",
+      "value": "{{firstName}} {{lastName2}}\n{{company2}}\n{{street3}}\n{{street4}}\n{{city}}\n{{county}}\n{{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "a[href*=\"/wp-admin/post.php?post=\"]",
+      "value": "{{prod_desc}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(1) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{shippingPrice}}' === 'Standard'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": ".wc-order-data-row.wc-order-totals-items > table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(2) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "£0.00",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{shippingPrice}}' !== 'Standard'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": ".wc-order-data-row.wc-order-totals-items > table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(2) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{shippingPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": ".wc-order-data-row.wc-order-totals-items > table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(3) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "return '{{paymentMethod}}' !== 'PayPal'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "const total = '{{total}}'\nfunction checkAdminNote(note) {\n    const pattern = new RegExp  (`A payment of ${total} was successfully charged using WooPayments \\\\(pi_[a-zA-Z0-9]+\\\\)`);\n    return pattern.test(note);\n}\n\n// Select all <p> elements within ul.order_notes > li > div > p\nconst notes = document.querySelectorAll('ul.order_notes > li > div > p');\n\n// Check if any note matches the pattern\nreturn Array.from(notes).some(note => checkAdminNote(note.textContent));\n",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "return '{{paymentMethod}}' === 'PayPal'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "const total = '{{total}}'\nfunction checkAdminNote(note) {\n    const pattern = new RegExp  (`Braintree \\\\(PayPal\\\\) Sandbox Payment Approved \\\\(Transaction ID [a-zA-Z0-9]+\\\\)`);\n    return pattern.test(note);\n}\n//Braintree (PayPal) Sandbox Payment Approved (Transaction ID jtk5b7f2)\n// Select all <p> elements within ul.order_notes > li > div > p\nconst notes = document.querySelectorAll('ul.order_notes > li > div > p');\n\n// Check if any note matches the pattern\nreturn Array.from(notes).some(note => checkAdminNote(note.textContent));\n",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68c17e045081f036c98ae251",
+    "suiteId": "68c16e5b5081f036c9877178",
+    "suiteName": "Gruum - Common steps"
+  }
+}

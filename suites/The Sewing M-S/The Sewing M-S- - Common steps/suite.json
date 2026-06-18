@@ -1,0 +1,42 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "68fe8de75e36fea7308c19e5",
+    "abortOnTestFailure": false,
+    "autoRetry": true,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2025-10-26T21:08:55.676Z",
+    "details": "",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "68fe807c0c38c58f6ea35d92",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 0,
+    "maxWaitDelay": 15000,
+    "name": "The Sewing M.S. - Common steps",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": false,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "",
+    "testCount": 15,
+    "testFrequency": 0,
+    "viewportSize": {
+      "width": 1280,
+      "height": 800
+    },
+    "testFrequencyAdvanced": [],
+    "variables": []
+  }
+}

@@ -1,0 +1,553 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "xx - Buy custom bundle & order email validation",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": true,
+  "screenshotCompareThreshold": 0.15,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "redApple",
+      "variableName": "project"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "bundle",
+      "variableName": "product"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "qa+gi_order+{{alphanumeric}}@email.ghostinspector.com",
+      "variableName": "email"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "{{email}}",
+      "variableName": "username"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "navigate to eyes",
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "#site-navigation > div > ul >li:nth-child(2) > a",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": " go to Matte Eye Shadow Palette For Brown Eyes",
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": ".post-275770 > div:nth-child(3) > div h2 > a",
+      "value": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "notes": "save product price in shop page",
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": ".summary > .price > ins > span > bdi",
+      "value": "",
+      "variableName": "productPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "notes": "save product name in shop page",
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": ".summary > h1",
+      "value": "",
+      "variableName": "productName"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "add component",
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "#woobt_checkbox_1",
+      "value": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "notes": "get sub total amount",
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": " p.price > ins > span.amount",
+      "value": "",
+      "variableName": "subTotal"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": ".woobt-total > ins > span",
+      "value": "{{subTotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "add a second component",
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "#woobt_checkbox_2",
+      "value": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "notes": "save product name in shop page",
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": " p.price > ins > span.amount",
+      "value": "",
+      "variableName": "{{subTotal}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": ".woobt-total > ins > span",
+      "value": "{{subTotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": ".woobt-wrap > .woobt-summary > .woobt-text:nth-child(1)",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": ".woobt-total > ins > span",
+      "value": "",
+      "variableName": "cartSubTotal"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "add product to cart",
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "form > button.single_add_to_cart_button",
+      "value": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "notes": "validate product name in mini cart",
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "ul > li.woocommerce-mini-cart-item:nth-child(1) > a",
+      "value": "{{productName}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "navigate to cart",
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "a.wc-forward:nth-child(1)",
+      "value": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "td.product-name",
+      "value": "{{productName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "td.product-price",
+      "value": "{{productPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": ".cart-subtotal > td > span > bdi",
+      "value": "{{cartSubTotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "#shipping_method > li:nth-child(1)  > label",
+      "value": "",
+      "variableName": "freeShipping"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "navigate to checkout page",
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": ".checkout-button",
+      "value": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "#billing_email",
+      "value": "{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "#billing_first_name",
+      "value": "{{firstName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "#billing_last_name",
+      "value": "{{lastName}}",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "",
+      "value": "66d9cf0289b30b261f1b0802",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "notes": "ghost step",
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "#shipping_country",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "notes": "step not working #shipping_country > option[value=\"{{countryShipping}}\"]",
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "",
+      "value": "66d9d22e89b30b261f1bcf88",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 30,
+      "target": "#shipping_state",
+      "value": "IN",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "#shipping_city",
+      "value": "Greensburg",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": "#shipping_first_name",
+      "value": "{{firstName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": "#shipping_last_name",
+      "value": "{{lastName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": "#billing_state",
+      "value": "KY",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": "#billing_city",
+      "value": "Louisville",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 36,
+      "target": "#billing_phone",
+      "value": "{{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 37,
+      "target": ".cart-subtotal > td > span > bdi",
+      "value": "{{cartSubTotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 38,
+      "target": "tr.shipping >td > ul > li:nth-child(1) > label",
+      "value": "Free Shipping",
+      "variableName": ""
+    },
+    {
+      "command": "screenshot",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 39,
+      "target": "#post-9",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 40,
+      "target": "",
+      "value": "666b5e403b8c989d7213578d",
+      "variableName": ""
+    },
+    {
+      "command": "pause",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 41,
+      "target": "",
+      "value": "10000",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 42,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "pause",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 43,
+      "target": "",
+      "value": "7000",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 44,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 45,
+      "target": [
+        {
+          "selector": "h4"
+        },
+        {
+          "selector": ".woocommerce-notice"
+        }
+      ],
+      "value": "Your order has been received",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 46,
+      "target": [
+        {
+          "selector": "tr:nth-child(1) > th > div"
+        },
+        {
+          "selector": "tr:nth-child(1) >td > a"
+        }
+      ],
+      "value": "{{productName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 47,
+      "target": [
+        {
+          "selector": "tr:nth-child(1) > td.cfw-cart-item-subtotal > span"
+        },
+        {
+          "selector": "tr:nth-child(1) > td.product-total > span"
+        }
+      ],
+      "value": "{{productPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 48,
+      "target": "",
+      "value": "666b40b21aac3ea14fe9c681",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "665738a389e87fd839968487",
+    "suiteId": "6650dbac89e87fd839e2eb1c",
+    "suiteName": "Red Apple - Basic tests"
+  }
+}

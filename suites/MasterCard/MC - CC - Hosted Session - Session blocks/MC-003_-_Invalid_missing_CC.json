@@ -1,0 +1,221 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "MC-003 - Invalid missing CC",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotTarget": "",
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "676eb9b335aed64d30770a83",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "676eba5935aed64d307712f3",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "#payment_method_acme"
+        },
+        {
+          "selector": "#radio-control-wc-payment-method-options-acme"
+        },
+        {
+          "selector": "#radio-control-wc-payment-method-options-mastercard_merchant_cloud"
+        }
+      ],
+      "value": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "iframe[src*=\"test-gateway.mastercard.com\"] #expiryMonth",
+      "value": "01",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "iframe[src*=\"test-gateway.mastercard.com\"] #expiryYear",
+      "value": "39",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "iframe[src*=\"test-gateway.mastercard.com\"] #securityCode",
+      "value": "100",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "//button[contains(text(), \"Place order\")]"
+        },
+        {
+          "selector": "#place_order"
+        },
+        {
+          "selector": "//div[contains(text(), \"Place Order\")]"
+        },
+        {
+          "selector": ".wc-block-components-checkout-place-order-button"
+        }
+      ]
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": ".woocommerce-error"
+        },
+        {
+          "selector": "div.wc-block-components-notices > div > div > div"
+        }
+      ],
+      "value": "Card number invalid or missing"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "iframe[src*=\"test-gateway.mastercard.com\"] #number",
+      "value": "7554298042803978",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": [
+        {
+          "selector": "//button[contains(text(), \"Place order\")]"
+        },
+        {
+          "selector": "#place_order"
+        },
+        {
+          "selector": "//div[contains(text(), \"Place Order\")]"
+        },
+        {
+          "selector": ".wc-block-components-checkout-place-order-button"
+        }
+      ]
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": [
+        {
+          "selector": ".woocommerce-error"
+        },
+        {
+          "selector": "div.wc-block-components-notices > div > div > div"
+        }
+      ],
+      "value": "Card number invalid or missing"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "678f80b42a21c5b64bcd00af",
+    "suiteId": "678f80b42a21c5b64bcd0093",
+    "suiteName": "MC - CC - Hosted Session - Session blocks"
+  }
+}

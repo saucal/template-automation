@@ -1,0 +1,46 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "details": "Renewal order of a Subscription paid with CC - Admin",
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "BLU-003-018 - 01 - Include tax - (BackEnd & renew)",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "67f3cddb74d7454094c05127",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "67f3ef3c74d7454094cace62",
+    "suiteId": "6633f77989e87fd839fc4e5d",
+    "suiteName": "BlueSnap - Multi-currency - USD > JPY"
+  }
+}

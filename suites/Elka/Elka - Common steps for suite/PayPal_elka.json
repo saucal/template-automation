@@ -1,0 +1,376 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "PayPal elka",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "iframe[title=\"PayPal\"] .paypal-button.paypal-button-number-0"
+        },
+        {
+          "selector": "iframe[title*=\"PayPal\"] .paypal-button.paypal-button-number-0"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 2,
+      "target": ".loader",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 3,
+      "target": ".loader",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 4,
+      "target": "xpath=//a[contains(text(), \"Click to Continue\")]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return document.querySelector('#backToInputEmailLink')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "#backToInputEmailLink",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return document.querySelector('a.btn')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "xpath=//a[contains(text(), \"Iniciar sesión\")]"
+        },
+        {
+          "selector": "a.btn"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "input#email"
+        },
+        {
+          "selector": "input[name='login_email']"
+        },
+        {
+          "selector": "input#login_email"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "input#email"
+        },
+        {
+          "selector": "input[name='login_email']"
+        },
+        {
+          "selector": "input#login_email"
+        }
+      ],
+      "value": "{{payPalUser}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "button#btnNext"
+        },
+        {
+          "selector": "button[name='btnNext']"
+        },
+        {
+          "selector": "//button[contains(text(),'Next')]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 10,
+      "target": "div.lockIcon",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 11,
+      "target": "div.lockIcon",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 12,
+      "target": [
+        {
+          "selector": "//a[contains(text(),'Log in with a password instead')]"
+        },
+        {
+          "selector": "//button[contains(text(),'Use Password Instead')]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": true,
+      "sequence": 13,
+      "target": [
+        {
+          "selector": "div > input#password"
+        },
+        {
+          "selector": "input[name='login_password']"
+        }
+      ],
+      "value": "{{payPalPass}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": [
+        {
+          "selector": "button[data-atomic-wait-intent='Submit_Password']"
+        },
+        {
+          "selector": "button#btnLogin"
+        },
+        {
+          "selector": "button[name='btnLogin']"
+        },
+        {
+          "selector": "//button[contains(text(), \"Log In\")][1]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 15,
+      "target": "div.lockIcon",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 16,
+      "target": "div.lockIcon",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": [
+        {
+          "selector": "[data-testid=\"submit-button-initial\"]"
+        },
+        {
+          "selector": "xpath=//button[contains(text(), \"Complete Purchase\")]"
+        },
+        {
+          "selector": "#payment-submit-btn"
+        },
+        {
+          "selector": "#one-time-cta > div > div > div.pe-2"
+        },
+        {
+          "selector": "xpath=//button[@id='one-time-cta']/div/div/div[contains(text(), \"Pay\")]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "pause",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "",
+      "value": "2000",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 19,
+      "target": [
+        {
+          "selector": ".Spinner_spinner_2t_Ob"
+        },
+        {
+          "selector": "div[class*=\"Spinner_SpinnerLoader\"]"
+        },
+        {
+          "selector": "div.lockIcon"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 20,
+      "target": [
+        {
+          "selector": ".Spinner_spinner_2t_Ob"
+        },
+        {
+          "selector": "div[class*=\"Spinner_SpinnerLoader\"]"
+        },
+        {
+          "selector": "div.lockIcon"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6a2b2a3e0f1aedc97d40f705",
+    "suiteId": "608822e1e6a043402e3c952a",
+    "suiteName": "Elka - Common steps for suite"
+  }
+}

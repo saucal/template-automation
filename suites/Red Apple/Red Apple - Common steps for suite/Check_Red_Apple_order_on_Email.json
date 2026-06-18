@@ -1,0 +1,171 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "details": "",
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Check Red Apple order on Email",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "603d1f20494ea848981cef9b",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"vesica\""
+      },
+      "notes": "",
+      "optional": true,
+      "private": false,
+      "sequence": 1,
+      "target": "tr:nth-child(1) > td.subject > a",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "td.thwec-builder-column > table:nth-child(1) > tbody > tr > td > table:nth-child(2) > tbody > tr > td",
+      "value": "{{firstName}} Thank you for your order! You totally rock.",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "tbody > tr.order_item:nth-child(1) > td.order-item",
+      "value": "{{productName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "tbody > tr.order_item:nth-child(1) > td.order-item-qty",
+      "value": "{{qty}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "notes": "",
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "tbody > tr.order_item:nth-child(1) > td.order-item-price",
+      "value": "{{productPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "tfoot > tr:nth-child(1) > td",
+      "value": "{{cartSubTotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"leggari\""
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 7,
+      "target": "tr:nth-of-type(2) > td.td",
+      "value": "{{shippingPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"icg\" && \"{{project}}\" !== \"leggari\""
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 8,
+      "target": "tr:nth-of-type(3) > td.td",
+      "value": "{{taxPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "notes": "changed to Credit Card due to PayPal payment is failing",
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "tfoot > tr:nth-child(4) > td",
+      "value": "Credit Card",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"icg\" && \"{{project}}\" !== \"leggari\" && \"{{project}}\" !== \"vesica\""
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 10,
+      "target": "tr:nth-of-type(5) > td.td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "notes": "",
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "tbody > tr > td > p.address",
+      "value": "{{firstName}} {{lastName}}\n{{streetShipping}}\n{{shippingAddress2}}\n{{cityShipping}}, {{stateShippingShort}} {{postCodeShipping}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": {
+    "width": 1920,
+    "height": 1080
+  },
+  "_gi": {
+    "testId": "666b40b21aac3ea14fe9c681",
+    "suiteId": "665f62ed1aac3ea14fff2db8",
+    "suiteName": "Red Apple - Common steps for suite"
+  }
+}

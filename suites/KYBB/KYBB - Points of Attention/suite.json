@@ -1,0 +1,41 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "60d239d00181726b14fc8568",
+    "abortOnTestFailure": false,
+    "autoRetry": true,
+    "browser": "chrome",
+    "dataSource": null,
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "607f614ffb8c1e0bcd0db723",
+    "globalStepDelay": 250,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 0,
+    "maxWaitDelay": 15000,
+    "name": "KYBB - Points of Attention",
+    "persistVariables": false,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "",
+    "testCount": 2,
+    "testFrequency": 0,
+    "viewportSize": {
+      "width": 1280,
+      "height": 800
+    },
+    "dateCreated": "2021-06-22T19:28:16.501Z",
+    "language": null,
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "testFrequencyAdvanced": [],
+    "variables": []
+  }
+}

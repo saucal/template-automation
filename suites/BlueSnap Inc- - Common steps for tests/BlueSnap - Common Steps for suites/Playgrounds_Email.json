@@ -1,0 +1,45 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Playgrounds Email",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "return new Promise(async (resolve, reject) => {\n  const to = encodeURIComponent(\"{{playgroundsEmail}}\");\n  const order = \"{{orderNumber}}\"\n  const username = \"{{woo_user}}\"; \n  const password = \"{{woo_pass}}\";\n  const test = \"{{test}}\"; \n  let url;\n  if (test===\"full\" || test===\"partial\") {\n    url = \"{{startUrl}}wp-json/wc-automation-helper/get-mail/?to=\"+to+\"&contains=\"+order+\"&subject=refund\";\n  } else {\n    url = \"{{startUrl}}wp-json/wc-automation-helper/get-mail/?to=\"+to+\"&contains=\"+order;\n  }\n  let headers = new Headers();\n  headers.set('Content-Type', 'application/json');\n  headers.set('Authorization', 'Basic ' + btoa(username + \":\" + password));\n  fetch(url, { method: 'GET', headers, credentials: 'omit' })\n      .then(r => r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status)))\n      .then(data => {\n        const mail = data.mails && data.mails[0];\n        if (!mail) return reject(new Error('no mail found'));\n        const f = document.createElement('iframe');\n        f.style.cssText = 'position:fixed;inset:0;width:100vw;height:100vh;border:0;background:#fff;z-index:2147483647';\n        f.srcdoc = mail.message;            // render email HTML\n        document.body.appendChild(f);\n        resolve(mail.subject);              // GI assertion can use this\n      })\n      .catch(reject);\n})",
+      "variableName": "emailTest"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "66eac6fbc859f8c7111ded5b",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

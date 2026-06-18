@@ -1,0 +1,42 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "6446b8403a008cd31c973fea",
+    "abortOnTestFailure": false,
+    "autoRetry": true,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2023-04-24T17:11:28.521Z",
+    "details": "",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "64429086af1e488d254afe62",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 0,
+    "maxWaitDelay": 15000,
+    "name": "Mood - Common steps",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": false,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "",
+    "testCount": 7,
+    "testFrequency": 0,
+    "viewportSize": {
+      "width": 1280,
+      "height": 800
+    },
+    "testFrequencyAdvanced": [],
+    "variables": []
+  }
+}

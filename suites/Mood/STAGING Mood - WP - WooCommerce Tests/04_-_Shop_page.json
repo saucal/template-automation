@@ -1,0 +1,81 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "04 - Shop page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let upsell = \"{{upsell}}\"\nreturn upsell != \"no\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": " button[name=\"age_gate[confirm]\"][type=\"submit\"].age-gate-submit-yes",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let width = window.innerWidth\nreturn width <= 767",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "div.hamburg-bars",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": ".hm-nav-shop > a[href*=\"/shop/\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6442dd933a008cd31c3bed12",
+    "suiteId": "644290a0af1e488d254b02f7",
+    "suiteName": "STAGING Mood - WP & WooCommerce Tests"
+  }
+}

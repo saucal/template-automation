@@ -1,0 +1,41 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "63a1c5229034282736afc2e8",
+    "abortOnTestFailure": false,
+    "autoRetry": true,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2022-12-20T14:22:26.303Z",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "62f5213fcd380e119ced41df",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 0,
+    "maxWaitDelay": 15000,
+    "name": "Talkbox - Common steps",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": false,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "",
+    "testCount": 17,
+    "testFrequency": 0,
+    "viewportSize": {
+      "width": 1280,
+      "height": 800
+    },
+    "testFrequencyAdvanced": [],
+    "variables": []
+  }
+}

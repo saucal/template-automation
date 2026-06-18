@@ -1,0 +1,560 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "07 - Place order - New user - 01 - Frontend",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "63cfd4381b9923d1cb91739c",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "6283a386a0299821fc2ad2c3",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "div > p > a.button.checkout",
+      "value": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "62753765c5f501e7105625b8",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 4,
+      "target": ".woocommerce_error > li",
+      "value": "Invalid card number.",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "div.topg-exclusive-cart > div > div.cart_totals > table > tbody > tr.order-total > td strong > span.amount > bdi",
+      "value": "",
+      "variableName": "total"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "iframe[src*=\"secure.nmi.com\"] #ccnumber"
+        },
+        {
+          "selector": "#openpath-card-number"
+        }
+      ],
+      "value": "4111 1111 1111 1111",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "iframe[src*=\"secure.nmi.com\"] #ccexp"
+        },
+        {
+          "selector": "#openpath-card-expiry"
+        }
+      ],
+      "value": "12 / 26",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "iframe[src*=\"secure.nmi.com\"] #cvv"
+        },
+        {
+          "selector": "#openpath-card-cvc"
+        }
+      ],
+      "value": "123",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "form.checkout.woocommerce-checkout",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "62753765c5f501e7105625b8",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": ".woocommerce-error",
+      "value": "INVALID OR MISSING CARD NUMBER.\nINVALID OR MISSING CARD EXPIRY DATE.\nBILLING FIRST NAME IS A REQUIRED FIELD.\nBILLING LAST NAME IS A REQUIRED FIELD.\nBILLING COUNTRY / REGION IS A REQUIRED FIELD.\nBILLING STREET ADDRESS IS A REQUIRED FIELD.\nBILLING TOWN / CITY IS A REQUIRED FIELD.\nBILLING STATE / COUNTY IS A REQUIRED FIELD.\nBILLING POSTCODE / ZIP IS A REQUIRED FIELD.\nBILLING PHONE IS A REQUIRED FIELD.\nBILLING EMAIL ADDRESS IS A REQUIRED FIELD.\nPLEASE ENTER AN ADDRESS TO CONTINUE.",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "td.product-name > a",
+      "value": "{{title}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "td.product-name > div > div >span ",
+      "value": "{{qty}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "",
+      "value": "let price = \"{{unitPrice}}\".slice(1);\nprice = parseFloat(price);\nreturn {{qty}} * price",
+      "variableName": "productSubTotal"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "td.product-subtotal > span ",
+      "value": "{{productSubTotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "",
+      "value": "6275149f7cba5684cb53e55c",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": [
+        {
+          "selector": "iframe[src*=\"secure.nmi.com\"] #ccnumber"
+        },
+        {
+          "selector": "#openpath-card-number"
+        }
+      ],
+      "value": "5123 4500 0000 0008",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": [
+        {
+          "selector": "iframe[src*=\"secure.nmi.com\"] #ccexp"
+        },
+        {
+          "selector": "#openpath-card-expiry"
+        }
+      ],
+      "value": "12 / 26",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": [
+        {
+          "selector": "iframe[src*=\"secure.nmi.com\"] #cvv"
+        },
+        {
+          "selector": "#openpath-card-cvc"
+        }
+      ],
+      "value": "512",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "form.checkout.woocommerce-checkout",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "",
+      "value": "62753765c5f501e7105625b8",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": ".order > strong",
+      "value": "",
+      "variableName": "orderNumber"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 25,
+      "target": ".email > strong",
+      "value": "{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 26,
+      "target": "strong > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "",
+      "value": "let name = \"{{title}}\";\nname = name.toLowerCase();\nreturn name",
+      "variableName": "titleLower"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 28,
+      "target": "td.woocommerce-table__product-name.product-name",
+      "value": "{{titleLower}} × {{qty}}\nSize:\n\n{{size}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 29,
+      "target": "td.woocommerce-table__product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 30,
+      "target": "tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 31,
+      "target": "tr:nth-of-type(2) > td",
+      "value": "{{shippingPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "notes": "thank you page reads Payment information instead of default credit card",
+      "optional": true,
+      "private": false,
+      "sequence": 32,
+      "target": "tr:nth-of-type(3) > td",
+      "value": "Payment information",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 33,
+      "target": "tr:nth-of-type(4) > td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 34,
+      "target": ".woocommerce-column.woocommerce-column--1 > address",
+      "value": "{{firstName}} {{lastName}}\n{{street}}\n{{street2}}\n{{city}}, {{state}} {{zipCode}}\n\n{{phone}}\n\n{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 35,
+      "target": ".woocommerce-column.woocommerce-column--2 > address",
+      "value": "{{firstName}} {{lastName2}}\n{{street3}}\n{{street4}}\n{{city}}, {{state}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "my account is no longer available",
+      "optional": true,
+      "private": false,
+      "sequence": 36,
+      "target": "toMyAccount",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 37,
+      "target": ".woocommerce-MyAccount-navigation-link > a[href*=\"/my-account/orders/\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 38,
+      "target": "td.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-number > a[href*=\"/my-account/view-order/{{orderNumber}}/\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 39,
+      "target": "mark.order-status",
+      "value": "Processing",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 40,
+      "target": "td.woocommerce-table__product-name.product-name",
+      "value": "{{title}} - {{color}}, {{size}} × {{qty}}\nColor:\n\n{{color}}\n\nSize:\n\n{{size}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 41,
+      "target": "strong > .woocommerce-Price-amount > bdi",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 42,
+      "target": "tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 43,
+      "target": "tr:nth-of-type(2) > td",
+      "value": "{{shippingPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 44,
+      "target": "tr:nth-of-type(3) > td",
+      "value": "Payment information",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 45,
+      "target": "tr:nth-of-type(4) > td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 46,
+      "target": ".woocommerce-column.woocommerce-column--1 > address",
+      "value": "{{firstName}} {{lastName}}\n{{street}}\n{{street2}}\n{{city}}, {{state}} {{zipCode}}\n\n{{phone}}\n\n{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 47,
+      "target": ".woocommerce-column.woocommerce-column--2 > address",
+      "value": "{{firstName}} {{lastName2}}\n{{street3}}\n{{street4}}\n{{city}}, {{state}} {{zipCode}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": {
+    "width": 1920,
+    "height": 1080
+  },
+  "_gi": {
+    "testId": "63cfd5b80b7aefb9729d719a",
+    "suiteId": "698b92ac62ccce610dd8bac0",
+    "suiteName": "Merch - Place Order - CC"
+  }
+}

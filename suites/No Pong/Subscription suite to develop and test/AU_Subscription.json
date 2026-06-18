@@ -1,0 +1,535 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.1",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "AU Subscription",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": "ap-southeast-2",
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "https://no-pong-au-develop.go-vip.net/",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "#menu-main-menu > li.menu-item.menu-item-type-post_type.menu-item-object-page:nth-of-type(5) > a[href*=\"/monthly-club/\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "eval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "return new Promise((resolve, reject) => {\n    (document.readyState) || reject(\"Can't resolve document readystate\");\n    let listener;\n    (/^c/).test(document.readyState) ? resolve(true) : document.addEventListener(\"load\", listener = event => {\n      document.removeEventListener(\"load\", listener);\n      resolve(true);\n    });\n})",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "a[href=\"?add-to-cart=1270\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "h1.entry-title > em",
+      "value": "Cart",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "td.product-name",
+      "value": "No Pong Original Monthly Club",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "a[href*=\"/check-out/\"].checkout-button",
+      "value": "Proceed to checkout",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "xpath=//a[contains(text(), \"Proceed to checkout\")]"
+        },
+        {
+          "selector": "a[href*=\"/check-out/\"].checkout-button"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "h1.entry-title",
+      "value": "Checkout",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "#customer_details > div:nth-of-type(1) > div:nth-of-type(1) > h3",
+      "value": "Billing details",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "td.product-name",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "#billing_email",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "#billing_email",
+      "value": "{{emailReg}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "#billing_first_name",
+      "value": "Test",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "#billing_last_name",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "#billing_last_name",
+      "value": "Subscription",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "#select2-billing_country-container",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": [
+        {
+          "selector": "xpath=//li[contains(text(), \"Australia\")]"
+        },
+        {
+          "selector": "#select2-billing_country-result-uct4-AU"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "#billing_address_1",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "#billing_address_1",
+      "value": "92 Tapleys Hill Road",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "#billing_city",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "#billing_city",
+      "value": "Brahma Lodge",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "#select2-billing_state-container",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": [
+        {
+          "selector": "xpath=//li[contains(text(), \"South Australia\")]"
+        },
+        {
+          "selector": "#select2-billing_state-result-qgst-SA"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "#billing_postcode",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "#billing_postcode",
+      "value": "5109",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "#billing_phone",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "#billing_phone",
+      "value": "084 131 5885",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "#account_password",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "iframe[src*=\"js.stripe.com\"] input[name=\"cardnumber\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": true,
+      "sequence": 29,
+      "target": "#account_password",
+      "value": "SubscriptionTest1234",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "iframe[src*=\"js.stripe.com\"] input[name=\"cardnumber\"]",
+      "value": "4242 4242 4242 4242",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "iframe[src*=\"js.stripe.com\"] input[name=\"exp-date\"]",
+      "value": "01 / 25",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": "iframe[src*=\"js.stripe.com\"] input[name=\"cvc\"]",
+      "value": "123",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": "td > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": "#shipping_method > li:nth-of-type(1) > label",
+      "value": "Regular",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": "tr.order-total:nth-of-type(7) > th",
+      "value": "Recurring total",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": "tr.order-total:nth-of-type(7) > td > strong > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 37,
+      "target": "#place_order",
+      "value": "Join the Club",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 38,
+      "target": "#terms",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 39,
+      "target": [
+        {
+          "selector": "xpath=//button[contains(text(), \"Join the Club\")]"
+        },
+        {
+          "selector": "#place_order"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 40,
+      "target": ".blockUI > .np-custom-checkout-modal-wrapper.with-background.text-first > .np-custom-checkout-story-wrapper > div.np-custom-checkout-story:nth-of-type(4) > h3",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 41,
+      "target": ".woocommerce-notice",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 42,
+      "target": ".woocommerce-thankyou-order-details > .order",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 43,
+      "target": ".woocommerce-order-details > h2:nth-of-type(1)",
+      "value": "Order details",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 44,
+      "target": "tr:nth-of-type(4) > th",
+      "value": "Total:",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 45,
+      "target": "tr:nth-of-type(4) > td > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 46,
+      "target": ".woocommerce-order-details > h2:nth-of-type(2)",
+      "value": "Related subscriptions",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6435aec3d19bd3b4589bab5e",
+    "suiteId": "6435ac87af1e488d2533a286",
+    "suiteName": "Subscription suite to develop and test"
+  }
+}

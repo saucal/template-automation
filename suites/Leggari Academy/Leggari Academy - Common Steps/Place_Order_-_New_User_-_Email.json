@@ -1,0 +1,177 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Place Order - New User - Email",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "{{email}}",
+      "variableName": "username"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "69c18015de491b5fc5f5bdad",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "//a[contains(text(), \"order has been received!\")]"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "tr.order_item > td.td:nth-of-type(1)",
+      "value": "Leggari Academy Membership\nPreferred language:\n\nSpanish"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "td.td:nth-of-type(3) > .woocommerce-Price-amount.amount",
+      "value": "{{unitPrice}}.00",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "tbody > tr.order-totals.order-totals-subtotal > td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "tfoot > tr:nth-child(1) > td > span"
+        }
+      ],
+      "value": "{{unitPrice}}.00",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return {{discount}} === true"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "tfoot > tr:nth-of-type({{discountIndex}}) > td.td > .woocommerce-Price-amount.amount",
+      "value": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "tbody > tr.order-totals.order-totals-tax > td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "tfoot > tr:nth-child(2) > td > span"
+        }
+      ],
+      "value": "$0.00",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "tbody > tr.order-totals.order-totals-payment_method > td"
+        },
+        {
+          "selector": "tfoot > tr:nth-child(3) > td"
+        }
+      ],
+      "value": "{{paymentMethod}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "tbody > tr.order-totals.order-totals-total > td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "tfoot > tr:nth-child(4) > td > span"
+        }
+      ],
+      "value": "{{unitPrice}}.00",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": "td:nth-of-type(1) > address.address"
+        },
+        {
+          "selector": "#addresses > tbody > tr > td > address > table > tbody > tr > td"
+        }
+      ],
+      "value": "{{firstName}} {{lastName}}\n{{street}}\n{{city}}, {{state}} {{zipCode}}\n{{countryComplete}}\n\n{{phone}}\n\n\n{{email}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69c27e52c37b235f988f7655",
+    "suiteId": "69c170c5de491b5fc5f29b47",
+    "suiteName": "Leggari Academy - Common Steps"
+  }
+}

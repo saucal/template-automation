@@ -1,0 +1,159 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "6756f9a47a599a5bc8b4f6d8",
+    "abortOnTestFailure": false,
+    "autoRetry": true,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2024-12-09T14:07:32.070Z",
+    "details": "Test suite used in maintenance process",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": null,
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "Avison - Base maintenance suite",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://env-wwwthebonnevilleshopcom-tbspremdev.kinsta.cloud/",
+    "testCount": 18,
+    "testFrequency": 0,
+    "viewportSize": {
+      "width": 1440,
+      "height": 900
+    },
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "firstName",
+        "value": "Test",
+        "private": false,
+        "_id": "67571dc5e11b42a63d2cb97a"
+      },
+      {
+        "name": "lastName",
+        "value": "Maintenance",
+        "private": false,
+        "_id": "67571dc5e11b42a63d2cb97b"
+      },
+      {
+        "name": "shippingCity",
+        "value": "Bangor",
+        "private": false,
+        "_id": "675781dbe11b42a63d3b3819"
+      },
+      {
+        "name": "billingStreet",
+        "value": "2493 S Bluff Ridge Dr",
+        "private": false,
+        "_id": "6758e7747a599a5bc8122536"
+      },
+      {
+        "name": "country",
+        "value": "United States (US)",
+        "private": false,
+        "_id": "67599bbbe11b42a63da899b5"
+      },
+      {
+        "name": "countryShort",
+        "value": "US",
+        "private": false,
+        "_id": "67599bbbe11b42a63da899b6"
+      },
+      {
+        "name": "billingZip",
+        "value": "84075",
+        "private": false,
+        "_id": "6758e7747a599a5bc8122537"
+      },
+      {
+        "name": "billingState",
+        "value": "Utah",
+        "private": false,
+        "_id": "6758e7747a599a5bc8122538"
+      },
+      {
+        "name": "admin",
+        "value": "guest@saucal.com",
+        "private": false,
+        "_id": "6759fda87a599a5bc85210ab"
+      },
+      {
+        "name": "adminPass",
+        "value": "5*&BsM5vFSKwtwnK)X%0mY*d",
+        "private": true,
+        "_id": "6759fda87a599a5bc85210ac"
+      },
+      {
+        "name": "billingStateShort",
+        "value": "UT",
+        "private": false,
+        "_id": "6758e7747a599a5bc8122539"
+      },
+      {
+        "name": "billingCity",
+        "value": "Syracuse",
+        "private": false,
+        "_id": "6758e7747a599a5bc812253a"
+      },
+      {
+        "name": "pass",
+        "value": "holamundo123",
+        "private": true,
+        "_id": "675724457a599a5bc8bedf00"
+      },
+      {
+        "name": "shippingStreet",
+        "value": "339 Kenduskeag Ave",
+        "private": false,
+        "_id": "67577a1de11b42a63d3a51b3"
+      },
+      {
+        "name": "shippingZip",
+        "value": "04401",
+        "private": false,
+        "_id": "67577a1de11b42a63d3a51b4"
+      },
+      {
+        "name": "shippingState",
+        "value": "Maine",
+        "private": false,
+        "_id": "67577a1de11b42a63d3a51b5"
+      },
+      {
+        "name": "shippingStateShort",
+        "value": "ME",
+        "private": false,
+        "_id": "67577a1de11b42a63d3a51b6"
+      },
+      {
+        "name": "phone",
+        "value": "(484) 300-4199",
+        "private": false,
+        "_id": "67577a1de11b42a63d3a51b7"
+      },
+      {
+        "name": "address2",
+        "value": "Apartment 171",
+        "private": false,
+        "_id": "675a0ba7e11b42a63dc110d0"
+      }
+    ],
+    "httpAuthPassword": "Theatre9Gallo1Romain",
+    "httpAuthUsername": "Lyon1Perrache5"
+  }
+}

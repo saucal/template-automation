@@ -1,0 +1,255 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Verify Vaulted Shopper - New shopper - add payment",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": null,
+  "steps": [
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "command": "assertEval",
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[0].method === \"GET\"",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "command": "assertEval",
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[0].url === \"https://sandbox.bluesnap.com/services/2/vaulted-shoppers/{{vaultedShopperId}}\"",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "command": "assertEval",
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.vaultedShopperId === {{vaultedShopperId}}",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "command": "assertEval",
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.firstName === \"{{firstName}}\"",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "command": "assertEval",
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.lastName === \"{{lastName}}\"",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "command": "assertEval",
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.companyName === \"{{company}}\"",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "command": "assertEval",
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.email === \"{{email}}\"",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "command": "assertEval",
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.country === \"us\"",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "command": "assertEval",
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.state === \"FL\"",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "command": "assertEval",
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.address === \"{{street}}\"",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "command": "assertEval",
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.address2 === \"{{address2}}\"",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "command": "assertEval",
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.city === \"{{city}}\"",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "command": "assertEval",
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.zip === \"{{zipCode}}\"",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "command": "assertEval",
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.shopperCurrency === \"USD\"",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "command": "extractEval",
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.paymentSources.creditCardInfo.length",
+      "variableName": "length"
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "command": "assertEval",
+      "target": "",
+      "value": "const logs = {{logs}}\nconst num = {{length}}-1\nreturn logs[1].content.paymentSources.creditCardInfo[num].creditCard.cardLastFourDigits === \"{{fourDigits}}\"",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "command": "assertEval",
+      "target": "",
+      "value": "const logs = {{logs}};\nconst num = {{length}}-1\nreturn logs[1].content.paymentSources.creditCardInfo[num].creditCard.cardType === \"{{CC_ShortName}}\"",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "command": "assertEval",
+      "target": "",
+      "value": "const logs = {{logs}}\nconst AE_month = \"{{month}}\"\nconst num = {{length}}-1\nreturn logs[1].content.paymentSources.creditCardInfo[num].creditCard.expirationMonth === AE_month",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "command": "assertEval",
+      "target": "",
+      "value": "const logs = {{logs}}\nconst AE_year = \"20\"+\"{{year}}\"\nconst num = {{length}}-1\nreturn logs[1].content.paymentSources.creditCardInfo[num].creditCard.expirationYear === AE_year",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "command": "assertEval",
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.lastPaymentInfo.paymentMethod === \"CC\"",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "command": "assertEval",
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.lastPaymentInfo.creditCard.cardLastFourDigits === \"{{fourDigits}}\"",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "command": "assertEval",
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.lastPaymentInfo.creditCard.cardType === \"{{CC_ShortName}}\"",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "60f18f1bb0cb3f6a9af82699",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

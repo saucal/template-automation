@@ -1,0 +1,104 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "5.4.1",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": 30000,
+  "name": "Fill CC",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "Credit / Debit Card",
+      "variableName": "paymentMethod"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "#payment_method_stripe",
+      "value": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let savedCC = '{{savedCC}}'\n\nreturn savedCC !== true"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "iframe[src*=\"js.stripe.com\"] input[name=\"number\"]",
+      "value": "4242 4242 4242 4242",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let savedCC = '{{savedCC}}'\n\nreturn savedCC !== true"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "iframe[src*=\"js.stripe.com\"] input[name=\"expiry\"]",
+      "value": "12 / 30",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let savedCC = '{{savedCC}}'\n\nreturn savedCC !== true"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "iframe[src*=\"js.stripe.com\"] input[name=\"cvc\"]",
+      "value": "123",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let saveCC = '{{saveCC}}'\n\nreturn saveCC === true"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "#wc-stripe-new-payment-method",
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6882412de5d3587e153a8ba2",
+    "suiteId": "6022c8a7262f437a9afa49ca",
+    "suiteName": "No Pong - Common steps for Project"
+  }
+}

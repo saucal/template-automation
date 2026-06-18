@@ -1,0 +1,173 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Get Woo order details",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const transaction = '{{transaction}}'\n\nreturn transaction === 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "return new Promise(function (resolve, reject) {\n  const username = \"{{woo_user}}\"; \n  const password = \"{{woo_pass}}\"; \n  const url = \"{{startUrl}}wp-json/wc/v3/orders?status=failed\";\n  let headers = new Headers();\n  headers.set('Content-Type', 'application/json');\n  headers.set('Authorization', 'Basic ' + btoa(username + \":\" + password));\n  fetch(url, {method:'GET',\n      headers: headers,\n      })\n  .then(function(response) {\n    if (response.ok) {\n    resolve(response.json())\n    } else {\n    reject(new Error('error'))\n    } \n  })\n})",
+      "variableName": "myOrder"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const transaction = '{{transaction}}'\n\nreturn transaction === 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "let jsonOrder = {{myOrder}}\njsonOrder = jsonOrder[0]\n\nreturn jsonOrder",
+      "variableName": "myOrder"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const transaction = '{{transaction}}'\n\nreturn transaction !== 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "return new Promise(function (resolve, reject) {\n  const order = {{orderNumber}};\n  const username = \"{{woo_user}}\"; \n  const password = \"{{woo_pass}}\"; \n  const url = \"{{startUrl}}wp-json/wc/v3/orders/\"+order;\n  let headers = new Headers();\n  headers.set('Content-Type', 'application/json');\n  headers.set('Authorization', 'Basic ' + btoa(username + \":\" + password));\n  fetch(url, {method:'GET',\n      headers: headers,\n      })\n  .then(function(response) {\n    if (response.ok) {\n    resolve(response.json())\n    } else {\n    reject(new Error('error'))\n    } \n  })\n})",
+      "variableName": "myOrder"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const transaction = '{{transaction}}'\n\nreturn transaction !== 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "const jsonOrder = {{myOrder}}\nreturn jsonOrder.meta_data.find(meta => meta.key === \"_payoneer_payment_charge_id\")?.value",
+      "variableName": "charge_id"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const transaction = '{{transaction}}'\n\nreturn transaction !== 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "const jsonOrder = {{myOrder}}\nreturn jsonOrder.meta_data.find(meta => meta.key === \"_payoneer_payment_transaction_id\")?.value",
+      "variableName": "payoneer_transaction_id"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const transaction = '{{transaction}}'\n\nreturn transaction !== 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "const jsonOrder = {{myOrder}}\nreturn jsonOrder.transaction_id",
+      "variableName": "transaction_id"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const transaction = '{{transaction}}'\n\nreturn transaction === 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "const jsonOrder = {{myOrder}}\nreturn jsonOrder.id",
+      "variableName": "orderNumber"
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "const jsonOrder = {{myOrder}}\n\n    const currencyStr = '{{total}}'\n    // Remove any non-numeric characters except commas, dots, and minus signs\n    let cleaned = currencyStr.replace(/[^\\d,.-]/g, '');\n\n    // If the string has both '.' and ',', determine which is the decimal separator\n    if (cleaned.includes('.') && cleaned.includes(',')) {\n        if (cleaned.lastIndexOf('.') > cleaned.lastIndexOf(',')) {\n            // Case: US format \"$1,000.00\" (comma as thousands separator, dot as decimal)\n            cleaned = cleaned.replace(/,/g, '');\n        } else {\n            // Case: EU format \"1.000,87 €\" (dot as thousands separator, comma as decimal)\n            cleaned = cleaned.replace(/\\./g, '').replace(',', '.');\n        }\n    } else {\n        // If only a comma exists, assume EU format\n        if (cleaned.includes(',')) {\n            cleaned = cleaned.replace(',', '.');\n        }\n        // If only a dot exists, assume US format (no change needed)\n    }\n\n\nreturn jsonOrder.total === cleaned",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const paymentFlow = '{{paymentFlow}}'\n\nreturn paymentFlow === 'embedded'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "const jsonOrder = {{myOrder}}\nconst paymentMethod = jsonOrder.payment_method\nreturn paymentMethod === \"payoneer-checkout\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const paymentFlow = '{{paymentFlow}}'\n\nreturn paymentFlow === 'hosted'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "const jsonOrder = {{myOrder}}\nconst paymentMethod = jsonOrder.payment_method\nreturn paymentMethod === \"payoneer-hosted\"",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "const jsonOrder = {{myOrder}}\nreturn jsonOrder.shipping_total",
+      "variableName": "shippingTotal"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "const jsonOrder = {{myOrder}}\nreturn jsonOrder.shipping_tax",
+      "variableName": "shippingTaxTotal"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69778cc365fd97d14e2468b9",
+    "suiteId": "69778cc265fd97d14e24689f",
+    "suiteName": "Payoneer - Common Steps for Tests"
+  }
+}

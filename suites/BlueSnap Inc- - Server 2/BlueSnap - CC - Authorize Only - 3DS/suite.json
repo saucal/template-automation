@@ -1,0 +1,150 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "6239ba81aacde4b98747e5b0",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome-139",
+    "dataSource": null,
+    "dateCreated": "2022-03-22T12:01:05.139Z",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "622f34d46f3ed7a04da4bbcd",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "BlueSnap - CC - Authorize Only & 3DS",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": false,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://devbluesnap2.mystagingwebsite.com/classic/",
+    "testCount": 43,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "woo_user",
+        "value": "ck_91cff1f62657b5ef24b7606cd572b584fb31640b",
+        "private": true,
+        "_id": "60a273cdcda37459c851732a"
+      },
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b81"
+      },
+      {
+        "name": "woo_pass",
+        "value": "cs_d488aec5bbb508cb9151e5d433c2c11b8ef574ff",
+        "private": true,
+        "_id": "60a273cdcda37459c851732b"
+      },
+      {
+        "name": "address2",
+        "value": "Apartment 2",
+        "private": false,
+        "_id": "60d08eb61da0a93062ee109d"
+      },
+      {
+        "name": "password_bluesnap",
+        "value": "YNB4tcj_gpb6vnf4ugn",
+        "private": true,
+        "_id": "626960a411885f8f1aa9be7a"
+      },
+      {
+        "name": "user_bluesnap",
+        "value": "saucal_sandbox",
+        "private": false,
+        "_id": "626960a411885f8f1aa9be7b"
+      },
+      {
+        "name": "wp_api_pass",
+        "value": "eAFR YyTz w9Qt SRre Q3uM 8WMD",
+        "private": true,
+        "_id": "64e89d09f08a10893a7ce3b9"
+      },
+      {
+        "name": "blog",
+        "value": "mitchell_callahan_blog_3",
+        "private": false,
+        "_id": "62e8304ecd380e119c507166"
+      },
+      {
+        "name": "blue_user",
+        "value": "API_1534947183435641070037",
+        "private": true,
+        "_id": "60a273cdcda37459c851732c"
+      },
+      {
+        "name": "defaultCurr",
+        "value": "USD",
+        "private": false,
+        "_id": "65afebe3723472e4287db160"
+      },
+      {
+        "name": "blue_pass",
+        "value": "JA$5uZW95NID27",
+        "private": true,
+        "_id": "60a273cdcda37459c851732d"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b82"
+      },
+      {
+        "name": "company",
+        "value": "Saucal Inc.",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b83"
+      },
+      {
+        "name": "street",
+        "value": "123 Flase Street",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b84"
+      },
+      {
+        "name": "city",
+        "value": "Miami",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b85"
+      },
+      {
+        "name": "zipCode",
+        "value": "33126",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b86"
+      },
+      {
+        "name": "phone",
+        "value": "3050698798",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b87"
+      },
+      {
+        "name": "password",
+        "value": "DTK0cyg2cub9aht*kja",
+        "private": true,
+        "_id": "60ca0d461da0a93062c80519"
+      }
+    ],
+    "viewportSize": {
+      "width": 1280,
+      "height": 800
+    }
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Thank you page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "// Select all <tfoot> elements\nconst tfootSections = document.querySelectorAll('table.shop_table tfoot');\n\n// Find the correct <tfoot> (one without \"Actions:\" row)\nlet tfootIndex = -1;\nArray.from(tfootSections).forEach((tfoot, index) => {\n  const hasActions = Array.from(tfoot.querySelectorAll('tr > th')).some(th => \n    th.textContent.trim() === 'Actions:'\n  );\n  if (!hasActions) {\n    tfootIndex = index + 1;\n  }\n});\n\nreturn tfootIndex",
+      "variableName": "tfootIndex"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "// Select all <tfoot> elements\nconst tfootSections = document.querySelectorAll('table.shop_table tfoot');\n\n// Find the correct <tfoot> (one without \"Actions:\" row)\nlet targetTfoot = null;\n\nArray.from(tfootSections).forEach((tfoot, index) => {\n  const hasActions = Array.from(tfoot.querySelectorAll('tr > th')).some(th => \n    th.textContent.trim() === 'Actions:'\n  );\n  if (!hasActions) {\n    targetTfoot = tfoot;\n  }\n});\n\n// Process the target <tfoot>\nlet result;\nlet totalIndex;\nif (targetTfoot) {\n  const tfootElements = targetTfoot.querySelectorAll('tr');\n  Array.from(tfootElements).forEach((tr, index) => {\n    const th = tr.querySelector('th');\n    if (th) {\n      const thText = th.textContent.trim();\n      if (thText.includes('Total')) {\n        totalIndex = index;\n      }\n    }\n  });\n}\n  return totalIndex + 1",
+      "variableName": "totalIndex"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "// Select all <tfoot> elements\nconst tfootSections = document.querySelectorAll('table.shop_table tfoot');\n\n// Find the correct <tfoot> (one without \"Actions:\" row)\nlet targetTfoot = null;\n\nArray.from(tfootSections).forEach((tfoot, index) => {\n  const hasActions = Array.from(tfoot.querySelectorAll('tr > th')).some(th => \n    th.textContent.trim() === 'Actions:'\n  );\n  if (!hasActions) {\n    targetTfoot = tfoot;\n  }\n});\n\n// Process the target <tfoot>\nlet result;\nlet totalIndex;\nif (targetTfoot) {\n  const tfootElements = targetTfoot.querySelectorAll('tr');\n  Array.from(tfootElements).forEach((tr, index) => {\n    const th = tr.querySelector('th');\n    if (th) {\n      const thText = th.textContent.trim();\n      if (thText.includes('Payment method')) {\n        totalIndex = index;\n      }\n    }\n  });\n}\n  return totalIndex + 1",
+      "variableName": "paymentIndex"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": ".order > strong",
+      "value": "",
+      "variableName": "orderNumber"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return !'{{blog}}'.includes('block') "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": ".method > strong",
+      "value": "{{paymentMethod}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return !'{{blog}}'.includes('block')\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "tr:nth-of-type({{paymentIndex}}) > td",
+      "value": "{{paymentMethod}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "tr:nth-of-type({{totalIndex}}) > td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69c3f6773a7b83a505966f1c",
+    "suiteId": "69778cc265fd97d14e24689f",
+    "suiteName": "Payoneer - Common Steps for Tests"
+  }
+}

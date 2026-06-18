@@ -1,0 +1,145 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Login",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return !window.location.href.includes('/my-account') && !window.location.href.includes('/login')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"My Account\")]"
+        },
+        {
+          "selector": ".menu-item > a[href*=\"/my-account/\"]"
+        }
+      ]
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "#username"
+        },
+        {
+          "selector": "#user"
+        }
+      ],
+      "value": "{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": true,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "input[id=\"password\"][name=\"password\"]"
+        },
+        {
+          "selector": "input[id=\"password\"][name=\"pwd\"]"
+        }
+      ],
+      "value": "{{pass}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": "//button[contains(text(), \"Log in\")]"
+        },
+        {
+          "selector": "button[name=\"login\"]"
+        },
+        {
+          "selector": "//button[contains(text(), \"LOGIN\")]"
+        },
+        {
+          "selector": "button[name=\"wp-submit\"].pp-login-form--button"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return window.location.href.includes('/login')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "//a/p[contains(text(), \"Back to Home\")]",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return !window.location.href.includes('/my-account') && !window.location.href.includes('/login')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"My Account\")]"
+        },
+        {
+          "selector": ".menu-item > a[href*=\"/my-account/\"]"
+        }
+      ]
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": ".woocommerce-MyAccount-content",
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68fe8dec5e36fea7308c1a03",
+    "suiteId": "68fe8de75e36fea7308c19e5",
+    "suiteName": "The Sewing M.S. - Common steps"
+  }
+}

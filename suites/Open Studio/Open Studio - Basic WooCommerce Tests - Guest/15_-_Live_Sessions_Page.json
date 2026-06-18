@@ -1,0 +1,93 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "15 - Live Sessions Page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "#os-open-menu"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "#primary-menu > li.menu-item.menu-item-type-post_type.menu-item-object-page:nth-of-type(3) > a[href*=\"/events/\"]"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "pause",
+      "condition": null,
+      "notes": "Need to wait for the calendar to load",
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "5000",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "td:nth-of-type(2) > div.os-calendar-event-item.os-calendar-event-item-pro:nth-of-type(1) > .os-calendar-event-item-header > .os-calendar-event-item-header-content > .os-calendar-event-item-date > span",
+      "value": "GMT 0"
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "let timeZone = document.querySelectorAll('.os-calendar-event-item-date > span')\nlet length = timeZone.length\nlet boolean = true\nlet gmt = new Date().getTimezoneOffset() / -60\nlet i = 0\nwhile (boolean === true && i < length ) {\n    if (timeZone[i].innerText != 'GMT '+gmt ) {\n        boolean = false\n    }\n    i++\n}\n\nreturn boolean\n",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "663a401f3b8c989d724400ae",
+    "suiteId": "663a2f3089e87fd839950b50",
+    "suiteName": "Open Studio - Basic WooCommerce Tests - Guest"
+  }
+}

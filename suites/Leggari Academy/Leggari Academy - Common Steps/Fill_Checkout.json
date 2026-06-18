@@ -1,0 +1,429 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "6.1.0",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Fill Checkout",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "#billing_email",
+      "value": "{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": true,
+      "sequence": 1,
+      "target": "#account_password",
+      "value": "{{password}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "#billing_first_name",
+      "value": "{{firstName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#billing_last_name",
+      "value": "{{lastName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "#billing_phone",
+      "value": "{{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "#billing_language"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "#billing_language",
+      "value": "spanish"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "#leggari-btn-continue",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "#shipping_address_1",
+      "value": "{{street3}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "#shipping_city",
+      "value": "{{city}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "#shipping_state",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "#shipping_state > option[value=\"{{state}}\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "#shipping_postcode",
+      "value": "{{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "#shipping_phone",
+      "value": "{{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "#select2-shipping_country-container",
+      "value": "{{countryComplete}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "#bill-to-different-address-checkbox",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "#select2-billing_country-container",
+      "value": "{{countryComplete}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "#billing_address_1",
+      "value": "{{street}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "#billing_city",
+      "value": "{{city}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "#billing_state",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "#billing_state > option[value=\"{{state}}\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "#billing_postcode",
+      "value": "{{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "input[name=\"add_to_cart\"][value=\"17041\"]"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "",
+      "value": "$999",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "",
+      "value": "$399",
+      "variableName": "renewPrice"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "li.product-item:nth-of-type(2) > .product-item-wrapper > .product-item-title",
+      "value": "{{unitPrice}} + split-pay"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "li.product-item:nth-of-type(2) > .product-item-wrapper > .price > .woocommerce-Price-amount.amount > bdi",
+      "value": "(3 x {{renewPrice}})"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "pause",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "",
+      "value": "8000",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": ".product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": ".future-payments-detail > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{renewPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": ".future-text",
+      "value": "Three monthly\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t payments"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": ".final-payment-details > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "",
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": [
+        {
+          "selector": "#terms"
+        },
+        {
+          "selector": "#terms_acceptance"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69c18ba2de491b5fc5f86f17",
+    "suiteId": "69c170c5de491b5fc5f29b47",
+    "suiteName": "Leggari Academy - Common Steps"
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "calculate totalUSD",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "let rates = {{rates}};\nlet currency = \"{{curr}}\";\nlet rate;\nlet boolean = false;\nlet n = 0\nwhile (boolean === false && rates.response.currencyRate.length > n) {\n    if (rates.response.currencyRate[n].quoteCurrency != currency) {\n        n++\n    } else {\n        rate = rates.response.currencyRate[n].conversionRate\n        boolean = true\n    }\n}\nreturn rate",
+      "variableName": "rate"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let defaultCurr = \"{{defaultCurr}}\"\nreturn defaultCurr === \"USD\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "let total = {{total}}\nlet rate = {{rate}}\nlet totalDefaultCurr = total / rate\ntotalDefaultCurr = Math.round(totalDefaultCurr*100)/100\n\nreturn totalDefaultCurr",
+      "variableName": "totalUSD"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let defaultCurr = \"{{defaultCurr}}\"\nlet curr = \"{{curr}}\"\nreturn defaultCurr !== \"USD\" && curr !== \"USD\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "let total = {{total}}\nlet rate = {{rate}}\nlet totalDefaultCurr = total / rate\nlet multiply\n  \n  if (\"{{defaultCurr}}\" === \"JPY\") {\n      multiply = 1\n  } else {\n      multiply = 100\n  }\n  \ntotalDefaultCurr = Math.round(totalDefaultCurr*multiply)/multiply\n\nreturn totalDefaultCurr",
+      "variableName": "totalDefaultCurr"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let defaultCurr = \"{{defaultCurr}}\"\nlet curr = \"{{curr}}\"\nreturn defaultCurr !== \"USD\" && curr !== \"USD\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "let rates = {{rates}};\nlet currency = \"USD\";\nlet rate;\nlet boolean = false;\nlet n = 0\nwhile (boolean === false && rates.response.currencyRate.length > n) {\n    if (rates.response.currencyRate[n].quoteCurrency != currency) {\n        n++\n    } else {\n        rate = rates.response.currencyRate[n].conversionRate\n        boolean = true\n    }\n}\nreturn rate",
+      "variableName": "rate"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let defaultCurr = \"{{defaultCurr}}\"\nlet curr = \"{{curr}}\"\nreturn defaultCurr !== \"USD\" && curr !== \"USD\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "let total = {{totalDefaultCurr}}\nlet rate = {{rate}}\nlet totalUSD = total * rate\ntotalUSD = Math.floor(totalUSD*100)/100\n\nreturn totalUSD",
+      "variableName": "totalUSD"
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "let defaultCurr = \"{{defaultCurr}}\"\nlet curr = \"{{curr}}\"\nreturn defaultCurr !== \"USD\" && curr === \"USD\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "{{total}}",
+      "variableName": "totalUSD"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "63652089db1ab7e45e65950e",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

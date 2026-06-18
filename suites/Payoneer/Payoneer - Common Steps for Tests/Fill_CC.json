@@ -1,0 +1,118 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Fill CC",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "https://stgamazontest.wpengine.com/checkout-2/",
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "Credit / Debit cards",
+      "variableName": "paymentMethod"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "iframe[src*=\"stripe.com\"] #payment-numberInput",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "iframe[src*=\"stripe.com\"] #payment-numberInput",
+      "value": "{{CCard}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "iframe[src*=\"stripe.com\"] #payment-expiryInput",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "iframe[src*=\"stripe.com\"] #payment-expiryInput",
+      "value": "{{month}}{{year}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "iframe[src*=\"stripe.com\"] #payment-cvcInput",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "iframe[src*=\"stripe.com\"] #payment-cvcInput",
+      "value": "{{cvv}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const paymentFlow = '{{paymentFlow}}'\n\nreturn paymentFlow === 'hosted'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "#payment-button",
+      "value": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69778cc365fd97d14e2468b6",
+    "suiteId": "69778cc265fd97d14e24689f",
+    "suiteName": "Payoneer - Common Steps for Tests"
+  }
+}

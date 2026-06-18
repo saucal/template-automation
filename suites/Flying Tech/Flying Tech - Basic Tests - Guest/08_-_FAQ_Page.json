@@ -1,0 +1,157 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "08 - FAQ Page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "a[href=\"/faqs\"]"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "a[href=\"#1521971623927-0f59ec23-2f56\"]"
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "div[id='1521971623927-0f59ec23-2f56'] .vc_tta-panel-body",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "a[href=\"#1521971623927-0f59ec23-2f56\"]"
+    },
+    {
+      "command": "assertElementNotVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "div[id='1521971623927-0f59ec23-2f56'] .vc_tta-panel-body",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "a[href=\"#1521971623927-0f59ec23-2f56\"]"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "a[href=\"#1520801425233-a47a581c-1dd2\"]"
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "div[id='1520801425233-a47a581c-1dd2'] .vc_tta-panel-body",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"How do I initiate a return or exchange?\")]"
+        },
+        {
+          "selector": "a[href=\"#1520801044816-d8488493-3be3\"] > .vc_tta-title-text"
+        }
+      ]
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "div[id='1520801044816-d8488493-3be3'] .vc_tta-panel-body",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"Do I need to pay for return shipping?\")]"
+        },
+        {
+          "selector": "a[href=\"#1520801044852-56acc31a-df41\"] > .vc_tta-title-text"
+        }
+      ]
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "div[id='1520801044852-56acc31a-df41'] .vc_tta-panel-body",
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "673c96894c952f374d6334b0",
+    "suiteId": "673b54cb84d2a5c4a5b1409b",
+    "suiteName": "Flying Tech - Basic Tests - Guest"
+  }
+}

@@ -1,0 +1,176 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "03 - 01 - Admin Dashboard",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "yes",
+      "variableName": "admin"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "{{adminUser}}",
+      "variableName": "username"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": true,
+      "sequence": 2,
+      "target": "",
+      "value": "{{adminPass}}",
+      "variableName": "pass"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "63cfc556af1e488d25d11a75",
+      "variableName": ""
+    },
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "{{site}}admin-dashboard/",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "div:nth-of-type(1) > .elementor > .elementor-element.e-con-full.e-con.e-parent.e-lazyloaded > .elementor-element.elementor-element-45f40b8.e-con-full.e-con.e-child > .elementor-element.elementor-element-1f85aced.elementor-widget__width-initial.elementor-widget.elementor-widget-text-editor > .elementor-widget-container",
+      "value": "*NEW QUOTES*"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "a[href*='reject'] > span > span.elementor-button-text",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"Discussion\")]"
+        },
+        {
+          "selector": "button.e-n-tab-title:nth-of-type(2) > .e-n-tab-title-text"
+        }
+      ]
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": ".comment.byuser > .comment-body > .comment-content > .comment-text > p",
+      "value": "Testing Comment"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "#comment",
+      "value": "Testing reply"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "#submit"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"Quotes\")]"
+        },
+        {
+          "selector": "button.e-n-tab-title:nth-of-type(1) > .e-n-tab-title-text"
+        }
+      ]
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "#kwfbidval",
+      "value": "99"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "#kwfbidbtn"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "675725e87a599a5bc8bf215f",
+    "suiteId": "675725e87a599a5bc8bf2146",
+    "suiteName": "CFC - Quote flow - Reject quote"
+  }
+}

@@ -1,0 +1,798 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "01 - Place order - Guest user",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "67b869ad04f525bbb220bccb",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "#billing_email"
+        },
+        {
+          "selector": "#email"
+        }
+      ],
+      "value": "{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "#billing_first_name"
+        },
+        {
+          "selector": "#billing-first_name"
+        }
+      ],
+      "value": "{{firstName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#billing-pls-core-middle_name",
+      "value": "{{midName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": "#billing_last_name"
+        },
+        {
+          "selector": "#billing-last_name"
+        }
+      ],
+      "value": "{{lastName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "#billing_company"
+        },
+        {
+          "selector": "#billing-company"
+        }
+      ],
+      "value": "{{company}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "#billing_address_1"
+        },
+        {
+          "selector": "#billing-address_1"
+        }
+      ],
+      "value": "{{street}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const element = document.querySelector('.wc-block-components-address-form__address_2-toggle')\n\nreturn element !== null && element !== undefined"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": ".wc-block-components-address-form__address_2-toggle",
+      "value": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "#billing_address_2"
+        },
+        {
+          "selector": "#billing-address_2"
+        }
+      ],
+      "value": "{{street2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "#billing_city"
+        },
+        {
+          "selector": "#billing-city"
+        }
+      ],
+      "value": "{{city}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": "#select2-billing_state-container"
+        },
+        {
+          "selector": "select#billing-state"
+        }
+      ]
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 11,
+      "target": "span > span:nth-of-type(1) > input[type=\"text\"]",
+      "value": "{{stateComplete}}"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": [
+        {
+          "selector": "//li[contains(text(), \"{{stateComplete}}\")]"
+        },
+        {
+          "selector": "//option[contains(text(), \"{{stateComplete}}\")]"
+        }
+      ]
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": [
+        {
+          "selector": "#billing_postcode"
+        },
+        {
+          "selector": "#billing-postcode"
+        }
+      ],
+      "value": "{{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": [
+        {
+          "selector": "#billing_phone"
+        },
+        {
+          "selector": "#billing-phone"
+        }
+      ],
+      "value": "{{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": [
+        {
+          "selector": "//button[contains(text(),'Next')]"
+        },
+        {
+          "selector": "button.pls-checkout-steps__nav-btn.pls-checkout-steps__nav-btn--next"
+        }
+      ],
+      "value": ""
+    },
+    {
+      "command": "pause",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "",
+      "value": "3000",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": [
+        {
+          "selector": "div:nth-child(2) > div.wc-block-components-checkbox input"
+        },
+        {
+          "selector": "#checkbox-control-3"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "div:nth-of-type(2) > .pls-field-credentials > div > div > select[aria-label=\"Credentials\"]"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "div:nth-of-type(2) > .pls-field-credentials > div > div > select[aria-label=\"Credentials\"]",
+      "value": "{{credentials}}"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "div:nth-of-type(4) > div.pls-field-first_name > input",
+      "value": "{{firstName2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "div:nth-of-type(4) > div.pls-field-middle_name > input",
+      "value": "{{midName2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "div:nth-of-type(4) > div.pls-field-last_name > input",
+      "value": "{{lastName2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "div:nth-of-type(4) > div.pls-field-email > input",
+      "value": "{{email2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "div:nth-of-type(4) > div.pls-field-phone > input",
+      "value": "{{phone2}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "div:nth-of-type(4) > .pls-field-credentials > div > div > select[aria-label=\"Credentials\"]"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "div:nth-of-type(4) > .pls-field-credentials > div > div > select[aria-label=\"Credentials\"]",
+      "value": "{{credentials2}}"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "div:nth-of-type(6) > div.pls-field-first_name > input",
+      "value": "{{firstName3}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "div:nth-of-type(6) > div.pls-field-middle_name > input",
+      "value": "{{midName3}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "div:nth-of-type(6) > div.pls-field-last_name > input",
+      "value": "{{lastName3}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "div:nth-of-type(6) > div.pls-field-email > input",
+      "value": "{{email3}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "div:nth-of-type(6) > div.pls-field-phone > input",
+      "value": "{{phone3}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": "div:nth-of-type(6) > .pls-field-credentials > div > div > select[aria-label=\"Credentials\"]"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": "div:nth-of-type(6) > .pls-field-credentials > div > div > select[aria-label=\"Credentials\"]",
+      "value": "{{credentials3}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": "",
+      "value": "function checkCredentialsPresence() {\n  const expected = [\n    'Admin', 'CDA', 'CRDH', 'DA', 'DDS', 'DH', 'DMD', \n    'FTD', 'O.Mgr', 'RDA', 'RDH', 'Recptn', 'RN', 'Other'\n  ];\n\n  const selects = document.querySelectorAll('.pls-field-credentials');\n\n  if (selects.length !== 3) {\n    console.error(`Expected 3 selects → found only ${selects.length}`);\n    return false;\n  }\n\n  let allGood = true;\n\n  selects.forEach((select, index) => {\n    const present = new Set(\n      [...select.querySelectorAll('option:not(:disabled)')]\n        .map(opt => opt.textContent.trim())\n        .filter(t => t.length > 0)\n    );\n\n    const missing = expected.filter(item => !present.has(item));\n\n    if (missing.length > 0) {\n      allGood = false;\n      console.warn(\n        `%cDropdown #${index + 1} is missing:${missing.length} items`,\n        'color: #e74c3c; font-weight: bold;'\n      );\n      console.log('   Missing →', missing.join(', '));\n\n      // Optional: show what IS present (helps spot typos/case issues)\n      console.log('   Present →', [...present].sort().join(', '));\n      console.log(''); // empty line for readability\n    } else {\n      console.log(\n        `%cDropdown #${index + 1} → all ${expected.length} items present ✓`,\n        'color: #2ecc71;'\n      );\n    }\n  });\n\n  if (allGood) {\n    console.log(\n      '%cALL THREE DROPDOWNS LOOK CORRECT 🎉',\n      'color: #2ecc71; font-weight: bold; font-size: 1.1em;'\n    );\n  } else {\n    console.error('One or more dropdowns are missing credentials');\n  }\n\n  return allGood;\n}\n\n// Run it\nreturn checkCredentialsPresence();",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": [
+        {
+          "selector": "//button[contains(text(), \"Next\")]"
+        },
+        {
+          "selector": "button[type=\"button\"].pls-checkout-steps__nav-btn.pls-checkout-steps__nav-btn--next"
+        }
+      ]
+    },
+    {
+      "command": "pause",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": "",
+      "value": "12000",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 37,
+      "target": "",
+      "value": "67b86c262abcf638e9659a21",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 38,
+      "target": [
+        {
+          "selector": "//button[contains(text(), \"Next\")]"
+        },
+        {
+          "selector": "button[type=\"button\"].pls-checkout-steps__nav-btn.pls-checkout-steps__nav-btn--next"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const element = document.querySelector('.wc-block-checkout__order-notes input.wc-block-components-checkbox__input')\n\nreturn element !== null && element !== undefined"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 39,
+      "target": ".wc-block-checkout__order-notes input.wc-block-components-checkbox__input",
+      "value": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 40,
+      "target": [
+        {
+          "selector": "#order_comments"
+        },
+        {
+          "selector": ".wc-block-checkout__order-notes .wc-block-components-textarea"
+        }
+      ],
+      "value": "Testing Notes",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 41,
+      "target": [
+        {
+          "selector": "//*[contains(text(), \"Place order\")]"
+        },
+        {
+          "selector": "#place_order"
+        },
+        {
+          "selector": ".wc-block-components-checkout-place-order-button__text"
+        }
+      ],
+      "value": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 42,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 43,
+      "target": ".order > strong",
+      "value": "",
+      "variableName": "orderNumber"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 44,
+      "target": ".email > strong",
+      "value": "{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 45,
+      "target": "strong > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 46,
+      "target": ".method > strong",
+      "value": "Credit / Debit Card",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 47,
+      "target": "",
+      "value": "686f9f5de5d3587e1570c8d5",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 48,
+      "target": "img.custom-logo"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 49,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"My account\")]"
+        },
+        {
+          "selector": "a[href*=\"/my-account/\"] > .menu-text"
+        },
+        {
+          "selector": "//a[contains(text(), \"My account\")]"
+        },
+        {
+          "selector": "a[href*=\"/my-account/\"]"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 50,
+      "target": ".woocommerce-MyAccount-navigation-link > a[href*=\"/my-account/orders/\"]"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 51,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"View\")]"
+        },
+        {
+          "selector": "a[href*=\"/my-account/view-order/\"]"
+        }
+      ]
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 52,
+      "target": "mark.order-number",
+      "value": "{{orderNumber}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 53,
+      "target": "mark.order-status",
+      "value": "Completed"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 54,
+      "target": "",
+      "value": "686f9f5de5d3587e1570c8d5",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 55,
+      "target": [
+        {
+          "selector": "a[href*=\"/my-account/view-subscription/\"] > .ast-woo-nav-link-name"
+        },
+        {
+          "selector": "a[href*=\"/my-account/view-subscription/\"]"
+        },
+        {
+          "selector": "a[href*=\"subscription\"]"
+        }
+      ]
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{days}}' === ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 56,
+      "target": "td.product-name > a[href*=\"/product/\"]",
+      "value": "{{prodDesc}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{days}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 57,
+      "target": "td.product-name > a[href*=\"/product/\"]",
+      "value": "{{prodDesc}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 58,
+      "target": "td.product-total > .woocommerce-Price-amount.amount",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 59,
+      "target": "tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 60,
+      "target": "tr:nth-of-type(2) > td > .woocommerce-Price-amount.amount",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 61,
+      "target": ".woocommerce-order-downloads",
+      "value": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 62,
+      "target": "a[href*=\"/my-account/view-order\"]",
+      "value": "#{{orderNumber}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 63,
+      "target": ".woocommerce-customer-details > address",
+      "value": "{{firstName}} {{midName}} {{lastName}}\n{{company}}\n{{street}}\n{{street2}}\n{{city}}, {{state}} {{zipCode}}\n\n{{phone}}\n\n{{email}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69b2aa7975b93971140df3d0",
+    "suiteId": "69b2aa7975b93971140df3b5",
+    "suiteName": "PLS - Place Order - Multi-Step checkout"
+  }
+}

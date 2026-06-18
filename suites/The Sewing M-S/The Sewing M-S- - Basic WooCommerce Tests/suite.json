@@ -1,0 +1,61 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "68fe82e80c38c58f6ea3984c",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2025-10-26T20:22:00.536Z",
+    "details": "",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "68fe807c0c38c58f6ea35d92",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 2,
+    "maxWaitDelay": 15000,
+    "name": "The Sewing M.S. - Basic WooCommerce Tests",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": false,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://sewingmachineshop-staging.mystagingwebsite.com/",
+    "testCount": 12,
+    "testFrequency": 0,
+    "viewportSize": {
+      "width": 1920,
+      "height": 1080
+    },
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "password",
+        "value": "fric2171Biot",
+        "private": true,
+        "_id": "68fe95f00c38c58f6ea426dd"
+      },
+      {
+        "name": "password2",
+        "value": "fric2172Biot",
+        "private": true,
+        "_id": "68fe95f00c38c58f6ea426de"
+      },
+      {
+        "name": "Symbol",
+        "value": "$",
+        "private": false,
+        "_id": "690230091a085ce44eca5c0c"
+      }
+    ]
+  }
+}

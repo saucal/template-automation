@@ -1,0 +1,220 @@
+{
+  "autoRetry": null,
+  "browser": "firefox-144",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "11 - Failed renew notification - Step 1",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "{{email}}",
+      "variableName": "username"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "",
+      "variableName": "admin"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": true,
+      "sequence": 2,
+      "target": "",
+      "value": "{{password}}",
+      "variableName": "pass"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "63cfc556af1e488d25d11a75",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "a[href*=\"/view-subscription/\"]",
+      "value": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "table.shop_table.subscription_details > tbody > tr:nth-of-type(1) > td:nth-of-type(2)",
+      "value": "Active"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "//a[contains(text(), \"Change payment\")]"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "//label[contains(text(), \"Use a new payment method\")]"
+        },
+        {
+          "selector": "label[for=\"wc-stripe-payment-token-new\"]"
+        }
+      ]
+    },
+    {
+      "command": "refresh",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": "//label[contains(text(), \"Use a new payment method\")]"
+        },
+        {
+          "selector": "label[for=\"wc-stripe-payment-token-new\"]"
+        }
+      ]
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "iframe[src*=\"js.stripe.com\"] input[name=\"number\"]",
+      "value": "4000 0000 0000 0341"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "iframe[src*=\"js.stripe.com\"] input[name=\"expiry\"]",
+      "value": "05 / 26"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "iframe[src*=\"js.stripe.com\"] input[name=\"cvc\"]",
+      "value": "123"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "iframe[src*=\"js.stripe.com\"] input[name=\"postalCode\"]",
+      "value": "{{zipCode}}"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "#place_order"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": [
+        {
+          "selector": ".woocommerce-message"
+        },
+        {
+          "selector": ".wc-block-components-notice-banner"
+        }
+      ],
+      "value": "Payment method updated."
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": ".subscription-payment-method",
+      "value": "Via Visa card ending in 0341"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "66c34837423a2f787b6b84b9",
+    "suiteId": "66c34837423a2f787b6b848a",
+    "suiteName": "Harmony - WooCommerce Test - Subscription Live Mode required"
+  }
+}

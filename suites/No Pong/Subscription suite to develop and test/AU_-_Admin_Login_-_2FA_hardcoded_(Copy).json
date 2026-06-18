@@ -1,0 +1,144 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": 1,
+  "maxWaitDelay": null,
+  "name": "AU - Admin Login - 2FA hardcoded (Copy)",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "https://no-pong-au-develop.go-vip.net/wp-login.php",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "a.jetpack-sso-toggle:nth-child(3)",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "#user_login",
+      "value": "giAdmin",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": true,
+      "sequence": 2,
+      "target": "#user_pass",
+      "value": "fric2171Biot",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#wp-submit",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 4,
+      "target": "label[for=\"authcode\"]",
+      "value": "Verification Code:",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "file": {
+        "filename": null,
+        "size": null,
+        "path": null,
+        "url": null
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 5,
+      "target": "#authcode",
+      "value": "75979073",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 6,
+      "target": "#submit",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let title = document.querySelector(\"#login > form > h1\").innerText;\nreturn (title == \"Administration email verification\");\n\n",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "#login > form > div > div.admin-email__actions-secondary > a",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "const url = window.location.href;\r\nreturn url;",
+      "variableName": "url"
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "return(\"{{url}}\" == \"https://no-pong-au-develop.go-vip.net/wp-admin/index.php\")",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "649d995aca40d9f691b63a19",
+    "suiteId": "6435ac87af1e488d2533a286",
+    "suiteName": "Subscription suite to develop and test"
+  }
+}

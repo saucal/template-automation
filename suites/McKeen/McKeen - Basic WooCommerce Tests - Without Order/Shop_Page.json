@@ -1,0 +1,84 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "5.3.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Shop Page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "{{url}}",
+  "steps": [
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "a[href=\"/shop\"].shop",
+      "command": "click",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "input[placeholder=\"enter your postal code\"]",
+      "command": "click",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "input[placeholder=\"enter your postal code\"]",
+      "command": "assign",
+      "value": "K1S 3V6",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": "xpath=//button[contains(text(), \"OK\")]"
+        },
+        {
+          "selector": "button.confirm"
+        }
+      ],
+      "command": "click",
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "60018ddd3125450175f277f1",
+    "suiteId": "5fff06120f195d59103bb040",
+    "suiteName": "McKeen - Basic WooCommerce Tests - Without Order"
+  }
+}

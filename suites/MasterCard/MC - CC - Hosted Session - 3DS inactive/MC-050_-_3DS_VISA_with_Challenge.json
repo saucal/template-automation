@@ -1,0 +1,99 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "details": "Guest checkout not Saving Account",
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "MC-050 - 3DS VISA with Challenge",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotTarget": "",
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "eval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "return new Promise(function (resolve, reject) {\n  const key = '{{key}}';\n  const newValue = '{{newValue}}'\n  const data = JSON.stringify({\n        option_name: 'woocommerce_mastercard_merchant_cloud_settings',// Replace with your option name\n        updates: {\n            \"_3d_secure\": 'no', \n            \"saved_cards\": 'yes',\n            \"transaction_mode\": 'PURCHASE',\n            \"checkout_mode\": 'hosted_session'\n        }\n  })\n  const username = \"{{adminUser}}\"; \n  const password = \"{{wp_api_pass}}\"; \n  const url = \"{{startUrl}}wp-json/custom/v1/update-option\";\n  let headers = new Headers();\n  headers.set('Content-Type', 'application/json');\n  headers.set('Authorization', 'Basic ' + btoa(username + \":\" + password));\n  fetch(url, {method:'POST',\n      body: data,\n      headers: headers\n      })\n  .then(function(response) {\n    if (response.ok) {\n    resolve(response.json())\n    } else {\n    reject(new Error('error'))\n    } \n  })\n})",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "guest",
+      "variableName": "user"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "67914d352a21c5b64b34e681",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "676eb9b335aed64d30770a83",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "676eba5935aed64d307712f3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "676ec16435aed64d3077699b",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6793c0b62a21c5b64ba22db3",
+    "suiteId": "6793c0b62a21c5b64ba22d9a",
+    "suiteName": "MC - CC - Hosted Session - 3DS inactive"
+  }
+}

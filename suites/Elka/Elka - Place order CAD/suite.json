@@ -1,0 +1,132 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "67c20c1fc4f6da836c100a26",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2025-02-28T19:18:55.766Z",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "608822b14658f2361a7ee19f",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 1,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "Elka - Place order CAD",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://elka-staging.mystagingwebsite.com/",
+    "testCount": 2,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "60d4cd5d9e906a6e8138e649"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "60d4cd5d9e906a6e8138e64a"
+      },
+      {
+        "name": "state",
+        "value": "FL",
+        "private": false,
+        "_id": "60d4cd5d9e906a6e8138e64e"
+      },
+      {
+        "name": "zipCode",
+        "value": "33126",
+        "private": false,
+        "_id": "60d4cd5d9e906a6e8138e64f"
+      },
+      {
+        "name": "password",
+        "value": "fric2171Biot",
+        "private": true,
+        "_id": "60d4ce2e95519927247232b9"
+      },
+      {
+        "name": "password2",
+        "value": "fric2172Biot",
+        "private": true,
+        "_id": "60d4ce2e95519927247232ba"
+      },
+      {
+        "name": "phone",
+        "value": "3453456655",
+        "private": false,
+        "_id": "60d4ce2e95519927247232bb"
+      },
+      {
+        "name": "project",
+        "value": "elka",
+        "private": false,
+        "_id": "6269428d8f4da5c1bbe42463"
+      },
+      {
+        "name": "stateComplete",
+        "value": "Florida",
+        "private": false,
+        "_id": "62795c10c5f501e710c6dfad"
+      },
+      {
+        "name": "country",
+        "value": "US",
+        "private": false,
+        "_id": "62795c10c5f501e710c6dfae"
+      },
+      {
+        "name": "countryComplete",
+        "value": "United States (US)",
+        "private": false,
+        "_id": "62795c10c5f501e710c6dfaf"
+      },
+      {
+        "name": "Symbol",
+        "value": "$",
+        "private": false,
+        "_id": "627a753997a3bd06e0ed1c8d"
+      },
+      {
+        "name": "company",
+        "value": "Testing Inc.",
+        "private": false,
+        "_id": "60d4cd5d9e906a6e8138e64b"
+      },
+      {
+        "name": "street",
+        "value": "6700 NW 12TH ST",
+        "private": false,
+        "_id": "60d4cd5d9e906a6e8138e64c"
+      },
+      {
+        "name": "city",
+        "value": "MIAMI",
+        "private": false,
+        "_id": "60d4cd5d9e906a6e8138e64d"
+      }
+    ],
+    "viewportSize": {
+      "width": 1920,
+      "height": 1080
+    }
+  }
+}

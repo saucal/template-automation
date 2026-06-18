@@ -1,0 +1,267 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "details": "",
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Add product to Cart",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let variable = \"{{variable}}\"\nreturn variable === \"yes\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "6446928be36f7ecf099de615",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let variable = \"{{variable}}\"\nreturn variable === \"yes\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "6447cd213a008cd31cc20868",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let variable = \"{{variable}}\"\nreturn variable === \"no\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "644692b43a008cd31c8f202b",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let variable = \"{{variable}}\"\nreturn variable === \"yes\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": ".woocommerce-variation-price > .price > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let variable = \"{{variable}}\"\nreturn variable === \"no\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": ".Single_Product_Disc > .price > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "6447d1953a008cd31cc3361e",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let shipping = \"{{shipping}}\"\nreturn shipping = \"free\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "6447d284e36f7ecf09d25df4",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "let shipping = \"{{shipping}}\"\nreturn shipping != \"free\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "1",
+      "variableName": "qty"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "input[name=\"quantity\"]",
+      "value": "{{qty}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "h1.product_title",
+      "value": "",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let variable = \"{{variable}}\"\nreturn variable === \"yes\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": ".variations_form > .cartWrapper > .variations li:nth-of-type({{n}}) > .variable-item-contents > .variable-item-span.variable-item-span-button",
+      "value": "",
+      "variableName": "var"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "button[type=\"submit\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "#cfw-side-cart-form",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let variable = \"{{variable}}\"\nreturn variable === \"yes\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": ".cfw-cart-item-title > a",
+      "value": "{{prod_desc}} - {{var}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let variable = \"{{variable}}\"\nreturn variable === \"no\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": ".cfw-cart-item-title > a",
+      "value": "{{prod_desc}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "notes": "The trim is needed",
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "return {{qty}} == jQuery('tr.cart-item-row.cart_item > th.cfw-cart-item-description > .cfw_side_cart_item_after_data > .cfw-edit-item-quantity-control-wrap > .cfw-quantity-stepper > a[aria-label=\"Edit\"].cfw-quantity-stepper-value-label.cfw-quantity-bulk-edit').text().trim();",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "",
+      "value": "6283a386a0299821fc2ad2c3",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "tr.cart-item-row.cart_item > td.cfw-cart-item-subtotal > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "",
+      "value": "{{subtotalPrice}}",
+      "variableName": "prodPrice"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "tr.cart-subtotal > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6447e1e3e36f7ecf09d6bfd5",
+    "suiteId": "6446b8403a008cd31c973fea",
+    "suiteName": "Mood - Common steps"
+  }
+}

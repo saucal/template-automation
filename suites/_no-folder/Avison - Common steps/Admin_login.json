@@ -1,0 +1,109 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Admin login",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "https://stg-wwwthebonnevilleshopcom-tbsdev.kinsta.cloud/my-account/",
+  "steps": [
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "{{url}}/wp-admin/post.php?post={{orderNumber}}&action=edit",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let flag = document.querySelector('ul > .woocommerce-MyAccount-navigation-link--dashboard.is-active').checkVisibility();\nreturn flag;"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "div > div > p:nth-child(2) > a"
+        },
+        {
+          "selector": "#post-15 > div > div > div > div > p:nth-child(2) > a"
+        }
+      ],
+      "value": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#username",
+      "value": "{{admin}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "#password",
+      "value": "{{adminPass}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "form.login > p > button"
+        },
+        {
+          "selector": "#customer_login > div.u-column1.col-1 > form > p:nth-child(3) > button"
+        }
+      ],
+      "value": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "675af2e97a599a5bc877efa3",
+    "suiteId": "6757529f7a599a5bc8c5f5b7",
+    "suiteName": "Avison - Common steps"
+  }
+}

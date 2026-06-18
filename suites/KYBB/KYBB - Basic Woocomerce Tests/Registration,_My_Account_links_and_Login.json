@@ -1,0 +1,200 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Registration, My Account links and Login",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": null,
+  "steps": [
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "command": "store",
+      "target": "",
+      "value": "{{emailReg}}",
+      "variableName": "username"
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "command": "store",
+      "target": "",
+      "value": "{{password}}",
+      "variableName": "pass"
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "command": "execute",
+      "target": "",
+      "value": "60949235fa60eb2e92b86a25",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": "xpath=//span[contains(text(), \"MY PROFILE/PASSWORD\")]"
+        },
+        {
+          "selector": "a[href*=\"/my-account/edit-account/\"] > span"
+        }
+      ],
+      "command": "click",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "form.woocommerce-EditAccountForm > div.clear:nth-of-type(1)",
+      "command": "assertElementPresent",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "xpath=//a[contains(text(), \"Addresses\")]"
+        },
+        {
+          "selector": "a[href*=\"/my-account/edit-address/\"]"
+        }
+      ],
+      "command": "click",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": ".woocommerce-MyAccount-content > p",
+      "command": "assertTextPresent",
+      "value": "The following addresses will be used on the checkout page by default.",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "xpath=//a[contains(text(), \"Payment methods\")]"
+        },
+        {
+          "selector": "a[href*=\"/my-account/payment-methods/\"]"
+        }
+      ],
+      "command": "click",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": ".woocommerce-Message",
+      "command": "assertTextPresent",
+      "value": "No saved methods found.",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "xpath=//a[contains(text(), \"Wishlists\")]"
+        },
+        {
+          "selector": "a[href*=\"/my-account/account-wishlists/\"]"
+        }
+      ],
+      "command": "click",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "#wl-wrapper > h2",
+      "command": "assertTextPresent",
+      "value": "Wishlists",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": [
+        {
+          "selector": "xpath=//a[contains(text(), \"Logout\")]"
+        },
+        {
+          "selector": "a[href*=\"/my-account/customer-logout/?_wpnonce=e83b3a0978\"]"
+        }
+      ],
+      "command": "click",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "command": "execute",
+      "target": "",
+      "value": "60d488169e906a6e81365ba2",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "60d489d395519927246fdc15",
+    "suiteId": "607f606d7f3aeb2f02535e94",
+    "suiteName": "KYBB - Basic Woocomerce Tests"
+  }
+}

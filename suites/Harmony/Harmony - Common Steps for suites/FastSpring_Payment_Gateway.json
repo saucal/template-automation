@@ -1,0 +1,172 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "FastSpring Payment Gateway",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "Pay with FastSpring",
+      "variableName": "paymentMethod"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "iframe[name=\"fsc-popup-frame\"] div.total-group.pricegroup > div#total-label > div > span > span.ng-binding",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return '{{taxPrice}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "iframe[name=\"fsc-popup-frame\"] div.taxline > span:not(.ng-hide) > span[ng-show='taxRate'] > span.ng-binding",
+      "value": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let saved = \"{{saved}}\"\n\nreturn saved !== \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "iframe[name=\"fsc-popup-frame\"] #card-number",
+      "value": "4242424242424242",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let saved = \"{{saved}}\"\n\nreturn saved !== \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "iframe[name=\"fsc-popup-frame\"] #card-expire-month-year",
+      "value": "12 / 30",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let saved = \"{{saved}}\"\n\nreturn saved !== \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "iframe[name=\"fsc-popup-frame\"] #card-security",
+      "value": "*RK6W",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let saved = \"{{saved}}\"\n\nreturn saved === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "iframe[name=\"fsc-popup-frame\"] #savedPaymentMethod",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 7,
+      "target": "iframe[name=\"fsc-popup-frame\"] #compliance-checkbox",
+      "value": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "iframe[name=\"fsc-popup-frame\"] button.btn.pay-button.ng-binding.ng-scope",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "iframe[name=\"fsc-popup-frame\"] button.btn.pay-button.ng-binding.ng-scope",
+      "value": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "iframe[name=\"fsc-popup-frame\"] strong.pin-total-price",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{taxPrice}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "iframe[name=\"fsc-popup-frame\"] div.taxline.ng-binding.ng-scope",
+      "value": "{{taxPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "iframe[name=\"fsc-popup-frame\"] .btn.btn-primary.continue-button",
+      "value": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "66da1b0989b30b261f2e84c8",
+    "suiteId": "60cc8d7d1da0a93062ddf13a",
+    "suiteName": "Harmony - Common Steps for suites"
+  }
+}

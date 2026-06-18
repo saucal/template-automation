@@ -1,0 +1,121 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "02 - Place order - Logged User - PayPal - Refund Email",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "pause",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "10000",
+      "variableName": ""
+    },
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "https://email.ghostinspector.com/{{userEmailExtract}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "//a[contains(text(), \"has been refunded\")]"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{project}}' === 'nopong'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "tr:nth-of-type(3) > td.td > .woocommerce-Price-amount.amount",
+      "value": "-{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{project}}' === 'cashForeClub'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "tr:nth-of-type(4) > td.td > .woocommerce-Price-amount.amount",
+      "value": "-{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "tfoot > tr > td.td > del"
+        },
+        {
+          "selector": "tr.order-totals.order-totals-total.order-totals-last > td > del"
+        }
+      ],
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "tfoot > tr > td.td > ins > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "tr.order-totals.order-totals-total.order-totals-last > td > ins > span"
+        }
+      ],
+      "value": "{{Symbol}}0.00",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "67c75e26c4c19f03ef757c4a",
+    "suiteId": "666aeb5c1aac3ea14fd80563",
+    "suiteName": "Vesica - Basic WooCommerce Tests - User"
+  }
+}

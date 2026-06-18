@@ -1,0 +1,67 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "682351aaab4ff4354d15c22a",
+    "abortOnTestFailure": false,
+    "autoRetry": true,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2025-05-13T14:05:30.077Z",
+    "details": "",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "68235194b3e7bdebe920704d",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "Biogeta - Basic WooCommerce tests",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": false,
+    "publicStatusEnabled": false,
+    "region": "eu-central-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://biogeta-staging.mystagingwebsite.com/",
+    "testCount": 13,
+    "testFrequency": 0,
+    "viewportSize": {
+      "width": 1920,
+      "height": 1080
+    },
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "Symbol",
+        "value": "€",
+        "private": false,
+        "_id": "682395eeab4ff4354d239951"
+      },
+      {
+        "name": "password",
+        "value": "fric2171Biot",
+        "private": true,
+        "_id": "682b879ab008d095739a0dd8"
+      },
+      {
+        "name": "password2",
+        "value": "fric2172Biot",
+        "private": true,
+        "_id": "682b879ab008d095739a0dd9"
+      },
+      {
+        "name": "prodUrl",
+        "value": "https://biogeta.com/de/",
+        "private": false,
+        "_id": "68c030aceeab2f751a65793f"
+      }
+    ]
+  }
+}

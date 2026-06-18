@@ -1,0 +1,56 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Get Log request response - currency rate",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": null,
+      "notes": "needs the payment time to get it",
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "\nreturn new Promise(function (resolve, reject) {\n  const url = '{{startUrl}}' + 'wp-json/wc-automation-helper/log-request-response/?url_path=currency-rates?base-currency={{defaultCurr}}';\n  const username = '{{woo_user}}';\n  const password = '{{woo_pass}}';\n  let headers = new Headers();\n  headers.set('Content-Type', 'application/json');\n  headers.set('Authorization', 'Basic ' + btoa(username + \":\" + password));\n  fetch(url, {method:'GET', headers: headers, credentials: 'omit'})\n  .then(function(response) {\n    if (response.ok) {\n      resolve(response.json())\n    } else {\n      resolve([])\n    } \n  })\n  })",
+      "variableName": "rates"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "\nlet rates = {{rates}};\nlet currency = \"{{curr}}\";\nlet rate;\nlet boolean = false;\nlet n = 0\nwhile (boolean === false && rates.response.currencyRate.length > n) {\n    if (rates.response.currencyRate[n].quoteCurrency != currency) {\n        n++\n    } else {\n        rate = rates.response.currencyRate[n].conversionRate\n        boolean = true\n    }\n}\nreturn rate",
+      "variableName": "rate"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "630f555dcd380e119cb7c9f8",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

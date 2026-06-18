@@ -1,0 +1,174 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "698b92ac62ccce610dd8bac0",
+    "abortOnTestFailure": false,
+    "autoRetry": true,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2026-02-10T20:18:52.559Z",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "63cfc28aaf1e488d25d06a6a",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "Merch - Place Order - CC",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://merch.a6da53f9-6187-42f0-b539-f97be755016a.cc06.conves.io/",
+    "testCount": 2,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "63cfc788af1e488d25d1ac88"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "63cfc788af1e488d25d1ac89"
+      },
+      {
+        "name": "password2",
+        "value": "fric2172Biot",
+        "private": true,
+        "_id": "63cfc788af1e488d25d1ac9a"
+      },
+      {
+        "name": "lastName2",
+        "value": "{{alphanumeric}} Ship",
+        "private": false,
+        "_id": "63cfc788af1e488d25d1ac9b"
+      },
+      {
+        "name": "street",
+        "value": "101 S Franklin St",
+        "private": false,
+        "_id": "63cfc788af1e488d25d1ac8a"
+      },
+      {
+        "name": "phone",
+        "value": "3453453456",
+        "private": false,
+        "_id": "63cfc788af1e488d25d1ac9c"
+      },
+      {
+        "name": "qty",
+        "value": "3",
+        "private": false,
+        "_id": "63cfda8aaf1e488d25d6a5bc"
+      },
+      {
+        "name": "street2",
+        "value": "Ap. 4",
+        "private": false,
+        "_id": "63cfc788af1e488d25d1ac8b"
+      },
+      {
+        "name": "street3",
+        "value": "123 False Shipping",
+        "private": false,
+        "_id": "63cfc788af1e488d25d1ac8c"
+      },
+      {
+        "name": "street4",
+        "value": "Ap. Shipp",
+        "private": false,
+        "_id": "63cfc788af1e488d25d1ac8d"
+      },
+      {
+        "name": "city",
+        "value": "Greensburg",
+        "private": false,
+        "_id": "63cfc788af1e488d25d1ac8e"
+      },
+      {
+        "name": "zipCode",
+        "value": "47240",
+        "private": false,
+        "_id": "63cfc788af1e488d25d1ac8f"
+      },
+      {
+        "name": "country",
+        "value": "US",
+        "private": false,
+        "_id": "63cfc788af1e488d25d1ac92"
+      },
+      {
+        "name": "state",
+        "value": "IN",
+        "private": false,
+        "_id": "63cfc788af1e488d25d1ac90"
+      },
+      {
+        "name": "stateComplete",
+        "value": "Indiana",
+        "private": false,
+        "_id": "63cfc788af1e488d25d1ac91"
+      },
+      {
+        "name": "countryComplete",
+        "value": "United States (US)",
+        "private": false,
+        "_id": "63cfc788af1e488d25d1ac93"
+      },
+      {
+        "name": "company",
+        "value": "Testing",
+        "private": false,
+        "_id": "63cfc788af1e488d25d1ac94"
+      },
+      {
+        "name": "company2",
+        "value": "Testing Shipping",
+        "private": false,
+        "_id": "63cfc788af1e488d25d1ac95"
+      },
+      {
+        "name": "Symbol",
+        "value": "$",
+        "private": false,
+        "_id": "63cfc788af1e488d25d1ac96"
+      },
+      {
+        "name": "currency",
+        "value": "USD",
+        "private": false,
+        "_id": "63cfc788af1e488d25d1ac97"
+      },
+      {
+        "name": "project",
+        "value": "topg-merch",
+        "private": false,
+        "_id": "63cfc788af1e488d25d1ac98"
+      },
+      {
+        "name": "password",
+        "value": "fric2171Biot",
+        "private": true,
+        "_id": "63cfc788af1e488d25d1ac99"
+      }
+    ],
+    "viewportSize": {
+      "width": 1920,
+      "height": 1080
+    }
+  }
+}

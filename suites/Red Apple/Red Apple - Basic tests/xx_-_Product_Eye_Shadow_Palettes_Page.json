@@ -1,0 +1,134 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "xx - Product Eye Shadow Palettes Page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "mouseOver",
+      "condition": null,
+      "notes": "add missing assertions",
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "#primary-menu > li:nth-child(2) > a",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "#menu-item-341452 > a",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "navigate to product page",
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": ".products > li:nth-child(11) > div > a",
+      "value": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "notes": "extract first complement price",
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": ".woobt-products > div:nth-child(3) > .woobt-price > div >  span > bdi"
+        },
+        {
+          "selector": ".woobt-products > div:nth-child(3) > .woobt-price > div > del"
+        }
+      ],
+      "value": "",
+      "variableName": "complementPriceOld"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "notes": "extract first complement price",
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": ".woobt-products > div:nth-child(3) > .woobt-price > div >  span > bdi"
+        },
+        {
+          "selector": ".woobt-products > div:nth-child(3) > .woobt-price > div > ins "
+        }
+      ],
+      "value": "",
+      "variableName": "complementPriceNew"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "add an extra complement",
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "#woobt_checkbox_1",
+      "value": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "div.woobt-text.woobt-additional",
+      "value": "Additional price: {{complementPriceNew}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 7,
+      "target": "div.woobt-text.woobt-additional",
+      "value": "Additional price: {{complementPriceOld}} {{complementPriceNew}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6656571d7e028d9ed9f9deef",
+    "suiteId": "6650dbac89e87fd839e2eb1c",
+    "suiteName": "Red Apple - Basic tests"
+  }
+}

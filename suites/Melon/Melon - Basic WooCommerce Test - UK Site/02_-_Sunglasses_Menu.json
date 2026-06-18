@@ -1,0 +1,70 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "02 - Sunglasses Menu",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "6a107e890f1aedc97d9bdc92",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "li.mega-menu-item.mega-menu-item-type-custom.mega-menu-item-object-custom.mega-menu-item-has-children.mega-align-bottom-left.mega-menu-flyout.mega-menu-trigger:nth-of-type(1) > a[href=\"#\"].mega-menu-link"
+        },
+        {
+          "selector": "//a[contains(text(),'Sunglasses')]"
+        }
+      ]
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6290d50d4b7dbf9dc9530adb",
+    "suiteId": "6290cfb04b7dbf9dc950dccc",
+    "suiteName": "Melon - Basic WooCommerce Test - UK Site"
+  }
+}

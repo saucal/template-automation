@@ -1,0 +1,225 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "16 - AU - 85g Limit",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "a[href*=\"/products/\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "a[href=\"?add-to-cart=616\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const siteTitle = document.title;\nif (siteTitle != \"Cart • No Pong\"){\n    return true;\n}"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "#masthead > div > div > ul > li > a",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": "input[title=\"Qty\"]"
+        },
+        {
+          "selector": "input.input-text.qty.text"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": "input[title=\"Qty\"]"
+        },
+        {
+          "selector": "input.input-text.qty.text"
+        }
+      ],
+      "value": "11",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": ".coupon",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "input[title=\"Qty\"]"
+        },
+        {
+          "selector": "input.input-text.qty.text"
+        }
+      ],
+      "value": "11",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "td.product-subtotal > .woocommerce-Price-amount.amount > bdi",
+      "value": "$76.45",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "a[href*=\"/products/\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "xpath=//a[contains(text(), \"CHECK THEM OUT HERE!\")]"
+        },
+        {
+          "selector": "a[href*=\"/limited-edition/\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "a[href=\"?add-to-cart=1684403\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": [
+        {
+          "selector": ".woocommerce-error > li"
+        },
+        {
+          "selector": "div.wc-block-components-notice-banner.is-error > div.wc-block-components-notice-banner__content"
+        }
+      ],
+      "value": "WHOOPS-A-DAISY! IT LOOKS LIKE YOU'VE ADDED TOO MANY ITEMS AND WE'VE HAD TO REMOVE SOME.",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const siteTitle = document.title;\nif (siteTitle != \"Cart • No Pong\"){\n    return true;\n}"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "#masthead > div > div > ul > li > a",
+      "value": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "notes": "tr.woocommerce-cart-form__cart-item.cart_item:nth-of-type(1) > td.product-quantity > .quantity > input[title=\"Qty\"][type=\"number\"].input-text.qty.text",
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "//input[@value='5']",
+      "value": "5",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "tr.woocommerce-cart-form__cart-item.cart_item:nth-of-type(1) > td.product-subtotal > .woocommerce-Price-amount.amount > bdi",
+      "value": "$34.75",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "67d401d892add9437d4c13c2",
+    "suiteId": "67d401d892add9437d4c139c",
+    "suiteName": "AU - Basic WooCommerce Test"
+  }
+}

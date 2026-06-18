@@ -1,0 +1,102 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "01 - Home Page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": null,
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "xpath=//span[contains(text(), \"Accept\")]"
+        },
+        {
+          "selector": "button[type=\"submit\"] > span > .elementor-button-text"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "xpath=//button[contains(text(), \"NO THANKS\")]"
+        },
+        {
+          "selector": "div[data-testid=\"form-row\"].needsclick:nth-of-type(7) > [data-testid=\"form-component\"].needsclick > button[type=\"button\"].needsclick"
+        },
+        {
+          "selector": "div.needsclick:nth-of-type(7) > .needsclick > button[type=\"button\"].needsclick"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "62974e21a0299821fcec4a32",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "#agl_yes_button",
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6359a095db1ab7e45edc7e4f",
+    "suiteId": "6359a095db1ab7e45edc7e3d",
+    "suiteName": "Botany Farms - Basic WooCommerce Test"
+  }
+}

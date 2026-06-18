@@ -1,0 +1,45 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Currency checker",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "const elements = document.querySelectorAll(\n  \"span > bdi > .woocommerce-Price-currencySymbol, span:not(.order-attribution-total-spend):not(.order-attribution-average-order-value) > span > .woocommerce-Price-currencySymbol\"\n);\n\n// Filter for visible elements\nconst visibleElements = Array.from(elements).filter(el => {\n  const style = window.getComputedStyle(el);\n  return (\n    style.display !== \"none\" && \n    style.visibility !== \"hidden\" && \n    style.opacity !== \"0\" && \n    el.offsetParent !== null // Ensures it's not detached or hidden by a parent\n  );\n});\n\n\nlet result = [];\nconst isCurrencySymbol = (currentValue) => currentValue === \"{{Symbol}}\";\n\n    for (let i = 0; i < visibleElements.length; i++) {\n        result.push(visibleElements[i].textContent);\n    }\n    \n    return result.every(isCurrencySymbol);\n",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "60d347cb0181726b14076931",
+    "suiteId": "60cc8d7d1da0a93062ddf13a",
+    "suiteName": "Harmony - Common Steps for suites"
+  }
+}

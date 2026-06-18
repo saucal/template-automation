@@ -1,0 +1,41 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "63c71d010b7aefb972ffd848",
+    "abortOnTestFailure": false,
+    "autoRetry": true,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2023-01-17T22:11:13.191Z",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "63c71435af1e488d253a38aa",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 0,
+    "maxWaitDelay": 15000,
+    "name": "Ride1Up - Common Steps for suites",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": false,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://6af63fce-be3d-447f-bea5-a8222d8f3eb6.fs03.conves.io/",
+    "testCount": 2,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [],
+    "viewportSize": {
+      "width": 1920,
+      "height": 1080
+    }
+  }
+}

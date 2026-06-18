@@ -1,0 +1,618 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "details": "",
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Check order on Email (Copy)",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "603d1f20494ea848981cef9b",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"vesica\""
+      },
+      "notes": "Set step as optional to bypass No Pong element not found error 01/06/23",
+      "optional": true,
+      "private": false,
+      "sequence": 1,
+      "target": "xpath=//a[contains(text(), \"order has been received!\")]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"vesica\" && \"{{new}}\" === \"yes\""
+      },
+      "notes": "",
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "xpath=//a[contains(text(), \"order is now complete\")]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"vesica\" && \"{{new}}\" === \"no\""
+      },
+      "notes": "",
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "xpath=//a[contains(text(), \"order has been received!\")]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"icg\" && \"{{project}}\" !== \"leggari\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "tr.order_item > td.td:nth-of-type(1)",
+      "value": "{{prod_desc}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return (\"{{product}}\" == \"variable\" && {project} == \"leggari\")"
+      },
+      "notes": "Step added to validate base and highlight in order email",
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "tr.order_item > td.td:nth-of-type(1)",
+      "value": "{{prod_desc}}\nBase: {{base}}\nHighlight: {{highlight}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "tr.order_item > td.td:nth-of-type(2)",
+      "value": "{{prod_desc}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"icg\" && \"{{project}}\" !== \"leggari\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "tr.order_item > td.td:nth-of-type(2)",
+      "value": "{{qty}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return \"{{project}}\" == \"leggari\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "#order_items > tbody > tr > td:nth-child(2)",
+      "value": "{{qty}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "tr.order_item > td.td:nth-of-type(1)",
+      "value": "{{qty}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"icg\" && \"{{project}}\" !== \"leggari\" && \"{{project}}\" !== \"Avison\""
+      },
+      "notes": "added condition to be different from leggari",
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "td.td:nth-of-type(3) > .woocommerce-Price-amount.amount",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" == \"Aviso\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "td.td:nth-of-type(3) > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" == \"leggari\""
+      },
+      "notes": "Step added to fix error of element not found in leggari test 09 is comparing this value instead of subtotalPrice, making this step optional to validate full test",
+      "optional": true,
+      "private": false,
+      "sequence": 12,
+      "target": "td.td:nth-of-type(3) > .woocommerce-Price-amount.amount",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "td.td:nth-of-type(4) > .woocommerce-Price-amount.amount",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"leggari\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "tfoot > tr:nth-of-type(1) > td.td > .woocommerce-Price-amount.amount",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" == \"leggari\""
+      },
+      "notes": "making this step optional to bypass error on test 6 email verification",
+      "optional": true,
+      "private": false,
+      "sequence": 15,
+      "target": "tr:nth-of-type(1) > td.td > .woocommerce-Price-amount.amount",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" == \"leggari\""
+      },
+      "notes": "step added due to error in verification in step 19 test 6 email verification",
+      "optional": true,
+      "private": false,
+      "sequence": 16,
+      "target": "tr:nth-of-type(1) > td.td > .woocommerce-Price-amount.amount",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"leggari\" && \"{{project}}\" !== \"vesica\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "tr:nth-of-type(2) > td.td",
+      "value": "{{shippingPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"vesica\" && \"{{new}}\" === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "tr:nth-of-type(2) > td.td > span",
+      "value": "{{shippingPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return \"{{project}}\" == \"leggari\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "#footer_sub_totals > span:nth-child(3)",
+      "value": "{{shippingPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"icg\" && \"{{project}}\" !== \"leggari\"\n&& \"{{project}}\" !== \"vesica\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "tr:nth-of-type(3) > td.td",
+      "value": "{{taxPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"vesica\" && \"{{new}}\" === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "tr:nth-of-type(3) > td.td > span",
+      "value": "{{taxPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return \"{{project}}\" == \"vesica\" && \"{{new}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "tr:nth-of-type(2) > td.td",
+      "value": "{{taxPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return \"{{project}}\" == \"leggari\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "#footer_sub_totals > span:nth-child(5)",
+      "value": "{{taxPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"icg\" && \"{{project}}\" !== \"leggari\" && \"{{project}}\" !== \"vesica\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "tr:nth-of-type(4) > td.td",
+      "value": "Credit Card",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"vesica\" && \"{{new}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "tr:nth-of-type(3) > td.td",
+      "value": "Credit Card",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"vesica\" && \"{{new}}\" === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "tr:nth-of-type(4) > td.td",
+      "value": "PayPal",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return \"{{project}}\" == \"leggari\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "#footer_payment_method",
+      "value": "Credit Card",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"icg\" && \"{{project}}\" !== \"leggari\" && \"{{project}}\" !== \"vesica\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "tr:nth-of-type(5) > td.td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"vesica\" && \"{{new}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "tr:nth-of-type(4) > td.td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"vesica\" && \"{{new}}\" === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "tr:nth-of-type(5) > td.td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "tr:nth-of-type(3) > td.td",
+      "value": "Interac e-transfer",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"icg\""
+      },
+      "notes": "https://app.clickup.com/t/86dtb3f73 Issue with 0.01 diff",
+      "optional": true,
+      "private": false,
+      "sequence": 32,
+      "target": "tr:nth-of-type(4) > td.td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"hunchie\" && \"{{project}}\" !== \"icg\" && \"{{project}}\" !== \"leggari\"\n&& \"{{project}}\" !== \"vesica\" && \"{{project}}\" !== \"purCrystal\" && \"{{project}}\" !== \"mckeen\""
+      },
+      "notes": "",
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": "td:nth-of-type(1) > address.address",
+      "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{street2}}\n{{city}}, {{state}} {{zipCode}}\n{{phone}}\n{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" == \"mckeen\""
+      },
+      "notes": "",
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": "td:nth-of-type(1) > address.address",
+      "value": "{{company}}\n{{firstName}} {{lastName}}\n{{street}}\n{{street2}}\n{{city}} {{state}} {{zipCode}}\n{{phone}}\n{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" == \"purCrystal\""
+      },
+      "notes": "",
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": "td:nth-of-type(1) > address.address",
+      "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{street2}}\n{{city}}, {{shortState}} {{zipCode}}\n{{phone}}\n{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"vesica\""
+      },
+      "notes": "",
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": "td:nth-of-type(1) > address.address",
+      "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{street2}}\n{{city}}, {{shortState}} {{zipCode}}\n{{phone}}\n{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"vesica\" && \"{{new}}\" === \"no\""
+      },
+      "notes": "",
+      "optional": false,
+      "private": false,
+      "sequence": 37,
+      "target": "td:nth-of-type(2) > address.address",
+      "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{street2}}\n{{city}}, {{shortState}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"purCrystal\""
+      },
+      "notes": "",
+      "optional": false,
+      "private": false,
+      "sequence": 38,
+      "target": "td:nth-of-type(2) > address.address",
+      "value": "{{firstName}} {{lastName}}\n{{company2}}\n{{street}}\n{{street3}}\n{{city}}, {{state}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" == \"leggari\""
+      },
+      "notes": "Added step changing address validation to street3 and street4 to verify error in leggari, removing company, making this step optional to fix test06 email step 31",
+      "optional": true,
+      "private": false,
+      "sequence": 39,
+      "target": "td:nth-of-type(2) > address.address",
+      "value": "{{firstName}} {{lastName}}\n{{street3}}\n{{street4}}\n{{city}}, {{state}} {{zipCode}}\n{{phone}}\n{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"hunchie\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 40,
+      "target": "td:nth-of-type(1) > address.address",
+      "value": "{{firstName}} {{lastName}}\n{{street}}\n{{city}} {{state}} {{zipCode}}\n{{phone}}\n{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 41,
+      "target": "td:nth-of-type(1) > address.address",
+      "value": "{{firstName}} {{lastName}}\n{{street}}\n{{street2}}\n{{city}} {{state}} {{zipCode}}\n{{phone}}\n{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"hunchie\" && \"{{project}}\" !== \"icg\" && \"{{project}}\" !== \"leggari\"\n&& \"{{project}}\" !== \"vesica\" && \"{{project}}\" !== \"purCrystal\" && \"{{project}}\" !== \"mckeen\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 42,
+      "target": "td:nth-of-type(2) > address.address",
+      "value": "{{firstName}} {{lastName2}}\n{{company2}}\n{{street3}}\n{{street4}}\n{{city}}, {{state}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" == \"mckeen\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 43,
+      "target": "td:nth-of-type(2) > address.address",
+      "value": "{{company2}}\n{{firstName}} {{lastName2}}\n{{street3}}\n{{street4}}\n{{city}} {{state}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" == \"leggari\""
+      },
+      "notes": "Added step to fix error on leggari removing company and changing lastName2 to lastName and street3, street4",
+      "optional": false,
+      "private": false,
+      "sequence": 44,
+      "target": "td:nth-of-type(1) > address.address",
+      "value": "{{firstName}} {{lastName}}\n{{street}}\n{{street2}}\n{{city}}, {{state}} {{zipCode}}\n{{phone}}\n{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"hunchie\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 45,
+      "target": "td:nth-of-type(2) > address.address",
+      "value": "{{firstName}} {{lastName2}}\n{{street3}}\n{{city}} {{state}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 46,
+      "target": "td:nth-of-type(2) > address.address",
+      "value": "{{firstName}} {{lastName2}}\n{{street3}}\n{{street4}}\n{{city}} {{state}} {{zipCode}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": {
+    "width": 1920,
+    "height": 1080
+  },
+  "_gi": {
+    "testId": "6759e808e11b42a63dbc3369",
+    "suiteId": "6022b879262f437a9af8ddf9",
+    "suiteName": "Common Steps for all Projects"
+  }
+}

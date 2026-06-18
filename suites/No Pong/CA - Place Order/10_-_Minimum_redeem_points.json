@@ -1,0 +1,93 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "10 - Minimum redeem points",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "6022b3fed2fb38677e5d7a9e",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "602403b6d2fb38677e6b4548",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": {
+        "statement": "//minimum balance for user to redeem variable is {{minBalance}}\nreturn {{minBalance}} <= {{balance}}"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": ".npl-redeemable-form label[for='npl-redeemable-form-use']"
+        },
+        {
+          "selector": ".npl-credits-form"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotVisible",
+      "condition": {
+        "statement": "//minimum balance for user to redeem variable is {{minBalance}}\nreturn {{minBalance}} > {{balance}}"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": ".npl-redeemable-form label[for='npl-redeemable-form-use']"
+        },
+        {
+          "selector": ".npl-credits-form"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "688b62049e92b132362207fe",
+    "suiteId": "67c0958ac4f6da836cae8506",
+    "suiteName": "CA - Place Order"
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "close Popup",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "eval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "var body = document.documentElement || document.body;\r\nbody.scrollTop = 2000;",
+      "variableName": ""
+    },
+    {
+      "command": "pause",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "2000",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return window.innerWidth === 360",
+        "result": false
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 2,
+      "target": "button.needsclick.klaviyo-close-form",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return window.innerWidth === 1920",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "button.needsclick.klaviyo-close-form",
+      "value": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6446b84be36f7ecf09a4d536",
+    "suiteId": "6446b8403a008cd31c973fea",
+    "suiteName": "Mood - Common steps"
+  }
+}

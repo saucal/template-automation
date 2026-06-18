@@ -1,0 +1,157 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "67c5a628c4f6da836c3c65aa",
+    "abortOnTestFailure": false,
+    "autoRetry": true,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2025-03-03T12:52:56.965Z",
+    "details": "Basic WooCommerce Test",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "606ca29e40a5d817bae19555",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "Mavenfair - Place Order",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": false,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://stagingsite.mavenfair.ca/",
+    "testCount": 3,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "password",
+        "value": "B@rto!o21712222",
+        "private": true,
+        "_id": "6079e03835da151e07a80b30"
+      },
+      {
+        "name": "password2",
+        "value": "hHtZrn_p2mUoyECy",
+        "private": true,
+        "_id": "6079e03835da151e07a80b31"
+      },
+      {
+        "name": "countryComplete",
+        "value": "Canada",
+        "private": false,
+        "_id": "627e7fdb4b7dbf9dc9f37a31"
+      },
+      {
+        "name": "stateComplete",
+        "value": "British Columbia",
+        "private": false,
+        "_id": "627e7fdb4b7dbf9dc9f37a32"
+      },
+      {
+        "name": "user",
+        "value": "SaucalMaintenance_1_{{alphanumeric}}",
+        "private": false,
+        "_id": "6079e10fd83ce2083d5cbb61"
+      },
+      {
+        "name": "firstName",
+        "value": "Saucal",
+        "private": false,
+        "_id": "607f276b38974677782cb479"
+      },
+      {
+        "name": "lastName",
+        "value": "Maint_{{alphanumeric}}",
+        "private": false,
+        "_id": "607f276b38974677782cb47a"
+      },
+      {
+        "name": "country",
+        "value": "CA",
+        "private": false,
+        "_id": "607f276b38974677782cb47b"
+      },
+      {
+        "name": "street",
+        "value": "123 false street",
+        "private": false,
+        "_id": "607f276b38974677782cb47c"
+      },
+      {
+        "name": "city",
+        "value": "Vancouver",
+        "private": false,
+        "_id": "607f276b38974677782cb47d"
+      },
+      {
+        "name": "zipCode",
+        "value": "V5T 1R8",
+        "private": false,
+        "_id": "607f276b38974677782cb47e"
+      },
+      {
+        "name": "phone",
+        "value": "6134767685",
+        "private": false,
+        "_id": "607f276b38974677782cb47f"
+      },
+      {
+        "name": "state",
+        "value": "BC",
+        "private": false,
+        "_id": "607f2f0538974677782cec6e"
+      },
+      {
+        "name": "street3",
+        "value": "123 false shipping",
+        "private": false,
+        "_id": "607f2fc1fb8c1e0bcd0c8fce"
+      },
+      {
+        "name": "zipCode2",
+        "value": "V5V 3P9",
+        "private": false,
+        "_id": "607f2fc1fb8c1e0bcd0c8fcf"
+      },
+      {
+        "name": "lastName2",
+        "value": "Shipping Test",
+        "private": false,
+        "_id": "607f2fee38974677782d1a19"
+      },
+      {
+        "name": "user2",
+        "value": "SaucalMaintenance_2_{{alphanumeric}}",
+        "private": false,
+        "_id": "6080c3d26a054237dd914248"
+      },
+      {
+        "name": "project",
+        "value": "mavenfair",
+        "private": false,
+        "_id": "627e74ed4b7dbf9dc9f188df"
+      },
+      {
+        "name": "Symbol",
+        "value": "$",
+        "private": false,
+        "_id": "627e74ed4b7dbf9dc9f188e0"
+      }
+    ],
+    "viewportSize": {
+      "width": 1366,
+      "height": 768
+    }
+  }
+}

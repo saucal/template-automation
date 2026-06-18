@@ -1,0 +1,170 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36",
+  "dataSource": null,
+  "details": "Test Case:\nnot filling Routing Number",
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "5.4.1",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "BLU-002-015",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "60c91e7a4f70ce5aa436fe2a",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "xpath=//a[contains(text(), \"Payment methods\")]"
+        },
+        {
+          "selector": "a[href*=\"/my-account/payment-methods/\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "xpath=//a[contains(text(), \"Add payment method\")]"
+        },
+        {
+          "selector": "a[href*=\"/my-account/add-payment-method/\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": "xpath=//label[contains(text(), \"ACH/ECP Transactions\")]"
+        },
+        {
+          "selector": "label[for=\"payment_method_bluesnap_ach\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "#bluesnap_ach-account-number",
+      "value": "{{accountNumber}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "#bluesnap_ach-account-type",
+      "value": "consumer-checking",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "xpath=//button[contains(text(), \"Add payment method\")]"
+        },
+        {
+          "selector": "#place_order"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": ".woocommerce-error > li:nth-of-type(1)"
+        },
+        {
+          "selector": ".wc-block-components-notice-banner.is-error li:nth-of-type(1)"
+        }
+      ],
+      "value": "Missing routing number.",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": ".woocommerce-error > li:nth-of-type(2)"
+        },
+        {
+          "selector": ".wc-block-components-notice-banner.is-error li:nth-of-type(2)"
+        }
+      ],
+      "value": "Routing number must be a 9 digit number.",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6841997ec637c9246eb7ed8d",
+    "suiteId": "6841997ec637c9246eb7ed5f",
+    "suiteName": "BlueSnap - ACH - Fields, Transaction, Vaulted Shopper"
+  }
+}

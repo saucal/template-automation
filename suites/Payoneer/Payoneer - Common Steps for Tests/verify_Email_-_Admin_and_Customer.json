@@ -1,0 +1,193 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "verify Email - Admin and Customer",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "pause",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "5000",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "{{email}}",
+      "variableName": "playgroundsEmail"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "subject: {{orderNumber}}",
+      "variableName": "extraFilter"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "69778cc365fd97d14e2468c3",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "let len = document.querySelectorAll(\"#body_content_inner > div:nth-of-type(1) > table > tfoot > tr > td.td\")\nlen = len.length -1\nreturn len",
+      "variableName": "n"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return !'{{blog}}'.includes('block') "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "tr.order-totals.order-totals-payment_method > td"
+        },
+        {
+          "selector": "#body_content_inner > div:nth-of-type(1) > table > tfoot > tr:nth-of-type({{n}}) > td.td"
+        }
+      ],
+      "value": "{{paymentMethod}}",
+      "variableName": ""
+    },
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "{{startUrl}}",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "69778cc365fd97d14e2468ae",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "qa+{{blog}}@playgrounds.saucal.io",
+      "variableName": "playgroundsEmail"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "subject: {{orderNumber}}",
+      "variableName": "extraFilter"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "69778cc365fd97d14e2468c3",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return !'{{blog}}'.includes('block') "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": [
+        {
+          "selector": "tr.order-totals.order-totals-payment_method > td"
+        },
+        {
+          "selector": "tfoot > tr:nth-of-type({{n}}) > td.td"
+        }
+      ],
+      "value": "{{paymentMethod}}",
+      "variableName": ""
+    },
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "{{startUrl}}",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "69778cc365fd97d14e2468ae",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69778cc365fd97d14e2468de",
+    "suiteId": "69778cc265fd97d14e24689f",
+    "suiteName": "Payoneer - Common Steps for Tests"
+  }
+}

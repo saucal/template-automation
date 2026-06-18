@@ -1,0 +1,141 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "05 - Checkout page - Step 2",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": {
+        "statement": "return '{{role}}' !== 'contractor'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "qa+gi_order_{{alphanumeric}}@saucal.com",
+      "variableName": "email"
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "return '{{role}}' === 'contractor'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "{{emailReg}}",
+      "variableName": "email"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "2",
+      "variableName": "step"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "685ac1c615b3a115491e05e1",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return '{{role}}' !== 'contractor'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": "xpath=//button[contains(text(), \"CONTINUE TO SHIPPING →\")]"
+        },
+        {
+          "selector": ".wfacp-left-panel.wfacp_page.pre_built.single_step > .wfacp-two-step-erap.wfacp-next-btn-wrap.center > button[type=\"button\"].button.button-primary.wfacp_next_page_button"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{role}}' !== 'contractor'"
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 5,
+      "target": ".woocommerce-error",
+      "value": "Email is a required field.\nFirst name is a required field.\nLast name is a required field.\nStreet address is a required field.\nTown / City is a required field.\nPostcode / ZIP is a required field.\nCountry is a required field.\nState / County is a required field.\nAddress Type is a required field.\nPhone is a required field.",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "return '{{role}}' !== 'contractor'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "let invalid = document.querySelectorAll('.woocommerce-invalid-required-field')\n\nreturn invalid.length === 10",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 7,
+      "target": "button.needsclick",
+      "value": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "6275149f7cba5684cb53e55c",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "685ac1c615b3a115491e05e2",
+    "suiteId": "685ac1c615b3a115491e05bb",
+    "suiteName": "Leggari New - Basic WooCommerce Test"
+  }
+}

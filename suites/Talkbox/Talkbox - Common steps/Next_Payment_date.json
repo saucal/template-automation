@@ -1,0 +1,45 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Next Payment date",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "\nlet nextPay = \"{{nextPay}}\"\nnextPay = Date.parse(nextPay)\nnextPay = new Date(nextPay)\n\n// Set time zone and locale based on country\nconst timeZone = 'America/Chicago';\n\nconst now = new Date();\n\nconst formatter = new Intl.DateTimeFormat('en-US', {\n    timeZone: timeZone,\n    year: 'numeric',\n    month: '2-digit',\n    day: '2-digit',\n    hour: '2-digit',\n    minute: '2-digit',\n    second: '2-digit',\n    hour12: true, // Use false for 24-hour format\n});\n\nconst date = new Date(formatter.format(now));\ndate.setMonth(date.getMonth() + {{m}});\n\nlet monthAssess = date.getMonth() === nextPay.getMonth()\nlet yearAssess = date.getYear() === nextPay.getYear()\nlet dateAssess\n\nif ({{m}} === 2) {\n    dateAssess = date.getDate() === nextPay.getDate()\n} else {\n    dateAssess = 28 === nextPay.getDate()\n}\n\nreturn monthAssess && dateAssess && yearAssess\n",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69139a7f28d2a810e81c84d8",
+    "suiteId": "63a1c5229034282736afc2e8",
+    "suiteName": "Talkbox - Common steps"
+  }
+}

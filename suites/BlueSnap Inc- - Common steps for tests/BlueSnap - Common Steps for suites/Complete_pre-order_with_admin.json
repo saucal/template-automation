@@ -1,0 +1,179 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Complete pre-order with admin",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "mouseOver",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "a[href=\"admin.php?page=wc-admin\"] > .wp-menu-name",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "xpath=//a[contains(text(), \"Pre-Orders\")]"
+        },
+        {
+          "selector": "a[href=\"admin.php?page=wc_pre_orders\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "const link = document.querySelector('a[href*=\"post.php?post={{orderNumber}}\"],a[href*=\"page=wc-orders&action=edit&id={{orderNumber}}\"]');\n\n  if (!link) {\n    console.log(\"Link not found\");\n    return;\n  }\n\n  const tr = link.closest('tr');\n  if (!tr) {\n    console.log(\"No <tr> found\");\n    return;\n  }\n\n  const nth = Array.from(tr.parentNode.children).indexOf(tr) + 1;\n  console.log(`tr is the ${nth} child → matches :nth-child(${nth})`);\n  \n  return nth",
+      "variableName": "nth"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "6182913d23071a6a858762c3",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return !!document.querySelector('td.actions.column-actions > button[title=\"Complete pre-order\"].button.complete-order > .button-text')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "tr:nth-of-type({{nth}}) > td.actions.column-actions > button[title=\"Complete pre-order\"].button.complete-order > .button-text"
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": {
+        "statement": "return !!document.querySelector('td.actions.column-actions > button[title=\"Complete pre-order\"].button.complete-order > .button-text')"
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "//button[contains(text(), \"Complete pre-order\")]"
+        },
+        {
+          "selector": "#confirm-complete-btn"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return !!document.querySelector('td.actions.column-actions > button[title=\"Complete pre-order\"].button.complete-order > .button-text')"
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "//button[contains(text(), \"Complete pre-order\")]"
+        },
+        {
+          "selector": "#confirm-complete-btn"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return !document.querySelector('td.actions.column-actions > button[title=\"Complete pre-order\"].button.complete-order > .button-text')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "tr:nth-of-type({{nth}}) > th.check-column > input[name=\"order_id[]\"][type=\"checkbox\"]"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return !document.querySelector('td.actions.column-actions > button[title=\"Complete pre-order\"].button.complete-order > .button-text')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "#bulk-action-selector-top"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return !document.querySelector('td.actions.column-actions > button[title=\"Complete pre-order\"].button.complete-order > .button-text')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "#bulk-action-selector-top",
+      "value": "complete"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return !document.querySelector('td.actions.column-actions > button[title=\"Complete pre-order\"].button.complete-order > .button-text')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "#doaction"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "61df1930c305b67a97eeb564",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

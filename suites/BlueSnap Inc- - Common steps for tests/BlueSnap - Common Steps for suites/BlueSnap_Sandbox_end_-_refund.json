@@ -1,0 +1,202 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "6.1.0",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "BlueSnap Sandbox end - refund",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "https://sandbox.bluesnap.com/jsp/developer_login.jsp",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "#username",
+      "value": "{{user_bluesnap}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": true,
+      "sequence": 2,
+      "target": "#password",
+      "value": "{{password_bluesnap}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "button.btn",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": "xpath=//a[contains(text(), \"Find a Transaction\")]"
+        },
+        {
+          "selector": "#new-menu-find-transaction > a[href*=\"order_locator.jsp?sessionId=\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "input[name=\"searchId\"]",
+      "value": "{{transaction_id}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": ".button_line > button.btn.btn-warning.component_submit_button",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "table.table.table-bordered.content_table_class > tbody > tr:nth-of-type(2) > td.plain9BlackOnNone:nth-of-type(1)",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "table.table.table-bordered.content_table_class > tbody > tr:nth-of-type(2) > td.plain9BlackOnNone:nth-of-type(1)",
+      "value": "REFUND",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn  ((currency !== \"JPY\" && currency !== \"GBP\") \n        || \n        (currency === \"JPY\" && (Number(blueSnapVs[0]) >= 3 && Number(blueSnapVs[1]) >= 5))\n        ||\n        (currency === \"GBP\" && (Number(blueSnapVs[0]) >= 3 && Number(blueSnapVs[1]) >= 2))\n        )\n        &&\n        test != \"partial\"\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "table.table.table-bordered.content_table_class > tbody > tr:nth-of-type(2) > td.plain9BlackOnNone:nth-of-type(2)",
+      "value": "-{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn (currency !== \"JPY\" || (currency === \"JPY\" && (Number(blueSnapVs[0]) >= 3 && Number(blueSnapVs[1]) >= 5))) \n&&\ntest === \"partial\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "table.table.table-bordered.content_table_class > tbody > tr:nth-of-type(2) > td.plain9BlackOnNone:nth-of-type(2)",
+      "value": "-{{partialRefund}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let scenario = \"{{scenario}}\"\nlet currency = \"{{curr}}\"\nreturn scenario === \"multi-currency\" && currency !== \"USD\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "table.table.table-bordered.content_table_class > tbody > tr:nth-of-type(2) > td.plain9BlackOnNone:nth-of-type(2)",
+      "value": "{{currency}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextNotPresent",
+      "condition": {
+        "statement": "let scenario = \"{{scenario}}\"\nlet currency = \"{{curr}}\"\nreturn scenario === \"multi-currency\" && currency === \"USD\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "table.table.table-bordered.content_table_class > tbody > tr:nth-of-type(2) > td.plain9BlackOnNone:nth-of-type(2)",
+      "value": "{{currency}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "table.table.table-bordered.content_table_class > tbody > tr:nth-of-type(2) > td.plain9BlackOnNone:nth-of-type(7)",
+      "value": "wc_reason:{{testID}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "61fd20e7f5376dce52e3dace",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

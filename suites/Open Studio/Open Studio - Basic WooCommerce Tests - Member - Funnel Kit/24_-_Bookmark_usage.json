@@ -1,0 +1,190 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "24 - Bookmark usage",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "68caa38a189a381f8efcb5b3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "a[href*=\"/mybookmarks/\"] > .social-icon-custom-svg > svg > path",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "li:nth-of-type(2) > .cbxwpbkmarkwrap.cbxwpbkmarkwrap_loggedin.cbxwpbkmarkwrap_user_cat.cbxwpbkmarkwrap-sfwd-courses.os-courses-archive-bookmark > a[href=\"#\"][title=\"Bookmark This\"].cbxwpbkmarktrig.cbxwpbkmarktrig-button-addto"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": ".cbxwpbkmark_cat_book_list > .cbxlbjs.cbxwpbkmark-lbjs > .cbxwpbookmark-list-generic.cbxlbjs-list.cbxwpbkmarklist > li.cbxlbjs-item:nth-of-type(1) > [title=\"My Favorite Courses\"].cbxlbjs-item-name",
+      "value": "My Favorite Courses"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": ".cbxwpbkmark_cat_book_list > .cbxlbjs.cbxwpbkmark-lbjs > .cbxwpbookmark-list-generic.cbxlbjs-list.cbxwpbkmarklist > li.cbxlbjs-item:nth-of-type(2) > [title=\"My Favorite Lessons\"].cbxlbjs-item-name",
+      "value": "My Favorite Lessons"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": ".cbxwpbkmark_cat_book_list > .cbxlbjs.cbxwpbkmark-lbjs > .cbxwpbookmark-list-generic.cbxlbjs-list.cbxwpbkmarklist > li.cbxlbjs-item:nth-of-type(1) > [title=\"My Favorite Courses\"].cbxlbjs-item-name"
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "div.cbxwpbkmark_cat_book_list > div > ul > li[data-incat=\"1\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "li:nth-of-type(2) > .cbxwpbkmarkwrap.cbxwpbkmarkwrap_loggedin.cbxwpbkmarkwrap_user_cat.cbxwpbkmarkwrap-sfwd-courses.os-courses-archive-bookmark > .cbxwpbkmarklistwrap > .addto-head > [title=\"Click to close bookmark panel/modal\"].cbxwpbkmarktrig_close > i.cbx-icon > svg"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "a[href*=\"/mybookmarks/\"] > .social-icon-custom-svg > svg"
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": ".os-bookmark-item",
+      "value": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "button.os-bookmark-item__remove",
+      "value": "Remove"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "button.os-bookmark-item__remove",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": ".awn-popup-body > .os-bookmark-popup__actions > button.os-folder-submit"
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": ".awn-popup-body",
+      "value": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "#awn-popup-wrapper",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": ".os-bookmarks__count > strong",
+      "value": "0"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69dff08eb1161572d1ac5115",
+    "suiteId": "69dff08eb1161572d1ac50fd",
+    "suiteName": "Open Studio - Basic WooCommerce Tests - Member - Funnel Kit"
+  }
+}

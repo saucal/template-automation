@@ -1,0 +1,202 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "6.0.2",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Product- Managed Hosting & Maintenance",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "{{startUrl}}product/managed-woocommerce-hosting-maintenance/",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "67d4901692add9437d67563a",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#plan",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "#plan",
+      "value": "Up to 2,500 orders per month",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "return '{{country}}' === 'CA'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "let urlElement = document.querySelector('div.summary > a:nth-of-type(1)');\n\nlet url = urlElement ? urlElement.getAttribute('href') : null;\n\nreturn url === '{{startUrl}}?post_type=post&p=124176'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "return '{{country}}' === 'CA'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "let urlElement = document.querySelector('div.summary > a:last-of-type');\n\nlet url = urlElement ? urlElement.getAttribute('href') : null;\n\nreturn url === '{{startUrl}}?post_type=post&p=124178'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "return '{{country}}' !== 'CA'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "let urlElement = document.querySelector('div.summary > a:nth-of-type(1)');\nlet url = urlElement ? urlElement.getAttribute('href') : null;\n\nreturn url === '{{startUrl}}?post_type=post&p=124175'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "return '{{country}}' !== 'CA'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "let urlElement = document.querySelector('div.summary > a:last-of-type');\nlet url = urlElement ? urlElement.getAttribute('href') : null;\n\nreturn url === '{{startUrl}}?post_type=post&p=124177'",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "p.price > span > span > span.woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "h1.product_title",
+      "value": "",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "#plan",
+      "value": "",
+      "variableName": "variable"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "60d347cb0181726b14076931",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "button[type=\"submit\"].single_add_to_cart_button",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": [
+        {
+          "selector": ".wc-block-components-notice-banner a[href*=\"/cart/\"].button.wc-forward"
+        },
+        {
+          "selector": ".woocommerce-message a[href*=\"/cart/\"].button.wc-forward"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68e532b8a2ca9569f1b9389c",
+    "suiteId": "60cc8d7d1da0a93062ddf13a",
+    "suiteName": "Harmony - Common Steps for suites"
+  }
+}

@@ -1,0 +1,311 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "PayPal template",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "iframe[src*=\"www.sandbox.paypal.com\"] .paypal-button-label-container"
+        },
+        {
+          "selector": "iframe[name*=\"paypal_buttons\"] .paypal-button-label-container"
+        }
+      ]
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 1,
+      "target": ".loader",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 2,
+      "target": ".loader",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 3,
+      "target": "xpath=//a[contains(text(), \"Click to Continue\")]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 4,
+      "target": "#backToInputEmailLink",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "#email",
+      "value": "{{payPalUser}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "#btnNext",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 7,
+      "target": ".loader",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 8,
+      "target": ".loader",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": true,
+      "sequence": 9,
+      "target": "div#login_passworddiv > div > input#password",
+      "value": "{{payPalPass}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "#btnLogin",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 11,
+      "target": ".loader",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 12,
+      "target": ".loader",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 13,
+      "target": ".loader",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 14,
+      "target": ".loader",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "pause",
+      "condition": null,
+      "notes": "Wait for paypal option available",
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "5000",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": [
+        {
+          "selector": "#consentButton"
+        },
+        {
+          "selector": "//button[contains(text(),'Save and Continue')]"
+        },
+        {
+          "selector": "button[data-id='payment-submit-btn']"
+        },
+        {
+          "selector": "//button[contains(text(),'Complete Purchase')]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": [
+        {
+          "selector": "#consentButton"
+        },
+        {
+          "selector": "//button[contains(text(),'Save and Continue')]"
+        },
+        {
+          "selector": "button[data-id='payment-submit-btn']"
+        },
+        {
+          "selector": "//button[contains(text(),'Complete Purchase')]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 18,
+      "target": [
+        {
+          "selector": ".loader"
+        },
+        {
+          "selector": "div[class*=\"Spinner_SpinnerLoader\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 19,
+      "target": [
+        {
+          "selector": ".loader"
+        },
+        {
+          "selector": "div[class*=\"Spinner_SpinnerLoader\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "pause",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "",
+      "value": "10000",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "685aa49115b3a1154917fdaf",
+    "suiteId": "684c8109388232057b6f7af1",
+    "suiteName": "SpringWell - Common steps"
+  }
+}

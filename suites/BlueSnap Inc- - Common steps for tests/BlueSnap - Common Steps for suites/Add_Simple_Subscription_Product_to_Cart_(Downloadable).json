@@ -1,0 +1,193 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Add Simple Subscription Product to Cart (Downloadable)",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "{{startUrl}}product/subscription-test-downloadable/",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "xpath=//button[contains(text(), \"Sign Up Now\")]"
+        },
+        {
+          "selector": "button[type=\"submit\"].single_add_to_cart_button"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{testID}}\" === \"BLU-001-071\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": ".woocommerce-info"
+        },
+        {
+          "selector": ".wc-block-components-notice-banner.is-info"
+        }
+      ],
+      "value": "A subscription has been removed from your cart. Due to payment gateway restrictions, different subscription products can not be purchased at the same time.",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": "a[href*=\"/cart/\"].button.wc-forward"
+        },
+        {
+          "selector": "xpath=//a[contains(text(), \"View cart\")]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return \"{{testID}}\" !== \"BLU-001-071\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "a[href*=\"/checkout/\"].checkout-button"
+        },
+        {
+          "selector": "xpath=//a[contains(text(), \"Proceed to checkout\")]"
+        },
+        {
+          "selector": "xpath=//a[contains(text(), \"Proceed to Checkout\")]"
+        },
+        {
+          "selector": "div.wp-block-woocommerce-proceed-to-checkout-block .wc-block-components-button__text"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "return \"{{testID}}\" !== \"BLU-001-071\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "return \"{{testID}}\" !== \"BLU-001-071\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "6182913d23071a6a858762c3",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "return \"{{testID}}\" !== \"BLU-001-071\""
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 8,
+      "target": "script#woocommerce-bluesnap-gateway-general-js-extra",
+      "value": "",
+      "variableName": "bluesnap_gateway_general_params"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "return \"{{testID}}\" !== \"BLU-001-071\""
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "{{bluesnap_gateway_general_params}}\nreturn woocommerce_bluesnap_gateway_general_params.token",
+      "variableName": "pfToken"
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "return \"{{testID}}\" !== \"BLU-001-071\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "62bf0b17834704196f9948f3",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "62b1c09a5dd4634dc8df2299",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

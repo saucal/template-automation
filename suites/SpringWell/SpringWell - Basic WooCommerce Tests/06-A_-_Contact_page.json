@@ -1,0 +1,43 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "06-A - Contact page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": ".container > [id=\"menu-mainmenu\"].main-navigation__list.main-menu__list > li.menu-item.menu-item-type-post_type.menu-item-object-page.menu-item-has-children:nth-of-type(7) > a[href*=\"/contact\"][title=\"Contact Us\"]"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68b9f75aeeab2f751ace2267",
+    "suiteId": "684c8070388232057b6f6ec6",
+    "suiteName": "SpringWell - Basic WooCommerce Tests"
+  }
+}

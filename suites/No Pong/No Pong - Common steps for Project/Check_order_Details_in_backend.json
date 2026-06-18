@@ -1,0 +1,378 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Check order Details in backend",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": false,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": ".woocommerce-order-data__meta",
+      "value": "Payment via {{paymentMethod}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "#select2-order_status-container",
+      "value": "Processing"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{country}}' === 'CA'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "div.order_data_column:nth-of-type(2) > .address > p:nth-of-type(1)",
+      "value": "{{company}}\n{{firstName}} {{lastName}}\n{{street}}\n{{street2}}\n{{city}} {{state}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{country}}' === 'AU'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "div.order_data_column:nth-of-type(2) > .address > p:nth-of-type(1)",
+      "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{street2}}\n{{city}} {{stateComplete}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": "a[href*=\"mailto:qa+gi_order_\"]"
+        },
+        {
+          "selector": "a[href*=\"mailto:qa+gi_subs_\"]"
+        }
+      ],
+      "value": "{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "a[href*=\"tel:\"]",
+      "value": "{{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{country}}' === 'CA'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "div.order_data_column:nth-of-type(3) > .address > p:nth-of-type(1)",
+      "value": "{{company2}}\n{{firstName}} {{lastName2}}\n{{street3}}\n{{street4}}\n{{city}} {{state}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{country}}' === 'AU'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "div.order_data_column:nth-of-type(3) > .address > p:nth-of-type(1)",
+      "value": "{{firstName}} {{lastName2}}\n{{company2}}\n{{street3}}\n{{street4}}\n{{city}} {{stateComplete}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": ".order_note",
+      "value": "Order Note for Testing this field",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'true'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "688a0aeae5d3587e158f0193",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "a[href*=\"/wp-admin/post.php?post=\"]",
+      "value": "{{prod_desc}}"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "return '{{country}}' === 'AU'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "const subtotal = parseFloat('{{subtotalPrice}}'.replaceAll(',','').replace('{{Symbol}}','').trim())\nconst subtotalWithOutTax = (subtotal / 1.1).toFixed(2)\n\nreturn '{{Symbol}}'+subtotalWithOutTax",
+      "variableName": "subtotalWithOutTax"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "return '{{country}}' === 'AU'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "let shippingPrice = '{{shippingPrice}}';\nlet shippingWithOutTax;\nif (shippingPrice.includes('Regular') || shippingPrice.includes('$0.00')) {\n    shippingWithOutTax = '0.00'\n} else {\n    shippingPrice = parseFloat(shippingPrice.replaceAll(',','').replace('{{Symbol}}','').trim())\n    shippingWithOutTax = (shippingPrice / 1.1).toFixed(2)\n}\n\nreturn '{{Symbol}}'+shippingWithOutTax",
+      "variableName": "shippingWithOutTax"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "return '{{country}}' === 'CA'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "let shippingPrice = '{{shippingPrice}}';\n\nif (shippingPrice.includes('Lettermail (untracked)') || shippingPrice.includes('$0.00')) {\n    shippingPrice = '0.00'\n} else {\n    shippingPrice = parseFloat(shippingPrice.replaceAll(',','').replace('{{Symbol}}','').trim()).toFixed(2)\n}\n\nreturn '{{Symbol}}'+shippingPrice",
+      "variableName": "shippingWithOutTax"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{country}}' === 'CA'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(1) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{country}}' === 'AU'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(1) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotalWithOutTax}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return ({{coupon}} === true || {{redeeming}} === true) && '{{country}}' === 'CA'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": ".wc-order-data-row.wc-order-totals-items > table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(3) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{shippingWithOutTax}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return ({{coupon}} === true || {{redeeming}} === true) && '{{country}}' === 'AU'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": ".wc-order-data-row.wc-order-totals-items > table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(3) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{shippingWithOutTax}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return ({{coupon}} === false && {{redeeming}} === false) && '{{country}}' === 'CA'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": ".wc-order-data-row.wc-order-totals-items > table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(2) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{shippingWithOutTax}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return ({{coupon}} === false && {{redeeming}} === false) && '{{country}}' === 'AU'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": ".wc-order-data-row.wc-order-totals-items > table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(2) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{shippingWithOutTax}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return {{coupon}} === true || {{redeeming}} === true"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": ".wc-order-data-row.wc-order-totals-items > table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(4) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{taxPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return {{coupon}} === false && {{redeeming}} === false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": ".wc-order-data-row.wc-order-totals-items > table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(3) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{taxPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return {{coupon}} === true || {{redeeming}} === true"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": ".wc-order-data-row.wc-order-totals-items > table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(5) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return {{coupon}} === false && {{redeeming}} === false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": ".wc-order-data-row.wc-order-totals-items > table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(4) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "table.wc-order-totals:nth-of-type(2) > tbody > tr:nth-of-type(1) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "a[href*=\"{{startUrl}}wcpdf/invoice/{{orderNumber}}/wc_order_\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "div[data-order_id=\"{{orderNumber}}\"].wcpdf-data-fields",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "",
+      "value": "function checkAdminNote(note) {\n    const pattern = /Stripe charge complete \\(Charge ID: ch_[a-zA-Z0-9]+\\)/;\n    return pattern.test(note);\n}\n\n// Select all <p> elements within ul.order_notes > li > div > p\nconst notes = document.querySelectorAll('ul.order_notes > li > div > p');\n\n// Check if any note matches the pattern\nreturn Array.from(notes).some(note => checkAdminNote(note.textContent));\n",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "",
+      "value": "function checkAdminNote(note) {\n    const pattern = /Customer has earned {{earnPoints}} points. New balance is {{balance}} points./;\n    return pattern.test(note);\n}\n\n// Select all <p> elements within ul.order_notes > li > div > p\nconst notes = document.querySelectorAll('ul.order_notes > li > div > p');\n\n// Check if any note matches the pattern\nreturn Array.from(notes).some(note => checkAdminNote(note.textContent));\n",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "return {{redeeming}} === true"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "",
+      "value": "function checkAdminNote(note) {\n    const pattern = /Customer has redeemed {{redeemedPoints}} points\\. New balance is {{oldBalance}} points\\./;\n    return pattern.test(note);\n}\n\n// Select all <p> elements within ul.order_notes > li > div > p\nconst notes = document.querySelectorAll('ul.order_notes > li > div > p');\n\n// Check if any note matches the pattern\nreturn Array.from(notes).some(note => checkAdminNote(note.textContent));\n",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "688aa88b9e92b13236018779",
+    "suiteId": "6022c8a7262f437a9afa49ca",
+    "suiteName": "No Pong - Common steps for Project"
+  }
+}

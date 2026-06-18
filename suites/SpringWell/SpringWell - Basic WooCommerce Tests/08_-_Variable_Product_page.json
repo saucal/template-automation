@@ -1,0 +1,117 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "08 - Variable Product page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": ".container > [id=\"menu-mainmenu\"].main-navigation__list.main-menu__list > .menu-item.menu-item-type-taxonomy.menu-item-object-product_cat.menu-item-has-children > a[href*=\"/product-category/replacements/\"]"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "li.instock.product-type-variable",
+      "value": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "h1.product_title",
+      "value": "",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "const prod_desc = '{{prod_desc}}'.replaceAll('–','-').trim()\n\nreturn prod_desc",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "form > div.single_variation_wrap > div > div.woocommerce-variation-price > span > .list-unstyled.price-box > li:nth-of-type(2) > strong.color-green",
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": ".wcsatt-options-wrapper",
+      "value": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "const element = document.querySelector('#pack-size')\n\nreturn element !== null && element !== undefined"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "#pack-size",
+      "value": "",
+      "variableName": "variable1"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "const element = document.querySelector('#filter-lid-color')\n\nreturn element !== null && element !== undefined"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "#filter-lid-color",
+      "value": "",
+      "variableName": "variable2"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68500a60388232057bbb34ac",
+    "suiteId": "684c8070388232057b6f6ec6",
+    "suiteName": "SpringWell - Basic WooCommerce Tests"
+  }
+}

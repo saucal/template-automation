@@ -1,0 +1,574 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "6.1.0",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Fill Checkout",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "#billing_first_name",
+      "value": "{{firstName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "#billing_last_name",
+      "value": "{{lastName}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "#ship-to-different-address-checkbox",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#billing_company",
+      "value": "{{company}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "#select2-billing_country-container",
+      "value": "{{countryComplete}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "#billing_address_1",
+      "value": "{{street}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "#billing_address_2",
+      "value": "{{street2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "#billing_city",
+      "value": "{{city}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "#billing_state",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "#billing_state > option[value=\"{{state}}\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "#billing_postcode",
+      "value": "{{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "#billing_phone",
+      "value": "{{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "#billing_email",
+      "value": "{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const subscription = {{subscription}}\n\nreturn subscription !== true && '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "#createaccount",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": true,
+      "sequence": 14,
+      "target": "#account_password",
+      "value": "{{password}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "#shipping_first_name",
+      "value": "{{firstName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "#shipping_last_name",
+      "value": "{{lastName2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 17,
+      "target": "#shipping_company",
+      "value": "{{company2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let country = \"{{country}}\"\nreturn (country === \"CA\" || country === \"US\") && '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "#shipping_country_field > span",
+      "value": "{{countryComplete}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let country = \"{{country}}\"\nreturn country === \"AU\" &&  '{{logged}}' !== 'yes'\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": [
+        {
+          "selector": "#select2-shipping_country-container"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #select2-shipping_country-container"
+        }
+      ],
+      "value": "{{countryComplete}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "#shipping_address_1",
+      "value": "{{street3}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "#shipping_address_2",
+      "value": "{{street4}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "#shipping_city",
+      "value": "{{city}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "#shipping_state",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "#shipping_state > option[value=\"{{state}}\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "#shipping_postcode",
+      "value": "{{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "#order_comments",
+      "value": "Order Note for Testing this field",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "return '{{country}}' === 'AU' || ('{{country}}' === 'CA' && '{{subscription}}' === 'true')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "",
+      "value": "const phrase = `{{prod_desc}}`;\nconst result = phrase\n  .toLowerCase() // Convert entire string to lowercase\n  .split(/(\\s+|-|,|\")/) // Split by spaces, hyphens, or commas, keeping delimiters\n  .map(word => \n    word.match(/^[a-zA-Z]/) ? // Check if word starts with a letter\n      word.charAt(0).toUpperCase() + word.slice(1) : // Capitalize first letter\n      word // Keep non-letter words (like '35G', '-', ',') unchanged\n  )\n  .join(''); // Join back together\n\n return result",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "td.product-name",
+      "value": "{{prod_desc}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{subscription}}' !== 'true'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "td.product-total > span.woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'true' "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": ".subscription-price > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{subProdPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'true' "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": ".subscription-details > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{totalSignUpFee}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "notes": "",
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": [
+        {
+          "selector": "tr.cart-subtotal > td > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "tr.cart-subtotal > td > span.woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": [
+        {
+          "selector": "tr.shipping ul#shipping_method > li:nth-child(1) > label > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "tr.shipping ul#shipping_method > li:nth-child(1) > label > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "tr.shipping ul#shipping_method > li:nth-child(1) > label"
+        }
+      ],
+      "value": "{{shippingPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let country = \"{{country}}\"\nreturn country === \"AU\"\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": "tr.order-total:not(.recurring-total) > td > small > span.woocommerce-Price-amount.amount",
+      "value": "{{taxPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const country = \"{{country}}\"\n\nreturn country === \"CA\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": "tr.tax-rate:not(.recurring-total) > td > .woocommerce-Price-amount.amount",
+      "value": "{{taxPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 37,
+      "target": "strong > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'true' "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 38,
+      "target": "tr.cart-subtotal.recurring-total > td > .woocommerce-Price-amount.amount",
+      "value": "{{recurringSubtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'true' "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 39,
+      "target": "tr.shipping.recurring-total > td",
+      "value": "{{recurringShipping}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'true' "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 40,
+      "target": "tr.order-total.recurring-total > td > strong > .woocommerce-Price-amount.amount",
+      "value": "{{recurringTotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'true' && '{{country}}' === 'AU'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 41,
+      "target": "tr.order-total.recurring-total > td > small.includes_tax > .woocommerce-Price-amount.amount",
+      "value": "{{recurringTax}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'true' && '{{country}}' === 'CA'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 42,
+      "target": "tr.tax-rate.recurring-total > td > .woocommerce-Price-amount.amount",
+      "value": "{{recurringTax}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "removing topg-merch due to terms were removed from the checkout page",
+      "optional": false,
+      "private": false,
+      "sequence": 43,
+      "target": [
+        {
+          "selector": "#terms"
+        },
+        {
+          "selector": "#terms_acceptance"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68822fea2c245b961d95ec89",
+    "suiteId": "6022c8a7262f437a9afa49ca",
+    "suiteName": "No Pong - Common steps for Project"
+  }
+}

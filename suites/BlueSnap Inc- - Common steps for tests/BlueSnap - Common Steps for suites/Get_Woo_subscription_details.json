@@ -1,0 +1,99 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Get Woo subscription details",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "return new Promise(function (resolve, reject) {\n  const subscription = {{subscriptionID}};\n  const username = \"{{woo_user}}\"; \n  const password = \"{{woo_pass}}\"; \n  const url = \"{{startUrl}}wp-json/wc/v3/subscriptions/\"+subscription;\n  let headers = new Headers();\n  headers.set('Content-Type', 'application/json');\n  headers.set('Authorization', 'Basic ' + btoa(username + \":\" + password));\n  fetch(url, {method:'GET',\n      headers: headers, \n      credentials: 'omit'\n      })\n  .then(function(response) {\n    if (response.ok) {\n    resolve(response.json())\n    } else {\n    reject(new Error('error'))\n    } \n  })\n})",
+      "variableName": "mySubscription"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "const jsonOrder = {{mySubscription}}\nreturn Number(jsonOrder.total)",
+      "variableName": "totalRenew"
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let id = \"{{testID}}\"\nreturn id != \"BLU-002-029\" && id != \"BLU-002-031\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "const jsonOrder = {{mySubscription}}\nreturn jsonOrder.payment_method_title === \"{{paymentMethodTitle}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let id = \"{{testID}}\" \nreturn id === \"BLU-002-029\" ||  id === \"BLU-002-031\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "const jsonOrder = {{mySubscription}}\nreturn jsonOrder.payment_method_title",
+      "variableName": "paymentMethodTitle"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "const jsonOrder = {{mySubscription}}\nreturn jsonOrder.shipping_total",
+      "variableName": "shippingTotal"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "const jsonOrder = {{mySubscription}}\nreturn jsonOrder.shipping_tax",
+      "variableName": "shippingTaxTotal"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6182d15923071a6a859d55f2",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

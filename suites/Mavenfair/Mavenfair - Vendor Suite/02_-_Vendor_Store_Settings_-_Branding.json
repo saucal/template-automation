@@ -1,0 +1,238 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "02 - Vendor Store Settings - Branding",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "6001e87ac5e34d38d8d5edd8",
+      "variableName": ""
+    },
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "{{startUrl}}maker-dashboard/settings/",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"Branding\")]"
+        },
+        {
+          "selector": "a[href=\"#branding\"]"
+        }
+      ]
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#branding",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"Remove Store Banner\")]"
+        },
+        {
+          "selector": "a[href=\"#\"].wcv-file-uploader-delete_wcv_store_banner_id"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"Add Store Banner\")]"
+        },
+        {
+          "selector": "a[href=\"#\"].wcv-file-uploader-add_wcv_store_banner_id"
+        }
+      ]
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "file": {
+        "filename": "Zoom Bkg 9 – 1.png",
+        "size": 325934,
+        "path": "uploads/8cfc5665-15bd-4bce-bf9e-f0bc7a33bb4b.png",
+        "url": "https://ghostinspector-prod.s3.amazonaws.com/uploads/8cfc5665-15bd-4bce-bf9e-f0bc7a33bb4b.png"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "input[type=\"file\"]",
+      "value": "https://ghostinspector-prod.s3.amazonaws.com/uploads/8cfc5665-15bd-4bce-bf9e-f0bc7a33bb4b.png"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "680fcbe027a20ea152510391",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "//button[contains(text(), \"Add Store Banner\")]"
+        },
+        {
+          "selector": "button[type=\"button\"].button.media-button"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"Add Store Icon\")]"
+        },
+        {
+          "selector": "a[href=\"#\"].wcv-file-uploader-add_wcv_store_icon_id"
+        }
+      ]
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "file": {
+        "filename": "6e5c6a77-c8da-4a56-b36b-84dd2a6f27d4.png",
+        "size": 87842,
+        "path": "uploads/128a5d42-9758-4d49-944f-e08764967546.png",
+        "url": "https://ghostinspector-prod.s3.amazonaws.com/uploads/128a5d42-9758-4d49-944f-e08764967546.png"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "div.supports-drag-drop:not([style*='display: none;']) input[type=\"file\"]",
+      "value": "https://ghostinspector-prod.s3.amazonaws.com/uploads/128a5d42-9758-4d49-944f-e08764967546.png",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "680fcbe027a20ea152510391",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": [
+        {
+          "selector": "//button[contains(text(), \"Add Store Icon\")]"
+        },
+        {
+          "selector": "div.supports-drag-drop:not([style*='display: none;']) > .media-modal.wp-core-ui > .media-modal-content > .media-frame.wp-core-ui > .media-frame-toolbar > .media-toolbar > .media-toolbar-primary.search-form > button[type=\"button\"].button.media-button.button-primary.button-large"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "#store_save_button"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": ".wcvendors-dashboard-wrapper > div.woocommerce-message:nth-of-type(2)",
+      "value": "Store Settings Saved"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"Branding\")]"
+        },
+        {
+          "selector": "a[href=\"#branding\"]"
+        }
+      ]
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "66feba360e1aff64b4216b97",
+    "suiteId": "66fd46b20e1aff64b4ddba72",
+    "suiteName": "Mavenfair - Vendor Suite"
+  }
+}

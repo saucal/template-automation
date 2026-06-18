@@ -1,0 +1,85 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "69206738638b72979292d62b",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2025-11-21T13:20:56.022Z",
+    "details": "",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "69205e3a28d2a810e8dd44f2",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 2,
+    "maxWaitDelay": 15000,
+    "name": "HRG - Basic WooCommerce Tests",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": false,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://hrgoffroad-staging.mystagingwebsite.com/",
+    "testCount": 9,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "password",
+        "value": "fric2171Biot",
+        "private": true,
+        "_id": "68fe95f00c38c58f6ea426dd"
+      },
+      {
+        "name": "password2",
+        "value": "fric2172Biot",
+        "private": true,
+        "_id": "68fe95f00c38c58f6ea426de"
+      },
+      {
+        "name": "Symbol",
+        "value": "$",
+        "private": false,
+        "_id": "690230091a085ce44eca5c0c"
+      },
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "6920a326638b7297929bef58"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "6920a326638b7297929bef59"
+      },
+      {
+        "name": "company",
+        "value": "Testing Inc.",
+        "private": false,
+        "_id": "6920a326638b7297929bef5a"
+      },
+      {
+        "name": "phone",
+        "value": "3211231234",
+        "private": false,
+        "_id": "6920a326638b7297929bef5b"
+      }
+    ],
+    "viewportSize": {
+      "width": 1920,
+      "height": 1080
+    }
+  }
+}

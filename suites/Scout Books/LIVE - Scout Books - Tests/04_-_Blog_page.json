@@ -1,0 +1,85 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "04 - Blog page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": null,
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "#nav-menu-item-61 > a",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "div.mc-closeModal",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "eval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "// fetch all elements\nconst elems = Array.from(document.querySelectorAll(\"body *\"));\n// loop through elements and set static dimensions\nelems.forEach((elem) => {\n    const style = window.getComputedStyle(elem);\n    elem.style.setProperty(\"height\", style.height, \"important\");\n    elem.style.setProperty(\"max-height\", style.height, \"important\");\n    elem.style.setProperty(\"min-height\", \"0\", \"important\");\n    elem.style.setProperty(\"padding-top\", style.paddingTop, \"important\");\n    elem.style.setProperty(\"padding-bottom\", style.paddingBottom, \"important\");\n    elem.style.setProperty(\"margin-top\", style.marginTop, \"important\");\n    elem.style.setProperty(\"margin-bottom\", style.marginBottom, \"important\");\n})",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6480e41e2ea6e29169901777",
+    "suiteId": "6480e41e2ea6e2916990175c",
+    "suiteName": "LIVE - Scout Books - Tests"
+  }
+}

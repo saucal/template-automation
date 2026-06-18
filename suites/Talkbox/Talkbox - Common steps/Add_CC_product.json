@@ -1,0 +1,124 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Add CC product",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "{{startUrl}}crew/",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "yes",
+      "variableName": "CCrew"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "const element = document.querySelector('#joincrew > div.alignnone.wp-block-kadence-rowlayout:nth-of-type(4) > .kt-has-3-columns.kt-tab-layout-inherit > div.wp-block-kadence-column:nth-of-type(2) > .kt-inside-inner-col > div.wp-block-kadence-advancedbtn.kb-buttons-wrap:nth-of-type(3) > a.kb-button.kt-button.button.kt-btn-width-type-auto.kb-btn-global-fill.kt-btn-has-text-true.kt-btn-has-svg-false.wp-block-kadence-singlebtn > .kt-btn-inner-text')\n\nreturn !!element"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "#joincrew > div.alignnone.wp-block-kadence-rowlayout:nth-of-type(4) > .kt-has-3-columns.kt-tab-layout-inherit > div.wp-block-kadence-column:nth-of-type(2) > .kt-inside-inner-col > div.wp-block-kadence-advancedbtn.kb-buttons-wrap:nth-of-type(3) > a.kb-button.kt-button.button.kt-btn-width-type-auto.kb-btn-global-fill.kt-btn-has-text-true.kt-btn-has-svg-false.wp-block-kadence-singlebtn > .kt-btn-inner-text",
+      "value": "",
+      "variableName": "ccPrice"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const element = document.querySelector('#joincrew > div.alignnone.wp-block-kadence-rowlayout:nth-of-type(4) > .kt-has-3-columns.kt-tab-layout-inherit > div.wp-block-kadence-column:nth-of-type(2) > .kt-inside-inner-col > div.wp-block-kadence-advancedbtn.kb-buttons-wrap:nth-of-type(3) > a[href*=\"/checkout/?add-to-cart=683882\"].kb-button.kt-button.button.kt-btn-width-type-auto.kb-btn-global-fill.kt-btn-has-text-true.kt-btn-has-svg-false.wp-block-kadence-singlebtn > .kt-btn-inner-text')\nreturn !!element"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#joincrew > div.alignnone.wp-block-kadence-rowlayout:nth-of-type(4) > .kt-has-3-columns.kt-tab-layout-inherit > div.wp-block-kadence-column:nth-of-type(2) > .kt-inside-inner-col > div.wp-block-kadence-advancedbtn.kb-buttons-wrap:nth-of-type(3) > a[href*=\"/checkout/?add-to-cart=683882\"].kb-button.kt-button.button.kt-btn-width-type-auto.kb-btn-global-fill.kt-btn-has-text-true.kt-btn-has-svg-false.wp-block-kadence-singlebtn > .kt-btn-inner-text",
+      "value": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "return '{{ccPrice}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "const ccPrice = '{{ccPrice}}'\n\nlet result = ccPrice.match(/\\d+\\.*\\d*/g)\n\nresult = '$' + (parseFloat(result[0])).toFixed(2)\n\nreturn result\n",
+      "variableName": "ccPrice"
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "return '{{ccPrice}}' === ''\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "$47.00",
+      "variableName": "ccPrice"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const element = document.querySelector('#joincrew > div.alignnone.wp-block-kadence-rowlayout:nth-of-type(4) > .kt-has-3-columns.kt-tab-layout-inherit > div.wp-block-kadence-column:nth-of-type(2) > .kt-inside-inner-col > div.wp-block-kadence-advancedbtn.kb-buttons-wrap:nth-of-type(3) > a.kb-button.kt-button.button.kt-btn-width-type-auto.kb-btn-global-fill.kt-btn-has-text-true.kt-btn-has-svg-false.wp-block-kadence-singlebtn > .kt-btn-inner-text')\nreturn !!element"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "#joincrew > div.alignnone.wp-block-kadence-rowlayout:nth-of-type(4) > .kt-has-3-columns.kt-tab-layout-inherit > div.wp-block-kadence-column:nth-of-type(2) > .kt-inside-inner-col > div.wp-block-kadence-advancedbtn.kb-buttons-wrap:nth-of-type(3) > a.kb-button.kt-button.button.kt-btn-width-type-auto.kb-btn-global-fill.kt-btn-has-text-true.kt-btn-has-svg-false.wp-block-kadence-singlebtn > .kt-btn-inner-text"
+    },
+    {
+      "command": "open",
+      "condition": {
+        "statement": "const element = document.querySelector('#joincrew > div.alignnone.wp-block-kadence-rowlayout:nth-of-type(4) > .kt-has-3-columns.kt-tab-layout-inherit > div.wp-block-kadence-column:nth-of-type(2) > .kt-inside-inner-col > div.wp-block-kadence-advancedbtn.kb-buttons-wrap:nth-of-type(3) > a.kb-button.kt-button.button.kt-btn-width-type-auto.kb-btn-global-fill.kt-btn-has-text-true.kt-btn-has-svg-false.wp-block-kadence-singlebtn > .kt-btn-inner-text')\nreturn !element"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "{{startUrl}}checkout/?add-to-cart=683882",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69136622638b729792d1c5bc",
+    "suiteId": "63a1c5229034282736afc2e8",
+    "suiteName": "Talkbox - Common steps"
+  }
+}

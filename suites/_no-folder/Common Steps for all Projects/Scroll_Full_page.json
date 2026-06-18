@@ -1,0 +1,65 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Scroll Full page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": null,
+  "steps": [
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "command": "eval",
+      "target": "",
+      "value": "var body = document.documentElement || document.body;\nbody.scrollTop = 0;\nwindow.scroller = setInterval(function(){\n  body.scrollTop += 500;\n}, 500);",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "command": "pause",
+      "target": "",
+      "value": "10000",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "command": "eval",
+      "target": "",
+      "value": "clearInterval(window.scroller);\nvar body = document.documentElement || document.body;\nbody.scrollTop = 0;",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6022b62a262f437a9af8d3f1",
+    "suiteId": "6022b879262f437a9af8ddf9",
+    "suiteName": "Common Steps for all Projects"
+  }
+}

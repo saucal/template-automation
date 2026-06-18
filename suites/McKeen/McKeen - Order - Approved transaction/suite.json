@@ -1,0 +1,181 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "66d70ac09555366f689e04dc",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2024-09-03T13:10:24.740Z",
+    "details": "Basic WooCommerce Test",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "6022aa2ad2fb38677e5cfe89",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "McKeen - Order - Approved transaction",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://staging-metroglebe.kinsta.cloud/",
+    "testCount": 2,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "zipCode",
+        "value": "K1S 3V6",
+        "private": false,
+        "_id": "60007355c5e34d38d8c6f5b5"
+      },
+      {
+        "name": "url",
+        "value": "https://staging-metroglebe.kinsta.cloud/",
+        "private": false,
+        "_id": "606ca4a740a5d817bae1b64f"
+      },
+      {
+        "name": "stateComplete",
+        "value": "Ontario",
+        "private": false,
+        "_id": "627e55344b7dbf9dc9e9829a"
+      },
+      {
+        "name": "country",
+        "value": "CA",
+        "private": false,
+        "_id": "627e55344b7dbf9dc9e9829b"
+      },
+      {
+        "name": "countryComplete",
+        "value": "Canada",
+        "private": false,
+        "_id": "627e55344b7dbf9dc9e9829c"
+      },
+      {
+        "name": "lastName2",
+        "value": "Shipping Last Name",
+        "private": false,
+        "_id": "627e60774b7dbf9dc9ec74db"
+      },
+      {
+        "name": "street3",
+        "value": "123 Shipping False",
+        "private": false,
+        "_id": "627e60774b7dbf9dc9ec74dc"
+      },
+      {
+        "name": "street4",
+        "value": "Of. 67",
+        "private": false,
+        "_id": "627e60774b7dbf9dc9ec74dd"
+      },
+      {
+        "name": "company2",
+        "value": "Shipping company",
+        "private": false,
+        "_id": "627e60774b7dbf9dc9ec74de"
+      },
+      {
+        "name": "phone",
+        "value": "5675676545",
+        "private": false,
+        "_id": "627e63934b7dbf9dc9ed5e78"
+      },
+      {
+        "name": "password",
+        "value": "fric2171Biot",
+        "private": true,
+        "_id": "627e63934b7dbf9dc9ed5e79"
+      },
+      {
+        "name": "company",
+        "value": "Testing SA",
+        "private": false,
+        "_id": "627e6ffd4b7dbf9dc9f08503"
+      },
+      {
+        "name": "project",
+        "value": "mckeen",
+        "private": false,
+        "_id": "627e55344b7dbf9dc9e98292"
+      },
+      {
+        "name": "currency",
+        "value": "CAD",
+        "private": false,
+        "_id": "639ca667a67dec3a12cbb861"
+      },
+      {
+        "name": "Symbol",
+        "value": "$",
+        "private": false,
+        "_id": "627e55344b7dbf9dc9e98293"
+      },
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "627e55344b7dbf9dc9e98294"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "627e55344b7dbf9dc9e98295"
+      },
+      {
+        "name": "street",
+        "value": "123 False Street",
+        "private": false,
+        "_id": "627e55344b7dbf9dc9e98296"
+      },
+      {
+        "name": "street2",
+        "value": "Ap. 2",
+        "private": false,
+        "_id": "627e55344b7dbf9dc9e98297"
+      },
+      {
+        "name": "city",
+        "value": "Ottawa",
+        "private": false,
+        "_id": "627e55344b7dbf9dc9e98298"
+      },
+      {
+        "name": "state",
+        "value": "ON",
+        "private": false,
+        "_id": "627e55344b7dbf9dc9e98299"
+      },
+      {
+        "name": "admin_user",
+        "value": "guest+maintenanceAdmin@saucal.com",
+        "private": false,
+        "_id": "66b0ff4f54c18efd0e454b23"
+      },
+      {
+        "name": "admin_pass",
+        "value": "y4Qch37A4fQ6pd9ZGDqDwShR87reySp2PL",
+        "private": true,
+        "_id": "66b0ff4f54c18efd0e454b24"
+      }
+    ],
+    "viewportSize": {
+      "width": 1366,
+      "height": 768
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Next Payment Date 1",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "var today = new Date();\nvar options = { timeZone: \"America/Chicago\" };\n\n// Convert the current date to 'America/Chicago' timezone\nvar todayInChicago = new Date(\n  new Intl.DateTimeFormat('en-US', options).format(today)\n);\nvar futureDate = new Date(todayInChicago);\nif (!!'{{trial}}') {// Add 14 days to today's date\n    futureDate.setDate(futureDate.getDate() + Number('{{trial}}'));\n} else if ('Yearly' === 'Yearly') {\n    futureDate.setFullYear(futureDate.getFullYear() + 1);\n} else {\n    futureDate.setMonth(futureDate.getMonth() + 1);\n}\n\n// Define month names array\nvar monthNames = [\"January\", \"February\", \"March\", \"April\", \"May\", \"June\",\n  \"July\", \"August\", \"September\", \"October\", \"November\", \"December\"];\n\n// Format the date as \"Month Day, Year\"\nvar formattedDate = monthNames[futureDate.getMonth()] + \" \" + futureDate.getDate() + \" \" + futureDate.getFullYear();\n\n\nreturn formattedDate",
+      "variableName": "nextPayment1"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69f13cbfb1161572d18ddcaa",
+    "suiteId": "663cb8421aac3ea14f224fb2",
+    "suiteName": "Open Studio - Common steps"
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "07 - Simple Product page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": ".container > [id=\"menu-mainmenu\"].main-navigation__list.main-menu__list > .menu-item.menu-item-type-taxonomy.menu-item-object-product_cat.menu-item-has-children > a[href*=\"/product-category/replacements/\"]"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "//label[contains(text(),'RO Replacement Filters')]"
+        },
+        {
+          "selector": "div.widget_text.springwell-chw-widget input[id*='woof_38_']"
+        }
+      ],
+      "value": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "return window.location.href.includes('/product-category/replacements/ro-replacement-filters/')",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "li.product-type-simple.instock",
+      "value": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "h1.product_title",
+      "value": "",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "const prod_desc = '{{prod_desc}}'.replaceAll('–','-').trim()\n\nreturn prod_desc",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": ".product-details__content > .list-unstyled.price-box > li:nth-of-type(2) > strong.color-green",
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": ".wcsatt-options-wrapper",
+      "value": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "685004bf388232057bb91e06",
+    "suiteId": "684c8070388232057b6f6ec6",
+    "suiteName": "SpringWell - Basic WooCommerce Tests"
+  }
+}

@@ -1,0 +1,329 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "details": "Renewal order of a Subscription paid with CC - Admin",
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "10 - Place order - 02 - Renew + BackEnd",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "{{url}}wp-admin/",
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "yes",
+      "variableName": "admin"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "{{admin_user}}",
+      "variableName": "username"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": true,
+      "sequence": 2,
+      "target": "",
+      "value": "{{admin_pass}}",
+      "variableName": "pass"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "63cfc556af1e488d25d11a75",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "a[href=\"edit.php?post_type=shop_subscription\"]",
+      "value": "",
+      "variableName": "stagingMode"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "a[href=\"admin.php?page=wc-admin\"] > .wp-menu-name",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "a[href=\"edit.php?post_type=shop_order\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "a[href*=\"/wp-admin/post.php?post={{orderNumber}}&action=edit\"] > strong",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": ".woocommerce-order-data__meta",
+      "value": "Payment via Card",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "#select2-order_status-container",
+      "value": "Processing",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": ".wc-order-data-row.wc-order-totals-items > table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(1) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": ".wc-order-data-row.wc-order-totals-items > table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(2) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{taxPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": ".wc-order-data-row.wc-order-totals-items > table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(3) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": [
+        {
+          "selector": ".wc-order-data-row.wc-order-totals-items > table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(6) > td.total > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "table.wc-order-totals:nth-child(4) > tbody > tr > td.total > span > bdi"
+        }
+      ],
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "td:nth-of-type(5) > .amount",
+      "value": "{{recurringTotal}} / week",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "tr:nth-of-type(1) td:nth-of-type(5) > .amount",
+      "value": "{{recurringTotal}} every 8 months",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "",
+      "value": "62d56fa0760cc3cd6bc7c8ee",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "a[href*=\"/wp-admin/post.php?post={{renewID}}&action=edit\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let staging = \"{{stagingMode}}\"\nreturn false === staging.includes(\"staging\")"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": ".woocommerce-order-data__meta",
+      "value": "Payment via Credit Card",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let staging = \"{{stagingMode}}\"\nreturn false === staging.includes(\"staging\")"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "#select2-order_status-container",
+      "value": "Completed",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let staging = \"{{stagingMode}}\"\nreturn staging.includes(\"staging\") &&\"{{project}}\" !== \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "#select2-order_status-container",
+      "value": "Pending payment",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let staging = \"{{stagingMode}}\"\nreturn staging.includes(\"staging\")  && \"{{project}}\" == \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "#select2-order_status-container",
+      "value": "Processing",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": ".wc-order-data-row.wc-order-totals-items > table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(1) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": ".wc-order-data-row.wc-order-totals-items > table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(2) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{recurringTax}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": ".wc-order-data-row.wc-order-totals-items > table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(3) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{recurringTotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" == \"talkbox\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": ".wc-order-data-row.wc-order-totals-items > table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(4) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "$0.00",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "646e3557cc654ac751d2888b",
+    "suiteId": "646b8d2a33135384bb052b1c",
+    "suiteName": "Template WooCommerce Tests"
+  }
+}

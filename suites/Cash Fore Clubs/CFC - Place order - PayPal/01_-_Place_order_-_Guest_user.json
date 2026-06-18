@@ -1,0 +1,725 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "01 - Place order - Guest user",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotExclusions": "div.elementor-background-slideshow__slide > div.elementor-background-slideshow__slide__image, li.product > div > a > div > div.shoptimizer-plp-image-wrapper > img",
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "671b995aa3d0e8626e84e791",
+      "variableName": ""
+    },
+    {
+      "command": "eval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "const firstProductTop = document.querySelectorAll(\n  \"ul.products > li.product-type-simple.instock\"\n)[0];\n\nconst firstLink = firstProductTop.querySelector(\"a\");\n\nif (firstLink) {\n  firstLink.click();\n} else {\n  console.log(\"No product found in stock\");\n}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "h1.product_title",
+      "value": "",
+      "variableName": "prodDesc"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": ".summary > .price > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": "//button[contains(text(), \"Add to basket\")]"
+        },
+        {
+          "selector": "button[name=\"add-to-cart\"]"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "a[href*=\"/checkout/\"]"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "#billing_email",
+      "value": "{{email}}"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "button[type='button']#ppcp-axo-billing-email-submit-button"
+        },
+        {
+          "selector": "//button[contains(text(),'Continue')]"
+        }
+      ],
+      "value": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "#billing_first_name",
+      "value": "{{firstName}}"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "#billing_last_name",
+      "value": "{{lastName}}"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "#billing_company",
+      "value": "{{company}}"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "#billing_address_1",
+      "value": "{{street}}"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "#billing_address_2",
+      "value": "{{street2}}"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "#billing_city",
+      "value": "{{city}}"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "#select2-billing_state-container"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "span > span:nth-of-type(1) > input[type=\"text\"]",
+      "value": "{{county}}"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "//li[contains(text(), \"{{county}}\")]"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "#billing_postcode",
+      "value": "{{zipCode}}"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "#billing_phone",
+      "value": "{{phone}}"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "#createaccount"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "#ship-to-different-address-checkbox"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "#shipping_first_name",
+      "value": "{{firstName}}"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "#shipping_last_name",
+      "value": "{{lastName2}}"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "#shipping_company",
+      "value": "{{company2}}"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "#shipping_address_1",
+      "value": "{{street3}}"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "#shipping_address_2",
+      "value": "{{street4}}"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "#shipping_city",
+      "value": "{{city}}"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "#select2-shipping_state-container",
+      "value": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "span > span:nth-of-type(1) > input[type=\"text\"]",
+      "value": "{{county}}"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "//li[contains(text(), \"{{county}}\")]"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "#shipping_postcode",
+      "value": "{{zipCode}}"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "#order_comments",
+      "value": "Optional Order notes"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": "#terms",
+      "value": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": "tr.cart-subtotal > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "subtotal"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": "ul#shipping_method > li:nth-child(1) > label > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "shippingPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": "strong > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "total"
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 37,
+      "target": "",
+      "value": "const price = parseFloat(\"{{unitPrice}}\".replace(\"{{Symbol}}\",\"\").replaceAll(\",\",\"\").trim());\nconst shippingPrice = parseFloat(\"{{shippingPrice}}\".replace(\"{{Symbol}}\",\"\").replaceAll(\",\",\"\").trim());\nconst subtotal = parseFloat(\"{{subtotal}}\".replace(\"{{Symbol}}\",\"\").replaceAll(\",\",\"\").trim());\nconst total = parseFloat(\"{{total}}\".replace(\"{{Symbol}}\",\"\").replaceAll(\",\",\"\").trim());\n\nlet total2 = subtotal + shippingPrice\n\nreturn price === subtotal \n        && total2 === total",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 38,
+      "target": "label[for=\"payment_method_ppcp-gateway\"]"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 39,
+      "target": "",
+      "value": "62baece35a1bf494e9fc6b76",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 40,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 41,
+      "target": ".order > strong",
+      "value": "",
+      "variableName": "{{orderNumber}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 42,
+      "target": ".email > strong",
+      "value": "{{payPalUser}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 43,
+      "target": "strong > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 44,
+      "target": ".method > strong",
+      "value": "PayPal"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 45,
+      "target": "td.woocommerce-table__product-name",
+      "value": "{{prodDesc}} × 1",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 46,
+      "target": "td.woocommerce-table__product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 47,
+      "target": "tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount",
+      "value": "{{subtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 48,
+      "target": "tr:nth-of-type(2) > td > .woocommerce-Price-amount.amount",
+      "value": "{{shippingPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 49,
+      "target": "tr:nth-of-type(4) > td",
+      "value": "PayPal"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 50,
+      "target": "tr:nth-of-type(3) > td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 51,
+      "target": "tr:nth-of-type(5) > td",
+      "value": "Optional Order notes"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 52,
+      "target": ".woocommerce-column.woocommerce-column--1 > address",
+      "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{street2}}\n{{city}}\n{{county}}\n{{zipCode}}\n\n{{phone}}\n\n{{payPalUser}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 53,
+      "target": ".woocommerce-column.woocommerce-column--2 > address",
+      "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{street2}}\n{{city}}\n{{county}}\n{{zipCode}}\n\n{{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 54,
+      "target": "li.menu-item.menu-item-type-post_type.menu-item-object-page:nth-of-type(2) > a[href*=\"/my-account/\"]"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 55,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"Orders\")]"
+        },
+        {
+          "selector": ".woocommerce-MyAccount-navigation-link > a[href*=\"/my-account/orders/\"]"
+        }
+      ]
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 56,
+      "target": "a[href*=\"/my-account/view-order/{{orderNumber}}/\"][aria-label=\"View order number {{orderNumber}}\"]",
+      "value": "#{{orderNumber}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 57,
+      "target": "td.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-status",
+      "value": "Processing"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 58,
+      "target": "td.woocommerce-orders-table__cell > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 59,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"View\")]"
+        },
+        {
+          "selector": "a[href*=\"/my-account/view-order/{{orderNumber}}/\"].woocommerce-button"
+        }
+      ]
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 60,
+      "target": "td.woocommerce-table__product-name",
+      "value": "{{prodDesc}} × 1",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 61,
+      "target": ".woocommerce-Price-amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 62,
+      "target": "tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount",
+      "value": "{{subtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 63,
+      "target": "tr:nth-of-type(2) > td > .woocommerce-Price-amount.amount",
+      "value": "{{shippingPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 64,
+      "target": "tr:nth-of-type(4) > td",
+      "value": "PayPal"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 65,
+      "target": "tr:nth-of-type(3) > td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 66,
+      "target": "tr:nth-of-type(5) > td",
+      "value": "Optional Order notes"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 67,
+      "target": ".woocommerce-column.woocommerce-column--1 > address",
+      "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{street2}}\n{{city}}\n{{county}}\n{{zipCode}}\n\n{{phone}}\n\n{{payPalUser}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 68,
+      "target": ".woocommerce-column.woocommerce-column--2 > address",
+      "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{street2}}\n{{city}}\n{{county}}\n{{zipCode}}\n\n{{phone}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "671bb6b9a655f16a8cfbe98f",
+    "suiteId": "671bb6b9a655f16a8cfbe988",
+    "suiteName": "CFC - Place order - PayPal"
+  }
+}

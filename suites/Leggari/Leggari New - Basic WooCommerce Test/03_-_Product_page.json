@@ -1,0 +1,75 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "6.0.2",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": 10000,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "03 - Product page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotExclusions": "li > a > img",
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "685ac1c615b3a115491e05dc",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "a[href*=\"/product/\"]:not(a[href*=\"custom\"]) > div:nth-of-type(1) > img.attachment-woocommerce_thumbnail.size-woocommerce_thumbnail"
+        },
+        {
+          "selector": "a[href*=\"/product/\"]:not(a[href*=\"custom\"]) > img.attachment-woocommerce_thumbnail.size-woocommerce_thumbnail"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "685ac1c615b3a115491e05df",
+    "suiteId": "685ac1c615b3a115491e05bb",
+    "suiteName": "Leggari New - Basic WooCommerce Test"
+  }
+}

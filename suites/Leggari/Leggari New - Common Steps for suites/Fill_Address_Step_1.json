@@ -1,0 +1,270 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Fill Address Step 1",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "return '{{role}}' !== 'contractor'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "#billing_email",
+      "value": "{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return '{{role}}' !== 'contractor'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "#createaccount",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "#kl_newsletter_checkbox",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#billing_first_name",
+      "value": "{{firstName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "#billing_last_name",
+      "value": "{{lastName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "#shipping_company",
+      "value": "{{company2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "#shipping_address_1",
+      "value": "{{street3}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "#shipping_address_2",
+      "value": "{{street4}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "#shipping_city",
+      "value": "{{city}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "#shipping_postcode",
+      "value": "{{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 10,
+      "target": "button.needsclick",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "#select2-shipping_country-container > span",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "xpath=//li[contains(text(), \"United States\")]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "",
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": [
+        {
+          "selector": "#select2-shipping_state-container > span"
+        },
+        {
+          "selector": "#select2-shipping_state-container"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "span > span:nth-of-type(1) > input[type=\"text\"]",
+      "value": "{{state}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "xpath=//li[contains(text(), \"{{stateComplete}}\")]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return '{{role}}' !== 'contractor'"
+      },
+      "notes": "added step to select address type",
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "//*[@id=\"address_type\"]/option[2]",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return '{{role}}' === 'contractor'"
+      },
+      "notes": "added step to select address type",
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "//*[@id=\"address_type\"]/option[3]",
+      "value": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "#billing_phone",
+      "value": "{{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "#billing_same_as_shipping",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "#wfacp_checkout_form > div.wfacp-left-panel.wfacp_page.pre_built.single_step > div.wfacp-two-step-erap.wfacp-next-btn-wrap > button",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "#wfacp_checkout_form > div.wfacp-left-panel.wfacp_page.pre_built.single_step > div.wfacp-two-step-erap.wfacp-next-btn-wrap > button",
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "61effe223e617932e957b5be",
+    "suiteId": "61effe223e617932e957b5b8",
+    "suiteName": "Leggari New - Common Steps for suites"
+  }
+}

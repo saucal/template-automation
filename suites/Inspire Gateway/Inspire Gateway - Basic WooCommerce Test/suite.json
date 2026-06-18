@@ -1,0 +1,152 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "60ddd7b71f48295b52743257",
+    "abortOnTestFailure": false,
+    "autoRetry": true,
+    "browser": "chrome",
+    "dataSource": null,
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "60ddd78ba120da1448cc3c2e",
+    "globalStepDelay": 250,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "Inspire Gateway - Basic WooCommerce Test",
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": false,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://pluginmaint.mystagingwebsite.com/",
+    "testCount": 4,
+    "testFrequency": 0,
+    "viewportSize": {
+      "width": 1280,
+      "height": 800
+    },
+    "dateCreated": "2021-07-01T14:56:55.061Z",
+    "language": null,
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "CCard_Visa",
+        "value": "4532456663391384",
+        "private": false,
+        "_id": "60de025fa120da1448ce15d6"
+      },
+      {
+        "name": "CCard_Master",
+        "value": "5428418638398609",
+        "private": false,
+        "_id": "60de025fa120da1448ce15d7"
+      },
+      {
+        "name": "month",
+        "value": "12",
+        "private": false,
+        "_id": "60de025fa120da1448ce15d8"
+      },
+      {
+        "name": "year",
+        "value": "2030",
+        "private": false,
+        "_id": "60de025fa120da1448ce15d9"
+      },
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "60de025fa120da1448ce15da"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "60de025fa120da1448ce15db"
+      },
+      {
+        "name": "street",
+        "value": "123 False Street",
+        "private": false,
+        "_id": "60de025fa120da1448ce15dc"
+      },
+      {
+        "name": "city",
+        "value": "Miami",
+        "private": false,
+        "_id": "60de025fa120da1448ce15dd"
+      },
+      {
+        "name": "stateComplete",
+        "value": "Florida",
+        "private": false,
+        "_id": "60de025fa120da1448ce15de"
+      },
+      {
+        "name": "zipCode",
+        "value": "33126",
+        "private": false,
+        "_id": "60de025fa120da1448ce15df"
+      },
+      {
+        "name": "phone",
+        "value": "3049589689",
+        "private": false,
+        "_id": "60de025fa120da1448ce15e0"
+      },
+      {
+        "name": "CCard_stripe",
+        "value": "4242424242424242",
+        "private": false,
+        "_id": "60de025fa120da1448ce15e1"
+      },
+      {
+        "name": "password",
+        "value": "fric2171Biot",
+        "private": true,
+        "_id": "60de03a5a120da1448ce1d1b"
+      },
+      {
+        "name": "woo_user",
+        "value": "ck_f807472e43ee14b9b010d9412425f9562a888ef7",
+        "private": true,
+        "_id": "60df2f9ef7b14768f03e82ee"
+      },
+      {
+        "name": "woo_pass",
+        "value": "cs_781254d09c1692fe2d08dfba93e5c6d7733df1d5",
+        "private": true,
+        "_id": "60df2f9ef7b14768f03e82ef"
+      },
+      {
+        "name": "state",
+        "value": "FL",
+        "private": false,
+        "_id": "627bbb2026939cd0461b3249"
+      },
+      {
+        "name": "project",
+        "value": "inspire",
+        "private": false,
+        "_id": "627bbb4d97a3bd06e03aba4d"
+      },
+      {
+        "name": "Symbol",
+        "value": "$",
+        "private": false,
+        "_id": "627bc30326939cd0461e09b1"
+      }
+    ],
+    "httpAuthPassword": "32edf066e36a",
+    "httpAuthUsername": "demo"
+  }
+}

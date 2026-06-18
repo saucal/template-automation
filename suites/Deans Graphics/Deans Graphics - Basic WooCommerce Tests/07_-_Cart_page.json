@@ -1,0 +1,226 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "07 - Cart page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "610047e231299b2a64f78a35",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "xpath=//li[contains(text(), \"❯\")]"
+        },
+        {
+          "selector": ".ph-next"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 2,
+      "target": "#ph-calendar-overlay",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotVisible",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 3,
+      "target": "#ph-calendar-overlay",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "#ph-calendar-days > li.ph-calendar-date:nth-of-type(16)",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "642f24710b7aefb972412348",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "li.ph-calendar-date:nth-of-type(16) > .ph_calendar_day",
+      "value": "",
+      "variableName": "from"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "#ph-calendar-days > li.ph-calendar-date:nth-of-type(20)",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "642f24710b7aefb972412348",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "li.ph-calendar-date:nth-of-type(20) > .ph_calendar_day",
+      "value": "",
+      "variableName": "to"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "div.month-year-wraper > span.span-month",
+      "value": "",
+      "variableName": "month"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "div.month-year-wraper > span.span-year",
+      "value": "",
+      "variableName": "year"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "#booking_info_text",
+      "value": "Booking: {{month}} {{from}}, {{year}} to {{month}} {{to}}, {{year}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "#booking_price_text > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "h1.product_title.entry-title",
+      "value": "",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": [
+        {
+          "selector": "xpath=//button[contains(text(), \"Book Now\")]"
+        },
+        {
+          "selector": "button[name=\"add-to-cart\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": [
+        {
+          "selector": ".wc-block-components-notice-banner__content > a[href*=\"/growmark-display-program/cart/\"].button.wc-forward"
+        },
+        {
+          "selector": ".woocommerce-message > a[href*=\"/growmark-display-program/cart/\"].button.wc-forward"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "610048cd31299b2a64f78d22",
+    "suiteId": "608813304658f2361a7dfe9c",
+    "suiteName": "Deans Graphics - Basic WooCommerce Tests"
+  }
+}

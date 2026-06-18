@@ -1,0 +1,96 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "verify Email - only Customer",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "{{email}}",
+      "variableName": "playgroundsEmail"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "67adf606e66fdcb2f9ab0208",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let test = \"{{refund}}\"\nreturn test != \"full\" && test != \"partial\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "let len = document.querySelectorAll(\"tfoot > tr\")\nlen = len.length -1\nreturn len",
+      "variableName": "n"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let test = \"{{refund}}\"\nreturn test === \"full\" || test === \"partial\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "let len = document.querySelectorAll(\"tfoot > tr\")\nlen = len.length -2\nreturn len",
+      "variableName": "n"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": "iframe[srcdoc] tfoot > tr:nth-of-type({{n}}) > td.td"
+        },
+        {
+          "selector": "iframe[srcdoc] tr.order-totals.order-totals-payment_method > td"
+        }
+      ],
+      "value": "{{paymentMethodTitle}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "67adf606e66fdcb2f9ab0250",
+    "suiteId": "676eb96835aed64d3077072a",
+    "suiteName": "MC - Common Steps for Tests"
+  }
+}

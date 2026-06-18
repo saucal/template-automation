@@ -1,0 +1,158 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "6581879e6e489be5289553df",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2023-12-19T12:07:58.211Z",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "65803a6a6e489be5285b81b1",
+    "globalStepDelay": 250,
+    "httpAuthPassword": "adsh43ffhaw9r8h3",
+    "httpAuthUsername": "demo",
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "LIVE - ICG Bullion - Tests",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "ca-central-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://icgbullion.com/",
+    "testCount": 7,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "60ddbeb61f48295b52734d75"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "60ddbeb61f48295b52734d76"
+      },
+      {
+        "name": "street",
+        "value": "123 False Street",
+        "private": false,
+        "_id": "60ddbeb61f48295b52734d77"
+      },
+      {
+        "name": "street3",
+        "value": "123 False Shipping",
+        "private": false,
+        "_id": "60ddbeb61f48295b52734d78"
+      },
+      {
+        "name": "city",
+        "value": "Calgary",
+        "private": false,
+        "_id": "60ddbeb61f48295b52734d79"
+      },
+      {
+        "name": "zipCode",
+        "value": "T2T 0A4",
+        "private": false,
+        "_id": "60ddbeb61f48295b52734d7a"
+      },
+      {
+        "name": "phone",
+        "value": "6135465467",
+        "private": false,
+        "_id": "60ddbeb61f48295b52734d7b"
+      },
+      {
+        "name": "password",
+        "value": "fric2171Biot",
+        "private": true,
+        "_id": "60ddbeb61f48295b52734d7c"
+      },
+      {
+        "name": "password2",
+        "value": "fric2172Biot",
+        "private": true,
+        "_id": "60ddbeb61f48295b52734d7d"
+      },
+      {
+        "name": "lastName2",
+        "value": "{{alphanumeric}} Ship",
+        "private": false,
+        "_id": "60ddbeb61f48295b52734d7e"
+      },
+      {
+        "name": "project",
+        "value": "icg",
+        "private": false,
+        "_id": "627ab58e97a3bd06e0fdc649"
+      },
+      {
+        "name": "countryComplete",
+        "value": "Canada",
+        "private": false,
+        "_id": "627abe4d26939cd046ddafb0"
+      },
+      {
+        "name": "state",
+        "value": "AB",
+        "private": false,
+        "_id": "627abe4d26939cd046ddafb1"
+      },
+      {
+        "name": "stateComplete",
+        "value": "Alberta",
+        "private": false,
+        "_id": "627abe4d26939cd046ddafb2"
+      },
+      {
+        "name": "Symbol",
+        "value": "$",
+        "private": false,
+        "_id": "627abfee26939cd046ddf906"
+      },
+      {
+        "name": "admin_user",
+        "value": "guest@saucal.com",
+        "private": false,
+        "_id": "6477abe90bf912e0786b99b5"
+      },
+      {
+        "name": "admin_pass",
+        "value": "Gq4Mq0iJL!EnP6rLmp8WOue7",
+        "private": true,
+        "_id": "6477abe90bf912e0786b99b6"
+      },
+      {
+        "name": "country",
+        "value": "CA",
+        "private": false,
+        "_id": "6477b0925bf68ad286262479"
+      }
+    ],
+    "viewportSize": [
+      {
+        "width": 360,
+        "height": 567
+      },
+      {
+        "width": 1920,
+        "height": 1080
+      }
+    ]
+  }
+}

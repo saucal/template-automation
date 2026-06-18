@@ -1,0 +1,134 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "6823b3e5ab4ff4354d2946d9",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome-139",
+    "dataSource": null,
+    "dateCreated": "2025-05-13T21:04:37.429Z",
+    "details": "",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "68235194b3e7bdebe920704d",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "Biogeta - Place order Backend + Email",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "eu-central-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "screenshotExclusions": "div.grw-reviews",
+    "startUrl": "https://biogeta-staging.mystagingwebsite.com/",
+    "testCount": 5,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "project",
+        "value": "biogeta",
+        "private": false,
+        "_id": "671ba803f7c3927cffd4872d"
+      },
+      {
+        "name": "zipCode",
+        "value": "10785",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf876f"
+      },
+      {
+        "name": "password2",
+        "value": "helloworld234",
+        "private": true,
+        "_id": "671bab60f7c3927cffd53f08"
+      },
+      {
+        "name": "Symbol",
+        "value": "€",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8767"
+      },
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8768"
+      },
+      {
+        "name": "vat",
+        "value": "DE123456789",
+        "private": false,
+        "_id": "68260261fbb2e735f6f2934c"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8769"
+      },
+      {
+        "name": "street",
+        "value": "30 Leicester Square",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf876b"
+      },
+      {
+        "name": "city",
+        "value": "Berlin",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf876d"
+      },
+      {
+        "name": "phone",
+        "value": "+497412345678",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8770"
+      },
+      {
+        "name": "lastName2",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8771"
+      },
+      {
+        "name": "company2",
+        "value": "Shipping Inc.",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8772"
+      },
+      {
+        "name": "street3",
+        "value": "30 Leicester Square",
+        "private": false,
+        "_id": "671bf08cf7c3927cffdf8773"
+      },
+      {
+        "name": "password",
+        "value": "helloworld123",
+        "private": true,
+        "_id": "671bab60f7c3927cffd53f07"
+      },
+      {
+        "name": "prodUrl",
+        "value": "https://biogeta.com/de/",
+        "private": false,
+        "_id": "68dc044e47dc6975eebccf5a"
+      }
+    ],
+    "viewportSize": {
+      "width": 1920,
+      "height": 1080
+    }
+  }
+}

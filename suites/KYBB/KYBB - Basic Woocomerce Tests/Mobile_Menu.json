@@ -1,0 +1,99 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Mobile Menu",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": true,
+  "screenshotTarget": "#mobileMenu .menu-mobile-menu-container",
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": null,
+  "steps": [
+    {
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 0,
+      "command": "click",
+      "target": "#hs-eu-confirmation-button",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "command": "click",
+      "target": "#mobileMenu .btn.mOpen",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "command": "assertElementVisible",
+      "target": "#mobileMenu #menu-mobile-menu",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "command": "screenshot",
+      "target": "#mobileMenu #menu-mobile-menu",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "command": "click",
+      "target": "#mobileMenu #menu-mobile-menu > .menu-item-has-children > a",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "command": "assertElementVisible",
+      "target": "#mobileMenu #menu-mobile-menu > .menu-item-has-children > .sub-menu",
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": {
+    "width": 414,
+    "height": 896
+  },
+  "_gi": {
+    "testId": "618d95fd6dba1a448b2d9741",
+    "suiteId": "607f606d7f3aeb2f02535e94",
+    "suiteName": "KYBB - Basic Woocomerce Tests"
+  }
+}

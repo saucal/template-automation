@@ -1,0 +1,171 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "01 - Home page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": ".hamburger-menu.hamburger-menu-white",
+      "value": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "ul#menu-fletcher-moss-menu > li.menu-item > span > a[href=\"/product/offer-clearance/\"]",
+      "value": "Clearance"
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "ul#menu-fletcher-moss-menu > li.menu-item > span > a[href=\"/product-category/new-in/\"]",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "ul#menu-fletcher-moss-menu > li.menu-item > span > a[href*=\"/skin-care/\"]",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "ul#menu-fletcher-moss-menu > li.menu-item > span > a[href*=\"/hair-care/\"]",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "ul#menu-fletcher-moss-menu > li.menu-item > span > a[href*=\"/body-care\"]",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "ul#menu-fletcher-moss-menu > li.menu-item > span > a[href*=\"/home/\"]",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "ul#menu-fletcher-moss-menu > li.menu-item > span > a[href*=\"/sun-care\"]",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "ul#menu-fletcher-moss-menu > li.menu-item > span > a[href*=\"/gift-sets/\"]",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "ul#menu-fletcher-moss-menu > li.menu-item > span > a[href*=\"/self-care\"]",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "ul#menu-fletcher-moss-menu > li.menu-item > span > a[href*=\"/shave\"]",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "ul#menu-fletcher-moss-menu > li.menu-item > span > a[href*=\"/dental\"]",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "ul#menu-fletcher-moss-menu > li.menu-item > span > a[href*=\"/beard/\"]",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "ul#menu-fletcher-moss-menu > li.menu-item > span > a[href*=\"/kids/\"]",
+      "value": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68c07025029c694b8f757884",
+    "suiteId": "68c0700d029c694b8f7575be",
+    "suiteName": "Gruum - Basic WooCommerce Tests"
+  }
+}

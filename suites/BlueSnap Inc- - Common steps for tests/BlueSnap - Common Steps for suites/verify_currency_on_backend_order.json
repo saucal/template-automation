@@ -1,0 +1,570 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "6.1.0",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "verify currency on backend order",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n            \"{{includeTax}}\" === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "let result = {{listPrices}}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}', minimumFractionDigits: 2}).format(result[0])\n",
+      "variableName": "totalProd"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n        \"{{includeTax}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "let result = {{listPrices}}\nlet price = result[0]/1.1\nif ('{{currency}}' === 'JPY') {\n    price = Math.round(price)\n}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}', minimumFractionDigits: 2}).format(price)\n",
+      "variableName": "totalProd"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return \n                (\n                    currency !== \"JPY\"\n                    &&\n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 2\n                    )\n                )\n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            \n"
+      },
+      "notes": "Fixed on 3.2 version ",
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "td.item_cost > .view > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{totalProd}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n            freeTrial != \"yes\" \n            && \n            \"{{includeTax}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "let result = {{listPrices}}\nlet price = (result[0]/1.1)-(result[2]/1.1)\nif ('{{currency}}' === 'JPY') {\n    price = Math.round(price)\n}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}', minimumFractionDigits: 2}).format(price)\n",
+      "variableName": "totalProdWithDiscount"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n            freeTrial != \"yes\" \n            && \n            \"{{includeTax}}\" === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "let result = {{listPrices}}\nlet price = result[0]-result[2]\nif ('{{currency}}' === 'JPY') {\n    price = Math.round(price)\n}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}', minimumFractionDigits: 2}).format(price)\n",
+      "variableName": "totalProdWithDiscount"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nlet includeTax = \"{{includeTax}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nconst blog = '{{blog}}'.includes('block')\n    return (\n                (\n                    currency !== \"JPY\"\n                    &&\n                    (\n                        (blueSnapVs[0] >= 3 \n                        && \n                        blueSnapVs[1] >= 2\n                        &&\n                        !blog)\n                        ||\n                        (blueSnapVs[0] >= 3 \n                        && \n                        blueSnapVs[1] >= 5\n                        &&\n                        blog)\n                    )\n                )\n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n            freeTrial != \"yes\"\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "td.line_cost > .view > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{totalProdWithDiscount}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn      (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n            freeTrial === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "td.line_cost > .view > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{totalProd}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n            freeTrial != \"yes\" && \"{{includeTax}}\" === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "let result = {{listPrices}}\nlet price = (result[0]-result[2])*0.1\nif ('{{currency}}' === 'JPY') {\n    price = Math.round(price)\n}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}', minimumFractionDigits: 2}).format(price)\n",
+      "variableName": "productTax"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n            freeTrial != \"yes\" && \"{{includeTax}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "let result = {{listPrices}}\nlet price = ((result[0]/1.1)-(result[2]/1.1))*0.1\nif ('{{currency}}' === 'JPY') {\n    price = Math.round(price)\n}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}', minimumFractionDigits: 2}).format(price)\n",
+      "variableName": "productTax"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            && \n            freeTrial === \"yes\" && \"{{includeTax}}\" === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "let result = {{listPrices}}\nlet price = (result[0])*0.1\nif ('{{currency}}' === 'JPY') {\n    price = Math.round(price)\n}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}', minimumFractionDigits: 2}).format(price)\n",
+      "variableName": "productTax"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n            freeTrial === \"yes\" && \"{{includeTax}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "let result = {{listPrices}}\nlet price = (result[0]/1.1)*0.1\nif ('{{currency}}' === 'JPY') {\n    price = Math.round(price)\n}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}', minimumFractionDigits: 2}).format(price)\n",
+      "variableName": "productTax"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "td.line_tax > .view > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{productTax}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n            freeTrial != \"yes\" && \"{{includeTax}}\" === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "let result = {{listPrices}}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}', minimumFractionDigits: 2}).format(result[2])\n",
+      "variableName": "discount"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n            freeTrial != \"yes\" && \"{{includeTax}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "let result = {{listPrices}}\nlet discount = result[2]/1.1\nif ('{{currency}}' === 'JPY') {\n    price = Math.round(price)\n}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}', minimumFractionDigits: 2}).format(discount)\n",
+      "variableName": "discount"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n            freeTrial != \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": ".wc-order-item-discount > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{discount}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nlet checklogs = \"{{checklogs}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n            freeTrial != \"yes\" && checklogs != \"upgrade\" && \"{{includeTax}}\" === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "let result = {{listPrices}}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}', minimumFractionDigits: 2}).format(result[3])\n",
+      "variableName": "shipping"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nlet checklogs = \"{{checklogs}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n            freeTrial != \"yes\" && checklogs != \"upgrade\" && \"{{includeTax}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "",
+      "value": "let result = {{listPrices}}\nlet price = result[3]/1.1\nif ('{{currency}}' === 'JPY') {\n    price = Math.round(price)\n}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}', minimumFractionDigits: 2}).format(price)\n",
+      "variableName": "shipping"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nlet checklogs = \"{{checklogs}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nlet currency = \"{{currency}}\"\n\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n            freeTrial != \"yes\" && checklogs != \"upgrade\" && \n            (\n                \"{{includeTax}}\" === \"no\"\n                || \n                (\n                    \"{{includeTax}}\" === \"yes\"  \n                    && \n                    blueSnapVs[0] >= 3 \n                    && \n                    blueSnapVs[1] >= 2\n                )\n            )\n"
+      },
+      "notes": "Fixed on 3.2 version ",
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "tr.shipping > td.line_cost > .view > .woocommerce-Price-amount.amount",
+      "value": "{{shipping}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nlet checklogs = \"{{checklogs}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n            freeTrial != \"yes\" && checklogs != \"upgrade\" && \"{{includeTax}}\" === \"no\""
+      },
+      "notes": "",
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "",
+      "value": "let result = {{listPrices}}\nlet price = result[3]*0.1\nif ('{{currency}}' === 'JPY') {\n    price = Math.round(price)\n}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}', minimumFractionDigits: 2}).format(price)\n",
+      "variableName": "shippingTax"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nlet checklogs = \"{{checklogs}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n            freeTrial != \"yes\" && checklogs != \"upgrade\" && \"{{includeTax}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "",
+      "value": "let result = {{listPrices}}\nlet price = (result[3]/1.1)*0.1\nif ('{{currency}}' === 'JPY') {\n    price = Math.round(price)\n}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}', minimumFractionDigits: 2}).format(price)\n",
+      "variableName": "shippingTax"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nlet checklogs = \"{{checklogs}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n            freeTrial != \"yes\" && checklogs != \"upgrade\" && \n        (\"{{includeTax}}\" === \"no\"\n        || (\"{{includeTax}}\" === \"yes\"  && blueSnapVs[0] >= 3 && blueSnapVs[1] >= 2)\n        )\n"
+      },
+      "notes": "Fixed on 3.2 version ",
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "tr.shipping > td.line_tax > .view > .woocommerce-Price-amount.amount",
+      "value": "{{shippingTax}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            && \"{{includeTax}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "",
+      "value": "let result = {{listPrices}}\nlet price = result[1]/1.1\nif ('{{currency}}' === 'JPY') {\n    price = Math.round(price)\n}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}', minimumFractionDigits: 2}).format(price)\n",
+      "variableName": "subtotal"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n            \"{{includeTax}}\" === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "",
+      "value": "let result = {{listPrices}}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}', minimumFractionDigits: 2}).format(result[1])\n",
+      "variableName": "subtotal"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(1) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n            freeTrial != \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": ".wc-order-data-row.wc-order-totals-items > table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(2) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{discount}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nlet checklogs = \"{{checklogs}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nlet includeTax = \"{{includeTax}}\"\nlet currency = \"{{currency}}\"\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n            freeTrial != \"yes\" && checklogs != \"upgrade\" \n            && \n            (\n                includeTax === \"no\"\n                || \n                (\n                    includeTax === \"yes\" \n                    &&\n                    blueSnapVs[0] >= 3 && blueSnapVs[1] >= 2\n                )\n            )\n"
+      },
+      "notes": "Fixed on 3.2 version ",
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": ".wc-order-data-row.wc-order-totals-items > table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(3) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{shipping}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nlet checklogs = \"{{checklogs}}\"\nlet includeTax = \"{{includeTax}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n            freeTrial != \"yes\" && checklogs != \"upgrade\" "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "",
+      "value": "let result = {{listPrices}}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}', minimumFractionDigits: 2}).format(result[4])\n",
+      "variableName": "tax"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nlet checklogs = \"{{checklogs}}\"\nlet includeTax = \"{{includeTax}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n            freeTrial != \"yes\" && checklogs != \"upgrade\" "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "tr:nth-of-type(4) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{tax}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n            freeTrial === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "",
+      "value": "let result = {{listPrices}}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}', minimumFractionDigits: 2}).format(result[2])\n",
+      "variableName": "tax"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n            freeTrial === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "div.wc-order-data-row.wc-order-totals-items.wc-order-items-editable > table.wc-order-totals > tbody > tr:nth-of-type(2) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{tax}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n            checklogs === \"upgrade\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "",
+      "value": "let result = {{listPrices}}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}', minimumFractionDigits: 2}).format(result[3])\n",
+      "variableName": "tax"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n            checklogs === \"upgrade\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "div.wc-order-data-row.wc-order-totals-items.wc-order-items-editable > table.wc-order-totals > tbody >tr:nth-of-type(3) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{tax}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nlet checklogs = \"{{checklogs}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n            freeTrial != \"yes\" && checklogs != \"upgrade\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": "",
+      "value": "let result = {{listPrices}}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}', minimumFractionDigits: 2}).format(result[5])\n",
+      "variableName": "total"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nlet checklogs = \"{{checklogs}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n            freeTrial != \"yes\" && checklogs != \"upgrade\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": "tr:nth-of-type(5) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n            freeTrial === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": "",
+      "value": "let result = {{listPrices}}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}', minimumFractionDigits: 2}).format(result[3])\n",
+      "variableName": "total"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n            freeTrial === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": "div.wc-order-data-row.wc-order-totals-items.wc-order-items-editable > table.wc-order-totals > tbody > tr:nth-of-type(3) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n            checklogs === \"upgrade\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": "",
+      "value": "let result = {{listPrices}}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}', minimumFractionDigits: 2}).format(result[4])\n",
+      "variableName": "total"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n            checklogs === \"upgrade\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 37,
+      "target": "div.wc-order-data-row.wc-order-totals-items.wc-order-items-editable > table.wc-order-totals > tbody > tr:nth-of-type(4) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let pay = \"{{pay}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n            pay != \"later\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 38,
+      "target": ".wc-order-data-row.wc-order-totals-items > table.wc-order-totals:nth-of-type(2) > tbody > tr:nth-of-type(1) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nlet freeTrial = \"{{freeTrial}}\"\nlet checklogs = \"{{checklogs}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n            test === \"subscription\" && freeTrial != \"yes\" && checklogs != \"upgrade\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 39,
+      "target": "",
+      "value": "let result = {{listPrices}}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}', minimumFractionDigits: 2}).format(result[11])\n",
+      "variableName": "recurringTotal"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let freeTrial = \"{{freeTrial}}\"\nlet test = \"{{test}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n            test === \"subscription\" && freeTrial === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 40,
+      "target": "",
+      "value": "let result = {{listPrices}}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}', minimumFractionDigits: 2}).format(result[9])\n",
+      "variableName": "recurringTotal"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let checklogs = \"{{checklogs}}\"\nlet test = \"{{test}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n            test === \"subscription\" && checklogs === \"upgrade\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 41,
+      "target": "",
+      "value": "let result = {{listPrices}}\nreturn Intl.NumberFormat('{{defaultLocale}}', { style: 'currency', currency: '{{currency}}', minimumFractionDigits: 2}).format(result[10])\n",
+      "variableName": "recurringTotal"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nlet checklogs = \"{{checklogs}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n            &&\n            test === \"subscription\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 42,
+      "target": ".amount > .woocommerce-Price-amount.amount",
+      "value": "{{recurringTotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n    return (\n                currency !== \"JPY\" \n                || \n                (\n                    currency === \"JPY\" \n                    && \n                    (\n                        Number(blueSnapVs[0]) >= 3 \n                        && Number(blueSnapVs[1]) >= 5\n                    )\n                )\n            )\n    "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 43,
+      "target": "",
+      "value": "6452af88af1e488d25284065",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "637bde1c00f0a0a031e7f7d2",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

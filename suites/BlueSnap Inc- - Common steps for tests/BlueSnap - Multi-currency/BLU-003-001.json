@@ -1,0 +1,320 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "details": "Home page",
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "6.1.0",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "BLU-003-001",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "6634f5ac89e87fd8391d9c05",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "64e89beb4c06b965a964a55f",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "643fe3fac05a9d9f34afaec8",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "{{defaultCurr}}",
+      "variableName": "currency"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "65a15a286e489be5285930c5",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "{{parts}}",
+      "variableName": "defaultParts"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "{{decimals}}",
+      "variableName": "decimalsDefault"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "{{locale}}",
+      "variableName": "defaultLocale"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "65a159893a499796834bb8a2",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn  (Number(blueSnapVs[0]) <= 3 && Number(blueSnapVs[1]) <= 1) \n        || \n        (Number(blueSnapVs[0]) === 2 && Number(blueSnapVs[1]) <= 6)"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "64f5cbcbe0dfa97aa9f14eb0",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn  (Number(blueSnapVs[0]) >= 3 && Number(blueSnapVs[1]) >= 2) "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "64f5cc315e52a69a752ed5a1",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "65cb952cf59aa2b4f322819e",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "6483820782bf299ccbd696d1",
+      "variableName": ""
+    },
+    {
+      "command": "refresh",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "630e60c1e3896e4c0d45da3f",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "",
+      "value": "{{curr}}",
+      "variableName": "currency"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "",
+      "value": "630e2591e3896e4c0d349f26",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "",
+      "value": "630f555dcd380e119cb7c9f8",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "",
+      "value": "630e60c1e3896e4c0d45da3f",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn Number(blueSnapVs[0]) >= 3 && Number(blueSnapVs[1]) >= 5\n"
+      },
+      "notes": "Fixed on BlueSnap 3.5",
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "",
+      "value": "630e5a9ecd380e119c7bcdea",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "",
+      "value": "6334a527db1ab7e45ee43007",
+      "variableName": ""
+    },
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "",
+      "value": "{{startUrl}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "select[name=\"bluesnap_currency_selector\"]",
+      "value": "",
+      "variableName": "selectedCurr"
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let selectedCurr = \"{{selectedCurr}}\"\nreturn selectedCurr !== \"{{curr}}\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "",
+      "value": "630e2591e3896e4c0d349f26",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "",
+      "value": "630e60c1e3896e4c0d45da3f",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn Number(blueSnapVs[0]) >= 3 && Number(blueSnapVs[1]) >= 5"
+      },
+      "notes": "Fixed on BlueSnap 3.5",
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "",
+      "value": "630e5a9ecd380e119c7bcdea",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "67f3cddb74d7454094c05113",
+    "suiteId": "67f3cddb74d7454094c050ec",
+    "suiteName": "BlueSnap - Multi-currency"
+  }
+}

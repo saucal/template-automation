@@ -1,0 +1,99 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "05 - Simple product page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "69a1df3d3dc7ceb27c5f9b49",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": ".wp-block-kadence-navigation.is-horizontal > nav.navigation > .menu-container > .kb-navigation.menu > li.menu-item.wp-block-kadence-navigation-link:nth-of-type(1) > .kb-link-wrap > a[href*=\"/shop\"].kb-nav-link-content"
+    },
+    {
+      "command": "eval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "const button = document.querySelectorAll('.add-to-cart:not(.variable)')[0];\n// or: const button = this;   // ← inside event listener\n\nconst titleLink = button.closest('.s7oh-product-card').querySelector('.s7oh-product-card__title > a')\n\ntitleLink.click()\n",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": ".woocommerce-product-rating",
+      "value": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "h2.product_title",
+      "value": "",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": ".price > ins > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": ".price > .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "",
+      "variableName": "unitPrice"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69a1e4173dc7ceb27c60543a",
+    "suiteId": "69a1dd383dc7ceb27c5f126e",
+    "suiteName": "Simply7oh - Basic WooCommerce tests"
+  }
+}

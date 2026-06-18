@@ -1,0 +1,59 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Extract shipping cost",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": {
+        "statement": "let shipping = document.querySelector(\"tr.topg-checkout-shipping > td\").textContent.trim();\n//let shippingText = document.querySelector(\"tr.topg-checkout-shipping > td\").textContent.trim();\n\nreturn shipping == \"Free shipping\"\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "Free shipping",
+      "variableName": "shippingCost"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "return document.querySelector(\"tr.topg-checkout-shipping > td > .woocommerce-Price-amount.amount\") != null;"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "tr.topg-checkout-shipping > td > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "shippingCost"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6761f85b7a599a5bc84a82e8",
+    "suiteId": "675cc6c97a599a5bc8c00816",
+    "suiteName": "Top G supplements common steps"
+  }
+}

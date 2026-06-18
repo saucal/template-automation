@@ -1,0 +1,117 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Get Woo order details",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "return new Promise(function (resolve, reject) {\n  const order = {{orderNumber}};\n  const username = \"{{woo_user}}\"; \n  const password = \"{{woo_pass}}\"; \n  const url = \"{{startUrl}}wp-json/wc/v3/orders/\"+order;\n  let headers = new Headers();\n  headers.set('Content-Type', 'application/json');\n  headers.set('Authorization', 'Basic ' + btoa(username + \":\" + password));\n  fetch(url, {method:'GET',\n      headers: headers,\n      credentials: 'omit',\n      })\n  .then(function(response) {\n    if (response.ok) {\n    resolve(response.json())\n    } else {\n    reject(new Error('error'))\n    } \n  })\n})",
+      "variableName": "myOrder"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "const jsonOrder = {{myOrder}}\nreturn jsonOrder.transaction_id",
+      "variableName": "transaction_id"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "const jsonOrder = {{myOrder}}\nreturn jsonOrder.payment_method_title",
+      "variableName": "paymentMethodTitle"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "const jsonOrder = {{myOrder}}\nreturn jsonOrder.date_modified",
+      "variableName": "payDateRenew"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "const jsonOrder = {{myOrder}}\nreturn Number(jsonOrder.total)",
+      "variableName": "total"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let currency = \"{{curr}}\"\nlet scenario = \"{{scenario}}\"\nreturn scenario === \"multi-currency\" && currency === \"JPY\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "let total = {{total}}\ntotal = Math.round(total)\nreturn total",
+      "variableName": "total"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "const jsonOrder = {{myOrder}}\nreturn jsonOrder.shipping_total",
+      "variableName": "shippingTotal"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "const jsonOrder = {{myOrder}}\nreturn jsonOrder.shipping_tax",
+      "variableName": "shippingTaxTotal"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "60afddfb373d3a09fef13e98",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

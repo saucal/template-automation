@@ -1,0 +1,431 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36",
+  "dataSource": null,
+  "details": "Pay for a failed renewal subscription order using a new CC",
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "5.4.1",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "BLU-001-077",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "Processing",
+      "variableName": "status"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "subscription",
+      "variableName": "test"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "new",
+      "variableName": "user"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "fail",
+      "variableName": "order"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "Active",
+      "variableName": "subStatus"
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn  (Number(blueSnapVs[0]) <= 3 && Number(blueSnapVs[1]) <= 1) \n        || \n        (Number(blueSnapVs[0]) === 2 && Number(blueSnapVs[1]) <= 6)"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "64f5cbcbe0dfa97aa9f14eb0",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn  (Number(blueSnapVs[0]) >= 3 && Number(blueSnapVs[1]) >= 2) "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "64f5cc315e52a69a752ed5a1",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "65afcd43723472e428745f5a",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "61b35fe8c9d89130132fecda",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "qa+gi_order_{{alphanumeric}}@saucal.com",
+      "variableName": "email-BLU-001_027"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "{{email-BLU-001_027}}",
+      "variableName": "username"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "{{email-BLU-001_027}}",
+      "variableName": "email"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "60d0e066fd5d095fc94397bd",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "60c91eea4f70ce5aa437045b",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "",
+      "value": "6182954005bc2f0b13e578b1",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "61fd32354789a4030c410012",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "",
+      "value": "622f38756f3ed7a04da7918e",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "#wc-bluesnap-new-payment-method",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "",
+      "value": "60ae9973386331066dbb4dad",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "",
+      "value": "60afddfb373d3a09fef13e98",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "",
+      "value": "61dc4e5d0698fd5fcf0e1955",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "",
+      "value": "61fbf199b79a0772bb31a479",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "",
+      "value": "61fbf4c39357d693ef1f4b90",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "",
+      "value": "61dc7e760698fd5fcf2fb68f",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "Go to My account",
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": ".nav-menu > .page_item > a[href*=\"/my-account/\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "Go to Order Menu",
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": ".woocommerce-MyAccount-navigation-link > a[href*=\"/my-account/orders/\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "Go to Checkout to Pay Failed/Pending renew order",
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "a[href*=\"/checkout/order-pay/{{orderNumber}}/?pay_for_order=true&key=wc_order\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "",
+      "value": "61dec15736bb62032a9017b7",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const element = document.querySelector('.checkout.woocommerce-checkout')\n\nreturn !element === false\n"
+      },
+      "notes": "select new payment method",
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "#wc-bluesnap-payment-token-new",
+      "value": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const element = document.querySelector('.wp-block-woocommerce-checkout.wc-block-checkout')\n\nreturn !element === false"
+      },
+      "notes": "select new payment method",
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "",
+      "value": "6737a9198eeafb3bd1a79495",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "notes": "step added to provoque failure ",
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": "",
+      "value": "622f38756f3ed7a04da7918e",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": [
+        {
+          "selector": "xpath=//*[contains(text(), \"Renew subscription\")]"
+        },
+        {
+          "selector": "#place_order"
+        },
+        {
+          "selector": ".wc-block-components-checkout-place-order-button__text"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": [
+        {
+          "selector": "div > div:nth-child(1) > ul.woocommerce-error"
+        },
+        {
+          "selector": "ul.woocommerce-error > li"
+        },
+        {
+          "selector": ".wc-block-components-notice-banner.is-error"
+        }
+      ],
+      "value": "This is the new error message for 14002|INCORRECT_INFORMATION",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69049f8f1a085ce44e200347",
+    "suiteId": "69049f8e1a085ce44e200315",
+    "suiteName": "BlueSnap - CC - Subscriptions & Pre Orders & Others"
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "09 - Simple product page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"Products\")]"
+        },
+        {
+          "selector": ".menu-item.menu-item-type-post_type > a[href*=\"/shop/\"]"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "li.product-type-simple.instock > a",
+      "value": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "h1.product_title",
+      "value": "",
+      "variableName": "{{prod_desc}}"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": ".summary > .price > ins > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": ".summary > .price > .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": ".summary > .yith-ywraq-add-to-quote > .yith-ywraq-add-button > a[href=\"#\"].add-request-quote-button.button",
+      "value": "Get a quote"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "690229a134ec47aacc01b6ce",
+    "suiteId": "68fe82e80c38c58f6ea3984c",
+    "suiteName": "The Sewing M.S. - Basic WooCommerce Tests"
+  }
+}

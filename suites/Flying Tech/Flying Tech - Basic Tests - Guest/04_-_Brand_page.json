@@ -1,0 +1,88 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "04 - Brand page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": " header li.menu-item.menu-item-type-custom.menu-item-object-custom.item-level-0.menu-mega-dropdown.menu-item-has-children.dropdown-load-ajax:nth-of-type(6) > a[href=\"#\"].woodmart-nav-link > .nav-link-text"
+    },
+    {
+      "command": "mouseOver",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": " header li.menu-item.menu-item-type-custom.menu-item-object-custom.item-level-0.menu-mega-dropdown.menu-item-has-children.dropdown-load-ajax:nth-of-type(6) > a[href=\"#\"].woodmart-nav-link > .nav-link-text",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "div.whb-column:nth-of-type(2) > [aria-label=\"Main navigation\"].wd-header-nav.wd-header-main-nav.text-left.wd-design-1 > [id=\"menu-main-navigation\"].menu.wd-nav.wd-nav-main.wd-style-default.wd-gap-s.dropdowns-loaded.wd-offsets-calculated > li.menu-item.menu-item-type-custom.menu-item-object-custom.item-level-0.menu-mega-dropdown.menu-item-has-children.dropdown-load-ajax:nth-of-type(6) > .wd-dropdown-menu.wd-dropdown.wd-design-full-width.color-scheme-dark > .container.wd-entry-content > .wpb-content-wrapper > .vc_row.wpb_row > .wpb_column.vc_column_container > .vc_column-inner > .wpb_wrapper > .wd-brands.brands-widget.wd-style-bordered.text-center > div > div.wd-col:nth-of-type(4) > .wd-brand-item.brand-item > a[href*=\"/brand/atomrc/\"][title=\"ATOMRC\"].wd-fill"
+        },
+        {
+          "selector": "a[href*=\"/brand/atomrc/\"][title=\"ATOMRC\"].wd-fill"
+        }
+      ]
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "h1.entry-title.title",
+      "value": "ATOMRC",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "62974e21a0299821fcec4a32",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "673c8e4584d2a5c4a5ec247c",
+    "suiteId": "673b54cb84d2a5c4a5b1409b",
+    "suiteName": "Flying Tech - Basic Tests - Guest"
+  }
+}

@@ -1,0 +1,592 @@
+{
+  "autoRetry": true,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36",
+  "dataSource": null,
+  "details": "Test Case:\n- With out filling ACH data",
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "5.4.1",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "BLU-002-002",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "ach",
+      "variableName": "payment"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "",
+      "variableName": "company"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "60abe83bef68371384fe5dde",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "60afae19c894e66ce1666874",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "#payment_method_bluesnap_ach"
+        },
+        {
+          "selector": "#radio-control-wc-payment-method-options-bluesnap_ach"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let BlueSnapVs = \"{{BlueSnapVs}}\";\nBlueSnapVs = BlueSnapVs.split('.');\n\nreturn (Number(BlueSnapVs[0]) >= 3 && Number(BlueSnapVs[1]) >= 4)"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "const options = Array.from(document.querySelectorAll('select#bluesnap_ach-account-type option[value*=\"consumer\"], select#bluesnap_ach-account-type option[value*=\"corporate\"]'))\n\n\nconst expectedTexts = [\n  \"Consumer Checking\",\n  \"Consumer Savings\", \n  \"Corporate Checking\",\n  \"Corporate Savings\"\n];\n\n// Check that EVERY option has exactly one of the expected texts\nconst allTextsAreCorrect = options.every(opt => \n  expectedTexts.includes(opt.textContent.trim())\n);\n\n// Check that we have ALL four expected options (no missing ones)\nconst allExpectedTextsPresent = expectedTexts.every(text => \n  options.some(opt => opt.textContent.trim() === text)\n);\n\nconst isFullyValid = allTextsAreCorrect && allExpectedTextsPresent;\n\nconsole.log(\"All texts correct and complete?\", isFullyValid);\n\nreturn isFullyValid\n",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let BlueSnapVs = \"{{BlueSnapVs}}\";\nBlueSnapVs = BlueSnapVs.split('.');\n\nreturn (Number(BlueSnapVs[0]) >= 3 && Number(BlueSnapVs[1]) < 4)"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "const options = Array.from(document.querySelectorAll('select#bluesnap_ach-account-type option[value*=\"consumer\"], select#bluesnap_ach-account-type option[value*=\"corporate\"]'))\n\n\nconst expectedTexts = [\n  \"Consumer checking\",\n  \"Consumer savings\", \n  \"Corporate checking\",\n  \"Corporate savings\"\n];\n\n// Check that EVERY option has exactly one of the expected texts\nconst allTextsAreCorrect = options.every(opt => \n  expectedTexts.includes(opt.textContent.trim())\n);\n\n// Check that we have ALL four expected options (no missing ones)\nconst allExpectedTextsPresent = expectedTexts.every(text => \n  options.some(opt => opt.textContent.trim() === text)\n);\n\nconst isFullyValid = allTextsAreCorrect && allExpectedTextsPresent;\n\nconsole.log(\"All texts correct and complete?\", isFullyValid);\n\nreturn isFullyValid\n",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "#place_order"
+        },
+        {
+          "selector": "xpath=//*[contains(text(), \"Place order\")]"
+        },
+        {
+          "selector": ".wc-block-components-checkout-place-order-button"
+        },
+        {
+          "selector": "xpath=//*[contains(text(), \"Place Order\")]"
+        }
+      ],
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const element = document.querySelector('form.checkout.woocommerce-checkout')\n\nreturn element !== null && element !== undefined"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": ".woocommerce-error",
+      "value": "Missing account number.\nMissing routing number.\nPlease select an account type.\nAccount number must be 4-17 digits long.\nRouting number must be a 9 digit number.\nYou need to Authorize this transaction.",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const element = document.querySelector('.wc-block-components-form.wc-block-checkout__form')\nconsole.log(element)\nreturn element !== null && element !== undefined"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": ".wc-block-components-notice-banner__content > div",
+      "value": "Missing account number.",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "#bluesnap_ach-account-number",
+      "value": "22"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "64a2b3be82bf299ccb450eeb",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": [
+        {
+          "selector": "#place_order"
+        },
+        {
+          "selector": "xpath=//button[contains(text(), \"Place order\")]"
+        },
+        {
+          "selector": ".wc-block-components-checkout-place-order-button"
+        },
+        {
+          "selector": "xpath=//button/span/div[contains(text(), \"Place Order\")]"
+        }
+      ],
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const element = document.querySelector('.wc-block-components-form.wc-block-checkout__form')\n\nreturn element !== null && element !== undefined"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": ".wc-block-components-notice-banner__content > div",
+      "value": "Missing routing number.",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const element = document.querySelector('form.checkout.woocommerce-checkout')\n\nreturn element !== null && element !== undefined"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": ".woocommerce-error",
+      "value": "Missing routing number.\nPlease select an account type.\nAccount number must be 4-17 digits long.\nRouting number must be a 9 digit number.\nYou need to Authorize this transaction.",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "#bluesnap_ach-routing-number",
+      "value": "99"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "",
+      "value": "64a2b3be82bf299ccb450eeb",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": [
+        {
+          "selector": "#place_order"
+        },
+        {
+          "selector": "xpath=//button[contains(text(), \"Place order\")]"
+        },
+        {
+          "selector": ".wc-block-components-checkout-place-order-button"
+        },
+        {
+          "selector": "xpath=//button/span/div[contains(text(), \"Place Order\")]"
+        }
+      ],
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const element = document.querySelector('.wc-block-components-form.wc-block-checkout__form')\n\nreturn element !== null && element !== undefined"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": ".wc-block-components-notice-banner__content > div",
+      "value": "Please select an account type.",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const element = document.querySelector('form.checkout.woocommerce-checkout')\n\nreturn element !== null && element !== undefined"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": ".woocommerce-error",
+      "value": "Please select an account type.\nAccount number must be 4-17 digits long.\nRouting number must be a 9 digit number.\nYou need to Authorize this transaction.",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "#bluesnap_ach-account-type",
+      "value": "consumer-checking"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "",
+      "value": "64a2b3be82bf299ccb450eeb",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": [
+        {
+          "selector": "#place_order"
+        },
+        {
+          "selector": "xpath=//button[contains(text(), \"Place order\")]"
+        },
+        {
+          "selector": ".wc-block-components-checkout-place-order-button"
+        },
+        {
+          "selector": "xpath=//button/span/div[contains(text(), \"Place Order\")]"
+        }
+      ],
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const element = document.querySelector('.wc-block-components-form.wc-block-checkout__form')\n\nreturn element !== null && element !== undefined"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": ".wc-block-components-notice-banner__content > div",
+      "value": "Account number must be 4-17 digits long.",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const element = document.querySelector('form.checkout.woocommerce-checkout')\n\nreturn element !== null && element !== undefined"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": ".woocommerce-error",
+      "value": "Account number must be 4-17 digits long.\nRouting number must be a 9 digit number.\nYou need to Authorize this transaction.",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "#bluesnap_ach-account-number",
+      "value": "223344556"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "",
+      "value": "64a2b3be82bf299ccb450eeb",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": [
+        {
+          "selector": "#place_order"
+        },
+        {
+          "selector": "xpath=//button[contains(text(), \"Place order\")]"
+        },
+        {
+          "selector": ".wc-block-components-checkout-place-order-button"
+        },
+        {
+          "selector": "xpath=//button/span/div[contains(text(), \"Place Order\")]"
+        }
+      ],
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const element = document.querySelector('.wc-block-components-form.wc-block-checkout__form')\n\nreturn element !== null && element !== undefined"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": ".wc-block-components-notice-banner__content > div",
+      "value": "Routing number must be a 9 digit number.",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const element = document.querySelector('form.checkout.woocommerce-checkout')\n\nreturn element !== null && element !== undefined"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": ".woocommerce-error",
+      "value": "Routing number must be a 9 digit number.\nYou need to Authorize this transaction.",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": "#bluesnap_ach-routing-number",
+      "value": "998877665"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": "",
+      "value": "64a2b3be82bf299ccb450eeb",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": [
+        {
+          "selector": "#place_order"
+        },
+        {
+          "selector": "xpath=//button[contains(text(), \"Place order\")]"
+        },
+        {
+          "selector": ".wc-block-components-checkout-place-order-button"
+        },
+        {
+          "selector": "xpath=//button/span/div[contains(text(), \"Place Order\")]"
+        }
+      ],
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const element = document.querySelector('.wc-block-components-form.wc-block-checkout__form')\n\nreturn element !== null && element !== undefined"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": ".wc-block-components-notice-banner__content > div",
+      "value": "You need to Authorize this transaction.",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const element = document.querySelector('form.checkout.woocommerce-checkout')\n\nreturn element !== null && element !== undefined"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": ".woocommerce-error",
+      "value": "You need to Authorize this transaction.",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 37,
+      "target": "#bluesnap_ach-user-consent"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 38,
+      "target": "#bluesnap_ach-account-type",
+      "value": "corporate-checking"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 39,
+      "target": "",
+      "value": "64a2b3be82bf299ccb450eeb",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 40,
+      "target": [
+        {
+          "selector": "#place_order"
+        },
+        {
+          "selector": "xpath=//button[contains(text(), \"Place order\")]"
+        },
+        {
+          "selector": ".wc-block-components-checkout-place-order-button"
+        },
+        {
+          "selector": "xpath=//button/span/div[contains(text(), \"Place Order\")]"
+        }
+      ],
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const element = document.querySelector('.wc-block-components-form.wc-block-checkout__form')\n\nreturn element !== null && element !== undefined"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 41,
+      "target": ".wc-block-components-notice-banner__content > div",
+      "value": "Using a corporate account requires a non empty company field.",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const element = document.querySelector('form.checkout.woocommerce-checkout')\n\nreturn element !== null && element !== undefined"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 42,
+      "target": ".woocommerce-error > li",
+      "value": "Using a corporate account requires a non empty company field."
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 43,
+      "target": "",
+      "value": "Saucal Inc.",
+      "variableName": "company"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6841997ec637c9246eb7ed7a",
+    "suiteId": "6841997ec637c9246eb7ed5f",
+    "suiteName": "BlueSnap - ACH - Fields, Transaction, Vaulted Shopper"
+  }
+}

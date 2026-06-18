@@ -1,0 +1,182 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Payment Method Menu - ACH/CC available",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "Step added to navigate to my account section",
+      "optional": true,
+      "private": false,
+      "sequence": 0,
+      "target": ".nav-menu > li.page-item-7 > a",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": ".woocommerce-MyAccount-navigation-link > a[href*=\"/my-account/payment-methods/\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "let num = document.getElementsByClassName(\"payment-method\").length\nreturn num",
+      "variableName": "n"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nreturn (payment !== \"ach\" && \"{{saveCC}}\" !== \"disabled\") || (\"{{test}}\" === \"subscription\" && \"{{saveCC}}\" === \"disabled\")"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "tr:nth-child({{n}}) > td.woocommerce-PaymentMethod.woocommerce-PaymentMethod--method",
+      "value": "{{CCName}} ending in {{fourDigits}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nreturn (payment !== \"ach\" && \"{{saveCC}}\" !== \"disabled\") || (\"{{test}}\" === \"subscription\" && \"{{saveCC}}\" === \"disabled\")"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "tr:nth-child({{n}}) > td.woocommerce-PaymentMethod.woocommerce-PaymentMethod--expires",
+      "value": "{{month}}/{{year}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let test =\"{{test}}\"\nreturn test === \"002-009\" || test === \"002-021\" || test === \"002-012\""
+      },
+      "notes": "Updated expected text to first capital letters",
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "tr:nth-child({{n}}) > td.woocommerce-PaymentMethod.woocommerce-PaymentMethod--method",
+      "value": "Consumer Checking Account ending in 44556",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nreturn payment === \"ach\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "tr:nth-child({{n}}) > td.woocommerce-PaymentMethod.woocommerce-PaymentMethod--expires",
+      "value": "N/A",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let test =\"{{test}}\"\nreturn test === \"002-011\" || test === \"002-013\""
+      },
+      "notes": "Updated expected text to first capital letters",
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "tr:nth-child({{n}}) > td.woocommerce-PaymentMethod.woocommerce-PaymentMethod--method",
+      "value": "Corporate Checking Account ending in 44556",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let test =\"{{test}}\"\nreturn test === \"002-012-B\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "tr:nth-child(1) > td.woocommerce-PaymentMethod.woocommerce-PaymentMethod--method",
+      "value": "Consumer Checking Account ending in 44556",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let test =\"{{test}}\"\nreturn test === \"002-012-B\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "tr:nth-child(2) > td.woocommerce-PaymentMethod.woocommerce-PaymentMethod--method",
+      "value": "Consumer Checking Account ending in 45562",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": " return \"{{saveCC}}\" === \"disabled\" && \"{{test}}\" !== \"subscription\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "return \"{{n}}\" === \"0\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": " return \"{{saveCC}}\" === \"disabled\" && \"{{test}}\" !== \"subscription\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": [
+        {
+          "selector": ".woocommerce-info"
+        },
+        {
+          "selector": ".wc-block-components-notice-banner.is-info"
+        }
+      ],
+      "value": "No saved methods found.",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "60afb03fc894e66ce1667086",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

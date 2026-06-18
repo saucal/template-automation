@@ -1,0 +1,181 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "68c2b7085081f036c9bdf9f5",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome-139",
+    "dataSource": null,
+    "dateCreated": "2025-09-11T11:48:24.477Z",
+    "details": "",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "68c040a1029c694b8f6a9315",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "Gruum - Place Order - PayPal",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "eu-west-2",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://saucal.gruum.it/",
+    "testCount": 5,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "68c1622f4a3365075440ce1d"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "68c1622f4a3365075440ce1e"
+      },
+      {
+        "name": "street2",
+        "value": "Ap. 4",
+        "private": false,
+        "_id": "68c1622f4a3365075440ce2c"
+      },
+      {
+        "name": "city",
+        "value": "LONDON",
+        "private": false,
+        "_id": "68c1622f4a3365075440ce2d"
+      },
+      {
+        "name": "emailReg",
+        "value": "gi_reg_{{alphanumeric}}@saucal.com",
+        "private": false,
+        "_id": "68c173fa4a3365075444cb64"
+      },
+      {
+        "name": "county",
+        "value": "Greater London",
+        "private": false,
+        "_id": "68c1622f4a3365075440ce2e"
+      },
+      {
+        "name": "prodUrl",
+        "value": "https://gruum.com/",
+        "private": false,
+        "_id": "68c177b25081f036c989416f"
+      },
+      {
+        "name": "email",
+        "value": "gi_order_{{alphanumeric}}@saucal.com",
+        "private": false,
+        "_id": "68c173fa4a3365075444cb65"
+      },
+      {
+        "name": "phone",
+        "value": "+447412345678",
+        "private": false,
+        "_id": "68c1622f4a3365075440ce1f"
+      },
+      {
+        "name": "emailForgot",
+        "value": "gi_forgot_{{alphanumeric}}@saucal.com",
+        "private": false,
+        "_id": "68c173fa4a3365075444cb66"
+      },
+      {
+        "name": "password",
+        "value": "fric2171Biot",
+        "private": true,
+        "_id": "68c1622f4a3365075440ce20"
+      },
+      {
+        "name": "password2",
+        "value": "fric2172Biot",
+        "private": true,
+        "_id": "68c1622f4a3365075440ce21"
+      },
+      {
+        "name": "lastName2",
+        "value": "{{alphanumeric}}2",
+        "private": false,
+        "_id": "68c1622f4a3365075440ce24"
+      },
+      {
+        "name": "Symbol",
+        "value": "£",
+        "private": false,
+        "_id": "68c1622f4a3365075440ce22"
+      },
+      {
+        "name": "zipCode",
+        "value": "WC2H 7LA",
+        "private": false,
+        "_id": "68c1622f4a3365075440ce23"
+      },
+      {
+        "name": "company2",
+        "value": "Shipping Inc.",
+        "private": false,
+        "_id": "68c1622f4a3365075440ce25"
+      },
+      {
+        "name": "street4",
+        "value": "5th Floor",
+        "private": false,
+        "_id": "68c1622f4a3365075440ce27"
+      },
+      {
+        "name": "street3",
+        "value": "30 Leicester Square",
+        "private": false,
+        "_id": "68c1622f4a3365075440ce26"
+      },
+      {
+        "name": "countryComplete",
+        "value": "United Kingdom (UK)",
+        "private": false,
+        "_id": "68c1622f4a3365075440ce28"
+      },
+      {
+        "name": "country",
+        "value": "UK",
+        "private": false,
+        "_id": "68c1622f4a3365075440ce29"
+      },
+      {
+        "name": "company",
+        "value": "Test Inc.",
+        "private": false,
+        "_id": "68c1622f4a3365075440ce2a"
+      },
+      {
+        "name": "street",
+        "value": "29-30 Leicester Square",
+        "private": false,
+        "_id": "68c1622f4a3365075440ce2b"
+      },
+      {
+        "name": "bundle",
+        "value": "yes",
+        "private": false,
+        "_id": "68c2e22b5081f036c9c7e6e2"
+      }
+    ],
+    "viewportSize": {
+      "width": 1440,
+      "height": 900
+    }
+  }
+}

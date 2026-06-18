@@ -1,0 +1,183 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "68fe82120c38c58f6ea383a7",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2025-10-26T20:18:26.470Z",
+    "details": "Basic WooCommerce Test",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "68fe807c0c38c58f6ea35d92",
+    "globalStepDelay": 250,
+    "httpAuthPassword": "",
+    "httpAuthUsername": "",
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "The Sewing M.S. - Place Order - New User",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "us-west-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://sewingmachineshop-staging.mystagingwebsite.com/",
+    "testCount": 8,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2480"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2481"
+      },
+      {
+        "name": "company2",
+        "value": "Saucal Shipping",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2484"
+      },
+      {
+        "name": "street",
+        "value": "123 False Street",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2485"
+      },
+      {
+        "name": "stateComplete",
+        "value": "California",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2487"
+      },
+      {
+        "name": "city",
+        "value": "San Francisco",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2486"
+      },
+      {
+        "name": "includeTax",
+        "value": "false",
+        "private": false,
+        "_id": "688371d7e5d3587e157f087d"
+      },
+      {
+        "name": "zipCode",
+        "value": "94102",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2488"
+      },
+      {
+        "name": "phone",
+        "value": "3059689789",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2489"
+      },
+      {
+        "name": "street3",
+        "value": "123 False Shipping",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a248b"
+      },
+      {
+        "name": "countryComplete",
+        "value": "United States (US)",
+        "private": false,
+        "_id": "602414f0d2fb38677e6c3132"
+      },
+      {
+        "name": "Symbol",
+        "value": "$",
+        "private": false,
+        "_id": "6283ba4c4b7dbf9dc9ad523b"
+      },
+      {
+        "name": "state",
+        "value": "CA",
+        "private": false,
+        "_id": "6283c2aea0299821fc374da5"
+      },
+      {
+        "name": "project",
+        "value": "sewing",
+        "private": false,
+        "_id": "6283c2aea0299821fc374da3"
+      },
+      {
+        "name": "country",
+        "value": "US",
+        "private": false,
+        "_id": "6283c2aea0299821fc374da4"
+      },
+      {
+        "name": "subscription",
+        "value": "false",
+        "private": false,
+        "_id": "6887fe51e5d3587e15126f47"
+      },
+      {
+        "name": "street2",
+        "value": "Ap. 4",
+        "private": false,
+        "_id": "68827eb72c245b961daf3513"
+      },
+      {
+        "name": "password2",
+        "value": "fric2172Biot",
+        "private": true,
+        "_id": "6284e7704b7dbf9dc9f9fa9d"
+      },
+      {
+        "name": "street4",
+        "value": "4th Floor",
+        "private": false,
+        "_id": "68827eb72c245b961daf3514"
+      },
+      {
+        "name": "password",
+        "value": "fric2171Biot",
+        "private": true,
+        "_id": "6284e7704b7dbf9dc9f9fa9c"
+      },
+      {
+        "name": "currency",
+        "value": "USD",
+        "private": false,
+        "_id": "639ca68d903428273607fa45"
+      },
+      {
+        "name": "lastName2",
+        "value": "{{alphanumeric}} Shipping",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2482"
+      },
+      {
+        "name": "company",
+        "value": "Saucal Test",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2483"
+      }
+    ],
+    "viewportSize": {
+      "width": 1920,
+      "height": 1080
+    }
+  }
+}

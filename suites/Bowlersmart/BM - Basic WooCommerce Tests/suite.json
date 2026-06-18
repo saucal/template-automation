@@ -1,0 +1,168 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "681212cfff841a20f20fe1e3",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome-139",
+    "dataSource": null,
+    "dateCreated": "2025-04-30T12:08:47.258Z",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "681212a4ff841a20f20fd886",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "BM - Basic WooCommerce Tests",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://bowlersmart-com-preprod.go-vip.net/",
+    "testCount": 13,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "60ddbeb61f48295b52734d75"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "60ddbeb61f48295b52734d76"
+      },
+      {
+        "name": "project",
+        "value": "template",
+        "private": false,
+        "_id": "627ab58e97a3bd06e0fdc649"
+      },
+      {
+        "name": "countryComplete",
+        "value": "United States (US)",
+        "private": false,
+        "_id": "627abe4d26939cd046ddafb0"
+      },
+      {
+        "name": "state",
+        "value": "FL",
+        "private": false,
+        "_id": "627abe4d26939cd046ddafb1"
+      },
+      {
+        "name": "stateComplete",
+        "value": "Florida",
+        "private": false,
+        "_id": "627abe4d26939cd046ddafb2"
+      },
+      {
+        "name": "Symbol",
+        "value": "$",
+        "private": false,
+        "_id": "627abfee26939cd046ddf906"
+      },
+      {
+        "name": "country",
+        "value": "US",
+        "private": false,
+        "_id": "646bb4d8cc654ac7512fccd5"
+      },
+      {
+        "name": "company",
+        "value": "Test LLC.",
+        "private": false,
+        "_id": "646c94f033135384bb3881d5"
+      },
+      {
+        "name": "company2",
+        "value": "Testing Shipping",
+        "private": false,
+        "_id": "646c94f033135384bb3881d6"
+      },
+      {
+        "name": "street2",
+        "value": "Ap. 4",
+        "private": false,
+        "_id": "646d14a133135384bb67af25"
+      },
+      {
+        "name": "street4",
+        "value": "Ap. Ship",
+        "private": false,
+        "_id": "646d14a133135384bb67af26"
+      },
+      {
+        "name": "street",
+        "value": "123 False Street",
+        "private": false,
+        "_id": "60ddbeb61f48295b52734d77"
+      },
+      {
+        "name": "street3",
+        "value": "123 False Shipping",
+        "private": false,
+        "_id": "60ddbeb61f48295b52734d78"
+      },
+      {
+        "name": "city",
+        "value": "Miami",
+        "private": false,
+        "_id": "60ddbeb61f48295b52734d79"
+      },
+      {
+        "name": "zipCode",
+        "value": "33126",
+        "private": false,
+        "_id": "60ddbeb61f48295b52734d7a"
+      },
+      {
+        "name": "phone",
+        "value": "6135465467",
+        "private": false,
+        "_id": "60ddbeb61f48295b52734d7b"
+      },
+      {
+        "name": "password",
+        "value": "fric2171Biot",
+        "private": true,
+        "_id": "60ddbeb61f48295b52734d7c"
+      },
+      {
+        "name": "password2",
+        "value": "fric2172Biot",
+        "private": true,
+        "_id": "60ddbeb61f48295b52734d7d"
+      },
+      {
+        "name": "lastName2",
+        "value": "{{alphanumeric}} Ship",
+        "private": false,
+        "_id": "60ddbeb61f48295b52734d7e"
+      },
+      {
+        "name": "prodUrl",
+        "value": "https://www.bowlersmart.com/",
+        "private": false,
+        "_id": "68bec42f029c694b8f2d3167"
+      }
+    ],
+    "viewportSize": {
+      "width": 1920,
+      "height": 1080
+    }
+  }
+}

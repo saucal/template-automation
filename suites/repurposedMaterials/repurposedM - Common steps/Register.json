@@ -1,0 +1,80 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Register",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return !window.location.href.includes('my-account')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": ".login > a[href*=\"/my-account/\"]"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "#reg_email",
+      "value": "{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const elem = document.querySelector(\"#mailchimp_woocommerce_newsletter\")\n\nreturn elem.checked"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "#mailchimp_woocommerce_newsletter"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": "//button[contains(text(), \"Register\")]"
+        },
+        {
+          "selector": "button[name=\"register\"]"
+        }
+      ]
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69821ed876f083a5652e4d8a",
+    "suiteId": "6981e66cf70f37399ae4ee04",
+    "suiteName": "repurposedM - Common steps"
+  }
+}

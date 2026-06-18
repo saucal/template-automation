@@ -1,0 +1,298 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Check My Account",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "open",
+      "condition": {
+        "statement": "const tokenizedCards = '{{tokenizedCards}}'\n\nreturn tokenizedCards !== 'inactive'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "{{startUrl}}my-account/payment-methods/",
+      "variableName": ""
+    },
+    {
+      "command": "open",
+      "condition": {
+        "statement": "const tokenizedCards = '{{tokenizedCards}}'\n\nreturn tokenizedCards === 'inactive'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "{{startUrl}}my-account/",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const savingCC = '{{savingCC}}'\nconst savedCC = '{{savedCC}}'\nconst CCsaved = {{CCsaved}}\nconst tokenizedCards = '{{tokenizedCards}}'\nconst subscription = '{{subscription}}'\n\nreturn savingCC !== 'yes' && savedCC !== 'yes' \n        && CCsaved === 0 && tokenizedCards !== 'inactive' \n        && subscription !== 'yes' "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": ".woocommerce-info",
+      "value": "No saved methods found.",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const savingCC = '{{savingCC}}'\nconst savedCC = '{{savedCC}}'\nconst CCsaved = {{CCsaved}}\nconst tokenizedCards = '{{tokenizedCards}}'\nconst subscription = '{{subscription}}'\n\nreturn (savingCC == 'yes' && CCsaved === 1 && tokenizedCards !== 'inactive')\n        || subscription === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "tr:nth-of-type(1) > td.woocommerce-PaymentMethod.woocommerce-PaymentMethod--method",
+      "value": "{{CCName}} ending in {{fourDigits}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "const savingCC = '{{savingCC}}'\nconst savedCC = '{{savedCC}}'\nconst CCsaved = {{CCsaved}}\nconst tokenizedCards = '{{tokenizedCards}}'\nconst subscription = '{{subscription}}'\nconst upgrade = '{{upgrade}}'\n\nreturn (savingCC == 'yes' && CCsaved === 1 && tokenizedCards !== 'inactive')\n        || (subscription === 'yes' && upgrade !== 'yes')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "tr:nth-of-type(2) > td.woocommerce-PaymentMethod.woocommerce-PaymentMethod--method",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const savingCC = '{{savingCC}}'\nconst savedCC = '{{savedCC}}'\nconst CCsaved = {{CCsaved}}\nconst tokenizedCards = '{{tokenizedCards}}'\n\nreturn savingCC === 'yes' && CCsaved >= 1 && tokenizedCards !== 'inactive'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "tr:nth-of-type({{CCsaved}}) > td.woocommerce-PaymentMethod.woocommerce-PaymentMethod--method",
+      "value": "{{CCName}} ending in {{fourDigits}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const savingCC = '{{savingCC}}'\nconst savedCC = '{{savedCC}}'\nconst CCsaved = {{CCsaved}}\nconst tokenizedCards = '{{tokenizedCards}}'\n\nreturn savingCC === 'yes' && CCsaved >= 1 && tokenizedCards !== 'inactive'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "tr:nth-of-type({{CCsaved}}) > td.woocommerce-PaymentMethod.woocommerce-PaymentMethod--expires",
+      "value": "{{month}}/{{year}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "const tokenizedCards = '{{tokenizedCards}}'\nconst hosted = '{{hosted}}'\n\nreturn tokenizedCards === 'inactive' || hosted === 'checkout'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": ".woocommerce-MyAccount-navigation-link.woocommerce-MyAccount-navigation-link--payment-methods > a",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "const tokenizedCards = '{{tokenizedCards}}'\nconst hosted = '{{hosted}}'\n\nreturn tokenizedCards !== 'inactive' && hosted === 'session'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": ".woocommerce-MyAccount-navigation-link.woocommerce-MyAccount-navigation-link--payment-methods > a",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "open",
+      "condition": {
+        "statement": "const transaction = '{{transaction}}'\n\nreturn transaction !== 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "{{startUrl}}cart-2/",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const transaction = '{{transaction}}'\n\nreturn transaction !== 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": ".woocommerce-info"
+        },
+        {
+          "selector": ".wc-block-cart__empty-cart__title"
+        }
+      ],
+      "value": "Your cart is currently empty",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const transaction = '{{transaction}}'\n\nreturn transaction === 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "6772b204186faa7fdc37efe4",
+      "variableName": ""
+    },
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "{{startUrl}}my-account/view-order/{{orderNumber}}/",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let producType = '{{prodType}}'\nconst transactionType = '{{transactionType}}'\nconst transaction = '{{transaction}}'\n\nreturn producType === 'download'\n        && transactionType === 'capture'\n        && transaction !== 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "mark.order-status",
+      "value": "Completed"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let producType = '{{prodType}}'\nconst transactionType = '{{transactionType}}'\nconst transaction = '{{transaction}}'\n\nreturn (producType === 'virtual' || producType === 'physical')\n        && transactionType === 'capture'\n        && transaction !== 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "mark.order-status",
+      "value": "Processing"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\nconst transaction = '{{transaction}}'\n\nreturn transactionType === 'authorize' && transaction !== 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "mark.order-status",
+      "value": "On hold"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const transaction = '{{transaction}}'\n\nreturn transaction === 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "mark.order-status",
+      "value": "Failed"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const producType = '{{prodType}}'\nconst upgrade = '{{upgrade}}'\n\nreturn producType === 'physical' && upgrade !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "tr:nth-of-type(4) > td",
+      "value": "WooCommerce Gateway Acme Plugin"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const producType = '{{prodType}}'\nconst upgrade = '{{upgrade}}'\n\nreturn producType === 'physical' && upgrade !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "tr:nth-of-type(5) > td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const producType = '{{prodType}}'\nconst upgrade = '{{upgrade}}'\n\nreturn producType === 'virtual' || producType === 'download' \n        || upgrade === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "tr:nth-of-type(3) > td",
+      "value": "WooCommerce Gateway Acme Plugin"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const producType = '{{prodType}}'\nconst upgrade = '{{upgrade}}'\n\nreturn producType === 'virtual' || producType === 'download' \n        || upgrade === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "tr:nth-of-type(4) > td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const subscription = '{{subscription}}'\n\nreturn subscription === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "",
+      "value": "68f260c44118fc2581dc13ec",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6772bfba186faa7fdc3b2447",
+    "suiteId": "676eb96835aed64d3077072a",
+    "suiteName": "MC - Common Steps for Tests"
+  }
+}

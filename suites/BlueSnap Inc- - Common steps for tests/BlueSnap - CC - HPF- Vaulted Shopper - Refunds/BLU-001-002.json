@@ -1,0 +1,261 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36",
+  "dataSource": null,
+  "details": "Test Case: \n- Hosted Payments fields - With out filling CC data",
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "5.4.1",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "BLU-001-002",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "60abe83bef68371384fe5dde",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "notes": "step added due to default payment option is ACH",
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "6737a9198eeafb3bd1a79495",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "iframe#bluesnap-hosted-iframe-ccn #ccn",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "iframe#bluesnap-hosted-iframe-exp #exp",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "iframe#bluesnap-hosted-iframe-cvv #cvv",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "xpath=//*[contains(text(), \"Place order\")]"
+        },
+        {
+          "selector": "xpath=//*[contains(text(), \"Place Order\")]"
+        },
+        {
+          "selector": "#place_order"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "form[action*=\"/checkout/\"] > .woocommerce-NoticeGroup.woocommerce-NoticeGroup-checkout > .woocommerce-error"
+        },
+        {
+          "selector": "div.wc-block-store-notice.wc-block-components-notice-banner.is-error.is-dismissible > div > ul"
+        }
+      ],
+      "value": "Please enter a valid credit card number",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "form[action*=\"/checkout/\"] > .woocommerce-NoticeGroup.woocommerce-NoticeGroup-checkout > .woocommerce-error"
+        },
+        {
+          "selector": "div.wc-block-store-notice.wc-block-components-notice-banner.is-error.is-dismissible > div > ul"
+        }
+      ],
+      "value": "Please enter your credit card's expiration date",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": "form[action*=\"/checkout/\"] > .woocommerce-NoticeGroup.woocommerce-NoticeGroup-checkout > .woocommerce-error"
+        },
+        {
+          "selector": "div.wc-block-store-notice.wc-block-components-notice-banner.is-error.is-dismissible > div > ul"
+        }
+      ],
+      "value": "Please enter the CVV/CVC of your card",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "iframe#bluesnap-hosted-iframe-ccn #ccn.invalid",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "iframe#bluesnap-hosted-iframe-exp #exp.invalid",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "iframe#bluesnap-hosted-iframe-cvv #cvv.invalid",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": [
+        {
+          "selector": "div#bluesnap-card-number.bluesnap-input-div.input-div-error"
+        },
+        {
+          "selector": "div#bluesnap-card-number.input-div-error"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": [
+        {
+          "selector": "div#bluesnap-card-expiry.bluesnap-input-div.input-div-error"
+        },
+        {
+          "selector": "div#bluesnap-card-expiry.input-div-error"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": [
+        {
+          "selector": "div#bluesnap-card-cvc.bluesnap-input-div.input-div-error"
+        },
+        {
+          "selector": "div#bluesnap-card-cvc.input-div-error"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69049f5a1a085ce44e1ff626",
+    "suiteId": "69049f5a1a085ce44e1ff60c",
+    "suiteName": "BlueSnap - CC - HPF, Vaulted Shopper & Refunds"
+  }
+}

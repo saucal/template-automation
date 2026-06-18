@@ -1,0 +1,247 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "04 - Cart Page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotExclusions": "div.cross-sells > ul > li",
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "679281cf2a21c5b64b6b730b",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "button[name=\"add-to-cart\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "tr.woocommerce-cart-form__cart-item.cart_item.component_table_item:nth-of-type(2) > td.product-name > .component-name.component_table_item_indent > dl.component"
+        },
+        {
+          "selector": "#fkcart-modal > div > div.fkcart-preview-ui > div.fkcart-slider-body > div.fkcart-item-wrap.fkcart-pt-16 > div:nth-child(2) > div.fkcart-item-info > div.fkcart-item-meta > div:nth-child(3) > span > span.fkcart-attr-value"
+        }
+      ],
+      "value": "",
+      "variableName": "straps2"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": "tr.woocommerce-cart-form__cart-item.cart_item.component_table_item:nth-of-type(3) > td.product-name > .component-name.component_table_item_indent > dl.component"
+        },
+        {
+          "selector": "#fkcart-modal > div > div.fkcart-preview-ui > div.fkcart-slider-body > div.fkcart-item-wrap.fkcart-pt-16 > div:nth-child(3) > div.fkcart-item-info > div.fkcart-item-meta > div:nth-child(3) > span > span.fkcart-attr-value"
+        }
+      ],
+      "value": "",
+      "variableName": "lens2"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": "tr.woocommerce-cart-form__cart-item.cart_item.component_table_item:nth-of-type(4) > td.product-name > .component-name.component_table_item_indent > dl.component"
+        },
+        {
+          "selector": "#fkcart-modal > div > div.fkcart-preview-ui > div.fkcart-slider-body > div.fkcart-item-wrap.fkcart-pt-16 > div:nth-child(4) > div.fkcart-item-info > div.fkcart-item-meta > div:nth-child(3) > span > span.fkcart-attr-value"
+        }
+      ],
+      "value": "",
+      "variableName": "outrigger2"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "tr.woocommerce-cart-form__cart-item.cart_item.component_table_item:nth-of-type(5) > td.product-name > .component-name.component_table_item_indent > dl.component"
+        },
+        {
+          "selector": "#fkcart-modal > div > div.fkcart-preview-ui > div.fkcart-slider-body > div.fkcart-item-wrap.fkcart-pt-16 > div:nth-child(5) > div.fkcart-item-info > div.fkcart-item-meta > div:nth-child(3) > span > span.fkcart-attr-value"
+        }
+      ],
+      "value": "",
+      "variableName": "frame2"
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "let attributes = [`{{straps}}`,\n`{{straps2}}`,`{{lens}}`,`{{lens2}}`,\n`{{outrigger2}}`,`{{outrigger}}`,\n`{{frame2}}`,`{{frame}}`]\n\nfor (let i = 0; i < attributes.length; i++) {\n    //attributes[i] = attributes[i].replace(/(?:\\s)/g,\"\");\n    let aux = attributes[i].split(':')\n    attributes[i] = aux.length > 1 ? aux[1].trim() : aux[0].trim();\n}\n\nreturn attributes[0] === attributes[1] && attributes[2] === attributes[3] \n&& attributes[4] === attributes[5]\n&& attributes[6] === attributes[7]\n",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project !== \"melon\""
+      },
+      "notes": "added the condition to reduce times without removing the step, this step to not apply now because checkout changed with funnels plugins",
+      "optional": true,
+      "private": false,
+      "sequence": 7,
+      "target": "td.product-name.last-composited-extra-padding > .component-name.component_table_item_indent > dl.component",
+      "value": "",
+      "variableName": "extras"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "td.product-price > span.woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "#fkcart-modal > div > div.fkcart-preview-ui > div.fkcart-slider-body > div.fkcart-item-wrap.fkcart-pt-16 > div:nth-child(1) > div.fkcart-item-misc > div > span"
+        }
+      ],
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "input.fkcart-quantity__input",
+      "value": "",
+      "variableName": "qty"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "6283a386a0299821fc2ad2c3",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project !== \"melon\""
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 11,
+      "target": "td.product-subtotal > span.woocommerce-Price-amount.amount",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 12,
+      "target": [
+        {
+          "selector": "tr.cart-subtotal > td > span.woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "#fkcart-modal > div > div.fkcart-preview-ui > div.fkcart-slider-footer.fkcart-pb-16 > div.fkcart-order-summary.fkcart-panel.fkcart-pt-16 > div > div.fkcart-summary-line-item.fkcart-subtotal-wrap > div.fkcart-summary-amount > strong > span"
+        }
+      ],
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project !== \"melon\""
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 13,
+      "target": "ul#shipping_method > li:first-child > label > span.woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "shippingPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "#fkcart-modal > div > div.fkcart-preview-ui > div.fkcart-slider-footer.fkcart-pb-16 > div.fkcart-order-summary.fkcart-panel.fkcart-pt-16 > div > div.fkcart-summary-line-item.fkcart-subtotal-wrap > div.fkcart-summary-amount > strong > span",
+      "value": "",
+      "variableName": "total"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project !== \"melon\""
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 15,
+      "target": "small.includes_tax > span.woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "taxPriceSmall"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "679281cf2a21c5b64b6b730c",
+    "suiteId": "679281cf2a21c5b64b6b72ef",
+    "suiteName": "Melon - Basic WooCommerce Test - ZA Site (TBD)"
+  }
+}

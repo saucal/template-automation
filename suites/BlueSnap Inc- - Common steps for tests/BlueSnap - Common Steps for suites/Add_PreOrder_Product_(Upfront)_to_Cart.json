@@ -1,0 +1,142 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Add PreOrder Product (Upfront) to Cart",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "{{startUrl}}product/long-sleeve-tee/",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "xpath=//button[contains(text(), \"Pre-Order Now\")]"
+        },
+        {
+          "selector": "button[type=\"submit\"].single_add_to_cart_button"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "a[href*=\"/cart/\"].button.wc-forward"
+        },
+        {
+          "selector": "xpath=//a[contains(text(), \"View cart\")]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": "a[href*=\"/checkout/\"].checkout-button"
+        },
+        {
+          "selector": "xpath=//a[contains(text(), \"Proceed to checkout\")]"
+        },
+        {
+          "selector": "xpath=//span[contains(text(), \"Proceed to Checkout\")]"
+        },
+        {
+          "selector": "xpath=//div[contains(text(), \"Proceed to Checkout\")]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "6182913d23071a6a858762c3",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 5,
+      "target": "script#woocommerce-bluesnap-gateway-general-js-extra",
+      "value": "",
+      "variableName": "bluesnap_gateway_general_params"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "{{bluesnap_gateway_general_params}}\nreturn woocommerce_bluesnap_gateway_general_params.token",
+      "variableName": "pfToken"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "62bf0b17834704196f9948f3",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "61dddab553eed2e62198cf59",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "6435ac87af1e488d2533a286",
+    "abortOnTestFailure": false,
+    "autoRetry": true,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2023-04-11T18:52:55.930Z",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "6022b367262f437a9af8c1f8",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 1,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "Subscription suite to develop and test",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://no-pong-au-develop.go-vip.net/",
+    "testCount": 7,
+    "testFrequency": 0,
+    "viewportSize": {
+      "width": 1280,
+      "height": 800
+    },
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "64cbcbf56f03cb8cdb7b45fb"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "64cbcbf56f03cb8cdb7b45fc"
+      },
+      {
+        "name": "password",
+        "value": "fric2171Biot",
+        "private": true,
+        "_id": "64cbcc4d960593b38b494b07"
+      }
+    ]
+  }
+}

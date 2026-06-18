@@ -1,0 +1,93 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "04 - 03 - Sale agreed - Admin customer",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "https://email.ghostinspector.com/qa+cash_fore_clubs",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 1,
+      "target": "xpath=//a[contains(text(), \"CashForeClubs: CLUB SALE AGREED! 🏌🏼‍♂️\")]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 2,
+      "target": "td.t11 > table > tbody > tr:nth-of-type(3) > td > table > tbody > tr > td > p",
+      "value": "If you selected Collection, we will arrange for your clubs to be collected ASAP from the address you provided, and will confirm details shortly.",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 3,
+      "target": "td.t11 > table > tbody > tr:nth-of-type(4) > td > table > tbody > tr > td > p",
+      "value": "If you selected to Drop off in store, please visit:",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 4,
+      "target": "tr:nth-of-type(5) > td > table > tbody > tr > td > p",
+      "value": "Unit 3, Fowlswick Business Park, Chippenham, Wiltshire, England, SN146QE"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 5,
+      "target": "a[href=\"https://cashforeclubs.mystagingwebsite.com/my-quotes/\"]",
+      "value": "View Club Quotes"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6757441be11b42a63d32458a",
+    "suiteId": "673b8281aac72eeccc6ece43",
+    "suiteName": "CFC - Quote flow - Accept quote"
+  }
+}

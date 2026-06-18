@@ -1,0 +1,101 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.1",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": 750,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "02 - AU - Home Slider Autoplay verification",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "img.custom-logo",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": ".entry-content > h2.has-text-align-center.has-text-color.wp-block-heading",
+      "value": "you are our Heroes",
+      "variableName": ""
+    },
+    {
+      "command": "screenshot",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "#tns2-mw"
+        },
+        {
+          "selector": ".wp-block-nopong-limited-gallery-slider.slider-container.nopong-slider-block.gallery.embla--initialized"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "pause",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "12000",
+      "variableName": ""
+    },
+    {
+      "command": "screenshot",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": "#tns2-mw"
+        },
+        {
+          "selector": ".wp-block-nopong-limited-gallery-slider.slider-container.nopong-slider-block.gallery.embla--initialized"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "643ee9bb0b7aefb97299bcc6",
+    "suiteId": "60241386262f437a9a082172",
+    "suiteName": "AU - Basic WooCommerce Test"
+  }
+}

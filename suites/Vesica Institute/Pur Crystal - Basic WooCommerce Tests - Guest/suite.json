@@ -1,0 +1,61 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "667340de1aac3ea14ff38529",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2024-06-19T20:34:38.309Z",
+    "details": "",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "66684a491aac3ea14f40172c",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "Pur Crystal - Basic WooCommerce Tests - Guest",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://stg-purcrystal-staging.kinsta.cloud/",
+    "testCount": 13,
+    "testFrequency": 0,
+    "viewportSize": {
+      "width": 1920,
+      "height": 1080
+    },
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "qty",
+        "value": "2",
+        "private": false,
+        "_id": "66743e0a89e87fd839cdb2ae"
+      },
+      {
+        "name": "Symbol",
+        "value": "$",
+        "private": false,
+        "_id": "66743f0c1aac3ea14f1f900e"
+      },
+      {
+        "name": "currency",
+        "value": "USD",
+        "private": false,
+        "_id": "66743f0c1aac3ea14f1f900f"
+      }
+    ]
+  }
+}

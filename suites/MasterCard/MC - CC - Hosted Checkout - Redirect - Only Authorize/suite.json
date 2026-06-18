@@ -1,0 +1,180 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "6834a0133fd6e23c17ea0a61",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2025-05-26T17:08:35.755Z",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "676eb58135aed64d3076b41d",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "MC - CC - Hosted Checkout - Redirect - Only Authorize",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": true,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": false,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://stgamazontest.mystagingwebsite.com/",
+    "testCount": 8,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "woo_user",
+        "value": "ck_f583e8ab06fb151d89623605a10c52228f6bd077",
+        "private": true,
+        "_id": "60a273cdcda37459c851732a"
+      },
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b81"
+      },
+      {
+        "name": "country",
+        "value": "United States (US)",
+        "private": false,
+        "_id": "676ebce735aed64d307734af"
+      },
+      {
+        "name": "shortCountry",
+        "value": "US",
+        "private": false,
+        "_id": "676ebce735aed64d307734b0"
+      },
+      {
+        "name": "wp_api_pass",
+        "value": "ihXgA#MUlLZ1L7xbEqzO)DSJ",
+        "private": true,
+        "_id": "65b2843eedd04af7687b9227"
+      },
+      {
+        "name": "CCsaved",
+        "value": "0",
+        "private": false,
+        "_id": "679a85ad6b884a225524a141"
+      },
+      {
+        "name": "shortState",
+        "value": "FL",
+        "private": false,
+        "_id": "676ebce735aed64d307734b2"
+      },
+      {
+        "name": "adminPass",
+        "value": "ihXgA#MUlLZ1L7xbEqzO)DSJ",
+        "private": true,
+        "_id": "676eb860186faa7fdcbb3c44"
+      },
+      {
+        "name": "woo_pass",
+        "value": "cs_07da254d28bbe61ccc0c5da1ae5a7b4505415cb2",
+        "private": true,
+        "_id": "676eb8f535aed64d30770074"
+      },
+      {
+        "name": "adminUser",
+        "value": "demouser",
+        "private": false,
+        "_id": "676eb860186faa7fdcbb3c43"
+      },
+      {
+        "name": "blog",
+        "value": "testing_site",
+        "private": false,
+        "_id": "65b288929cc5a53dd6ce8917"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b82"
+      },
+      {
+        "name": "street",
+        "value": "123 Flase Street",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b84"
+      },
+      {
+        "name": "transactionType",
+        "value": "authorize",
+        "private": false,
+        "_id": "677fc8cf35aed64d303fe497"
+      },
+      {
+        "name": "company",
+        "value": "Saucal Inc.",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b83"
+      },
+      {
+        "name": "zipCode",
+        "value": "33126",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b86"
+      },
+      {
+        "name": "city",
+        "value": "Miami",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b85"
+      },
+      {
+        "name": "password",
+        "value": "fric2!7!Biot",
+        "private": false,
+        "_id": "60ca0d461da0a93062c80519"
+      },
+      {
+        "name": "hosted",
+        "value": "checkoutR",
+        "private": false,
+        "_id": "67852e7035aed64d30bd1128"
+      },
+      {
+        "name": "phone",
+        "value": "3050698798",
+        "private": false,
+        "_id": "60afe7f2c894e66ce1686b87"
+      },
+      {
+        "name": "address2",
+        "value": "Apartment 2",
+        "private": false,
+        "_id": "60d08eb61da0a93062ee109d"
+      },
+      {
+        "name": "3ds",
+        "value": "active",
+        "private": false,
+        "_id": "677febc235aed64d3048a22a"
+      },
+      {
+        "name": "state",
+        "value": "Florida",
+        "private": false,
+        "_id": "676ebce735aed64d307734b1"
+      }
+    ],
+    "viewportSize": {
+      "width": 1440,
+      "height": 900
+    }
+  }
+}

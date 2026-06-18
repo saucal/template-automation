@@ -1,0 +1,216 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.1",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Get price in Cart",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": "ap-southeast-2",
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "let prod_desc = \"{{prod_desc}}\".replaceAll('–','-').toUpperCase()\n\n\nreturn prod_desc",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "td.product-name",
+      "value": "{{prod_desc}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "td.product-price > ins > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "td.product-price > .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": ".subscription-price > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "subProdPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "td.product-subtotal .subscription-details > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "totalSignUpFee"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "tr.cart-subtotal > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "subtotalPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "#shipping_method > li:nth-child(1) > label > span > bdi"
+        },
+        {
+          "selector": "#shipping_method > li:nth-child(1) > label"
+        }
+      ],
+      "value": "",
+      "variableName": "shippingPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "tr.order-total:not(.recurring-total) > td > strong > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "total"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "return '{{country}}' === 'AU'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "tr.order-total:not(.recurring-total) > td > small.includes_tax > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "taxPrice"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "return '{{country}}' === 'CA'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "table > tbody > tr.tax-rate:not(.recurring-total) > td > span",
+      "value": "",
+      "variableName": "taxPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "tr.cart-subtotal.recurring-total > td > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "recurringSubtotal"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "tr.order-total.recurring-total > td > strong > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "recurringTotal"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "return '{{country}}' === 'AU'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "tr.order-total.recurring-total > td > small.includes_tax > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "recurringTax"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "return '{{country}}' === 'CA' "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "table > tbody > tr.tax-rate.recurring-total > td > span",
+      "value": "",
+      "variableName": "recurringTax"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": [
+        {
+          "selector": "tr.shipping.recurring-total > td > span"
+        },
+        {
+          "selector": "tr.shipping.recurring-total > td"
+        }
+      ],
+      "value": "",
+      "variableName": "recurringShipping"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6887df882c245b961dce64cf",
+    "suiteId": "6022c8a7262f437a9afa49ca",
+    "suiteName": "No Pong - Common steps for Project"
+  }
+}

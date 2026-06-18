@@ -1,0 +1,517 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "12 - Place Order Flow",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "qa+gi_order_+{{alphanumeric}}@saucal.com",
+      "variableName": "email"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "li.menu-item.menu-item-type-post_type.menu-item-object-post:nth-of-type(2) > a[href*=\"/triumph-exhaust/\"].menu-link > .menu-text"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "div > div:nth-child(1) > div > div > div >.eb-woo-product-title > a",
+      "value": "",
+      "variableName": "productName"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "div:nth-child(1) > div > div > div > .eb-woo-product-price > span",
+      "value": "",
+      "variableName": "productPrice"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "add product to cart",
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "a[href=\"?add-to-cart=393543\"]"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "navigate to cart",
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "a[href*=\"/cart/\"][title=\"View cart\"]"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "67599a8ce11b42a63da83469",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "#shipping_method > li:nth-child(2) > input",
+      "value": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "#shipping_method > li:nth-child(2) > label",
+      "value": "",
+      "variableName": "shippingText"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "let shippingCost = document.querySelector('#shipping_method > li:nth-child(2) > label > span > bdi').textContent;\nshippingCost = shippingCost.slice(1);\nreturn parseFloat(shippingCost);",
+      "variableName": "shippingCost"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "navigate to checkout",
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"Proceed to checkout\")]"
+        },
+        {
+          "selector": "a[href*=\"/checkout/\"]"
+        }
+      ]
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "#billing_email",
+      "value": "{{email}}"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "#shipping_first_name",
+      "value": "{{firstName}}"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "#shipping_last_name",
+      "value": "{{lastName}}"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "step set to fail due to the create account option is selected automatically (?)",
+      "optional": true,
+      "private": false,
+      "sequence": 16,
+      "target": "#createaccount-toFail"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "#shipping_address_1",
+      "value": "{{shippingStreet}}"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "notes": "skiping this step",
+      "optional": true,
+      "private": false,
+      "sequence": 18,
+      "target": "#shipping_postcode-toSkip",
+      "value": "{{shippingZip}}"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "#shipping_phone",
+      "value": "{{phone}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "a[title=\"The Bonneville Shop\"]",
+      "value": "The Bonneville Shop"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "#cfw-customer-info > h3",
+      "value": "Information"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "#cfw-customer-info-address > h3",
+      "value": "Shipping address"
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "#cfw-customer-info-action > a.cfw-primary-btn.cfw-next-tab:nth-of-type(1)",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "#cfw-customer-info-action > a.cfw-primary-btn.cfw-next-tab:nth-of-type(1)"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "#cfw-cart-summary-totals > .cfw-module.cfw-totals-list > table.cfw-module > tbody > tr.shipping > td",
+      "value": "{{shippingCost}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "notes": "step needs to be refactored to verify selected shipping option",
+      "optional": true,
+      "private": false,
+      "sequence": 26,
+      "target": "label[for=\"shipping_method_1_free_shipping16\"]",
+      "value": "{{shippingText}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "#cfw-shipping-method-review-pane > .cfw-review-pane.cfw-module > li:nth-of-type(1) > .inner > .cfw-review-pane-content",
+      "value": "{{email}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "#cfw-shipping-method-review-pane > .cfw-review-pane.cfw-module > li:nth-of-type(2) > .inner > .cfw-review-pane-content",
+      "value": "{{firstName}} {{lastName}}, {{shippingStreet}}, {{shippingCity}}, {{shippingStateShort}} {{shippingZip}}"
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "#cfw-shipping-action > a.cfw-primary-btn.cfw-next-tab.cfw-continue-to-payment-btn",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "#cfw-shipping-action > a.cfw-primary-btn.cfw-next-tab.cfw-continue-to-payment-btn"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "a[href=\"#cfw-payment-method\"]",
+      "value": "Payment"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": ".ast-product-name",
+      "value": "{{productName}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": "#cfw-billing-methods > h3",
+      "value": "Payment"
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": "#place_order",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": "#terms"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": [
+        {
+          "selector": "//button[contains(text(), \"Place order\")]"
+        },
+        {
+          "selector": "#place_order"
+        }
+      ]
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 37,
+      "target": "h1.entry-title",
+      "value": "Checkout"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 38,
+      "target": "h2.woocommerce-order-details__title",
+      "value": "Order details"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 39,
+      "target": "td.woocommerce-table__product-name",
+      "value": "{{productName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 40,
+      "target": "td.woocommerce-table__product-total",
+      "value": "{{productPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "notes": "this validation needs to be improved due to price value and label are switched in order details",
+      "optional": true,
+      "private": false,
+      "sequence": 41,
+      "target": "tr:nth-of-type(2) > td",
+      "value": "${{shippingCost}} via {{shippingText}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 42,
+      "target": "tr:nth-of-type(4) > td",
+      "value": "Credit Card"
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 43,
+      "target": "tr:nth-of-type(5) > td > .woocommerce-Price-amount.amount",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "navigate to my account",
+      "optional": false,
+      "private": false,
+      "sequence": 44,
+      "target": ".ast-grid-right-section div >div >div >a.ast-header-account-link",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "navigate to orders",
+      "optional": false,
+      "private": false,
+      "sequence": 45,
+      "target": "ul > li.woocommerce-MyAccount-navigation-link--orders > a",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "open order details",
+      "optional": false,
+      "private": false,
+      "sequence": 46,
+      "target": "div.order > div > a.view",
+      "value": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 47,
+      "target": "tr > td.product-name > a",
+      "value": "{{productName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 48,
+      "target": "tfoot > tr:nth-child(1) > td > span",
+      "value": "{{productPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 49,
+      "target": "p > mark.order-status",
+      "value": "Processing",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "67577baf4c952f374de13904",
+    "suiteId": "6756f9a47a599a5bc8b4f6d8",
+    "suiteName": "Avison - Base maintenance suite"
+  }
+}

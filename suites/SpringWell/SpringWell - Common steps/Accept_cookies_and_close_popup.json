@@ -1,0 +1,83 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Accept cookies and close popup",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 0,
+      "target": "#ketch-banner-button-primary",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const elem = document.querySelector('#ketch-banner-button-primary')\n\nreturn !!elem"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "//button[contains(text(), \"Accept All\")]"
+        },
+        {
+          "selector": "#ketch-banner-button-primary"
+        }
+      ]
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 2,
+      "target": ".lepopup-element-html-content > a[href=\"#\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const elem = document.querySelector('.lepopup-element-html-content > a[href=\"#\"]')\n\nreturn !!elem"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": ".lepopup-element-html-content > a[href=\"#\"]"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69a9f9d64ec32f1b870a5e8d",
+    "suiteId": "684c8109388232057b6f7af1",
+    "suiteName": "SpringWell - Common steps"
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Mobile Menu",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": true,
+  "screenshotTarget": "#main-nav",
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": null,
+  "steps": [
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "command": "store",
+      "target": "",
+      "value": "KYWnNc6$)@Au4(Xs(Opt9WwO",
+      "variableName": "pass"
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "command": "execute",
+      "target": "",
+      "value": "60e83ef0ed68ff17964e2963",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 2,
+      "command": "click",
+      "target": "#ts-top-mobile-menu",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "command": "assertElementVisible",
+      "target": "#main-nav",
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": {
+    "width": 414,
+    "height": 896
+  },
+  "_gi": {
+    "testId": "618dfd2ea1f3191034effb5e",
+    "suiteId": "60dcc9631f48295b526b0788",
+    "suiteName": "WeedPleez - Basic WooCommerce Test"
+  }
+}

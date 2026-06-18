@@ -1,0 +1,48 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "606c61ab40a5d817badf441d",
+    "abortOnTestFailure": false,
+    "autoRetry": true,
+    "browser": "chrome",
+    "dataSource": null,
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "60478357449ccb4bbf30f5d8",
+    "globalStepDelay": 250,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "Website - (actual site)",
+    "persistVariables": false,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://saucal-preprod.go-vip.net/marketing/",
+    "testCount": 28,
+    "testFrequency": 0,
+    "viewportSize": [
+      {
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "width": 375,
+        "height": 667
+      }
+    ],
+    "dateCreated": "2021-04-06T13:27:07.310Z",
+    "details": "Automation test for SauCal's website",
+    "language": null,
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "testFrequencyAdvanced": [],
+    "variables": []
+  }
+}

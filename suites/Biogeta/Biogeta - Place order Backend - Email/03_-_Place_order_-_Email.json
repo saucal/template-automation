@@ -1,0 +1,245 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "03 - Place order - Email",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "68c030f1eeab2f751a658f28",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "6823ad78b3e7bdebe932ce52",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "//a[contains(text(), \"Bestellung wurde empfangen!\")]"
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#body_content_inner > table.td",
+      "value": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "tr.order_item.wooco-cart-item.wooco-cart-parent > td.td.text-align-left:nth-of-type(1)",
+      "value": "{{prod_desc}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "tr.order_item.wooco-cart-item.wooco-cart-parent > td.td:nth-of-type(3) > .woocommerce-Price-amount.amount",
+      "value": "{{totalProd}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "tr.order_item.wooco-cart-item.wooco-cart-child.wooco-item-child:nth-of-type(2) > td.td:nth-of-type(1)",
+      "value": "{{prod_desc}} → HOME Harmonizer - M",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "tr.order_item.wooco-cart-item.wooco-cart-child.wooco-item-child:nth-of-type(2) > td.td:nth-of-type(3) > .woocommerce-Price-amount.amount",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "tr.order_item.wooco-cart-item.wooco-cart-child.wooco-item-child:nth-of-type(3) > td.td:nth-of-type(1)",
+      "value": "{{prod_desc}} → {{prod_desc2}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "tr.order_item.wooco-cart-item.wooco-cart-child.wooco-item-child:nth-of-type(3) > td.td:nth-of-type(3) > .woocommerce-Price-amount.amount",
+      "value": "{{unitPrice2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "tr.order_item.wooco-cart-item.wooco-cart-child.wooco-item-child:nth-of-type(4) > td.td:nth-of-type(1)",
+      "value": "{{prod_desc}} → {{prod_desc3}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "tr.order_item.wooco-cart-item.wooco-cart-child.wooco-item-child:nth-of-type(4) > td.td:nth-of-type(3) > .woocommerce-Price-amount.amount",
+      "value": "{{unitPrice3}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "tr.order_item.wooco-cart-item.wooco-cart-child.wooco-item-child:nth-of-type(5) > td.td:nth-of-type(1)",
+      "value": "{{prod_desc}} → {{prod_desc4}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "tr.order_item.wooco-cart-item.wooco-cart-child.wooco-item-child:nth-of-type(5) > td.td:nth-of-type(3) > .woocommerce-Price-amount.amount",
+      "value": "{{unitPrice4}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "tr.order_item.wooco-cart-item.wooco-cart-child.wooco-item-child:nth-of-type(6) > td.td:nth-of-type(1)",
+      "value": "{{prod_desc}} → {{prod_desc5}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "tr.order_item.wooco-cart-item.wooco-cart-child.wooco-item-child:nth-of-type(6) > td.td:nth-of-type(3) > .woocommerce-Price-amount.amount",
+      "value": "{{unitPrice5}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "tr.order-totals.order-totals-subtotal > td.td > .woocommerce-Price-amount.amount",
+      "value": "{{subtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "tr.order-totals.order-totals-shipping > td.td",
+      "value": "Free shipping"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "tr.order-totals.order-totals-payment_method > td.td",
+      "value": "{{paymentMethod}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "tr.order-totals.order-totals-total > td.td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "td:nth-of-type(1) > address.address",
+      "value": "{{firstName}} {{lastName}}\n{{street3}}\n{{zipCode}} {{city}}\nDeutschland\n{{phone}}\n{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "td:nth-of-type(2) > address.address",
+      "value": "{{firstName}} {{lastName}}\n{{street3}}\n{{zipCode}} {{city}}\nDeutschland\n{{phone}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6823b3e5ab4ff4354d2946f2",
+    "suiteId": "6823b3e5ab4ff4354d2946d9",
+    "suiteName": "Biogeta - Place order Backend + Email"
+  }
+}

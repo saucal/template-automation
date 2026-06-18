@@ -1,0 +1,59 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Get Mini-cart currency prices",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let currency = \"{{defaultCurr}}\"\nreturn currency === \"{{currency}}\" || \"{{currency}}\" === \"\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "let content = document.querySelectorAll(\".woocommerce-mini-cart-item.mini_cart_item .woocommerce-Price-amount.amount\")\nlet minicart = document.querySelectorAll(\".cart-contents > span.woocommerce-Price-amount.amount\")\nlet result = []\n\nfor (let i = 0; i < content.length; i++) {\n        result.push(content[i].textContent);\n    }\nfor (let i = 0; i < minicart.length; i++) {\n        result.push(minicart[i].textContent);\n    }\n\nreturn result",
+      "variableName": "resultDefault"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let currency = \"{{curr}}\"\nreturn currency === \"{{currency}}\" "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "let content = document.querySelectorAll(\".woocommerce-mini-cart-item.mini_cart_item .woocommerce-Price-amount.amount\")\nlet minicart = document.querySelectorAll(\".cart-contents > span.woocommerce-Price-amount.amount\")\nlet result = []\n\nfor (let i = 0; i < content.length; i++) {\n        result.push(content[i].textContent);\n    }\nfor (let i = 0; i < minicart.length; i++) {\n        result.push(minicart[i].textContent);\n    }\n\nreturn result",
+      "variableName": "resultEUR"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "635c28ae151ae3d9c5b53157",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

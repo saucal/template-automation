@@ -1,0 +1,153 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.2",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "15 - AU - Tin Limit",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "https://no-pong-au-develop.go-vip.net/products/",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "a[href=\"?add-to-cart=616\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const siteTitle = document.title;\nif (siteTitle != \"Cart • No Pong\"){\n    return true;\n}"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "#masthead > div > div > ul > li > a",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "input[title=\"Qty\"]"
+        },
+        {
+          "selector": "input.input-text.qty.text"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": "input[title=\"Qty\"]"
+        },
+        {
+          "selector": "input.input-text.qty.text"
+        }
+      ],
+      "value": "17",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "td.actions",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": ".woocommerce-error > li"
+        },
+        {
+          "selector": "div.woocommerce-notices-wrapper > div.wc-block-components-notice-banner.is-error > div.wc-block-components-notice-banner__content"
+        }
+      ],
+      "value": "WHOOPS-A-DAISY! IT LOOKS LIKE YOU'VE ADDED TOO MANY ITEMS TO YOUR CART AND WE HAD TO REMOVE SOME ITEMS.",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": ".woocommerce-message"
+        },
+        {
+          "selector": "div.woocommerce-notices-wrapper > div.wc-block-components-notice-banner.is-success > div.wc-block-components-notice-banner__content"
+        }
+      ],
+      "value": "CART UPDATED.",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "input[title=\"Qty\"]"
+        },
+        {
+          "selector": "input.input-text.qty.text"
+        }
+      ],
+      "value": "12",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "67d401d892add9437d4c13c1",
+    "suiteId": "67d401d892add9437d4c139c",
+    "suiteName": "AU - Basic WooCommerce Test"
+  }
+}

@@ -1,0 +1,264 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Verify Vaulted Shopper - Add Payment method on My Account",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": null,
+  "steps": [
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"BLU-001-013\" || test === \"BLU-001-073\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[0].method === \"POST\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"BLU-001-013\" || test === \"BLU-001-073\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[0].url === \"https://sandbox.bluesnap.com/services/2/vaulted-shoppers\"",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"BLU-001-013\" || test === \"BLU-001-073\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "const logs = {{logs}}\nlet vaultedShopper = logs[1].content.vaultedShopperId;\nreturn vaultedShopper",
+      "variableName": "vaultedShopperId"
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"BLU-001-013\" || test === \"BLU-001-073\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "const logs = {{logs}}\nlet token = logs[0].content.paymentSources.creditCardInfo[0].pfToken;\nreturn token === \"{{pfToken}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"BLU-001-013-B\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[0].method === \"PUT\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"BLU-001-013-B\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[0].url === \"https://sandbox.bluesnap.com/services/2/vaulted-shoppers/{{vaultedShopperId}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"BLU-001-013-B\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "const logs = {{logs}}\nlet vaultedShopper = logs[1].content.vaultedShopperId;\nreturn vaultedShopper === {{vaultedShopperId}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.email === \"{{email}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.paymentSources.creditCardInfo.length",
+      "variableName": "length"
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "const logs = {{logs}}\nconst num = {{length}}-1\nreturn logs[1].content.paymentSources.creditCardInfo[num].creditCard.cardLastFourDigits === \"{{fourDigits}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "const logs = {{logs}};\nconst num = {{length}}-1\nreturn logs[1].content.paymentSources.creditCardInfo[num].creditCard.cardType === \"{{ShortName}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "const logs = {{logs}}\nconst AE_month = \"{{month}}\"\nconst num = {{length}}-1\nreturn logs[1].content.paymentSources.creditCardInfo[num].creditCard.expirationMonth === AE_month",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "const logs = {{logs}}\nconst AE_year = \"20\"+\"{{year}}\"\nconst num = {{length}}-1\nreturn logs[1].content.paymentSources.creditCardInfo[num].creditCard.expirationYear === AE_year",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"BLU-001-013-B\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "61b35fe8c9d89130132fecda",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"BLU-001-013-B\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "",
+      "value": "60d0e066fd5d095fc94397bd",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"BLU-001-013-B\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "const logs = {{logs}}\nconst num = {{length}}-2\nreturn logs[1].content.paymentSources.creditCardInfo[num].creditCard.cardLastFourDigits === \"{{fourDigits}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"BLU-001-013-B\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "",
+      "value": "const logs = {{logs}};\nconst num = {{length}}-2\nreturn logs[1].content.paymentSources.creditCardInfo[num].creditCard.cardType === \"{{ShortName}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"BLU-001-013-B\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "",
+      "value": "const logs = {{logs}}\nconst AE_month = \"{{month}}\"\nconst num = {{length}}-2\nreturn logs[1].content.paymentSources.creditCardInfo[num].creditCard.expirationMonth === AE_month",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"BLU-001-013-B\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "",
+      "value": "const logs = {{logs}}\nconst AE_year = \"20\"+\"{{year}}\"\nconst num = {{length}}-2\nreturn logs[1].content.paymentSources.creditCardInfo[num].creditCard.expirationYear === AE_year",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "617bf306e3892d651a451943",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

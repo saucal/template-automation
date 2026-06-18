@@ -1,0 +1,194 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "6.1.0",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "06 - Checkout page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "698b94e65fe00b498f40c47e",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "let title = \"{{prod_desc}}\"\ntitle = title.toUpperCase();\nreturn title\n",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "button.add-to-cart"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "const prod_desc = '{{prod_desc}}'\n\nreturn prod_desc.charAt(0).toUpperCase() + prod_desc.slice(1).toLowerCase();",
+      "variableName": "prod_desc2"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "td.product-name",
+      "value": "{{prod_desc2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "ins > .woocommerce-Price-amount.amount",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": ".topg-exclusive-cart-content > .cart_totals.topg_cart_totals > table.shop_table.shop_table_responsive > tbody > tr.cart-subtotal:nth-of-type(1) > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": ".topg-exclusive-cart-content > .cart_totals.topg_cart_totals > table.shop_table.shop_table_responsive > tbody > tr.order-total.adp-discount > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "$10.00",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": ".topg-exclusive-cart-content > .cart_totals.topg_cart_totals > table.shop_table.shop_table_responsive > tbody > tr.order-total:nth-of-type(4) > td > strong > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": ".topg-exclusive-cart-content > .cart_totals.topg_cart_totals > table.shop_table.shop_table_responsive > tbody > tr.cart-subtotal:nth-of-type(6) > td > .topg_recurring_cart_totals > .woocommerce-Price-amount.amount",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": ".topg-exclusive-cart-content > .cart_totals.topg_cart_totals > table.shop_table.shop_table_responsive > tbody > tr.order-total:nth-of-type(7) > td > .topg_recurring_cart_totals > strong > .woocommerce-Price-amount.amount",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": ".subscription-details",
+      "value": "/ month"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": ".topg-exclusive-cart-content > .cart_totals.topg_cart_totals > table.shop_table.shop_table_responsive > tbody > tr.cart-subtotal:nth-of-type(6) > td > .topg_recurring_cart_totals",
+      "value": "/ month",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": ".topg-exclusive-cart-content > .cart_totals.topg_cart_totals > table.shop_table.shop_table_responsive > tbody > tr.order-total:nth-of-type(7) > td > .topg_recurring_cart_totals",
+      "value": "/ month",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": ".topg-exclusive-cart-content > .cart_totals.topg_cart_totals > table.shop_table.shop_table_responsive > tbody > tr.order-total:nth-of-type(7) > td > .first-payment-date > small",
+      "value": "",
+      "variableName": "nextPay"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "698b9a405fe00b498f41602e",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "63cfd4381b9923d1cb91739c",
+    "suiteId": "63cfc2a0af1e488d25d070e7",
+    "suiteName": "Merch - Basic WooCommerce tests"
+  }
+}

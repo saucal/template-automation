@@ -1,0 +1,97 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Get default currency price on cart",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let currency = \"{{currency}}\"\nconst element = document.querySelector('.wp-block-woocommerce-cart')\n\nreturn (currency === \"{{defaultCurr}}\" || currency === \"\") && element === null"
+      },
+      "notes": "For Classic Checkout",
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "//let content = document.querySelectorAll(\"td > .woocommerce-Price-amount.amount, span > .woocommerce-Price-amount.amount, .cart-contents .woocommerce-Price-amount.amount\")\nlet content = document.querySelectorAll(\"tr.cart_item .woocommerce-Price-amount.amount,tr.cart-discount .woocommerce-Price-amount.amount\")\nlet result = []\n\nfor (let i = 0; i < content.length; i++) {\n        result.push(content[i].textContent);\n    }\nreturn result",
+      "variableName": "resultDefault"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let currency = \"{{currency}}\"\nconst element = document.querySelector('.wp-block-woocommerce-cart')\n\nreturn (currency === \"{{defaultCurr}}\" || currency === \"\") && element !== null"
+      },
+      "notes": "For Blocks",
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "//let content = document.querySelectorAll(\"td > .woocommerce-Price-amount.amount, span > .woocommerce-Price-amount.amount, .cart-contents .woocommerce-Price-amount.amount\")\nlet content = document.querySelectorAll(\".wc-block-cart-item__prices .wc-block-components-formatted-money-amount, .wc-block-components-product-details__sign-up-fee > .wc-block-components-product-details__value, .wc-block-components-totals-discount .wc-block-components-formatted-money-amount\")\nlet result = []\n\nfor (let i = 0; i < content.length; i++) {\n        result.push(content[i].textContent);\n    }\nreturn result",
+      "variableName": "resultDefault"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let currency = \"{{currency}}\"\nconst element = document.querySelector('.wp-block-woocommerce-cart')\n\nreturn (currency !== \"{{defaultCurr}}\" && currency !== \"\") && element === null"
+      },
+      "notes": "For Classic Checkout",
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "//let content = document.querySelectorAll(\"td > .woocommerce-Price-amount.amount, span > .woocommerce-Price-amount.amount, .cart-contents .woocommerce-Price-amount.amount\")\nlet content = document.querySelectorAll(\"tr.cart_item .woocommerce-Price-amount.amount,tr.cart-discount .woocommerce-Price-amount.amount\")\nlet result = []\n\nfor (let i = 0; i < content.length; i++) {\n        result.push(content[i].textContent);\n    }\nreturn result",
+      "variableName": "resultEUR"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let currency = \"{{currency}}\"\nconst element = document.querySelector('.wp-block-woocommerce-cart')\n\nreturn (currency !== \"{{defaultCurr}}\" && currency !== \"\") && element !== null"
+      },
+      "notes": "for Blocks",
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "//let content = document.querySelectorAll(\"td > .woocommerce-Price-amount.amount, span > .woocommerce-Price-amount.amount, .cart-contents .woocommerce-Price-amount.amount\")\nlet content = document.querySelectorAll(\".wc-block-cart-item__prices .wc-block-components-formatted-money-amount, .wc-block-components-product-details__sign-up-fee > .wc-block-components-product-details__value, .wc-block-components-totals-discount .wc-block-components-formatted-money-amount\")\nlet result = []\n\nfor (let i = 0; i < content.length; i++) {\n        result.push(content[i].textContent);\n    }\nreturn result",
+      "variableName": "resultEUR"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "65f9f5da752b1a838b7f1091",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "636024fadb1ab7e45ee9eb8b",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

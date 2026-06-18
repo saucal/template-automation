@@ -1,0 +1,432 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Place Order",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "#payment_method_payoneer-checkout"
+        },
+        {
+          "selector": "#radio-control-wc-payment-method-options-payoneer-checkout"
+        },
+        {
+          "selector": "#payment_method_payoneer-hosted"
+        },
+        {
+          "selector": "#radio-control-wc-payment-method-options-payoneer-hosted"
+        }
+      ],
+      "value": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let paymentFlow = '{{paymentFlow}}'\n\nreturn paymentFlow === 'embedded'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "69778cc365fd97d14e2468b6",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let paymentFlow = '{{paymentFlow}}'\n\nreturn paymentFlow === 'embedded'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "// Select all <tfoot> elements\nconst tfootSections = document.querySelectorAll('table.shop_table tfoot');\n\n// Find the correct <tfoot> (one without \"Actions:\" row)\nlet tfootIndex = -1;\nArray.from(tfootSections).forEach((tfoot, index) => {\n  const hasActions = Array.from(tfoot.querySelectorAll('tr > th')).some(th => \n    th.textContent.trim() === 'Actions:'\n  );\n  if (!hasActions) {\n    tfootIndex = index + 1;\n  }\n});\n\nreturn tfootIndex",
+      "variableName": "tfootIndex"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "// Select all <tfoot> elements\nconst tfootSections = document.querySelectorAll('table.shop_table tfoot');\n\n// Find the correct <tfoot> (one without \"Actions:\" row)\nlet targetTfoot = null;\n\nArray.from(tfootSections).forEach((tfoot, index) => {\n  const hasActions = Array.from(tfoot.querySelectorAll('tr > th')).some(th => \n    th.textContent.trim() === 'Actions:'\n  );\n  if (!hasActions) {\n    targetTfoot = tfoot;\n  }\n});\n\n// Process the target <tfoot>\nlet result;\nlet totalIndex;\nif (targetTfoot) {\n  const tfootElements = targetTfoot.querySelectorAll('tr');\n  Array.from(tfootElements).forEach((tr, index) => {\n    const th = tr.querySelector('th');\n    if (th) {\n      const thText = th.textContent.trim();\n      if (thText.includes('Total')) {\n        totalIndex = index;\n      }\n    }\n  });\n}\n  return totalIndex + 1",
+      "variableName": "totalIndex"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "tfoot:nth-of-type({{tfootIndex}}) > tr:nth-of-type({{totalIndex}}):not(.recurring-total) > td span.woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "div.wc-block-components-totals-item__value > span"
+        },
+        {
+          "selector": "tfoot > tr.order-total:not(.recurring-total) > td span.woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "",
+      "variableName": "total"
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "#place_order"
+        },
+        {
+          "selector": "xpath=//button[contains(text(), \"Place order\")]"
+        },
+        {
+          "selector": "xpath=//div[contains(text(), \"Place Order\")]"
+        },
+        {
+          "selector": ".wc-block-components-checkout-place-order-button"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const placeOrder = document.querySelector('#place_order, .wc-block-components-checkout-place-order-button')\nfunction isElementVisible(element) {\n  if (!element) return false;\n\n  const rect = element.getBoundingClientRect();\n  const style = window.getComputedStyle(element);\n\n  return (\n    rect.width > 0 &&\n    rect.height > 0 &&\n    style.display !== \"none\" &&\n    style.visibility !== \"hidden\" &&\n    style.opacity !== \"0\"\n  );\n}\n\n\nreturn isElementVisible(placeOrder)"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "69778cc365fd97d14e2468c2",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const placeOrder = document.querySelector('#place_order, .wc-block-components-checkout-place-order-button')\nfunction isElementVisible(element) {\n  if (!element) return false;\n\n  const rect = element.getBoundingClientRect();\n  const style = window.getComputedStyle(element);\n\n  return (\n    rect.width > 0 &&\n    rect.height > 0 &&\n    style.display !== \"none\" &&\n    style.visibility !== \"hidden\" &&\n    style.opacity !== \"0\"\n  );\n}\n\n\nreturn isElementVisible(placeOrder)"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "#place_order"
+        },
+        {
+          "selector": "xpath=//button[contains(text(), \"Place order\")]"
+        },
+        {
+          "selector": "xpath=//div[contains(text(), \"Place Order\")]"
+        },
+        {
+          "selector": ".wc-block-components-checkout-place-order-button"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "const challenge = '{{challenge}}'\nconst paymentFlow = '{{paymentFlow}}'\n\n\nreturn paymentFlow === 'embedded' && challenge === 'yes'"
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 9,
+      "target": "iframe[src*='js.stripe.com'] iframe#challengeFrame button#test-source-authorize-3ds",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const challenge = '{{challenge}}'\nconst paymentFlow = '{{paymentFlow}}'\n\n\nreturn paymentFlow === 'embedded' && challenge === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "iframe[src*='js.stripe.com'] iframe#challengeFrame button#test-source-authorize-3ds",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "const challenge = '{{challenge}}'\nconst paymentFlow = '{{paymentFlow}}'\n\n\nreturn paymentFlow === 'embedded' && challenge === 'fail'"
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 11,
+      "target": "iframe[src*='js.stripe.com'] iframe#challengeFrame button#test-source-fail-3ds",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const challenge = '{{challenge}}'\nconst paymentFlow = '{{paymentFlow}}'\n\n\nreturn paymentFlow === 'embedded' && challenge === 'fail'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "iframe[src*='js.stripe.com'] iframe#challengeFrame button#test-source-fail-3ds",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let paymentFlow = '{{paymentFlow}}'\n\nreturn paymentFlow === 'hosted'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "input[aria-label=\"cards\"]",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let paymentFlow = '{{paymentFlow}}'\n\nreturn paymentFlow === 'hosted'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "",
+      "value": "69778cc365fd97d14e2468b6",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "let paymentFlow = '{{paymentFlow}}'\n\nreturn paymentFlow === 'hosted'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "Payoneer Hosted",
+      "variableName": "paymentMethod"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const challenge = '{{challenge}}'\nconst paymentFlow = '{{paymentFlow}}'\n\n\nreturn paymentFlow === 'hosted' && challenge === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "iframe[src*='js.stripe.com'] iframe#challengeFrame button#test-source-authorize-3ds",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const challenge = '{{challenge}}'\nconst paymentFlow = '{{paymentFlow}}'\n\n\nreturn paymentFlow === 'hosted' && challenge === 'fail'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "iframe[src*='js.stripe.com'] iframe#challengeFrame button#test-source-fail-3ds",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "",
+      "value": "69778cc365fd97d14e2468b2",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const transaction = '{{transaction}}'\n\nreturn transaction !== 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "",
+      "value": "69c3f6773a7b83a505966f1c",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const user = '{{user}}'\n\n\nreturn user ==='new' || user === 'old'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "",
+      "value": "69778cc365fd97d14e2468a9",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const user = '{{user}}'\nconst transaction = '{{transaction}}'\nconst challenge = '{{challenge}}'\nconst paymentFlow = '{{paymentFlow}}'\n\nreturn  transaction === 'declined' && challenge !== 'fail'\n        && user ==='guest' && paymentFlow === 'embedded'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": [
+        {
+          "selector": ".woocommerce-error"
+        },
+        {
+          "selector": "div.wc-block-store-notice.is-error > div > div"
+        }
+      ],
+      "value": "Payment declined\nCheck your details before trying again, or use another payment method. For any additional information please contact your issuing bank or payment method provider.",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const user = '{{user}}'\nconst transaction = '{{transaction}}'\nconst challenge = '{{challenge}}'\n\nreturn  transaction === 'declined' && challenge !== 'fail'\n        && user ==='guest' && !'{{blog}}'.includes('block')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "#payment-form > div.pyr-stripe-comp-123 > div:nth-child(2)",
+      "value": "Payment declined. Check your details before trying again, or use another payment method. For any additional information please contact your issuing bank or payment method provider.",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const user = '{{user}}'\nconst transaction = '{{transaction}}'\nconst challenge = '{{challenge}}'\nconst paymentFlow = '{{paymentFlow}}'\n\nreturn  transaction === 'declined' && challenge === 'fail'\n        && user ==='guest' && paymentFlow === 'embedded'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": [
+        {
+          "selector": ".woocommerce-error"
+        },
+        {
+          "selector": "div.wc-block-store-notice.is-error > div > div"
+        }
+      ],
+      "value": "Your payment failed\nTry again with another payment method",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const user = '{{user}}'\nconst transaction = '{{transaction}}'\nconst challenge = '{{challenge}}'\nconst paymentFlow = '{{paymentFlow}}'\n\nreturn !'{{blog}}'.includes('block') && transaction === 'declined' && challenge === 'fail'\n        && user ==='guest' && paymentFlow === 'embedded'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "#payment-form > div.pyr-stripe-comp-123 > div:nth-child(2)",
+      "value": "Your payment failed. Try again with another payment method",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const user = '{{user}}'\nconst transaction = '{{transaction}}'\nconst challenge = '{{challenge}}'\nconst paymentFlow = '{{paymentFlow}}'\n\nreturn  transaction === 'declined' && challenge === 'fail'\n        && user ==='guest' && paymentFlow === 'hosted'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": [
+        {
+          "selector": ".woocommerce-error"
+        },
+        {
+          "selector": "div.wc-block-store-notice.is-error > div > div"
+        }
+      ],
+      "value": "Payment failed. Please try with another payment gateway",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69778cc365fd97d14e2468c1",
+    "suiteId": "69778cc265fd97d14e24689f",
+    "suiteName": "Payoneer - Common Steps for Tests"
+  }
+}

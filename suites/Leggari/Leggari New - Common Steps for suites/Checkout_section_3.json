@@ -1,0 +1,88 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Checkout section 3",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "",
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "#wfacp_checkout_form > div.wfacp-left-panel.wfacp_page.pre_built.two_step > div.wfacp-two-step-erap.wfacp-next-btn-wrap.center.\\31 00\\% > button",
+      "value": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "#order_comments",
+      "value": "Test order notes",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "#terms",
+      "value": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const affirm = '{{affirm}}'\n\nreturn affirm !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "62753765c5f501e7105625b8",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const affirm = '{{affirm}}'\n\nreturn affirm === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "6821e342e75bee6181bfa069",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "654aabdd4ee1df25e0401864",
+    "suiteId": "61effe223e617932e957b5b8",
+    "suiteName": "Leggari New - Common Steps for suites"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "69a82ca1b9fc488447efbb1a",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2026-03-04T12:59:13.319Z",
+    "details": "",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "69a82b7e490909e59c0b04d7",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 0,
+    "maxWaitDelay": 15000,
+    "name": "DollarTabs - Basic WooCommerce tests",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": false,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://dollartabs-maintenance.mystagingwebsite.com/",
+    "testCount": 9,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "password",
+        "value": "fric2171Biot",
+        "private": true,
+        "_id": "69a5b4188ce9cb3f62997d9d"
+      },
+      {
+        "name": "password2",
+        "value": "fric2172Biot",
+        "private": true,
+        "_id": "69a5b4188ce9cb3f62997d9e"
+      },
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "69a5b4188ce9cb3f62997d9f"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "69a5b4188ce9cb3f62997da0"
+      }
+    ],
+    "viewportSize": {
+      "width": 1440,
+      "height": 900
+    }
+  }
+}

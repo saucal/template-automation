@@ -1,0 +1,202 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Check Order and Subscriptions on My Account",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": ".woocommerce-notice",
+      "value": "Thank you. Your order has been received.",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": ".order > strong"
+        },
+        {
+          "selector": ".order > span"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe .order > strong"
+        }
+      ],
+      "value": "",
+      "variableName": "orderNumber"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": ".email > strong"
+        },
+        {
+          "selector": ".email > span"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe .email > strong"
+        }
+      ],
+      "value": "{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": "iframe#wcp-checkout-iframe strong > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "strong > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "span > .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "685039ca388232057bd06d85",
+      "variableName": ""
+    },
+    {
+      "command": "mouseOver",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "body > div.elementor.elementor-location-header > section > div > div > div > div > div > div.topbar > div > ul > li.account-dropdown"
+        },
+        {
+          "selector": "body > header > section > div > div > div > div > div > div.topbar > div > ul > li.account-dropdown"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "a[href*=\"/account/orders/\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "td.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-status",
+      "value": "Processing",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "tr:nth-of-type(1) > td.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-total > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "added condition to skip leggari",
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "td.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-number > a[href*=\"/my-account/view-order/{{orderNumber}}/\"]"
+        },
+        {
+          "selector": "a[href*=\"/account/view-order/{{orderNumber}}/\"].woocommerce-button"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "685039ca388232057bd06d85",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "685ab9c79ce7a61f50d17b60",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68503443f0c060ffbcd4c114",
+    "suiteId": "684c8109388232057b6f7af1",
+    "suiteName": "SpringWell - Common steps"
+  }
+}

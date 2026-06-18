@@ -1,0 +1,344 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "My Account links and logout",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"Phlearn\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "div.woocommerce > div.woocommerce-MyAccount-content",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"Phlearn\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": ".woocommerce-MyAccount-navigation-link > a[href*=\"/my-phlearn/continue-watching\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"Phlearn\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "div.woocommerce > div.woocommerce-MyAccount-content",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": ".woocommerce-MyAccount-navigation-link > a[href*=\"/my-account/orders/\"]"
+        },
+        {
+          "selector": ".woocommerce-MyAccount-navigation-link > a[href*=\"/my-phlearn/orders/\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"hunchie\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": ".woocommerce-MyAccount-content > table.woocommerce-orders-table.woocommerce-MyAccount-orders.shop_table.shop_table_responsive.my_account_orders.account-orders-table",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"Phlearn\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": ".tutorial-list-error",
+      "value": "You haven't made any purchases yet.",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"hunchie\" && \"{{project}}\" !== \"Phlearn\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": ".woocommerce-MyAccount-content > .wc-block-components-notice-banner.is-info"
+        },
+        {
+          "selector": "div.woocommerce-info"
+        }
+      ],
+      "value": "No order has been made yet.",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"Phlearn\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": ".woocommerce-MyAccount-navigation-link > a[href*=\"/my-phlearn/referrals/\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"Phlearn\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": ".hp-head > p",
+      "value": "Share the joy of learning, and earn a month of PHLEARN PRO.\nNo Subscription required, no limit on free months.",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"Phlearn\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "a[href*=\"/my-account/edit-address/\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"Phlearn\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": ".u-column1 > header.woocommerce-Address-title.title > h3"
+        },
+        {
+          "selector": ".u-column1 > header.woocommerce-Address-title.title > h2"
+        }
+      ],
+      "value": "Billing address",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"Phlearn\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": [
+        {
+          "selector": ".u-column2 > header.woocommerce-Address-title.title > h3"
+        },
+        {
+          "selector": ".u-column2 > header.woocommerce-Address-title.title > h2"
+        }
+      ],
+      "value": "Shipping address",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"Phlearn\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "a[href*=\"/my-phlearn/phlearn-change-password/\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"Phlearn\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "legend",
+      "value": "Password change",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": [
+        {
+          "selector": "a[href*=\"/my-account/payment-methods/\"]"
+        },
+        {
+          "selector": "a[href*=\"/my-phlearn/payment-methods/\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"Phlearn\" && return \"{{project}}\" !== \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": ".woocommerce-MyAccount-content > table.woocommerce-MyAccount-paymentMethods.shop_table.shop_table_responsive.account-payment-methods-table",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"hunchie\" && return \"{{project}}\" !== \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": ".woocommerce-MyAccount-content > .wc-block-components-notice-banner.is-info",
+      "value": "No saved methods found.",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"hunchie\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "td.woocommerce-PaymentMethod.woocommerce-PaymentMethod--method",
+      "value": "Visa ending in 4242",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"Phlearn\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "a[href*=\"/my-account/edit-account/\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"Phlearn\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "form.woocommerce-EditAccountForm",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"Phlearn\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": ".woocommerce-MyAccount-navigation-link > a[href*=\"/my-phlearn/account\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "return \"{{project}}\" === \"Phlearn\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "#profile",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "return \"{{project}}\" !== \"hunchie\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "",
+      "value": "646bd9eacc654ac751364c16",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "646bd7d7cc654ac75135f424",
+    "suiteId": "6022b879262f437a9af8ddf9",
+    "suiteName": "Common Steps for all Projects"
+  }
+}

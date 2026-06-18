@@ -1,0 +1,735 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Verify logs /transactions - 2.6.x",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let auth = \"{{auth}}\"\nreturn auth != \"only\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[0].content.cardTransactionType === \"AUTH_CAPTURE\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let auth = \"{{auth}}\"\nreturn auth === \"only\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[0].content.cardTransactionType === \"AUTH_ONLY\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[0].method === \"POST\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[0].url === \"https://sandbox.bluesnap.com/services/2/transactions\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn Number(logs[0].content.amount) === {{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let scenario = \"{{scenario}}\"\nreturn scenario != \"multi-currency\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[0].content.currency === \"{{defaultCurr}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let scenario = \"{{scenario}}\"\nreturn scenario === \"multi-currency\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[0].content.currency === \"{{curr}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[0].content.merchantTransactionId === Number({{orderNumber}})",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[0].content.transactionFraudInfo.fraudSessionId !== \"\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[0].content.transactionFraudInfo.shopperIpAddress !== \"\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let user = \"{{user}}\"\nreturn user === \"old\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "const logs = {{logs}}\nlet vaulted = \"{{vaultedShopperId}}\"\nreturn logs[0].content.vaultedShopperId === vaulted",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let user = \"{{user}}\"\nreturn user === \"new\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[0].content.vaultedShopperId === \"\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[0].content.softDescriptor === \"BSTEST2-wpe\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let useSavedCC = \"{{useSavedCC}}\"\nreturn useSavedCC === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[0].content.cardHolderInfo.firstName === \"{{firstName}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let useSavedCC = \"{{useSavedCC}}\"\nreturn useSavedCC === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[0].content.cardHolderInfo.lastName === \"{{lastName}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let useSavedCC = \"{{useSavedCC}}\"\nreturn useSavedCC === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[0].content.cardHolderInfo.companyName === \"{{company}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let useSavedCC = \"{{useSavedCC}}\"\nreturn useSavedCC === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[0].content.cardHolderInfo.email === \"{{email}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let useSavedCC = \"{{useSavedCC}}\"\nreturn useSavedCC === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[0].content.cardHolderInfo.country === \"US\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let useSavedCC = \"{{useSavedCC}}\"\nreturn useSavedCC === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[0].content.cardHolderInfo.state === \"FL\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let useSavedCC = \"{{useSavedCC}}\"\nreturn useSavedCC === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[0].content.cardHolderInfo.address === \"{{street}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let useSavedCC = \"{{useSavedCC}}\"\nreturn useSavedCC === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[0].content.cardHolderInfo.address2 === \"{{address2}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let useSavedCC = \"{{useSavedCC}}\"\nreturn useSavedCC === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[0].content.cardHolderInfo.city === \"{{city}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let useSavedCC = \"{{useSavedCC}}\"\nreturn useSavedCC === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[0].content.cardHolderInfo.zip === \"{{zipCode}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let useSavedCC = \"{{useSavedCC}}\"\nreturn useSavedCC === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[0].content.pfToken === \"{{pfToken}}\" ",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let useSavedCC = \"{{useSavedCC}}\"\nreturn useSavedCC === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[0].content.creditCard.cardLastFourDigits === \"{{fourDigits}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let useSavedCC = \"{{useSavedCC}}\"\nreturn useSavedCC === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[0].content.creditCard.cardType === \"{{ShortName}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let threeDS = \"{{3dsSetting}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n\nreturn (\n            (Number(blueSnapVs[0]) == 2 && Number(blueSnapVs[1]) == 6) \n            || Number(blueSnapVs[0]) >= 3\n        ) && \n        threeDS != \"deactivated\"\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[0].content.threeDSecure.threeDSecureReferenceId != \"\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let threeDS = \"{{3dsSetting}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n\nreturn (\n            Number(blueSnapVs[0]) == 2 && Number(blueSnapVs[1]) == 5 \n        ) && \n        threeDS != \"deactivated\"\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[0].content.threeDSecureReferenceId != \"\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let threeDS = \"{{3dsSetting}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n\nreturn (\n            (Number(blueSnapVs[0]) == 2 && Number(blueSnapVs[1]) == 6) \n            || Number(blueSnapVs[0]) >= 3\n        ) && \n        threeDS === \"deactivated\"\n        "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[0].content.threeDSecure === undefined",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let threeDS = \"{{3dsSetting}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n\nreturn (\n            Number(blueSnapVs[0]) == 2 && Number(blueSnapVs[1]) == 5 \n        ) && \n        threeDS === \"deactivated\"\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[0].content.threeDSecureReferenceId === undefined",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let saveCC = \"{{saveCC}}\"\nlet useSavedCC = \"{{useSavedCC}}\"\nreturn (saveCC === \"no\" || saveCC === \"disabled\") &&  useSavedCC === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[0].content.storeCard === false",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let saveCC = \"{{saveCC}}\"\nlet useSavedCC = \"{{useSavedCC}}\"\nreturn saveCC === \"yes\" &&  useSavedCC === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[0].content.storeCard === true",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let auth = \"{{auth}}\"\nreturn auth != \"only\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.cardTransactionType === \"AUTH_CAPTURE\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let auth = \"{{auth}}\"\nreturn auth === \"only\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.cardTransactionType === \"AUTH_ONLY\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.merchantTransactionId === \"{{orderNumber}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.transactionId === \"{{transaction_id}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.softDescriptor === \"BLS*BSTEST2-WPE\" || logs[1].content.softDescriptor === \"BLS*BSTEST2-wpe\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 37,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.amount === {{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let useSavedCC = \"{{useSavedCC}}\"\nreturn useSavedCC === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 38,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.cardHolderInfo.firstName === \"{{firstName}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let useSavedCC = \"{{useSavedCC}}\"\nreturn useSavedCC === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 39,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.cardHolderInfo.lastName === \"{{lastName}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let useSavedCC = \"{{useSavedCC}}\"\nreturn useSavedCC === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 40,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.cardHolderInfo.email === \"{{email}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let useSavedCC = \"{{useSavedCC}}\"\nreturn useSavedCC === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 41,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.cardHolderInfo.country === \"US\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let useSavedCC = \"{{useSavedCC}}\"\nreturn useSavedCC === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 42,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.cardHolderInfo.state === \"FL\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let useSavedCC = \"{{useSavedCC}}\"\nreturn useSavedCC === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 43,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.cardHolderInfo.address === \"{{street}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let useSavedCC = \"{{useSavedCC}}\"\nreturn useSavedCC === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 44,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.cardHolderInfo.city === \"{{city}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let useSavedCC = \"{{useSavedCC}}\"\nreturn useSavedCC === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 45,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.cardHolderInfo.zip === \"{{zipCode}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let useSavedCC = \"{{useSavedCC}}\"\nreturn useSavedCC === \"no\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 46,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.cardHolderInfo.companyName === \"{{company}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let user = \"{{user}}\"\nreturn user === \"new\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 47,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.vaultedShopperId",
+      "variableName": "vaultedShopperId"
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let user = \"{{user}}\"\nreturn user === \"old\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 48,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.vaultedShopperId === {{vaultedShopperId}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 49,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.creditCard.cardLastFourDigits === \"{{fourDigits}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 50,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.creditCard.cardType === \"{{ShortName}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 51,
+      "target": "",
+      "value": "const logs = {{logs}}\nconst AE_month = Number(\"{{month}}\")\nreturn logs[1].content.creditCard.expirationMonth === \"\"+AE_month+\"\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 52,
+      "target": "",
+      "value": "const logs = {{logs}}\nconst AE_year = \"20\"+\"{{year}}\"\nreturn logs[1].content.creditCard.expirationYear === AE_year",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let scenario = \"{{scenario}}\"\nreturn scenario != \"multi-currency\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 53,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.currency === \"USD\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let scenario = \"{{scenario}}\"\nreturn scenario === \"multi-currency\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 54,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.currency === \"{{currency}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let scenario = \"{{scenario}}\"\nreturn scenario === \"multi-currency\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 55,
+      "target": "",
+      "value": "63652089db1ab7e45e65950e",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let scenario = \"{{scenario}}\"\nreturn scenario === \"multi-currency\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 56,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.usdAmount === {{totalUSD}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let cc = \"{{3ds}}\"\nlet threeDSSetting = \"{{3dsSetting}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n\nreturn (\n            (Number(blueSnapVs[0]) == 2 && Number(blueSnapVs[1]) == 6) \n            || Number(blueSnapVs[0]) >= 3\n        ) && (\n            cc != \"1.0a\" && cc != \"2.0a\" && cc != \"2.0aW\"\n            ) && threeDSSetting != \"deactivated\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 57,
+      "target": "",
+      "value": "const logs = {{logs}}\r\nconst threeDS = \"AUTHENTICATION_UNAVAILABLE\"\r\nreturn logs[1].content.threeDSecure.authenticationResult === threeDS",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let cc = \"{{3ds}}\"\nlet threeDSSetting = \"{{3dsSetting}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n\nreturn (\n            (Number(blueSnapVs[0]) == 2 && Number(blueSnapVs[1]) == 6) \n            || Number(blueSnapVs[0]) >= 3\n        ) && (\n            cc === \"1.0a\" || cc === \"2.0a\" || cc === \"2.0aW\"\n            ) && threeDSSetting != \"deactivated\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 58,
+      "target": "",
+      "value": "const logs = {{logs}}\r\nconst threeDS = \"AUTHENTICATION_SUCCEEDED\"\r\nreturn logs[1].content.threeDSecure.authenticationResult === threeDS",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let threeDS = \"{{3dsSetting}}\"\nlet useSavedCC = \"{{useSavedCC}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n\nreturn threeDS === \"deactivated\" \n        || \n        (useSavedCC === \"yes\" \n        && Number(blueSnapVs[0]) == 2 && Number(blueSnapVs[1]) == 5)\n        "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 59,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.threeDSecure === undefined",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 60,
+      "target": "",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.processingInfo.processingStatus === \"success\"",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6241b2c1dbfd38bdb76806c8",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

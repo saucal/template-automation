@@ -1,0 +1,56 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Settings - Deactivate only capture",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": null,
+      "notes": "needs the payment time to get it",
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "return new Promise(function (resolve, reject) {\n  const url = '{{startUrl}}' + 'wp-json/wc-automation-helper/bluesnap-settings/?enabled=yes&_3D_secure=yes&capture_charge=no&saved_cards=yes&multicurrency=yes';\n  const username = '{{woo_user}}';\n  const password = '{{woo_pass}}';\n  let headers = new Headers();\n  headers.set('Content-Type', 'application/json');\n  headers.set('Authorization', 'Basic ' + btoa(username + \":\" + password));\n  fetch(url, {method:'POST', headers: headers, credentials: 'omit'})\n  .then(function(response) {\n    if (response.ok) {\n      resolve(response.json())\n    } else {\n      resolve([])\n    } \n  })\n  })",
+      "variableName": "logs"
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "let logs = {{logs}}\nreturn logs.status === \"OK\" && (logs.changed_options.capture_charge === \"no\" || logs.warning === \"No options updated!\")",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "62c30fff5a1bf494e94432c7",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

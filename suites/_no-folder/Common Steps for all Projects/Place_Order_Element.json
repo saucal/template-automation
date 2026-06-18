@@ -1,0 +1,65 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Place Order Element",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "return new Promise((resolve) => {\n    let frame = document.querySelector('iframe[src=\"{{startUrl}}checkout/?iframe_checkout=1\"], iframe#wcp-checkout-iframe');\n    let targetElement\n    \n    if (frame !== null) {\n      try {\n        let iframeDocument = frame.contentWindow?.document || frame.contentDocument;\n        targetElement = iframeDocument?.querySelector('#place_order') || null;\n      } catch (error) {\n        console.warn('Cross-origin iframe detected, skipping iframe check.');\n      }\n    } else {\n      targetElement = document.querySelector('#place_order');\n    }\n    \n    if (!targetElement.disabled) {\n      // If the attribute is already false, resolve the promise immediately\n      resolve(true);\n      return;\n    }\n\n    const observer = new MutationObserver((mutationsList) => {\n      for (const mutation of mutationsList) {\n        if (\n          mutation.type === 'attributes' &&\n          mutation.attributeName === 'disabled' &&\n          !targetElement.disabled\n        ) {\n          observer.disconnect();\n          resolve(true);\n          break;\n        }\n      }\n    });\n\n    observer.observe(targetElement, { attributes: true });\n  })",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "#place_order"
+        },
+        {
+          "selector": "iframe[src=\"{{startUrl}}checkout/?iframe_checkout=1\"] #place_order"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #place_order"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "62753765c5f501e7105625b8",
+    "suiteId": "6022b879262f437a9af8ddf9",
+    "suiteName": "Common Steps for all Projects"
+  }
+}

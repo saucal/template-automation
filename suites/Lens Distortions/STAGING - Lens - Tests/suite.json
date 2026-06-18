@@ -1,0 +1,188 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "627d107026939cd04677f4ee",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2022-05-12T13:49:36.007Z",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "62752f924a3a4832a266accb",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "STAGING - Lens - Tests",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://lensdistortions.flywheelstaging.com/",
+    "testCount": 11,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "CCard",
+        "value": "4242424242424242",
+        "private": false,
+        "_id": "60d47dab95519927246f73ac"
+      },
+      {
+        "name": "month",
+        "value": "05",
+        "private": false,
+        "_id": "60d47dab95519927246f73ad"
+      },
+      {
+        "name": "year",
+        "value": "27",
+        "private": false,
+        "_id": "60d47dab95519927246f73ae"
+      },
+      {
+        "name": "cvv",
+        "value": "123",
+        "private": false,
+        "_id": "60d47dab95519927246f73af"
+      },
+      {
+        "name": "street",
+        "value": "123 False Street",
+        "private": false,
+        "_id": "60d47dab95519927246f73b0"
+      },
+      {
+        "name": "city",
+        "value": "Ottawa",
+        "private": false,
+        "_id": "60d47dab95519927246f73b1"
+      },
+      {
+        "name": "state",
+        "value": "ON",
+        "private": false,
+        "_id": "60d47dab95519927246f73b2"
+      },
+      {
+        "name": "country",
+        "value": "CA",
+        "private": false,
+        "_id": "60d47dab95519927246f73b3"
+      },
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "60d47dab95519927246f73b4"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "60d47dab95519927246f73b5"
+      },
+      {
+        "name": "company",
+        "value": "Testing Inc.",
+        "private": false,
+        "_id": "60d47dab95519927246f73b6"
+      },
+      {
+        "name": "phone",
+        "value": "6134564567",
+        "private": false,
+        "_id": "60d47dab95519927246f73b7"
+      },
+      {
+        "name": "password",
+        "value": "fric2171Biot",
+        "private": true,
+        "_id": "60d47dab95519927246f73b8"
+      },
+      {
+        "name": "password2",
+        "value": "fric2172Biot",
+        "private": true,
+        "_id": "60d47dab95519927246f73b9"
+      },
+      {
+        "name": "zipCode",
+        "value": "K1S 3V6",
+        "private": false,
+        "_id": "60d47f2d9e906a6e81362334"
+      },
+      {
+        "name": "lastName2",
+        "value": "{{lastName}} Shipping",
+        "private": false,
+        "_id": "60d480c995519927246f8215"
+      },
+      {
+        "name": "street3",
+        "value": "123 false Shipping Street",
+        "private": false,
+        "_id": "60d480eb9e906a6e81362c74"
+      },
+      {
+        "name": "project",
+        "value": "lens",
+        "private": false,
+        "_id": "627bbf5997a3bd06e03c24e1"
+      },
+      {
+        "name": "stateComplete",
+        "value": "Ontario",
+        "private": false,
+        "_id": "627bbf5997a3bd06e03c24e2"
+      },
+      {
+        "name": "countryComplete",
+        "value": "Canada",
+        "private": false,
+        "_id": "627bbf5997a3bd06e03c24e3"
+      },
+      {
+        "name": "Symbol",
+        "value": "$",
+        "private": false,
+        "_id": "627bc2df26939cd0461dfca8"
+      },
+      {
+        "name": "url",
+        "value": "https://lensdistortions.flywheelstaging.com",
+        "private": false,
+        "_id": "627d2dcd26939cd04680e8c8"
+      },
+      {
+        "name": "street2",
+        "value": "Of. 2",
+        "private": false,
+        "_id": "627e361aa0299821fc67b8dd"
+      }
+    ],
+    "viewportSize": [
+      {
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "width": 360,
+        "height": 567
+      }
+    ],
+    "httpAuthPassword": "seafarer-prize",
+    "httpAuthUsername": "ld-staging"
+  }
+}

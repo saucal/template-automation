@@ -1,0 +1,145 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "666aeb5c1aac3ea14fd80563",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2024-06-13T12:51:40.876Z",
+    "details": "",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "66684a491aac3ea14f40172c",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "Vesica - Basic WooCommerce Tests - User",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://stg-vesica-staging.kinsta.cloud/",
+    "testCount": 8,
+    "testFrequency": 0,
+    "viewportSize": {
+      "width": 1280,
+      "height": 800
+    },
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "666af61289e87fd839811363"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "666af61289e87fd839811364"
+      },
+      {
+        "name": "company",
+        "value": "Testing Inc.",
+        "private": false,
+        "_id": "666af61289e87fd839811365"
+      },
+      {
+        "name": "street",
+        "value": "1000 Nw 42nd Ave",
+        "private": false,
+        "_id": "666af61289e87fd839811366"
+      },
+      {
+        "name": "street2",
+        "value": "Ap. 4",
+        "private": false,
+        "_id": "666af61289e87fd839811367"
+      },
+      {
+        "name": "countryComplete",
+        "value": "United States (US)",
+        "private": false,
+        "_id": "68791500e5d3587e15b5cc7e"
+      },
+      {
+        "name": "city",
+        "value": "Miami",
+        "private": false,
+        "_id": "666af61289e87fd839811368"
+      },
+      {
+        "name": "state",
+        "value": "Florida",
+        "private": false,
+        "_id": "666af61289e87fd839811369"
+      },
+      {
+        "name": "zipCode",
+        "value": "33126-3645",
+        "private": false,
+        "_id": "666af61289e87fd83981136a"
+      },
+      {
+        "name": "Symbol",
+        "value": "$",
+        "private": false,
+        "_id": "666b0ac789e87fd83987d6a6"
+      },
+      {
+        "name": "phone",
+        "value": "4089211861",
+        "private": false,
+        "_id": "666af61289e87fd83981136b"
+      },
+      {
+        "name": "shortState",
+        "value": "FL",
+        "private": false,
+        "_id": "666afe2789e87fd8398468f2"
+      },
+      {
+        "name": "project",
+        "value": "vesica",
+        "private": false,
+        "_id": "666b038d1aac3ea14fdecc8d"
+      },
+      {
+        "name": "password",
+        "value": "fric2171Biot",
+        "private": true,
+        "_id": "666afe2789e87fd8398468f3"
+      },
+      {
+        "name": "includeTax",
+        "value": "false",
+        "private": false,
+        "_id": "68a5ba963bad3e27aa865a92"
+      },
+      {
+        "name": "qty",
+        "value": "1",
+        "private": false,
+        "_id": "666b11d81aac3ea14fe1b8a3"
+      },
+      {
+        "name": "password2",
+        "value": "fric2172Biot",
+        "private": true,
+        "_id": "666afe2789e87fd8398468f4"
+      }
+    ]
+  }
+}

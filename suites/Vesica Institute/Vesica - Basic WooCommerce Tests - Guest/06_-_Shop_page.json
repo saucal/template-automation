@@ -1,0 +1,69 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "06 - Shop page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 0,
+      "target": ".cky-notice-btn-wrapper > button[aria-label=\"Reject All\"].cky-btn.cky-btn-reject"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "nav.elementor-nav-menu--main > .elementor-nav-menu > li.menu-item.menu-item-type-custom.menu-item-object-custom.menu-item-has-children:nth-of-type(5) > a[href*=\"/vesica-shop/\"].elementor-item.has-submenu"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "nav.elementor-nav-menu--main > .elementor-nav-menu > li.menu-item.menu-item-type-custom.menu-item-object-custom.menu-item-has-children:nth-of-type(5) > a[href*=\"/vesica-shop/\"].elementor-item.has-submenu"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "66684f9589e87fd839ebc2e8",
+    "suiteId": "66684ab91aac3ea14f403438",
+    "suiteName": "Vesica - Basic WooCommerce Tests - Guest"
+  }
+}

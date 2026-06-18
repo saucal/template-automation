@@ -1,0 +1,299 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Fill CC Hosted Checkout",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "let session = document.querySelector('app-root')\n\nif (session !== null) {\n      session = session.getAttribute('data-session-id')\n    } else {\n      session = document.querySelector('#acme-hosted-checkout-container, #mastercard_merchant_cloud-hosted-checkout-container').getAttribute('data-session-id')\n    }  \n      \n\nreturn session\n",
+      "variableName": "session"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"Credit or Debit card\")]"
+        },
+        {
+          "selector": "iframe[src*=\"test-gateway.mastercard.com\"] .payment-option__credit-debit-text"
+        },
+        {
+          "selector": ".payment-option__credit-debit-text"
+        }
+      ]
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "iframe[src*=\"test-gateway.mastercard.com\"] iframe[src*=\"test-gateway.mastercard.com\"] #nameOnCard"
+        },
+        {
+          "selector": "iframe[src*=\"test-gateway.mastercard.com\"] #nameOnCard"
+        }
+      ],
+      "value": "QA Test",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": "iframe[src*=\"test-gateway.mastercard.com\"] iframe[src*=\"test-gateway.mastercard.com\"] #number"
+        },
+        {
+          "selector": "iframe[src*=\"test-gateway.mastercard.com\"] #number"
+        }
+      ],
+      "value": "{{CCard}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": "iframe[src*=\"test-gateway.mastercard.com\"] iframe[src*=\"test-gateway.mastercard.com\"] #expiryMonth"
+        },
+        {
+          "selector": "iframe[src*=\"test-gateway.mastercard.com\"] #expiryMonth"
+        }
+      ],
+      "value": "{{month}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "iframe[src*=\"test-gateway.mastercard.com\"] iframe[src*=\"test-gateway.mastercard.com\"] #expiryYear"
+        },
+        {
+          "selector": "iframe[src*=\"test-gateway.mastercard.com\"] #expiryYear"
+        }
+      ],
+      "value": "{{year}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "iframe[src*=\"test-gateway.mastercard.com\"] iframe[src*=\"test-gateway.mastercard.com\"] #securityCode"
+        },
+        {
+          "selector": "iframe[src*=\"test-gateway.mastercard.com\"] #securityCode"
+        }
+      ],
+      "value": "{{cvv}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "#label-transactional-currency"
+        },
+        {
+          "selector": "iframe[src*=\"test-gateway.mastercard.com\"] #label-transactional-currency"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "#pay-label"
+        },
+        {
+          "selector": "iframe[src*=\"test-gateway.mastercard.com\"] #pay-label"
+        }
+      ]
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "676ec1fb35aed64d30777b56",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": ".absolute"
+        },
+        {
+          "selector": "iframe[src*=\"test-gateway.mastercard.com\"] .absolute"
+        }
+      ],
+      "value": ""
+    },
+    {
+      "command": "keypress",
+      "condition": {
+        "statement": "const challenge = '{{challenge}}'\n\nreturn challenge === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "9",
+      "variableName": ""
+    },
+    {
+      "command": "keypress",
+      "condition": {
+        "statement": "const challenge = '{{challenge}}'\n\nreturn challenge === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "9",
+      "variableName": ""
+    },
+    {
+      "command": "keypress",
+      "condition": {
+        "statement": "const challenge = '{{challenge}}'\n\nreturn challenge === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "13",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 14,
+      "target": [
+        {
+          "selector": ".absolute"
+        },
+        {
+          "selector": "iframe[src*=\"test-gateway.mastercard.com\"] .absolute"
+        }
+      ],
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 15,
+      "target": [
+        {
+          "selector": "iframe#challengeFrame .absolute"
+        },
+        {
+          "selector": "iframe[src*=\"test-gateway.mastercard.com\"] iframe#challengeFrame .absolute"
+        }
+      ],
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 16,
+      "target": [
+        {
+          "selector": "iframe#challengeFrame mc-sonic[type=\"default\"]"
+        },
+        {
+          "selector": "iframe[src*=\"test-gateway.mastercard.com\"] iframe#challengeFrame mc-sonic[type=\"default\"]"
+        }
+      ],
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 17,
+      "target": "iframe#challengeFrame .fixed",
+      "value": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "678532289bf3007e2b7ce601",
+    "suiteId": "676eb96835aed64d3077072a",
+    "suiteName": "MC - Common Steps for Tests"
+  }
+}

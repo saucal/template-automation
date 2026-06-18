@@ -1,0 +1,122 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "15 - CA - Subscription popup verification (Copy)",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let width = window.innerWidth\nreturn width <= 767"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "div.nopong-storefront-button",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "a[href*=\"/monthly-club/\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#h-choose-your-monthly-club-here",
+      "value": "CHOOSE YOUR MONTHLY CLUB HERE",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "a[href=\"?add-to-cart=1270\"]",
+      "value": "Join the Club",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": ".wp-block-handpicked-products > ul > li:nth-of-type(3)",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": {
+        "statement": "let width = window.innerWidth\nreturn width <= 767"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": ".nopong-product-popup-modal",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotVisible",
+      "condition": {
+        "statement": "let width = window.innerWidth\nreturn width > 767"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": ".nopong-product-popup-modal",
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "67d4024f5de1405286832c7d",
+    "suiteId": "67d4024f5de1405286832c5a",
+    "suiteName": "CA - Basic WooCommerce Test"
+  }
+}

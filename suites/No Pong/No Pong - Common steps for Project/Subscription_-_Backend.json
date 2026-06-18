@@ -1,0 +1,288 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Subscription - Backend",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": false,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "a[href*=\"/wp-admin/admin.php?page=wc-orders--shop_subscription&action=edit&id={{subscriptionNumber}}\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "mark.order-status > span",
+      "value": "Active"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "#subscription_renewal_orders > div.inside > div > table > tbody > tr:nth-child(1) > td:nth-child(5) > span > span",
+      "value": "{{recurringTotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"#{{subscriptionNumber}}\")]"
+        },
+        {
+          "selector": "a[href*=\"/wp-admin/admin.php?page=wc-orders--shop_subscription&action=edit&id={{subscriptionNumber}}\"]"
+        }
+      ]
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "#select2-order_status-container",
+      "value": "Active"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{country}}' === 'CA'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "div.order_data_column:nth-of-type(2) > .address > p:nth-of-type(1)",
+      "value": "{{company}}\n{{firstName}} {{lastName}}\n{{street}}\n{{street2}}\n{{city}} {{state}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{country}}' === 'AU'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "div.order_data_column:nth-of-type(2) > .address > p:nth-of-type(1)",
+      "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{street2}}\n{{city}} {{stateComplete}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{country}}' === 'CA'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "div.order_data_column:nth-of-type(3) > .address > p:nth-of-type(1)",
+      "value": "{{company2}}\n{{firstName}} {{lastName2}}\n{{street3}}\n{{street4}}\n{{city}} {{state}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{country}}' === 'AU'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "div.order_data_column:nth-of-type(3) > .address > p:nth-of-type(1)",
+      "value": "{{firstName}} {{lastName2}}\n{{company2}}\n{{street3}}\n{{street4}}\n{{city}} {{stateComplete}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "a[href*=\"mailto:qa+gi_subs_\"]",
+      "value": "{{email}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "div.order_data_column:nth-of-type(2) > .address > p:nth-of-type(3)",
+      "value": "{{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "div.order_data_column:nth-of-type(3) > .address > p:nth-of-type(3)",
+      "value": "Customer Provided Note:\nOrder Note for Testing this field",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "a[href*=\"/wp-admin/post.php?post=\"]",
+      "value": "{{prod_desc}}"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "return '{{country}}' === 'AU'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "",
+      "value": "const subtotal = parseFloat('{{recurringSubtotal}}'.replaceAll(',','').replace('{{Symbol}}','').trim())\nconst subtotalWithOutTax = (subtotal / 1.1).toFixed(2)\n\nreturn '{{Symbol}}'+subtotalWithOutTax",
+      "variableName": "recurringSubtotalWithOutTax"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{country}}' === 'CA'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "td.line_cost > .view > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{recurringSubtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{country}}' === 'AU'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "td.line_cost > .view > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{recurringSubtotalWithOutTax}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return !'{{shippingPrice}}'.includes('Lettermail (untracked)') && !'{{shippingPrice}}'.includes('Regular') \n    && !'{{shippingPrice}}'.includes('Free')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "tr.shipping > td.line_cost > .view > .woocommerce-Price-amount.amount",
+      "value": "{{shippingPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{shippingPrice}}'.includes('Lettermail (untracked)') || '{{shippingPrice}}'.includes('Regular') \n    || '{{shippingPrice}}'.includes('Free')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "tr.shipping > td.line_cost > .view > .woocommerce-Price-amount.amount",
+      "value": "$0.00",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{country}}' === 'CA'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "tr:nth-of-type(1) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{recurringSubtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{country}}' === 'AU'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "tr:nth-of-type(1) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{recurringSubtotalWithOutTax}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": ".wc-order-data-row.wc-order-totals-items > table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(3) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{recurringTax}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "tr:nth-of-type(4) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{recurringTotal}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "688a17702c245b961d7542b7",
+    "suiteId": "6022c8a7262f437a9afa49ca",
+    "suiteName": "No Pong - Common steps for Project"
+  }
+}

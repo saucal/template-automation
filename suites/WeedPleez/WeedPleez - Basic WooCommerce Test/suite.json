@@ -1,0 +1,144 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "60dcc9631f48295b526b0788",
+    "abortOnTestFailure": false,
+    "autoRetry": true,
+    "browser": "chrome",
+    "dataSource": null,
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "60dcc92fa120da1448c348f0",
+    "globalStepDelay": 250,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "WeedPleez - Basic WooCommerce Test",
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://staging.canadawholesalevape.com",
+    "testCount": 8,
+    "testFrequency": 0,
+    "viewportSize": {
+      "width": 1280,
+      "height": 800
+    },
+    "dateCreated": "2021-06-30T19:43:31.866Z",
+    "language": null,
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "username",
+        "value": "qa+gi_staging_user@saucal.com",
+        "private": false,
+        "_id": "60e83b2df90fe91565ba09ff"
+      },
+      {
+        "name": "password",
+        "value": "KYWnNc6$)@Au4(Xs(Opt9WwO",
+        "private": true,
+        "_id": "60e83b2df90fe91565ba0a00"
+      },
+      {
+        "name": "password2",
+        "value": "KYWnNc6$)@Au4(Xs(Opt9Ww2",
+        "private": true,
+        "_id": "60e83b2df90fe91565ba0a01"
+      },
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "60ec3e92f90fe91565c2fa24"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "60ec3e92f90fe91565c2fa25"
+      },
+      {
+        "name": "company",
+        "value": "Testing Inc.",
+        "private": false,
+        "_id": "60ec3e92f90fe91565c2fa26"
+      },
+      {
+        "name": "street",
+        "value": "123 False Street",
+        "private": false,
+        "_id": "60ec3e92f90fe91565c2fa27"
+      },
+      {
+        "name": "city",
+        "value": "Ottawa",
+        "private": false,
+        "_id": "60ec3e92f90fe91565c2fa28"
+      },
+      {
+        "name": "state",
+        "value": "ON",
+        "private": false,
+        "_id": "60ec3e92f90fe91565c2fa29"
+      },
+      {
+        "name": "zipCode",
+        "value": "K1S 3V6",
+        "private": false,
+        "_id": "60ec3e92f90fe91565c2fa2a"
+      },
+      {
+        "name": "phone",
+        "value": "6135465465",
+        "private": false,
+        "_id": "60ec3e92f90fe91565c2fa2b"
+      },
+      {
+        "name": "stateComplete",
+        "value": "Ontario",
+        "private": false,
+        "_id": "6283a69c4b7dbf9dc9a5d7b7"
+      },
+      {
+        "name": "country",
+        "value": "CA",
+        "private": false,
+        "_id": "6283a69c4b7dbf9dc9a5d7b8"
+      },
+      {
+        "name": "countryComplete",
+        "value": "Canada",
+        "private": false,
+        "_id": "6283a69c4b7dbf9dc9a5d7b9"
+      },
+      {
+        "name": "project",
+        "value": "weedpleez",
+        "private": false,
+        "_id": "6283a69c4b7dbf9dc9a5d7ba"
+      },
+      {
+        "name": "Symbol",
+        "value": "$",
+        "private": false,
+        "_id": "6283a69c4b7dbf9dc9a5d7bb"
+      },
+      {
+        "name": "currency",
+        "value": "CAD",
+        "private": false,
+        "_id": "639ca6af903428273607fd60"
+      }
+    ]
+  }
+}

@@ -1,0 +1,191 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Brand Resource page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"Brand Resources\")]"
+        },
+        {
+          "selector": "a[href*=\"/brand-resources/\"]"
+        }
+      ]
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "a[href=\"https://fonts.google.com/specimen/Inter\"]",
+      "value": "Get it here"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "a[href=\"https://fonts.google.com/specimen/Fira+Code\"]",
+      "value": "Get it here"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "div.wp-block-kadence-column:nth-of-type(1) > .kt-inside-inner-col > .wp-block-kadence-column > .kt-inside-inner-col > p",
+      "value": "Pumpkin Orange  #FF7518"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "div.wp-block-kadence-column:nth-of-type(2) > .kt-inside-inner-col > .wp-block-kadence-column > .kt-inside-inner-col > p",
+      "value": "Silver \n#B2B9BE",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "div.wp-block-kadence-column:nth-of-type(3) > .kt-inside-inner-col > .wp-block-kadence-column > .kt-inside-inner-col > p",
+      "value": "Black \n#060609",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "div.wp-block-kadence-column:nth-of-type(4) > .kt-inside-inner-col > .wp-block-kadence-column > .kt-inside-inner-col > p",
+      "value": "White\n#FFFFFF",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": ".alignnone.sc-brand-page-logo-downloads-items.sc-item-top > .kt-has-2-columns.kt-tab-layout-inherit > div.wp-block-kadence-column:nth-of-type(1) > .kt-inside-inner-col > .sc-brand-page-logo-downloads-item",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "div.alignnone.sc-brand-page-logo-downloads-items.wp-block-kadence-rowlayout:nth-of-type(3) > .kt-has-2-columns.kt-tab-layout-inherit > div.wp-block-kadence-column:nth-of-type(1) > .kt-inside-inner-col > .sc-brand-page-logo-downloads-item",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": ".alignnone.sc-brand-page-logo-downloads-items.sc-item-bottom > .kt-has-2-columns.kt-tab-layout-inherit > div.wp-block-kadence-column:nth-of-type(1) > .kt-inside-inner-col > .sc-brand-page-logo-downloads-item",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": ".alignnone.sc-brand-page-logo-downloads-items.sc-item-top > .kt-has-2-columns.kt-tab-layout-inherit > div.wp-block-kadence-column:nth-of-type(2) > .kt-inside-inner-col > figure.wp-block-image.size-full img[src*=\"Color-logo-no-background-1.png\"]",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "div.alignnone.sc-brand-page-logo-downloads-items.wp-block-kadence-rowlayout:nth-of-type(3) > .kt-has-2-columns.kt-tab-layout-inherit > div.wp-block-kadence-column:nth-of-type(2) > .kt-inside-inner-col > figure.wp-block-image.size-full img[src*=\"White-logo-no-background-1.png\"]",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": ".alignnone.sc-brand-page-logo-downloads-items.sc-item-bottom > .kt-has-2-columns.kt-tab-layout-inherit > div.wp-block-kadence-column:nth-of-type(2) > .kt-inside-inner-col > figure.wp-block-image.size-full img[src*=\"Group-42.png\"]",
+      "value": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "",
+      "value": "6022b62a262f437a9af8d3f1",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "62974e21a0299821fcec4a32",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68d2a01cb737c03e9291a97b",
+    "suiteId": "684186006fbaa32660f3adc9",
+    "suiteName": "Pumpkins Pool Tests"
+  }
+}

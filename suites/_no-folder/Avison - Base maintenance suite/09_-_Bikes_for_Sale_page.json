@@ -1,0 +1,64 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "09 - Bikes for Sale page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"Bikes For Sale\")]"
+        },
+        {
+          "selector": "li.menu-item.menu-item-type-post_type.menu-item-object-page:nth-of-type(9) > a[href*=\"/motorbikes-for-sale/\"].menu-link > .menu-text"
+        },
+        {
+          "selector": "#ast-hf-menu-1 a[href*=\"/motorbikes-for-sale/\"].menu-link > .menu-text"
+        }
+      ]
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "h1.entry-title",
+      "value": "MOTORBIKES FOR SALE"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "675777a915027d89dd7b4eee",
+    "suiteId": "6756f9a47a599a5bc8b4f6d8",
+    "suiteName": "Avison - Base maintenance suite"
+  }
+}

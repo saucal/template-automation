@@ -1,0 +1,262 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "04 - Cart Page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotExclusions": "div.cross-sells > ul > li",
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "63da97ee0b7aefb9729fe9b1",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "button[name=\"add-to-cart\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "div.fkcart--item.fkcart-panel.fkcart-free-item:nth-of-type(2) > .fkcart-item-info > .fkcart-item-meta > div.fkcart-item-meta-content:nth-of-type(1) > .fkcart-attr-wrap > .fkcart-attr-value",
+      "value": "",
+      "variableName": "straps2"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "div.fkcart--item.fkcart-panel.fkcart-free-item:nth-of-type(3) > .fkcart-item-info > .fkcart-item-meta > div.fkcart-item-meta-content:nth-of-type(1) > .fkcart-attr-wrap > .fkcart-attr-value",
+      "value": "",
+      "variableName": "lens2"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "div.fkcart--item.fkcart-panel.fkcart-free-item:nth-of-type(4) > .fkcart-item-info > .fkcart-item-meta > div.fkcart-item-meta-content:nth-of-type(1) > .fkcart-attr-wrap > .fkcart-attr-value",
+      "value": "",
+      "variableName": "outrigger2"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "div.fkcart--item.fkcart-panel.fkcart-free-item:nth-of-type(5) > .fkcart-item-info > .fkcart-item-meta > div.fkcart-item-meta-content:nth-of-type(1) > .fkcart-attr-wrap > .fkcart-attr-value",
+      "value": "",
+      "variableName": "frame2"
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "let attributes = [`{{straps}}`,\n`{{straps2}}`,`{{lens}}`,`{{lens2}}`,\n`{{outrigger2}}`,`{{outrigger}}`,\n`{{frame2}}`,`{{frame}}`]\n\nfor (let i = 0; i < attributes.length; i++) {\n   // attributes[i] = attributes[i].replace(/(?:\\s)/g,\"\");\n    let aux = attributes[i].split(':')\n    attributes[i] = aux.length > 1 ? aux[1].trim() : aux[0].trim();\n}\n\nreturn attributes[0] === attributes[1] && attributes[2] === attributes[3] \n&& attributes[4] === attributes[5]\n&& attributes[6] === attributes[7]\n",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "td.product-name.last-composited-extra-padding > .component-name.component_table_item_indent > dl.component",
+      "value": "",
+      "variableName": "extras"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "#fkcart-modal > div > div.fkcart-preview-ui > div.fkcart-slider-body > div.fkcart-item-wrap.fkcart-pt-16 > div:nth-child(1) > div.fkcart-item-misc > div > span"
+        },
+        {
+          "selector": "#fkcart-modal > div > div.fkcart-preview-ui > div.fkcart-reward-product-wrap > div > div.fkcart-item-wrap.fkcart-pt-16 > div:nth-child(1) > div > div.fkcart-item-info.fkcart-item-wrap-start > div.fkcart-item-misc > div > span"
+        }
+      ],
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "input.fkcart-quantity__input",
+      "value": "",
+      "variableName": "qty"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "6283a386a0299821fc2ad2c3",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "tr:nth-of-type(1) td.product-subtotal > span.woocommerce-Price-amount.amount",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": [
+        {
+          "selector": "#fkcart-modal > div > div.fkcart-preview-ui > div.fkcart-slider-footer.fkcart-pb-16 > div.fkcart-order-summary.fkcart-panel.fkcart-pt-16 > div > div.fkcart-summary-line-item.fkcart-subtotal-wrap > div.fkcart-summary-amount > strong > span"
+        },
+        {
+          "selector": "#fkcart-modal > div > div.fkcart-preview-ui > div.fkcart-slider-footer.fkcart-pb-16 > div.fkcart_summary_cta > div.fkcart-order-summary.fkcart-panel > div > div.fkcart-summary-line-item.fkcart-subtotal-wrap > div.fkcart-summary-amount > strong > span"
+        }
+      ],
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "ul#shipping_method > li:first-child > label > span.woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "shippingPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": [
+        {
+          "selector": "#fkcart-modal > div > div.fkcart-preview-ui > div.fkcart-slider-footer.fkcart-pb-16 > div.fkcart-order-summary.fkcart-panel.fkcart-pt-16 > div > div.fkcart-summary-line-item.fkcart-subtotal-wrap > div.fkcart-summary-amount > strong > span"
+        },
+        {
+          "selector": "#fkcart-checkout-button > div.fkcart-checkout--price > span"
+        }
+      ],
+      "value": "",
+      "variableName": "total"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "return false"
+      },
+      "notes": "small.includes_tax > span.woocommerce-Price-amount.amount",
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "div.woocommerce > div.kadence-woo-cart-form-wrap > div > div > table > tbody > tr.order-total > td > small > span",
+      "value": "",
+      "variableName": "taxPriceSmall"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": [
+        {
+          "selector": "//a[contains(text(),'View cart')]"
+        },
+        {
+          "selector": "s[href*='cart/']"
+        }
+      ],
+      "value": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6290df534b7dbf9dc95586c3",
+    "suiteId": "6290cfb04b7dbf9dc950dccc",
+    "suiteName": "Melon - Basic WooCommerce Test - UK Site"
+  }
+}

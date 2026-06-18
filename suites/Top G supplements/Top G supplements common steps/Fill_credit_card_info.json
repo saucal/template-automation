@@ -1,0 +1,147 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Fill credit card info",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 0,
+      "target": "#authnet-card-number-toSkip",
+      "value": "{{creditCard}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 1,
+      "target": "#authnet-card-expiry-toSkip",
+      "value": "01/27",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 2,
+      "target": "#authnet-card-cvc-toSkip",
+      "value": "{{cvv}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#authnet-card-number"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "#authnet-card-number",
+      "value": "{{creditCard}}"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "#authnet-card-expiry"
+    },
+    {
+      "command": "keypress",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "#authnet-card-expiry",
+      "value": "48",
+      "variableName": ""
+    },
+    {
+      "command": "keypress",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "#authnet-card-expiry",
+      "value": "49",
+      "variableName": ""
+    },
+    {
+      "command": "keypress",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "#authnet-card-expiry",
+      "value": "50",
+      "variableName": ""
+    },
+    {
+      "command": "keypress",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "#authnet-card-expiry",
+      "value": "57",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "#authnet-card-cvc"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "#authnet-card-cvc",
+      "value": "100"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "676068e47a599a5bc8036dcb",
+    "suiteId": "675cc6c97a599a5bc8c00816",
+    "suiteName": "Top G supplements common steps"
+  }
+}

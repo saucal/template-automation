@@ -1,0 +1,267 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "01 - Place order - New User",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "68cac38a7f80fc466de73dd9",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "//button[contains(text(), \"Add to cart\")]"
+        },
+        {
+          "selector": "button[name=\"add-to-cart\"]"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const element = document.querySelector('.bdt-offcanvas-bar.bdt-text-left.bdt-offcanvas-bar-animation')\n\nreturn !element"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "div.elementor-element.e-con-full.e-con.e-child:nth-of-type(3) > .elementor-element.elementor-align-center.wc-cart-icon--yes.wc-cart-icon--cart-medium.wc-cart-badge--yes.elementor-widget.elementor-widget-global.elementor-widget-bdt-wc-mini-cart > .elementor-widget-container > .bdt-mini-cart-wrapper > a[href=\"#\"].bdt-offcanvas-button.bdt-mini-cart-button > .bdt-mini-cart-inner > .bdt-mini-cart-button-icon > .bdt-cart-icon > i.ep-icon-cart"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": ".bdt-offcanvas-bar.bdt-text-left.bdt-offcanvas-bar-animation > .widget_shopping_cart_content > .bdt-mini-cart-products.woocommerce-mini-cart.cart.woocommerce-cart-form__contents > .bdt-mini-cart-product-item.cart_item > div:nth-of-type(2) > .bdt-mini-cart-product-name > a[href*=\"/product/\"]",
+      "value": "{{prodDesc}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": ".bdt-offcanvas-bar.bdt-text-left.bdt-offcanvas-bar-animation > .widget_shopping_cart_content > .bdt-mini-cart-products.woocommerce-mini-cart.cart.woocommerce-cart-form__contents > .bdt-mini-cart-product-item.cart_item > div:nth-of-type(2) > .bdt-mini-cart-product-price > .quantity > .woocommerce-Price-amount.amount",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": ".bdt-offcanvas-bar.bdt-text-left.bdt-offcanvas-bar-animation > .widget_shopping_cart_content > div:nth-of-type(2) > .bdt-mini-cart-subtotal > div:nth-of-type(2) > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": ".bdt-offcanvas-bar.bdt-text-left.bdt-offcanvas-bar-animation > .widget_shopping_cart_content > div:nth-of-type(2) > .bdt-mini-cart-footer-buttons > a[href*=\"/checkout\"].bdt-button.bdt-button-checkout > .bdt-button-text"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "68cbf43cb6e829f430725775",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "tr.cart_item > td.product-name",
+      "value": "{{prodDesc}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "td.product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "{{unitPrice}}",
+      "variableName": "subtotal"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "tr.cart-subtotal > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "return 'bundle' !== '{{product}}'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": [
+        {
+          "selector": "#shipping_method > li > label > span > bdi"
+        },
+        {
+          "selector": "#shipping_method > li > label"
+        }
+      ],
+      "value": "",
+      "variableName": "shippingPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "tr.tax-total > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "taxPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "strong > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "total"
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "const subtotal = parseFloat('{{subtotal}}'.replace('$','').replaceAll(',',''));\nlet shippingPrice\nif ('{{shippingPrice}}' !== '') {\n    shippingPrice = parseFloat('{{shippingPrice}}'.replace('$','').replaceAll(',',''));\n} else {\n    shippingPrice = 0\n}\nconst taxPrice = parseFloat('{{taxPrice}}'.replace('$','').replaceAll(',',''));\nconst total = parseFloat('{{total}}'.replace('$','').replaceAll(',',''));\nconst total2 = parseFloat((subtotal + taxPrice + shippingPrice).toFixed(2));\n\nreturn total === total2",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "",
+      "value": "69270a96074724f8470d5d17",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "",
+      "value": "62753765c5f501e7105625b8",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "",
+      "value": "68cbf890b6e829f4307375fa",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "",
+      "value": "68cbf8ff576a0f46b5393cb9",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6927085c638b7297922a15ce",
+    "suiteId": "6927085c638b7297922a15b4",
+    "suiteName": "Hawk Ridge - Place order Backend + Email - CC"
+  }
+}

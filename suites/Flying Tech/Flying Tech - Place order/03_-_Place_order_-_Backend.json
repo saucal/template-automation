@@ -1,0 +1,355 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "03 - Place order - Backend",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": false,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"Accept\")]"
+        },
+        {
+          "selector": "a[href=\"#\"].btn"
+        }
+      ]
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "yes",
+      "variableName": "admin"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": true,
+      "sequence": 2,
+      "target": "",
+      "value": "{{adminUser}}",
+      "variableName": "username"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": true,
+      "sequence": 3,
+      "target": "",
+      "value": "{{adminPass}}",
+      "variableName": "pass"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "63cfc556af1e488d25d11a75",
+      "variableName": ""
+    },
+    {
+      "command": "pause",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "5000",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const element = document.querySelector('a[href=\"admin.php?page=wc-admin\"] > .wp-menu-name')\n\nreturn !element"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "63cfc556af1e488d25d11a75",
+      "variableName": ""
+    },
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "{{startUrl}}wp-admin/admin.php?page=wc-orders",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "tr:nth-of-type(1) > td.order_total.column-order_total > .tips > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "a[href*=\"/wp-admin/admin.php?page=wc-orders&action=edit&id={{orderNumber}}\"] > strong"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": ".woocommerce-order-data__meta",
+      "value": "Credit / Debit Cards",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "#select2-order_status-container",
+      "value": "Processing"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "div.order_data_column:nth-of-type(2) > .address > p:nth-of-type(1)",
+      "value": "{{firstName}} {{lastName}}\n{{street}}\n{{street2}}\n{{city}}\n{{county}}\n{{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "div.order_data_column:nth-of-type(2) > .address > p:nth-of-type(1)",
+      "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{street2}}\n{{city}}\n{{county}}\n{{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "a[href*=\"mailto:qa+gi_order_\"]",
+      "value": "{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "a[href*=\"tel:\"]",
+      "value": "{{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "div.order_data_column:nth-of-type(3) > .address > p:nth-of-type(1)",
+      "value": "{{firstName}} {{lastName}}\n{{street3}}\n{{street4}}\n{{city}}\n{{county}}\n{{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "div.order_data_column:nth-of-type(3) > .address > p:nth-of-type(1)",
+      "value": "{{firstName}} {{lastName}}\n{{company2}}\n{{street3}}\n{{street4}}\n{{city}}\n{{county}}\n{{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": ".order_note",
+      "value": "Customer provided note:\nOrder testing notes",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return false === {{variable}}"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "a[href*=\"/wp-admin/post.php?post=\"]",
+      "value": "{{prodDesc}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return {{variable}}"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "a[href*=\"/wp-admin/post.php?post=\"]",
+      "value": "{{prodDesc}} - {{version}}"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "td.line_cost > .view > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "costPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "td.line_tax > .view > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "costTax"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "tr.shipping > td.line_cost > .view > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "costShipping"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "tr.shipping > td.line_tax > .view > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "costShippingTax"
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "",
+      "value": "const price = parseFloat(\"{{unitPrice}}\".replace(\"{{Symbol}}\",\"\").replaceAll(\",\",\"\").trim());\nlet shippingPrice = \"{{shippingPrice}}\"\n\nif (shippingPrice.includes('FREE')) {\n    shippingPrice = '0.00'\n}\n\nshippingPrice = parseFloat(shippingPrice.replace(\"{{Symbol}}\",\"\").replaceAll(\",\",\"\").trim());\nconst tax = parseFloat(\"{{taxPrice}}\".replace(\"{{Symbol}}\",\"\").replaceAll(\",\",\"\").trim());\nconst costPrice = parseFloat(\"{{costPrice}}\".replace(\"{{Symbol}}\",\"\").replaceAll(\",\",\"\").trim());\nconst costTax = parseFloat(\"{{costTax}}\".replace(\"{{Symbol}}\",\"\").replaceAll(\",\",\"\").trim());\nconst costShipping = parseFloat(\"{{costShipping}}\".replace(\"{{Symbol}}\",\"\").replaceAll(\",\",\"\").trim());\nconst costShippingTax = parseFloat(\"{{costShippingTax}}\".replace(\"{{Symbol}}\",\"\").replaceAll(\",\",\"\").trim());\n\nlet price2 = Number((costPrice + costTax).toFixed(2));\nlet shippingPrice2 = Number((costShipping + costShippingTax).toFixed(2));\nlet tax2 = Number((costTax + costShippingTax).toFixed(2));\n\nreturn price === price \n        && shippingPrice === shippingPrice2\n        && tax === tax2",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(1) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{costPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": ".wc-order-data-row.wc-order-totals-items > table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(2) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{costShipping}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": ".wc-order-data-row.wc-order-totals-items > table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(3) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{taxPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "tr:nth-of-type(4) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "table.wc-order-totals:nth-of-type(2) > tbody > tr:nth-of-type(1) > td.total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{total}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "673dec2b84d2a5c4a539ccf6",
+    "suiteId": "673c96a884d2a5c4a5ef3724",
+    "suiteName": "Flying Tech - Place order"
+  }
+}

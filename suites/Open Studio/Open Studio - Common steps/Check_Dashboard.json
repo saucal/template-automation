@@ -1,0 +1,517 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Check Dashboard",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertElementVisible",
+      "condition": {
+        "statement": "return '{{individualCourse}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "div#block_cd7bfb6a5a5cb6c1bd0f72a84c5fe8f0 h4.openstudio-courses-list-header-label-text",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{individualCourse}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "div#block_cd7bfb6a5a5cb6c1bd0f72a84c5fe8f0 h4.openstudio-courses-list-header-label-text",
+      "value": "Purchased courses",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": {
+        "statement": "return '{{individualCourse}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "div#block_cd7bfb6a5a5cb6c1bd0f72a84c5fe8f0 li.openstudio-courses-list-row-item",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{individualCourse}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#block_cd7bfb6a5a5cb6c1bd0f72a84c5fe8f0 > div.openstudio-courses-list.cols-4 > div > ul > li > div > div > a > span.openstudio-courses-list-row-item-content-title",
+      "value": "{{description2}}"
+    },
+    {
+      "command": "mouseOver",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": ".nav-drop-title-wrap > .kadence-svg-iconset > svg",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "li.menu-item.menu-item-type-custom.menu-item-object-custom:nth-of-type(5) > a[href*=\"/my-account/\"]"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "return '{{subscription}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": ".os-my-dashboard__next > span",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "return '{{subscription}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": ".woocommerce-Price-amount",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "return '{{subscription}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": ".os-my-dashboard__frequency > span",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "return '{{subscription}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "a[href*=\"/product/open-studio-subscription/?switch-subscription\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "return '{{subscription}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "a[href*=\"/my-account/view-subscription/\"].button",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "return '{{subscription}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "a[href*=\"/join\"].button",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{subscription}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": ".os-account-membership",
+      "value": "NO PLAN IS ACTIVE",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "",
+      "value": "var today = new Date();\n\n// Add 14 days to today's date\nvar futureDate = new Date(today);\nfutureDate.setDate(futureDate.getDate() + {{trial}});\n\n// Define month names array\nvar monthNames = [\"January\", \"February\", \"March\", \"April\", \"May\", \"June\",\n  \"July\", \"August\", \"September\", \"October\", \"November\", \"December\"];\n\n// Format the date as \"Month Day, Year\"\nvar formattedDate = monthNames[futureDate.getMonth()] + \" \" + futureDate.getDate() + \" \" + futureDate.getFullYear();\n\n\nreturn formattedDate",
+      "variableName": "nextPayment1"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": ".os-my-dashboard__next > span",
+      "value": "{{nextPayment1}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": ".woocommerce-Price-amount",
+      "value": "{{unitPrice}}.00",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": ".os-my-dashboard__frequency > span",
+      "value": "Monthly subscription",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "div.os-my-dashboard__info > div.os-my-dashboard__change > a",
+      "value": "Change subscription",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "a[href*=\"/my-account/view-subscription/{{subID}}/\"].button",
+      "value": "Manage subscription",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "a[href*=\"/join\"].button",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": ".os-account-membership",
+      "value": "YOUR CURRENT PLAN\nOPEN STUDIO",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"Orders\")]"
+        },
+        {
+          "selector": "a[href*=\"/my-account/orders/\"]"
+        }
+      ]
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "th.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-number > a[href*=\"/my-account/view-order/{{orderNumber}}/\"]",
+      "value": "#{{orderNumber}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "td.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-status",
+      "value": "Completed"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": ".woocommerce-Price-amount",
+      "value": "{{unitPrice2}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"View\")]"
+        },
+        {
+          "selector": "a[href*=\"/my-account/view-order/{{orderNumber}}/\"].woocommerce-button"
+        }
+      ]
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "mark.order-number",
+      "value": "{{orderNumber}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "mark.order-status",
+      "value": "Completed"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "tr:nth-of-type(1) .woocommerce-Price-amount > bdi",
+      "value": "{{unitPrice2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "tr:nth-of-type(2) .woocommerce-Price-amount > bdi",
+      "value": "$0.00",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount",
+      "value": "{{unitPrice2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": "tr:nth-of-type(3) > td > .woocommerce-Price-amount.amount",
+      "value": "{{unitPrice2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": ".woocommerce-customer-details > address",
+      "value": "{{firstName}} {{lastName}}\n\n{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": "td.subscription-id > a[href*=\"/my-account/view-subscription/{{subID}}/\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": "td.subscription-next-payment",
+      "value": "{{nextPayment}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": "td.subscription-status",
+      "value": "Active",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 37,
+      "target": "td.subscription-total",
+      "value": "{{unitPrice}}.00 / month",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return '{{individualCourse}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 38,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"Purchased courses\")]"
+        },
+        {
+          "selector": "a[href*=\"/my-account/members-area/\"]"
+        }
+      ]
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{individualCourse}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 39,
+      "target": [
+        {
+          "selector": "h3.os-course__title > a[href*=\"/courses/jazz-piano-jump-start/welcome-lets-jump-start-2/\"]"
+        },
+        {
+          "selector": "#post-1233989 > h3 > a"
+        }
+      ],
+      "value": "Jazz Piano Jump-Start"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return '{{individualCourse}}' === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 40,
+      "target": [
+        {
+          "selector": "h3.os-course__title > a[href*=\"/courses/jazz-piano-jump-start/welcome-lets-jump-start-2/\"]"
+        },
+        {
+          "selector": "#post-1233989 > h3 > a"
+        }
+      ]
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "688cb4c59e92b13236527f0b",
+    "suiteId": "663cb8421aac3ea14f224fb2",
+    "suiteName": "Open Studio - Common steps"
+  }
+}

@@ -1,0 +1,244 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "08 - Store page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "a[href=\"/store\"] > .elementor-button-content-wrapper > .elementor-button-text"
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": ".menu-item > a[href=\"/product-category/software\"].ep-menu-nav-link",
+      "value": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": ".ep-megamenu-panel > li.menu-item.menu-item-type-custom.menu-item-object-custom.nav-item:nth-of-type(1) > a[href=\"/product-category/software/solidworks\"]",
+      "value": "SOLIDWORKS"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": ".ep-megamenu-panel > li.menu-item.menu-item-type-custom.menu-item-object-custom.nav-item:nth-of-type(2) > a[href*=\"/product-category/software/3dexperience-platform\"]",
+      "value": "3DEXPERIENCE"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": ".ep-megamenu-panel > li.menu-item.menu-item-type-custom.menu-item-object-custom.nav-item:nth-of-type(3) > a[href=\"/product-category/software/draftsight\"]",
+      "value": "DraftSight"
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": ".menu-item > a[href=\"/product-category/3d-printers\"].ep-menu-nav-link",
+      "value": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": ".ep-megamenu-panel > li.menu-item.menu-item-type-custom.menu-item-object-custom.nav-item:nth-of-type(1) > a[href=\"/product-category/3d-printers/markforged-3d-printers\"]",
+      "value": "Markforged"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": ".ep-megamenu-panel > li.menu-item.menu-item-type-custom.menu-item-object-custom.nav-item:nth-of-type(2) > a[href*=\"/product-category/3d-printers/formlabs-3d-printers\"]",
+      "value": "Formlabs"
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": ".menu-item > a[href=\"/product-category/3d-printer-materials\"].ep-menu-nav-link",
+      "value": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": ".ep-megamenu-panel > li.menu-item.menu-item-type-custom.menu-item-object-custom.nav-item:nth-of-type(1) > a[href=\"/product-category/3d-printer-materials/markforged-materials\"]",
+      "value": "Markforged"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": ".ep-megamenu-panel > li.menu-item.menu-item-type-custom.menu-item-object-custom.nav-item:nth-of-type(2) > a[href*=\"/product-category/3d-printer-materials/formlabs-materials\"]",
+      "value": "Formlabs"
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": ".menu-item > a[href=\"/product-category/3d-printer-parts\"].ep-menu-nav-link",
+      "value": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": ".ep-megamenu-panel > li.menu-item.menu-item-type-custom.menu-item-object-custom.nav-item:nth-of-type(1) > a[href=\"/product-category/3d-printer-parts/markforged-spare-parts\"]",
+      "value": "Markforged"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": ".ep-megamenu-panel > li.menu-item.menu-item-type-custom.menu-item-object-custom.nav-item:nth-of-type(2) > a[href*=\"/product-category/3d-printer-parts/formlabs-spare-parts\"]",
+      "value": "Formlabs"
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": ".menu-item > a[href=\"/product-category/training\"].ep-menu-nav-link",
+      "value": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": ".ep-megamenu-panel > li.menu-item.menu-item-type-custom.menu-item-object-custom.nav-item:nth-of-type(1) > a[href=\"/product-category/training/solidworks-training\"]",
+      "value": "SOLIDWORKS"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": ".ep-megamenu-panel > li.menu-item.menu-item-type-custom.menu-item-object-custom.nav-item:nth-of-type(2) > a[href=\"/product-category/training/camworks-training\"]",
+      "value": "CAMWorks"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": ".ep-megamenu-panel > li.menu-item.menu-item-type-custom.menu-item-object-custom.nav-item:nth-of-type(3) > a[href=\"/product-category/training/driveworks-training\"]",
+      "value": "DriveWorks"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": ".ep-megamenu-panel > li.menu-item.menu-item-type-custom.menu-item-object-custom.nav-item:nth-of-type(4) > a[href=\"/product-category/training/markforged-training\"]",
+      "value": "Markforged"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": ".ep-megamenu-panel > li.menu-item.menu-item-type-custom.menu-item-object-custom.nav-item:nth-of-type(5) > a[href*=\"/product-category/training-passes\"]",
+      "value": "Passes"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": ".ep-megamenu-panel > li.menu-item.menu-item-type-custom.menu-item-object-custom.nav-item:nth-of-type(6) > a[href=\"/product-category/training/on-demand-training\"]",
+      "value": "On-Demand"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": ".ep-megamenu-panel > li.menu-item.menu-item-type-custom.menu-item-object-custom.nav-item:nth-of-type(7) > a[href*=\"/product-category/training-credits\"]",
+      "value": "Credits"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "",
+      "value": "68caf9b07f80fc466df327ea",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68cabd897f80fc466de558d5",
+    "suiteId": "68cab50c576a0f46b500e1e3",
+    "suiteName": "Hawk Ridge - Basic WooCommerce tests"
+  }
+}

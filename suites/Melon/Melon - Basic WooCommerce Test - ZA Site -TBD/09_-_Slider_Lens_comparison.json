@@ -1,0 +1,179 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "09 - Slider Lens comparison",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": true,
+  "screenshotExclusions": "div.wistia_embed",
+  "screenshotTarget": "#slider",
+  "screenshotCompareThreshold": 0.05,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "slider",
+      "variableName": "test"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "679281cf2a21c5b64b6b730b",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "Issue: https://app.clickup.com/t/86dukgzyv",
+      "optional": true,
+      "private": false,
+      "sequence": 2,
+      "target": ".kt-blocks-modal-link-inner > strong",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "Issue: https://app.clickup.com/t/86dukgzyv",
+      "optional": true,
+      "private": false,
+      "sequence": 3,
+      "target": "#slider",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "keypress",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "right",
+      "variableName": ""
+    },
+    {
+      "command": "keypress",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "right",
+      "variableName": ""
+    },
+    {
+      "command": "keypress",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "right",
+      "variableName": ""
+    },
+    {
+      "command": "keypress",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "right",
+      "variableName": ""
+    },
+    {
+      "command": "keypress",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "right",
+      "variableName": ""
+    },
+    {
+      "command": "keypress",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "right",
+      "variableName": ""
+    },
+    {
+      "command": "keypress",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "right",
+      "variableName": ""
+    },
+    {
+      "command": "keypress",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "right",
+      "variableName": ""
+    },
+    {
+      "command": "keypress",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "right",
+      "variableName": ""
+    },
+    {
+      "command": "keypress",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "right",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "679281cf2a21c5b64b6b7311",
+    "suiteId": "679281cf2a21c5b64b6b72ef",
+    "suiteName": "Melon - Basic WooCommerce Test - ZA Site (TBD)"
+  }
+}

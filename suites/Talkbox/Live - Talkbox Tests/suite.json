@@ -1,0 +1,158 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "646610680b7aefb972d13b10",
+    "abortOnTestFailure": false,
+    "autoRetry": true,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2023-05-18T11:47:52.125Z",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "62f5213fcd380e119ced41df",
+    "globalStepDelay": 250,
+    "httpAuthPassword": "",
+    "httpAuthUsername": "",
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "Live - Talkbox Tests",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://talkbox.mom/",
+    "testCount": 9,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "street",
+        "value": "123 False Street",
+        "private": false,
+        "_id": "60d47dab95519927246f73b0"
+      },
+      {
+        "name": "city",
+        "value": "Miami",
+        "private": false,
+        "_id": "60d47dab95519927246f73b1"
+      },
+      {
+        "name": "state",
+        "value": "FL",
+        "private": false,
+        "_id": "60d47dab95519927246f73b2"
+      },
+      {
+        "name": "country",
+        "value": "US",
+        "private": false,
+        "_id": "60d47dab95519927246f73b3"
+      },
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "60d47dab95519927246f73b4"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "60d47dab95519927246f73b5"
+      },
+      {
+        "name": "company",
+        "value": "Testing Inc.",
+        "private": false,
+        "_id": "60d47dab95519927246f73b6"
+      },
+      {
+        "name": "phone",
+        "value": "6134564567",
+        "private": false,
+        "_id": "60d47dab95519927246f73b7"
+      },
+      {
+        "name": "zipCode",
+        "value": "33126",
+        "private": false,
+        "_id": "60d47f2d9e906a6e81362334"
+      },
+      {
+        "name": "lastName2",
+        "value": "{{lastName}} Shipping",
+        "private": false,
+        "_id": "60d480c995519927246f8215"
+      },
+      {
+        "name": "street3",
+        "value": "123 false Shipping Street",
+        "private": false,
+        "_id": "60d480eb9e906a6e81362c74"
+      },
+      {
+        "name": "project",
+        "value": "talkbox",
+        "private": false,
+        "_id": "627bbf5997a3bd06e03c24e1"
+      },
+      {
+        "name": "stateComplete",
+        "value": "Florida",
+        "private": false,
+        "_id": "627bbf5997a3bd06e03c24e2"
+      },
+      {
+        "name": "countryComplete",
+        "value": "United States (US)",
+        "private": false,
+        "_id": "627bbf5997a3bd06e03c24e3"
+      },
+      {
+        "name": "Symbol",
+        "value": "$",
+        "private": false,
+        "_id": "627bc2df26939cd0461dfca8"
+      },
+      {
+        "name": "url",
+        "value": "https://talkbox.mom",
+        "private": false,
+        "_id": "627d2dcd26939cd04680e8c8"
+      },
+      {
+        "name": "street2",
+        "value": "Of. 2",
+        "private": false,
+        "_id": "627e361aa0299821fc67b8dd"
+      },
+      {
+        "name": "street4",
+        "value": "Ap. 4",
+        "private": false,
+        "_id": "63c13e6daf1e488d25537ae2"
+      }
+    ],
+    "viewportSize": [
+      {
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "width": 360,
+        "height": 567
+      }
+    ]
+  }
+}

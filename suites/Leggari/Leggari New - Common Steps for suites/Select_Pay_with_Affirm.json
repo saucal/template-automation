@@ -1,0 +1,252 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Select Pay with Affirm",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "div.leggari-payment-gateway:nth-of-type(2) > img"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "62753765c5f501e7105625b8",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": "iframe[src*=\"sandbox.affirm.com\"] [data-testid=\"submit-button\"]"
+        },
+        {
+          "selector": "iframe[src*=\"sandbox.affirm.com\"] button[type=\"submit\"]"
+        }
+      ]
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": "iframe[src*=\"sandbox.affirm.com\"] [data-testid=\"phone-pin-field\"]"
+        },
+        {
+          "selector": "iframe[src*=\"sandbox.affirm.com\"] input[placeholder=\"000000\"]"
+        }
+      ],
+      "value": "123456"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "iframe[src*=\"sandbox.affirm.com\"] [data-testid=\"submit-button\"]"
+        },
+        {
+          "selector": "iframe[src*=\"sandbox.affirm.com\"] //button[contains(text(), \"Continue to plans\")]"
+        },
+        {
+          "selector": "iframe[src*=\"sandbox.affirm.com\"] button[type=\"submit\"]"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "iframe[src*=\"sandbox.affirm.com\"] label .indicator-type-radio"
+        },
+        {
+          "selector": "iframe[src*=\"sandbox.affirm.com\"] [data-testid=\"skip-payment-button\"]"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "iframe[src*=\"sandbox.affirm.com\"] [data-testid=\"continue-with-selected-term-button\"]"
+        },
+        {
+          "selector": "iframe[src*=\"sandbox.affirm.com\"] //button[contains(text(), \"Choose this plan\")]"
+        },
+        {
+          "selector": "iframe[src*=\"sandbox.affirm.com\"] button[aria-label=\"Choose this plan\"]"
+        }
+      ]
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "iframe[src*=\"sandbox.affirm.com\"] [data-testid=\"last-four-ssn-field\"]"
+        },
+        {
+          "selector": "iframe[src*=\"sandbox.affirm.com\"] input[placeholder=\"Last 4 of Social Security Number *\"]"
+        }
+      ],
+      "value": "5678"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "iframe[src*=\"sandbox.affirm.com\"] [data-testid=\"submit-button\"]"
+        },
+        {
+          "selector": "iframe[src*=\"sandbox.affirm.com\"] button[type=\"submit\"]"
+        }
+      ]
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": "iframe[src*=\"sandbox.affirm.com\"] [data-testid=\"full-name-field\"]"
+        },
+        {
+          "selector": "iframe[src*=\"sandbox.affirm.com\"] input[name=\"full-name\"]"
+        }
+      ],
+      "value": "QA Test"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 11,
+      "target": [
+        {
+          "selector": "iframe[src*=\"sandbox.affirm.com\"] [data-testid=\"routing-number-field\"]"
+        },
+        {
+          "selector": "iframe[src*=\"sandbox.affirm.com\"] input[name=\"routing-number\"]"
+        }
+      ],
+      "value": "021000322"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 12,
+      "target": [
+        {
+          "selector": "iframe[src*=\"sandbox.affirm.com\"] [data-testid=\"ach-account-number-field\"]"
+        },
+        {
+          "selector": "iframe[src*=\"sandbox.affirm.com\"] input[name=\"ach-account-number\"]"
+        }
+      ],
+      "value": "998877665"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 13,
+      "target": "iframe[src*=\"sandbox.affirm.com\"] [data-testid=\"disclosure-checkbox-indicator\"]"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": [
+        {
+          "selector": "iframe[src*=\"sandbox.affirm.com\"] [data-testid=\"submit-button\"]"
+        },
+        {
+          "selector": "iframe[src*=\"sandbox.affirm.com\"] //button[contains(text(), \"Confirm\")]"
+        },
+        {
+          "selector": "iframe[src*=\"sandbox.affirm.com\"] button[type=\"submit\"]"
+        }
+      ]
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6821e342e75bee6181bfa069",
+    "suiteId": "61effe223e617932e957b5b8",
+    "suiteName": "Leggari New - Common Steps for suites"
+  }
+}

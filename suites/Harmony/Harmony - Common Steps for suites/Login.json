@@ -1,0 +1,103 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Login",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": null,
+      "notes": "step added to clear domain from email",
+      "optional": true,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "const regex = /\\w+\\+?\\w+[^@]/g;\nconst str = `{{username}}`;\nlet m;\nm = regex.exec(str)\nreturn m[0]",
+      "variableName": "emailUser"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "#username"
+        },
+        {
+          "selector": "input[name=\"username\"]"
+        },
+        {
+          "selector": "div.lwa-username > input"
+        }
+      ],
+      "value": "{{username}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": true,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "#password"
+        },
+        {
+          "selector": "input[name=\"password\"]"
+        },
+        {
+          "selector": "div.lwa-password > input"
+        }
+      ],
+      "value": "{{pass}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": "button[name=\"login\"]"
+        },
+        {
+          "selector": "input.button-primary[value=\"Log In\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68e52f51798cc060531823bb",
+    "suiteId": "60cc8d7d1da0a93062ddf13a",
+    "suiteName": "Harmony - Common Steps for suites"
+  }
+}

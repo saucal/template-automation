@@ -1,0 +1,168 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "68e81e5bdc40aecad0d2422a",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2025-10-09T20:43:07.492Z",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "60cc8d2cfd5d095fc92c0a46",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "Harmony - WooCommerce Test - US",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://staging-harmonyk.kinsta.cloud/",
+    "testCount": 26,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "password",
+        "value": "fric2171Biot",
+        "private": true,
+        "_id": "60cc94f7fd5d095fc92c3bb3"
+      },
+      {
+        "name": "password2",
+        "value": "fric2172Biot",
+        "private": true,
+        "_id": "60cc94f7fd5d095fc92c3bb4"
+      },
+      {
+        "name": "countryComplete",
+        "value": "United States (US)",
+        "private": false,
+        "_id": "627961644a3a4832a2d8cb56"
+      },
+      {
+        "name": "month",
+        "value": "12",
+        "private": false,
+        "_id": "60cc99041da0a93062de5a24"
+      },
+      {
+        "name": "cc",
+        "value": "4242424242424242",
+        "private": false,
+        "_id": "60cc99041da0a93062de5a23"
+      },
+      {
+        "name": "firstName",
+        "value": "QA_US",
+        "private": false,
+        "_id": "60cc9db51da0a93062de7fa2"
+      },
+      {
+        "name": "year",
+        "value": "28",
+        "private": false,
+        "_id": "60cc99041da0a93062de5a25"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "60cc9db51da0a93062de7fa3"
+      },
+      {
+        "name": "cvv",
+        "value": "123",
+        "private": false,
+        "_id": "60cc99041da0a93062de5a26"
+      },
+      {
+        "name": "street",
+        "value": "123 False Street",
+        "private": false,
+        "_id": "60cc9db51da0a93062de7fa4"
+      },
+      {
+        "name": "bankAccount",
+        "value": "{{startUrl}}wp-content/uploads/2023/10/Saucal-Inc._USD_3596234.pdf",
+        "private": false,
+        "_id": "64b1adb449da953edb5079c4"
+      },
+      {
+        "name": "city",
+        "value": "Dallas",
+        "private": false,
+        "_id": "60cc9db51da0a93062de7fa6"
+      },
+      {
+        "name": "company",
+        "value": "Testing {{alphanumeric}}",
+        "private": false,
+        "_id": "60cc9db51da0a93062de7fa5"
+      },
+      {
+        "name": "phone",
+        "value": "3254564567",
+        "private": false,
+        "_id": "60cc9db51da0a93062de7fa9"
+      },
+      {
+        "name": "state",
+        "value": "TX",
+        "private": false,
+        "_id": "60cc9db51da0a93062de7fa7"
+      },
+      {
+        "name": "emailCC",
+        "value": "qa+ccemail@saucal.com",
+        "private": false,
+        "_id": "60cc9db51da0a93062de7faa"
+      },
+      {
+        "name": "zipCode",
+        "value": "75234",
+        "private": false,
+        "_id": "60cc9db51da0a93062de7fa8"
+      },
+      {
+        "name": "stateComplete",
+        "value": "Texas",
+        "private": false,
+        "_id": "627961644a3a4832a2d8cb55"
+      },
+      {
+        "name": "project",
+        "value": "harmony",
+        "private": false,
+        "_id": "627961644a3a4832a2d8cb57"
+      },
+      {
+        "name": "Symbol",
+        "value": "$",
+        "private": false,
+        "_id": "627a74f626939cd046ca0f40"
+      },
+      {
+        "name": "country",
+        "value": "US",
+        "private": false,
+        "_id": "68ee7c759cb11c72c0d8e299"
+      }
+    ],
+    "viewportSize": {
+      "width": 1366,
+      "height": 768
+    }
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "69a1dd383dc7ceb27c5f126e",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2026-02-27T18:06:48.782Z",
+    "details": "",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "69a1d9dd3dc7ceb27c5e91db",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 0,
+    "maxWaitDelay": 15000,
+    "name": "Simply7oh - Basic WooCommerce tests",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": false,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://simply7oh-staging.mystagingwebsite.com/",
+    "testCount": 10,
+    "testFrequency": 0,
+    "viewportSize": {
+      "width": 1440,
+      "height": 900
+    },
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "password",
+        "value": "fric2171Biot",
+        "private": true,
+        "_id": "69a5b4188ce9cb3f62997d9d"
+      },
+      {
+        "name": "password2",
+        "value": "fric2172Biot",
+        "private": true,
+        "_id": "69a5b4188ce9cb3f62997d9e"
+      },
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "69a5b4188ce9cb3f62997d9f"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "69a5b4188ce9cb3f62997da0"
+      }
+    ]
+  }
+}

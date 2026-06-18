@@ -1,0 +1,190 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Cart Page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "6022b3fed2fb38677e5d7aa3",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "#main > div > div > div.wc-block-grid.wp-block-handpicked-products.wc-block-handpicked-products.has-5-columns.has-multiple-rows.alignfull > ul > li:nth-child(1) > a > div.wc-block-grid__product-title",
+      "value": "",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "let desc = \"{{prod_desc}}\"\ndesc = desc.replace(\"–\",\"-\")\n\nreturn desc",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": ".wp-block-handpicked-products.wc-block-handpicked-products.has-5-columns > ul > li:nth-of-type(1) > .price > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": ".wp-block-handpicked-products.wc-block-handpicked-products.has-5-columns > ul > li:nth-of-type(1) > .price > ins > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": ".wp-block-handpicked-products.wc-block-handpicked-products.has-5-columns > ul > li:nth-of-type(1) a[href*=\"?add-to-cart=\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const siteTitle = document.title;\r\nif (siteTitle != \"Cart • No Pong\"){\r\n    return true;\r\n}"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "#masthead > div ul > li > a",
+      "value": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "td.product-price > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "input[title=\"Qty\"]"
+        },
+        {
+          "selector": "(//input[@class='input-text qty text'])[1]"
+        }
+      ],
+      "value": "",
+      "variableName": "qty"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "6283a386a0299821fc2ad2c3",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "td.product-subtotal > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "tr.cart-subtotal > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "label > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "shippingPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "strong > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "total"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "6283bd24a0299821fc353a72",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6283ba63a0299821fc341e72",
+    "suiteId": "6022b3fed2fb38677e5d7a95",
+    "suiteName": "US - Basic WooCommerce Test"
+  }
+}

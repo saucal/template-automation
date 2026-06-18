@@ -1,0 +1,238 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Upgrade subscription",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "xpath=//a[contains(text(), \"Upgrade or Downgrade\")]"
+        },
+        {
+          "selector": "a[href*=\"/product/subscription-test-variable/?switch-subscription={{subscriptionID}}\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "#type",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "#type",
+      "value": "Platinum",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#period",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "#period",
+      "value": "Week",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "button[type=\"submit\"].single_add_to_cart_button",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "a[href*=\"/cart/\"].button.wc-forward",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "return \"BLU-001-022\" === \"{{testId}}\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "EUR",
+      "variableName": "currency"
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "return \"BLU-001-022\" === \"{{testId}}\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "630e2591e3896e4c0d349f26",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"BLU-001-022\" === \"{{testId}}\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": ".woocommerce-error > li"
+        },
+        {
+          "selector": ".wc-block-components-notice-banner.is-error"
+        }
+      ],
+      "value": "You cannot change currency while a subscription switch exists in your cart.",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": "a[href*=\"/checkout/\"].checkout-button"
+        },
+        {
+          "selector": "a[href*=\"/checkout/\"] > div"
+        },
+        {
+          "selector": "//div[contains(text(),'Proceed to Checkout')]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "return \"BLU-001-022\" === \"{{testId}}\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "EUR",
+      "variableName": "currency"
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "return \"BLU-001-022\" === \"{{testId}}\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "630e2591e3896e4c0d349f26",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return \"BLU-001-022\" === \"{{testId}}\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": [
+        {
+          "selector": ".woocommerce-error > li"
+        },
+        {
+          "selector": ".wc-block-components-notice-banner.is-error"
+        }
+      ],
+      "value": "You cannot change currency while a subscription switch exists in your cart.",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "62b1e82f5dd4634dc8ef7224",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

@@ -1,0 +1,228 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Place Order - New User - Email",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "68fe90ab0c38c58f6ea41813",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "//a[contains(text(), \"Your The Sewing Machine Shop order has been received!\")]"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "tr.order_item > td.td:nth-of-type(1)",
+      "value": "{{prod_desc}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{product}}' === 'variable'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "tr.order_item > td.td:nth-of-type(1)",
+      "value": "{{color}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "td.td:nth-of-type(3) > .woocommerce-Price-amount.amount",
+      "value": "{{subtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "tfoot > tr:nth-of-type(1) > td.td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "tbody > tr.order-totals.order-totals-subtotal > td.td > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{subtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return {{discount}} === true"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "tfoot > tr:nth-of-type({{discountIndex}}) > td.td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "tbody > tr.order-totals.order-totals-discount > td.td > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "tr:nth-of-type({{shippingIndex}}) > td.td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "tr:nth-of-type({{shippingIndex}}) > td.td"
+        },
+        {
+          "selector": "tbody > tr.order-totals.order-totals-shipping > td.td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "tbody > tr.order-totals.order-totals-shipping > td.td"
+        }
+      ],
+      "value": "{{shippingPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "tr:nth-of-type({{taxIndex}}) > td.td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "tbody > tr.order-totals.order-totals-tax > td.td > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{taxPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "tr:nth-of-type({{paymentIndex}}) > td.td"
+        },
+        {
+          "selector": "tbody > tr.order-totals.order-totals-payment_method > td.td > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{paymentMethod}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": "tr:nth-of-type({{totalIndex}}) > td.td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "tbody > tr.order-totals.order-totals-total > td.td > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": [
+        {
+          "selector": "tr:nth-of-type({{noteIndex}}) > td.td"
+        },
+        {
+          "selector": "tbody > tr.order-customer-note > td.td"
+        }
+      ],
+      "value": "Customer note\nOrder Note for Testing this field",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "td:nth-of-type(1) > address.address",
+      "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{street2}}\n{{city}}, {{state}} {{zipCode}}\n{{countryComplete}}\n{{phone}}\n{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "td:nth-of-type(2) > address.address",
+      "value": "{{firstName}} {{lastName2}}\n{{company2}}\n{{street3}}\n{{street4}}\n{{city}}, {{state}} {{zipCode}}\n{{countryComplete}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69025e5c1a085ce44ed1f89e",
+    "suiteId": "68fe8de75e36fea7308c19e5",
+    "suiteName": "The Sewing M.S. - Common steps"
+  }
+}

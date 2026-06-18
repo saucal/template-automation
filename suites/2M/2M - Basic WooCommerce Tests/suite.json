@@ -1,0 +1,156 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "608854674658f2361a8112c2",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome",
+    "dataSource": null,
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "6088544b4658f2361a8111dd",
+    "globalStepDelay": 250,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "2M - Basic WooCommerce Tests",
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://staging-myforms2mobilecom.temp312.kinsta.cloud/",
+    "testCount": 4,
+    "testFrequency": 0,
+    "viewportSize": {
+      "width": 1280,
+      "height": 800
+    },
+    "dateCreated": "2021-04-27T18:13:59.690Z",
+    "language": null,
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "username",
+        "value": "qa+gi_staging_user@saucal.com",
+        "private": false,
+        "_id": "60885ee94658f2361a81a830"
+      },
+      {
+        "name": "password2",
+        "value": "xOvH5u7k0sSz41eW1kUZDBcR830BwhdhQS",
+        "private": true,
+        "_id": "60885ee94658f2361a81a831"
+      },
+      {
+        "name": "PONumber",
+        "value": "000-647657",
+        "private": false,
+        "_id": "60eef09b69b49f0d67b2e32b"
+      },
+      {
+        "name": "countryComplete",
+        "value": "United States (US)",
+        "private": false,
+        "_id": "60eefa2a69b49f0d67b337cb"
+      },
+      {
+        "name": "project",
+        "value": "2m",
+        "private": false,
+        "_id": "627569f6c5f501e7106221fc"
+      },
+      {
+        "name": "Symbol",
+        "value": "$",
+        "private": false,
+        "_id": "627a750a97a3bd06e0ed1181"
+      },
+      {
+        "name": "password",
+        "value": "KYWnNc6$)@Au4(Xs(Opt9WwO2",
+        "private": true,
+        "_id": "60d474e39e906a6e8135e1fc"
+      },
+      {
+        "name": "street",
+        "value": "123 False Street",
+        "private": false,
+        "_id": "60eeee5b69b49f0d67b29c09"
+      },
+      {
+        "name": "city",
+        "value": "Miami",
+        "private": false,
+        "_id": "60eeee5b69b49f0d67b29c0a"
+      },
+      {
+        "name": "state",
+        "value": "FL",
+        "private": false,
+        "_id": "60eeee5b69b49f0d67b29c0b"
+      },
+      {
+        "name": "aim",
+        "value": "6ca64cf55317426785ba330a8e6b71b456655",
+        "private": false,
+        "_id": "65c3b391d76b6bca5f5a0cc9"
+      },
+      {
+        "name": "country",
+        "value": "US",
+        "private": false,
+        "_id": "60eeee5b69b49f0d67b29c0c"
+      },
+      {
+        "name": "qty1",
+        "value": "2",
+        "private": false,
+        "_id": "6705189b091814fe3c81fbd1"
+      },
+      {
+        "name": "qty2",
+        "value": "1",
+        "private": false,
+        "_id": "6705189b091814fe3c81fbd2"
+      },
+      {
+        "name": "qty3",
+        "value": "1",
+        "private": false,
+        "_id": "6705189b091814fe3c81fbd3"
+      },
+      {
+        "name": "qty4",
+        "value": "1",
+        "private": false,
+        "_id": "6705189b091814fe3c81fbd4"
+      },
+      {
+        "name": "zipCode",
+        "value": "33126",
+        "private": false,
+        "_id": "60eeee5b69b49f0d67b29c0d"
+      },
+      {
+        "name": "emailCC",
+        "value": "qa+gi_ccemail@saucal.com",
+        "private": false,
+        "_id": "60eef09b69b49f0d67b2e329"
+      },
+      {
+        "name": "phone",
+        "value": "3050698796",
+        "private": false,
+        "_id": "60eef09b69b49f0d67b2e32a"
+      }
+    ]
+  }
+}

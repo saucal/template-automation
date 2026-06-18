@@ -1,0 +1,65 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Stories Assertion",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "#np-custom-checkout-modal > div > div > div.np-custom-checkout-story.active > h3",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "let stories = document.querySelectorAll('#np-custom-checkout-modal > div > div > div.np-custom-checkout-story h3');\nlet stories2 = [\n  \"We're  processing your order...  Don't press back!\",\n  \"Freshness incoming!  Won't be long now...\",\n  \"Have a victory dance?  Now’s the time to bust it out!\",\n  \"You can tick this off the list!  Sit tight while we finalise your order\"\n];\nlet isMatch = true;\n\nif (stories.length === 0) {\n  console.error(\"No h3 elements found with the given selector!\");\n  isMatch = false;\n} else if (stories.length !== stories2.length) {\n  console.error(\"Mismatch in number of stories!\");\n  isMatch = false;\n} else {\n  for (let [index, story] of Array.from(stories).entries()) {\n    console.log(`Story ${index + 1}: ${story.textContent.trim()}`);\n    if (story.textContent.trim() !== stories2[index]) {\n      isMatch = false;\n      break;\n    }\n  }\n}\n\nreturn isMatch\n",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "#np-custom-checkout-modal > div > div > div.np-custom-checkout-story.active > h3",
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6807971cfa62801db438a98b",
+    "suiteId": "6022c8a7262f437a9afa49ca",
+    "suiteName": "No Pong - Common steps for Project"
+  }
+}

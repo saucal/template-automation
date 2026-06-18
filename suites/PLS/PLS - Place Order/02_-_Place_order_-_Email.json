@@ -1,0 +1,491 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "02 - Place order - Email",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "{{email}}",
+      "variableName": "username"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "603d1f20494ea848981cef9b",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "{{userEmailExtract}}",
+      "variableName": "userEmail1Extract"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "//a[contains(text(), \"Professional Learning Services Order Confirmation {{orderNumber}}\")]"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{days}}' === ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "tr.order_item > td.td:nth-of-type(1)",
+      "value": "{{prodDesc}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{days}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "tr.order_item > td.td:nth-of-type(1)",
+      "value": "{{prodDesc}} - {{days}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "tr.order_item > td.td:nth-of-type(3) > .woocommerce-Price-amount.amount",
+      "value": "{{unitPrice}}{{unitPrice}}{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "tfoot > tr:nth-of-type(1) > td.td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "tbody > tr.order-totals.order-totals-subtotal > td > span"
+        }
+      ],
+      "value": "{{subtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{discount}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "tfoot > tr:nth-of-type(2) > td.td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "tbody > tr.order-totals.order-totals-discount > td"
+        }
+      ],
+      "value": "{{discount}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{discount}}' == ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "tfoot > tr:nth-of-type(2) > td.td"
+        },
+        {
+          "selector": "tbody > tr.order-totals.order-totals-payment_method > td"
+        }
+      ],
+      "value": "Credit / Debit Card"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{discount}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": "tfoot > tr:nth-of-type(3) > td.td"
+        },
+        {
+          "selector": "tbody > tr.order-totals.order-totals-payment_method > td"
+        }
+      ],
+      "value": "Credit / Debit Card"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{discount}}' === ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": [
+        {
+          "selector": "tfoot > tr:nth-of-type(3) > td.td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "tbody > tr.order-totals.order-totals-total.order-totals-last > td"
+        }
+      ],
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{discount}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": [
+        {
+          "selector": "tfoot > tr:nth-of-type(4) > td.td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "tbody > tr.order-totals.order-totals-total.order-totals-last > td"
+        }
+      ],
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{discount}}' === ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": [
+        {
+          "selector": "tfoot > tr:nth-of-type(4) > td.td"
+        },
+        {
+          "selector": "table:nth-child(2) > tbody > tr:nth-child(4) > td"
+        }
+      ],
+      "value": "Testing Notes"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{discount}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": [
+        {
+          "selector": "tfoot > tr:nth-of-type(5) > td.td"
+        },
+        {
+          "selector": "table:nth-child(2) > tbody > tr:nth-child(4) > td"
+        }
+      ],
+      "value": "Testing Notes"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "td:nth-of-type(1) > address.address",
+      "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{street2}}\n{{city}}, {{state}} {{zipCode}}\n{{countryComplete}}\n{{phone}}\n{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "",
+      "value": "{{email2}}",
+      "variableName": "username"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "",
+      "value": "603d1f20494ea848981cef9b",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "",
+      "value": "{{userEmailExtract}}",
+      "variableName": "userEmail2Extract"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "//a[contains(text(), \"Your account on Professional Learning Services\")]"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "#body_content_inner > p:nth-of-type(2)",
+      "value": "{{firstName}} {{lastName}} ({{email}}) just purchased a course for you at Professional Learning Services so we've created an account for you.",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "#body_content_inner > p:nth-of-type(6)",
+      "value": "Once completed you may access your account area to view your course(s) here: My Account. When in your \"My Account\" select \"Courses\" then click on \"Access your active on-demand webinars\".",
+      "variableName": ""
+    },
+    {
+      "command": "goBack",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "//a[contains(text(), \"Your new course at Professional Learning Services\")]"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "#body_content_inner > p:nth-of-type(2)",
+      "value": "{{firstName}} {{lastName}} ({{email}}) just purchased a course for you at Professional Learning Services. Details of the course are shown below.",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "#body_content_inner > p:nth-of-type(3)",
+      "value": "We noticed you didn't have an account so we created one for you. Your account login details and course access information have been sent to you in a separate email."
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "tr.order_item > td.td:nth-of-type(1)",
+      "value": "{{prodDesc}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "tr.order_item > td.td:nth-of-type(1)",
+      "value": "{{email2}}",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "",
+      "value": "{{email3}}",
+      "variableName": "username"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "",
+      "value": "603d1f20494ea848981cef9b",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "",
+      "value": "{{userEmailExtract}}",
+      "variableName": "userEmail3Extract"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "//a[contains(text(), \"Your account on Professional Learning Services\")]"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": "#body_content_inner > p:nth-of-type(2)",
+      "value": "{{firstName}} {{lastName}} ({{email}}) just purchased a course for you at Professional Learning Services so we've created an account for you.",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": "#body_content_inner > p:nth-of-type(6)",
+      "value": "Once completed you may access your account area to view your course(s) here: My Account. When in your \"My Account\" select \"Courses\" then click on \"Access your active on-demand webinars\".",
+      "variableName": ""
+    },
+    {
+      "command": "goBack",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": "",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": "//a[contains(text(), \"Your new course at Professional Learning Services\")]"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": "#body_content_inner > p:nth-of-type(2)",
+      "value": "{{firstName}} {{lastName}} ({{email}}) just purchased a course for you at Professional Learning Services. Details of the course are shown below.",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 37,
+      "target": "#body_content_inner > p:nth-of-type(3)",
+      "value": "We noticed you didn't have an account so we created one for you. Your account login details and course access information have been sent to you in a separate email."
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 38,
+      "target": "tr.order_item > td.td:nth-of-type(1)",
+      "value": "{{prodDesc}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 39,
+      "target": "tr.order_item > td.td:nth-of-type(1)",
+      "value": "{{email3}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "67b881972abcf638e9697aca",
+    "suiteId": "67b8644104f525bbb21ff6f3",
+    "suiteName": "PLS - Place Order"
+  }
+}

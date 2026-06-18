@@ -1,0 +1,295 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Place Order - New User - Email",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "{{email}}",
+      "variableName": "username"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "63a447baa67dec3a1218d7df",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return '{{country}}' === 'CA'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "//a[contains(text(), \"Your No Pong Canada Order Confirmation\")]"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return '{{country}}' === 'AU'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "//a[contains(text(), \"Your No Pong Order Confirmation - #{{orderNumber}}\")]"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "const phrase = `{{prod_desc}}`;\nconst result = phrase\n  .toLowerCase() // Convert entire string to lowercase\n  .split(/(\\s+|-|,|\")/) // Split by spaces, hyphens, or commas, keeping delimiters\n  .map(word => \n    word.match(/^[a-zA-Z]/) ? // Check if word starts with a letter\n      word.charAt(0).toUpperCase() + word.slice(1) : // Capitalize first letter\n      word // Keep non-letter words (like '35G', '-', ',') unchanged\n  )\n  .join('');\n  \n  return result",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "tr.order_item > td.td:nth-of-type(1)",
+      "value": "{{prod_desc}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "td.td:nth-of-type(3) > .woocommerce-Price-amount.amount",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "tfoot > tr:nth-of-type(1) > td.td > .woocommerce-Price-amount.amount",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return {{discount}} === true"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "tfoot > tr:nth-of-type({{discountIndex}}) > td.td > .woocommerce-Price-amount.amount",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return {{redeeming}} === true"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "tfoot > tr:nth-of-type({{redeemedIndex}}) > td.td > .woocommerce-Price-amount.amount",
+      "value": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": "tr:nth-of-type({{shippingIndex}}) > td.td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "tr:nth-of-type({{shippingIndex}}) > td.td"
+        }
+      ],
+      "value": "{{shippingPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return {{includeTax}} === false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "tr:nth-of-type({{taxIndex}}) > td.td > .woocommerce-Price-amount.amount",
+      "value": "{{taxPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return {{includeTax}} === true"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "td > small > span.woocommerce-Price-amount.amount",
+      "value": "{{taxPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "tr:nth-of-type({{paymentIndex}}) > td.td",
+      "value": "{{paymentMethod}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "tr:nth-of-type({{totalIndex}}) > td.td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "tr:nth-of-type({{totalIndex}}) > td.td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "tr:nth-of-type({{earnIndex}}) > td.td",
+      "value": "You've earned {{earnPoints}} points",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "tr:nth-of-type({{noteIndex}}) > td.td",
+      "value": "Order Note for Testing this field",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{country}}' === 'CA'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "td:nth-of-type(1) > address.address",
+      "value": "{{company}}\n{{firstName}} {{lastName}}\n{{street}}\n{{street2}}\n{{city}} {{state}} {{zipCode}}\n{{countryComplete}}\n{{phone}}\n{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{country}}' === 'AU'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "td:nth-of-type(1) > address.address",
+      "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{street2}}\n{{city}} {{stateComplete}} {{zipCode}}\n{{countryComplete}}\n{{phone}}\n{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{country}}' === 'CA'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "td:nth-of-type(2) > address.address",
+      "value": "{{company2}}\n{{firstName}} {{lastName2}}\n{{street3}}\n{{street4}}\n{{city}} {{state}} {{zipCode}}\n{{countryComplete}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{country}}' === 'AU'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "td:nth-of-type(2) > address.address",
+      "value": "{{firstName}} {{lastName2}}\n{{company2}}\n{{street3}}\n{{street4}}\n{{city}} {{stateComplete}} {{zipCode}}\n{{countryComplete}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "td.filename",
+      "value": "{{orderNumber}}.pdf"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'true'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "table > tbody > tr > td > div > div:nth-child(6) > table > tbody > tr > td:nth-child(4) > span.woocommerce-Price-amount.amount",
+      "value": "{{recurringTotal}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68c17c205081f036c98a5ef4",
+    "suiteId": "6022c8a7262f437a9afa49ca",
+    "suiteName": "No Pong - Common steps for Project"
+  }
+}

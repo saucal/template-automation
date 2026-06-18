@@ -1,0 +1,283 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "6.1.0",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Register",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let url = window.location.href\nlet boolean\nif (url.includes(\"/my-account/\")) {\n    boolean = false\n} else {\n    boolean = true\n}\nreturn boolean && \"{{project}}\" !== \"Phlearn\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "a[href*=\"/my-account/\"]"
+        },
+        {
+          "selector": "#menu-item-9247 > a"
+        },
+        {
+          "selector": "span.header-account-label"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"Phlearn\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "i.ph-avatar",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"Phlearn\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "a[href=\"#signup\"]",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"Phlearn\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "a[href=\"#email\"]",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "a[href*=\"?register\"]",
+      "value": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"Deans\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "return window.location.href === 'https://staging-deansgraphics.kinsta.cloud/hello/my-account/?fromsite=3&loop=1'",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet country = \"{{country}}\"\nreturn (project === \"nopong\" ) || project === \"Deans\""
+      },
+      "notes": "Removing country filter to make it work both on AU and US. CODE → && country === \"US\"",
+      "optional": true,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "#reg_first_name"
+        },
+        {
+          "selector": "input#first_name"
+        }
+      ],
+      "value": "{{firstName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet country = \"{{country}}\"\nreturn (project === \"nopong\" ) || project === \"Deans\""
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "#reg_last_name"
+        },
+        {
+          "selector": "input#last_name"
+        }
+      ],
+      "value": "{{lastName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"Deans\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "input#billing_company",
+      "value": "{{company}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"Deans\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "input#billing_phone",
+      "value": "{{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"nopong\" || project === \"mood\" || project === \"template\"\n|| project === \"Deans\" || project === \"Phlearn\" || project === \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": "#reg_email"
+        },
+        {
+          "selector": "input[name=\"username\"]"
+        }
+      ],
+      "value": "{{username}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"nopong\" || project === \"mood\" || project === \"template\"\n|| project === \"Deans\" || project === \"Phlearn\" || project === \"icg\""
+      },
+      "optional": false,
+      "private": true,
+      "sequence": 11,
+      "target": [
+        {
+          "selector": "#reg_password"
+        },
+        {
+          "selector": "input[name=\"password\"]"
+        }
+      ],
+      "value": "{{pass}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"nopong\" || project === \"mood\" || project === \"template\"\n|| project === \"Deans\" || project === \"Phlearn\" || project === \"icg\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": [
+        {
+          "selector": "button[name=\"register\"]"
+        },
+        {
+          "selector": "button[type=\"submit\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project !== \"Deans\" &&  project !== \"Phlearn\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "div.woocommerce-MyAccount-content",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"Phlearn\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "img.lazy.avatar.avatar-45",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"Phlearn\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": ".avatar-menu-item > ul > .menu-item.menu-item-type-custom.menu-item-object-custom:nth-of-type(1) > a[href*=\"/my-phlearn/favorites/\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"Phlearn\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "div.woocommerce > div.dashboard-header",
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "63d7d8a71b9923d1cbccd1b3",
+    "suiteId": "6022b879262f437a9af8ddf9",
+    "suiteName": "Common Steps for all Projects"
+  }
+}

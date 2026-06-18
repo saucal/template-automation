@@ -1,0 +1,214 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "details": "IPN - Pre-order product (Upfront) - Approved transaction arrives after release date of the product",
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "BLU-002-056",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": null,
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "{{orderNumber037}}",
+      "variableName": "orderNumber"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "{{transaction_id037}}",
+      "variableName": "transaction_id"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "6182913d23071a6a858762c3",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "let date = \"{{payDate}}\"\nreturn date.substring(0,10)",
+      "variableName": "date"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "622b9705aacde4b98716aea4",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let logs = {{logs}}\nreturn logs.length != undefined",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "let logs = {{logs}}\nreturn logs[0].content.transactionType === \"CHARGE\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let logs = {{logs}}\nreturn logs.length != undefined",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "let logs = {{logs}}\nreturn logs[0].content.referenceNumber === \"{{transaction_id}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let logs = {{logs}}\nreturn logs.length === undefined",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "let logs = {{logs}}\nreturn logs.content.transactionType === \"CHARGE\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let logs = {{logs}}\nreturn logs.length === undefined",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "let logs = {{logs}}\nreturn logs.content.referenceNumber === \"{{transaction_id}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "61d5b5207e5be41b1d21e1ed",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "61e9747fbd8d00e4de7e084c",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "let length = document.getElementsByClassName(\"note_content\").length\nreturn length",
+      "variableName": "n"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "#select2-order_status-container",
+      "value": "Processing",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "li.note.system-note:nth-of-type(1) > .note_content > p",
+      "value": "Order status changed from Pre ordered to Processing.",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let n = {{n}}\nreturn n === 7",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "li.note.system-note:nth-of-type(2) > .note_content > p",
+      "value": "ACH Transaction approved via IPN request.",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let n = {{n}}\nreturn n === 5",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "li.note.system-note:nth-of-type(3) > .note_content > p",
+      "value": "ACH Transaction approved via IPN request.",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "622ba3936f3ed7a04db213c2",
+    "suiteId": "63061c65cd380e119cf728b8",
+    "suiteName": "2.5.x"
+  }
+}

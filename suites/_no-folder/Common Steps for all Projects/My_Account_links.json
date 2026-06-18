@@ -1,0 +1,300 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "My Account links",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mood\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": ".woocommerce-MyAccount-navigation-link > a[href*=\"/my-account/orders/\"]"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mood\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": ".woocommerce-info",
+      "value": "No order has been made yet.",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mood\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "a[href*=\"/my-account/subscriptions/\"]"
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mood\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": ".container > p",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mood\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": ".item.item-back > a[href*=\"/my-account/\"]"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mood\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "a[href*=\"/my-account/store-credit/\"]"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mood\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": ".woocommerce-Message",
+      "value": "No store credit coupons found."
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mood\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "a[href*=\"/my-account/backinstock/\"]"
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mood\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": ".woocommerce-MyAccount-content",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mood\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "a[href=\"/refer-a-friend/\"]"
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mood\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "#personalized-code",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mood\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": ".loginBtn > a[href*=\"/my-account/\"]"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mood\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "a[href*=\"/my-account/wc-smart-coupons/\"]"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mood\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": ".woocommerce-MyAccount-content > h2",
+      "value": "Available Coupons & Store Credits"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mood\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "a[href*=\"/my-account/edit-address/\"]"
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mood\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": ".u-column1",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mood\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "a[href*=\"/my-account/payment-methods/\"]"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mood\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": ".woocommerce-info",
+      "value": "No saved methods found."
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mood\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "a[href*=\"/my-account/edit-account/\"]"
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mood\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "form.woocommerce-EditAccountForm",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mood\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "a[href*=\"/my-account/my-points/\"]"
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mood\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": ".ywpar-wrapper",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"mood\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "a[href*=\"/my-account/customer-logout/?_wpnonce=\"]"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6446bcfbe36f7ecf09a5871a",
+    "suiteId": "6022b879262f437a9af8ddf9",
+    "suiteName": "Common Steps for all Projects"
+  }
+}

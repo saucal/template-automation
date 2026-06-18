@@ -1,0 +1,186 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "685ac1c615b3a115491e05bb",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2025-06-24T15:18:30.315Z",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "61effde6f6ed31bafcb1bf52",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 2,
+    "maxWaitDelay": 15000,
+    "name": "Leggari New - Basic WooCommerce Test",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "us-west-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://leggari-preprod.mystagingwebsite.com/",
+    "testCount": 14,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "6126852a3a97095ca23e68bb"
+      },
+      {
+        "name": "lastName",
+        "value": "GI Leggari",
+        "private": false,
+        "_id": "6126852a3a97095ca23e68bc"
+      },
+      {
+        "name": "phone",
+        "value": "3098698799",
+        "private": false,
+        "_id": "6126852a3a97095ca23e68c3"
+      },
+      {
+        "name": "street3",
+        "value": "street shipping",
+        "private": false,
+        "_id": "6126852a3a97095ca23e68c4"
+      },
+      {
+        "name": "street4",
+        "value": "Ap. 4",
+        "private": false,
+        "_id": "6126852a3a97095ca23e68c5"
+      },
+      {
+        "name": "password2",
+        "value": "fric2172Biot",
+        "private": true,
+        "_id": "612685a43a97095ca23e69b2"
+      },
+      {
+        "name": "password",
+        "value": "fric2171Biot",
+        "private": true,
+        "_id": "6241fb30e066134dd12a404e"
+      },
+      {
+        "name": "stateComplete",
+        "value": "Washington",
+        "private": false,
+        "_id": "627bd06297a3bd06e0422bbe"
+      },
+      {
+        "name": "Symbol",
+        "value": "$",
+        "private": false,
+        "_id": "627bd06297a3bd06e0422bbf"
+      },
+      {
+        "name": "countryComplete",
+        "value": "United States (US)",
+        "private": false,
+        "_id": "627bd06297a3bd06e0422bc0"
+      },
+      {
+        "name": "country",
+        "value": "US",
+        "private": false,
+        "_id": "627bd06297a3bd06e0422bc1"
+      },
+      {
+        "name": "project",
+        "value": "leggari",
+        "private": false,
+        "_id": "627bd09d26939cd04623272b"
+      },
+      {
+        "name": "phoneCode",
+        "value": "+1",
+        "private": false,
+        "_id": "63595072151ae3d9c502d718"
+      },
+      {
+        "name": "addressType",
+        "value": "true",
+        "private": false,
+        "_id": "63872d0aa67dec3a12298c67"
+      },
+      {
+        "name": "company2",
+        "value": "Testing Inc.",
+        "private": false,
+        "_id": "6126852a3a97095ca23e68bd"
+      },
+      {
+        "name": "street",
+        "value": "1401 W 1st Ave",
+        "private": false,
+        "_id": "6126852a3a97095ca23e68be"
+      },
+      {
+        "name": "street2",
+        "value": "Apartment 2",
+        "private": false,
+        "_id": "6126852a3a97095ca23e68bf"
+      },
+      {
+        "name": "city",
+        "value": "Tumwater",
+        "private": false,
+        "_id": "6126852a3a97095ca23e68c0"
+      },
+      {
+        "name": "zipCode",
+        "value": "98512",
+        "private": false,
+        "_id": "6126852a3a97095ca23e68c1"
+      },
+      {
+        "name": "state",
+        "value": "WA",
+        "private": false,
+        "_id": "6126852a3a97095ca23e68c2"
+      },
+      {
+        "name": "shippingStreet",
+        "value": "525 N. Third Avenue",
+        "private": false,
+        "_id": "65ce4fe6f59aa2b4f3bdd560"
+      },
+      {
+        "name": "shippingStreet2",
+        "value": "Suite 101",
+        "private": false,
+        "_id": "65ce4fe6f59aa2b4f3bdd561"
+      },
+      {
+        "name": "billingStreet",
+        "value": "1300 N. Oregon Ave.",
+        "private": false,
+        "_id": "65ce4fe6f59aa2b4f3bdd562"
+      },
+      {
+        "name": "billingStreet2",
+        "value": "First Floor",
+        "private": false,
+        "_id": "65ce4fe6f59aa2b4f3bdd563"
+      }
+    ],
+    "viewportSize": {
+      "width": 1920,
+      "height": 1080
+    }
+  }
+}

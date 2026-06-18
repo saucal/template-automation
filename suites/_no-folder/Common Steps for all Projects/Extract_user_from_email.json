@@ -1,0 +1,119 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Extract user from email",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "pause",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "30000",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project != \"redApple\" && project != \"acknowledge\" && project != \"Supplements\""
+      },
+      "notes": "added red apple filter",
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "const regex = /^(qa\\+)?(\\w+)[^@]+/g\nconst str = `{{username}}`;\nlet m;\nm = regex.exec(str)\nreturn m[0]",
+      "variableName": "userEmailExtract"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let project = \"{{project}}\";\nreturn project === \"redApple\" || project === \"acknowledge\"; "
+      },
+      "notes": "step added for red apple",
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "const regex = /\\w+\\+\\w+\\+\\w+[^@]/g\nconst str = `{{username}}`;\nlet m;\nm = regex.exec(str)\nreturn m[0]",
+      "variableName": "userEmailExtract"
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let project = \"{{project}}\";\nreturn project === \"Avison\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "675752d6e11b42a63d349a1f",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let project = \"{{project}}\";\nreturn project === \"Supplements\";"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "6769b9c3e039f5ae2553ae39",
+      "variableName": ""
+    },
+    {
+      "command": "open",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet vendor = \"{{vendor}}\"\nreturn project != \"talkbox\" && project != \"scout\" && project != \"Deans\" \n&& vendor != \"yes\" && project != \"mckeen\"\n&& project != \"topg-merch\" && project != \"botany\" \n&& project != \"mood\" && project != \"harmony\"\n&& project != \"vesica\" && project != \"template\" \n&& project != \"hunchie\" && project != \"purCrystal\" && project != \"acknowledge\"\n&& project != \"cashForeClub\" && project != 'flyingTech' && project != 'leggari'\n&& project != 'pls' && project != 'nopong' && project != 'elka' \n&& project != 'icg' && project != 'melon' && project != 'Phlearn'\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "https://email.ghostinspector.com/{{userEmailExtract}}/latest",
+      "variableName": ""
+    },
+    {
+      "command": "open",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nlet vendor = \"{{vendor}}\"\nreturn project === \"talkbox\" || project === \"scout\" \n|| project === \"Deans\" || (project === \"mavenfair\" && vendor === \"yes\") \n|| project === \"topg-merch\" || project === \"botany\" || project === \"mood\"\n|| project === \"harmony\" || project === \"template\" || project === \"hunchie\"\n|| project === \"vesica\" || project === \"purCrystal\" || project === \"mckeen\" || project === \"acknowledge\"\n|| project === \"cashForeClub\" || project === 'flyingTech' || project === 'leggari'\n|| project === 'pls' || project === 'nopong' || project === 'elka' \n|| project === 'icg' || project === 'melon' || project === 'Phlearn'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "https://email.ghostinspector.com/{{userEmailExtract}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "603d1f20494ea848981cef9b",
+    "suiteId": "6022b879262f437a9af8ddf9",
+    "suiteName": "Common Steps for all Projects"
+  }
+}

@@ -1,0 +1,191 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Verify Transaction on logs",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\n\nreturn refund !== 'exceed'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "67a9ea126b884a2255094ea5",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const refund = '{{refund}}'\n\nreturn refund === 'exceed'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "67af5d933683d16ed695941f",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\nconst renewal = '{{renewal}}'\n\nreturn  transactionType !== 'refund' \n        && \n        transactionType !== 'void'\n        &&\n        transactionType !== 'partialCapture'\n        &&\n        transactionType !== 'totalCapture'\n        &&\n        renewal !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "67adec143683d16ed63e47e4",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\nconst renewal = '{{renewal}}'\n\nreturn  transactionType !== 'refund' \n        && \n        transactionType !== 'void'\n        &&\n        transactionType !== 'partialCapture'\n        &&\n        transactionType !== 'totalCapture'\n        &&\n        renewal !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "67adec6ae66fdcb2f9a882e9",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "//const savingCC = '{{savingCC}}'\n//const subscription = '{{subscription}}'\n//const tokenizedCards = '{{tokenizedCards}}'\n//const savedCC = '{{savedCC}}'\n\n//return savingCC === 'yes' ||  tokenizedCards === 'inactive' \n//    || (subscription === 'yes' && savedCC !== 'yes')\n\nreturn true"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "67aded26e66fdcb2f9a8b78b",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const tokenizedCards = '{{tokenizedCards}}'\nconst savedCC = '{{savedCC}}'\nconst renewal = '{{renewal}}'\nconst upgrade = '{{upgrade}}'\n\nreturn (tokenizedCards === 'inactive' || savedCC == 'yes'\n       || renewal === 'yes') && upgrade !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "const logs = {{tokenLogs}}\n\nreturn logs[0].content.length === 0",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\nconst renewal = '{{renewal}}'\n\nreturn  transactionType !== 'refund' \n        && \n        transactionType !== 'void'\n        &&\n        transactionType !== 'partialCapture'\n        &&\n        transactionType !== 'totalCapture'\n        &&\n        renewal !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "677beece04ed5cc20e98de60",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\nconst threeDS = '{{3ds}}'\nconst hosted = '{{hosted}}'\nconst renewal = '{{renewal}}'\n\nreturn (transactionType === 'authorize' || transactionType === 'capture')\n        && threeDS === 'active' && hosted === 'session'\n        && renewal !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "67896384e9793a1000e97555",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\nconst threeDS = '{{3ds}}'\nconst hosted = '{{hosted}}'\nconst challenge = '{{challenge}}'\nconst renewal = '{{renewal}}'\n\nreturn (transactionType === 'authorize' || transactionType === 'capture')\n        && threeDS === 'active' && hosted === 'session' && challenge === 'yes'\n        && renewal !== 'yes'\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "67a2ba756b884a22550bfd7a",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\nconst threeDS = '{{3ds}}'\nconst hosted = '{{hosted}}'\nconst renewal = '{{renewal}}'\n\nreturn (transactionType === 'authorize' || transactionType === 'capture')\n        && threeDS === 'active' && hosted === 'session'\n        && renewal !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "677fdd1b35aed64d3044c6df",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\n\nreturn transactionType === 'authorize' \n    || transactionType === 'capture' "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "67782ed704ed5cc20e6c4106",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const savingCC = '{{savingCC}}'\nconst transactionType = '{{transactionType}}'\nconst tokenizedCards = '{{tokenizedCards}}'\nconst subscription = '{{subscription}}'\nconst savedCC = '{{savedCC}}'\nconst renewal = '{{renewal}}'\n\nreturn (savingCC === 'yes' &&  tokenizedCards !== 'inactive') \n        || (subscription === 'yes' && savedCC !== 'yes' && renewal !== 'yes')\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "67782edb35aed64d30391a61",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const transactionType = '{{transactionType}}'\n\nreturn transactionType === 'refund'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "67782f2d35aed64d3039253c",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6776d49535aed64d3018e90e",
+    "suiteId": "676eb96835aed64d3077072a",
+    "suiteName": "MC - Common Steps for Tests"
+  }
+}

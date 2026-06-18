@@ -1,0 +1,117 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "06 - Variable product page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "69a82b73b9fc488447ef7cab",
+      "variableName": ""
+    },
+    {
+      "command": "eval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "const addToCartButtons = document.querySelectorAll(\n  'li.product:has(.star-rating:not(.eael-star-rating)) .product_type_variable.add_to_cart_button'\n)[0];\n\nconst titleLink = addToCartButtons.closest('li.product').querySelector('.eael-product-title > a')\n\ntitleLink.click()\n",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": ".woocommerce-product-rating",
+      "value": ""
+    },
+    {
+      "command": "eval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "\n    return new Promise(async (resolve,reject) => {\n  const form = document.querySelector('form.variations_form');\n    if (!form) {\n        console.error(\"No variations form found\");\n        reject(new Error(\"No variations form found\"));\n        return;\n    }\n\n    const selects = form.querySelectorAll('select[name^=\"attribute_\"]');\n    if (selects.length === 0) {\n        console.error(\"No attribute dropdowns found\");\n        reject(new Error(\"No attribute dropdowns found\"));\n        return;\n    }\n\n    console.log(`Found ${selects.length} attribute dropdown(s)`);\n\n    // Reset everything first\n    form.querySelector('.reset_variations')?.click();\n    await new Promise(r => setTimeout(r, 400)); // give Woo time to reset\n\n    // Prepare list of options for each select (skip the empty first option)\n    const optionsPerSelect = Array.from(selects).map(sel => {\n        return Array.from(sel.options)\n            .filter(opt => opt.value !== \"\")   // skip \"Choose …\"\n            .map(opt => ({ value: opt.value, text: opt.textContent.trim() }));\n    });\n\n    console.log(\"Options per attribute:\", optionsPerSelect.map(arr => arr.length));\n\n    // We'll do a simple nested loop / recursive try (depth = number of attributes)\n    let found = false;\n    let attempts = 0;\n    const maxAttempts = 300; // safety limit\n\n    async function tryCombination(currentIndex, currentValues) {\n        if (found) return;\n        if (attempts++ > maxAttempts) {\n            console.warn(\"Reached max attempts — probably no in-stock variation\");\n            reject(new Error(\"Reached max attempts — probably no in-stock variation\"));\n            return;\n        }\n\n        if (currentIndex === selects.length) {\n            // full combination selected → check stock\n            await new Promise(r => setTimeout(r, 600)); // WooCommerce needs ~300-800ms to update DOM\n\n            const outOfStockEl = form.querySelector('.woocommerce-variation-availability .stock.out-of-stock, .stock.outofstock');\n\n            if (!outOfStockEl) {\n                // No out-of-stock element → we have stock!\n                found = true;\n\n                console.log(\"%cFOUND IN-STOCK COMBINATION after \" + attempts + \" tries!\", \"color:lime;font-weight:bold;font-size:16px\");\n\n                // Show what we selected\n                currentValues.forEach((val, i) => {\n                    const label = selects[i].previousElementSibling?.textContent.trim() || selects[i].name;\n                    console.log(`  • ${label}: ${val.text} (${val.value})`);\n                });\n\n                // Optional: highlight the selects\n                selects.forEach((sel, i) => {\n                    sel.value = currentValues[i].value;\n                    sel.dispatchEvent(new Event('change', { bubbles: true }));\n                });\n\n                // You can stop here — or continue if you want all in-stock combos\n                resolve();\n            } else {\n                console.log(`Attempt ${attempts}: out of stock`);\n            }\n            return;\n        }\n\n        // Try each option in current dropdown\n        for (const opt of optionsPerSelect[currentIndex]) {\n            if (found) break;\n\n            // Select it\n            selects[currentIndex].value = opt.value;\n            selects[currentIndex].dispatchEvent(new Event('change', { bubbles: true }));\n\n            // Recurse to next attribute\n            await tryCombination(currentIndex + 1, [...currentValues, opt]);\n        }\n    }\n\n    console.log(\"Starting search for in-stock variation...\");\n\n    await tryCombination(0, []);\n\n    if (!found) {\n        console.error(\"No in-stock variation found after checking many combinations\");\n        reject(new Error(\"No in-stock variation found after checking many combinations\"));\n    }\n})",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "table.variations select",
+      "value": "",
+      "variableName": "variable"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "h1.product_title",
+      "value": "",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": ".woocommerce-variation-price > .price > ins > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": ".woocommerce-variation-price > .price > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": ".summary.entry-summary .price > ins > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": ".summary.entry-summary .price > .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "",
+      "variableName": "unitPrice"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69a82ca1b9fc488447efbb26",
+    "suiteId": "69a82ca1b9fc488447efbb1a",
+    "suiteName": "DollarTabs - Basic WooCommerce tests"
+  }
+}

@@ -1,0 +1,227 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Place Order - Guest user",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "6182913d23071a6a858762c3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "64a2b3be82bf299ccb450eeb",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let _3dsSetting = \"{{3dsSetting}}\";\nlet BlueSnapVs = \"{{BlueSnapVs}}\";\nBlueSnapVs = BlueSnapVs.split('.');\nlet payment = \"{{payment}}\";\nlet payForOrder = \"{{payForOrder}}\"\n\nreturn ((Number(BlueSnapVs[0]) === 3 && Number(BlueSnapVs[1]) === 0)\n||(Number(BlueSnapVs[0]) === 2 && Number(BlueSnapVs[1])===6)) && \n        _3dsSetting !== \"deactivated\" &&\n        payment === \"cc\" && payForOrder !== \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "const targetElement = document.querySelector('#place_order, .wc-block-components-checkout-place-order-button');\nreturn targetElement.getAttribute('data-bluesnap') === 'submitButton'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let _3dsSetting = \"{{3dsSetting}}\";\nlet BlueSnapVs = \"{{BlueSnapVs}}\";\nBlueSnapVs = BlueSnapVs.split('.');\nlet payment = \"{{payment}}\";\n\n\nreturn (Number(BlueSnapVs[0]) >= 3 && Number(BlueSnapVs[1]) >= 2) && \n        _3dsSetting !== \"deactivated\" &&\n        payment === \"cc\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "const targetElement = document.querySelector('#place_order, .wc-block-components-checkout-place-order-button');\nreturn targetElement.getAttribute('data-bluesnap') === 'submitButton'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let _3dsSetting = \"{{3dsSetting}}\";\nlet BlueSnapVs = \"{{BlueSnapVs}}\";\nBlueSnapVs = BlueSnapVs.split('.');\nlet payment = \"{{payment}}\";\n\nreturn (Number(BlueSnapVs[0]) >= 3 && Number(BlueSnapVs[1]) >= 2) && \n(_3dsSetting === \"deactivated\" ||\n        payment !== \"cc\")"
+      },
+      "notes": "attribute issue with version 3.4",
+      "optional": true,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "const targetElement = document.querySelector('#place_order, .wc-block-components-checkout-place-order-button');\nreturn targetElement.getAttribute('data-bluesnap') === null",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let _3dsSetting = \"{{3dsSetting}}\";\nlet BlueSnapVs = \"{{BlueSnapVs}}\";\nBlueSnapVs = BlueSnapVs.split('.');\nlet payment = \"{{payment}}\";\n\nreturn (Number(BlueSnapVs[0]) === 3 && Number(BlueSnapVs[1]) === 0) && \n_3dsSetting === \"deactivated\" "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "const targetElement = document.querySelector('#place_order, .wc-block-components-checkout-place-order-button');\nreturn targetElement.getAttribute('data-bluesnap') === null",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let _3dsSetting = \"{{3dsSetting}}\";\nlet BlueSnapVs = \"{{BlueSnapVs}}\";\nBlueSnapVs = BlueSnapVs.split('.');\nreturn (Number(BlueSnapVs[0]) === 2 && Number(BlueSnapVs[1]) === 6) && \n_3dsSetting === \"deactivated\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "const targetElement = document.querySelector('#place_order, .wc-block-components-checkout-place-order-button');\nreturn targetElement.getAttribute('data-bluesnap') === null",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "#place_order"
+        },
+        {
+          "selector": "xpath=//button[contains(text(), \"Place order\")]"
+        },
+        {
+          "selector": ".wc-block-components-checkout-place-order-button"
+        },
+        {
+          "selector": "xpath=//button/span/div[contains(text(), \"Place Order\")]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": ".woocommerce-notice",
+      "value": "Thank you. Your order has been received.",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": ".woocommerce-order-overview__order > strong:nth-child(1)",
+      "value": "",
+      "variableName": "orderNumber"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "let elements = document.querySelectorAll('section.woocommerce-order-details > table > tfoot > tr')\nlet length = elements.length\nreturn length-1",
+      "variableName": "n"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nreturn payment != \"ach\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": ".woocommerce-order-overview__payment-method.method > strong",
+      "value": "Credit/Debit Card",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nreturn payment != \"ach\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "section.woocommerce-order-details > table > tfoot > tr:nth-child({{n}}) > td",
+      "value": "Credit/Debit Card",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nreturn payment === \"ach\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": ".woocommerce-order-overview__payment-method.method > strong",
+      "value": "ACH/ECP Transactions",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nreturn payment === \"ach\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "section.woocommerce-order-details > table > tfoot > tr:nth-child({{n}}) > td",
+      "value": "ACH/ECP Transactions",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "60afaebec894e66ce1666ab8",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

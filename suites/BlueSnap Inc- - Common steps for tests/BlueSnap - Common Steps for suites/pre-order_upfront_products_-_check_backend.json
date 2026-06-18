@@ -1,0 +1,355 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "pre-order upfront products - check backend",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "{{url}}/wp-admin/",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let element = document.getElementsByClassName('wp-menu-name')\n\nreturn element.length === 0",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "61d5b5207e5be41b1d21e1ed",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "a[href=\"admin.php?page=wc-admin\"] > .wp-menu-name",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "a[href=\"edit.php?post_type=shop_order\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 3,
+      "target": "tr#post-{{orderNumber}} mark.order-status > span",
+      "value": "Pre ordered",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "a[href*=\"/wp-admin/post.php?post={{orderNumber}}&action=edit\"] > strong",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nreturn payment != \"ach\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "const jsonOrder = {{myOrder}}\nconst paymentMethod = jsonOrder.payment_method\nreturn paymentMethod === \"bluesnap\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nreturn payment != \"ach\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "const paymentMethodT = \"{{paymentMethodTitle}}\"\nreturn paymentMethodT === \"Credit/Debit Card\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nreturn payment != \"ach\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "tbody > tr:nth-child(2) > td:nth-child(1) > span.description",
+      "value": "{{paymentMethodTitle}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nreturn payment === \"ach\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "const jsonOrder = {{myOrder}}\nconst paymentMethod = jsonOrder.payment_method\nreturn paymentMethod === \"bluesnap_ach\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nreturn payment === \"ach\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "const paymentMethodT = \"{{paymentMethodTitle}}\"\nreturn paymentMethodT === \"ACH/ECP Transactions\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": ".woocommerce-order-data__meta",
+      "value": "Payment via {{paymentMethodTitle}} ({{transaction_id}})",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "let length = document.getElementsByClassName(\"note_content\").length\nreturn length",
+      "variableName": "n"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let num = {{n}}\nlet trans = \"{{trans}}\"\nreturn num === 6 && trans === \"accepted\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "li.note.system-note:nth-of-type(4) > .note_content > p",
+      "value": "ACH Transaction approved via IPN request.",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let num = {{n}}\nlet trans = \"{{trans}}\"\nreturn num === 6 && trans === \"accepted\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "li.note.system-note:nth-of-type(3) > .note_content > p",
+      "value": "Order status changed from On hold to Pre ordered.",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let num = {{n}}\nlet trans = \"{{trans}}\"\nreturn num === 6 && trans === \"accepted\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "li.note.system-note:nth-of-type(2) > .note_content > p",
+      "value": "Order status changed from Pre ordered to Processing.",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let num = {{n}}\nlet trans = \"{{trans}}\"\nreturn num === 6 && trans === \"accepted\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "li.note.system-note:nth-of-type(1) > .note_content > p",
+      "value": "Pre-Order status changed from active to completed.",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let num = {{n}}\nlet trans = \"{{trans}}\"\nreturn num === 6 && trans === \"accepted\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "#select2-order_status-container",
+      "value": "Processing",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let num = {{n}}\nlet trans = \"{{trans}}\"\nreturn num === 5",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "li.note.system-note:nth-of-type(3) > .note_content > p",
+      "value": "Order status changed from On hold to Processing.",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let num = {{n}}\nlet trans = \"{{trans}}\"\nreturn num === 5",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "li.note.system-note:nth-of-type(2) > .note_content > p",
+      "value": "Order status changed from Processing to Pre ordered.",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let num = {{n}}\nlet trans = \"{{trans}}\"\nreturn num === 5",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "li.note.system-note:nth-of-type(1) > .note_content > p",
+      "value": "Pre-Order status changed from active to completed.",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let num = {{n}}\nlet trans = \"{{trans}}\"\nreturn num === 5",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "#select2-order_status-container",
+      "value": "Pre ordered",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let num = {{n}}\nlet trans = \"{{trans}}\"\nreturn num === 6 && trans === \"declined\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "li.note.system-note:nth-of-type(4) > .note_content > p",
+      "value": "BlueSnap ACH Declined IPN request received. A chargeback has been created for this transaction. Reason: null-null. Order status changed from On hold to Failed.",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let num = {{n}}\nlet trans = \"{{trans}}\"\nreturn num === 6 && trans === \"declined\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "li.note.system-note:nth-of-type(3) > .note_content > p",
+      "value": "Order status changed from Failed to Processing.",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let num = {{n}}\nlet trans = \"{{trans}}\"\nreturn num === 6 && trans === \"declined\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "li.note.system-note:nth-of-type(2) > .note_content > p",
+      "value": "Order status changed from Processing to Pre ordered.",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let num = {{n}}\nlet trans = \"{{trans}}\"\nreturn num === 6 && trans === \"declined\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "li.note.system-note:nth-of-type(1) > .note_content > p",
+      "value": "Pre-Order status changed from active to completed.",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let num = {{n}}\nlet trans = \"{{trans}}\"\nreturn num === 6 && trans === \"declined\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "#select2-order_status-container",
+      "value": "Pre ordered",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "62b06afa5dd4634dc88fc293",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

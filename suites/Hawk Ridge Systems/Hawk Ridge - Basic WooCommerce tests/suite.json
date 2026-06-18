@@ -1,0 +1,55 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "68cab50c576a0f46b500e1e3",
+    "abortOnTestFailure": false,
+    "autoRetry": true,
+    "browser": "chrome-139",
+    "dataSource": null,
+    "dateCreated": "2025-09-17T13:18:04.850Z",
+    "details": "",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "68caab6d189a381f8eff19ea",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 2,
+    "maxWaitDelay": 15000,
+    "name": "Hawk Ridge - Basic WooCommerce tests",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": false,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://hawkridgesystg.wpengine.com/",
+    "testCount": 16,
+    "testFrequency": 0,
+    "viewportSize": {
+      "width": 1280,
+      "height": 800
+    },
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "password",
+        "value": "fric2171Biot",
+        "private": true,
+        "_id": "68cb0235576a0f46b5128220"
+      },
+      {
+        "name": "password2",
+        "value": "fric2172Biot",
+        "private": true,
+        "_id": "68cb0235576a0f46b5128221"
+      }
+    ]
+  }
+}

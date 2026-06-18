@@ -1,0 +1,679 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Check Order and Subscriptions on My Account",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "const elem = document.querySelectorAll('body > div.woofunnels-container.wflp-canvas.wffn-page-template > div:nth-child(1) > div > div > div.bwf-inner-col > div.bwf-section-wrap > div > div > h6.bwf-adv-heading.bwf-width-default')[0].innerText.split('#')[1]\n\nreturn elem",
+      "variableName": "orderNumber"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "p.bwf-adv-heading > strong",
+      "value": "{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "const elem = document.querySelectorAll('div:nth-child(1) > div > div.wfty_p_name > a > span')[0].innerText.split('\\n')[0]\n\nreturn elem === '{{language}} - The Snacks & Kitchen Box'",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "a[href*=\"/product/use-spanish-at-home/\"] > span",
+      "value": "{{prod_desc2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const upsell = '{{upsell}}'\n\nreturn upsell === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "a[href*=\"/product/power-practice-planner/\"] > span",
+      "value": "{{prod_desc3}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\nreturn CCrew !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "tr.woocommerce-table__line-item.order_item:nth-of-type(1) > td.woocommerce-table__product-total.product-total > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "div:nth-child(1) > div > div > div.bwf-inner-col > div > div > div > div > div > div > div.wfty_box.wfty_order_details > div.wfty_pro_list_cont.wfty_show_images > div:nth-child(1) > a > div.wfty_rightDiv > span"
+        }
+      ],
+      "value": "{{subPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\nreturn CCrew !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "tr.woocommerce-table__line-item.order_item:nth-of-type(2) > td.woocommerce-table__product-total.product-total > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "div:nth-child(1) > div > div > div.bwf-inner-col > div > div > div > div > div > div > div.wfty_box.wfty_order_details > div.wfty_pro_list_cont.wfty_show_images > div:nth-child(3) > div.wfty_rightDiv > span"
+        }
+      ],
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const upsell = '{{upsell}}'\n\nreturn upsell === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "let unitPrice2 = '{{unitPrice2}}'\nunitPrice2 = Number(unitPrice2.replace(\",\",\"\").replace(\"{{Symbol}}\",\"\"));\n\nconst priceWOTax = (unitPrice2 / 1.0825).toFixed(2)\n\nreturn '{{Symbol}}'+priceWOTax\n",
+      "variableName": "unitPrice2"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const upsell = '{{upsell}}'\n\nreturn upsell === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "div:nth-child(1) > div > div > div.bwf-inner-col > div > div > div > div > div > div > div.wfty_box.wfty_order_details > div.wfty_pro_list_cont.wfty_show_images > div:nth-child(4) > div.wfty_rightDiv > span",
+      "value": "{{unitPrice2}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const upsell = '{{upsell}}'\n\nreturn upsell === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "let unitPrice2 = '{{unitPrice2}}'\nunitPrice2 = Number(unitPrice2.replace(\",\",\"\").replace(\"{{Symbol}}\",\"\"));\n\nlet subtotalPrice = '{{subtotalPrice}}'\nsubtotalPrice = Number(subtotalPrice.replace(\",\",\"\").replace(\"{{Symbol}}\",\"\"));\n\nsubtotalPrice = (subtotalPrice + unitPrice2).toFixed(2)\n\nreturn '{{Symbol}}'+subtotalPrice\n",
+      "variableName": "subtotalPrice"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const upsell = '{{upsell}}'\n\nreturn upsell === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "let unitPrice2 = '{{unitPrice2}}'\nunitPrice2 = Number(unitPrice2.replace(\",\",\"\").replace(\"{{Symbol}}\",\"\"));\n\nlet taxPrice = '{{taxPrice}}'\ntaxPrice = Number(taxPrice.replace(\",\",\"\").replace(\"{{Symbol}}\",\"\"));\n\nlet taxPrice2 = Math.round(unitPrice2 * 8.25) / 100\n\ntaxPrice = (taxPrice + taxPrice2).toFixed(2)\n\nreturn '{{Symbol}}'+taxPrice\n",
+      "variableName": "taxPrice"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const upsell = '{{upsell}}'\n\nreturn upsell === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "let subtotalPrice = '{{subtotalPrice}}'\nsubtotalPrice = Number(subtotalPrice.replace(\",\",\"\").replace(\"{{Symbol}}\",\"\"));\n\nlet taxPrice = '{{taxPrice}}'\ntaxPrice = Number(taxPrice.replace(\",\",\"\").replace(\"{{Symbol}}\",\"\"));\n\n\nlet total2 = (subtotalPrice + taxPrice).toFixed(2)\n\n\nreturn '{{Symbol}}'+total2\n",
+      "variableName": "total"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": [
+        {
+          "selector": "tr:nth-of-type(2) > td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "tr:nth-of-type(2) > td"
+        }
+      ],
+      "value": "{{shippingPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "tr:nth-of-type(3) > td > .woocommerce-Price-amount.amount",
+      "value": "{{taxPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "tr:nth-of-type(5) > td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "tbody > tr:nth-child(1) > td.subscription-id > a[href*=\"/account/view-subscription\"]",
+      "value": "",
+      "variableName": "subscriptionID"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "tbody > tr:nth-child(1) > td.subscription-id > small",
+      "value": "Active",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "",
+      "value": "const element = document.querySelector('tbody > tr:nth-child(1) > td.subscription-total.order-total').innerText\n\n  const text = element.toLowerCase();\n\n  // 1. Explicit \"no more payments\" / prepaid cases → no recurring charge\n  if (\n    text.includes('no more payments')\n  ) {\n    return null; // No future billing\n  }\n\n  // 2. Look for \"every X months\" or \"every month\"\n  const match = element.match(/every\\s+([0-9]+|\\w+)\\s+months?/i);\n\n  if (!match) {\n    return null; // Could not detect a recurring interval\n  }\n\n  let monthsToAdd;\n\n  if (match[1] === 'month') {\n    monthsToAdd = 1;                    // \"every month\" or \"every a month\"\n  } else {\n    monthsToAdd = parseInt(match[1], 10);\n    if (isNaN(monthsToAdd)) return null;\n  }\n\n  // 3. Calculate next date from today\n  const next = new Date();\n  next.setMonth(next.getMonth() + monthsToAdd);\n\n  // 4. Return formatted string exactly like \"August 5, 2026\"\n  return next.toLocaleDateString('en-US', {\n    month: 'long',\n    day: 'numeric',\n    year: 'numeric'\n  });\n",
+      "variableName": "nextPayment"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "tbody > tr:nth-child(1) > td.subscription-next-payment",
+      "value": "{{nextPayment}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "tbody > tr:nth-child(1) > td.subscription-total > .woocommerce-Price-amount.amount",
+      "value": "{{recurringTotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "tbody > tr:nth-child(2) > td.subscription-id > a[href*=\"/account/view-subscription\"]",
+      "value": "",
+      "variableName": "subscriptionID2"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "tbody > tr:nth-child(2) > td.subscription-id > small",
+      "value": "Active",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "",
+      "value": "const element = document.querySelector('tbody > tr:nth-child(2) > td.subscription-total.order-total').innerText\n\n  const text = element.toLowerCase();\n\n  // 1. Explicit \"no more payments\" / prepaid cases → no recurring charge\n  if (\n    text.includes('no more payments')\n  ) {\n    return null; // No future billing\n  }\n\n  // 2. Look for \"every X months\" or \"every month\"\n  const match = element.match(/every\\s+([0-9]+|\\w+)\\s+months?/i);\n\n  if (!match) {\n    return null; // Could not detect a recurring interval\n  }\n\n  let monthsToAdd;\n\n  if (match[1] === 'month') {\n    monthsToAdd = 1;                    // \"every month\" or \"every a month\"\n  } else {\n    monthsToAdd = parseInt(match[1], 10);\n    if (isNaN(monthsToAdd)) return null;\n  }\n\n  // 3. Calculate next date from today\n  const next = new Date();\n  next.setMonth(next.getMonth() + monthsToAdd);\n\n  // 4. Return formatted string exactly like \"August 5, 2026\"\n  return next.toLocaleDateString('en-US', {\n    month: 'long',\n    day: 'numeric',\n    year: 'numeric'\n  });\n",
+      "variableName": "nextPayment2"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "tbody > tr:nth-child(2) > td.subscription-next-payment",
+      "value": "{{nextPayment2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "tbody > tr:nth-child(2) > td.subscription-total > .woocommerce-Price-amount.amount",
+      "value": "{{recurringTotal2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": [
+        {
+          "selector": ".woocommerce-customer-details--maincolumn > address"
+        },
+        {
+          "selector": "div:nth-child(1) > div > div > div.bwf-inner-col > div.wfty-cust-details-block > div > div.wfty_box.wfty_customer_info > div.wfty_content.wfty_clearfix.wfty_text > div:nth-child(4) > div > div.wfty_view"
+        }
+      ],
+      "value": "{{firstName}} {{lastName}}\n{{street}}\n{{street2}}\n{{city}}, {{state}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "notes": "changed locator due to  .woocommerce-customer-details--phone retrieves 2 values for phone number",
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": [
+        {
+          "selector": ".col-1 .woocommerce-customer-details--phone"
+        },
+        {
+          "selector": "div:nth-child(1) > div > div > div.bwf-inner-col > div.wfty-cust-details-block > div > div.wfty_box.wfty_customer_info > div.wfty_content.wfty_clearfix.wfty_text > div:nth-child(2) > div.wfty_view"
+        }
+      ],
+      "value": "{{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": [
+        {
+          "selector": ".woocommerce-customer-details--email"
+        },
+        {
+          "selector": "div:nth-child(1) > div > div > div.bwf-inner-col > div.wfty-cust-details-block > div > div.wfty_box.wfty_customer_info > div.wfty_content.wfty_clearfix.wfty_text > div:nth-child(1) > div.wfty_view"
+        }
+      ],
+      "value": "{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "notes": "added phone field",
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": [
+        {
+          "selector": ".woocommerce-column > address"
+        },
+        {
+          "selector": "div:nth-child(1) > div > div > div.bwf-inner-col > div.wfty-cust-details-block > div > div.wfty_box.wfty_customer_info > div.wfty_content.wfty_clearfix.wfty_text > div:nth-child(5) > div > div.wfty_view"
+        }
+      ],
+      "value": "{{firstName}} {{lastName2}}\n{{street3}}\n{{street4}}\n{{city}}, {{state}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": [
+        {
+          "selector": "a[href*=\"/my-account/\"]"
+        },
+        {
+          "selector": "a[href*=\"/account/\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": ".u-column1 > address",
+      "value": "{{firstName}} {{lastName}}\n{{street}}\n{{street2}}\n{{city}}, {{state}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": ".u-column2 > address",
+      "value": "{{firstName}} {{lastName2}}\n{{street3}}\n{{street4}}\n{{city}}, {{state}} {{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": [
+        {
+          "selector": ".woocommerce-MyAccount-navigation-link > a[href*=\"/my-account/orders/\"]"
+        },
+        {
+          "selector": ".woocommerce-MyAccount-navigation-link > a[href*=\"/account/orders/\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "added condition to skip leggari",
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": [
+        {
+          "selector": "td.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-number > a[href*=\"/my-account/view-order/{{orderNumber}}/\"]"
+        },
+        {
+          "selector": "a[href*=\"/account/view-order/{{orderNumber}}/\"].woocommerce-button"
+        },
+        {
+          "selector": "tr:nth-of-type(1) > td.woocommerce-orders-table__cell-order-number"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\nreturn CCrew !== 'yes' && \"{{subscription}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": "",
+      "value": "let subscriptionID = \"{{subscriptionID}}\"\nreturn subscriptionID.replace(\"#\",\"\")",
+      "variableName": "subscriptionID"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\nreturn CCrew !== 'yes' && \"{{subscription}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": "td.subscription-id > a",
+      "value": "{{subscriptionID}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\nreturn CCrew !== 'yes' && \"{{subscription}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 37,
+      "target": "td.subscription-total > span",
+      "value": "{{recurringTotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\nreturn CCrew !== 'yes' && \"{{subscription}}\" === \"yes\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 38,
+      "target": "",
+      "value": "646e184c33135384bba2be3d",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 39,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(1) > td.woocommerce-table__product-total.product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{subPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 40,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(3) > td.woocommerce-table__product-total.product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 41,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(5) > td.woocommerce-table__product-total.product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{ccPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 42,
+      "target": "tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 43,
+      "target": "tfoot > tr:nth-of-type(2) > td > .woocommerce-Price-amount.amount",
+      "value": "{{discount}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 44,
+      "target": "tr:nth-of-type(3) > td > .woocommerce-Price-amount.amount",
+      "value": "{{taxPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 45,
+      "target": "tr:nth-of-type(5) > td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 46,
+      "target": "tr.order.woocommerce-orders-table__row:nth-of-type(1) > td.subscription-total.order-total.woocommerce-orders-table__cell.woocommerce-orders-table__cell-subscription-total.woocommerce-orders-table__cell-order-total > .woocommerce-Price-amount.amount",
+      "value": "{{recurringTotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 47,
+      "target": "tr:nth-child(2).order.woocommerce-orders-table__row.woocommerce-orders-table__row--status-active td.subscription-id",
+      "value": "",
+      "variableName": "subscriptionID2"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 48,
+      "target": "",
+      "value": "let subscriptionID = \"{{subscriptionID2}}\"\nreturn subscriptionID.replace(\"#\",\"\")",
+      "variableName": "subscriptionID2"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 49,
+      "target": "tr.order.woocommerce-orders-table__row:nth-of-type(2) > td.subscription-total.order-total.woocommerce-orders-table__cell.woocommerce-orders-table__cell-subscription-total.woocommerce-orders-table__cell-order-total > .woocommerce-Price-amount.amount",
+      "value": "{{recurringTotal2}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "const CCrew = '{{CCrew}}'\n\nreturn CCrew === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 50,
+      "target": "tr.order.woocommerce-orders-table__row:nth-of-type(2) > td.subscription-next-payment.order-date.woocommerce-orders-table__cell.woocommerce-orders-table__cell-subscription-next-payment.woocommerce-orders-table__cell-order-date",
+      "value": "",
+      "variableName": "{{nextPayment2}}"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69134b99638b729792cc9e82",
+    "suiteId": "63a1c5229034282736afc2e8",
+    "suiteName": "Talkbox - Common steps"
+  }
+}

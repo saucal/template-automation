@@ -1,0 +1,134 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "06 - Cart page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "2",
+      "variableName": "qty"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "6823569eab4ff4354d16fec7",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "input[name=\"quantity\"]",
+      "value": "{{qty}}"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": "//button[contains(text(), \"Add to cart\")]"
+        },
+        {
+          "selector": "button[name=\"add-to-cart\"]"
+        }
+      ]
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": ".woocommerce-message",
+      "value": "{{qty}} × „{{prod_desc}}“ wurden deinem Warenkorb hinzugefügt.",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "a.fkcart-item-title",
+      "value": "{{prod_desc}}"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "let unitPrice = parseFloat('{{unitPrice}}'.replace('{{Symbol}}','').replace('.','').replace(',','.').trim())\nlet qty = {{qty}}\nlet subtotal = (unitPrice * qty).toFixed(2)\n\nlet formattedSubtotal = `€ ${parseFloat(subtotal).toLocaleString('de-DE', { \n  minimumFractionDigits: 2, \n  maximumFractionDigits: 2 \n})}`.replace('.', '#').replace(',', ',').replace('#', '.');\n\nreturn formattedSubtotal",
+      "variableName": "subtotal"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "div.fkcart-item-price > ins > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "div.fkcart-item-price > .woocommerce-Price-amount.amount"
+        }
+      ],
+      "value": "{{subtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "div.fkcart-summary-amount > strong > .woocommerce-Price-amount.amount",
+      "value": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68239b22ab4ff4354d2473eb",
+    "suiteId": "682351aaab4ff4354d15c22a",
+    "suiteName": "Biogeta - Basic WooCommerce tests"
+  }
+}

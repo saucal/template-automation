@@ -1,0 +1,116 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "03 - Product Page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "63c713e9af1e488d253a2c81",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "Navigate to bike shop section",
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "//li[@id=\"menu-item-88068\"]/a",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "",
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "a[href*=\"/product/roadster-v2/\"] > img.attachment-medium_large.size-medium_large",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "form.needsclick",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "h1.product_title",
+      "value": "",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": ".summary > .price > ins > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": ".summary > .price > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "//*[@id=\"product-57143\"]/div[1]/div/div/div/div[3]/form/div[2]/div[1]/div[3]/span/span/bdi"
+        }
+      ],
+      "value": "",
+      "variableName": "unitPrice"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "63c713e9af1e488d253a2c82",
+    "suiteId": "63c713e9af1e488d253a2c68",
+    "suiteName": "Ride1Up - Basic WooCommerce Test"
+  }
+}

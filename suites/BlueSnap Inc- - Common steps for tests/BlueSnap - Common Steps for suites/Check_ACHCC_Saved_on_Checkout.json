@@ -1,0 +1,83 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Check ACH/CC Saved on Checkout",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nconst element = document.querySelector('form.checkout.woocommerce-checkout')\n \nreturn payment !== \"ach\" && element !== null && element !== undefined"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": ".woocommerce-SavedPaymentMethods-token > label",
+      "value": "{{CCName}} ending in {{fourDigits}} (expires {{month}}/{{year}})",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nconst element = document.querySelector('form.checkout.woocommerce-checkout')\nreturn payment === \"ach\" && element !== null && element !== undefined"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": ".woocommerce-SavedPaymentMethods-token > label",
+      "value": "ACH/ECP with public account number 44556",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nconst element = document.querySelector('.wc-block-components-form.wc-block-checkout__form')\n \nreturn payment !== \"ach\" && element !== null && element !== undefined"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "span[id*='radio-control-wc-payment-method-saved-tokens']",
+      "value": "{{CCName}} ending in {{fourDigits}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const payment = \"{{payment}}\"\nconst element = document.querySelector('.wc-block-components-form.wc-block-checkout__form')\n\n\nreturn  payment === \"ach\" \n        && \n        element !== null \n        && \n        element !== undefined"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "span[id*='radio-control-wc-payment-method-saved-tokens']",
+      "value": "Consumer Checking Account ending in 44556",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "60d0bc83fd5d095fc942518b",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

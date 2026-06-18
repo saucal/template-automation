@@ -1,0 +1,256 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "19 - Session page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "68caa38a189a381f8efcb5b3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "#os-open-menu",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#primary-menu > li.menu-item.menu-item-type-post_type.menu-item-object-page:nth-of-type(3) > a[href*=\"/events/\"]",
+      "value": ""
+    },
+    {
+      "command": "pause",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "10000",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let elements = document.querySelectorAll('div.os-calendar-event-item:not(.os-calendar-event-item-past):not(.os-calendar-event-item-pro) > div > div > a');\nreturn elements.length === 0"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "a:nth-of-type(2).os-event-navigation-link",
+      "value": ""
+    },
+    {
+      "command": "pause",
+      "condition": {
+        "statement": "let elements = document.querySelectorAll('div.os-calendar-event-item:not(.os-calendar-event-item-past):not(.os-calendar-event-item-pro) > div > div > a');\nreturn elements.length === 0"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "10000",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let elements = document.querySelectorAll('div.os-calendar-event-item:not(.os-calendar-event-item-past):not(.os-calendar-event-item-pro) > div > div > a');\nreturn elements.length === 0"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "a:nth-of-type(2).os-event-navigation-link",
+      "value": ""
+    },
+    {
+      "command": "pause",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "10000",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let elements = document.querySelectorAll('div.os-calendar-event-item:not(.os-calendar-event-item-past):not(.os-calendar-event-item-pro) > div > div > a');\nreturn elements.length >= 1"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "div.os-calendar-event-item:not(.os-calendar-event-item-past):not(.os-calendar-event-item-pro) > div > div > a"
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "return window.location.href.includes('{{startUrl}}os-sessions/')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": ".os-single-event__join"
+        },
+        {
+          "selector": ".os-event-join-event"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "return window.location.href.includes('{{startUrl}}os-sessions/')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "a[href*=\"/pro-old/\"].button",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "return window.location.href.includes('{{startUrl}}os-sessions/')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "a[href*=\"/pro-old/\"].button",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "span.os-event-timer",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": {
+        "statement": "return window.location.href.includes('{{startUrl}}os-sessions/')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "a.os-event-join-event",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return window.location.href.includes('{{startUrl}}os-sessions/')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "div.os-sessions-back-link > a",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "div.os-calendar-event-item.os-calendar-event-item-pro:not(.os-calendar-event-item-past) > div > div > a",
+      "value": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": ".os-single-event__joindesc",
+      "value": "You need to be an Open Studio Pro member to attend this session.\nJoin now",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "a[href*=\"pro\"].button",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "a[href*=\"pro\"].button",
+      "value": "Join now",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "663cbc7289e87fd839fddf06",
+    "suiteId": "663a65cd1aac3ea14fc69327",
+    "suiteName": "Open Studio - Basic WooCommerce Tests - Member"
+  }
+}

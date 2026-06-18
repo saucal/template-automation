@@ -1,0 +1,140 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "05 - Simple Subscription Product Page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "646b8d2a33135384bb052b2f",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project !== \"Phlearn\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "li.product-type-subscription > a[href*=\"/product/\"] > img",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project === \"Phlearn\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "a[href=\"#subscriptions-link\"][title=\"Join PHLEARN PRO\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project !== \"Phlearn\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "h1.product_title",
+      "value": "",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project !== \"Phlearn\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "let desc = \"{{prod_desc}}\"\ndesc = desc.replace(\"–\",\"-\")\nreturn desc",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project !== \"Phlearn\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "div.summary > p.price > ins > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "div.summary > p.price > .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let project = \"{{project}}\"\nreturn project !== \"Phlearn\"",
+        "result": false
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 7,
+      "target": "div.summary .subscription-details > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "SignUpFee"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "646e091233135384bb9bf24c",
+    "suiteId": "646b8d2a33135384bb052b1c",
+    "suiteName": "Template WooCommerce Tests"
+  }
+}

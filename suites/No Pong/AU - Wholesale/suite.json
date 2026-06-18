@@ -1,0 +1,171 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "67c09520c4c19f03ef9d2168",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome-128",
+    "dataSource": null,
+    "dateCreated": "2025-02-27T16:38:56.529Z",
+    "details": "Basic WooCommerce Test",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "6022b367262f437a9af8c1f8",
+    "globalStepDelay": 250,
+    "httpAuthPassword": "vWz6l9aMyAEaoGqEaE0x",
+    "httpAuthUsername": "stg-nopong-au",
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "AU - Wholesale",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "ap-southeast-2",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.2,
+    "startUrl": "https://no-pong-au-develop.go-vip.net/",
+    "testCount": 2,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2480"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2481"
+      },
+      {
+        "name": "phone",
+        "value": "3059689789",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2489"
+      },
+      {
+        "name": "street3",
+        "value": "123 False Shipping",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a248b"
+      },
+      {
+        "name": "countryComplete",
+        "value": "Australia",
+        "private": false,
+        "_id": "602414f0d2fb38677e6c3132"
+      },
+      {
+        "name": "Symbol",
+        "value": "$",
+        "private": false,
+        "_id": "6283ba4c4b7dbf9dc9ad523b"
+      },
+      {
+        "name": "project",
+        "value": "nopong",
+        "private": false,
+        "_id": "6283c2aea0299821fc374da3"
+      },
+      {
+        "name": "country",
+        "value": "AU",
+        "private": false,
+        "_id": "6283c2aea0299821fc374da4"
+      },
+      {
+        "name": "state",
+        "value": "NSW",
+        "private": false,
+        "_id": "6283c2aea0299821fc374da5"
+      },
+      {
+        "name": "password",
+        "value": "fric2171Biot",
+        "private": true,
+        "_id": "6284e7704b7dbf9dc9f9fa9c"
+      },
+      {
+        "name": "password2",
+        "value": "fric2172Biot",
+        "private": true,
+        "_id": "6284e7704b7dbf9dc9f9fa9d"
+      },
+      {
+        "name": "currency",
+        "value": "AUD",
+        "private": false,
+        "_id": "639ca68d903428273607fa45"
+      },
+      {
+        "name": "lastName2",
+        "value": "{{alphanumeric}} Shipping",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2482"
+      },
+      {
+        "name": "company",
+        "value": "Saucal Test",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2483"
+      },
+      {
+        "name": "company2",
+        "value": "Saucal Shipping",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2484"
+      },
+      {
+        "name": "street",
+        "value": "123 False Street",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2485"
+      },
+      {
+        "name": "city",
+        "value": "Sydney",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2486"
+      },
+      {
+        "name": "stateComplete",
+        "value": "New South Wales",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2487"
+      },
+      {
+        "name": "zipCode",
+        "value": "2000",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2488"
+      },
+      {
+        "name": "adminUser",
+        "value": "giAdmin",
+        "private": false,
+        "_id": "67c9a60cc4c19f03ef06bbbc"
+      },
+      {
+        "name": "adminPass",
+        "value": "fric2171Biot",
+        "private": true,
+        "_id": "67c9a60cc4c19f03ef06bbbd"
+      }
+    ],
+    "viewportSize": {
+      "width": 1920,
+      "height": 1080
+    }
+  }
+}

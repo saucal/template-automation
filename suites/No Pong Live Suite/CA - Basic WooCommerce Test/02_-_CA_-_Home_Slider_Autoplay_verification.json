@@ -1,0 +1,135 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.1",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": 750,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "02 - CA - Home Slider Autoplay verification",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "img.custom-logo",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": ".entry-content > h2.has-text-align-center.has-text-color.wp-block-heading",
+      "value": "you are our Heroes",
+      "variableName": ""
+    },
+    {
+      "command": "screenshot",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "#tns2-mw",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let width = window.innerWidth\nreturn width > 767"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "const el = document.querySelectorAll(\"div#tns2-mw div.tns-item.tns-slide-active\");\nlet elId= [el[0].id,el[1].id,el[2].id];\n\nreturn elId\n",
+      "variableName": "elId"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let width = window.innerWidth\nreturn width <= 767"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "const el = document.querySelectorAll(\"div#tns2-mw div.tns-item.tns-slide-active\");\nlet elId= [el[0].id];\n\nreturn elId\n",
+      "variableName": "elId"
+    },
+    {
+      "command": "pause",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "12000",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let width = window.innerWidth\nreturn width > 767"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "const el2 = document.querySelectorAll(\"div#tns2-mw div.tns-item.tns-slide-active\");\nlet elId2 = [el2[0].id,el2[1].id,el2[2].id]\n\nconst elId = {{elId}}\nreturn(elId != elId2)\n",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let width = window.innerWidth\nreturn width <= 767"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "const el2 = document.querySelectorAll(\"div#tns2-mw div.tns-item.tns-slide-active\");\nlet elId2 = [el2[0].id]\n\nconst elId = {{elId}}\nreturn(elId != elId2)\n",
+      "variableName": ""
+    },
+    {
+      "command": "screenshot",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "#tns2-mw",
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "67d4024f5de1405286832c72",
+    "suiteId": "67d4024f5de1405286832c5a",
+    "suiteName": "CA - Basic WooCommerce Test"
+  }
+}

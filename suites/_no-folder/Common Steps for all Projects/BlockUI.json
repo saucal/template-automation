@@ -1,0 +1,45 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "BlockUI",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "return new Promise((resolve) => {\n  const checkExistence = setInterval(() => {\n    let blockElements = [];\n    let frame = document.querySelector('iframe.phlearn-iframe.checkout, iframe#wcp-checkout-iframe');\n\n    if (frame !== null) {\n      try {\n        let iframeDocument = frame.contentWindow?.document || frame.contentDocument;\n        blockElements = iframeDocument?.querySelectorAll('.blockUI, .wc-blocks-components-button--loading, .wc-block-components-spinner, .wc-block-components-checkout-place-order-button--loading') || [];\n      } catch (error) {\n        console.warn('Cross-origin iframe detected, skipping iframe check.');\n      }\n    } else {\n      blockElements = document.querySelectorAll('.blockUI, .wc-blocks-components-button--loading, .wc-block-components-spinner, .wc-block-components-checkout-place-order-button--loading');\n    }\n\n    if (blockElements.length === 0) {\n      clearInterval(checkExistence);\n      console.log(\"✅ BlockUi unblocked!\");\n      resolve(true);\n    } else {\n      console.log(\"⏳ Waiting for  blockUI to unblock...\");\n    }\n  }, 2000);\n})",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6022b74a262f437a9af8d9a3",
+    "suiteId": "6022b879262f437a9af8ddf9",
+    "suiteName": "Common Steps for all Projects"
+  }
+}

@@ -1,0 +1,283 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "10 - Variable product place order ",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "qa+gi_order_{{alphanumeric}}@saucal.com",
+      "variableName": "email"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "2",
+      "variableName": "qty"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "variable",
+      "variableName": "product"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "685ac1c615b3a115491e05dd",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "deleting div classes due to failure - previous locator:\n#sample-kits > div > div.wp-block-group.leggari-blocks__products-list__content.is-layout-flow.wp-block-group-is-layout-flow > div > div > ul > li:nth-child(5) > a",
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": "#sample-kits > div > div > div > div > ul > li:nth-child(6) > a"
+        },
+        {
+          "selector": "#sample-kits > div > div.wp-block-group.leggari-blocks__products-list__content > div > div > ul > li:nth-child(1) a"
+        }
+      ],
+      "value": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "h1.product_title"
+        },
+        {
+          "selector": "h3.product_title"
+        }
+      ],
+      "value": "",
+      "variableName": "prodDesc"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "#base"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "#base",
+      "value": "Sky Blue"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "Sky Blue",
+      "variableName": "base"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "#highlight"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "#highlight",
+      "value": "Gold"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "Gold",
+      "variableName": "highlight"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": [
+        {
+          "selector": "div.summary > p.price > ins > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "div.summary > p.price > .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "input[name=\"quantity\"]",
+      "value": "{{qty}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "",
+      "value": "let unitPrice = \"{{unitPrice}}\"\nunitPrice = unitPrice.replace(\"{{Symbol}}\",\"\").trim();\nlet qty = {{qty}}\nlet subtotal = unitPrice * qty\nreturn \"{{Symbol}}\"+(Math.round(subtotal*100)/100).toFixed(2)",
+      "variableName": "subtotalPrice"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "button[type=\"submit\"].single_add_to_cart_button"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "#cart-drawer > div.drawer-inner > div.drawer-content.woocommerce.widget_shopping_cart > div > div > ul > li > a:nth-child(2)",
+      "value": "{{prodDesc}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "#cart-drawer > div.drawer-inner > div.drawer-content.woocommerce.widget_shopping_cart > div > div > p.woocommerce-mini-cart__total.total > span > bdi",
+      "value": "{{subtotalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"Checkout\")]"
+        },
+        {
+          "selector": "a[href*=\"/checkout/\"]"
+        }
+      ]
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "",
+      "value": "61effe223e617932e957b5be",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "",
+      "value": "654a9a904ee1df25e03d3f56",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "",
+      "value": "654aabdd4ee1df25e0401864",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "",
+      "value": "646e10fecc654ac751c5bb79",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "685c69f215b3a115497af401",
+    "suiteId": "685c69f215b3a115497af3e4",
+    "suiteName": "Leggari New - Place order Variable product"
+  }
+}

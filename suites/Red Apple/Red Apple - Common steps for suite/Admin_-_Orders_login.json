@@ -1,0 +1,86 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Admin - Orders login",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "https://b55bbf98-2935-4d85-980f-44080a73c7c1.cc12.conves.io/wp-admin/edit.php?post_type=shop_order",
+  "steps": [
+    {
+      "command": "open",
+      "condition": null,
+      "notes": "",
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "https://b55bbf98-2935-4d85-980f-44080a73c7c1.cc12.conves.io/wp-admin/edit.php?post_type=shop_order",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "#user_login",
+      "value": "{{adminUser}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": true,
+      "sequence": 2,
+      "target": "#user_pass",
+      "value": "{{adminPass}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#wp-submit",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let adminHeader = document.querySelector('h1.admin-email__heading');\nreturnadminHeader.checkVisibility();"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "div.admin-email__actions-secondary > a",
+      "value": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "665f631d1aac3ea14fff318e",
+    "suiteId": "665f62ed1aac3ea14fff2db8",
+    "suiteName": "Red Apple - Common steps for suite"
+  }
+}

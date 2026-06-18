@@ -1,0 +1,100 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "6.1.0",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Fill checkout",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "iframe[src=\"{{startUrl}}checkout/?iframe_checkout=1\"] #billing_first_name",
+      "value": "{{firstName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "#billing_postcode"
+        },
+        {
+          "selector": "iframe[src=\"{{startUrl}}checkout/?iframe_checkout=1\"] #billing_postcode"
+        },
+        {
+          "selector": "iframe#wcp-checkout-iframe #billing_postcode"
+        }
+      ],
+      "value": "{{zipCode}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "iframe[src=\"{{startUrl}}checkout/?iframe_checkout=1\"] #billing-description > .billing_subtitle > .subscription-price > .woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "total"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "const findCheckoutIframe = () => {\n  return document.querySelector('iframe[src*=\"phamily-develop.go-vip.net/checkout/\"][src*=\"iframe_checkout=1\"]')\n    || document.querySelector('iframe.phlearn-iframe.checkout');\n};\n\nconst frame = findCheckoutIframe();\nif (frame) {\n  console.log('Found immediately!', frame);\n} else {\n  // Wait until it appears with the correct src\n  const checker = setInterval(() => {\n    const iframe = findCheckoutIframe();\n    if (iframe && iframe.src.includes('iframe_checkout=1')) {\n      clearInterval(checker);\n      console.log('Iframe ready!', iframe);\n      // Your code here\n    }\n  }, 100);\n}\nlet discountElement;\n\nif (frame !== null) {\n      try {\n        let iframeDocument = frame.contentWindow?.document || frame.contentDocument;\n        discountElement = iframeDocument?.querySelector('#billing-description > span > span.woocommerce-Price-amount.amount');\n      } catch (error) {\n        console.warn('Cross-origin iframe detected, skipping iframe check.');\n      }\n}\nreturn !discountElement === false\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "iframe[src=\"{{startUrl}}checkout/?iframe_checkout=1\"] #billing-description > span > span.woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "discount"
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "notes": "",
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "let unitPrice = \"{{unitPrice}}\";\nlet discount = \"{{discount}}\"\nif (discount === \"\"){\n    discount = \"0.00\";\n};\nlet total = \"{{total}}\";\n\nunitPrice = unitPrice.replace(\",\",\"\").trim();\ndiscount = discount.replace(\",\",\"\").trim();\ntotal = total.replace(\",\",\"\").trim();\n\nunitPrice = Number(unitPrice.replace(\"{{Symbol}}\",\"\"));\ndiscount = Number(discount.replace(\"{{Symbol}}\",\"\"));\ntotal = Number(total.replace(\"{{Symbol}}\",\"\"));\n\nlet total2 = unitPrice-discount;\n\ntotal2 = Number(total2.toFixed(2));\n\n\nreturn total === total2",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6929f9960e1e837d8cb14233",
+    "suiteId": "60364397fa81e86a7164a7a0",
+    "suiteName": "Phlearn - Common steps for project"
+  }
+}

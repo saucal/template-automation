@@ -1,0 +1,48 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "684186006fbaa32660f3adc9",
+    "abortOnTestFailure": false,
+    "autoRetry": true,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2025-06-05T11:56:48.277Z",
+    "details": "",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "684185c4c637c9246eb26ee0",
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 0,
+    "maxWaitDelay": 15000,
+    "name": "Pumpkins Pool Tests",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": false,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://pumpkinspool.mystagingwebsite.com/",
+    "testCount": 8,
+    "testFrequency": 0,
+    "viewportSize": [
+      {
+        "width": 480,
+        "height": 853
+      },
+      {
+        "width": 1920,
+        "height": 1080
+      }
+    ],
+    "testFrequencyAdvanced": [],
+    "variables": []
+  }
+}

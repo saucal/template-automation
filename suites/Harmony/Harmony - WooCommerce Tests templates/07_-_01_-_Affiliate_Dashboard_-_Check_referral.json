@@ -1,0 +1,167 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "07 - 01 - Affiliate Dashboard - Check referral",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "no",
+      "variableName": "admin"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "{{affiliateEmail}}",
+      "variableName": "username"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "{{password}}",
+      "variableName": "pass"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "68e52f51798cc060531823bb",
+      "variableName": ""
+    },
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "{{site}}affiliate-area/",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "li:nth-of-type(3) > a[href*=\"stats\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let staging = \"{{stagingMode}}\"\nreturn staging.includes(\"staging\")"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "td[data-th=\"Unpaid Referrals\"]",
+      "value": "1",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let staging = \"{{stagingMode}}\"\nreturn false === staging.includes(\"staging\")"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "td[data-th=\"Unpaid Referrals\"]",
+      "value": "1",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let staging = \"{{stagingMode}}\"\nreturn staging.includes(\"staging\")"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "let referral1 = {{referral1USD}};\n\nlet totalReferral = Math.round((referral1)*100)/100\nreturn Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD'}).format(totalReferral)\n\n",
+      "variableName": "totalReferral"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let staging = \"{{stagingMode}}\"\nreturn false === staging.includes(\"staging\")"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "let referral1 = {{referral1USD}};\n\nlet totalReferral = Math.round((referral1)*100)/100\nreturn Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD'}).format(totalReferral)\n",
+      "variableName": "totalReferral"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let staging = \"{{stagingMode}}\"\nreturn staging.includes(\"staging\")"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "td[data-th=\"Unpaid Earnings\"]",
+      "value": "{{totalReferral}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let staging = \"{{stagingMode}}\"\nreturn false === staging.includes(\"staging\")"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "td[data-th=\"Unpaid Earnings\"]",
+      "value": "{{totalReferral}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68ee4c90a5c7995601dc9731",
+    "suiteId": "68ee4c90a5c7995601dc9707",
+    "suiteName": "Harmony - WooCommerce Tests templates"
+  }
+}

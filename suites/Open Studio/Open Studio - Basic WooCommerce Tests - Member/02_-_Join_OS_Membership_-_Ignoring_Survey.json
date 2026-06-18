@@ -1,0 +1,521 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "02 - Join OS Membership - Ignoring Survey",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "qa+gi_order_{{alphanumeric}}@saucal.com",
+      "variableName": "email1"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "a[href*=\"/join\"].button.header-button"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "let days = document.querySelector('span.kt-svg-icon-list-text')\ndays = days.innerText\ndays = days.match(/\\d+/g)\n\nreturn days[0]",
+      "variableName": "trial"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#tab-monthly > a",
+      "value": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "let freq = document.querySelector(\"#tab-monthly > a > span\")\nreturn freq.innerText",
+      "variableName": "freq"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "let priceold = document.querySelector('.wp-block-kadence-advancedheading.has-theme-palette-3-color > em')\nlet price = document.querySelector(\"#post-869418 > div > div > div.kb-row-layout-wrap.kb-row-layout-id869418_af3918-fb.alignfull.kb-v-sm-hidden.kt-row-has-bg.wp-block-kadence-rowlayout > div > div > div > div > div > div > div.wp-block-kadence-tab.kt-tab-inner-content.kt-inner-tab-1.kt-inner-tabbcdbad-58 > div > div > div > div.wp-block-kadence-column.kadence-column869418_b2aafb-e4 > div > div > div > div.wp-block-kadence-column.kadence-column869418_bf8826-ef.kb-section-dir-horizontal > div > h3\")\nprice = price.innerText\nprice = price.match(/\\$\\d+/g)\n\nreturn price[0]",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "a[href*=\"/checkout/?add-to-cart=16&quantity=1\"]"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "var today = new Date();\nvar options = { timeZone: \"America/Chicago\" };\n\n// Convert the current date to 'America/Chicago' timezone\nvar todayInChicago = new Date(\n  new Intl.DateTimeFormat('en-US', options).format(today)\n);\n\n// Add 14 days to today's date\nvar futureDate = new Date(todayInChicago);\nfutureDate.setDate(futureDate.getDate() + {{trial}});\n\n// Define month names array\nvar monthNames = [\"January\", \"February\", \"March\", \"April\", \"May\", \"June\",\n  \"July\", \"August\", \"September\", \"October\", \"November\", \"December\"];\n\n// Format the date as \"Month Day, Year\"\nvar formattedDate = monthNames[futureDate.getMonth()] + \" \" + futureDate.getDate() + \", \" + futureDate.getFullYear();\n\n\nreturn formattedDate",
+      "variableName": "nextPayment"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "#order_review > div.os-checkout-order-review > table > tbody > tr > td.product-total > span > span.woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}.00",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "#order_review > div.os-checkout-order-review > table > tbody > tr > td.product-total > span > span.woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "totalPrice"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": "#order_review > div.os-checkout-order-review > table > tbody > tr > td.product-total > span.subscription-details"
+        },
+        {
+          "selector": "#order_review > div.os-checkout-order-review > table > tbody > tr > td.product-total > span > span.subscription-details"
+        }
+      ],
+      "value": "/ month with a {{trial}}-day free trial"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "td.product-name",
+      "value": "Open Studio - {{freq}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "#order_review > div.os-checkout-order-review > table > tfoot > tr:nth-child(2) > td > strong > span > bdi",
+      "value": "$0.00",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "#order_review > div.os-checkout-order-review > table > tfoot > tr.order-total.recurring-total > td",
+      "value": "{{totalPrice}}\n/ month\nNext renewal:{{nextPayment}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "input[checked='checked']#os-sub-variant-16",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "input#os-sub-variant-17[checked=\"checked\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "#billing_email",
+      "value": "{{email1}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": true,
+      "sequence": 17,
+      "target": "#account_password",
+      "value": "{{password}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "#billing_first_name",
+      "value": "{{firstName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "#billing_last_name",
+      "value": "{{lastName}}",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "",
+      "value": "693057d7638b729792060e14",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "",
+      "value": "62753765c5f501e7105625b8",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": ".order > strong",
+      "value": "",
+      "variableName": "orderNumber"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": ".email > strong",
+      "value": "{{email1}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "strong > .woocommerce-Price-amount.amount > bdi",
+      "value": "$0.00",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": ".kt-inside-inner-col",
+      "value": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "input[type=\"submit\"].button",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "a[href*=\"/dashboard/?skip-survey=1\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "div:nth-of-type(1) > .os-survey__tooltip",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": "div:nth-of-type(2) > .os-survey__tooltip",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": "div:nth-of-type(3) > .os-survey__tooltip",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": "div:nth-of-type(4) > .os-survey__tooltip",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": "a[href*=\"/product/open-studio/?attribute_frequency={{freq}}\"]",
+      "value": "Open Studio - {{freq}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 36,
+      "target": "li > p",
+      "value": "{{freq}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 37,
+      "target": "td.woocommerce-table__product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "$0.00",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 38,
+      "target": "tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount",
+      "value": "$0.00",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 39,
+      "target": "tr:nth-of-type(2) > td > .woocommerce-Price-amount.amount",
+      "value": "$0.00",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 40,
+      "target": "td.subscription-id > a[href*=\"/my-account/view-subscription/\"]",
+      "value": "",
+      "variableName": "subID"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 41,
+      "target": "",
+      "value": "let subID = \"{{subID}}\"\nsubID = subID.match(/[0-9]+/g)\nreturn subID[0]",
+      "variableName": "subID"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 42,
+      "target": "td.subscription-status",
+      "value": "Active"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 43,
+      "target": "td.subscription-next-payment",
+      "value": "{{nextPayment}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 44,
+      "target": "td.subscription-total",
+      "value": "{{unitPrice}}.00 / month",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 45,
+      "target": ".woocommerce-customer-details > address",
+      "value": "{{firstName}} {{lastName}}\n\n{{email1}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 46,
+      "target": "a[href=\"{{startUrl}}dashboard/\"]"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 47,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 48,
+      "target": "",
+      "value": "let url = window.location.href\n\nreturn url === \"{{startUrl}}dashboard/\"",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "663ba6b389e87fd839da66c8",
+    "suiteId": "663a65cd1aac3ea14fc69327",
+    "suiteName": "Open Studio - Basic WooCommerce Tests - Member"
+  }
+}

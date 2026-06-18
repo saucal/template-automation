@@ -1,0 +1,1200 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.1",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "21 - AU - Subscription test",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": "ap-southeast-2",
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "ul > li.menu-item.menu-item-type-post_type.menu-item-object-page > a[href*=\"/monthly-club/\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "eval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "return new Promise((resolve, reject) => {\n    (document.readyState) || reject(\"Can't resolve document readystate\");\n    let listener;\n    (/^c/).test(document.readyState) ? resolve(true) : document.addEventListener(\"load\", listener = event => {\n      document.removeEventListener(\"load\", listener);\n      resolve(true);\n    });\n})",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "qa+gi_subs_{{alphanumeric}}@saucal.com",
+      "variableName": "email"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "2",
+      "variableName": "qty"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "{{email}}",
+      "variableName": "username"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": true,
+      "sequence": 5,
+      "target": "",
+      "value": "fric2171Biot",
+      "variableName": "password"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "li:nth-child(1) > div.wc-block-grid__product-price.price > span.woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "productPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "li:nth-of-type(1) > .price > span .woocommerce-Price-amount",
+      "value": "",
+      "variableName": "fee"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "a[href*=\"?add-to-cart=1270\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const siteTitle = document.title;\nif (siteTitle != \"Cart • No Pong\"){\n    return true;\n}"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "#masthead > div ul > li > a",
+      "value": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "h1.entry-title > em",
+      "value": "Cart",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "input[aria-label=\"Product quantity\"]",
+      "value": "{{qty}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "td.product-name",
+      "value": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "div.woocommerce > form > div.nopong-wc-table-wrapper > table > tbody > tr.woocommerce-cart-form__cart-item.cart_item > td.product-name",
+      "value": "",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "tr:nth-of-type(2) > td > span.woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "discount"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "const price = parseFloat(\"{{productPrice}}\".replace(\"{{Symbol}}\",\"\").replaceAll(\",\",\"\").trim());\nconst discount = parseFloat(\"{{discount}}\".replace(\"{{Symbol}}\",\"\").replaceAll(\",\",\"\").trim());\n\nconst qty = {{qty}};\nlet subProdPrice = (price * qty)-discount\n\n\nreturn '{{Symbol}}'+subProdPrice.toFixed(2)\n ",
+      "variableName": "subProdPrice"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "",
+      "value": "let fee = parseFloat(\"{{fee}}\".replace(\"{{Symbol}}\",\"\").replaceAll(\",\",\"\").trim());\n\nconst qty = {{qty}};\nfee = fee * qty\n\n\nreturn '{{Symbol}}'+fee.toFixed(2)",
+      "variableName": "fee"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "td.product-subtotal > span.subscription-price >span>bdi",
+      "value": "{{subProdPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 18,
+      "target": "td.product-subtotal span.subscription-details > span.woocommerce-Price-amount.amount > bdi",
+      "value": "{{fee}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "",
+      "value": "let price = \"{{subProdPrice}}\"\nlet fee = \"{{fee}}\"\nprice = parseFloat(price.replace(\"$\",\"\"))\nfee = parseFloat(fee.replace(\"$\",\"\"))\nlet subtotal = price+fee\n\nreturn \"$\"+subtotal",
+      "variableName": "subtotal"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "tbody > tr.cart-subtotal:nth-child(1) > td > span.woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "tbody > tr.order-total > td > strong > span.woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "table > tbody > tr.order-total.recurring-total > td > strong > span",
+      "value": "{{subProdPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "a[href*=\"/check-out/\"].checkout-button",
+      "value": "PROCEED TO CHECKOUT",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "a[href*=\"/check-out/\"].checkout-button",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "div:nth-child(1) > table > tfoot > tr.order-total.recurring-total > td > strong > span",
+      "value": "{{subProdPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "#customer_details > div:nth-of-type(1) > div:nth-of-type(1) > h3",
+      "value": "Billing details",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "td.product-name",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "notes": "step added to avoid test failure",
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "",
+      "value": "663b8fe189e87fd839d54282",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "#billing_email",
+      "value": "{{username}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "#billing_first_name",
+      "value": "Test",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": "#billing_last_name",
+      "value": "Subscription",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": "#select2-billing_country-container",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": [
+        {
+          "selector": "xpath=//li[contains(text(), \"Australia\")]"
+        },
+        {
+          "selector": "#select2-billing_country-result-uct4-AU"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": "#billing_address_1",
+      "value": "92 Tapleys Hill Road",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": "#billing_city",
+      "value": "Brahma Lodge",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 37,
+      "target": "#select2-billing_state-container",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 38,
+      "target": [
+        {
+          "selector": "xpath=//li[contains(text(), \"South Australia\")]"
+        },
+        {
+          "selector": "#suggestion_0"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 39,
+      "target": "#billing_postcode",
+      "value": "5109",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 40,
+      "target": "#billing_phone",
+      "value": "+61412345678",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": true,
+      "sequence": 41,
+      "target": "#account_password",
+      "value": "{{password}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 42,
+      "target": "iframe[src*=\"js.stripe.com\"] input[name=\"number\"]",
+      "value": "4242 4242 4242 4242",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 43,
+      "target": "iframe[src*=\"js.stripe.com\"] input[name=\"expiry\"]",
+      "value": "01 / 27",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 44,
+      "target": "iframe[src*=\"js.stripe.com\"] input[name=\"cvc\"]",
+      "value": "123",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 45,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 46,
+      "target": "td.product-total > span.subscription-price >span>bdi",
+      "value": "{{subProdPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 47,
+      "target": "td.product-total > span > span > span.woocommerce-Price-amount.amount",
+      "value": "{{fee}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 48,
+      "target": "div:nth-child(1) > table > tfoot > tr:nth-child(1) > td > span.woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 49,
+      "target": "#shipping_method > li:nth-of-type(1) > label",
+      "value": "",
+      "variableName": "shippingPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 50,
+      "target": "tr.order-total:not(.recurring-total) small.includes_tax > span",
+      "value": "",
+      "variableName": "taxPrice"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 51,
+      "target": "",
+      "value": "const text = \"{{shippingPrice}}\"\r\nif (text.includes(\"Regular\")) {\r\n    return text\r\n} else {\r\n    const regex = /\\$([0-9]+\\.[0-9]{2})/;\r\n    const match = text.match(regex);\r\n    return match[0];\r\n}",
+      "variableName": "shippingPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 52,
+      "target": "div:nth-child(1) > table > tfoot > tr.order-total:not(.recurring-total) > td > strong > span",
+      "value": "",
+      "variableName": "total"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 53,
+      "target": "div:nth-child(1) > table > tfoot > tr.order-total.recurring-total > td > strong > span",
+      "value": "",
+      "variableName": "recurringTotal"
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 54,
+      "target": "",
+      "value": "let unit = \"{{subtotal}}\";\nlet shipping = \"{{shippingPrice}}\";\nlet total = \"{{total}}\";\n\nif (shipping.includes(\"Regular\")){\n    shipping = \"0.00\";\n};\n\nunit = unit.replace(\",\",\"\");\nshipping = shipping.replace(\",\",\"\");\ntotal = total.replace(\",\",\"\");\n\nunit = Number(unit.replace(\"{{Symbol}}\",\"\"));\nshipping = Number(shipping.replace(\"{{Symbol}}\",\"\"));\ntotal = Number(total.replace(\"{{Symbol}}\",\"\"));\n\nlet total2 = unit+shipping;\ntotal2 = Number(total2.toFixed(2));\n\nreturn total === total2",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 55,
+      "target": "",
+      "value": "let unit = \"{{subProdPrice}}\";\nlet shipping = \"{{shippingPrice}}\";\nlet total = \"{{recurringTotal}}\";\n\nif (shipping.includes(\"Regular\")){\n    shipping = \"0.00\";\n};\n\nunit = unit.replace(\",\",\"\");\nshipping = shipping.replace(\",\",\"\");\ntotal = total.replace(\",\",\"\");\n\nunit = Number(unit.replace(\"{{Symbol}}\",\"\"));\nshipping = Number(shipping.replace(\"{{Symbol}}\",\"\"));\ntotal = Number(total.replace(\"{{Symbol}}\",\"\"));\n\nlet total2 = unit+shipping;\ntotal2 = Number(total2.toFixed(2));\n\nreturn total === total2",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 56,
+      "target": "#place_order",
+      "value": "Join the Club",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 57,
+      "target": "#terms",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 58,
+      "target": [
+        {
+          "selector": "xpath=//button[contains(text(), \"Join the Club\")]"
+        },
+        {
+          "selector": "#place_order"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 59,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 60,
+      "target": ".woocommerce-notice",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 61,
+      "target": ".woocommerce-thankyou-order-details > .order",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 62,
+      "target": ".order > strong",
+      "value": "",
+      "variableName": "orderNumber"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 63,
+      "target": "strong > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 64,
+      "target": [
+        {
+          "selector": "a[href*=\"/product/\"]"
+        },
+        {
+          "selector": "td.woocommerce-table__product-name"
+        }
+      ],
+      "value": "{{prod_desc}}"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 65,
+      "target": "td.woocommerce-table__product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 66,
+      "target": "tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount",
+      "value": "{{subtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 67,
+      "target": [
+        {
+          "selector": "tr:nth-of-type(2) > td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "tr:nth-of-type(2) > td"
+        }
+      ],
+      "value": "{{shippingPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 68,
+      "target": "tr:nth-of-type(4) > td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 69,
+      "target": "small.includes_tax > .woocommerce-Price-amount.amount",
+      "value": "{{taxPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 70,
+      "target": "td.subscription-status",
+      "value": "Active"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 71,
+      "target": "td.subscription-total > .woocommerce-Price-amount.amount",
+      "value": "{{recurringTotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 72,
+      "target": ".woocommerce-order-details > h2:nth-of-type(2)",
+      "value": "Related subscriptions",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 73,
+      "target": "",
+      "value": "let order = {{orderNumber}}\nlet subscription = order+1\nreturn subscription",
+      "variableName": "subscriptionId"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 74,
+      "target": [
+        {
+          "selector": "xpath=//a[contains(text(), \"View\")]"
+        },
+        {
+          "selector": "a[href*=\"/ca/my-account/view-subscription/{{subscriptionId}}/\"].woocommerce-button"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 75,
+      "target": "h1.entry-title",
+      "value": "My Account",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 76,
+      "target": "",
+      "value": "const url = window.location.href;\nreturn url;",
+      "variableName": "url"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 77,
+      "target": "",
+      "value": "let b = window.location.pathname\r\n//{{url}}\r\nlet subId = b.split('/').slice(1);\r\nreturn subId[2];\r\n",
+      "variableName": "subscriptionId"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 78,
+      "target": "",
+      "value": "{{startUrl}}wp-admin/post.php?post={{subscriptionId}}&action=edit",
+      "variableName": "adminUrl"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "notes": "-->.woocommerce-MyAccount-navigation-link > a[href*={{url}}]",
+      "optional": true,
+      "private": false,
+      "sequence": 79,
+      "target": "li.woocommerce-MyAccount-navigation-link.woocommerce-MyAccount-navigation-link--subscriptions.is-active > a",
+      "value": "My Subscription",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 80,
+      "target": "tbody > tr:nth-of-type(4) > td:nth-of-type(1)",
+      "value": "Next payment date",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 81,
+      "target": ".woocommerce-MyAccount-content > h2:nth-of-type(1)",
+      "value": "Actions",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 82,
+      "target": "div.nopong-wc-table-wrapper.subscription-actions > table > tbody > tr > td:nth-child(2) > a.button.cancel",
+      "value": "Cancel Subscription",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 83,
+      "target": "div.nopong-wc-table-wrapper.subscription-actions > table > tbody > tr > td:nth-child(2) > a.button.change_schedule",
+      "value": "Change Billing Schedule",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 84,
+      "target": "a[href=\"#\"].button.add_product",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 85,
+      "target": "#npSubsAddProduct",
+      "value": "Add product",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 86,
+      "target": "select[name=\"product_id\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "notes": "244783 -> first value used",
+      "optional": false,
+      "private": false,
+      "sequence": 87,
+      "target": "select[name=\"product_id\"]",
+      "value": "95825",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 88,
+      "target": [
+        {
+          "selector": "xpath=//button[contains(text(), \"Add\")]"
+        },
+        {
+          "selector": "#btn-ok"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 89,
+      "target": "table.shop_table.shop_table_responsive > tbody > tr:nth-of-type(2) > td:nth-of-type(2)",
+      "value": "No Pong Bicarb Free Monthly Club",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 90,
+      "target": "button[name=\"update_temp_subs\"]",
+      "value": "Update totals",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 91,
+      "target": "tr:nth-child(1) > td:nth-child(5) > span.subscription-price > span.woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "prod1"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 92,
+      "target": "tr:nth-child(2) > td:nth-child(5) > span.subscription-price > span.woocommerce-Price-amount.amount",
+      "value": "",
+      "variableName": "prod2"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 93,
+      "target": "button[name=\"save_subs\"]",
+      "value": "Save Subscription",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 94,
+      "target": [
+        {
+          "selector": "xpath=//button[contains(text(), \"Update totals\")]"
+        },
+        {
+          "selector": "button[name=\"update_temp_subs\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 95,
+      "target": [
+        {
+          "selector": "xpath=//button[contains(text(), \"Save Subscription\")]"
+        },
+        {
+          "selector": "button[name=\"save_subs\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 96,
+      "target": [
+        {
+          "selector": ".wc-block-components-notice-banner.is-success"
+        },
+        {
+          "selector": ".woocommerce-message"
+        }
+      ],
+      "value": "SUBSCRIPTION UPDATED SUCCESSFULLY.",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 97,
+      "target": "table.shop_table.order_details tfoot > tr:nth-of-type(1) > td > span",
+      "value": "",
+      "variableName": "newSubtotal"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 98,
+      "target": [
+        {
+          "selector": "table.shop_table.order_details tfoot > tr:nth-of-type(2) > td > span"
+        },
+        {
+          "selector": "table.shop_table.order_details tfoot > tr:nth-of-type(2) > td"
+        }
+      ],
+      "value": "{{shippingPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 99,
+      "target": "table.shop_table.order_details tfoot > tr:nth-of-type(3) > td > span",
+      "value": "",
+      "variableName": "newTotal"
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "notes": "optional known issue",
+      "optional": true,
+      "private": false,
+      "sequence": 100,
+      "target": "",
+      "value": "let price1 = \"{{prod1}}\"\nlet price2 = \"{{prod2}}\"\nlet subtotal = \"{{newSubtotal}}\"\nlet shipping = \"{{shippingPrice}}\"\n\nif (shipping === 'Regular') {\n    shipping = \"0.00\"\n}\nlet total = \"{{newTotal}}\"\n\nprice1 = parseFloat(price1.replace(\"$\",\"\"))\nprice2 = parseFloat(price2.replace(\"$\",\"\"))\nsubtotal = parseFloat(subtotal.replace(\"$\",\"\"))\nshipping = parseFloat(shipping.replace(\"$\",\"\"))\ntotal = parseFloat(total.replace(\"$\",\"\"))\n\nlet subtotal2 = (price1+price2).toFixed(2)\nlet total2 = (price1+price2+shipping).toFixed(2)\n\n\nreturn (total == total2) && (subtotal == subtotal2)\n",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 101,
+      "target": "a.button.cancel",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 102,
+      "target": [
+        {
+          "selector": "xpath=//a[contains(text(), \"Cancel Subscription\")]"
+        },
+        {
+          "selector": "a[href*=\"/my-account/view-subscription/{{subscriptionId}}/?subscription_id=2385762&change_subscription_to=cancelled\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 103,
+      "target": [
+        {
+          "selector": ".wc-block-components-notice-banner.is-success"
+        },
+        {
+          "selector": ".woocommerce-message"
+        }
+      ],
+      "value": "YOUR SUBSCRIPTION HAS BEEN CANCELLED.",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 104,
+      "target": "table.shop_table.subscription_details > tbody > tr:nth-of-type(1) > td:nth-of-type(2)",
+      "value": "Pending Cancellation",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 105,
+      "target": "a[href*=\"/my-account/?resubscribe=\"]",
+      "value": "RESUBSCRIBE",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 106,
+      "target": "td:nth-child(2) > a",
+      "value": "REACTIVATE",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "67c0947fc4c19f03ef9c78a7",
+    "suiteId": "67c0947fc4c19f03ef9c7874",
+    "suiteName": "AU - Subscription Test - Cancel/Reactivate/Change Schedule"
+  }
+}

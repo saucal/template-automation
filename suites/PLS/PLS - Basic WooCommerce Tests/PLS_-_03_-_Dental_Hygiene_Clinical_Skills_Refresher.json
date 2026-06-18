@@ -1,0 +1,243 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "PLS - 03 - Dental Hygiene Clinical Skills Refresher",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "mouseOver",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "li.menu-item.menu-item-type-custom.menu-item-object-custom.menu-item-has-children:nth-of-type(2) > a.menu-link > .menu-text"
+        },
+        {
+          "selector": "li.menu-item.menu-item-type-custom.menu-item-object-custom.menu-item-has-children.menu-item--has-toggle:nth-of-type(2) > a > .nav-drop-title-wrap"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"Dental Hygiene Clinical Skills Refresher\")]"
+        },
+        {
+          "selector": "a[href*=\"/dental-hygiene-clinical-skills-refresher/\"] > .menu-text"
+        },
+        {
+          "selector": "//a[contains(text(), \"Dental Hygiene Clinical Skills Refresher\")]"
+        },
+        {
+          "selector": "a[href*=\"/dental-hygiene-clinical-skills-refresher/\"]"
+        }
+      ]
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": "#form-field-name"
+        },
+        {
+          "selector": "#field116667cfd3a-4b"
+        },
+        {
+          "selector": "input[name=\"field7cfd3a-4b\"]"
+        }
+      ],
+      "value": "{{firstName}} {{lastName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": "div.elementor-field-type-text.elementor-field-group.elementor-column:nth-of-type(2) > input[type=\"text\"].elementor-field.elementor-field-textual"
+        },
+        {
+          "selector": "#field11666de8245-65"
+        },
+        {
+          "selector": "#field119802ecfad-af"
+        }
+      ],
+      "value": "{{yearGraduate}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "div.elementor-field-type-text.elementor-field-group.elementor-column:nth-of-type(3) > input[type=\"text\"].elementor-field.elementor-field-textual"
+        },
+        {
+          "selector": "#field116661348e4-de"
+        },
+        {
+          "selector": "input[name=\"field1348e4-de\"]"
+        }
+      ],
+      "value": "yes",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "#form-field-email"
+        },
+        {
+          "selector": "#field116662ecfad-af"
+        },
+        {
+          "selector": "input[name=\"field2ecfad-af\"]"
+        }
+      ],
+      "value": "{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "#form-field-field_1c7ec3e"
+        },
+        {
+          "selector": "#field11666c5d3c0-3b"
+        },
+        {
+          "selector": "input[name=\"fieldc5d3c0-3b\"]"
+        }
+      ],
+      "value": "{{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "#form-field-field_0e73ef0"
+        },
+        {
+          "selector": "#field1166665035e-f9"
+        },
+        {
+          "selector": "input[name=\"field10b98c-fb\"]"
+        }
+      ],
+      "value": "10am",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "#form-field-message"
+        },
+        {
+          "selector": "#field11980c8da86-bb"
+        },
+        {
+          "selector": "textarea[name=\"fieldc8da86-bb\"]"
+        }
+      ],
+      "value": "{{message}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"Submit\")]"
+        },
+        {
+          "selector": "button[type=\"submit\"] > .elementor-button-content-wrapper > .elementor-button-text"
+        },
+        {
+          "selector": "button > span.kt-btn-inner-text"
+        }
+      ]
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "67b789ec2abcf638e94203df",
+    "suiteId": "67b7870c2abcf638e941971e",
+    "suiteName": "PLS - Basic WooCommerce Tests"
+  }
+}

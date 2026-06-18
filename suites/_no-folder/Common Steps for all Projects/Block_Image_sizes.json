@@ -1,0 +1,45 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Block Image sizes",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "eval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "/* fetch all elements\nconst elems = Array.from(document.querySelectorAll(\"body *\"));\n// loop through elements and set static dimensions\nelems.forEach((elem) => {\n    const style = window.getComputedStyle(elem);\n    elem.style.setProperty(\"height\", style.height, \"important\");\n    elem.style.setProperty(\"max-height\", style.height, \"important\");\n    elem.style.setProperty(\"min-height\", \"0\", \"important\");\n    elem.style.setProperty(\"padding\", style.padding, \"important\");\n    elem.style.setProperty(\"margin\", style.margin, \"important\");\n})*/\n\n// Much faster + safer version\n  // 1. Collect only elements that actually have layout impact\n  const elems = document.querySelectorAll(\n    'body *:not(script):not(style):not(template):not([hidden])'\n  );\n\n  // 2. Two-phase approach → avoids layout thrashing\n  const snapshots = [];\n\n  // Phase 1: read (layout safe)\n  for (const el of elems) {\n    const s = window.getComputedStyle(el);\n    snapshots.push({\n      el,\n      height: s.height,\n      minHeight: s.minHeight,\n      maxHeight: s.maxHeight,\n      // padding/margin usually should NOT be forced inline\n    });\n  }\n\n  // Phase 2: write\n  for (const { el, height, minHeight, maxHeight } of snapshots) {\n    // Only set if it makes sense (avoid breaking flex/grid children too aggressively)\n    if (height !== 'auto' && height !== '0px') {\n      el.style.setProperty('height', height, 'important');\n    }\n\n    // Be more conservative with min/max\n    if (maxHeight !== 'none') {\n      el.style.setProperty('max-height', maxHeight, 'important');\n    }\n    \n    // Usually better NOT to force min-height:0 → breaks many layouts\n    // el.style.setProperty('min-height', '0', 'important');\n\n    // Almost never good to force padding/margin inline\n    // el.style.setProperty('padding', s.padding, 'important');\n    // el.style.setProperty('margin', s.margin, 'important');\n  }\n\n  console.log(`Froze ${snapshots.length} elements`);\n\n\n",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "62974e21a0299821fcec4a32",
+    "suiteId": "6022b879262f437a9af8ddf9",
+    "suiteName": "Common Steps for all Projects"
+  }
+}

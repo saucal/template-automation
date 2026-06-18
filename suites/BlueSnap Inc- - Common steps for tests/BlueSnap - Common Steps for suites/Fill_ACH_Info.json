@@ -1,0 +1,108 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Fill ACH Info",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "#payment_method_bluesnap_ach"
+        },
+        {
+          "selector": "#radio-control-wc-payment-method-options-bluesnap_ach"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "#bluesnap_ach-account-number",
+      "value": "{{accountNumber}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "#bluesnap_ach-routing-number",
+      "value": "{{routingNumber}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test != \"002-011\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#bluesnap_ach-account-type",
+      "value": "consumer-checking",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test === \"002-011\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "#bluesnap_ach-account-type",
+      "value": "corporate-checking",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nreturn test != \"002-012\" && test != \"002-017\" && test != \"002-022\" && test != \"002-012-B\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "#bluesnap_ach-user-consent",
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6213d6e15f85360d3f13d6e4",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

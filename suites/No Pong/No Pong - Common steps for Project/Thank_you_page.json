@@ -1,0 +1,145 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "5.4.1",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": 30000,
+  "name": "Thank you page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": ".woocommerce-notice",
+      "value": "THANK YOU!\n \nYOUR ORDER HAS BEEN RECEIVED.",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": ".email > strong",
+      "value": "{{username}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "li.woocommerce-order-overview__order.order > strong",
+      "value": "",
+      "variableName": "orderNumber"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": ".total > strong > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "li.woocommerce-order-overview__payment-method.method > strong",
+      "value": "{{paymentMethod}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'true'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "a[href*=\"/my-account/view-subscription/\"][aria-label*=\"View subscription number\"]",
+      "value": "",
+      "variableName": "subscriptionNumber"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'true'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": ".woocommerce-order > p:nth-of-type(2)",
+      "value": "View the status of your subscription in your account.",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "return '{{subscription}}' === 'true'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "td.subscription-next-payment",
+      "value": "",
+      "variableName": "nextPay"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "6883993e2c245b961d025eef",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "return '{{subscription}}' !== true"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "const prod_desc = '{{prod_desc}}'.toUpperCase();\n\nreturn prod_desc",
+      "variableName": "prod_desc"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68824297e5d3587e153af240",
+    "suiteId": "6022c8a7262f437a9afa49ca",
+    "suiteName": "No Pong - Common steps for Project"
+  }
+}

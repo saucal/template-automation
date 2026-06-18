@@ -1,0 +1,53 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "06 - Contact Us",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "#top-main-menu a[href*=\"/contact-us/\"].mega-menu-link"
+        },
+        {
+          "selector": "#top-main-menu-mobile a[href*=\"/contact-us/\"].mega-menu-link"
+        },
+        {
+          "selector": "//a[contains(text(),'Contact')]"
+        }
+      ]
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68fe8d495e36fea7308c1709",
+    "suiteId": "68fe82e80c38c58f6ea3984c",
+    "suiteName": "The Sewing M.S. - Basic WooCommerce Tests"
+  }
+}

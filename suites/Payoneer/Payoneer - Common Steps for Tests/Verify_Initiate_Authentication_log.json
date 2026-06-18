@@ -1,0 +1,267 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Verify Initiate Authentication log",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const savedCC = '{{savedCC}}'\nreturn savedCC !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "const logs = {{logs}}\n\nreturn logs[0].content[1]",
+      "variableName": "log"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const savedCC = '{{savedCC}}'\nreturn savedCC === 'yes' "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "const logs = {{logs}}\n\nreturn logs[0].content[2]",
+      "variableName": "log"
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.request.type === 'PUT'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const transaction = '{{transaction}}'\n\nreturn transaction !== 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.request.url === 'https://test-gateway.mastercard.com/api/rest/version/100/merchant/TESTSAUCAL1/order/{{transaction_id}}/transaction/{{transaction_id}}-1'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.request.body.apiOperation === 'INITIATE_AUTHENTICATION'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.request.body.authentication.channel === 'PAYER_BROWSER'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.request.body.session.id === '{{session}}'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.order.currency === 'USD'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "const transaction = '{{transaction}}'\n\nreturn transaction !== 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.order.id === '{{transaction_id}}'",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const transaction = '{{transaction}}'\n\nreturn transaction === 'declined'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.order.id",
+      "variableName": "transaction_id"
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.order.status === 'AUTHENTICATION_INITIATED'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.result === 'SUCCESS'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.sourceOfFunds.provided.card.brand === '{{ShortName}}'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "const log = {{log}}\nlet month = '{{month}}'\nmonth = Number(month)\n\nreturn log.response.body.sourceOfFunds.provided.card.expiry.month === month.toString()\n",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "",
+      "value": "const log = {{log}}\nlet year = '{{year}}'\nyear = Number(year)\n\nreturn log.response.body.sourceOfFunds.provided.card.expiry.year === year.toString()",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.sourceOfFunds.provided.card.number === '{{sixDigits}}xxxxxx{{fourDigits}}'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.sourceOfFunds.provided.card.scheme === '{{ShortName}}'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.sourceOfFunds.type === 'CARD'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "",
+      "value": "const log = {{log}}\nlet total = '{{total}}'\ntotal = total.replace('$','')\ntotal = parseFloat(total)\n\nreturn log.response.body.transaction.amount === 0",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.transaction.currency === 'USD'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.transaction.id === '{{transaction_id}}-1'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "",
+      "value": "const log = {{log}}\n\nreturn log.response.body.transaction.type === 'AUTHENTICATION'",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69778cc365fd97d14e2468d8",
+    "suiteId": "69778cc265fd97d14e24689f",
+    "suiteName": "Payoneer - Common Steps for Tests"
+  }
+}

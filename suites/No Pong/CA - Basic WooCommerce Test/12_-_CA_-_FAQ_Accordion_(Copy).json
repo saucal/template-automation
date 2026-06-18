@@ -1,0 +1,164 @@
+{
+  "autoRetry": null,
+  "browser": "chrome",
+  "browserVersion": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.1",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "12 - CA - FAQ Accordion (Copy)",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "#menu-main-menu > li.menu-item.menu-item-type-post_type.menu-item-object-page:nth-of-type(2) > a[href*=\"/faq/\"]"
+        },
+        {
+          "selector": "li.menu-item a[href*=\"/faq/\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "h1.entry-title",
+      "value": "FREQUENTLY ASKED QUESTIONS",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "div:nth-of-type(1) > .header.has-icon-align-left.has-background.has-brand-pink-background-color.has-text-color.has-white-color > svg",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "div:nth-of-type(1) > div:nth-of-type(2) > p",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "div:nth-of-type(1) > .header.has-icon-align-left.has-background.has-brand-pink-background-color.has-text-color.has-white-color > svg",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "div:nth-of-type(1) > div:nth-of-type(2) > p",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "div:nth-of-type(7) > .header.has-icon-align-left.has-background.has-brand-pink-background-color.has-text-color.has-white-color > div",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "div:nth-of-type(7) > div:nth-of-type(2) > p",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "#post-1161 > div > div.wp-block-nopong-limited-accordion.nopong-limited-accordion--block.has-icon-align-left > div.wp-block-nopong-limited-accordion-item.open > div.nopong-limited-accordion-item--body > figure > div > div > div > div > img",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "div:nth-of-type(7) > .header.has-icon-align-left.has-background.has-brand-pink-background-color.has-text-color.has-white-color > svg",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "div:nth-of-type(7) > div:nth-of-type(2) > p",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "const ele = document.querySelector(\"div.wp-block-nopong-limited-accordion-item > div > svg\");\r\nlet el = ele.getBoundingClientRect();\r\nreturn(el.width == 16);",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "647655c30bf912e078098ead",
+    "suiteId": "602403b6d2fb38677e6b4536",
+    "suiteName": "CA - Basic WooCommerce Test"
+  }
+}

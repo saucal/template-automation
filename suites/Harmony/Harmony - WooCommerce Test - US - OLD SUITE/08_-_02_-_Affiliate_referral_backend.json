@@ -1,0 +1,125 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "08 - 02 - Affiliate referral backend",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": false,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": null,
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "yes",
+      "variableName": "admin"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "{{adminUser}}",
+      "variableName": "username"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": true,
+      "sequence": 2,
+      "target": "",
+      "value": "{{adminPass}}",
+      "variableName": "pass"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "63cfc556af1e488d25d11a75",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "a[href=\"admin.php?page=affiliate-wp\"] > .wp-menu-name",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "a[href=\"admin.php?page=affiliate-wp-referrals\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let staging = \"{{stagingMode}}\"\nreturn staging.includes(\"staging\")",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "let ref1 = document.querySelector(\"a[href*='{{refOrder1}}']\")\nlet ref2 = document.querySelector(\"a[href*='{{refOrder2}}']\")\n\nref1 = ref1.parentElement\nref1 = ref1.previousElementSibling\nref1 = ref1.previousElementSibling\n\nref2 = ref2.parentElement\nref2 = ref2.previousElementSibling\nref2 = ref2.previousElementSibling\n\nreturn ref1.innerText === \"$\"+\"{{referral1USD}}\" && \nref2.innerText === \"$\"+\"{{referral2USD}}\"\n",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let staging = \"{{stagingMode}}\"\nreturn false === staging.includes(\"staging\")",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "let ref1 = document.querySelector(\"a[href*='{{refOrder1}}']\")\nlet ref2 = document.querySelector(\"a[href*='{{refOrder2}}']\")\nlet ref3 = document.querySelector(\"a[href*='{{refOrder3}}']\")\n\nref1 = ref1.parentElement\nref1 = ref1.previousElementSibling\nref1 = ref1.previousElementSibling\n\nref2 = ref2.parentElement\nref2 = ref2.previousElementSibling\nref2 = ref2.previousElementSibling\n\nref3 = ref3.parentElement\nref3 = ref3.previousElementSibling\nref3 = ref3.previousElementSibling\n\n\nreturn ref1.innerText === \"$\"+\"{{referral1USD}}\" && \nref2.innerText === \"$\"+\"{{referral2USD}}\" && \nref3.innerText === \"$\"+\"{{referral3USD}}\"\n",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "644fda95af1e488d25912629",
+    "suiteId": "60cc8f291da0a93062de016e",
+    "suiteName": "Harmony - WooCommerce Test - US - OLD SUITE"
+  }
+}

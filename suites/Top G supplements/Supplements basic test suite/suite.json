@@ -1,0 +1,187 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "675cbbae7a599a5bc8bf3ecf",
+    "abortOnTestFailure": false,
+    "autoRetry": true,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2024-12-13T22:56:46.932Z",
+    "details": "",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "675cbb89e11b42a63d28bb4e",
+    "globalStepDelay": 750,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "Supplements basic test suite",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://98e7a8e6-59c9-4d96-a84b-f05c2cade91e.cc05.conves.io/",
+    "testCount": 7,
+    "testFrequency": 0,
+    "viewportSize": {
+      "width": 1440,
+      "height": 900
+    },
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "firstName",
+        "value": "Testing",
+        "private": false,
+        "_id": "6760650f7a599a5bc802daba"
+      },
+      {
+        "name": "lastName",
+        "value": "Maintenance",
+        "private": false,
+        "_id": "6760650f7a599a5bc802dabb"
+      },
+      {
+        "name": "creditCard",
+        "value": "4111111111111111",
+        "private": false,
+        "_id": "6760650f7a599a5bc802daca"
+      },
+      {
+        "name": "expDate",
+        "value": "0127",
+        "private": false,
+        "_id": "6760650f7a599a5bc802dacb"
+      },
+      {
+        "name": "cvv",
+        "value": "111",
+        "private": false,
+        "_id": "6760650f7a599a5bc802dacc"
+      },
+      {
+        "name": "admin",
+        "value": "callahan@saucal.com",
+        "private": false,
+        "_id": "6764ab3ecce3ff20fb5264ea"
+      },
+      {
+        "name": "adminPass",
+        "value": "##uoBD4LCiyiVG!HIa^pZ$$v",
+        "private": true,
+        "_id": "6764ab3ecce3ff20fb5264eb"
+      },
+      {
+        "name": "company",
+        "value": "Verification Inc.",
+        "private": false,
+        "_id": "6760650f7a599a5bc802dabc"
+      },
+      {
+        "name": "billingCountry",
+        "value": "United States (US)",
+        "private": false,
+        "_id": "6760650f7a599a5bc802dabd"
+      },
+      {
+        "name": "billingCountryShort",
+        "value": "US",
+        "private": false,
+        "_id": "6760650f7a599a5bc802dabe"
+      },
+      {
+        "name": "billingStreet",
+        "value": "20th Ave at Irving St",
+        "private": false,
+        "_id": "6760650f7a599a5bc802dabf"
+      },
+      {
+        "name": "billingCity",
+        "value": "Pasco",
+        "private": false,
+        "_id": "6760650f7a599a5bc802dac0"
+      },
+      {
+        "name": "billingZip",
+        "value": "99301",
+        "private": false,
+        "_id": "6760650f7a599a5bc802dac3"
+      },
+      {
+        "name": "billingState",
+        "value": "Washington",
+        "private": false,
+        "_id": "6760650f7a599a5bc802dac1"
+      },
+      {
+        "name": "billingStateShort",
+        "value": "WA",
+        "private": false,
+        "_id": "6760650f7a599a5bc802dac2"
+      },
+      {
+        "name": "phoneraw",
+        "value": "6107549758",
+        "private": false,
+        "_id": "676d9a7a35aed64d3064a8dc"
+      },
+      {
+        "name": "optionalAddress",
+        "value": "Suite 17",
+        "private": false,
+        "_id": "676089b27a599a5bc8084fa0"
+      },
+      {
+        "name": "phone",
+        "value": "(610) 754-9758",
+        "private": false,
+        "_id": "6760650f7a599a5bc802dac4"
+      },
+      {
+        "name": "shippingStreet",
+        "value": "3959 W Jordan Rd",
+        "private": false,
+        "_id": "6760650f7a599a5bc802dac5"
+      },
+      {
+        "name": "shippingCity",
+        "value": "Weidman",
+        "private": false,
+        "_id": "6760650f7a599a5bc802dac6"
+      },
+      {
+        "name": "shippingState",
+        "value": "Michigan",
+        "private": false,
+        "_id": "6760650f7a599a5bc802dac7"
+      },
+      {
+        "name": "shippingStateShort",
+        "value": "MI",
+        "private": false,
+        "_id": "6760650f7a599a5bc802dac8"
+      },
+      {
+        "name": "shippingZip",
+        "value": "48893",
+        "private": false,
+        "_id": "6760650f7a599a5bc802dac9"
+      },
+      {
+        "name": "userPassword",
+        "value": "holamundo123",
+        "private": true,
+        "_id": "67788a6a04ed5cc20e727de8"
+      }
+    ]
+  }
+}

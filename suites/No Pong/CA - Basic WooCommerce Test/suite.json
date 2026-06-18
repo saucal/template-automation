@@ -1,0 +1,171 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "602403b6d2fb38677e6b4536",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome",
+    "dataSource": null,
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "6022b367262f437a9af8c1f8",
+    "globalStepDelay": 250,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "CA - Basic WooCommerce Test",
+    "persistVariables": false,
+    "publicStatusEnabled": false,
+    "region": "ca-central-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://no-pong-america-develop.go-vip.net/ca/",
+    "testCount": 10,
+    "testFrequency": 0,
+    "viewportSize": {
+      "width": 1366,
+      "height": 768
+    },
+    "dateCreated": "2021-02-10T16:03:02.487Z",
+    "details": "Basic WooCommerce Test",
+    "language": null,
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2480"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2481"
+      },
+      {
+        "name": "currency",
+        "value": "CAD",
+        "private": false,
+        "_id": "639ca69d903428273607fbdf"
+      },
+      {
+        "name": "lastName2",
+        "value": "{{alphanumeric}} Shipping",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2482"
+      },
+      {
+        "name": "company",
+        "value": "Saucal Test",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2483"
+      },
+      {
+        "name": "company2",
+        "value": "Saucal Shipping",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2484"
+      },
+      {
+        "name": "street",
+        "value": "123 False Street",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2485"
+      },
+      {
+        "name": "city",
+        "value": "Ottawa",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2486"
+      },
+      {
+        "name": "stateComplete",
+        "value": "Ontario",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2487"
+      },
+      {
+        "name": "zipCode",
+        "value": "K1S 3V6",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2488"
+      },
+      {
+        "name": "phone",
+        "value": "6139689789",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a2489"
+      },
+      {
+        "name": "earn",
+        "value": "10",
+        "private": false,
+        "_id": "688150162c245b961d5703ca"
+      },
+      {
+        "name": "street3",
+        "value": "123 False Shipping",
+        "private": false,
+        "_id": "6023f8f2d2fb38677e6a248b"
+      },
+      {
+        "name": "Symbol",
+        "value": "$",
+        "private": false,
+        "_id": "6283ba1ea0299821fc33fb43"
+      },
+      {
+        "name": "state",
+        "value": "ON",
+        "private": false,
+        "_id": "6284e38a4b7dbf9dc9f7c7d4"
+      },
+      {
+        "name": "country",
+        "value": "CA",
+        "private": false,
+        "_id": "6284e38a4b7dbf9dc9f7c7d5"
+      },
+      {
+        "name": "countryComplete",
+        "value": "Canada",
+        "private": false,
+        "_id": "6284e38a4b7dbf9dc9f7c7d6"
+      },
+      {
+        "name": "project",
+        "value": "nopong",
+        "private": false,
+        "_id": "6284e38a4b7dbf9dc9f7c7d7"
+      },
+      {
+        "name": "password",
+        "value": "fric2171Biot",
+        "private": true,
+        "_id": "6284e7964b7dbf9dc9fa0b30"
+      },
+      {
+        "name": "password2",
+        "value": "fric2172Biot",
+        "private": true,
+        "_id": "6284e7964b7dbf9dc9fa0b31"
+      },
+      {
+        "name": "includeTax",
+        "value": "false",
+        "private": false,
+        "_id": "688b6faee5d3587e15dfe9a9"
+      }
+    ],
+    "httpAuthPassword": "xmb!ata4gup_qke@KNK",
+    "httpAuthUsername": "stg-nopong-america"
+  }
+}

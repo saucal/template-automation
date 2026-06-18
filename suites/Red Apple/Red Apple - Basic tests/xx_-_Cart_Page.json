@@ -1,0 +1,326 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "xx - Cart Page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "mouseOver",
+      "condition": null,
+      "notes": "mouse over cheeks option",
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "#primary-menu > li:nth-child(3)",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "go to blush for sensitive skin",
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "#primary-menu > li:nth-child(3) > ul > li:nth-child(1) > a",
+      "value": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "div > h1.entry-title",
+      "value": "",
+      "variableName": "productName"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "p >span > bdi",
+      "value": "",
+      "variableName": "productPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "notes": "",
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": ".woobt-wrap > div.woobt-products > div:nth-child(2) > .woobt-title > span > a",
+      "value": "",
+      "variableName": "complementOneName"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": ".woobt-wrap > div.woobt-products > div:nth-child(3) > .woobt-title > span > a",
+      "value": "",
+      "variableName": "complementTwoName"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "#pa_blush-color",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "select blush color gotta glow",
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "#pa_blush-color > option:nth-child(2)",
+      "value": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": ".woobt-wrap > div.woobt-products > div:nth-child(2) > .woobt-price > div > ins > span > bdi",
+      "value": "",
+      "variableName": "complementOnePrice"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "add bronzer",
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "#woobt_checkbox_1",
+      "value": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": ".woobt-wrap > div.woobt-products > div:nth-child(3) > .woobt-price > div > ins > span > bdi",
+      "value": "",
+      "variableName": "complementTwoPrice"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "add blush brush",
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "#woobt_checkbox_2",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "add products to cart",
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "div > button.single_add_to_cart_button",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "open mini cart",
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": ".header-cart-inner-wrap > button.header-cart-button",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "navigate to cart",
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "p > a.wc-forward",
+      "value": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "tr:nth-child(1) > td.product-name",
+      "value": "{{productName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "tr:nth-child(2) > td.product-name",
+      "value": "{{complementOneName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "tr:nth-child(3) > td.product-name",
+      "value": "{{complementTwoName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 18,
+      "target": "tr:nth-child(1) > td.product-price",
+      "value": "{{productPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "tr:nth-child(2) > td.product-price",
+      "value": "{{complementOnePrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "tr:nth-child(3) > td.product-price",
+      "value": "{{complementTwoPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "#shipping_method > li:nth-child(1) > label",
+      "value": "Free Shipping",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "#shipping_method > li:nth-child(2) > label",
+      "value": "Flat Rate",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "#shipping_method > li:nth-child(3) > label",
+      "value": "Priority Mail",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "expand gifts optional due to season campaign",
+      "optional": true,
+      "private": false,
+      "sequence": 24,
+      "target": ".fgf-gift-product-selection",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "select Free Lipstick Sample - Light",
+      "optional": true,
+      "private": false,
+      "sequence": 25,
+      "target": ".fgf-gift-product-selection > optgroup > option:nth-child(1)",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "notes": "add gift to cart",
+      "optional": true,
+      "private": false,
+      "sequence": 26,
+      "target": ".button.fgf-add-gift-product",
+      "value": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 27,
+      "target": "tr:nth-child(4) > td.product-price",
+      "value": "Free",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": ".checkout-button.wc-forward",
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6657799e89e87fd839a2dfb5",
+    "suiteId": "6650dbac89e87fd839e2eb1c",
+    "suiteName": "Red Apple - Basic tests"
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Check ACH/CC not on Checkout",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nconst element = document.querySelector('form.checkout.woocommerce-checkout')\nreturn payment != \"ach\" && !element === false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "xpath=//label[contains(text(),'{{CCName}} ending in {{fourDigits}} (expires {{month}}/{{year}})')]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nconst element = document.querySelector('.wp-block-woocommerce-checkout.wc-block-checkout')\nreturn payment != \"ach\" && !element === false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "xpath=//*[contains(text(),'{{CCName}} ending in {{fourDigits}}')]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nconst element = document.querySelector('form.checkout.woocommerce-checkout')\nreturn payment === \"ach\" && !element === false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "xpath=//label[contains(text(),'ACH/ECP with public account number 44556')]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nconst element = document.querySelector('.wp-block-woocommerce-checkout.wc-block-checkout')\nreturn payment = \"ach\" && !element === false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "xpath=//*[contains(text(),'ACH/ECP with public account number 44556')]",
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "62b08929183cb14313ff85ea",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

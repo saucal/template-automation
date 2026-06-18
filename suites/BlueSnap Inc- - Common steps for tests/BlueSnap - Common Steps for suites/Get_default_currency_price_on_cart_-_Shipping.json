@@ -1,0 +1,83 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Get default currency price on cart - Shipping",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let currency = \"{{currency}}\"\nconst element = document.querySelector('.wp-block-woocommerce-cart')\nreturn (currency === \"{{defaultCurr}}\" || currency === \"\") && element === null\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "//let content = document.querySelectorAll(\"td > .woocommerce-Price-amount.amount, span > .woocommerce-Price-amount.amount, .cart-contents .woocommerce-Price-amount.amount\")\nlet content = document.querySelectorAll(\"tr.shipping .woocommerce-Price-amount.amount\")\nlet result = []\n\nfor (let i = 0; i < content.length; i++) {\n        result.push(content[i].textContent);\n    }\nreturn result",
+      "variableName": "resultDefaultShipping"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const element = document.querySelector('.wp-block-woocommerce-cart')\nlet currency = \"{{currency}}\"\nreturn (currency === \"{{defaultCurr}}\" || currency === \"\") && element !== null\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "//let content = document.querySelectorAll(\"td > .woocommerce-Price-amount.amount, span > .woocommerce-Price-amount.amount, .cart-contents .woocommerce-Price-amount.amount\")\nlet content = document.querySelectorAll(\".wc-block-components-totals-shipping__options .wc-block-formatted-money-amount\")\nlet result = []\n\nfor (let i = 0; i < content.length; i++) {\n        result.push(content[i].textContent);\n    }\nreturn result",
+      "variableName": "resultDefaultShipping"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let currency = \"{{currency}}\"\nconst element = document.querySelector('.wp-block-woocommerce-cart')\nreturn (currency !== \"{{defaultCurr}}\" && currency !== \"\") && element === null"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "//let content = document.querySelectorAll(\"td > .woocommerce-Price-amount.amount, span > .woocommerce-Price-amount.amount, .cart-contents .woocommerce-Price-amount.amount\")\nlet content = document.querySelectorAll(\"tr.shipping .woocommerce-Price-amount.amount\")\nlet result = []\n\nfor (let i = 0; i < content.length; i++) {\n        result.push(content[i].textContent);\n    }\nreturn result",
+      "variableName": "resultEURShipping"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let currency = \"{{currency}}\"\nconst element = document.querySelector('.wp-block-woocommerce-cart')\nreturn (currency !== \"{{defaultCurr}}\" && currency !== \"\") && element !== null"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "//let content = document.querySelectorAll(\"td > .woocommerce-Price-amount.amount, span > .woocommerce-Price-amount.amount, .cart-contents .woocommerce-Price-amount.amount\")\nlet content = document.querySelectorAll(\".wc-block-components-totals-shipping__options .wc-block-formatted-money-amount\")\nlet result = []\n\nfor (let i = 0; i < content.length; i++) {\n        result.push(content[i].textContent);\n    }\nreturn result",
+      "variableName": "resultEURShipping"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "65f9f5da752b1a838b7f1091",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

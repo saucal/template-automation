@@ -1,0 +1,120 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "04 - About - Recycling info",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "a[href*=\"/recycling-information/\"]",
+      "value": "Recycling info"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "a[href*=\"/recycling-information/\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": ".entry-content > div.wp-block-group.is-layout-constrained.wp-container-core-group-is-layout-86e79a2b.wp-block-group-is-layout-constrained:nth-of-type(3)",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "div.wp-block-group.alignfull.has-background.is-layout-constrained.wp-block-group-is-layout-constrained:nth-of-type(4) > .wp-block-group.is-layout-constrained.wp-container-core-group-is-layout-86e79a2b.wp-block-group-is-layout-constrained",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": ".wp-block-sg-gutenberg-customisations-static-carousel.has-mid-grey-color.has-text-color.has-link-color.static-carousel-6-slides > .carousel.is-draggable",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "div.wp-block-group.is-layout-constrained.wp-container-core-group-is-layout-86e79a2b.wp-block-group-is-layout-constrained:nth-of-type(8) > .sg-products-carousel.products-carousel-12-slides > .sg-products-carousel-inner > .inner.is-draggable",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "div.wp-block-group.alignfull.has-background.is-layout-constrained.wp-block-group-is-layout-constrained:nth-of-type(10) > .wp-block-group.is-layout-constrained.wp-container-core-group-is-layout-86e79a2b.wp-block-group-is-layout-constrained > .wp-block-sg-gutenberg-customisations-static-carousel.static-carousel-6-slides > .carousel.is-draggable",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "div.wp-block-group.is-layout-constrained.wp-container-core-group-is-layout-86e79a2b.wp-block-group-is-layout-constrained:nth-of-type(11) > .sg-products-carousel.products-carousel-12-slides > .sg-products-carousel-inner > .inner.is-draggable",
+      "value": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68c072a4eeab2f751a754598",
+    "suiteId": "68c0700d029c694b8f7575be",
+    "suiteName": "Gruum - Basic WooCommerce Tests"
+  }
+}

@@ -1,0 +1,128 @@
+{
+  "autoRetry": false,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "05 - Checkout page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "6851d373e5aac3e528aa1d7a",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": ".elementor-element.elementor-element-35c5ef0f > .elementor-widget-container > p"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "a[href*=\"/step/checkout?wcf-add-to-cart=1656&wcf-qty=1\"] > .label > span:nth-of-type(1)"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 3,
+      "target": "#fc-no-thanks-btn",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "label[for=\"shipping_method_0_flexible_shipping_single37\"] > .woocommerce-Price-amount.amount > bdi",
+      "value": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": ".wcf-bump-order-wrap.wcf-bump-order-c5d",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": ".wcf-bump-order-wrap.wcf-bump-order-c5d > .wcf-bump-order-content.wcf-bump-order-image-left > .wcf-bump-order-field-wrap > .wcf-bump-order-action > .wcf-bump-order-cb-button.wcf-bump-add-to-cart"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"Add\")]"
+        },
+        {
+          "selector": ".wcf-bump-order-cb-button.wcf-bump-add-to-cart"
+        }
+      ]
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "label[for=\"shipping_method_0_free_shipping36\"]",
+      "value": "Free shipping (3-8 days)"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 9,
+      "target": "svg.e-eicon-close > use"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6851d4a8e5aac3e528aa4545",
+    "suiteId": "6851cd91e5aac3e528a9706d",
+    "suiteName": "Fit Creamery - Basic WooCommerce Tests"
+  }
+}

@@ -1,0 +1,269 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "03 - Cart page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": null,
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "60e84121f90fe91565ba2ccf",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 1,
+      "target": "tr.woocommerce-grouped-product-list-item.membership-content.access-granted.product.type-product.status-publish.instock.product_cat-concentrates-cbd.product_cat-oils-cbd > td.woocommerce-grouped-product-list-item__quantity > .quantity > input[title=\"Qty\"][placeholder=\"0\"][type=\"number\"].input-text.qty.text",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 2,
+      "target": "tr.woocommerce-grouped-product-list-item.membership-content.access-granted.product.type-product.status-publish.instock.product_cat-concentrates-cbd.product_cat-oils-cbd > td.woocommerce-grouped-product-list-item__quantity > .quantity > input[title=\"Qty\"][placeholder=\"0\"][type=\"number\"].input-text.qty.text",
+      "value": "1",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 3,
+      "target": "td.value > select",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 4,
+      "target": "td.value > select > option:nth-child(2)",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 5,
+      "target": [
+        {
+          "selector": "tbody > tr:first-child > td.woocommerce-grouped-product-list-item__price > ins > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "tbody > tr:first-child > td.woocommerce-grouped-product-list-item__price > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "#main .product .summary .tab-details ins > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "#main .product .summary .tab-details .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "let price = \"{{unitPrice}}\";\n\nreturn price === \"\";",
+        "result": false
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 6,
+      "target": [
+        {
+          "selector": "div.woocommerce-variation-price > span > ins > span.woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "div.woocommerce-variation-price > span > span.woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let price = \"{{unitPrice}}\";\n\nreturn price === \"\";",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": [
+        {
+          "selector": "div:nth-of-type(1) > .price > ins > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "div:nth-of-type(1) > .price > span:first-child.woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "xpath=//button[contains(text(), \"Add to cart\")]"
+        },
+        {
+          "selector": "button[type=\"submit\"].single_add_to_cart_button"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "xpath=//a[contains(text(), \"View cart\")]"
+        },
+        {
+          "selector": "a[href*=\"/cart/\"].button"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": ".cart_item input.qty",
+      "value": "1",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "button[name=\"update_cart\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "td.product-price > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "td.product-subtotal > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "tr.cart-subtotal > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 15,
+      "target": [
+        {
+          "selector": "label[for=\"shipping_method_0_flat_rate7\"] > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "label[for=\"shipping_method_0_dokan_product_shipping\"] > .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "",
+      "variableName": "shippPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "strong > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "total"
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "",
+      "value": "let price = \"{{unitPrice}}\";\nlet shipping = \"{{shippPrice}}\";\nlet total = \"{{total}}\"\nprice = Number(price.replace(\"$\",\"\"));\nshipping = Number(shipping.replace(\"$\",\"\"));\ntotal = Number(total.replace(\"$\",\"\"));\n\nlet total2 = price+shipping;\ntotal2 = Number(total2.toFixed(2));\n\nreturn total === total2",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "60e84214f90fe91565ba30e2",
+    "suiteId": "60dcc9631f48295b526b0788",
+    "suiteName": "WeedPleez - Basic WooCommerce Test"
+  }
+}

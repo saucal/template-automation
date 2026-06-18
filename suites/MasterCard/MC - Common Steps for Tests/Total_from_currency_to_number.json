@@ -1,0 +1,45 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Total from currency to number",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "    const currencyStr = '{{total}}'\n    // Remove any non-numeric characters except commas, dots, and minus signs\n    let cleaned = currencyStr.replace(/[^\\d,.-]/g, '');\n\n    // If the string has both '.' and ',', determine which is the decimal separator\n    if (cleaned.includes('.') && cleaned.includes(',')) {\n        if (cleaned.lastIndexOf('.') > cleaned.lastIndexOf(',')) {\n            // Case: US format \"$1,000.00\" (comma as thousands separator, dot as decimal)\n            cleaned = cleaned.replace(/,/g, '');\n        } else {\n            // Case: EU format \"1.000,87 €\" (dot as thousands separator, comma as decimal)\n            cleaned = cleaned.replace(/\\./g, '').replace(',', '.');\n        }\n    } else {\n        // If only a comma exists, assume EU format\n        if (cleaned.includes(',')) {\n            cleaned = cleaned.replace(',', '.');\n        }\n        // If only a dot exists, assume US format (no change needed)\n    }\n\n    return parseFloat(cleaned);",
+      "variableName": "total"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "67af4eabe66fdcb2f9231315",
+    "suiteId": "676eb96835aed64d3077072a",
+    "suiteName": "MC - Common Steps for Tests"
+  }
+}

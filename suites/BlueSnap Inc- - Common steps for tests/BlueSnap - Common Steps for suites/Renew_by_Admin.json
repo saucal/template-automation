@@ -1,0 +1,284 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "6.1.0",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Renew by Admin",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "a[href=\"edit.php?post_type=shop_subscription\"]"
+        },
+        {
+          "selector": "a[href=\"admin.php?page=wc-orders--shop_subscription\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "a[href*=\"/wp-admin/post.php?post={{subscriptionID}}&action=edit\"]"
+        },
+        {
+          "selector": "a[href*=\"/wp-admin/admin.php?page=wc-orders--shop_subscription&action=edit&id={{subscriptionID}}\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "#select2-order_status-container",
+      "value": "{{subStatus}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nreturn payment != \"ach\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": ".bluesnap",
+      "value": "{{paymentMethodTitle}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nreturn payment === \"ach\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": ".bluesnap_ach",
+      "value": "{{paymentMethodTitle}}",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let scenario = \"{{scenario}}\"\nlet currency = \"{{currency}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn (scenario === \"multi-currency\" && currency !== \"JPY\") \n|| (scenario === \"multi-currency\" && currency === \"JPY\" && (Number(blueSnapVs[0]) >= 3 && Number(blueSnapVs[1]) >= 5))"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "637be7a2d093ba490226963b",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "select[name=\"wc_order_action\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "select[name=\"wc_order_action\"]",
+      "value": "wcs_process_renewal",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "xpath=//button[contains(text(), \"Update\")]"
+        },
+        {
+          "selector": "button[name=\"save\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 9,
+      "target": "#message > p",
+      "value": "Subscription updated.",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nreturn payment != \"ach\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "#select2-order_status-container",
+      "value": "{{subStatus}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nreturn payment === \"ach\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "#select2-order_status-container",
+      "value": "{{subStatusACH}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": [
+        {
+          "selector": "#subscription_renewal_orders > div.inside > div > table > tbody > tr:first-of-type > td:nth-child(1) > a"
+        },
+        {
+          "selector": "#woocommerce-order-notes > div.inside > ul > li:nth-child(3) > div > p > a"
+        }
+      ],
+      "value": "",
+      "variableName": "renewID"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "let renew = \"{{renewID}}\";\nrenew = renew.replace(\"#\",\"\");\nreturn renew\n",
+      "variableName": "renewID"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": [
+        {
+          "selector": "a[href*=\"/wp-admin/post.php?post={{renewID}}&action=edit\"]"
+        },
+        {
+          "selector": "a[href*=\"/wp-admin/admin.php?page=wc-orders&action=edit&id={{renewID}}\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "{{renewID}}",
+      "variableName": "orderNumber"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "",
+      "value": "60afddfb373d3a09fef13e98",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": ".woocommerce-order-data__meta",
+      "value": "Payment via {{paymentMethodTitle}} ({{transaction_id}})",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "li.note.system-note:nth-of-type(2) > .note_content > p",
+      "value": "Bluesnap transaction complete (Transaction ID: {{transaction_id}})",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nreturn payment === \"ach\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "li.note.system-note:nth-of-type(1) > .note_content > p",
+      "value": "Charge pending confirmation from BlueSnap (Charge ID: {{transaction_id}}). Order status changed from Pending payment to On hold.",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6183d91c308b6f6744d1c74e",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

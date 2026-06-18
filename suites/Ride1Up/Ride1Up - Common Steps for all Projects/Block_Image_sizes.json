@@ -1,0 +1,45 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Block Image sizes",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": null,
+  "steps": [
+    {
+      "command": "eval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "// fetch all elements\nconst elems = Array.from(document.querySelectorAll(\"body *\"));\n// loop through elements and set static dimensions\nelems.forEach((elem) => {\n    const style = window.getComputedStyle(elem);\n    elem.style.setProperty(\"height\", style.height, \"important\");\n    elem.style.setProperty(\"max-height\", style.height, \"important\");\n    elem.style.setProperty(\"min-height\", \"0\", \"important\");\n    elem.style.setProperty(\"padding\", style.padding, \"important\");\n    elem.style.setProperty(\"margin\", style.margin, \"important\");\n})",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "63c71c660b7aefb972ffc43c",
+    "suiteId": "63c71c660b7aefb972ffc439",
+    "suiteName": "Ride1Up - Common Steps for all Projects"
+  }
+}

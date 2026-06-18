@@ -1,0 +1,95 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Calculate balance points",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "return {{redeeming}} === true && {{refund}} !== true    "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "const redeemedPoints = {{redeemedPoints}}\nlet balance = {{balance}} - redeemedPoints;\n\nreturn balance\n",
+      "variableName": "balance"
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "return {{redeeming}} === true && {{refund}} !== true    "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "{{balance}}",
+      "variableName": "oldBalance"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "return {{refund}} !== true"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "const earnPoints = {{earnPoints}}\nlet balance;\nif ('{{balance}}' === '') {\n    balance = earnPoints\n} else {\n    balance = {{balance}} + earnPoints\n}\n\nreturn balance\n\n",
+      "variableName": "balance"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "return {{redeeming}} !== true && {{refund}} === true "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "const earnPoints = {{earnPoints}}\nlet balance = {{balance}} - earnPoints\n\nreturn balance",
+      "variableName": "balance"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "return {{redeeming}} === true && {{refund}} === true    "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "const earnPoints = {{earnPoints}}\nconst redeemedPoints = {{redeemedPoints}}\nconst balance = {{balance}} - earnPoints + redeemedPoints\n\nreturn balance",
+      "variableName": "balance"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "6883993e2c245b961d025eef",
+    "suiteId": "6022c8a7262f437a9afa49ca",
+    "suiteName": "No Pong - Common steps for Project"
+  }
+}

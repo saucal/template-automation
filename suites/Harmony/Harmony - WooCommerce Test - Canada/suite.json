@@ -1,0 +1,168 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "60d32e870181726b140617b1",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome",
+    "dataSource": null,
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": "60cc8d2cfd5d095fc92c0a46",
+    "globalStepDelay": 250,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "Harmony - WooCommerce Test - Canada",
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "ca-central-1",
+    "screenshotCompareEnabled": true,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://staging-harmonyk.kinsta.cloud/",
+    "testCount": 26,
+    "testFrequency": 0,
+    "viewportSize": {
+      "width": 1366,
+      "height": 768
+    },
+    "dateCreated": "2021-06-23T12:52:23.480Z",
+    "language": null,
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "password",
+        "value": "vnr@evz_dzw6vnj@ZUP",
+        "private": true,
+        "_id": "60cc94f7fd5d095fc92c3bb3"
+      },
+      {
+        "name": "password2",
+        "value": "uze-yzr9xye@kpn1VUG",
+        "private": true,
+        "_id": "60cc94f7fd5d095fc92c3bb4"
+      },
+      {
+        "name": "CCEmail",
+        "value": "qa+ccemail@saucal.com",
+        "private": false,
+        "_id": "60cc9db51da0a93062de7faa"
+      },
+      {
+        "name": "zipCode",
+        "value": "K1S 3V6",
+        "private": false,
+        "_id": "60cc9db51da0a93062de7fa8"
+      },
+      {
+        "name": "project",
+        "value": "harmony",
+        "private": false,
+        "_id": "6279688d4a3a4832a2db37f2"
+      },
+      {
+        "name": "phone",
+        "value": "3254564567",
+        "private": false,
+        "_id": "60cc9db51da0a93062de7fa9"
+      },
+      {
+        "name": "month",
+        "value": "12",
+        "private": false,
+        "_id": "60cc99041da0a93062de5a24"
+      },
+      {
+        "name": "Symbol",
+        "value": "C$",
+        "private": false,
+        "_id": "60d347ee341266379a972ead"
+      },
+      {
+        "name": "countryComplete",
+        "value": "Canada",
+        "private": false,
+        "_id": "627961ae4a3a4832a2d8db26"
+      },
+      {
+        "name": "bankAccount",
+        "value": "{{startUrl}}wp-content/uploads/2023/08/RBC-CAD-Saucal.pdf",
+        "private": false,
+        "_id": "64b1acbbf6e2b3ffb36c7de2"
+      },
+      {
+        "name": "country",
+        "value": "CA",
+        "private": false,
+        "_id": "627a85fd97a3bd06e0f269a2"
+      },
+      {
+        "name": "street",
+        "value": "123 False Street",
+        "private": false,
+        "_id": "60cc9db51da0a93062de7fa4"
+      },
+      {
+        "name": "state",
+        "value": "ON",
+        "private": false,
+        "_id": "60cc9db51da0a93062de7fa7"
+      },
+      {
+        "name": "cc",
+        "value": "4242424242424242",
+        "private": false,
+        "_id": "60cc99041da0a93062de5a23"
+      },
+      {
+        "name": "firstName",
+        "value": "QA_CA",
+        "private": false,
+        "_id": "60cc9db51da0a93062de7fa2"
+      },
+      {
+        "name": "year",
+        "value": "28",
+        "private": false,
+        "_id": "60cc99041da0a93062de5a25"
+      },
+      {
+        "name": "cvv",
+        "value": "123",
+        "private": false,
+        "_id": "60cc99041da0a93062de5a26"
+      },
+      {
+        "name": "lastName",
+        "value": "{{alphanumeric}}",
+        "private": false,
+        "_id": "60cc9db51da0a93062de7fa3"
+      },
+      {
+        "name": "stateComplete",
+        "value": "Ontario",
+        "private": false,
+        "_id": "627961ae4a3a4832a2d8db25"
+      },
+      {
+        "name": "city",
+        "value": "Ottawa",
+        "private": false,
+        "_id": "60cc9db51da0a93062de7fa6"
+      },
+      {
+        "name": "company",
+        "value": "Testing {{alphanumeric}}",
+        "private": false,
+        "_id": "60cc9db51da0a93062de7fa5"
+      }
+    ]
+  }
+}

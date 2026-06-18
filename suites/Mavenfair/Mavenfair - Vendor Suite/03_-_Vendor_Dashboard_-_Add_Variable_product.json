@@ -1,0 +1,628 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "03 - Vendor Dashboard - Add Variable product",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "6001e87ac5e34d38d8d5edd8",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "a[href*=\"/members/\"].user-link > img.avatar.photo"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "#nav-bar-filter > .menu-item.menu-item-type-custom.menu-item-object-custom > a[href*=\"/maker-dashboard/\"]"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#dashboard-menu-item-product > a[href*=\"/maker-dashboard/product\"]"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"Add Product\")]"
+        },
+        {
+          "selector": "a[href*=\"/maker-dashboard/product/edit\"]"
+        }
+      ]
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "#post_title",
+      "value": "Variable product test {{alphanumeric}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "#post_excerpt-html",
+      "value": "2"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "#post_excerpt",
+      "value": "Short Descritpion Variable Parent",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "#post_content-html"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "#post_content",
+      "value": "Description of the product variable parent",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "file": {
+        "filename": "d50fc92e-92db-4111-996c-c28778a22114.png",
+        "size": 63441,
+        "path": "uploads/d2962dfa-4c81-4ec7-a29b-60ea1aca5802.png",
+        "url": "https://ghostinspector-prod.s3.amazonaws.com/uploads/d2962dfa-4c81-4ec7-a29b-60ea1aca5802.png"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": [
+        {
+          "selector": "xpath=//a[contains(text(), \"Set featured image\")]"
+        },
+        {
+          "selector": "a[href=\"#\"].wcv-media-uploader-featured-add"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "file": {
+        "filename": "e41733f1-7392-4b59-957d-bd35fbeb9534.png",
+        "size": 104286,
+        "path": "uploads/8cbd1b0f-d42b-48fd-9de7-4769840a448d.png",
+        "url": "https://ghostinspector-prod.s3.amazonaws.com/uploads/8cbd1b0f-d42b-48fd-9de7-4769840a448d.png"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "input[type=\"file\"]",
+      "value": "https://ghostinspector-prod.s3.amazonaws.com/uploads/8cbd1b0f-d42b-48fd-9de7-4769840a448d.png",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "680fcbe027a20ea152510391",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": [
+        {
+          "selector": "//button[contains(text(), \"Set Product Feature Image\")]"
+        },
+        {
+          "selector": "button[type=\"button\"].button.media-button"
+        }
+      ]
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "input[name=\"_shipping_fee_international\"]",
+      "value": "15",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "input[name=\"_shipping_fee_national\"]",
+      "value": "5",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "button[type=\"button\"].wcv-button.wcv-ac-buttons"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"SELECT\")]"
+        },
+        {
+          "selector": "#select2-ac_temp_category_id-container"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": [
+        {
+          "selector": "//li[contains(text(), \"Artisan Foods\")]"
+        },
+        {
+          "selector": "#select2-ac_temp_category_id-results > li:nth-of-type(3)"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"SELECT\")]"
+        },
+        {
+          "selector": "#select2-ac_temp_category_id-container"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": [
+        {
+          "selector": "//li[contains(text(), \"Baked Goods\")]"
+        },
+        {
+          "selector": "#select2-ac_temp_category_id-results > li:nth-of-type(2)"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "button[type=\"button\"].wcv-button.wcv-ac-add-category-done"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "input[placeholder=\"Search or add a tag…\"]"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "input[placeholder=\"Search or add a tag…\"]",
+      "value": "test"
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "#select2-product_tags-results > li:nth-of-type(2)",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "#select2-product_tags-results > li:nth-of-type(2)"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": [
+        {
+          "selector": "//span[contains(text(), \"Simple product\")]"
+        },
+        {
+          "selector": "#select2-product-type-container"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "//li[contains(text(), \"Variable product\")]"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"Attributes\")]"
+        },
+        {
+          "selector": "a[href=\"#attributes\"]"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "select[name=\"attribute_taxonomy\"]"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "select[name=\"attribute_taxonomy\"]",
+      "value": "pa_beard-length"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": "button[type=\"button\"].button.add_attribute"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": "#attribute_variation_0"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": "div.woocommerce_attribute.wcv-metabox.closed.taxonomy.pa_beard-length:nth-of-type(1) > .wcv_attribute_data.wcv-metabox-content > .wcv-column-group.wcv-horizontal-gutters > .all-70 > .control-group > .control > span > span:nth-of-type(1) > span > ul > li > input[placeholder=\"Select terms\"][type=\"search\"]"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": "//li[contains(text(), \"11 to 14 inches\")]"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 37,
+      "target": "div.woocommerce_attribute.wcv-metabox.closed.taxonomy.pa_beard-length:nth-of-type(1) > .wcv_attribute_data.wcv-metabox-content > .wcv-column-group.wcv-horizontal-gutters > .all-70 > .control-group > .control > span > span:nth-of-type(1) > span > ul"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 38,
+      "target": "//li[contains(text(), \"15 to 18 inches\")]"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 39,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"Variations\")]"
+        },
+        {
+          "selector": "a[href=\"#variations\"]"
+        }
+      ]
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 40,
+      "target": "#select2-variable_manage_variations-container"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 41,
+      "target": "//li[contains(text(), \"Create variations from all attributes\")]"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 42,
+      "target": "div.wcv_variation.wcv-metabox.closed:nth-of-type(1) > .wcv-cols-group.wcv_variation_inner > div > h5.variation_title"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 43,
+      "target": "input[name=\"variable_regular_price[0]\"]"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 44,
+      "target": "input[name=\"variable_regular_price[0]\"]",
+      "value": "35"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 45,
+      "target": "input[name=\"variable_sale_price[0]\"]"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 46,
+      "target": "input[name=\"variable_sale_price[0]\"]",
+      "value": "25"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 47,
+      "target": "textarea[name=\"variable_description[0]\"]"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 48,
+      "target": "textarea[name=\"variable_description[0]\"]",
+      "value": "Variation Description 1"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 49,
+      "target": "div.wcv_variation.wcv-metabox.closed:nth-of-type(2) > .wcv-cols-group.wcv_variation_inner > div > h5.variation_title"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 50,
+      "target": "input[name=\"variable_regular_price[1]\"]"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 51,
+      "target": "input[name=\"variable_regular_price[1]\"]",
+      "value": "40"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 52,
+      "target": "textarea[name=\"variable_description[1]\"]"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 53,
+      "target": "textarea[name=\"variable_description[1]\"]",
+      "value": "Variation Description 2"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 54,
+      "target": "#product_save_button"
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 55,
+      "target": "#product_save_button",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 56,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 57,
+      "target": ".wcvendors-table.wcvendors-table-product.wcv-table",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 58,
+      "target": ".wcvendors-dashboard-wrapper > div.woocommerce-message:nth-of-type(2)",
+      "value": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "66ff0a96091814fe3c923942",
+    "suiteId": "66fd46b20e1aff64b4ddba72",
+    "suiteName": "Mavenfair - Vendor Suite"
+  }
+}

@@ -1,0 +1,215 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "08 - Checkout page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "return '{{product}}' === 'simple' || '{{product}}' === ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "69a1e4173dc7ceb27c60543a",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "return '{{product}}' === 'variable'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "69a1e7808ce9cb3f625f913a",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "//button[contains(text(), \"Add to cart\")]"
+        },
+        {
+          "selector": "button[name=\"add-to-cart\"]"
+        }
+      ]
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const element = document.querySelector('.woocommerce-message')\n\nreturn !!element"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": ".woocommerce-message",
+      "value": "{{prod_desc}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": ".wp-block-woocommerce-mini-cart-contents",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "a[href*=\"/product/\"].wc-block-components-product-name",
+      "value": "{{prod_desc}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": ".wc-block-cart-item__total-price-and-sale-badge-wrapper > .price.wc-block-components-product-price > .wc-block-formatted-money-amount.wc-block-components-formatted-money-amount.wc-block-components-product-price__value",
+      "value": "{{unitPrice}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": ".wc-block-formatted-money-amount.wc-block-components-formatted-money-amount.wc-block-components-totals-item__value",
+      "value": "{{unitPrice}}"
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "#s7-mini-cart-free-shipping > div",
+      "value": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "a[href*=\"/checkout/\"] > .wc-block-components-button__text"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "div.woolentor-product-price > span.woolentor-product-price-value.woolentor-price-hide-regular-price > span",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "tr.cart-subtotal > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "div.elementor-widget-s7oh_checkout_discount_form > div > div > div.coupon-form",
+      "value": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "const prod_desc = '{{prod_desc}}'.replaceAll('–','-')\n\nreturn prod_desc",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": [
+        {
+          "selector": "td.product-name > a[href*=\"/product/\"]"
+        },
+        {
+          "selector": "div.woolentor-product-content > div.woolentor-product-content-top > a > h5"
+        }
+      ],
+      "value": "{{prod_desc}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{product}}' === 'variable'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": [
+        {
+          "selector": "td.product-name > a[href*=\"/product/\"]"
+        },
+        {
+          "selector": "div.woolentor-product-content > div.woolentor-product-content-top > a > h5"
+        }
+      ],
+      "value": "{{variable}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69a1edc98ce9cb3f62607aa2",
+    "suiteId": "69a1dd383dc7ceb27c5f126e",
+    "suiteName": "Simply7oh - Basic WooCommerce tests"
+  }
+}

@@ -1,0 +1,307 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Check transcation is present on Order backend",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "{{url}}/wp-admin/",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let element = document.getElementsByClassName('wp-menu-name')\n\nreturn element.length === 0"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "61d5b5207e5be41b1d21e1ed",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "let blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn (Number(blueSnapVs[0]) == 2 && Number(blueSnapVs[1]) <= 6)\n|| (Number(blueSnapVs[0]) == 3 && Number(blueSnapVs[1]) <= 3) \n\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "IPN",
+      "variableName": "labeIPN"
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "let blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn (Number(blueSnapVs[0]) >= 3 && Number(blueSnapVs[1]) >= 4) "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "Webhook",
+      "variableName": "labeIPN"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "let hpos = document.querySelectorAll('a[href=\"admin.php?page=wc-orders\"]')\nlet legacy = document.querySelectorAll('a[href=\"edit.php?post_type=shop_order\"]')\n\nif (hpos.length !== 0) {\n    return \"on\"\n}\n\nif (legacy.length !== 0) {\n    return \"off\"\n}\n",
+      "variableName": "hpos"
+    },
+    {
+      "command": "open",
+      "condition": {
+        "statement": "return \"{{hpos}}\" === \"off\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "{{startUrl}}wp-admin/post.php?post={{orderNumber}}&action=edit",
+      "variableName": ""
+    },
+    {
+      "command": "open",
+      "condition": {
+        "statement": "return \"{{hpos}}\" === \"on\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "{{startUrl}}wp-admin/admin.php?page=wc-orders&action=edit&id={{orderNumber}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nreturn payment != \"ach\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "const jsonOrder = {{myOrder}}\nconst paymentMethod = jsonOrder.payment_method\nreturn paymentMethod === \"bluesnap\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nreturn payment != \"ach\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "const paymentMethodT = \"{{paymentMethodTitle}}\"\nreturn paymentMethodT === \"Credit/Debit Card\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nreturn payment != \"ach\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "tbody > tr:nth-child(2) > td:nth-child(1) > span.description",
+      "value": "{{paymentMethodTitle}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nlet test = \"{{test}}\"\nreturn payment === \"ach\" && test != \"ipn\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "const jsonOrder = {{myOrder}}\nconst paymentMethod = jsonOrder.payment_method\nreturn paymentMethod === \"bluesnap_ach\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nlet test = \"{{test}}\"\nreturn payment === \"ach\" && test != \"ipn\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "const paymentMethodT = \"{{paymentMethodTitle}}\"\nreturn paymentMethodT === \"ACH/ECP Transactions\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": ".woocommerce-order-data__meta",
+      "value": "Payment via {{paymentMethodTitle}} ({{transaction_id}})",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nlet payment =\"{{payment}}\"\nreturn test != \"preorder\" && payment != \"ach\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "li.note.system-note:nth-of-type(2) > .note_content > p",
+      "value": "Bluesnap transaction complete (Transaction ID: {{transaction_id}})",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let test = \"{{test}}\"\nlet payment =\"{{payment}}\"\nreturn test != \"preorder\" && payment != \"ach\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "#select2-order_status-container",
+      "value": "{{status}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let pay = \"{{pay}}\"\nreturn pay === \"now\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "li.note.system-note:nth-of-type(2) > .note_content > p",
+      "value": "Bluesnap transaction complete (Transaction ID: {{transaction_id}})",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let pay = \"{{pay}}\"\nreturn pay === \"upfront\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "li.note.system-note:nth-of-type(5) > .note_content > p",
+      "value": "Bluesnap transaction complete (Transaction ID: {{transaction_id}})",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nreturn payment === \"ach\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "",
+      "value": "let prod = \"{{prod}}\"\nif (prod === \"downloadable\") {\n    return \"Completed\"\n} else {\n    return \"Processing\"\n}",
+      "variableName": "status"
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nlet product = \"{{product}}\"\nlet status = document.querySelector('#select2-order_status-container').textContent \nreturn payment === \"ach\" && product === \"simple\" && status === 'On hold'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "",
+      "value": "// Select all <p> elements inside <li class=\"note system-note\"> under .note_content\nconst notes = Array.from(document.querySelectorAll('li.note.system-note .note_content p'));\n\n// Filter notes for the specific text content\nconst targetNotes = notes.filter(p => \n  p.textContent.includes('ACH Transaction approved') || \n  p.textContent.includes('BlueSnap ACH Declined') || \n  p.textContent.includes('Charge pending confirmation from BlueSnap') ||\n  p.textContent.includes('Order status changed from On hold') ||\n  p.textContent.includes('Payment via ACH/ECP Transactions')\n);\n\nif (targetNotes.length === 1 && \n    targetNotes[0].textContent === 'Charge pending confirmation from BlueSnap (Charge ID: {{transaction_id}}). Order status changed from Pending payment to On hold.') \n{\n    return true\n} else {\n    return false\n}\n\n",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nlet product = \"{{product}}\"\nlet status = document.querySelector('#select2-order_status-container').textContent \nreturn payment === \"ach\" && product === \"simple\" && status === 'Failed'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "",
+      "value": "// Select all <p> elements inside <li class=\"note system-note\"> under .note_content\nconst notes = Array.from(document.querySelectorAll('li.note.system-note .note_content p'));\n\n// Filter notes for the specific text content\nconst targetNotes = notes.filter(p => \n  p.textContent.includes('ACH Transaction approved') || \n  p.textContent.includes('BlueSnap ACH Declined') || \n  p.textContent.includes('Charge pending confirmation from BlueSnap') ||\n  p.textContent.includes('Order status changed from On hold') ||\n  p.textContent.includes('Payment via ACH/ECP Transactions')\n);\n\nif (targetNotes.length === 2 && \n    targetNotes[0].textContent === 'BlueSnap ACH Declined {{labeIPN}} request received. A chargeback has been created for this transaction. Reason: null – null. Order status changed from On hold to Failed.' && \n    targetNotes[1].textContent === 'Charge pending confirmation from BlueSnap (Charge ID: {{transaction_id}}). Order status changed from Pending payment to On hold.'    ) \n{\n    return true\n} else {\n    return false\n}\n\n",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nlet product = \"{{product}}\"\nlet status = document.querySelector('#select2-order_status-container').textContent \nreturn payment === \"ach\" && product === \"simple\" \n        && (status === 'Completed' || status === 'Processing')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "",
+      "value": "// Select all <p> elements inside <li class=\"note system-note\"> under .note_content\nconst notes = Array.from(document.querySelectorAll('li.note.system-note .note_content p'));\n\n// Filter notes for the specific text content\nconst targetNotes = notes.filter(p => \n  p.textContent.includes('ACH Transaction approved') || \n  p.textContent.includes('BlueSnap ACH Declined') || \n  p.textContent.includes('Charge pending confirmation from BlueSnap') ||\n  p.textContent.includes('Order status changed from On hold') ||\n  p.textContent.includes('Payment via ACH/ECP Transactions')\n);\n\nif (targetNotes.length === 3 && \n    (\n        targetNotes[0].textContent === 'Order status changed from On hold to {{status}}.' ||\n        targetNotes[0].textContent === 'Payment via ACH/ECP Transactions ({{transaction_id}}).'\n    ) && \n    targetNotes[1].textContent === 'ACH Transaction approved via {{labeIPN}} request.' &&\n    targetNotes[2].textContent === 'Charge pending confirmation from BlueSnap (Charge ID: {{transaction_id}}). Order status changed from Pending payment to On hold.'    ) \n{\n    return true\n} else {\n    return false\n}\n",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nlet product = \"{{product}}\"\nlet status = document.querySelector(\"#select2-order_status-container\").textContent\nreturn payment === \"ach\" && product === \"subscription\" && status === 'On hold'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "",
+      "value": "// Select all <p> elements inside <li class=\"note system-note\"> under .note_content\nconst notes = Array.from(document.querySelectorAll('li.note.system-note .note_content p'));\n\n// Filter notes for the specific text content\nconst targetNotes = notes.filter(p => \n  p.textContent.includes('ACH Transaction approved') || \n  p.textContent.includes('BlueSnap ACH Declined') || \n  p.textContent.includes('Charge pending confirmation from BlueSnap') ||\n  p.textContent.includes('Order status changed from On hold') ||\n  p.textContent.includes('Bluesnap transaction complete') ||\n  p.textContent.includes('Payment via ACH/ECP Transactions')\n);\n\nif (targetNotes.length === 2 && \n    targetNotes[0].textContent === 'Charge pending confirmation from BlueSnap (Charge ID: {{transaction_id}}). Order status changed from Pending payment to On hold.' &&\n    targetNotes[1].textContent === 'Bluesnap transaction complete (Transaction ID: {{transaction_id}})'\n    ) \n{\n    return true\n} else {\n    return false\n}\n",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nlet product = \"{{product}}\"\nlet status = document.querySelector(\"#select2-order_status-container\").textContent\nreturn payment === \"ach\" && product === \"subscription\" && (status === 'Completed' || status === 'Processing')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "",
+      "value": "// Select all <p> elements inside <li class=\"note system-note\"> under .note_content\nconst notes = Array.from(document.querySelectorAll('li.note.system-note .note_content p'));\n\n// Filter notes for the specific text content\nconst targetNotes = notes.filter(p => \n  p.textContent.includes('ACH Transaction approved') || \n  p.textContent.includes('BlueSnap ACH Declined') || \n  p.textContent.includes('Charge pending confirmation from BlueSnap') ||\n  p.textContent.includes('Order status changed from On hold') ||\n  p.textContent.includes('Bluesnap transaction complete') ||\n  p.textContent.includes('Payment via ACH/ECP Transactions')\n);\n\nif (targetNotes.length === 4 && \n    (\n        targetNotes[0].textContent === 'Order status changed from On hold to {{status}}.' ||\n        targetNotes[0].textContent === 'Payment via ACH/ECP Transactions ({{transaction_id}}).'\n    ) && \n    targetNotes[1].textContent === 'ACH Transaction approved via {{labeIPN}} request.' &&\n    targetNotes[2].textContent === 'Charge pending confirmation from BlueSnap (Charge ID: {{transaction_id}}). Order status changed from Pending payment to On hold.' &&\n    targetNotes[3].textContent === 'Bluesnap transaction complete (Transaction ID: {{transaction_id}})'\n    ) \n{\n    return true\n} else {\n    return false\n}\n",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nlet product = \"{{product}}\"\nlet status = document.querySelector(\"#select2-order_status-container\").textContent\nreturn payment === \"ach\" && product === \"subscription\" && status === 'Failed'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "",
+      "value": "// Select all <p> elements inside <li class=\"note system-note\"> under .note_content\nconst notes = Array.from(document.querySelectorAll('li.note.system-note .note_content p'));\n\n// Filter notes for the specific text content\nconst targetNotes = notes.filter(p => \n  p.textContent.includes('ACH Transaction approved') || \n  p.textContent.includes('BlueSnap ACH Declined') || \n  p.textContent.includes('Charge pending confirmation from BlueSnap') ||\n  p.textContent.includes('Order status changed from On hold') ||\n  p.textContent.includes('Bluesnap transaction complete') ||\n  p.textContent.includes('Payment via ACH/ECP Transactions')\n);\n\nif (\n    targetNotes.length === 3 && \n    targetNotes[0].textContent === 'BlueSnap ACH Declined {{labeIPN}} request received. A chargeback has been created for this transaction. Reason: null – null. Order status changed from On hold to Failed.' && \n    targetNotes[1].textContent === 'Charge pending confirmation from BlueSnap (Charge ID: {{transaction_id}}). Order status changed from Pending payment to On hold.' &&\n    targetNotes[2].textContent === 'Bluesnap transaction complete (Transaction ID: {{transaction_id}})'\n    ) \n{\n    return true\n} else {\n    return false\n}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "61e0311521c976abaf97ce6f",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

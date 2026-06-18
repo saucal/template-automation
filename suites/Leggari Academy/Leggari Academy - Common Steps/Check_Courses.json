@@ -1,0 +1,125 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Check Courses",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "nav[aria-label=\"Menu\"] > .elementor-nav-menu > li.menu-item.menu-item-type-post_type.menu-item-object-page:nth-of-type(2) > a[href*=\"/all-courses/\"].elementor-item.menu-link",
+      "value": null
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "a[href*=\"/courses/\"] > img.attachment-medium.size-medium.wp-post-image"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "a[href*=\"/courses/\"].ld-lesson-item-preview-heading > [aria-label=\"Not started\"].ld-status-icon.ld-status-incomplete"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "a[href*=\"/courses/\"].ld-table-list-item-preview.ld-topic-row.learndash-incomplete"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "input[type=\"submit\"]"
+    },
+    {
+      "command": "assertNotText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": ".ld-progress-percentage",
+      "value": "0% Complete",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": ".widget_course_return > a[href*=\"/courses/\"]"
+    },
+    {
+      "command": "assertNotText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": ".ld-progress-percentage",
+      "value": "0% Complete",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "nav[aria-label=\"Menu\"] > .elementor-nav-menu > li.menu-item.menu-item-type-post_type.menu-item-object-page:nth-of-type(2) > a[href*=\"/all-courses/\"].elementor-item.menu-link",
+      "value": null
+    },
+    {
+      "command": "assertNotText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "div:nth-of-type(1) > .thumbnail.course.sfwd-courses.type-sfwd-courses.status-publish.has-post-thumbnail.hentry.category-uncategorized.ld_course_category-public.membership-content.access-granted.ast-article-single > .caption > .learndash-wrapper.learndash-widget > .ld-progress.ld-progress-inline > .ld-progress-heading > .ld-progress-stats > .ld-progress-percentage.ld-secondary-color",
+      "value": "0% Complete",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69c29b5e832da09b97cec22e",
+    "suiteId": "69c170c5de491b5fc5f29b47",
+    "suiteName": "Leggari Academy - Common Steps"
+  }
+}

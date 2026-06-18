@@ -1,0 +1,136 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Playgrounds Email",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": {
+        "statement": "return '{{extraFilter}}' === ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "",
+      "variableName": "extraFilter"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "1000",
+      "variableName": "limit"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "return new Promise(async (resolve, reject) => {\n    let attempts = 0; \n\n    const fetchEmail = async () => {\n        try {\n            if (!ajax_object || !ajax_object.ajax_url) {\n                throw new Error(\"ajax_object is not defined or missing ajax_url.\");\n            }\n\n            const data = new URLSearchParams();\n            data.append('action', 'fetch_mail');\n            data.append('email', '{{playgroundsEmail}}');\n            data.append('extraFilter', '{{extraFilter}}');\n            data.append('limit', {{limit}});\n\n            const response = await fetch(ajax_object.ajax_url, {\n                method: 'POST',\n                body: data,\n                credentials: 'same-origin',\n                headers: {\n                    'Content-Type': 'application/x-www-form-urlencoded',\n                },\n            });\n\n            const result = await response.json();\n\n            if (result.success && result.data) {\n                resolve(JSON.parse(result.data));\n            } else {\n                throw new Error(result.message || 'No email found yet.');\n            }\n        } catch (error) {\n            attempts++;\n            console.warn(`Attempt ${attempts} failed: ${error.message}`);\n\n            if (attempts < 10) {\n                setTimeout(fetchEmail, 3000 * (attempts + 1)); // Exponential backoff\n            } else {\n                reject(new Error('Failed to fetch email after multiple attempts.'));\n            }\n        }\n    };\n\n    fetchEmail();\n})",
+      "variableName": "emailTest"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "notes": "",
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "return new Promise(async (resolve, reject) => {\n        try {\n            // Create a URLSearchParams object to hold the POST request data\n            const data = new URLSearchParams();\n            data.append('action', 'fetch_mail'); // The 'action' to call the PHP function\n            data.append('email', '{{playgroundsEmail}}');\n            data.append('extraFilter', '{{extraFilter}}');\n            data.append('limit', {{limit}});\n            \n            console.log( ajax_object );\n\n            // Perform the AJAX request directly in the browser console\n            const response = await fetch(ajax_object.ajax_url, { // Replace with your site URL\n                method: 'POST',\n                body: data,\n                credentials: 'same-origin',\n                headers: {\n                    'Content-Type': 'application/x-www-form-urlencoded',\n                },\n            });\n\n            // Convert the response to JSON\n            const result = await response.json();\n\n            // Check if the request was successful\n            if (result.success) {\n                resolve(JSON.parse(result.data)); // Resolve with the mail data\n            } else {\n                reject(new Error('Failed to fetch mail'));\n            }\n        } catch (error) {\n            reject(error); // Reject the promise with the caught error\n        }\n})",
+      "variableName": "emails"
+    },
+    {
+      "command": "pause",
+      "condition": {
+        "statement": "let messages = {{emails}}\n\nreturn messages.messages.length === 0"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "10000",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let messages = {{emails}}\n\nreturn messages.messages.length === 0"
+      },
+      "notes": "",
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "return new Promise(async (resolve, reject) => {\n        try {\n            // Create a URLSearchParams object to hold the POST request data\n            const data = new URLSearchParams();\n            data.append('action', 'fetch_mail'); // The 'action' to call the PHP function\n            data.append('email', '{{playgroundsEmail}}');\n            data.append('extraFilter', '{{extraFilter}}');\n            data.append('limit', {{limit}});\n            \n            console.log( ajax_object );\n\n            // Perform the AJAX request directly in the browser console\n            const response = await fetch(ajax_object.ajax_url, { // Replace with your site URL\n                method: 'POST',\n                body: data,\n                credentials: 'same-origin',\n                headers: {\n                    'Content-Type': 'application/x-www-form-urlencoded',\n                },\n            });\n\n            // Convert the response to JSON\n            const result = await response.json();\n\n            // Check if the request was successful\n            if (result.success) {\n                resolve(JSON.parse(result.data)); // Resolve with the mail data\n            } else {\n                reject(new Error('Failed to fetch mail'));\n            }\n        } catch (error) {\n            reject(error); // Reject the promise with the caught error\n        }\n})",
+      "variableName": "emails"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let messages = {{emails}}\n\nreturn messages.messages.length === 0"
+      },
+      "notes": "",
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "return new Promise(async (resolve, reject) => {\n        try {\n            // Create a URLSearchParams object to hold the POST request data\n            const data = new URLSearchParams();\n            data.append('action', 'fetch_mail'); // The 'action' to call the PHP function\n            data.append('email', '{{playgroundsEmail}}');\n            data.append('extraFilter', '{{extraFilter}}');\n            data.append('limit', {{limit}});\n            \n            console.log( ajax_object );\n\n            // Perform the AJAX request directly in the browser console\n            const response = await fetch(ajax_object.ajax_url, { // Replace with your site URL\n                method: 'POST',\n                body: data,\n                credentials: 'same-origin',\n                headers: {\n                    'Content-Type': 'application/x-www-form-urlencoded',\n                },\n            });\n\n            // Convert the response to JSON\n            const result = await response.json();\n\n            // Check if the request was successful\n            if (result.success) {\n                resolve(JSON.parse(result.data)); // Resolve with the mail data\n            } else {\n                reject(new Error('Failed to fetch mail'));\n            }\n        } catch (error) {\n            reject(error); // Reject the promise with the caught error\n        }\n})",
+      "variableName": "emails"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "let messages = {{emails}}\nconst id = messages.messages[0].ID\n\nreturn 'https://mail.playgrounds.saucal.io/view/'+ id +'.html'",
+      "variableName": "emailURL"
+    },
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "{{emailURL}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69778cc365fd97d14e2468c3",
+    "suiteId": "69778cc265fd97d14e24689f",
+    "suiteName": "Payoneer - Common Steps for Tests"
+  }
+}

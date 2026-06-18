@@ -1,0 +1,252 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "18 - Cart page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotExclusions": "div.elementor-background-slideshow__slide > div.elementor-background-slideshow__slide__image, li.product > div > a > div > div.shoptimizer-plp-image-wrapper > img",
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "6290d1fa4b7dbf9dc951f456",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "671bb6f2a655f16a8cfbf05e",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "h1.product_title",
+      "value": "",
+      "variableName": "prodDesc"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": ".summary > .price > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": "//button[contains(text(), \"Add to basket\")]"
+        },
+        {
+          "selector": "button[name=\"add-to-cart\"]"
+        }
+      ]
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": ".shoptimizer-primary-navigation > nav[aria-label=\"Cart contents\"].site-header-cart.menu > .shoptimizer-cart > a[href=\"#\"][title=\"View your shopping cart\"].cart-contents > .amount > .woocommerce-Price-amount.amount",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "li.woocommerce-mini-cart-item.mini_cart_item > a:nth-child(2)",
+      "value": "{{prodDesc}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": ".woocommerce-mini-cart__buttons > a[href*=\"/basket/\"].button.wc-forward"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"Calculate shipping\")]"
+        },
+        {
+          "selector": "form[action*=\"/basket/\"] > a[href=\"#\"]"
+        }
+      ]
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "#calc_shipping_postcode",
+      "value": "E1 6AN"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "#calc_shipping_city",
+      "value": "London"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "#select2-calc_shipping_state-container"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "span:nth-of-type(1) > input[type=\"text\"]",
+      "value": "Greater London"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "//li[contains(text(), \"Greater London\")]"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "button[name=\"calc_shipping\"]"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": ".cart_item .product-name > a",
+      "value": "{{prodDesc}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "td.product-subtotal > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "tr.cart-subtotal > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "subtotal"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": [
+        {
+          "selector": "ul#shipping_method > li:nth-child(1) .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "ul#shipping_method > li:nth-child(1) > label"
+        }
+      ],
+      "value": "",
+      "variableName": "shippingPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "strong > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "total"
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "",
+      "value": "const price = parseFloat(\"{{unitPrice}}\".replace(\"{{Symbol}}\",\"\").replaceAll(\",\",\"\").trim());\nconst shippingPrice = parseFloat(\"{{shippingPrice}}\".replace(\"{{Symbol}}\",\"\").replaceAll(\",\",\"\").trim());\nconst subtotal = parseFloat(\"{{subtotal}}\".replace(\"{{Symbol}}\",\"\").replaceAll(\",\",\"\").trim());\nconst total = parseFloat(\"{{total}}\".replace(\"{{Symbol}}\",\"\").replaceAll(\",\",\"\").trim());\n\nlet total2 = subtotal + shippingPrice\n\ntotal2 = Number(total2.toFixed(2));\nconst expectedTotal = Number(total.toFixed(2));\n\nreturn price === subtotal \n        && total2 === expectedTotal",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "671bb8b0f7c3927cffd7574e",
+    "suiteId": "671b8f13a655f16a8cf44587",
+    "suiteName": "CFC - Basic WooCommerce Test"
+  }
+}

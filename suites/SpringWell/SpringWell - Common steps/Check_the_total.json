@@ -1,0 +1,45 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Check the total",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "let unit = \"{{subtotal}}\";\nlet shipping = \"{{shippingPrice}}\";\nlet tax = \"{{taxPrice}}\";\nlet total = \"{{total}}\";\n\nif (shipping.includes(\"Free\") || shipping === ''){\n    shipping = \"0.00\";\n};\n\nunit = unit.replace(\",\",\"\");\nshipping = shipping.replace(\",\",\"\");\ntax = tax.replace(\",\",\"\");\ntotal = total.replace(\",\",\"\");\n\nunit = Number(unit.replace(\"{{Symbol}}\",\"\"));\nshipping = Number(shipping.replace(\"{{Symbol}}\",\"\"));\ntax = Number(tax.replace(\"{{Symbol}}\",\"\"));\ntotal = Number(total.replace(\"{{Symbol}}\",\"\"));\n\nlet total2 = unit+shipping+tax;\ntotal2 = Number(total2.toFixed(2));\n\nreturn total === total2",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69aacde875b939711423dde1",
+    "suiteId": "684c8109388232057b6f7af1",
+    "suiteName": "SpringWell - Common steps"
+  }
+}

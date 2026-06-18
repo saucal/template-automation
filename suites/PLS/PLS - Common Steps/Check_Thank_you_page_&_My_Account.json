@@ -1,0 +1,494 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Check Thank you page & My Account",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "return '{{location}}' === 'Internet'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": ".woocommerce-order-downloads",
+      "value": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "const element = '{{prodDesc}}'.replace('–','-')\n\nreturn element",
+      "variableName": "prodDesc"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{days}}' === ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(1) > td.woocommerce-table__product-name.product-name > a[href*=\"/product/\"]",
+      "value": "{{prodDesc}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const multiSteps = '{{multiSteps}}'\n\nreturn multiSteps !== 'yes' && '{{days}}' === ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(3) > td.woocommerce-table__product-name.product-name > a[href*=\"/product/\"]",
+      "value": "{{prodDesc}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const multiSteps = '{{multiSteps}}'\n\nreturn multiSteps !== 'yes' && '{{days}}' === ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(5) > td.woocommerce-table__product-name.product-name > a[href*=\"/product/\"]",
+      "value": "{{prodDesc}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const multiSteps = '{{multiSteps}}'\n\nreturn multiSteps === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "tr.woocommerce-table__line-item.order_item > td.woocommerce-table__product-name.product-name > div > div.pls-confirmation-summary__participant:nth-child(1)",
+      "value": "Participant #1\nFull Name: {{firstName}} {{midName}} {{lastName}}\nEmail: {{email}}\nCredentials: {{credentials}}\nPhone: {{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const multiSteps = '{{multiSteps}}'\n\nreturn multiSteps === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "tr.woocommerce-table__line-item.order_item > td.woocommerce-table__product-name.product-name > div > div.pls-confirmation-summary__participant:nth-child(2)",
+      "value": "Participant #2\nFull Name: {{firstName2}} {{midName2}} {{lastName2}}\nEmail: {{email2}}\nCredentials: {{credentials2}}\nPhone: {{phone2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const multiSteps = '{{multiSteps}}'\n\nreturn multiSteps === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "tr.woocommerce-table__line-item.order_item > td.woocommerce-table__product-name.product-name > div > div.pls-confirmation-summary__participant:nth-child(3)",
+      "value": "Participant #3\nFull Name: {{firstName3}} {{midName3}} {{lastName3}}\nEmail: {{email3}}\nCredentials: {{credentials3}}\nPhone: {{phone3}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const multiSteps = '{{multiSteps}}'\n\nreturn multiSteps !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(3) > td.woocommerce-table__product-name.product-name > .wc-item-meta > li:nth-of-type(1) > p",
+      "value": "{{firstName2}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const multiSteps = '{{multiSteps}}'\n\nreturn multiSteps !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(5) > td.woocommerce-table__product-name.product-name > .wc-item-meta > li:nth-of-type(1) > p",
+      "value": "{{firstName3}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const multiSteps = '{{multiSteps}}'\n\nreturn multiSteps !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(3) > td.woocommerce-table__product-name.product-name > .wc-item-meta > li:nth-of-type(2) > p",
+      "value": "{{lastName2}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const multiSteps = '{{multiSteps}}'\n\nreturn multiSteps !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(5) > td.woocommerce-table__product-name.product-name > .wc-item-meta > li:nth-of-type(2) > p",
+      "value": "{{lastName3}}"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const multiSteps = '{{multiSteps}}'\n\nreturn multiSteps !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "return '{{phone2}}'.replaceAll('-','')",
+      "variableName": "phone2"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const multiSteps = '{{multiSteps}}'\n\nreturn multiSteps !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "return '{{phone3}}'.replaceAll('-','')",
+      "variableName": "phone3"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const multiSteps = '{{multiSteps}}'\n\nreturn multiSteps !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(3) > td.woocommerce-table__product-name.product-name > .wc-item-meta > li:nth-of-type(3) > p",
+      "value": "{{phone2}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const multiSteps = '{{multiSteps}}'\n\nreturn multiSteps !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(5) > td.woocommerce-table__product-name.product-name > .wc-item-meta > li:nth-of-type(3) > p",
+      "value": "{{phone3}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const multiSteps = '{{multiSteps}}'\n\nreturn multiSteps !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(3) > td.woocommerce-table__product-name.product-name > .wc-item-meta > li:nth-of-type(5) > p",
+      "value": "{{credentials2}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const multiSteps = '{{multiSteps}}'\n\nreturn multiSteps !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(5) > td.woocommerce-table__product-name.product-name > .wc-item-meta > li:nth-of-type(5) > p",
+      "value": "{{credentials3}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const multiSteps = '{{multiSteps}}'\n\nreturn multiSteps !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(3) > td.woocommerce-table__product-name.product-name > .wc-item-meta > li:nth-of-type(4) > p > a[href*=\"mailto:\"]",
+      "value": "{{email2}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const multiSteps = '{{multiSteps}}'\n\nreturn multiSteps !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(5) > td.woocommerce-table__product-name.product-name > .wc-item-meta > li:nth-of-type(4) > p > a[href*=\"mailto:\"]",
+      "value": "{{email3}}"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{days}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(1) > td.woocommerce-table__product-name.product-name > a[href*=\"/product/\"]",
+      "value": "{{prodDesc}} - {{days}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const multiSteps = '{{multiSteps}}'\n\nreturn multiSteps !== 'yes' && '{{days}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(3) > td.woocommerce-table__product-name.product-name > a[href*=\"/product/\"]",
+      "value": "{{prodDesc}} - {{days}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const multiSteps = '{{multiSteps}}'\n\nreturn multiSteps !== 'yes' && '{{days}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(5) > td.woocommerce-table__product-name.product-name > a[href*=\"/product/\"]",
+      "value": "{{prodDesc}} - {{days}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const multiSteps = '{{multiSteps}}'\n\nreturn multiSteps == 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(1) td.woocommerce-table__product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const multiSteps = '{{multiSteps}}'\n\nreturn multiSteps !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(1) td.woocommerce-table__product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const multiSteps = '{{multiSteps}}'\n\nreturn multiSteps !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(3) td.woocommerce-table__product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const multiSteps = '{{multiSteps}}'\n\nreturn multiSteps !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "tr.woocommerce-table__line-item.order_item:nth-of-type(5) td.woocommerce-table__product-total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount",
+      "value": "{{subtotal}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{discount}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "tfoot > tr:nth-of-type(2) > td > .woocommerce-Price-amount.amount",
+      "value": "{{discount}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{discount}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "tfoot > tr:nth-of-type(3) > td",
+      "value": "Credit / Debit Card"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{discount}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "tfoot > tr:nth-of-type(4) > td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{discount}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "tfoot > tr:nth-of-type(5) > td",
+      "value": "Testing Notes"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{discount}}' === ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": "tfoot > tr:nth-of-type(2) > td",
+      "value": "Credit / Debit Card"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return '{{discount}}' === ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": "tfoot > tr:nth-of-type(3) > td > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{discount}}' === ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 34,
+      "target": "tfoot > tr:nth-of-type(4) > td",
+      "value": "Testing Notes"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 35,
+      "target": "tr.order.woocommerce-orders-table__row:nth-of-type(1) > td.subscription-status.order-status.woocommerce-orders-table__cell.woocommerce-orders-table__cell-subscription-status.woocommerce-orders-table__cell-order-status",
+      "value": "Active"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": "tr.order.woocommerce-orders-table__row:nth-of-type(1) > td.subscription-total.order-total.woocommerce-orders-table__cell.woocommerce-orders-table__cell-subscription-total.woocommerce-orders-table__cell-order-total > .woocommerce-Price-amount.amount",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 37,
+      "target": "tr.order.woocommerce-orders-table__row:nth-of-type(2) > td.subscription-status.order-status.woocommerce-orders-table__cell.woocommerce-orders-table__cell-subscription-status.woocommerce-orders-table__cell-order-status",
+      "value": "Active"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 38,
+      "target": "tr.order.woocommerce-orders-table__row:nth-of-type(2) > td.subscription-total.order-total.woocommerce-orders-table__cell.woocommerce-orders-table__cell-subscription-total.woocommerce-orders-table__cell-order-total > .woocommerce-Price-amount.amount",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 39,
+      "target": "tr.order.woocommerce-orders-table__row:nth-of-type(3) > td.subscription-status.order-status.woocommerce-orders-table__cell.woocommerce-orders-table__cell-subscription-status.woocommerce-orders-table__cell-order-status",
+      "value": "Active"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 40,
+      "target": "tr.order.woocommerce-orders-table__row:nth-of-type(3) > td.subscription-total.order-total.woocommerce-orders-table__cell.woocommerce-orders-table__cell-subscription-total.woocommerce-orders-table__cell-order-total > .woocommerce-Price-amount.amount",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "686f9f5de5d3587e1570c8d5",
+    "suiteId": "686fa0642c245b961d617c29",
+    "suiteName": "PLS - Common Steps"
+  }
+}

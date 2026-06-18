@@ -1,0 +1,189 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Default Currency on site",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": {
+        "statement": "let currency = \"{{currency}}\"\nreturn currency ===\"EUR\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "2",
+      "variableName": "decimals"
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "let currency = \"{{currency}}\"\nreturn currency ===\"EUR\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "right_space",
+      "variableName": "position"
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "let currency = \"{{currency}}\"\nreturn currency ===\"EUR\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "de-DE",
+      "variableName": "locale"
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "let currency = \"{{currency}}\"\nreturn currency ===\"GBP\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "2",
+      "variableName": "decimals"
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "let currency = \"{{currency}}\"\nreturn currency ===\"GBP\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "left",
+      "variableName": "position"
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "let currency = \"{{currency}}\"\nreturn currency ===\"GBP\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "en-GB",
+      "variableName": "locale"
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "let currency = \"{{currency}}\"\nreturn currency ===\"JPY\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "0",
+      "variableName": "decimals"
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "let currency = \"{{currency}}\"\nreturn currency ===\"JPY\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "left",
+      "variableName": "position"
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "let currency = \"{{currency}}\"\nreturn currency ===\"JPY\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "en-US",
+      "variableName": "locale"
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "let currency = \"{{currency}}\"\nreturn currency ===\"USD\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "2",
+      "variableName": "decimals"
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "let currency = \"{{currency}}\"\nreturn currency ===\"USD\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "left",
+      "variableName": "position"
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "let currency = \"{{currency}}\"\nreturn currency ===\"USD\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "en-US",
+      "variableName": "locale"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "const formatter = new Intl.NumberFormat('{{locale}}', {\n    style: 'currency',\n    currency: '{{currency}}',\n    minimumFractionDigits: '{{currency}}' === 'JPY' ? 0 : 2\n  });\n\nconst parts = formatter.formatToParts(1000.1);\n\nreturn parts",
+      "variableName": "parts"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "65a15a286e489be5285930c5",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

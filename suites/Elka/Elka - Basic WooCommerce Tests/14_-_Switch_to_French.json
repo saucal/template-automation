@@ -1,0 +1,225 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.2",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "14 - Switch to French",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "div > div.fusion-fullwidth.fullwidth-box.fusion-builder-row-1.nonhundred-percent-fullwidth.non-hundred-percent-height-scrolling > div > div > div > div.fusion-column-content-centered > div > div > h1",
+      "value": "Explore our products",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "div > div.fusion-fullwidth.fullwidth-box.fusion-builder-row-4.fusion-parallax-up.nonhundred-percent-fullwidth.non-hundred-percent-height-scrolling.bg-parallax-parent.lazyloaded > div.fusion-builder-row.fusion-row > div > div > div.fusion-title.title.fusion-sep-none.fusion-title-center.fusion-title-text.fusion-title-size-one > h1",
+      "value": "Find Shock Options and Pricing For Your Vehicle",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "div > div.fusion-fullwidth.fullwidth-box.fusion-builder-row-8.fusion-flex-container.nonhundred-percent-fullwidth.non-hundred-percent-height-scrolling > div > div > div > div.fusion-title.title.fusion-sep-none.fusion-title-center.fusion-title-text.fusion-title-size-two > h2",
+      "value": "Follow us on Social Media",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "h2.fusion-responsive-typography-calculated > span",
+      "value": "IMPORTANT NOTES:",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "div:nth-of-type(2) > div > div:nth-of-type(1) > p:nth-of-type(1) > span",
+      "value": "All photos are for illustration purpose only and actual product may vary depending on your vehicle model and specific setup for your needs (colours, configuration and more).",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": ".menu-item.wpml-ls-item > a[href*=\"/fr/\"][title*=\"Français\"].wpml-ls-link > span > .wpml-ls-native"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 7,
+      "target": ".menu-item.wpml-ls-item > a[title*=\"English\"].wpml-ls-link",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 8,
+      "target": ".menu-item.wpml-ls-item > a[href*=\"/fr/\"][title*=\"Français\"].wpml-ls-link",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "xpath=//h1[contains(text(),'Gammes de produits')]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "xpath=//h1[contains(text(),'Trouvez les amortisseurs pour votre véhicule')]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "xpath=//h1[contains(text(),'Restons en contact!')]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "xpath=//h2/span[contains(text(),'NOTES IMPORTANTES:')]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "xpath=//div[2]/div/div[1]/p[1]/span[contains(text(),'Toutes les photos sont à titre indicatif seulement et le produit livré peut varier (couleurs, configuration et plus) en fonction du modèle de votre véhicule et la configuration requise pour vos besoins')]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "#menu-menu-principal-elka > li.menu-item.menu-item-type-post_type.menu-item-object-page:nth-of-type(5) > a[href*=\"/fr/boutique/\"] > .menu-text",
+      "value": "Boutique",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "#menu-top-navigation-header-french > .menu-item.menu-item-type-custom.menu-item-object-custom.menu-item-has-children.fusion-dropdown-menu > a[href=\"#\"] > .menu-text",
+      "value": "Votre Compte",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": ".menu-item > a[href*=\"/fr/entreprise/profil-entreprise/\"] > span",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "645bff27764be50ed859f1e0",
+    "suiteId": "62c48a95fc2b9d5cf1ea25be",
+    "suiteName": "Elka - Basic WooCommerce Tests"
+  }
+}

@@ -1,0 +1,144 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Get Log request response - /payment-fields-tokens",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let user = \"{{user}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn user != \"old\"\n        || \n        ((Number(blueSnapVs[0]) == 2 && Number(blueSnapVs[1]) == 5)\n           &&  user == \"old\" )\n        "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "\nreturn new Promise(function (resolve, reject) {\n  const url = '{{startUrl}}' + 'wp-json/wc-automation-helper/log-request-response/?url_path=/payment-fields-tokens';\n  const username = '{{woo_user}}';\n  const password = '{{woo_pass}}';\n  let headers = new Headers();\n  headers.set('Content-Type', 'application/json');\n  headers.set('Authorization', 'Basic ' + btoa(username + \":\" + password));\n  fetch(url, {method:'GET', headers: headers, credentials: 'omit',})\n  .then(function(response) {\n    if (response.ok) {\n      resolve(response.json())\n    } else {\n      resolve([])\n    } \n  })\n  })",
+      "variableName": "logs"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nlet user = \"{{user}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn (\n        (Number(blueSnapVs[0]) == 2 && Number(blueSnapVs[1]) == 6) \n        || Number(blueSnapVs[0]) >= 3\n        ) &&\n\npayment != \"ach\" && user === \"old\""
+      },
+      "notes": "needs the token",
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "\nreturn new Promise(function (resolve, reject) {\n  const url = '{{startUrl}}' + 'wp-json/wc-automation-helper/log-request-response/?url_path=/payment-fields-tokens?shopperId={{vaultedShopperId}}';\n  const username = '{{woo_user}}';\n  const password = '{{woo_pass}}';\n  let headers = new Headers();\n  headers.set('Content-Type', 'application/json');\n  headers.set('Authorization', 'Basic ' + btoa(username + \":\" + password));\n  fetch(url, {method:'GET', headers: headers, credentials: 'omit',})\n  .then(function(response) {\n    if (response.ok) {\n      resolve(response.json())\n    } else {\n      resolve([])\n    } \n  })\n  })\n\n",
+      "variableName": "logs"
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nlet user = \"{{user}}\"\nreturn (payment === \"ach\" && user != \"old\") || (payment != \"ach\")"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "let logs = {{logs}}\nreturn logs.request.method === \"POST\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let user = \"{{user}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn user != \"old\" \n        || \n        (\n            (Number(blueSnapVs[0]) == 2 && Number(blueSnapVs[1]) == 5)\n           &&  user == \"old\" \n        )"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "let logs = {{logs}}\nreturn logs.request.url === \"https://sandbox.bluesnap.com/services/2/payment-fields-tokens\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nlet user = \"{{user}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\nreturn payment != \"ach\" && user === \"old\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "let logs = {{logs}}\nreturn logs.request.url === \"https://sandbox.bluesnap.com/services/2/payment-fields-tokens?shopperId={{vaultedShopperId}}\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nlet user = \"{{user}}\"\nreturn payment != \"ach\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "let logs = {{logs}}\nreturn logs.response.response_data.headers[0] === \"HTTP/1.1 201 Created\" || logs.response.response_data.headers[0] === \"HTTP/1.1 201 201\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nlet user = \"{{user}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n\nreturn payment != \"ach\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "let logs = {{logs}}\n//return logs.response.response_data.headers[7] === \"Location: https://sandbox.bluesnap.com/services/2/payment-fields-tokens/{{pfToken}}\"\n//|| logs.response.response_data.headers[9] === \"Location: https://sandbox.bluesnap.com/services/2/payment-fields-tokens/{{pfToken}}\"\n//    || logs.response.response_data.headers[5] === \"Location: https://sandbox.bluesnap.com/services/2/payment-fields-tokens/{{pfToken}}\"\n\nfunction checkLocation(location) {\n    const pattern = /Location: https:\\/\\/sandbox.bluesnap.com\\/services\\/2\\/payment-fields-tokens\\/{{pfToken}}/;\n    return pattern.test(location);\n}\n\nreturn logs.response.response_data.headers.some(location => checkLocation(location))\n",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nlet user = \"{{user}}\"\nreturn payment === \"ach\" && user != \"old\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "let logs = {{logs}}\nreturn logs.response.response_data.headers[0] === \"HTTP/1.1 201 Created\" || logs.response.response_data.headers[0] === \"HTTP/1.1 201 201\"",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nlet user = \"{{user}}\"\nlet blueSnapVs = \"{{BlueSnapVs}}\"\nblueSnapVs = blueSnapVs.split('.');\n\nreturn payment === \"ach\" && user != \"old\"\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "let logs = {{logs}}\n//return logs.response.response_data.headers[7] === \"Location: https://sandbox.bluesnap.com/services/2/payment-fields-tokens/{{pfToken}}\"\n//|| logs.response.response_data.headers[9] === \"Location: https://sandbox.bluesnap.com/services/2/payment-fields-tokens/{{pfToken}}\"\n//|| logs.response.response_data.headers[5] === \"Location: https://sandbox.bluesnap.com/services/2/payment-fields-tokens/{{pfToken}}\"\n\n\nfunction checkLocation(location) {\n    const pattern = /Location: https:\\/\\/sandbox.bluesnap.com\\/services\\/2\\/payment-fields-tokens\\/{{pfToken}}/;\n    return pattern.test(location);\n}\n\nreturn logs.response.response_data.headers.some(location => checkLocation(location))\n\n",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "62bf0b17834704196f9948f3",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

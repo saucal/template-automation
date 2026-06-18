@@ -1,0 +1,84 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Pay MasterCard",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "https://stgamazontest.wpengine.com/checkout-2/",
+  "steps": [
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let hosted = '{{hosted}}'\n\nreturn hosted === 'session'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "#payment_method_acme"
+        },
+        {
+          "selector": "#radio-control-wc-payment-method-options-acme"
+        },
+        {
+          "selector": "#payment_method_mastercard_merchant_cloud"
+        },
+        {
+          "selector": "#radio-control-wc-payment-method-options-mastercard_merchant_cloud"
+        }
+      ]
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let hosted = '{{hosted}}'\n\nreturn hosted === 'session'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "67852ea435aed64d30bd1cfd",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let hosted = '{{hosted}}'\n\nreturn hosted === 'checkoutR'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "678532289bf3007e2b7ce601",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "676ed4689bf3007e2b51ac1b",
+    "suiteId": "676eb96835aed64d3077072a",
+    "suiteName": "MC - Common Steps for Tests"
+  }
+}

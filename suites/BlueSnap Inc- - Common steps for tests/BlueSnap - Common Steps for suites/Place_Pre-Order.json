@@ -1,0 +1,440 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Place Pre-Order",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "6182913d23071a6a858762c3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "",
+      "value": "64a2b3be82bf299ccb450eeb",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let _3dsSetting = \"{{3dsSetting}}\";\nlet BlueSnapVs = \"{{BlueSnapVs}}\";\nBlueSnapVs = BlueSnapVs.split('.');\nlet payment = \"{{payment}}\";\nlet payForOrder = \"{{payForOrder}}\"\nlet pay = \"{{pay}}\"\n\nreturn ((Number(BlueSnapVs[0]) === 3 && Number(BlueSnapVs[1]) === 0)\n||(Number(BlueSnapVs[0]) === 2 && Number(BlueSnapVs[1])===6)) && \n        _3dsSetting !== \"deactivated\" &&\n        payment === \"cc\" && payForOrder !== \"yes\"  && pay !== \"later\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "const targetElement = document.querySelector('#place_order, .wc-block-components-checkout-place-order-button');\nreturn targetElement.getAttribute('data-bluesnap') === 'submitButton'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let _3dsSetting = \"{{3dsSetting}}\";\nlet BlueSnapVs = \"{{BlueSnapVs}}\";\nBlueSnapVs = BlueSnapVs.split('.');\nlet payment = \"{{payment}}\";\nlet pay = \"{{pay}}\"\n\n\n\nreturn (Number(BlueSnapVs[0]) >= 3 && Number(BlueSnapVs[1]) >= 2) && \n        _3dsSetting !== \"deactivated\" &&\n        payment === \"cc\" && pay !== \"later\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "const targetElement = document.querySelector('#place_order, .wc-block-components-checkout-place-order-button');\nreturn targetElement.getAttribute('data-bluesnap') === 'submitButton'",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let _3dsSetting = \"{{3dsSetting}}\";\nlet BlueSnapVs = \"{{BlueSnapVs}}\";\nBlueSnapVs = BlueSnapVs.split('.');\nlet payment = \"{{payment}}\";\nlet pay = \"{{pay}}\"\n\nreturn (Number(BlueSnapVs[0]) >= 3 && Number(BlueSnapVs[1]) >= 2) && \n(_3dsSetting === \"deactivated\" ||\n        payment !== \"cc\" || pay === \"later\")"
+      },
+      "optional": true,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "const targetElement = document.querySelector('#place_order, .wc-block-components-checkout-place-order-button');\nreturn targetElement.getAttribute('data-bluesnap') === null",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let _3dsSetting = \"{{3dsSetting}}\";\nlet BlueSnapVs = \"{{BlueSnapVs}}\";\nBlueSnapVs = BlueSnapVs.split('.');\nlet payment = \"{{payment}}\";\nlet pay = \"{{pay}}\"\n\nreturn (Number(BlueSnapVs[0]) === 3 && Number(BlueSnapVs[1]) === 0) && \n_3dsSetting === \"deactivated\"\n"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "const targetElement = document.querySelector('#place_order, .wc-block-components-checkout-place-order-button');\nreturn targetElement.getAttribute('data-bluesnap') === null",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": {
+        "statement": "let _3dsSetting = \"{{3dsSetting}}\";\nlet BlueSnapVs = \"{{BlueSnapVs}}\";\nBlueSnapVs = BlueSnapVs.split('.');\nreturn (Number(BlueSnapVs[0]) === 2 && Number(BlueSnapVs[1]) === 6) && \n_3dsSetting === \"deactivated\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "const targetElement = document.querySelector('#place_order, .wc-block-components-checkout-place-order-button');\nreturn targetElement.getAttribute('data-bluesnap') === null",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "#place_order"
+        },
+        {
+          "selector": "xpath=//button[contains(text(), \"Place Pre-Order Now\")]"
+        },
+        {
+          "selector": ".wc-block-components-checkout-place-order-button"
+        },
+        {
+          "selector": "xpath=//button/span/div[contains(text(), \"Place Order\")]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let pay = \"{{pay}}\"\nreturn pay === \"now\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": ".woocommerce-notice",
+      "value": "Your pre-order has been received. You will be automatically charged for your order via your selected payment method when your pre-order is released on January 1, 2099. Your order details are shown below for your reference.",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let pay = \"{{pay}}\"\nreturn pay === \"later\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": ".woocommerce-notice",
+      "value": "Your pre-order has been received. You will be prompted for payment for your order when your pre-order is released on January 1, 2099. Your order details are shown below for your reference.",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let pay = \"{{pay}}\"\nreturn pay === \"upfront\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": ".woocommerce-notice",
+      "value": "Thank you. Your order has been received.",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": ".woocommerce-order-overview__order > strong:nth-child(1)",
+      "value": "",
+      "variableName": "orderNumber"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let scenario = \"{{scenario}}\"\nreturn scenario === \"multi-currency\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "li > strong > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "",
+      "value": "let elements = document.querySelectorAll('section.woocommerce-order-details > table > tfoot > tr')\nlet length = elements.length\nreturn length-1",
+      "variableName": "n"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nlet pay = \"{{pay}}\"\nreturn payment != \"ach\" && pay != \"later\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": ".woocommerce-order-overview__payment-method.method > strong",
+      "value": "Credit/Debit Card",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nlet pay = \"{{pay}}\"\nreturn payment != \"ach\" && pay != \"later\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "section.woocommerce-order-details > table > tfoot > tr:nth-child({{n}}) > td",
+      "value": "Credit/Debit Card",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nlet pay = \"{{pay}}\"\nreturn payment === \"ach\" && pay != \"later\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": ".woocommerce-order-overview__payment-method.method > strong",
+      "value": "ACH/ECP Transactions",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nlet pay = \"{{pay}}\"\nreturn payment === \"ach\" && pay != \"later\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "section.woocommerce-order-details > table > tfoot > tr:nth-child({{n}}) > td",
+      "value": "ACH/ECP Transactions",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "\nlet pay = \"{{pay}}\"\nreturn pay === \"later\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": ".woocommerce-order-overview__payment-method.method > strong",
+      "value": "Pay Later",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "\nlet pay = \"{{pay}}\"\nreturn pay === \"later\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "section.woocommerce-order-details > table > tfoot > tr:nth-child({{n}}) > td",
+      "value": "Pay Later",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let scenario = \"{{scenario}}\"\nreturn scenario === \"multi-currency\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": "",
+      "value": "637b7006d093ba4902fa121c",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": ".nav-menu > .page_item > a[href*=\"/my-account/\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 25,
+      "target": ".woocommerce-MyAccount-navigation-link > a[href*=\"/my-account/orders/\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let scenario = \"{{scenario}}\"\nreturn scenario === \"multi-currency\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 26,
+      "target": "tr:nth-of-type(1) > .woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-total > .woocommerce-Price-amount.amount",
+      "value": "{{total}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": [
+        {
+          "selector": "td.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-number > a[href*=\"/my-account/view-order/{{orderNumber}}/\"]"
+        },
+        {
+          "selector": "td > a[href*=\"/my-account/view-order/{{orderNumber}}/\"]"
+        },
+        {
+          "selector": "th > a[href*=\"/my-account/view-order/{{orderNumber}}/\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "mark.order-status",
+      "value": "{{status}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 29,
+      "target": "",
+      "value": "let elements = document.querySelectorAll('section.woocommerce-order-details > table > tfoot > tr > th:not(.order-actions--heading)')\nlet length = elements.length\n\nreturn length-1",
+      "variableName": "n"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nlet pay = \"{{pay}}\"\nreturn payment != \"ach\" && pay != \"later\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 30,
+      "target": "section.woocommerce-order-details > table > tfoot > tr:nth-child({{n}}) > td",
+      "value": "Credit/Debit Card",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let payment = \"{{payment}}\"\nlet pay = \"{{pay}}\"\nreturn payment === \"ach\" && pay != \"later\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 31,
+      "target": "section.woocommerce-order-details > table > tfoot > tr:nth-child({{n}}) > td",
+      "value": "ACH/ECP Transactions",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "\nlet pay = \"{{pay}}\"\nreturn pay === \"later\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 32,
+      "target": "section.woocommerce-order-details > table > tfoot > tr:nth-child({{n}}) > td",
+      "value": "Pay Later",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": {
+        "statement": "let scenario = \"{{scenario}}\"\nreturn scenario === \"multi-currency\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": "",
+      "value": "637b7006d093ba4902fa121c",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "61d596e27e5be41b1d0d8f37",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

@@ -1,0 +1,222 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Home page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "#kt-scroll-up",
+      "value": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "#kt-scroll-up.scroll-visible",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "eval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
+      "value": "window.scrollTo(0, 1000)",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "#kt-scroll-up.scroll-visible",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "#kt-scroll-up.scroll-visible",
+      "value": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "#kt-scroll-up.scroll-visible",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertNotText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": ".alignnone > .kt-has-3-columns.kt-tab-layout-inherit > .wp-block-kadence-column.inner-column-1.aos-init.aos-animate > .kt-inside-inner-col > .aligncenter > .pumpkin-vaildator-stats.sc_stat_uptime.loaded > h4",
+      "value": "0",
+      "variableName": ""
+    },
+    {
+      "command": "assertNotText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": ".alignnone > .kt-has-3-columns.kt-tab-layout-inherit > .wp-block-kadence-column.inner-column-2.aos-init.aos-animate > .kt-inside-inner-col > .align > .pumpkin-vaildator-stats.sc_stat_total_stacked.loaded > h4",
+      "value": "0",
+      "variableName": ""
+    },
+    {
+      "command": "assertNotText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": ".alignnone > .kt-has-3-columns.kt-tab-layout-inherit > .wp-block-kadence-column.inner-column-3.aos-init.aos-animate > .kt-inside-inner-col > .align > .pumpkin-vaildator-stats.sc_stat_apy.loaded > h4",
+      "value": "0%",
+      "variableName": ""
+    },
+    {
+      "command": "assertNotText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "#splide02-slide01 > .sc-animated-stats__number > .sc-animated-stats__number__value",
+      "value": "0",
+      "variableName": ""
+    },
+    {
+      "command": "assertNotText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "#splide02-slide02 > .sc-animated-stats__number > .sc-animated-stats__number__value",
+      "value": "0",
+      "variableName": ""
+    },
+    {
+      "command": "assertNotText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "#splide02-slide03 > .sc-animated-stats__number > .sc-animated-stats__number__value",
+      "value": "0",
+      "variableName": ""
+    },
+    {
+      "command": "assertNotText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "#splide02-slide04 > .sc-animated-stats__number > .sc-animated-stats__number__value",
+      "value": "0",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": ".wp-block-pumpkin-pool-core-latest-x",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "",
+      "value": "6022b62a262f437a9af8d3f1",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "",
+      "value": "62974e21a0299821fcec4a32",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": [
+    {
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "width": 414,
+      "height": 736
+    }
+  ],
+  "_gi": {
+    "testId": "6841861b6fbaa32660f3b27e",
+    "suiteId": "684186006fbaa32660f3adc9",
+    "suiteName": "Pumpkins Pool Tests"
+  }
+}

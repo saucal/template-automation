@@ -1,0 +1,143 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Mobile Menu",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": true,
+  "screenshotTarget": ".fusion-header .fusion-mobile-selector + .fusion-mobile-menu",
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": null,
+  "steps": [
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let width = window.innerWidth\nreturn width <= 800",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": ".fusion-header .fusion-mobile-selector",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let width = window.innerWidth\nreturn width <= 800",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": ".fusion-header .fusion-mobile-selector + .fusion-mobile-menu",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": {
+        "statement": "let width = window.innerWidth\nreturn width <= 800",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": ".fusion-header .fusion-mobile-selector + .fusion-mobile-menu",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotVisible",
+      "condition": {
+        "statement": "let width = window.innerWidth\nreturn width > 800",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": ".fusion-header .fusion-mobile-selector + .fusion-mobile-menu",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "screenshot",
+      "condition": {
+        "statement": "let width = window.innerWidth\nreturn width <= 800",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": ".fusion-header .fusion-mobile-selector + .fusion-mobile-menu",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "let width = window.innerWidth\nreturn width <= 800",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": ".fusion-header .fusion-mobile-selector + .fusion-mobile-menu > .menu-item-has-children > a",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": {
+        "statement": "let width = window.innerWidth\nreturn width <= 800",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": ".fusion-header .fusion-mobile-selector + .fusion-mobile-menu > .menu-item-has-children > .sub-menu",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotVisible",
+      "condition": {
+        "statement": "let width = window.innerWidth\nreturn width > 800",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": ".fusion-header .fusion-mobile-selector + .fusion-mobile-menu > .menu-item-has-children > .sub-menu",
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": {
+    "width": 360,
+    "height": 567
+  },
+  "_gi": {
+    "testId": "62c48a95fc2b9d5cf1ea25d8",
+    "suiteId": "62c48a95fc2b9d5cf1ea25be",
+    "suiteName": "Elka - Basic WooCommerce Tests"
+  }
+}

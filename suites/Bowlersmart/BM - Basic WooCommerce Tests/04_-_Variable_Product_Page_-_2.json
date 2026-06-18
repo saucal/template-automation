@@ -1,0 +1,225 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "04 - Variable Product Page - 2",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "{{startUrl}}product/epic-lil-dennys-carbon-blue-silver-rental-style-youth-bowling-shoes/",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "#pa_unisex-shoe-sizing option[selected=\"selected\"]",
+      "value": "",
+      "variableName": "size"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const element = document.querySelector('div.single_variation_wrap > div.wc-pao-addons-container')\n\nreturn element != null"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "div.wc-pao-addon:nth-of-type(1) > .form-row > select.wc-pao-addon-field",
+      "value": "yes-add-365-warranty-coverage-1"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const element = document.querySelector('div.single_variation_wrap > div.wc-pao-addons-container')\n\nreturn element != null"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
+      "value": "let text = document.querySelector(\"option[value='yes-add-365-warranty-coverage-1']\").textContent\nlet warrantyMatch = text.match(/\\$\\d*\\.?\\d+/);\nlet warranty = warrantyMatch ? warrantyMatch[0] : \"\";\nreturn warranty",
+      "variableName": "warranty"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const element = document.querySelector('div.single_variation_wrap > div.wc-pao-addons-container')\n\nreturn element != null"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "div.form-row:nth-of-type(1) > div:nth-of-type(1) > input[type=\"checkbox\"].wc-pao-addon-checkbox"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "const element = document.querySelector('div.single_variation_wrap > div.wc-pao-addons-container')\n\nreturn element != null"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "div.form-row:nth-of-type(1) > div:nth-of-type(1) .wc-pao-addon-price .woocommerce-Price-amount",
+      "value": "",
+      "variableName": "conditioner"
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const element = document.querySelector('div.single_variation_wrap > div.wc-pao-addons-container')\n\nreturn element != null"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "div.form-row:nth-of-type(1) > div:nth-of-type(2) > input[type=\"checkbox\"].wc-pao-addon-checkbox"
+    },
+    {
+      "command": "extract",
+      "condition": {
+        "statement": "const element = document.querySelector('div.single_variation_wrap > div.wc-pao-addons-container')\n\nreturn element != null"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "div.form-row:nth-of-type(1) > div:nth-of-type(2) .wc-pao-addon-price .woocommerce-Price-amount",
+      "value": "",
+      "variableName": "fresheners "
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const element = document.querySelector('div.wc-pao-addon-container.wc-pao-addon:nth-of-type(3) > .form-row.wc-pao-addon-wrap > select.wc-pao-addon-field')\n\nreturn element != null"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "div.wc-pao-addon-container.wc-pao-addon:nth-of-type(3) > .form-row.wc-pao-addon-wrap > select.wc-pao-addon-field"
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const element = document.querySelector('div.wc-pao-addon-container.wc-pao-addon:nth-of-type(3) > .form-row.wc-pao-addon-wrap > select.wc-pao-addon-field')\n\nreturn element != null"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "div.wc-pao-addon-container.wc-pao-addon:nth-of-type(3) > .form-row.wc-pao-addon-wrap > select.wc-pao-addon-field",
+      "value": "small-1"
+    },
+    {
+      "command": "store",
+      "condition": {
+        "statement": "const element = document.querySelector('div.wc-pao-addon-container.wc-pao-addon:nth-of-type(3) > .form-row.wc-pao-addon-wrap > select.wc-pao-addon-field')\n\nreturn element != null"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "Small",
+      "variableName": "shirt"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "h1.product_title",
+      "value": "",
+      "variableName": "prod_desc"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": [
+        {
+          "selector": "div.product-info.summary > div > .price > ins > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "div.product-info.summary > div > .price > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "div > div > div.product-main > div > div.product-info.summary.entry-summary > div.price-wrapper > p > ins > span > bdi"
+        },
+        {
+          "selector": "div > div > div.product-main > div > div.product-info.summary.entry-summary > div.price-wrapper > p > span > bdi"
+        }
+      ],
+      "value": "",
+      "variableName": "unitPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": [
+        {
+          "selector": "div#product-addons-total dd:nth-of-type(2) span.amount"
+        },
+        {
+          "selector": ".product-addon-totals .wc-pao-subtotal-line .price .amount"
+        }
+      ],
+      "value": "",
+      "variableName": "subtotalProduct"
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "let unitPrice = parseFloat('{{unitPrice}}'.replace('$','').trim())\nlet warranty = parseFloat('{{warranty}}'.replace('$','').trim()) || 0;\nlet conditioner = parseFloat('{{conditioner}}'.replace('$','').trim()) || 0;\nlet fresheners = parseFloat('{{fresheners}}'.replace('$','').trim()) || 0;\nlet subtotalProduct = parseFloat('{{subtotalProduct}}'.replace('$','').trim())\nlet subtotal2 = unitPrice + warranty + conditioner + fresheners\nsubtotal2 = Number(subtotal2.toFixed(2))\n\nreturn subtotalProduct === subtotal2;\n",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "68683c3215b3a115492abda7",
+    "suiteId": "681212cfff841a20f20fe1e3",
+    "suiteName": "BM - Basic WooCommerce Tests"
+  }
+}

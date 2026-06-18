@@ -1,0 +1,45 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Place Order button enabled",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "    return new Promise((resolve) => {\n    const targetElement = document.querySelector('#place_order, .wc-block-components-checkout-place-order-button');\n\n    if (!targetElement.disabled) {\n      // If the attribute is already false, resolve the promise immediately\n      resolve(true);\n      return;\n    }\n\n    const observer = new MutationObserver((mutationsList) => {\n      for (const mutation of mutationsList) {\n        if (\n          mutation.type === 'attributes' &&\n          mutation.attributeName === 'disabled' &&\n          !targetElement.disabled\n        ) {\n          observer.disconnect();\n          resolve(true);\n          break;\n        }\n      }\n    });\n\n    observer.observe(targetElement, { attributes: true });\n  });",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "64a2b3be82bf299ccb450eeb",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}

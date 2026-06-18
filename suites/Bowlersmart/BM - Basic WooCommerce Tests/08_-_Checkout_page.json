@@ -1,0 +1,250 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "08 - Checkout page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "1",
+      "variableName": "qty"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "681212cfff841a20f20fe1fd",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "//button[contains(text(), \"Add to cart\")]"
+        },
+        {
+          "selector": "button[type=\"submit\"].single_add_to_cart_button"
+        }
+      ]
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#cart-popup a[href*=\"/product/\"]",
+      "value": "{{prod_desc}} - {{weight}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "dl.variation",
+      "value": "Drilling Protection:\n\nYes - Covers Cracking During Ball Drilling\n\nExtra 365 Warranty Coverage:\n\nYes - Add 365 Warranty Coverage\n\nSpecific Requests:\n\nTesting request\n\nMoney Saving Options:\n\nAdd Max Tack Ball Cleaner 8oz.\n\nMoney Saving Options:\n\nAdd BowlersMart Blue Shammy",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "#cart-popup .quantity > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotalProduct}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "#cart-popup .woocommerce-mini-cart__total > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotalProduct}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "a[href*=\"/checkout/\"].button.checkout"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "td.product-name",
+      "value": "{{prod_desc}} - {{weight}}  × 1",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "dl.variation",
+      "value": "Drilling Protection:\n\nYes - Covers Cracking During Ball Drilling\n\nExtra 365 Warranty Coverage:\n\nYes - Add 365 Warranty Coverage\n\nSpecific Requests:\n\nTesting request\n\nMoney Saving Options:\n\nAdd Max Tack Ball Cleaner 8oz.\n\nMoney Saving Options:\n\nAdd BowlersMart Blue Shammy",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": ".create-account > label > input[type=\"checkbox\"].input-checkbox"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": ".create-account > label > input[type=\"checkbox\"].input-checkbox"
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": ".product-total > .woocommerce-Price-amount.amount",
+      "value": "{{subtotalProduct}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "tr.cart-subtotal > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{subtotalProduct}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "label[for=\"shipping_method_0_free_shipping1\"]",
+      "value": "FREE Standard Shipping"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": [
+        {
+          "selector": "tr.fee > td > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "#order_review > div.optional_fee_container > table > tbody > tr > td > p > span"
+        }
+      ],
+      "value": "",
+      "variableName": "shippingProtection"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "tr.tax-total > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "taxPrice"
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "strong > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "total"
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "",
+      "value": "let subtotalProduct = parseFloat('{{subtotalProduct}}'.replace('$','').trim())\nlet shippingProtection\n\nif ('{{shippingProtection}}' === '') {\n    shippingProtection = 0\n} else {\n    shippingProtection  = parseFloat('{{shippingProtection}}'.replace('$','').trim())\n}\n\nlet tax = parseFloat('{{taxPrice}}'.replace('$','').trim())\nlet total = parseFloat('{{total}}'.replace('$','').trim())\n\nlet total2 = subtotalProduct + shippingProtection + tax\ntotal2 = Number(total2.toFixed(2))\n\nreturn total === total2",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "681212cfff841a20f20fe201",
+    "suiteId": "681212cfff841a20f20fe1e3",
+    "suiteName": "BM - Basic WooCommerce Tests"
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Under 21 Age",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "assertElementPresent",
+      "condition": {
+        "statement": "const elem = document.querySelector('.age-gate__form')\n\nreturn !!elem"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": ".age-gate__form",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const elem = document.querySelector('.age-gate__form')\n\nreturn !!elem"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": ".age-gate__challenge",
+      "value": "Are you over 21 years of age?",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const elem = document.querySelector('.age-gate__form')\n\nreturn !!elem"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "//button[contains(text(), \"Yes\")]"
+        },
+        {
+          "selector": "button.age-gate__submit--yes"
+        }
+      ]
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "69a82b73b9fc488447ef7cab",
+    "suiteId": "69a82b73b9fc488447ef7c95",
+    "suiteName": "DollarTabs - Common steps for Project"
+  }
+}

@@ -1,0 +1,420 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "PLS - 15 - Checkout page",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "67b866b304f525bbb2206118",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": [
+        {
+          "selector": "//a[contains(text(), \"Proceed to checkout\")]"
+        },
+        {
+          "selector": "a[href*=\"/checkout/\"].checkout-button"
+        }
+      ]
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": [
+        {
+          "selector": "#order_review > table.shop_table.woocommerce-checkout-review-order-table > tbody > tr.cart_item > td.product-name > .ast-product-image > .ast-product-name"
+        },
+        {
+          "selector": "#order_review > table.shop_table.woocommerce-checkout-review-order-table > tbody > tr.cart_item > td.product-name"
+        }
+      ],
+      "value": "{{prodDesc}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": "#order_review > table.shop_table.woocommerce-checkout-review-order-table > tbody > tr.cart_item > td.product-name > .ast-product-image > .ast-product-name"
+        },
+        {
+          "selector": "#order_review > table.shop_table.woocommerce-checkout-review-order-table > tbody > tr.cart_item > td.product-name"
+        }
+      ],
+      "value": "{{prodDesc}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "#order_review > table.shop_table.woocommerce-checkout-review-order-table > tbody > tr.cart_item > td.product-total > .subscription-price",
+      "value": "{{unitPriceComplete}}"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "#order_review > table.shop_table.woocommerce-checkout-review-order-table > tfoot > tr.cart-subtotal > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "return false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "#order_review > table.shop_table.woocommerce-checkout-review-order-table > tfoot > tr.order-total > td > strong > .woocommerce-Price-amount.amount > bdi",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "const element = document.querySelector('.wc-block-checkout')\n\nreturn element !== null"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "",
+      "value": "const element = '{{prodDesc}}'\n//.replace('-','–')\nreturn element",
+      "variableName": "prodDesc"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "notes": "",
+      "optional": true,
+      "private": false,
+      "sequence": 8,
+      "target": [
+        {
+          "selector": "div.wc-block-components-order-summary-item:nth-of-type(1) > .wc-block-components-order-summary-item__description > h3.wc-block-components-product-name"
+        },
+        {
+          "selector": "tr:nth-of-type(1) > td.product-name"
+        }
+      ],
+      "value": "{{prodDesc}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return '{{days}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": [
+        {
+          "selector": "div.wc-block-components-order-summary-item:nth-of-type(1) > .wc-block-components-order-summary-item__description > .wc-block-components-product-metadata > .wc-block-components-product-details > .wc-block-components-product-details__subscription-period > .wc-block-components-product-details__value"
+        },
+        {
+          "selector": "tr:nth-of-type(1) > td.product-name"
+        }
+      ],
+      "value": "{{days}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const multiSteps = '{{multiSteps}}'\n\nreturn multiSteps === 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": "div:nth-child(1) > div.wc-block-components-order-summary-item__total-price > span span"
+        },
+        {
+          "selector": "tr:nth-of-type(1) > td.product-total .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "div.wp-block-woocommerce-checkout-order-summary-totals-block > div.wp-block-woocommerce-checkout-order-summary-subtotal-block.wc-block-components-totals-wrapper > div > span.wc-block-formatted-money-amount.wc-block-components-formatted-money-amount.wc-block-components-totals-item__value"
+        }
+      ],
+      "value": "{{subtotal}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const multiSteps = '{{multiSteps}}'\n\nreturn multiSteps !== 'yes' "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": [
+        {
+          "selector": "div:nth-child(1) > div.wc-block-components-order-summary-item__total-price > span span"
+        },
+        {
+          "selector": "tr:nth-of-type(1) > td.product-total .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "{{unitPrice}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const multiSteps = '{{multiSteps}}'\n\nreturn multiSteps !== 'yes' "
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": [
+        {
+          "selector": "div.wc-block-components-order-summary-item:nth-of-type(2) > .wc-block-components-order-summary-item__description > h3.wc-block-components-product-name"
+        },
+        {
+          "selector": "tr:nth-of-type(2) > td.product-name"
+        }
+      ],
+      "value": "{{prodDesc}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const multiSteps = '{{multiSteps}}'\n\nreturn multiSteps !== 'yes' &&'{{days}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": [
+        {
+          "selector": "div.wc-block-components-order-summary-item:nth-of-type(2) > .wc-block-components-order-summary-item__description > .wc-block-components-product-metadata > .wc-block-components-product-details > .wc-block-components-product-details__subscription-period > .wc-block-components-product-details__value"
+        },
+        {
+          "selector": "tr:nth-of-type(2) > td.product-name"
+        }
+      ],
+      "value": "{{days}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const multiSteps = '{{multiSteps}}'\n\nreturn multiSteps !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": [
+        {
+          "selector": "div:nth-child(2) > div.wc-block-components-order-summary-item__total-price > span span"
+        },
+        {
+          "selector": "tr:nth-of-type(2) > td.product-total .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "{{unitPrice}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const multiSteps = '{{multiSteps}}'\n\nreturn multiSteps !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": [
+        {
+          "selector": "div.wc-block-components-order-summary-item:nth-of-type(3) > .wc-block-components-order-summary-item__description > h3.wc-block-components-product-name"
+        },
+        {
+          "selector": "tr:nth-of-type(3) > td.product-name"
+        }
+      ],
+      "value": "{{prodDesc}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const multiSteps = '{{multiSteps}}'\n\nreturn multiSteps !== 'yes' && '{{days}}' !== ''"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": [
+        {
+          "selector": "div.wc-block-components-order-summary-item:nth-of-type(3) > .wc-block-components-order-summary-item__description > .wc-block-components-product-metadata > .wc-block-components-product-details > .wc-block-components-product-details__subscription-period > .wc-block-components-product-details__value"
+        },
+        {
+          "selector": "tr:nth-of-type(3) > td.product-name"
+        }
+      ],
+      "value": "{{days}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const multiSteps = '{{multiSteps}}'\n\nreturn multiSteps !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": [
+        {
+          "selector": "div:nth-child(3) > div.wc-block-components-order-summary-item__total-price > span span"
+        },
+        {
+          "selector": "tr:nth-of-type(3) > td.product-total .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "{{unitPrice}}"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "",
+      "value": "const element = document.querySelector('.wc-block-checkout')\n\nreturn element !== null",
+      "variableName": "blocks"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": [
+        {
+          "selector": ".wc-block-formatted-money-amount.wc-block-components-formatted-money-amount.wc-block-components-totals-item__value"
+        },
+        {
+          "selector": "tr.cart-subtotal .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "{{subtotal}}"
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "const element = document.querySelector('div.wp-block-woocommerce-checkout-order-summary-discount-block.wc-block-components-totals-wrapper > div > span.wc-block-number-format-container > span')\n\nreturn !element === false"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "div.wp-block-woocommerce-checkout-order-summary-discount-block.wc-block-components-totals-wrapper > div > span.wc-block-number-format-container > span",
+      "value": "-{{discount}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": [
+        {
+          "selector": ".wc-block-formatted-money-amount.wc-block-components-formatted-money-amount.wc-block-components-totals-footer-item-tax-value"
+        },
+        {
+          "selector": "tr.order-total .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
+      "value": "{{total}}"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const multiSteps = '{{multiSteps}}'\n\nreturn multiSteps !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": [
+        {
+          "selector": "div.wc-block-components-order-summary-item:nth-of-type(2) > .wc-block-components-order-summary-item__description > .wc-block-components-product-metadata > div.wc-block-components-product-details:nth-of-type(1) > .wc-block-components-product-details__participant > .wc-block-components-product-details__value"
+        },
+        {
+          "selector": "#order_review > table > tbody > tr:nth-child(2) > td.product-name > dl > dd > p"
+        }
+      ],
+      "value": "{{firstName2}} {{lastName2}} ({{email2}})",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const multiSteps = '{{multiSteps}}'\n\nreturn multiSteps !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": [
+        {
+          "selector": "div.wc-block-components-order-summary-item:nth-of-type(3) > .wc-block-components-order-summary-item__description > .wc-block-components-product-metadata > div.wc-block-components-product-details:nth-of-type(1) > .wc-block-components-product-details__participant > .wc-block-components-product-details__value"
+        },
+        {
+          "selector": "tr:nth-of-type(3) > td.product-name > p"
+        },
+        {
+          "selector": "#order_review > table > tbody > tr:nth-child(3) > td.product-name > dl > dd > p"
+        }
+      ],
+      "value": "{{firstName3}} {{lastName3}} ({{email3}})",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "67b869ad04f525bbb220bccb",
+    "suiteId": "67b7870c2abcf638e941971e",
+    "suiteName": "PLS - Basic WooCommerce Tests"
+  }
+}

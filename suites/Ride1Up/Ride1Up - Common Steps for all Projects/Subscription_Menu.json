@@ -1,0 +1,242 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "6.1.0",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Subscription Menu",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": null,
+  "steps": [
+    {
+      "command": "click",
+      "condition": {
+        "statement": "return document.getElementsByClassName(\"woocommerce-MyAccount-navigation-link--subscriptions\")[0].innerText === \"Subscriptions\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "a[href*=\"/my-account/subsriptions/\"]"
+        },
+        {
+          "selector": "li.woocommerce-MyAccount-navigation-link.woocommerce-MyAccount-navigation-link--subscriptions > a"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return document.getElementsByClassName(\"woocommerce-MyAccount-navigation-link--subscriptions\")[0].innerText === \"Subscriptions\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "td.subscription-id > a[href*=\"/my-account/view-subscription/{{subscriptionID}}/\"]",
+      "value": "#{{subscriptionID}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "return document.getElementsByClassName(\"woocommerce-MyAccount-navigation-link--subscriptions\")[0].innerText === \"Subscriptions\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "tr.order.woocommerce-orders-table__row:nth-of-type(1) > td.subscription-status.order-status.woocommerce-orders-table__cell.woocommerce-orders-table__cell-subscription-status.woocommerce-orders-table__cell-order-status",
+      "value": "Active",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": [
+        {
+          "selector": "a[href*=\"/view-subscription/{{subscriptionID}}/\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "h1.entry-title",
+      "value": "Subscription #{{subscriptionID}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "table.shop_table.subscription_details > tbody > tr:nth-of-type(1) > td:nth-of-type(2)",
+      "value": "Active",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "tr:nth-of-type(4) > td:nth-of-type(2)",
+      "value": "{{nextPay}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "td.product-total > .woocommerce-Price-amount.amount",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "let element = document.querySelectorAll(\"tfoot > tr\")\nreturn element.length",
+      "variableName": "n"
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount",
+      "value": "{{unitPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let length = {{n}}\nreturn length === 3",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "tr:nth-of-type(2) > td > .woocommerce-Price-amount.amount",
+      "value": "{{taxRenew}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let length = {{n}}\nreturn length === 3",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "tr:nth-of-type(3) > td > .woocommerce-Price-amount.amount",
+      "value": "{{totalRenew}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let length = {{n}}\nreturn length === 2",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "tr:nth-of-type(2) > td > .woocommerce-Price-amount.amount",
+      "value": "{{totalRenew}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "td.product-name > a",
+      "value": "{{prod_desc}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "td.order-number > a[href*=\"/view-order/{{orderNumber}}/\"]",
+      "value": "#{{orderNumber}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let country = \"{{country}}\"\nreturn country === \"CA\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": ".woocommerce-customer-details > address",
+      "value": "{{company}}\n{{firstName}} {{lastName}}\n{{street}}\n{{city}} {{state}} {{zipCode}}\n\n{{phone}}\n\n{{email}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": {
+        "statement": "let country = \"{{country}}\"\nreturn country === \"US\"",
+        "result": false
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": ".woocommerce-customer-details > address",
+      "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{city}}, {{state}} {{zipCode}}\n{{countryComplete}}\n\n{{phone}}\n\n{{email}}",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "63c71c660b7aefb972ffc44c",
+    "suiteId": "63c71c660b7aefb972ffc439",
+    "suiteName": "Ride1Up - Common Steps for all Projects"
+  }
+}

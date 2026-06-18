@@ -1,0 +1,99 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Mobile Shop Menu",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": true,
+  "screenshotTarget": "nav.subheader ul.menu",
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": null,
+  "steps": [
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "command": "click",
+      "target": "nav.subheader #sub-trigger",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "command": "assertElementVisible",
+      "target": "nav.subheader ul.menu",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "command": "screenshot",
+      "target": "nav.subheader ul.menu",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "command": "click",
+      "target": "nav.subheader ul.menu > .bm_widget_product_categories > .widgettitle",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "command": "assertElementVisible",
+      "target": "nav.subheader ul.menu > .bm_widget_product_categories > .widgettitle + .sub-menu",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "command": "screenshot",
+      "target": "nav.subheader ul.menu > .bm_widget_product_categories > .widgettitle + .sub-menu",
+      "value": "",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": {
+    "width": 414,
+    "height": 896
+  },
+  "_gi": {
+    "testId": "618d2d0e84b54c261a46e41e",
+    "suiteId": "6001e87ac5e34d38d8d5edcf",
+    "suiteName": "Mavenfair - Basic WooCommerce Test"
+  }
+}

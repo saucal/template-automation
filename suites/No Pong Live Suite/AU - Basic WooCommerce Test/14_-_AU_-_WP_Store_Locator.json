@@ -1,0 +1,276 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "browserVersion": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.2",
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": false,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "14 - AU - WP Store Locator",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "https://no-pong-au-develop.go-vip.net/",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "a[href*=\"/stockists/\"] > em",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "h1.entry-title > em",
+      "value": "Stockists",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "#h-we-love-to-support-small-businesses-after-all-we-re-one-of-them-buying-from-one-of-our-stockists-is-a-convenient-way-to-support-local-business-if-there-s-one-near-you",
+      "value": "We love to support small businesses, after all, we’re one of them!  Buying from one of our stockists is a convenient way to support local business if there’s one near you.",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "li:nth-of-type(1) > .wpsl-store-location > p:nth-of-type(1) > strong > a.wpsl-store-details",
+      "value": "",
+      "variableName": "store"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "li:nth-of-type(1) > .wpsl-store-location > p:nth-of-type(1) > strong > a.wpsl-store-details",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "a[href*=\"/stockist/\"]",
+      "value": "{{store}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "div > img",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "#wpsl-search-input",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "#wpsl-search-input",
+      "value": "wanaka",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "#wpsl-search-btn",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": ".wpsl-no-results-msg",
+      "value": "No results found",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "#wpsl-search-input",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "#wpsl-search-input",
+      "value": "alice",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "div.pac-item:nth-of-type(1) > .pac-item-query",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "#wpsl-search-btn",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "li:nth-of-type(1) > .wpsl-store-location > p:nth-of-type(1) > strong > a.wpsl-store-details",
+      "value": "GO VITA ALICE SPRINGS",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "li:nth-of-type(2) > .wpsl-store-location > p:nth-of-type(1) > strong > a.wpsl-store-details",
+      "value": "Complete Balance",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementVisible",
+      "condition": null,
+      "notes": "making optional to check failure",
+      "optional": true,
+      "private": false,
+      "sequence": 17,
+      "target": "div[aria-label=\"Map\"] > div:nth-of-type(2)",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": [
+        {
+          "selector": "xpath=//a[contains(text(), \"Complete Balance\")]"
+        },
+        {
+          "selector": "li:nth-of-type(2) > .wpsl-store-location > p:nth-of-type(1) > strong > a.wpsl-store-details"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "a[href*=\"/stockist/megans-beauty/\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "h1.entry-title",
+      "value": "COMPLETE BALANCE",
+      "variableName": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "notes": "",
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "",
+      "value": "const url = window.location.href;\nreturn url;",
+      "variableName": "url"
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": "",
+      "value": "const expect = \"https://no-pong-au-develop.go-vip.net/stockist/megans-beauty/\";\nconst actual = \"{{url}}\";\n\nreturn actual == expect;",
+      "variableName": ""
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "67d401d892add9437d4c13c0",
+    "suiteId": "67d401d892add9437d4c139c",
+    "suiteName": "AU - Basic WooCommerce Test"
+  }
+}

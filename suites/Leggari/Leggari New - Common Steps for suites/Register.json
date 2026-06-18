@@ -1,0 +1,328 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Register",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": [
+        {
+          "selector": "#secondary-header-menu > li.secondary-header-menu__login > a"
+        },
+        {
+          "selector": "#main-header > div > div > div > div > div > div > div > div.site-header-section.site-header-section-right > div:nth-child(3) > div > a"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
+      "target": "#reg_role",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const role = '{{role}}'\n\nreturn role !== 'contractor'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "#reg_role",
+      "value": "customer",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const role = '{{role}}'\n\nreturn role === 'contractor'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "#reg_role",
+      "value": "contractor",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "input[placeholder=\"Enter First Name\"]",
+      "value": "{{firstName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "input[placeholder=\"Enter Last Name\"]",
+      "value": "{{lastName}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "#reg_email",
+      "value": "{{username}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const role = '{{role}}'\n\nreturn role === 'contractor'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "#leggari_phone_number",
+      "value": "{{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const role = '{{role}}'\n\nreturn role === 'contractor'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "#afreg_additional_4201",
+      "value": "{{EIN}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const role = '{{role}}'\n\nreturn role === 'contractor'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "#afreg_additional_4199",
+      "value": "{{company}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": {
+        "statement": "const role = '{{role}}'\n\nreturn role === 'contractor'"
+      },
+      "file": {
+        "filename": "license.jpg",
+        "size": 92898,
+        "path": "uploads/c743c1ac-41a0-4216-acf3-eeb212b5f9e0.jpg",
+        "url": "https://ghostinspector-prod.s3.amazonaws.com/uploads/c743c1ac-41a0-4216-acf3-eeb212b5f9e0.jpg"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "input#leggari_business_license[type='file']",
+      "value": "https://ghostinspector-prod.s3.amazonaws.com/uploads/c743c1ac-41a0-4216-acf3-eeb212b5f9e0.jpg",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": [
+        {
+          "selector": "xpath=//button[contains(text(), \"Register\")]"
+        },
+        {
+          "selector": "button[name=\"register\"]"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const role = '{{role}}'\n\nreturn role === 'contractor'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": ".woocommerce-error > li",
+      "value": "Thank you for creating an account with Leggari! Your password has been sent to the email you provided. If you registered as a Contractor, please note that it may take 24-48 hours before your account is approved. We look forward to serving your needs."
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const role = '{{role}}'\n\nreturn role === 'contractor'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": ".woocommerce-message",
+      "value": "Your account was created successfully and a password has been sent to your email address."
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 15,
+      "target": "",
+      "value": "603d1f20494ea848981cef9b",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "xpath=//a[contains(text(), \"Your Leggari Products account has been created!\")]",
+      "value": ""
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "notes": "adding this step because the test is failing when assigning the password value to the field",
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "",
+      "value": "let link = document.querySelector('#body_content_inner > p:nth-child(3) > a').getAttribute('href');\nreturn link",
+      "variableName": "link"
+    },
+    {
+      "command": "eval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "",
+      "value": "window.location.href = document.querySelector('#body_content_inner > p:nth-child(3) > a').getAttribute('href');",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
+      "target": "",
+      "value": "return new Promise((resolve, reject) => {\n    (document.readyState) || reject(\"Can't resolve document readystate\");\n    let listener;\n    (/^c/).test(document.readyState) ? resolve(true) : document.addEventListener(\"load\", listener = event => {\n      document.removeEventListener(\"load\", listener);\n      resolve(true);\n    });\n})",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 20,
+      "target": "#password_1",
+      "value": "{{password}}",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 21,
+      "target": "#password_2",
+      "value": "{{password}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 22,
+      "target": [
+        {
+          "selector": "xpath=//button[contains(text(), \"Save\")]"
+        },
+        {
+          "selector": "button[type=\"submit\"].woocommerce-Button"
+        }
+      ],
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": {
+        "statement": "const role = '{{role}}'\n\nreturn role !== 'contractor'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 23,
+      "target": ".woocommerce-MyAccount-navigation-link.woocommerce-MyAccount-navigation-link--customer-logout > a",
+      "value": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "const role = '{{role}}'\n\nreturn role === 'contractor'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 24,
+      "target": ".woocommerce-message",
+      "value": "Your password has been reset successfully."
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "61effe223e617932e957b5c0",
+    "suiteId": "61effe223e617932e957b5b8",
+    "suiteName": "Leggari New - Common Steps for suites"
+  }
+}

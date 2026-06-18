@@ -1,0 +1,59 @@
+{
+  "autoRetry": null,
+  "browser": null,
+  "dataSource": null,
+  "disableVisuals": null,
+  "disallowInsecureCertificates": null,
+  "failOnJavaScriptError": null,
+  "filters": [],
+  "finalDelay": null,
+  "globalStepDelay": null,
+  "httpHeaders": [],
+  "importOnly": true,
+  "language": null,
+  "links": [],
+  "maxAjaxDelay": null,
+  "maxConcurrentDataRows": null,
+  "maxWaitDelay": null,
+  "name": "Get default currency price",
+  "notifications": null,
+  "publicStatusEnabled": false,
+  "region": null,
+  "screenshotCompareEnabled": null,
+  "screenshotCompareThreshold": 0.1,
+  "startUrl": "",
+  "steps": [
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let currency = \"{{currency}}\"\nreturn currency === \"{{defaultCurr}}\" || currency === \"\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "let content = document.querySelectorAll(\".price > span.woocommerce-Price-amount.amount, .price > ins > span.woocommerce-Price-amount.amount, .price > del > span.woocommerce-Price-amount.amount, .storefront-sticky-add-to-cart__content-price > span.woocommerce-Price-amount.amount, .storefront-sticky-add-to-cart__content-price > ins > span.woocommerce-Price-amount.amount, .storefront-sticky-add-to-cart__content-price > del > span.woocommerce-Price-amount.amount\")\nlet minicart = document.querySelectorAll(\".cart-contents > span.woocommerce-Price-amount.amount\")\nlet subscription = document.querySelectorAll(\".subscription-details > span.woocommerce-Price-amount.amount\")\nlet result = []\n\nfor (let i = 0; i < content.length; i++) {\n        result.push(content[i].textContent);\n    }\nfor (let i = 0; i < minicart.length; i++) {\n        result.push(minicart[i].textContent);\n    }\nfor (let i = 0; i < subscription.length; i++) {\n        result.push(subscription[i].textContent);\n    }\nreturn result",
+      "variableName": "resultDefault"
+    },
+    {
+      "command": "extractEval",
+      "condition": {
+        "statement": "let currency = \"{{currency}}\"\nreturn currency !== \"{{defaultCurr}}\" && currency !== \"\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 1,
+      "target": "",
+      "value": "let content = document.querySelectorAll(\".bluesnap-multicurrency-html.currency-show > span.woocommerce-Price-amount.amount,.bluesnap-multicurrency-html.currency-show > ins > span.woocommerce-Price-amount.amount,.bluesnap-multicurrency-html.currency-show > del > span.woocommerce-Price-amount.amount, .storefront-sticky-add-to-cart__content-price > .bluesnap-multicurrency-html.currency-show > span.woocommerce-Price-amount.amount, .storefront-sticky-add-to-cart__content-price > .bluesnap-multicurrency-html.currency-show > ins > span.woocommerce-Price-amount.amount, .storefront-sticky-add-to-cart__content-price > .bluesnap-multicurrency-html.currency-show > del > span.woocommerce-Price-amount.amount\")\nlet minicart = document.querySelectorAll(\".cart-contents > span.woocommerce-Price-amount.amount\")\nlet subscription = document.querySelectorAll(\".subscription-details > span.woocommerce-Price-amount.amount\")\nlet result = []\n\nfor (let i = 0; i < content.length; i++) {\n        result.push(content[i].textContent);\n    }\nfor (let i = 0; i < minicart.length; i++) {\n        result.push(minicart[i].textContent);\n    }\nfor (let i = 0; i < subscription.length; i++) {\n        result.push(subscription[i].textContent);\n    }\nreturn result",
+      "variableName": "resultEUR"
+    }
+  ],
+  "testFrequency": 0,
+  "testFrequencyAdvanced": [],
+  "viewportSize": null,
+  "_gi": {
+    "testId": "630e60c1e3896e4c0d45da3f",
+    "suiteId": "60abe823386331066da36ba7",
+    "suiteName": "BlueSnap - Common Steps for suites"
+  }
+}
