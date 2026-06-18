@@ -33,4 +33,22 @@ function annotateGi(data, nameToId, suiteId, suiteName) {
   return { matched: true };
 }
 
-module.exports = { sanitizeName, sanitizeTestName, suiteDir, annotateGi };
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+// Fetch JSON with bounded retry on HTTP 429. Injectable fetchImpl/delay for tests.
+async function fetchJson(url, opts = {}) {
+  const fetchImpl = opts.fetchImpl || globalThis.fetch;
+  const retries = opts.retries != null ? opts.retries : 3;
+  const delayMs = opts.delayMs != null ? opts.delayMs : 1000;
+  for (let attempt = 0; ; attempt++) {
+    const res = await fetchImpl(url);
+    if (res.ok) return res.json();
+    if (res.status === 429 && attempt < retries) {
+      await sleep(delayMs * (attempt + 1));
+      continue;
+    }
+    throw new Error(`Fetch failed: ${res.status} ${res.statusText} for ${url}`);
+  }
+}
+
+module.exports = { sanitizeName, sanitizeTestName, suiteDir, annotateGi, fetchJson };

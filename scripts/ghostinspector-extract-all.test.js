@@ -48,3 +48,23 @@ test('annotateGi reports unmatched and leaves _gi absent', () => {
   assert.strictEqual(out.matched, false);
   assert.strictEqual(data._gi, undefined);
 });
+
+test('fetchJson retries on 429 then succeeds', async () => {
+  let calls = 0;
+  const fakeFetch = async () => {
+    calls++;
+    if (calls < 3) return { ok: false, status: 429, statusText: 'Too Many Requests' };
+    return { ok: true, json: async () => ({ data: 'ok' }) };
+  };
+  const out = await m.fetchJson('http://x', { fetchImpl: fakeFetch, retries: 5, delayMs: 0 });
+  assert.deepStrictEqual(out, { data: 'ok' });
+  assert.strictEqual(calls, 3);
+});
+
+test('fetchJson throws on non-429 error', async () => {
+  const fakeFetch = async () => ({ ok: false, status: 404, statusText: 'Not Found' });
+  await assert.rejects(
+    () => m.fetchJson('http://x', { fetchImpl: fakeFetch, retries: 2, delayMs: 0 }),
+    /404/
+  );
+});
