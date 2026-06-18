@@ -69,14 +69,21 @@ test('fetchJson throws on non-429 error', async () => {
   );
 });
 
-test('url builders encode ids and key', () => {
-  const u = m.urls('KEY', 'ORG');
-  assert.strictEqual(u.folders(), 'https://api.ghostinspector.com/v1/organizations/ORG/folders/?apiKey=KEY');
-  assert.strictEqual(u.suites(), 'https://api.ghostinspector.com/v1/organizations/ORG/suites/?apiKey=KEY');
-  assert.strictEqual(u.org(), 'https://api.ghostinspector.com/v1/organizations/ORG/?apiKey=KEY');
+test('url builders use account-scoped folders/suites and encode ids/key', () => {
+  const u = m.urls('KEY');
+  assert.strictEqual(u.folders(), 'https://api.ghostinspector.com/v1/folders/?apiKey=KEY');
+  assert.strictEqual(u.suites(), 'https://api.ghostinspector.com/v1/suites/?apiKey=KEY');
+  assert.strictEqual(u.org('ORG'), 'https://api.ghostinspector.com/v1/organizations/ORG/?apiKey=KEY');
   assert.strictEqual(u.suiteDetail('S1'), 'https://api.ghostinspector.com/v1/suites/S1/?apiKey=KEY');
   assert.strictEqual(u.suiteTests('S1'), 'https://api.ghostinspector.com/v1/suites/S1/tests/?apiKey=KEY');
   assert.strictEqual(u.suiteExport('S1'), 'https://api.ghostinspector.com/v1/suites/S1/export/json/?apiKey=KEY');
+});
+
+test('orgIdOf reads id-string (folder) and object (suite) shapes', () => {
+  assert.strictEqual(m.orgIdOf({ organization: 'org1' }), 'org1');
+  assert.strictEqual(m.orgIdOf({ organization: { _id: 'org2', name: 'Acme' } }), 'org2');
+  assert.strictEqual(m.orgIdOf({}), null);
+  assert.strictEqual(m.orgIdOf(null), null);
 });
 
 test('buildNameToId maps test name to id, warns on duplicate names', () => {

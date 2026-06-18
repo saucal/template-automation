@@ -33,17 +33,21 @@ We want a full-org extraction whose on-disk output is directly consumable by `mi
 | Var | Required | Notes |
 |-----|----------|-------|
 | `GHOST_INSPECTOR_API_KEY` | yes | aborts if missing |
-| `GHOST_INSPECTOR_ORG_ID` | yes* | whole-org extraction needs it. If absent, fetch `/organizations/`; if exactly one org, use it; else abort and print the org id/name choices. |
+| `GHOST_INSPECTOR_ORG_ID` | no | Org filter. Unset → extract the whole account (= whole org for single-org accounts). Set it to scope extraction to one org when the account spans several; a multi-org account with no filter logs a warning and extracts all. |
 
 CLI: `--suites <path>` (default `./suites`) to override output dir; `--keep` to skip the fresh-wipe.
 
 ## API endpoints
 
+> **Note:** GI folders/suites listing is **account-scoped**, not org-scoped (the
+> `/organizations/{orgId}/folders|suites/` paths return 404). Org filtering is done
+> client-side via each object's `organization` field — an id string on folders, an
+> `{ _id, name }` object on suites.
+
 | Purpose | Endpoint |
 |---------|----------|
-| Resolve org (fallback) | `GET /organizations/?apiKey=` |
-| List folders | `GET /organizations/{orgId}/folders/?apiKey=` |
-| List all suites in org | `GET /organizations/{orgId}/suites/?apiKey=` |
+| List folders (account) | `GET /folders/?apiKey=` |
+| List suites (account) | `GET /suites/?apiKey=` |
 | Suite detail (name, variables, startUrl, viewport) | `GET /suites/{suiteId}/?apiKey=` |
 | Bulk test export (ZIP) | `GET /suites/{suiteId}/export/json/?apiKey=` |
 | Tests list (id + name) | `GET /suites/{suiteId}/tests/?apiKey=` |
@@ -53,9 +57,9 @@ All overridable via existing `*_URL_TEMPLATE` env-var convention used in `ghosti
 
 ## Flow
 
-1. **Resolve orgId** (env, else single-org fallback, else abort with choices).
-2. `GET /organizations/{orgId}/folders/` → build `{ folderId: folderName }`.
-3. `GET /organizations/{orgId}/suites/` → all suites (each carries a `folder` id, or none).
+1. **Read optional org filter** from `GHOST_INSPECTOR_ORG_ID` (unset = whole account).
+2. `GET /folders/` → build `{ folderId: folderName }`, filtered to the org if set.
+3. `GET /suites/` → all account suites; filter to the org if set (each carries a `folder` id, or none).
 4. **Fresh wipe**: remove + recreate `suites/` (unless `--keep`), matching current sync behavior.
 5. **Per suite:**
    - Compute dir: `suites/<sanitized-folder | _no-folder>/<sanitized-suite>/`.

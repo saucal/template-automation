@@ -55,17 +55,25 @@ const BASE = 'https://api.ghostinspector.com/v1';
 const enc = encodeURIComponent;
 
 // All GI endpoints used by this tool, with id/key encoding centralized.
-function urls(apiKey, orgId) {
+// folders/suites are ACCOUNT-scoped in the GI API (no org path segment); org
+// filtering is done client-side via each object's `organization` field.
+function urls(apiKey) {
   const k = enc(apiKey);
   return {
-    folders: () => `${BASE}/organizations/${enc(orgId)}/folders/?apiKey=${k}`,
-    suites: () => `${BASE}/organizations/${enc(orgId)}/suites/?apiKey=${k}`,
-    org: () => `${BASE}/organizations/${enc(orgId)}/?apiKey=${k}`,
+    folders: () => `${BASE}/folders/?apiKey=${k}`,
+    suites: () => `${BASE}/suites/?apiKey=${k}`,
+    org: (orgId) => `${BASE}/organizations/${enc(orgId)}/?apiKey=${k}`,
     suiteDetail: (id) => `${BASE}/suites/${enc(id)}/?apiKey=${k}`,
     suiteTests: (id) => `${BASE}/suites/${enc(id)}/tests/?apiKey=${k}`,
     suiteExport: (id) => `${BASE}/suites/${enc(id)}/export/json/?apiKey=${k}`,
-    orgsList: () => `${BASE}/organizations/?apiKey=${k}`,
   };
+}
+
+// Extract an organization id from a GI object's `organization` field, which is
+// an id string on folders but an { _id, name } object on suites.
+function orgIdOf(obj) {
+  const o = obj && obj.organization;
+  return o && typeof o === 'object' ? o._id : o || null;
 }
 
 // Build { testName: testId } from a suite's tests list. First occurrence wins;
@@ -80,7 +88,7 @@ function buildNameToId(tests, warn) {
   return map;
 }
 
-module.exports = { sanitizeName, sanitizeTestName, suiteDir, annotateGi, fetchJson, urls, buildNameToId };
+module.exports = { sanitizeName, sanitizeTestName, suiteDir, annotateGi, fetchJson, urls, orgIdOf, buildNameToId };
 
 // ─── Orchestration ──────────────────────────────────────────────────────────
 
@@ -92,32 +100,34 @@ function getArg(flag, def) {
   return i !== -1 ? process.argv[i + 1] : def;
 }
 
-async function resolveOrgId(apiKey) {
-  if (process.env.GHOST_INSPECTOR_ORG_ID) return process.env.GHOST_INSPECTOR_ORG_ID;
-  const list = await fetchJson(urls(apiKey, '').orgsList());
-  const orgs = list.data || [];
-  if (orgs.length === 1) return orgs[0]._id;
-  console.error('GHOST_INSPECTOR_ORG_ID not set and could not auto-resolve. Available orgs:');
-  for (const o of orgs) console.error(`  ${o._id}  ${o.name}`);
-  process.exit(2);
-}
-
 async function main() {
   const apiKey = process.env.GHOST_INSPECTOR_API_KEY;
   if (!apiKey) { console.error('Missing GHOST_INSPECTOR_API_KEY'); process.exit(2); }
 
   const root = path.resolve(getArg('--suites', './suites'));
   const keep = process.argv.includes('--keep');
+  // Optional org filter. Unset → process the whole account (= whole org when single-org).
+  const orgFilter = process.env.GHOST_INSPECTOR_ORG_ID || null;
 
-  const orgId = await resolveOrgId(apiKey);
-  const u = urls(apiKey, orgId);
+  const u = urls(apiKey);
 
+  // folders/suites are account-scoped; filter client-side by organization id.
   const folderData = await fetchJson(u.folders());
   const folders = {};
-  for (const f of (folderData.data || [])) folders[f._id] = f.name;
+  for (const f of (folderData.data || [])) {
+    if (orgFilter && orgIdOf(f) && orgIdOf(f) !== orgFilter) continue;
+    folders[f._id] = f.name;
+  }
 
   const suitesData = await fetchJson(u.suites());
-  const suites = suitesData.data || [];
+  let suites = suitesData.data || [];
+  if (orgFilter) suites = suites.filter((s) => orgIdOf(s) === orgFilter);
+
+  // Warn if the account spans multiple orgs and no filter was given.
+  const distinctOrgs = new Set((suitesData.data || []).map(orgIdOf).filter(Boolean));
+  if (!orgFilter && distinctOrgs.size > 1) {
+    console.warn(`⚠ account spans ${distinctOrgs.size} organizations and GHOST_INSPECTOR_ORG_ID is unset — extracting ALL of them`);
+  }
 
   if (!keep && fs.existsSync(root)) fs.rmSync(root, { recursive: true, force: true });
   fs.mkdirSync(root, { recursive: true });
@@ -171,15 +181,20 @@ async function main() {
     }
   }
 
-  // org variables
-  try {
-    const orgData = await fetchJson(u.org());
-    const org = orgData.data ?? orgData;
-    const variables = Array.isArray(org.variables) ? org.variables : [];
-    fs.writeFileSync(path.join(root, '_organization.json'), JSON.stringify({ variables }, null, 2), 'utf8');
-    console.log(`✓ _organization.json (${variables.length} vars)`);
-  } catch (e) {
-    console.error(`✗ org variables failed: ${e.message}`);
+  // org variables — use the explicit filter, else the org the suites belong to.
+  const orgIdForVars = orgFilter || orgIdOf(suites[0]) || [...distinctOrgs][0] || null;
+  if (orgIdForVars) {
+    try {
+      const orgData = await fetchJson(u.org(orgIdForVars));
+      const org = orgData.data ?? orgData;
+      const variables = Array.isArray(org.variables) ? org.variables : [];
+      fs.writeFileSync(path.join(root, '_organization.json'), JSON.stringify({ variables }, null, 2), 'utf8');
+      console.log(`✓ _organization.json (${variables.length} vars)`);
+    } catch (e) {
+      console.error(`✗ org variables failed: ${e.message}`);
+    }
+  } else {
+    console.warn('⚠ no organization id resolved — skipping _organization.json');
   }
 
   console.log(`\nDone. Suites: ${processed} ok, ${failed} failed. Tests: ${annotated} annotated, ${unmatched} unmatched.`);
