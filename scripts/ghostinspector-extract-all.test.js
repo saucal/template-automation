@@ -78,3 +78,15 @@ test('url builders encode ids and key', () => {
   assert.strictEqual(u.suiteTests('S1'), 'https://api.ghostinspector.com/v1/suites/S1/tests/?apiKey=KEY');
   assert.strictEqual(u.suiteExport('S1'), 'https://api.ghostinspector.com/v1/suites/S1/export/json/?apiKey=KEY');
 });
+
+test('buildNameToId maps test name to id, warns on duplicate names', () => {
+  const warnings = [];
+  const map = m.buildNameToId(
+    [{ _id: 'a', name: 'X' }, { _id: 'b', name: 'Y' }, { _id: 'c', name: 'X' }],
+    (msg) => warnings.push(msg)
+  );
+  assert.strictEqual(map['X'], 'a'); // first wins
+  assert.strictEqual(map['Y'], 'b');
+  assert.strictEqual(warnings.length, 1);
+  assert.match(warnings[0], /duplicate test name/i);
+});
