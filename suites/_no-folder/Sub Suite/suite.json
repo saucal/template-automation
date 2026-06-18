@@ -1,0 +1,289 @@
+{
+  "code": "SUCCESS",
+  "data": {
+    "_id": "64c920fd960593b38bc978f5",
+    "abortOnTestFailure": false,
+    "autoRetry": false,
+    "browser": "chrome",
+    "dataSource": null,
+    "dateCreated": "2023-08-01T15:13:01.303Z",
+    "details": "Sub suite to develop test and run them without running the full suite",
+    "disableVisuals": false,
+    "disallowInsecureCertificates": false,
+    "failOnJavaScriptError": false,
+    "finalDelay": 5000,
+    "folder": null,
+    "globalStepDelay": 250,
+    "language": null,
+    "maxAjaxDelay": 10000,
+    "maxConcurrentDataRows": 50,
+    "maxConcurrentTests": 1,
+    "maxWaitDelay": 15000,
+    "name": "Sub Suite",
+    "organization": {
+      "_id": "5f9c0e491f815b1b8c62867e",
+      "name": "Saucal Inc."
+    },
+    "persistVariables": true,
+    "publicStatusEnabled": false,
+    "region": "us-east-1",
+    "screenshotCompareEnabled": false,
+    "screenshotCompareThreshold": 0.1,
+    "startUrl": "https://bluesnaptest1.wpengine.com/",
+    "testCount": 0,
+    "testFrequency": 0,
+    "testFrequencyAdvanced": [],
+    "variables": [
+      {
+        "name": "firstName",
+        "value": "QA",
+        "private": false,
+        "_id": "64c95b0c6f03cb8cdb07fb01"
+      },
+      {
+        "name": "lastName",
+        "value": "test",
+        "private": false,
+        "_id": "64c95b0c6f03cb8cdb07fb02"
+      },
+      {
+        "name": "countryNl",
+        "value": "Netherlands",
+        "private": false,
+        "_id": "6567dee831cdac62cdff30b1"
+      },
+      {
+        "name": "countryPl",
+        "value": "Poland",
+        "private": false,
+        "_id": "6567dee831cdac62cdff30b2"
+      },
+      {
+        "name": "zipCodeEs",
+        "value": "28040",
+        "private": false,
+        "_id": "64c95b0c6f03cb8cdb07fb06"
+      },
+      {
+        "name": "countryCh",
+        "value": "Switzerland",
+        "private": false,
+        "_id": "6567dee831cdac62cdff30b3"
+      },
+      {
+        "name": "currencyUs",
+        "value": "USD",
+        "private": false,
+        "_id": "6567dee831cdac62cdff30b4"
+      },
+      {
+        "name": "currencyEu",
+        "value": "EUR",
+        "private": false,
+        "_id": "6567dee831cdac62cdff30b5"
+      },
+      {
+        "name": "accountNumberA",
+        "value": "223344556",
+        "private": false,
+        "_id": "64dd55e51aeb1bd5dd74489d"
+      },
+      {
+        "name": "currencyGb",
+        "value": "GBP",
+        "private": false,
+        "_id": "6567dee831cdac62cdff30b6"
+      },
+      {
+        "name": "currencyPl",
+        "value": "PLN",
+        "private": false,
+        "_id": "6567dee831cdac62cdff30b7"
+      },
+      {
+        "name": "currencyCh",
+        "value": "CHF",
+        "private": false,
+        "_id": "6567dee831cdac62cdff30b8"
+      },
+      {
+        "name": "zipCodeUs",
+        "value": "33126",
+        "private": false,
+        "_id": "6567dee831cdac62cdff30aa"
+      },
+      {
+        "name": "zipCodeGb",
+        "value": "E1 8GP",
+        "private": false,
+        "_id": "6567dee831cdac62cdff30b9"
+      },
+      {
+        "name": "cityGb",
+        "value": "London",
+        "private": false,
+        "_id": "6567dee831cdac62cdff30ba"
+      },
+      {
+        "name": "zipCodePl",
+        "value": "02-507",
+        "private": false,
+        "_id": "6567dee831cdac62cdff30bb"
+      },
+      {
+        "name": "phone",
+        "value": "(902)2279524",
+        "private": false,
+        "_id": "64c95b0c6f03cb8cdb07fb07"
+      },
+      {
+        "name": "cityPl",
+        "value": "Warszawa",
+        "private": false,
+        "_id": "6567dee831cdac62cdff30bc"
+      },
+      {
+        "name": "routingNumberA",
+        "value": "998877665",
+        "private": false,
+        "_id": "64dd55e51aeb1bd5dd74489e"
+      },
+      {
+        "name": "company",
+        "value": "Test Inc.",
+        "private": false,
+        "_id": "64c95b0c6f03cb8cdb07fb03"
+      },
+      {
+        "name": "street",
+        "value": "1320 S Dixie Hwy,",
+        "private": false,
+        "_id": "64c95b0c6f03cb8cdb07fb04"
+      },
+      {
+        "name": "wp_api_pass",
+        "value": "eAFR YyTz w9Qt SRre Q3uM 8WMD",
+        "private": true,
+        "_id": "6509bf2c043e569e6b11c180"
+      },
+      {
+        "name": "cityUs",
+        "value": "Coral Gables",
+        "private": false,
+        "_id": "64c95b0c6f03cb8cdb07fb05"
+      },
+      {
+        "name": "cityEs",
+        "value": "Madrid",
+        "private": false,
+        "_id": "6567dee831cdac62cdff30ab"
+      },
+      {
+        "name": "address2",
+        "value": "Suite 17",
+        "private": false,
+        "_id": "656781695633786b05595932"
+      },
+      {
+        "name": "password",
+        "value": "fric2171Biot",
+        "private": false,
+        "_id": "64c962e16f03cb8cdb092a5f"
+      },
+      {
+        "name": "user_bluesnap",
+        "value": "saucal_sandbox",
+        "private": false,
+        "_id": "64f8991be0dfa97aa974eeae"
+      },
+      {
+        "name": "password_bluesnap",
+        "value": "jey2gpa!YWQ8wkp@wek",
+        "private": true,
+        "_id": "64f8991be0dfa97aa974eeaf"
+      },
+      {
+        "name": "woo_user",
+        "value": "ck_9f30058180ed38b04128f2768c34da072282af32",
+        "private": true,
+        "_id": "64cd959b6f03cb8cdbb956d8"
+      },
+      {
+        "name": "woo_pass",
+        "value": "cs_fa8e27ba32f6a3ef6863c9a0be26cee813c08105",
+        "private": true,
+        "_id": "64cd959b6f03cb8cdbb956d9"
+      },
+      {
+        "name": "payPalUser",
+        "value": "sb-8eg0v132169@personal.example.com",
+        "private": false,
+        "_id": "64ecaa66f08a10893ac7c685"
+      },
+      {
+        "name": "approved",
+        "value": "_APPROVE",
+        "private": false,
+        "_id": "6584a2c83a499796833076b4"
+      },
+      {
+        "name": "rejected",
+        "value": "_REJECT",
+        "private": false,
+        "_id": "6584a2c83a499796833076b5"
+      },
+      {
+        "name": "payPalPass",
+        "value": "awYXy$t8",
+        "private": true,
+        "_id": "64ecaa66f08a10893ac7c686"
+      },
+      {
+        "name": "countryEs",
+        "value": "Spain",
+        "private": false,
+        "_id": "6567dee831cdac62cdff30ac"
+      },
+      {
+        "name": "countryAt",
+        "value": "Austria",
+        "private": false,
+        "_id": "6567dee831cdac62cdff30ad"
+      },
+      {
+        "name": "countryDe",
+        "value": "Germany",
+        "private": false,
+        "_id": "6567dee831cdac62cdff30ae"
+      },
+      {
+        "name": "countryGb",
+        "value": "United Kingdom",
+        "private": false,
+        "_id": "6567dee831cdac62cdff30af"
+      },
+      {
+        "name": "countryIt",
+        "value": "Italy",
+        "private": false,
+        "_id": "6567dee831cdac62cdff30b0"
+      },
+      {
+        "name": "delayApprove",
+        "value": "_DELAYAP",
+        "private": false,
+        "_id": "6584aeb63a4997968331aa45"
+      },
+      {
+        "name": "delayReject",
+        "value": "_DELAYRJ",
+        "private": false,
+        "_id": "6584aeb63a4997968331aa46"
+      }
+    ],
+    "viewportSize": {
+      "width": 1280,
+      "height": 800
+    }
+  }
+}
