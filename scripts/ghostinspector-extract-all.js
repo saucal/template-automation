@@ -144,20 +144,37 @@ async function main() {
 
       const dir = suiteDir(root, suite, folders);
       fs.mkdirSync(dir, { recursive: true });
+      const label = `${folders[suite.folder] || '_no-folder'}/${suite.name}`;
+
+      // Tests list first — also tells us whether the suite is empty. GI's ZIP
+      // export for a 0-test suite is not a valid archive (unzip errors), so we
+      // skip the export entirely for empty suites and still write suite.json.
+      const testsData = await fetchJson(u.suiteTests(suite._id));
+      const tests = testsData.data || [];
+
+      // suite detail (written regardless, so empty suites still produce suite.json)
+      const detail = await fetchJson(u.suiteDetail(suite._id));
+      fs.writeFileSync(path.join(dir, 'suite.json'), JSON.stringify(detail, null, 2), 'utf8');
+
+      if (tests.length === 0) {
+        processed++;
+        console.log(`ℹ ${label} — empty suite (0 tests), suite.json only`);
+        await sleep(150);
+        continue;
+      }
 
       // Bulk export all tests for the suite (ZIP), unzip into dir
       const zip = `/tmp/gi-${suite._id}.zip`;
       const tmp = `/tmp/gi-${suite._id}`;
-      execSync(`curl -L -sS -o "${zip}" "${u.suiteExport(suite._id)}"`, { stdio: 'inherit' });
+      execSync(`curl -fL -sS -o "${zip}" "${u.suiteExport(suite._id)}"`, { stdio: 'inherit' });
       execSync(`unzip -q -o "${zip}" -d "${tmp}"`, { stdio: 'inherit' });
       execSync(`rsync -aqc "${tmp}/" "${dir}/"`, { stdio: 'inherit' });
       execSync(`rm -rf "${zip}" "${tmp}"`, { stdio: 'inherit' });
 
       // name → id map for this suite
-      const testsData = await fetchJson(u.suiteTests(suite._id));
-      const nameToId = buildNameToId(testsData.data || [], (msg) => console.warn(`⚠ ${msg}`));
+      const nameToId = buildNameToId(tests, (msg) => console.warn(`⚠ ${msg}`));
 
-      // annotate + prettify every test json (skip suite.json; created below)
+      // annotate + prettify every test json (skip suite.json, written above)
       for (const file of fs.readdirSync(dir)) {
         if (!file.endsWith('.json') || file === 'suite.json') continue;
         const fp = path.join(dir, file);
@@ -168,12 +185,8 @@ async function main() {
         fs.writeFileSync(fp, JSON.stringify(data, null, 2), 'utf8');
       }
 
-      // suite detail
-      const detail = await fetchJson(u.suiteDetail(suite._id));
-      fs.writeFileSync(path.join(dir, 'suite.json'), JSON.stringify(detail, null, 2), 'utf8');
-
       processed++;
-      console.log(`✓ ${folders[suite.folder] || '_no-folder'}/${suite.name}`);
+      console.log(`✓ ${label} (${tests.length} tests)`);
       await sleep(150);
     } catch (e) {
       failed++;
