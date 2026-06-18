@@ -70,7 +70,7 @@ If the project has no WC REST API usage, drop `helpers/wc-api.ts` entirely.
 | `fixtures/index.ts` | Isolated browser contexts, video record + attach | Test logic / assertions |
 | `helpers/<site>.ts` | Site selectors, popup handling, form fillers, classic/blocks branch, card data, billing constants, `waitForCheckoutReady` | Assertions / cross-flow nav |
 | `helpers/flows.ts` | Orchestrate multi-step flows, return Result | Call `expect()` |
-| `helpers/assertions.ts` | All `expect()` calls, branching on TestConfig + SuiteVars | Navigate / perform actions |
+| `helpers/assertions.ts` | Default home for `expect()` calls, branching on TestConfig + SuiteVars (feature-cohesive asserts may live as named `assert*` in their feature helper — rule 6) | Navigate / perform actions |
 | `helpers/wc-api.ts` | REST clients (with retry), data fetchers, `getSuiteVars()` | Touch the browser |
 | `specs/*.spec.ts` | Thin config → fetch SuiteVars in `beforeAll` → flow → assertions | Inline selectors / dup logic |
 
@@ -146,7 +146,7 @@ Blocks library quirks the helpers don't cover:
    - Serial order flows (place → email → backend → refund) → `specs/orders/` with chain state.
 4. **Site helpers go in `helpers/<site>.ts`** (named after project), not generic names. Examples: `closePopup`, `selectFirstAvailableVariation`, `fillCheckoutForm`, `fillCreditCard`.
 5. **Don't over-abstract.** Helper called once → inline. Extract only at 2+ uses.
-6. **Preserve test intent.** Every `expect()` in generated code lives on in `assertions.ts` — reorganised, not removed.
+6. **Preserve test intent — `expect()` lives in `assertions.ts` OR a named `assert*` helper, NEVER inline in a spec.** Every `expect()` from generated code lives on (reorganised, not removed). Default home is `helpers/assertions.ts`. A **feature-cohesive** check may instead live in a named `assert*` function co-located with its feature flow (`assertMyAccountTabs` in `account.ts`; klaviyo / contractor checks) — this is the ONLY allowed exception and matches the reference suites (bluesnap keeps the bulk in `assertions.ts` but a handful sit in `bluesnap.ts`). Specs stay assertion-free: they call flows + `assert*` helpers, never raw `expect()`. The single spec-level exception is `toHaveScreenshot` in a visual spec. Lint: `grep -rnE "expect\(" specs` should return only `toHaveScreenshot` lines.
 7. **Credentials in `.env` via `dotenv`** — never hardcoded.
 8. **Cross-flow utilities** (`pageFullLoaded`, `blockUI`, `waitForCheckoutReady`) → inside `helpers/<site>.ts`. `helpers/common.ts` only when two unrelated integrations share it.
 9. **Eliminate `Record<string, string>` vars bags** — typed fields on config / result objects.
