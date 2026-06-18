@@ -68,3 +68,13 @@ test('fetchJson throws on non-429 error', async () => {
     /404/
   );
 });
+
+test('url builders encode ids and key', () => {
+  const u = m.urls('KEY', 'ORG');
+  assert.strictEqual(u.folders(), 'https://api.ghostinspector.com/v1/organizations/ORG/folders/?apiKey=KEY');
+  assert.strictEqual(u.suites(), 'https://api.ghostinspector.com/v1/organizations/ORG/suites/?apiKey=KEY');
+  assert.strictEqual(u.org(), 'https://api.ghostinspector.com/v1/organizations/ORG/?apiKey=KEY');
+  assert.strictEqual(u.suiteDetail('S1'), 'https://api.ghostinspector.com/v1/suites/S1/?apiKey=KEY');
+  assert.strictEqual(u.suiteTests('S1'), 'https://api.ghostinspector.com/v1/suites/S1/tests/?apiKey=KEY');
+  assert.strictEqual(u.suiteExport('S1'), 'https://api.ghostinspector.com/v1/suites/S1/export/json/?apiKey=KEY');
+});

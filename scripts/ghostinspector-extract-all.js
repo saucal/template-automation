@@ -51,4 +51,21 @@ async function fetchJson(url, opts = {}) {
   }
 }
 
-module.exports = { sanitizeName, sanitizeTestName, suiteDir, annotateGi, fetchJson };
+const BASE = 'https://api.ghostinspector.com/v1';
+const enc = encodeURIComponent;
+
+// All GI endpoints used by this tool, with id/key encoding centralized.
+function urls(apiKey, orgId) {
+  const k = enc(apiKey);
+  return {
+    folders: () => `${BASE}/organizations/${enc(orgId)}/folders/?apiKey=${k}`,
+    suites: () => `${BASE}/organizations/${enc(orgId)}/suites/?apiKey=${k}`,
+    org: () => `${BASE}/organizations/${enc(orgId)}/?apiKey=${k}`,
+    suiteDetail: (id) => `${BASE}/suites/${enc(id)}/?apiKey=${k}`,
+    suiteTests: (id) => `${BASE}/suites/${enc(id)}/tests/?apiKey=${k}`,
+    suiteExport: (id) => `${BASE}/suites/${enc(id)}/export/json/?apiKey=${k}`,
+    orgsList: () => `${BASE}/organizations/?apiKey=${k}`,
+  };
+}
+
+module.exports = { sanitizeName, sanitizeTestName, suiteDir, annotateGi, fetchJson, urls };
