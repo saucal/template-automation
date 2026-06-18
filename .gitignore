@@ -1,0 +1,17 @@
+# OS junk
+.DS_Store
+
+# Editor/auto-save backup copies (timestamped duplicates)
+* [0-9][0-9]-[0-9][0-9]-[0-9][0-9]-*
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+
+# Local env / auth
+.env
+auth/
