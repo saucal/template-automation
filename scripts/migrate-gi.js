@@ -23,9 +23,16 @@ const path = require('path');
 
 // ─── CLI args ─────────────────────────────────────────────────────────────────
 
-// Placeholder — full implementation lands in a later step.
 function parseArgs(argv) {
-  return { project: null, all: false, suitesDir: './suites' };
+  const get = (flag) => {
+    const i = argv.indexOf(flag);
+    return i !== -1 ? argv[i + 1] : undefined;
+  };
+  return {
+    project: get('--project') ?? null,
+    all: argv.includes('--all'),
+    suitesDir: get('--suites') ?? './suites',
+  };
 }
 
 // ─── Generated runtime helpers ───────────────────────────────────────────────
