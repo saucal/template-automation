@@ -116,13 +116,21 @@ const suiteStartUrls = {}; // suiteName → startUrl
 const suiteViewports = {}; // suiteName → { width, height }
 const suiteScreenshotThresholds = {}; // suiteName → maxDiffPixelRatio
 const suiteVariables = {}; // suiteName → [{ name, value, private }]
+const suiteNameToFolder = {}; // suiteName → top-level folder under suites/
 let orgVariables = [];     // organization-level variables (lowest priority)
 
-function loadDir(dir) {
+// First path segment under suitesDir, or null if the file sits in the root.
+function topFolderOf(filePath, suitesDir) {
+  const rel = path.relative(suitesDir, filePath);
+  const parts = rel.split(path.sep);
+  return parts.length > 1 ? parts[0] : null;
+}
+
+function loadDir(dir, suitesDir) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const full = path.join(dir, entry.name);
     if (entry.isDirectory()) {
-      loadDir(full);
+      loadDir(full, suitesDir);
     } else if (entry.name.endsWith('.json')) {
       try {
         const data = JSON.parse(fs.readFileSync(full, 'utf8'));
@@ -141,6 +149,8 @@ function loadDir(dir) {
           }
         } else if (data._gi?.testId) {
           testMap[data._gi.testId] = data;
+          const folder = topFolderOf(full, suitesDir);
+          if (folder && data._gi.suiteName) suiteNameToFolder[data._gi.suiteName] = folder;
         }
       } catch (e) {
         console.warn(`  ⚠ Could not parse ${full}: ${e.message}`);
@@ -166,7 +176,7 @@ if (fs.existsSync(orgFile)) {
   } catch { /* ignore malformed file */ }
 }
 
-loadDir(SUITES_DIR);
+loadDir(SUITES_DIR, SUITES_DIR);
 console.log(`\nLoaded ${Object.keys(testMap).length} GI tests from ${SUITES_DIR}\n`);
 
 // ─── Variable helpers ─────────────────────────────────────────────────────────
@@ -1187,6 +1197,7 @@ console.log(`  3. Copy specs/ and helpers/ into your tests/ directory`);
 
 module.exports = {
   parseArgs,
+  topFolderOf,
   slugify,
   toCamelCase,
 };

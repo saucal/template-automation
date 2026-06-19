@@ -31,3 +31,23 @@ test('parseArgs defaults: no project, not all, default suites', () => {
     { project: null, all: false, suitesDir: './suites' }
   );
 });
+
+test('topFolderOf returns the dir directly under suites', () => {
+  const suites = '/repo/suites';
+  assert.strictEqual(
+    m.topFolderOf(path.join(suites, 'MasterCard', 'Suite A', 't.json'), suites),
+    'MasterCard'
+  );
+  assert.strictEqual(
+    m.topFolderOf(path.join(suites, '2M', 'Sub', 'Deep', 't.json'), suites),
+    '2M'
+  );
+});
+
+test('topFolderOf returns null for files directly in suites root', () => {
+  const suites = '/repo/suites';
+  assert.strictEqual(
+    m.topFolderOf(path.join(suites, '_organization.json'), suites),
+    null
+  );
+});
