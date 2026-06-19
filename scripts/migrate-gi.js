@@ -858,6 +858,11 @@ function genSteps(steps, indent, chain, imports) {
 function generateProject(projectFolder, emitSuites, paths) {
   const { outDir: OUT_DIR } = paths;
 
+  if (emitSuites.size === 0) {
+    console.log('  (no suites resolved — skipped)');
+    return;
+  }
+
   for (const name of emitSuites) {
     (suitesByName[name] || []).sort((a, b) => a.name.localeCompare(b.name));
   }
@@ -1205,6 +1210,7 @@ const tsconfig = {
   },
   include: ['**/*.ts']
 };
+mkdirp(OUT_DIR); // may not exist yet if the project emitted no specs/helpers
 fs.writeFileSync(path.join(OUT_DIR, 'tsconfig.json'), JSON.stringify(tsconfig, null, 2) + '\n');
 
 }
