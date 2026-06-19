@@ -81,3 +81,43 @@ test('resolveProjects throws when neither --project nor --all given', () => {
     /Specify --project <name> or --all/
   );
 });
+
+function fixture() {
+  // own runnable test -> executes a foreign helper test
+  const own = { name: 'Buy', importOnly: false,
+    steps: [{ command: 'execute', value: 'h1' }],
+    _gi: { testId: 'own1', suiteName: 'MC Suite' } };
+  const helper = { name: 'login', importOnly: true,
+    steps: [{ command: 'execute', value: 'h2' }],
+    _gi: { testId: 'h1', suiteName: 'Common Steps' } };
+  const helper2 = { name: 'wait', importOnly: true, steps: [],
+    _gi: { testId: 'h2', suiteName: 'Deep Helpers' } };
+  const unrelated = { name: 'x', importOnly: false, steps: [],
+    _gi: { testId: 'u1', suiteName: 'Other Project Suite' } };
+  return {
+    testMap: { own1: own, h1: helper, h2: helper2, u1: unrelated },
+    suitesByName: {
+      'MC Suite': [own], 'Common Steps': [helper],
+      'Deep Helpers': [helper2], 'Other Project Suite': [unrelated],
+    },
+    suiteNameToFolder: {
+      'MC Suite': 'MasterCard', 'Common Steps': 'Template',
+      'Deep Helpers': 'Template', 'Other Project Suite': 'Botany',
+    },
+    helperSuiteNames: new Set(['Common Steps', 'Deep Helpers']),
+  };
+}
+
+test('computeEmitSuites includes own suites + transitive helper suites', () => {
+  const ctx = fixture();
+  const got = m.computeEmitSuites('MasterCard', ctx);
+  assert.deepStrictEqual(
+    [...got].sort(),
+    ['Common Steps', 'Deep Helpers', 'MC Suite']
+  );
+});
+
+test('computeEmitSuites excludes unrelated foreign suites', () => {
+  const ctx = fixture();
+  assert.ok(!m.computeEmitSuites('MasterCard', ctx).has('Other Project Suite'));
+});

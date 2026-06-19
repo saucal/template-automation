@@ -126,6 +126,38 @@ function topFolderOf(filePath, suitesDir) {
   return parts.length > 1 ? parts[0] : null;
 }
 
+// Returns Set<suiteName> to emit for one project: own suites + helper suites
+// reachable via execute refs (following inlined non-helper tests too).
+function computeEmitSuites(projectFolder, ctx) {
+  const { testMap, suitesByName, suiteNameToFolder, helperSuiteNames } = ctx;
+  const emit = new Set();
+  const seenTests = new Set();
+  const queue = [];
+
+  for (const [suiteName, tests] of Object.entries(suitesByName)) {
+    if (suiteNameToFolder[suiteName] === projectFolder) {
+      emit.add(suiteName);
+      for (const t of tests) if (t._gi) queue.push(t._gi.testId);
+    }
+  }
+
+  while (queue.length) {
+    const id = queue.shift();
+    if (seenTests.has(id)) continue;
+    seenTests.add(id);
+    const t = testMap[id];
+    if (!t) continue;
+    for (const step of t.steps || []) {
+      if (step.command !== 'execute') continue;
+      const ref = testMap[step.value];
+      if (!ref || !ref._gi) continue;
+      if (helperSuiteNames.has(ref._gi.suiteName)) emit.add(ref._gi.suiteName);
+      queue.push(ref._gi.testId);
+    }
+  }
+  return emit;
+}
+
 // available: string[] of top-level folder names. Returns the folders to migrate.
 function resolveProjects(available, opts) {
   const projects = available.filter((n) => !n.startsWith('_'));
@@ -1219,6 +1251,7 @@ module.exports = {
   parseArgs,
   topFolderOf,
   resolveProjects,
+  computeEmitSuites,
   slugify,
   toCamelCase,
 };
