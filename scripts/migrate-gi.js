@@ -856,7 +856,7 @@ function genSteps(steps, indent, chain, imports) {
 // ─── Per-project generation ───────────────────────────────────────────────────
 
 function generateProject(projectFolder, emitSuites, paths) {
-  const { OUT_DIR } = paths;
+  const { outDir: OUT_DIR } = paths;
 
   for (const name of emitSuites) {
     (suitesByName[name] || []).sort((a, b) => a.name.localeCompare(b.name));
@@ -1018,7 +1018,7 @@ function generateProject(projectFolder, emitSuites, paths) {
 // ─── Per-project scaffold (files only — no install) ───────────────────────────
 
 function writeScaffold(emitSuites, paths) {
-  const { OUT_DIR, TESTS_DIR } = paths;
+  const { outDir: OUT_DIR, testsDir: TESTS_DIR } = paths;
   mkdirp(TESTS_DIR);
 
   // package.json — written but never installed (install/refactor done by hand later).
