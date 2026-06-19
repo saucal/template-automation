@@ -262,17 +262,21 @@ function toEnvVar(name) {
 // A test is a helper if it has importOnly OR if any sibling in the same suite
 // has importOnly (the file generator treats the whole suite as helpers).
 
-const helperFnMap = {}; // testId → { fnName, slug, suiteName }
-
-// First pass: find suites that contain at least one importOnly test
-const helperSuites = new Set();
+// Group every test by suite name, then flag suites that contain any importOnly
+// test as helper suites (whole suite treated as helpers).
+const suitesByName = {}; // suiteName → test[]
 for (const data of Object.values(testMap)) {
-  if (data.importOnly) helperSuites.add(data._gi.suiteName);
+  const name = data._gi.suiteName;
+  (suitesByName[name] ||= []).push(data);
+}
+const helperSuiteNames = new Set();
+for (const [name, tests] of Object.entries(suitesByName)) {
+  if (tests.some((t) => t.importOnly)) helperSuiteNames.add(name);
 }
 
-// Second pass: register every test in those suites
+const helperFnMap = {}; // testId → { fnName, slug, suiteName }
 for (const [id, data] of Object.entries(testMap)) {
-  if (!helperSuites.has(data._gi.suiteName)) continue;
+  if (!helperSuiteNames.has(data._gi.suiteName)) continue;
   helperFnMap[id] = {
     fnName: toCamelCase(data.name),
     slug: slugify(data._gi.suiteName),
@@ -849,27 +853,21 @@ function genSteps(steps, indent, chain, imports) {
   return lines;
 }
 
-// ─── Group tests by suite ─────────────────────────────────────────────────────
+// ─── Per-project generation ───────────────────────────────────────────────────
 
-const suites = {}; // suiteName → test[]
+function generateProject(projectFolder, emitSuites, paths) {
+  const { OUT_DIR } = paths;
 
-for (const data of Object.values(testMap)) {
-  const name = data._gi.suiteName;
-  if (!suites[name]) suites[name] = [];
-  suites[name].push(data);
-}
+  for (const name of emitSuites) {
+    (suitesByName[name] || []).sort((a, b) => a.name.localeCompare(b.name));
+  }
 
-for (const tests of Object.values(suites)) {
-  tests.sort((a, b) => a.name.localeCompare(b.name));
-}
-
-// ─── Generate files ───────────────────────────────────────────────────────────
-
-for (const [suiteName, tests] of Object.entries(suites)) {
-  // If ANY test in the suite is importOnly it's a shared-helper suite — treat all as helpers.
-  // This handles "Common Steps" suites where some entries have importOnly:false by mistake.
-  const anyImportOnly = tests.some(t => t.importOnly);
-  const slug = slugify(suiteName);
+  for (const suiteName of emitSuites) {
+    const tests = suitesByName[suiteName] || [];
+    // If ANY test in the suite is importOnly it's a shared-helper suite — treat all as helpers.
+    // This handles "Common Steps" suites where some entries have importOnly:false by mistake.
+    const anyImportOnly = tests.some(t => t.importOnly);
+    const slug = slugify(suiteName);
 
   // ── Helpers file (importOnly suite) ─────────────────────────────────────────
   if (anyImportOnly) {
@@ -1011,45 +1009,41 @@ for (const [suiteName, tests] of Object.entries(suites)) {
 
     fs.writeFileSync(outFile, lines.join('\n'));
     console.log(`✓  specs/${slug}.spec.ts  (${runnable.length} tests)`);
+    }
   }
+
+  writeScaffold(emitSuites, paths);
 }
 
-// ─── Ensure tests/ has a package.json and node_modules ───────────────────────
+// ─── Per-project scaffold (files only — no install) ───────────────────────────
 
-mkdirp(TESTS_DIR);
-const testsPkg = path.join(TESTS_DIR, 'package.json');
-let testsPkgCreated = false;
-if (!fs.existsSync(testsPkg)) {
-  testsPkgCreated = true;
-  const repoName = path.basename(path.resolve('.')).replace(/[^a-z0-9-]/gi, '-').toLowerCase();
-  const pkg = {
-    name: `${repoName}-playwright`,
-    version: '1.0.0',
-    private: true,
-    scripts: {
-      test: 'playwright test',
-      'setup:browsers': 'playwright install chromium',
-    },
-    dependencies: {
-      dotenv: '^16.0.0',
-    },
-    devDependencies: {
-      '@playwright/test': '^1.49.0',
-      '@types/node': '^20.0.0',
-    },
-  };
-  fs.writeFileSync(testsPkg, JSON.stringify(pkg, null, 2) + '\n');
-  console.log(`✓  Created ${testsPkg}`);
-}
-if (testsPkgCreated || !fs.existsSync(path.join(TESTS_DIR, 'node_modules'))) {
-  const { execSync } = require('child_process');
-  console.log('  Running npm init playwright@latest ...');
-  execSync(
-    'npm init playwright@latest --yes -- . --quiet --browser=chromium --browser=firefox --browser=webkit --lang=ts --gha',
-    { cwd: TESTS_DIR, stdio: 'inherit' }
-  );
-  console.log('✓  Playwright init done');
-}
+function writeScaffold(emitSuites, paths) {
+  const { OUT_DIR, TESTS_DIR } = paths;
+  mkdirp(TESTS_DIR);
+
+  // package.json — written but never installed (install/refactor done by hand later).
+  const testsPkg = path.join(TESTS_DIR, 'package.json');
+  if (!fs.existsSync(testsPkg)) {
+    const repoName = path.basename(TESTS_DIR).replace(/[^a-z0-9-]/gi, '-').toLowerCase();
+    const pkg = {
+      name: `${repoName}-playwright`,
+      version: '1.0.0',
+      private: true,
+      scripts: {
+        test: 'playwright test',
+        'setup:browsers': 'playwright install chromium',
+      },
+      dependencies: {
+        dotenv: '^16.0.0',
+      },
+      devDependencies: {
+        '@playwright/test': '^1.49.0',
+        '@types/node': '^20.0.0',
+      },
+    };
+    fs.writeFileSync(testsPkg, JSON.stringify(pkg, null, 2) + '\n');
+    console.log(`✓  ${testsPkg}`);
+  }
 
 // ─── playwright.config.ts ─────────────────────────────────────────────────────
 
@@ -1062,8 +1056,9 @@ const playwrightConfig = path.join(TESTS_DIR, 'playwright.config.ts');
     for (const v of values) { const k = JSON.stringify(v); counts[k] = (counts[k] || 0) + 1; }
     return JSON.parse(Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0]);
   }
-  const viewport           = mostCommon(Object.values(suiteViewports));
-  const screenshotThreshold = mostCommon(Object.values(suiteScreenshotThresholds));
+  const inEmit = (map) => [...emitSuites].map((s) => map[s]).filter(Boolean);
+  const viewport            = mostCommon(inEmit(suiteViewports));
+  const screenshotThreshold = mostCommon(inEmit(suiteScreenshotThresholds));
 
   const configContent = [
     `import { defineConfig, devices } from '@playwright/test';`,
@@ -1164,9 +1159,10 @@ if (!fs.existsSync(globalSetup)) {
 
 const envExample = path.join(TESTS_DIR, '.env.example');
 if (!fs.existsSync(envExample)) {
-  // Collect all private var names across org + all suite variables, deduplicated.
+  // Collect private var names from org vars + this project's emitted suites only.
   const allPrivate = new Map(); // envVarName → GI varName
-  for (const v of [...orgVariables, ...Object.values(suiteVariables).flat()]) {
+  const scopedSuiteVars = [...emitSuites].flatMap((s) => suiteVariables[s] || []);
+  for (const v of [...orgVariables, ...scopedSuiteVars]) {
     if (v.private) allPrivate.set(toEnvVar(v.name), v.name);
   }
 
@@ -1211,46 +1207,32 @@ const tsconfig = {
 };
 fs.writeFileSync(path.join(OUT_DIR, 'tsconfig.json'), JSON.stringify(tsconfig, null, 2) + '\n');
 
-// ─── Summary ──────────────────────────────────────────────────────────────────
+}
 
-const todoCount = (() => {
-  let n = 0;
-  function scan(dir) {
-    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-      const full = path.join(dir, entry.name);
-      if (entry.isDirectory()) scan(full);
-      else if (entry.name.endsWith('.ts')) {
-        n += (fs.readFileSync(full, 'utf8').match(/\/\/ TODO:/g) || []).length;
-      }
-    }
-  }
-  scan(OUT_DIR);
-  return n;
-})();
+// ─── Driver: resolve target projects, generate each ───────────────────────────
 
-// Count helper function calls to show how much inlining was avoided
-const helperCallCount = (() => {
-  let n = 0;
-  function scan(dir) {
-    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-      const full = path.join(dir, entry.name);
-      if (entry.isDirectory()) scan(full);
-      else if (entry.name.endsWith('.ts')) {
-        n += (fs.readFileSync(full, 'utf8').match(/await \w+\(page, vars\);/g) || []).length;
-      }
-    }
-  }
-  scan(OUT_DIR);
-  return n;
-})();
+const available = fs.readdirSync(SUITES_DIR, { withFileTypes: true })
+  .filter((e) => e.isDirectory())
+  .map((e) => e.name);
 
-console.log(`\nDone! Output → ${OUT_DIR}`);
-console.log(`TODOs to review: ${todoCount}`);
-console.log(`Helper function calls (avoided inlining): ${helperCallCount}`);
-console.log(`\nNext steps:`);
-console.log(`  1. Fix // TODO comments in generated files`);
-console.log(`  2. Refactor helpers into typed functions`);
-console.log(`  3. Copy specs/ and helpers/ into your tests/ directory`);
+let targetProjects;
+try {
+  targetProjects = resolveProjects(available, opts);
+} catch (e) {
+  console.error(e.message);
+  process.exit(1);
+}
+
+for (const project of targetProjects) {
+  const emitSuites = computeEmitSuites(project, {
+    testMap, suitesByName, suiteNameToFolder, helperSuiteNames,
+  });
+  const paths = projectPaths(SUITES_DIR, project);
+  console.log(`\n=== ${project} → ${paths.outDir} (${emitSuites.size} suites) ===`);
+  generateProject(project, emitSuites, paths);
+}
+
+console.log(`\nDone! ${targetProjects.length} project(s) generated.`);
 }
 
 module.exports = {
