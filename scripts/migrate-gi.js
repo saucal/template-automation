@@ -23,16 +23,10 @@ const path = require('path');
 
 // ─── CLI args ─────────────────────────────────────────────────────────────────
 
-const args = process.argv.slice(2);
-
-function getArg(flag, def) {
-  const idx = args.indexOf(flag);
-  return idx !== -1 ? args[idx + 1] : def;
+// Placeholder — full implementation lands in a later step.
+function parseArgs(argv) {
+  return { project: null, all: false, suitesDir: './suites' };
 }
-
-const SUITES_DIR  = path.resolve(getArg('--suites', './suites'));
-const OUT_DIR     = path.resolve(getArg('--output',  './generated'));
-const TESTS_DIR   = path.resolve(getArg('--tests',   '.'));   // where node_modules lives (project root)
 
 // ─── Generated runtime helpers ───────────────────────────────────────────────
 // Injected near the top of every generated helper / spec file. Wraps page.evaluate
@@ -147,6 +141,12 @@ function loadDir(dir) {
     }
   }
 }
+
+function main() {
+  const opts = parseArgs(process.argv.slice(2));
+  const SUITES_DIR = path.resolve(opts.suitesDir);
+  const OUT_DIR    = path.resolve('./generated');
+  const TESTS_DIR  = path.resolve('.');
 
 // Load organization-level variables from _organization.json
 const orgFile = path.join(SUITES_DIR, '_organization.json');
@@ -1176,3 +1176,14 @@ console.log(`\nNext steps:`);
 console.log(`  1. Fix // TODO comments in generated files`);
 console.log(`  2. Refactor helpers into typed functions`);
 console.log(`  3. Copy specs/ and helpers/ into your tests/ directory`);
+}
+
+module.exports = {
+  parseArgs,
+  slugify,
+  toCamelCase,
+};
+
+if (require.main === module) {
+  main();
+}
