@@ -44,7 +44,12 @@ async function loginOnHost(page: Page, origin: string): Promise<void> {
     await confirmEmail.first().click({ force: true }).catch(() => {});
     await page.waitForLoadState('domcontentloaded');
   }
-  await page.waitForURL('**/wp-admin/**', { timeout: 30_000 });
+
+  // VIP serves a "Loading…" interstitial after submit, so the URL can stay at
+  // wp-login.php even though we're authenticated. Confirm auth by loading the
+  // dashboard and waiting for the admin bar — a reliable logged-in signal.
+  await page.goto(`${origin}wp-admin/`, { waitUntil: 'domcontentloaded' });
+  await page.locator('#wpadminbar').waitFor({ state: 'visible', timeout: 30_000 });
 }
 
 export default async function globalSetup() {
