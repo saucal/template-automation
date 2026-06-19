@@ -121,3 +121,9 @@ test('computeEmitSuites excludes unrelated foreign suites', () => {
   const ctx = fixture();
   assert.ok(!m.computeEmitSuites('MasterCard', ctx).has('Other Project Suite'));
 });
+
+test('projectPaths derives outDir and testsDir under the project', () => {
+  const r = m.projectPaths('/repo/suites', 'MasterCard');
+  assert.strictEqual(r.testsDir, path.join('/repo/suites', 'MasterCard'));
+  assert.strictEqual(r.outDir, path.join('/repo/suites', 'MasterCard', 'generated'));
+});

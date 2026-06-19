@@ -126,6 +126,12 @@ function topFolderOf(filePath, suitesDir) {
   return parts.length > 1 ? parts[0] : null;
 }
 
+// Per-project output dirs: scaffold at suites/<Project>/, generated/ beneath it.
+function projectPaths(suitesDir, projectFolder) {
+  const testsDir = path.join(suitesDir, projectFolder);
+  return { testsDir, outDir: path.join(testsDir, 'generated') };
+}
+
 // Returns Set<suiteName> to emit for one project: own suites + helper suites
 // reachable via execute refs (following inlined non-helper tests too).
 function computeEmitSuites(projectFolder, ctx) {
@@ -1252,6 +1258,7 @@ module.exports = {
   topFolderOf,
   resolveProjects,
   computeEmitSuites,
+  projectPaths,
   slugify,
   toCamelCase,
 };
