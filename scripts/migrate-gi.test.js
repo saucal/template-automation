@@ -51,3 +51,33 @@ test('topFolderOf returns null for files directly in suites root', () => {
     null
   );
 });
+
+const AVAIL = ['2M', 'MasterCard', 'No Pong', '_no-folder'];
+
+test('resolveProjects --all returns all non-underscore folders', () => {
+  assert.deepStrictEqual(
+    m.resolveProjects(AVAIL, { all: true, project: null }),
+    ['2M', 'MasterCard', 'No Pong']
+  );
+});
+
+test('resolveProjects --project matches case-insensitively', () => {
+  assert.deepStrictEqual(
+    m.resolveProjects(AVAIL, { all: false, project: 'mastercard' }),
+    ['MasterCard']
+  );
+});
+
+test('resolveProjects throws on no match, listing candidates', () => {
+  assert.throws(
+    () => m.resolveProjects(AVAIL, { all: false, project: 'nope' }),
+    /No project folder matches "nope"/
+  );
+});
+
+test('resolveProjects throws when neither --project nor --all given', () => {
+  assert.throws(
+    () => m.resolveProjects(AVAIL, { all: false, project: null }),
+    /Specify --project <name> or --all/
+  );
+});

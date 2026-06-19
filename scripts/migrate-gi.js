@@ -126,6 +126,26 @@ function topFolderOf(filePath, suitesDir) {
   return parts.length > 1 ? parts[0] : null;
 }
 
+// available: string[] of top-level folder names. Returns the folders to migrate.
+function resolveProjects(available, opts) {
+  const projects = available.filter((n) => !n.startsWith('_'));
+  if (opts.all) return projects;
+  if (!opts.project) {
+    throw new Error(
+      `Specify --project <name> or --all.\nAvailable:\n  ${projects.join('\n  ')}`
+    );
+  }
+  const want = opts.project.toLowerCase();
+  const exact = projects.filter((n) => n.toLowerCase() === want);
+  if (exact.length === 1) return exact;
+  if (exact.length === 0) {
+    throw new Error(
+      `No project folder matches "${opts.project}".\nAvailable:\n  ${projects.join('\n  ')}`
+    );
+  }
+  throw new Error(`Ambiguous project "${opts.project}": ${exact.join(', ')}`);
+}
+
 function loadDir(dir, suitesDir) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const full = path.join(dir, entry.name);
@@ -1198,6 +1218,7 @@ console.log(`  3. Copy specs/ and helpers/ into your tests/ directory`);
 module.exports = {
   parseArgs,
   topFolderOf,
+  resolveProjects,
   slugify,
   toCamelCase,
 };
