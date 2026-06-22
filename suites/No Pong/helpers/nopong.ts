@@ -241,6 +241,44 @@ async function setQuantity(page: Page, qty: number): Promise<void> {
 }
 
 // ---------------------------------------------------------------------------
+// Cart — direct add-by-id + classic qty editing (quantity-limit specs).
+// ---------------------------------------------------------------------------
+
+/** Add a product to the cart by its WooCommerce id via the add-to-cart query. */
+export async function addToCartById(page: Page, productId: number | string): Promise<void> {
+  await page.goto(`?add-to-cart=${productId}`);
+  await page.waitForLoadState('load');
+  await dismissPopups(page);
+}
+
+/** Read the first classic-cart line-item quantity field value. */
+export async function readFirstCartQty(page: Page): Promise<string> {
+  const qty = page.locator('input.qty, input[title="Qty"]').first();
+  await qty.waitFor({ state: 'visible', timeout: 10_000 });
+  return (await qty.inputValue()).trim();
+}
+
+/**
+ * Set the first cart line-item quantity and click "Update cart". The update
+ * button stays disabled until the qty field changes, so we blur after filling.
+ */
+export async function setCartQtyAndUpdate(page: Page, qty: number): Promise<void> {
+  const ctx = ctxFor(page);
+  await page.goto('cart/');
+  await waitForCheckoutReady(page);
+  const field = page.locator('input.qty, input[title="Qty"]').first();
+  await field.waitFor({ state: 'visible', timeout: 10_000 });
+  await resilientFill(ctx, { primary: field, ai: 'the cart quantity field' }, String(qty));
+  await field.blur().catch(() => {});
+  await resilientClick(ctx, {
+    primary: page.locator('button[name="update_cart"]'),
+    alt: page.getByRole('button', { name: /update cart/i }),
+    ai: 'the Update cart button',
+  });
+  await waitForCheckoutReady(page);
+}
+
+// ---------------------------------------------------------------------------
 // Checkout (classic, single page).
 // ---------------------------------------------------------------------------
 
