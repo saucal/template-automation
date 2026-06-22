@@ -11,7 +11,7 @@
 // Grows per phase: quantity limits (Task 9) → order parity (Task 11) →
 // subscription / wholesale asserts (Tasks 13-15).
 import { expect, type Page } from '@playwright/test';
-import type { OrderConfig } from '../types/test-config';
+import type { OrderConfig, SubscriptionResult } from '../types/test-config';
 import type { FlowCapture } from './flows';
 import { PAYMENT_LABEL, readFirstCartQty, toAmount } from './nopong';
 import { expectOrderNoteMatches } from './order-notes';
@@ -315,4 +315,87 @@ export async function assertRefundEmail(emailPage: Page, cap: FlowCapture): Prom
   const compact = text.replace(/[\s,]+/g, '');
   expect(text, `refund email should reference order #${result.orderNumber}`).toContain(result.orderNumber);
   expect(compact, `refund email should show the refunded total ${result.total}`).toContain(toAmount(result.total).toFixed(2));
+}
+
+// ---------------------------------------------------------------------------
+// Subscriptions (Tasks 13-14).
+// ---------------------------------------------------------------------------
+
+/** A placed subscription captured an order number, a subscription number, and a total. */
+export function assertSubscriptionPlaced(result: SubscriptionResult): void {
+  expect(result.orderNumber, 'subscription order should have an order number from the thank-you page').toMatch(/^\d+$/);
+  expect(result.subscriptionNumber, 'a subscription number should be captured from My Account').toMatch(/^\d+$/);
+  expect(toAmount(result.total), `subscription order total should be a positive amount (got "${result.total}")`).toBeGreaterThan(0);
+}
+
+/** Admin subscription editor URL (HPOS shop_subscription). */
+function subscriptionEditUrl(subscriptionNumber: string): string {
+  return `wp-admin/admin.php?page=wc-orders--shop_subscription&action=edit&id=${subscriptionNumber}`;
+}
+
+/**
+ * Backend parity for a placed subscription (GI Subscription Backend): the
+ * subscription editor shows status Active and the recurring total matches the
+ * captured order total.
+ */
+export async function assertSubscriptionBackend(adminPage: Page, result: SubscriptionResult): Promise<void> {
+  await adminPage.goto(subscriptionEditUrl(result.subscriptionNumber));
+  await adminPage.waitForLoadState('load');
+
+  const status =
+    (await adminPage.locator('#select2-order_status-container').first().textContent().catch(() => ''))?.trim() ||
+    (await adminPage.locator('#order_status').inputValue().catch(() => '')) ||
+    '';
+  expect(status, `subscription #${result.subscriptionNumber} should be Active in the admin editor`).toMatch(/active/i);
+
+  const recurringTotal = await resilientText(ctxFor(adminPage), {
+    primary: adminPage
+      .locator('table.wc-order-totals:last-of-type tr:last-child td.total .woocommerce-Price-amount.amount')
+      .last(),
+    ai: 'the recurring total in the subscription editor',
+  }).catch(() => '');
+  if (recurringTotal) {
+    expectMoney(recurringTotal, result.total, 'subscription recurring total should match the order total');
+  }
+}
+
+/** Subscription confirmation email parity. */
+export async function assertSubscriptionEmail(emailPage: Page, result: SubscriptionResult): Promise<void> {
+  const msg = await findEmail(result.email, { subjectFilter: 'order' });
+  expect(msg, `a subscription order email for ${result.email} should arrive in Playgrounds Mailpit`).not.toBeNull();
+  await emailPage.goto(mailpitViewUrl(msg!.ID)).catch(() => {});
+
+  const text = `${msg!.Subject} ${(msg!.HTML ?? '').replace(/<[^>]+>/g, ' ')} ${msg!.Text ?? ''}`.replace(/\s+/g, ' ').trim();
+  expect(text, `subscription email should reference order #${result.orderNumber}`).toContain(result.orderNumber);
+  expect(text, `subscription email should reference product "${result.productName}"`).toContain(result.productName);
+}
+
+/**
+ * Drive an admin renewal (GI Subscription Renew): on the subscription editor,
+ * toggle renewals on, process a renewal, and assert the subscription stays
+ * Active with a new Renewal Order in the related-orders table.
+ */
+export async function performAndAssertRenewal(adminPage: Page, result: SubscriptionResult): Promise<void> {
+  const ctx = ctxFor(adminPage);
+  await adminPage.goto(subscriptionEditUrl(result.subscriptionNumber));
+  await adminPage.waitForLoadState('load');
+
+  // Enable renewals (debug toggle) so the gateway is allowed to charge.
+  await adminPage.locator('select[name="wc_order_action"]').selectOption('wcs_debug_toggle_renewals').catch(() => {});
+  await resilientClick(ctx, { primary: adminPage.locator('button[name="save"]'), ai: 'the subscription Save (toggle renewals) button' });
+  await adminPage.waitForLoadState('load');
+
+  // Process a renewal payment.
+  await adminPage.locator('select[name="wc_order_action"]').selectOption('wcs_process_renewal');
+  await resilientClick(ctx, { primary: adminPage.locator('button[name="save"]'), ai: 'the subscription Save (process renewal) button' });
+  await adminPage.waitForLoadState('load');
+
+  const status =
+    (await adminPage.locator('#select2-order_status-container').first().textContent().catch(() => ''))?.trim() || '';
+  expect(status, `subscription #${result.subscriptionNumber} should remain Active after renewal`).toMatch(/active/i);
+
+  await expect(
+    adminPage.locator('.woocommerce_subscriptions_related_orders table tbody tr, #subscription_renewal_orders table tbody tr').first(),
+    'a renewal order should be created in the subscription related-orders table'
+  ).toContainText(/renewal order/i, { timeout: 15_000 });
 }

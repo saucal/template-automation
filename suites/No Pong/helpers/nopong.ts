@@ -215,6 +215,62 @@ export async function addToCart(page: Page, region: Region, pdp: PdpConfig): Pro
   return { productName, unitPrice };
 }
 
+/**
+ * Add a subscription product to the cart. No Pong sells subscriptions from the
+ * Monthly Club page (a block-grid of products), not via a /products/ slug, so
+ * this has its own path. Picks the first subscription product, capturing its
+ * name + price. Quantity defaults to 1 (GI used 2; the flow can override later).
+ */
+export async function addSubscriptionToCart(page: Page, _region: Region): Promise<PdpCapture> {
+  const ctx = ctxFor(page);
+  await page.goto('monthly-club/');
+  await page.waitForLoadState('load');
+  await dismissPopups(page);
+
+  const card = page.locator('#main ul.wc-block-grid__products > li').first();
+  const productName = await resilientText(ctx, {
+    primary: card.locator('.wc-block-grid__product-title'),
+    ai: 'the first subscription product title on the Monthly Club page',
+  });
+  const unitPrice = await resilientText(ctx, {
+    primary: card.locator('.wc-block-grid__product-price .woocommerce-Price-amount.amount').first(),
+    ai: 'the first subscription product price',
+  });
+  await resilientClick(ctx, {
+    primary: card.locator('a[href*="?add-to-cart="]'),
+    alt: page.getByRole('link', { name: /join the club|add to cart|subscribe/i }).first(),
+    ai: 'the subscribe / add-to-cart link on the first subscription product',
+  });
+  await page.waitForLoadState('load');
+  return { productName, unitPrice };
+}
+
+/**
+ * Read the subscription number + next-payment date from My Account after a
+ * subscription order. The subscriptions list links each subscription as
+ * `/my-account/view-subscription/{n}/`; the detail page shows the next payment.
+ */
+export async function readSubscriptionDetails(page: Page): Promise<{ subscriptionNumber: string; nextPaymentDate: string }> {
+  const ctx = ctxFor(page);
+  await page.goto('my-account/subscriptions/');
+  await page.waitForLoadState('load');
+
+  const link = page.locator('a[href*="/my-account/view-subscription/"]').first();
+  await link.waitFor({ state: 'visible', timeout: 15_000 });
+  const href = (await link.getAttribute('href')) ?? '';
+  const subscriptionNumber = (href.match(/view-subscription\/(\d+)/)?.[1] ?? (await link.innerText())).replace(/[^0-9]/g, '');
+
+  await resilientClick(ctx, { primary: link, ai: 'the subscription link in the My Account subscriptions list' });
+  await page.waitForLoadState('load');
+
+  const nextPaymentDate = await resilientText(ctx, {
+    primary: page.locator('td[data-title="Next payment"], .subscription-next-payment, td.next-payment-date').first(),
+    ai: 'the next payment date on the subscription detail page',
+  }).catch(() => '');
+
+  return { subscriptionNumber, nextPaymentDate };
+}
+
 function slugFor(region: Region, pdp: PdpConfig): string {
   const products = regionFor(region).products;
   switch (pdp.kind) {
@@ -288,8 +344,8 @@ export async function setCartQtyAndUpdate(page: Page, qty: number): Promise<void
  * prefills, so we skip address entry entirely (no `vars.logged` string flag —
  * we branch on the typed user kind).
  */
-export async function fillCheckoutAddress(page: Page, config: OrderConfig): Promise<void> {
-  await page.goto('checkout/');
+export async function fillCheckoutAddress(page: Page, config: OrderConfig, checkoutPath = 'checkout/'): Promise<void> {
+  await page.goto(checkoutPath);
   await waitForCheckoutReady(page);
 
   if (config.user === 'logged') return; // saved address prefills
@@ -444,8 +500,8 @@ async function placeOrder(page: Page): Promise<void> {
   await page.locator('#place_order:not([disabled])').first().waitFor({ state: 'attached', timeout: 15_000 }).catch(() => {});
   await resilientClick(ctxFor(page), {
     primary: page.locator('#place_order').filter({ visible: true }),
-    alt: page.getByRole('button', { name: /place order/i }),
-    ai: 'the Place Order button',
+    alt: page.getByRole('button', { name: /place order|join the club/i }),
+    ai: 'the Place Order / Join the Club button',
   });
 }
 

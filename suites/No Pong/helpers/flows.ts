@@ -15,6 +15,7 @@ import type {
   WholesaleConfig,
 } from '../types/test-config';
 import {
+  addSubscriptionToCart,
   addToCart,
   captureCheckoutTotals,
   dismissPopups,
@@ -24,10 +25,28 @@ import {
   PAYMENT_LABEL,
   readOrderReceived,
   readPointsEarned,
+  readSubscriptionDetails,
   warnIfNoTaxOrShipping,
   type OrderReceived,
   type PdpCapture,
 } from './nopong';
+
+/** A SubscriptionConfig drives the same checkout path as a new-user order. */
+function subscriptionAsOrder(config: SubscriptionConfig): OrderConfig {
+  return {
+    testId: config.testId,
+    title: config.title,
+    region: config.region,
+    product: 'subscription',
+    user: 'new',
+    payment: config.payment,
+    pdp: config.pdp,
+    expectedStatus: 'Processing',
+  };
+}
+
+// Subscription checkout is served at check-out/ with the captcha-skip flag.
+const SUBSCRIPTION_CHECKOUT_PATH = 'check-out/?saucal-skip-captcha=1';
 
 export interface OrderPages {
   shopperPage: Page;
@@ -91,12 +110,46 @@ export async function runOrderFlow(
 // surface is stable for callers written against it.
 // ---------------------------------------------------------------------------
 
-/** Place a subscription order end-to-end. Implemented in Task 13. */
+/**
+ * Place a subscription order end-to-end (Monthly Club product → subscription
+ * checkout → payment → order-received), then read the subscription number +
+ * next-payment date from My Account. Returns a SubscriptionResult.
+ */
 export async function runSubscriptionFlow(
-  _pages: OrderPages,
-  _config: SubscriptionConfig
+  { shopperPage }: OrderPages,
+  config: SubscriptionConfig
 ): Promise<SubscriptionResult> {
-  throw new Error('runSubscriptionFlow not implemented yet (Task 13)');
+  const orderLike = subscriptionAsOrder(config);
+
+  await shopperPage.goto('./');
+  await shopperPage.waitForLoadState('load');
+  await dismissPopups(shopperPage);
+
+  const pdp = await addSubscriptionToCart(shopperPage, config.region);
+  await fillCheckoutAddress(shopperPage, orderLike, SUBSCRIPTION_CHECKOUT_PATH);
+
+  const checkout = await captureCheckoutTotals(shopperPage);
+  await warnIfNoTaxOrShipping(shopperPage, { testId: config.testId });
+  const pointsEarned = await readPointsEarned(shopperPage);
+
+  await pay(shopperPage, orderLike);
+  const order = await readOrderReceived(shopperPage);
+  const { subscriptionNumber, nextPaymentDate } = await readSubscriptionDetails(shopperPage);
+
+  return {
+    productName: order.productName || pdp.productName,
+    unitPrice: pdp.unitPrice,
+    subtotal: order.subtotal,
+    shipping: order.shipping,
+    tax: order.tax,
+    total: order.total,
+    orderNumber: order.orderNumber,
+    email: emailFor(orderLike),
+    paymentLabel: order.paymentLabel || PAYMENT_LABEL[config.payment],
+    pointsEarned,
+    subscriptionNumber,
+    nextPaymentDate,
+  };
 }
 
 /** Place a wholesale-priced order end-to-end. Implemented in Task 15. */
