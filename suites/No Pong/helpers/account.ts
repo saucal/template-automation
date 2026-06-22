@@ -20,12 +20,16 @@ import { ctxFor, resilientClick, resilientFill, resilientText } from './resilien
  */
 export async function registerNewUser(page: Page, email: string, password: string): Promise<void> {
   const ctx = ctxFor(page);
-  await page.goto('my-account/');
+  await page.goto('my-account/?sc_bypass=1');
   await page.waitForLoadState('load');
   await dismissPopups(page);
 
   await resilientFill(ctx, { primary: page.locator('#reg_email'), ai: 'the registration email field' }, email);
   await resilientFill(ctx, { primary: page.locator('#reg_password'), ai: 'the registration password field' }, password);
+  // The register form only arms after the password field fires a blur/change
+  // (password-strength validation). `.fill()` sets the value without blurring,
+  // so the first Register click is otherwise absorbed and the submit no-ops.
+  await page.locator('#reg_password').blur().catch(() => {});
   await resilientClick(ctx, {
     primary: page.locator('button.woocommerce-form-register__submit'),
     alt: page.getByRole('button', { name: /register/i }),
