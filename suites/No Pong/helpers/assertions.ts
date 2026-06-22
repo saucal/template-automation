@@ -371,6 +371,40 @@ export async function assertSubscriptionEmail(emailPage: Page, result: Subscript
 }
 
 /**
+ * Assert a subscription's status on whatever surface is current — the customer
+ * view-subscription page (`td.subscription-status` / details table) or the admin
+ * editor (`#select2-order_status-container`). Matches on intent (rule 26).
+ */
+export async function assertSubscriptionStatus(page: Page, expected: string): Promise<void> {
+  const surface = page
+    .locator('td.subscription-status, table.shop_table.subscription_details td:nth-of-type(2), #select2-order_status-container')
+    .first();
+  await expect(surface, `subscription status should be "${expected}"`).toContainText(new RegExp(expected, 'i'), {
+    timeout: 15_000,
+  });
+}
+
+/**
+ * Assert the billing schedule changed (GI 24): the success notice shows and the
+ * order-details recurring line reflects the new "EVERY {interval} {PERIOD}S".
+ */
+export async function assertScheduleChanged(
+  page: Page,
+  schedule: { interval: string; period: string }
+): Promise<void> {
+  await expect(
+    page.locator('.wc-block-components-notice-banner.is-success, .woocommerce-message').first(),
+    'changing the billing schedule should show a success notice'
+  ).toContainText(/billing period changed successfully/i, { timeout: 15_000 });
+
+  const everyPattern = new RegExp(`every\\s+${schedule.interval}\\s+${schedule.period}s?`, 'i');
+  await expect(
+    page.locator('table.shop_table.order_details tfoot, table.shop_table.subscription_details').first(),
+    `the subscription recurring line should reflect "every ${schedule.interval} ${schedule.period}(s)"`
+  ).toContainText(everyPattern, { timeout: 15_000 });
+}
+
+/**
  * Drive an admin renewal (GI Subscription Renew): on the subscription editor,
  * toggle renewals on, process a renewal, and assert the subscription stays
  * Active with a new Renewal Order in the related-orders table.

@@ -271,6 +271,78 @@ export async function readSubscriptionDetails(page: Page): Promise<{ subscriptio
   return { subscriptionNumber, nextPaymentDate };
 }
 
+// ---------------------------------------------------------------------------
+// Subscription management (customer + admin actions). Assertions live in
+// assertions.ts; these only drive the UI.
+// ---------------------------------------------------------------------------
+
+/** Open the customer-facing view-subscription page. */
+export async function goToSubscription(page: Page, subscriptionNumber: string): Promise<void> {
+  await page.goto(`my-account/view-subscription/${subscriptionNumber}/`);
+  await page.waitForLoadState('load');
+  await dismissPopups(page);
+}
+
+/** Cancel a subscription as the logged-in customer (confirms the cancel link). */
+export async function cancelSubscriptionAsCustomer(page: Page, subscriptionNumber: string): Promise<void> {
+  const ctx = ctxFor(page);
+  await goToSubscription(page, subscriptionNumber);
+  await resilientClick(ctx, {
+    primary: page.locator('a.button.cancel'),
+    alt: page.getByRole('link', { name: /cancel subscription/i }),
+    ai: 'the Cancel Subscription button',
+  });
+  await page.waitForLoadState('load');
+}
+
+/**
+ * Change the billing schedule as the customer (GI 24): open the change-schedule
+ * modal and set interval + period, then confirm.
+ */
+export async function changeSubscriptionSchedule(
+  page: Page,
+  subscriptionNumber: string,
+  schedule: { interval: string; period: 'day' | 'week' | 'month' | 'year' }
+): Promise<void> {
+  const ctx = ctxFor(page);
+  await goToSubscription(page, subscriptionNumber);
+  await resilientClick(ctx, {
+    primary: page.locator('a.button.change_schedule'),
+    alt: page.getByRole('link', { name: /change billing schedule/i }),
+    ai: 'the Change Billing Schedule button',
+  });
+  await page.locator('#npSubsSchedule, select[name="billing_interval"]').first().waitFor({ state: 'visible', timeout: 15_000 });
+  await page.locator('select[name="billing_interval"]').selectOption(schedule.interval);
+  await page.locator('select[name="subscription_period"]').selectOption(schedule.period);
+  await resilientClick(ctx, {
+    primary: page.locator('#btn-sched-ok'),
+    alt: page.getByRole('button', { name: /change schedule/i }),
+    ai: 'the Change Schedule confirm button',
+  });
+  await page.waitForLoadState('load');
+}
+
+/** Set a subscription's status in the admin editor and click Update. */
+export async function setSubscriptionStatusAsAdmin(
+  adminPage: Page,
+  subscriptionNumber: string,
+  status: 'wc-active' | 'wc-on-hold' | 'wc-cancelled' | 'wc-pending-cancel'
+): Promise<void> {
+  await adminPage.goto(`wp-admin/admin.php?page=wc-orders--shop_subscription&action=edit&id=${subscriptionNumber}`);
+  await adminPage.waitForLoadState('load');
+  if ((await adminPage.locator('#order_status').count()) === 0) {
+    await adminPage.goto(`wp-admin/post.php?post=${subscriptionNumber}&action=edit`);
+    await adminPage.waitForLoadState('load');
+  }
+  await adminPage.locator('#order_status').selectOption(status);
+  await resilientClick(ctxFor(adminPage), {
+    primary: adminPage.locator('button.save_order'),
+    alt: adminPage.getByRole('button', { name: /^update$/i }),
+    ai: 'the subscription Update button',
+  });
+  await adminPage.waitForLoadState('load');
+}
+
 function slugFor(region: Region, pdp: PdpConfig): string {
   const products = regionFor(region).products;
   switch (pdp.kind) {
