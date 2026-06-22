@@ -246,6 +246,11 @@ export const test = base.extend<Fixtures>({
 
   shopperPage: async ({ pageBrowser }, use, testInfo) => {
     const { ctx, page } = await openContext(pageBrowser, testInfo);
+    // Captcha bypass: the first visit to the site with ?sc_bypass=1 sets the
+    // server-side bypass flag (cookie) for this context, so the later checkout /
+    // registration submits skip the captcha. Relative goto resolves against the
+    // baseURL trailing slash (rule 12). Best-effort: skipped when baseURL is unset.
+    await page.goto('?sc_bypass=1', { waitUntil: 'domcontentloaded' }).catch(() => {});
     await use(page);
     await finishContext(ctx, page, 'shopperPage', testInfo);
   },
