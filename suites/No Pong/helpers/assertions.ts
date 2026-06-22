@@ -197,3 +197,122 @@ export async function assertEmail(emailPage: Page, cap: FlowCapture, config: Ord
   expect(compact, `email should show the order total ${result.total}`).toContain(amount(result.total));
   expect(text, `email should show payment method "${PAYMENT_LABEL[config.payment]}"`).toContain(PAYMENT_LABEL[config.payment]);
 }
+
+/**
+ * Perform a FULL refund in the admin order editor and assert the gateway note +
+ * post-refund status (GI Place Order 04). Stripe issues a real refund → status
+ * Refunded, with a note "Refunded {total} – Refund ID: re_… – Reason: Testing
+ * Refund".
+ *
+ * Clicking do-api-refund with a $0 amount silently no-ops, so we fill the refund
+ * form (line-item quantities + shipping) before submitting, mirroring GI.
+ */
+export async function performAndAssertRefund(adminPage: Page, cap: FlowCapture, config: OrderConfig): Promise<void> {
+  const { result } = cap;
+  const ctx = ctxFor(adminPage);
+  if (!adminPage.url().includes(String(result.orderNumber))) {
+    await adminPage.goto(`wp-admin/admin.php?page=wc-orders&action=edit&id=${result.orderNumber}`);
+    await adminPage.waitForLoadState('load');
+  }
+
+  await resilientClick(ctx, { primary: adminPage.locator('button.refund-items'), ai: 'the Refund button in the admin order' });
+  await adminPage.locator('input.refund_order_item_qty').first().waitFor({ state: 'visible', timeout: 10_000 });
+
+  // Full refund: copy ordered qty → refund qty and the shipping amount into the
+  // shipping refund input so WC computes a non-zero refund total.
+  await adminPage.evaluate(() => {
+    const num = (s: string | null | undefined) => parseFloat((s ?? '').replace(/[^0-9.]/g, '')) || 0;
+
+    const qtyViews = document.querySelectorAll('tbody#order_line_items > tr > td.quantity > div.view');
+    const qtys = Array.from(qtyViews).map((el) => {
+      const m = (el.textContent ?? '').trim().match(/\d+/);
+      return m ? parseInt(m[0], 10) : 1;
+    });
+    document.querySelectorAll<HTMLInputElement>('input.refund_order_item_qty').forEach((input, i) => {
+      input.value = String(qtys[i] ?? 1);
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+
+    const copy = (viewSel: string, inputSel: string) => {
+      const inputs = document.querySelectorAll<HTMLInputElement>(inputSel);
+      document.querySelectorAll(viewSel).forEach((view, i) => {
+        const input = inputs[i];
+        if (!input) return;
+        input.value = String(num(view.textContent));
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+      });
+    };
+    copy('tr.shipping > td.line_cost > .view > .woocommerce-Price-amount.amount', 'tr.shipping > td.line_cost > .refund > input.refund_line_total');
+    copy('tr.shipping > td.line_tax > .view > .woocommerce-Price-amount.amount', 'tr.shipping > td.line_tax > .refund > input.refund_line_tax');
+
+    const reason = document.querySelector<HTMLInputElement>('#refund_reason');
+    if (reason) reason.value = 'Testing Refund';
+  });
+
+  // The gateway button only acts when the computed amount is > 0.
+  const refundBtn = adminPage.locator('button.do-api-refund');
+  await refundBtn.first().waitFor({ state: 'visible', timeout: 10_000 });
+  await expect
+    .poll(
+      async () =>
+        toAmount(
+          await adminPage
+            .locator('.do-api-refund .wc-order-refund-amount .woocommerce-Price-amount.amount')
+            .first()
+            .textContent()
+            .catch(() => '')
+        ),
+      { timeout: 10_000, message: 'refund amount should be > 0 before submitting' }
+    )
+    .toBeGreaterThan(0);
+
+  adminPage.on('dialog', (dialog) => dialog.accept());
+  await resilientClick(ctx, { primary: refundBtn.first(), ai: 'the Refund via Stripe button' });
+
+  await adminPage.waitForLoadState('load');
+  await adminPage.waitForTimeout(3_000);
+  await adminPage.reload();
+  await adminPage.waitForLoadState('load');
+
+  // Gateway refund note: "Refunded {total} – Refund ID: re_… – Reason: Testing Refund".
+  const escTotal = result.total.replace(/[.$]/g, (c) => `\\${c}`);
+  const notePattern =
+    config.refundNotePattern ?? new RegExp(`Refunded ${escTotal} – Refund ID: re_[a-zA-Z0-9]+ – Reason: Testing Refund`);
+  await expectOrderNoteMatches(adminPage, notePattern, 'admin order should have a Stripe gateway refund note');
+
+  const statusText =
+    (await adminPage.locator('#select2-order_status-container').first().textContent().catch(() => ''))?.trim() ||
+    (await adminPage.locator('#order_status').inputValue().catch(() => '')) ||
+    '';
+  const expectedRefundStatus = config.refundedStatus ?? 'Refunded';
+  expect(statusText, `order status after refund should be ${expectedRefundStatus}`).toMatch(
+    new RegExp(expectedRefundStatus, 'i')
+  );
+}
+
+/**
+ * Not-wholesale gate (GI 09): a normal (non-wholesale) customer visiting the
+ * wholesale-products page is blocked — the restriction notice ("Approved
+ * Wholesale Customers only" / eligibility requirements) shows instead of prices.
+ */
+export async function assertNotWholesale(page: Page): Promise<void> {
+  await page.goto('wholesale-products/');
+  await page.waitForLoadState('load');
+  await expect(
+    page.locator('.entry-content, #content, main').first(),
+    'a non-wholesale customer should see the wholesale-restriction notice, not wholesale pricing'
+  ).toContainText(/approved wholesale customers only|eligibility requirements/i, { timeout: 15_000 });
+}
+
+/** Refund-email parity (GI Place Order 05): subject "has been refunded". */
+export async function assertRefundEmail(emailPage: Page, cap: FlowCapture): Promise<void> {
+  const { result } = cap;
+  const msg = await findEmail(result.email, { subjectFilter: 'refund' });
+  expect(msg, `a refund email for ${result.email} should arrive in Playgrounds Mailpit`).not.toBeNull();
+  await emailPage.goto(mailpitViewUrl(msg!.ID)).catch(() => {});
+
+  const text = `${msg!.Subject} ${(msg!.HTML ?? '').replace(/<[^>]+>/g, ' ')} ${msg!.Text ?? ''}`.replace(/\s+/g, ' ').trim();
+  const compact = text.replace(/[\s,]+/g, '');
+  expect(text, `refund email should reference order #${result.orderNumber}`).toContain(result.orderNumber);
+  expect(compact, `refund email should show the refunded total ${result.total}`).toContain(toAmount(result.total).toFixed(2));
+}
