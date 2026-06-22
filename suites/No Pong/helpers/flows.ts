@@ -17,6 +17,7 @@ import type {
 import {
   addSubscriptionToCart,
   addToCart,
+  addWholesaleProductToCart,
   captureCheckoutTotals,
   dismissPopups,
   emailFor,
@@ -152,10 +153,46 @@ export async function runSubscriptionFlow(
   };
 }
 
-/** Place a wholesale-priced order end-to-end. Implemented in Task 15. */
+/**
+ * Place a wholesale-priced order end-to-end: the caller logs in as the wholesale
+ * customer first (helpers/nopong.wholesaleLogin), then this adds a wholesale
+ * product → checkout (saved address prefills for the logged-in account) →
+ * payment → order-received. Returns an OrderResult.
+ */
 export async function runWholesaleFlow(
-  _pages: OrderPages,
-  _config: WholesaleConfig
+  { shopperPage }: OrderPages,
+  config: WholesaleConfig
 ): Promise<OrderResult> {
-  throw new Error('runWholesaleFlow not implemented yet (Task 15)');
+  const orderLike: OrderConfig = {
+    testId: config.testId,
+    title: config.title,
+    region: config.region,
+    product: 'wholesale',
+    user: 'logged', // wholesale account is logged in; saved address prefills
+    payment: config.payment,
+    pdp: config.pdp,
+    expectedStatus: 'Processing',
+    accountEmail: config.email,
+  };
+
+  const pdp = await addWholesaleProductToCart(shopperPage);
+  await fillCheckoutAddress(shopperPage, orderLike);
+
+  await captureCheckoutTotals(shopperPage); // also waits for checkout to settle
+  await warnIfNoTaxOrShipping(shopperPage, { testId: config.testId });
+
+  await pay(shopperPage, orderLike);
+  const order = await readOrderReceived(shopperPage);
+
+  return {
+    productName: order.productName || pdp.productName,
+    unitPrice: pdp.unitPrice,
+    subtotal: order.subtotal,
+    shipping: order.shipping,
+    tax: order.tax,
+    total: order.total,
+    orderNumber: order.orderNumber,
+    email: config.email,
+    paymentLabel: order.paymentLabel || PAYMENT_LABEL[config.payment],
+  };
 }

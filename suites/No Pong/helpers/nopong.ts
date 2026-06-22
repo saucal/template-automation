@@ -272,6 +272,55 @@ export async function readSubscriptionDetails(page: Page): Promise<{ subscriptio
 }
 
 // ---------------------------------------------------------------------------
+// Wholesale (login on the gated wholesale-products page + add from its grid).
+// ---------------------------------------------------------------------------
+
+/**
+ * Log in as a wholesale customer. The wholesale-products page shows the login
+ * form to anonymous visitors; after login it renders the wholesale catalogue.
+ */
+export async function wholesaleLogin(page: Page, email: string, password: string): Promise<void> {
+  const ctx = ctxFor(page);
+  await page.goto('wholesale-products/');
+  await page.waitForLoadState('load');
+  await dismissPopups(page);
+
+  await resilientFill(ctx, { primary: page.locator('#username'), ai: 'the wholesale login username field' }, email);
+  await resilientFill(ctx, { primary: page.locator('#password'), ai: 'the wholesale login password field' }, password);
+  await resilientClick(ctx, {
+    primary: page.locator('#customer_login form button[name="login"]').or(page.locator('#customer_login button')),
+    alt: page.getByRole('button', { name: /^log in$/i }),
+    ai: 'the wholesale Log in button',
+  });
+  await page.waitForLoadState('load');
+}
+
+/** Add the first wholesale product from the wholesale-products grid, capturing name + price. */
+export async function addWholesaleProductToCart(page: Page): Promise<PdpCapture> {
+  const ctx = ctxFor(page);
+  await page.goto('wholesale-products/');
+  await page.waitForLoadState('load');
+  await dismissPopups(page);
+
+  const card = page.locator('.wc-block-grid__products > li, .wp-block-handpicked-products > ul > li').first();
+  const productName = await resilientText(ctx, {
+    primary: card.locator('.wc-block-grid__product-title, .wc-block-components-product-name').first(),
+    ai: 'the first wholesale product title',
+  });
+  const unitPrice = await resilientText(ctx, {
+    primary: card.locator('.woocommerce-Price-amount.amount').first(),
+    ai: 'the first wholesale product price',
+  });
+  await resilientClick(ctx, {
+    primary: card.locator("a[href*='add-to-cart=']"),
+    alt: page.getByRole('link', { name: /add to cart/i }).first(),
+    ai: 'the add-to-cart link on the first wholesale product',
+  });
+  await page.waitForLoadState('load');
+  return { productName, unitPrice };
+}
+
+// ---------------------------------------------------------------------------
 // Subscription management (customer + admin actions). Assertions live in
 // assertions.ts; these only drive the UI.
 // ---------------------------------------------------------------------------

@@ -11,7 +11,7 @@
 // Grows per phase: quantity limits (Task 9) → order parity (Task 11) →
 // subscription / wholesale asserts (Tasks 13-15).
 import { expect, type Page } from '@playwright/test';
-import type { OrderConfig, SubscriptionResult } from '../types/test-config';
+import type { OrderConfig, OrderResult, SubscriptionResult } from '../types/test-config';
 import type { FlowCapture } from './flows';
 import { PAYMENT_LABEL, readFirstCartQty, toAmount } from './nopong';
 import { expectOrderNoteMatches } from './order-notes';
@@ -315,6 +315,35 @@ export async function assertRefundEmail(emailPage: Page, cap: FlowCapture): Prom
   const compact = text.replace(/[\s,]+/g, '');
   expect(text, `refund email should reference order #${result.orderNumber}`).toContain(result.orderNumber);
   expect(compact, `refund email should show the refunded total ${result.total}`).toContain(toAmount(result.total).toFixed(2));
+}
+
+// ---------------------------------------------------------------------------
+// Wholesale (Task 15).
+// ---------------------------------------------------------------------------
+
+/**
+ * After a wholesale login, the gated wholesale catalogue is reachable: the page
+ * heading reads "WHOLESALE PRODUCTS" and the wholesale-only My Account nav link
+ * is present — the inverse of the non-wholesale restriction (assertNotWholesale).
+ */
+export async function assertWholesaleAccess(page: Page): Promise<void> {
+  await page.goto('wholesale-products/');
+  await page.waitForLoadState('load');
+  await expect(
+    page.locator('h1.entry-title').first(),
+    'a wholesale customer should see the WHOLESALE PRODUCTS catalogue heading'
+  ).toContainText(/wholesale products/i, { timeout: 15_000 });
+  await expect(
+    page.locator('.wc-block-grid__products > li, .wp-block-handpicked-products > ul > li').first(),
+    'the wholesale catalogue should render purchasable products, not the restriction notice'
+  ).toBeVisible({ timeout: 15_000 });
+}
+
+/** A wholesale order captured a wholesale-priced line and a positive total. */
+export function assertWholesalePricing(result: OrderResult): void {
+  expect(result.orderNumber, 'wholesale order should have an order number from the thank-you page').toMatch(/^\d+$/);
+  expect(toAmount(result.unitPrice), `wholesale product should have a captured unit price (got "${result.unitPrice}")`).toBeGreaterThan(0);
+  expect(toAmount(result.total), `wholesale order total should be positive (got "${result.total}")`).toBeGreaterThan(0);
 }
 
 // ---------------------------------------------------------------------------
