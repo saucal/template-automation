@@ -45,10 +45,19 @@ async function loginOnHost(page: Page, origin: string): Promise<void> {
     await page.waitForLoadState('domcontentloaded');
   }
 
-  // VIP serves a "Loading…" interstitial after submit, so the URL can stay at
-  // wp-login.php even though we're authenticated. Confirm auth by loading the
-  // dashboard and waiting for the admin bar — a reliable logged-in signal.
-  await page.goto(`${origin}wp-admin/`, { waitUntil: 'domcontentloaded' });
+  // VIP serves a "Loading…" interstitial after submit that redirects itself to
+  // wp-admin a few times, so the URL can stay at wp-login.php and our own goto
+  // can collide with that in-flight navigation (net::ERR_ABORTED). Retry the
+  // goto, then confirm auth via the admin bar — a reliable logged-in signal.
+  for (let attempt = 1; ; attempt++) {
+    try {
+      await page.goto(`${origin}wp-admin/`, { waitUntil: 'domcontentloaded' });
+      break;
+    } catch (err) {
+      if (attempt >= 5) throw err;
+      await page.waitForTimeout(1_000);
+    }
+  }
   await page.locator('#wpadminbar').waitFor({ state: 'visible', timeout: 30_000 });
 }
 
