@@ -26,14 +26,20 @@ export function mailpitViewUrl(id: string): string {
 /**
  * Poll Mailpit for the most recent message to `email` (optionally also matching
  * a subject substring). Returns the full message (HTML + Text) or null after
- * `attempts` tries. Mail can lag a few seconds, hence the retry loop.
+ * `attempts` tries.
+ *
+ * No Pong sends transactional mail through a SendGrid ESP (the reset-password
+ * link is a `url7488.nopong.com.au/ls/click` tracker), not straight into Mailpit.
+ * That relay adds tens of seconds of latency AND reorders messages — a reset
+ * email can land ~30-40s after it was requested and out of order vs the
+ * account-created mail. So we poll up to ~120s by default (the old 60s window,
+ * tuned for leggari's direct Mailpit, timed out on the slower relayed mail).
  */
 export async function findEmail(
   email: string,
   opts: { subjectFilter?: string; attempts?: number; intervalMs?: number } = {}
 ): Promise<MailpitMessage | null> {
-  // Order emails can lag (queued / cron-driven) — poll up to ~60s by default.
-  const { subjectFilter, attempts = 20, intervalMs = 3_000 } = opts;
+  const { subjectFilter, attempts = 40, intervalMs = 3_000 } = opts;
   const query = `to:${email}` + (subjectFilter ? ` subject:"${subjectFilter}"` : '');
   const api: APIRequestContext = await request.newContext({ ignoreHTTPSErrors: true });
   try {
