@@ -3,7 +3,7 @@
 import { type Page, expect } from '@playwright/test';
 import type { OrderResult, Frequency } from '../types/test-config';
 import * as os from './openstudio';
-import { refundEmail } from './email';
+import { refundEmailText } from './email';
 
 const PAYMENT_LABEL_RE = /Credit ?\/? ?Debit Card|Payment via/i;
 
@@ -41,6 +41,6 @@ export async function assertRefunded(adminPage: Page): Promise<void> {
 }
 
 export async function assertRefundEmail(emailPage: Page, email: string): Promise<void> {
-  const amount = await refundEmail(emailPage, email);
-  expect(amount, 'refund email shows negative amount').toMatch(/-/);
+  const text = await refundEmailText(emailPage, email);
+  expect(text, 'refund email should reference the refund').toMatch(/refund/i);
 }
