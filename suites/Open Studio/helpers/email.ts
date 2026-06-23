@@ -1,73 +1,58 @@
-// Email inbox abstraction. The GI tests read test mail from Ghost Inspector's
-// hosted inbox (https://email.ghostinspector.com/{user}); this implements that
-// reader behind a stable interface (forgotPasswordLink / welcomeLink / refundEmail).
+// Email inbox abstraction over Playgrounds Mailpit (same mechanism as No Pong) —
+// the site routes transactional mail into a shared Mailpit inbox, read via its
+// REST API in playgrounds-email.ts. These helpers find the relevant message and
+// extract what callers need (reset/welcome link, refund body text). `emailPage`
+// is navigated to the Mailpit web view purely for video/screenshot evidence.
 //
-// BUILD-TIME NOTE: confirm where the live staging site actually delivers mail.
-// If it uses the SAU/CAL Playgrounds Email Redirect plugin (Mailpit) instead,
-// port `suites/No Pong/helpers/playgrounds-email.ts` and reimplement the three
-// exported functions against it — the interface below stays the same, so callers
-// (account.ts, assertions.ts) do not change.
+// Override the inbox host with MAILPIT_URL if the environment differs.
 import { type Page, expect } from '@playwright/test';
+import { findEmail, mailpitViewUrl } from './playgrounds-email';
 
-const GI_INBOX = 'https://email.ghostinspector.com/';
-
-/**
- * Username GI derives from the address: strips an optional `qa+` prefix and takes
- * the leading word token (e.g. `qa+os-refund-123@x` → `os`). Matches the GI regex
- * used in open-studio-common-steps.ts (see the match() call below).
- */
-export function inboxUser(email: string): string {
-  const m = email.match(/^(qa\+)?(\w+)[^@]*/);
-  return m ? m[2] : email;
-}
-
-/** Open the hosted inbox for `email` and wait for the message list to render. */
-export async function openInbox(emailPage: Page, email: string): Promise<void> {
-  await emailPage.goto(`${GI_INBOX}${inboxUser(email)}`, { waitUntil: 'networkidle' });
-}
-
-/**
- * Find the most recent message whose link/body matches `pattern`, open it, and
- * return the href of the first anchor matching `linkSelector`.
- */
-async function openMessageAndGetLink(
-  emailPage: Page,
-  email: string,
-  pattern: RegExp,
-  linkSelector: string
-): Promise<string> {
-  await openInbox(emailPage, email);
-  const message = emailPage.locator('a', { hasText: pattern }).first();
-  await message.waitFor({ state: 'visible', timeout: 60_000 });
-  await message.click();
-  await emailPage.waitForLoadState('networkidle');
-  const link = emailPage.locator(linkSelector).first();
-  await link.waitFor({ state: 'visible' });
-  const href = await link.getAttribute('href');
-  expect(href, 'email link href present').toBeTruthy();
-  return href!;
+/** First href whose anchor text matches one of the patterns; &amp; un-escaped. */
+function hrefMatching(html: string, ...patterns: RegExp[]): string | undefined {
+  for (const p of patterns) {
+    const m = html.match(p);
+    if (m?.[1]) return m[1].replace(/&amp;/g, '&');
+  }
+  return undefined;
 }
 
 /** Forgot-password: find the reset email and return the reset link href. */
 export async function forgotPasswordLink(emailPage: Page, email: string): Promise<string> {
-  return openMessageAndGetLink(emailPage, email, /password|reset/i, 'a.link');
+  const msg = await findEmail(email, { subjectFilter: 'Password' });
+  expect(msg, `a password-reset email for ${email} should arrive in Playgrounds Mailpit`).not.toBeNull();
+  await emailPage.goto(mailpitViewUrl(msg!.ID)).catch(() => {});
+  const html = msg!.HTML ?? '';
+  const link = hrefMatching(
+    html,
+    /<a[^>]+href="([^"]+)"[^>]*>[^<]*reset[^<]*password/i,
+    /<a[^>]+href="([^"]+)"[^>]*>[^<]*(?:set|create)[^<]*password/i,
+    /<a[^>]+href="([^"]+)"[^>]*>[^<]*click here/i,
+  );
+  expect(link, `reset email should contain a reset-password link\nsubject: ${msg!.Subject}`).toBeTruthy();
+  return link!;
 }
 
 /** Welcome / set-password link sent after a join. */
 export async function welcomeLink(emailPage: Page, email: string): Promise<string> {
-  return openMessageAndGetLink(emailPage, email, /welcome|set.*password|open studio/i, 'a.link');
+  const msg = await findEmail(email, { subjectFilter: 'Welcome' });
+  expect(msg, `a welcome email for ${email} should arrive in Playgrounds Mailpit`).not.toBeNull();
+  await emailPage.goto(mailpitViewUrl(msg!.ID)).catch(() => {});
+  const html = msg!.HTML ?? '';
+  const link = hrefMatching(
+    html,
+    /<a[^>]+href="([^"]+)"[^>]*>[^<]*(?:set|create)[^<]*password/i,
+    /<a[^>]+href="([^"]+)"[^>]*>[^<]*click here/i,
+    /<a[^>]+href="([^"]+)"[^>]*>[^<]*get started/i,
+  );
+  expect(link, `welcome email should contain a set-password / get-started link\nsubject: ${msg!.Subject}`).toBeTruthy();
+  return link!;
 }
 
-/**
- * Refund email: open the "has been refunded" message and return the negative
- * amount string (e.g. '-$19.00') for assertion.
- */
-export async function refundEmail(emailPage: Page, email: string): Promise<string> {
-  await openInbox(emailPage, email);
-  const message = emailPage.locator('a', { hasText: /has been refunded/i }).first();
-  await message.waitFor({ state: 'visible', timeout: 60_000 });
-  await message.click();
-  await emailPage.waitForLoadState('networkidle');
-  const amount = emailPage.locator('tr:nth-of-type(3) > td.td > .woocommerce-Price-amount.amount').first();
-  return ((await amount.textContent()) ?? '').trim();
+/** Stripped text of the refund email body — for refund/order/amount assertions. */
+export async function refundEmailText(emailPage: Page, email: string): Promise<string> {
+  const msg = await findEmail(email, { subjectFilter: 'refund' });
+  expect(msg, `a refund email for ${email} should arrive in Playgrounds Mailpit`).not.toBeNull();
+  await emailPage.goto(mailpitViewUrl(msg!.ID)).catch(() => {});
+  return `${msg!.Subject} ${(msg!.HTML ?? '').replace(/<[^>]+>/g, ' ')} ${msg!.Text ?? ''}`.replace(/\s+/g, ' ').trim();
 }
