@@ -66,7 +66,7 @@ export async function findEmail(
 export async function deleteEmails(email: string): Promise<void> {
   const api = await request.newContext({ ignoreHTTPSErrors: true });
   try {
-    await api.delete(`${MAILPIT_URL}/api/v1/search?query=${encodeURIComponent(`to:"${email}"`)}`);;
+    await api.delete(`${MAILPIT_URL}/api/v1/search?query=${encodeURIComponent(`to:"${email}"`)}`);
   } catch {
     /* best effort */
   } finally {
