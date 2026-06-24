@@ -3,6 +3,26 @@
 Tracking the loose ends after the AU reference build (29 tests / 7 specs). Live
 run + live-site triage are the user's to drive.
 
+## AU GI parity gaps (missed in the basic suite)
+
+From `AU - Basic WooCommerce Test`. Most tests map cleanly to existing specs;
+these two do not:
+
+- [ ] **GI 10 — Subscription test - Cart Page** (testId `6718e94494fa0c2a9c5affaf`).
+  Not replicated. GI flow: add subscription product `?add-to-cart=1270` → cart →
+  set **qty=2** on `input[aria-label="Product quantity"]` → toggle
+  `.subscription-price > .subscription-details` → run sub-flow `6022b74a262f437a9af8d9a3`
+  → refresh. None of our subscription specs (`SUB-*`, `SUBM-*`) do a cart-page
+  quantity change on a subscription product. Add it (likely `specs/au/subscriptions/`).
+
+- [ ] **GI 19 — Subscription popup verification is a MOBILE test** (testId
+  `646d4a99e71b46cb75cb79b1`). GI ran at **viewport 375×812**; our
+  `monthly-club "Join the Club" opens product popup` (`visual.spec.ts`) runs at the
+  default desktop size. Two fixes:
+  - [ ] Set `page.setViewportSize({ width: 375, height: 812 })` (mobile).
+  - [ ] GI asserts the modal `assertElementVisible` **then** `assertElementNotVisible`
+    (open *and* close). Ours only asserts open — add the close assertion.
+
 ## Blockers / data drift
 
 - [ ] **Limits spec uses a pre-order product (BLOCKS NP-AU-LIM-02).**
@@ -41,8 +61,28 @@ run + live-site triage are the user's to drive.
   hidden field today, harmless, but if registration starts demanding email
   verification it'll break `registerNewUser`.
 
-## Follow-up (separate plan)
+## Follow-up — CA/US replication (separate plan)
 
-- [ ] **CA/US replication** — fill `regionConfig.ca` / `.us` (billing, slugs,
-  currency, tax/shipping from GI CA/US suites), copy `au/` specs swapping the
-  `region`. No wholesale / no manage for CA/US (not in the GI set).
+AU is at full GI parity (+ extras). CA and US are **0% covered** — no `specs/ca/`
+or `specs/us/` dirs exist. Mostly a region-swap of `au/`, but **not entirely**
+(CA has a points test that AU doesn't). Per the GI source:
+
+- [ ] **Config first** — fill `regionConfig.ca` / `.us` (billing, slugs, currency,
+  tax/shipping from the GI CA/US suites) before copying any spec.
+
+- [ ] **CA place-order** (GI `ca-place-order.spec.ts`, 10 tests) → `specs/ca/orders/`:
+  - 01–03 new user (place/email/backend), 05–06 refund + refund email,
+    07–09 logged user (place/email/backend) — pure swap of AU `PO-01..03`.
+  - [ ] **10 - Minimum redeem points** — loyalty/points redemption. **NOT in AU**,
+    so not a region-swap — needs its own spec + points/coupon setup. Confirm the
+    points plugin (likely a WooCommerce Points & Rewards variant) on the live CA flow.
+  - Note: GI CA has no `04` (refund step numbering skips it) — GI's own gap.
+
+- [ ] **CA subscription** (GI `ca-subscription-test.spec.ts`, 4 tests) →
+  `specs/ca/subscriptions/` — swap of AU `SUB-01..04` (place/backend/email/renew).
+
+- [ ] **US place-order** (GI `us-place-order.spec.ts`, 5 tests) → `specs/us/orders/`:
+  - 01 new user, 02 email, 03 backend, 04 refund, 05 refund email — swap of AU
+    `PO-01..02`. **No logged-user, no wholesale, no subscription** for US (not in GI).
+
+- [ ] No wholesale / no manage for CA or US (absent from the GI set).
