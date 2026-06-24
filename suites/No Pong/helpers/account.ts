@@ -144,7 +144,7 @@ export async function forgotPassword(page: Page, email: string, newPassword: str
   ).toContainText(/password reset email has been sent|check your email/i);
 
   // Follow the reset link from the email (may be a SendGrid-wrapped CTA).
-  const msg = await findEmail(email, { subjectFilter: 'password' });
+  const msg = await findEmail(email, { subjectFilter: 'Password' });
   expect(msg, `a password-reset email for ${email} should arrive in Playgrounds Mailpit`).not.toBeNull();
   const html = msg!.HTML ?? '';
   const link =

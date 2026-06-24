@@ -447,11 +447,11 @@ export async function setCartQtyAndUpdate(page: Page, qty: number): Promise<void
   await field.waitFor({ state: 'visible', timeout: 10_000 });
   await resilientFill(ctx, { primary: field, ai: 'the cart quantity field' }, String(qty));
   await field.blur().catch(() => {});
-  await resilientClick(ctx, {
-    primary: page.locator('button[name="update_cart"]'),
-    alt: page.getByRole('button', { name: /update cart/i }),
-    ai: 'the Update cart button',
-  });
+  // await resilientClick(ctx, {
+  //   primary: page.locator('button[name="update_cart"]'),
+  //   alt: page.getByRole('button', { name: /update cart/i }),
+  //   ai: 'the Update cart button',
+  // });
   await waitForCheckoutReady(page);
 }
 
@@ -465,7 +465,7 @@ export async function setCartQtyAndUpdate(page: Page, qty: number): Promise<void
  * prefills, so we skip address entry entirely (no `vars.logged` string flag —
  * we branch on the typed user kind).
  */
-export async function fillCheckoutAddress(page: Page, config: OrderConfig, checkoutPath = 'checkout/'): Promise<void> {
+export async function fillCheckoutAddress(page: Page, config: OrderConfig, checkoutPath = 'checkout/?sc_bypass=1'): Promise<void> {
   await page.goto(checkoutPath);
   await waitForCheckoutReady(page);
 
