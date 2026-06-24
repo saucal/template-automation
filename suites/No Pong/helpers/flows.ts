@@ -46,12 +46,6 @@ function subscriptionAsOrder(config: SubscriptionConfig): OrderConfig {
   };
 }
 
-// Subscription checkout is served at check-out/ with the captcha-skip flag.
-// TODO: the shopper context is now primed with ?sc_bypass=1 on first visit
-// (fixtures/index.ts), which should bypass captcha site-wide for the session —
-// so this per-checkout ?saucal-skip-captcha=1 is likely redundant. Confirm
-// against a live run, then drop the query and use plain 'check-out/'.
-const SUBSCRIPTION_CHECKOUT_PATH = 'check-out/?saucal-skip-captcha=1';
 
 export interface OrderPages {
   shopperPage: Page;
@@ -131,7 +125,7 @@ export async function runSubscriptionFlow(
   await dismissPopups(shopperPage);
 
   const pdp = await addSubscriptionToCart(shopperPage, config.region);
-  await fillCheckoutAddress(shopperPage, orderLike, SUBSCRIPTION_CHECKOUT_PATH);
+  await fillCheckoutAddress(shopperPage, orderLike);
 
   const checkout = await captureCheckoutTotals(shopperPage);
   await warnIfNoTaxOrShipping(shopperPage, { testId: config.testId });

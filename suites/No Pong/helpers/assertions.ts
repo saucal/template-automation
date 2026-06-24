@@ -13,7 +13,7 @@
 import { expect, type Page } from '@playwright/test';
 import type { OrderConfig, OrderResult, SubscriptionResult } from '../types/test-config';
 import type { FlowCapture } from './flows';
-import { PAYMENT_LABEL, readFirstCartQty, toAmount } from './nopong';
+import { goToCart, PAYMENT_LABEL, readFirstCartQty, toAmount } from './nopong';
 import { expectOrderNoteMatches } from './order-notes';
 import { findEmail, mailpitViewUrl } from './playgrounds-email';
 import { ctxFor, resilientClick, resilientText } from './resilient';
@@ -47,16 +47,15 @@ export async function assertQuantityLimit(
   page: Page,
   opts: { clampedQty: string; noticePattern?: RegExp }
 ): Promise<void> {
-  if (!page.url().includes('/cart')) {
-    await page.goto('cart/');
-    await page.waitForLoadState('load');
-  }
+
   const notice = page
     .locator('.woocommerce-error, .wc-block-components-notice-banner.is-error .wc-block-components-notice-banner__content')
     .first();
   await expect(notice, 'an over-limit error notice should appear when the quantity cap is exceeded')
     .toContainText(opts.noticePattern ?? OVER_LIMIT_NOTICE, { timeout: 15_000 });
-
+  if (!page.url().includes('/cart')) {
+    await goToCart(page);
+  }
   const qty = await readFirstCartQty(page);
   expect(qty, `cart quantity should be clamped to the cap (${opts.clampedQty})`).toBe(opts.clampedQty);
 }
