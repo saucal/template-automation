@@ -47,6 +47,10 @@ export async function assertQuantityLimit(
   page: Page,
   opts: { clampedQty: string; noticePattern?: RegExp }
 ): Promise<void> {
+  if (!page.url().includes('/cart')) {
+    await page.goto('cart/');
+    await page.waitForLoadState('load');
+  }
   const notice = page
     .locator('.woocommerce-error, .wc-block-components-notice-banner.is-error .wc-block-components-notice-banner__content')
     .first();

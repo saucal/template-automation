@@ -40,7 +40,9 @@ export async function findEmail(
   opts: { subjectFilter?: string; attempts?: number; intervalMs?: number } = {}
 ): Promise<MailpitMessage | null> {
   const { subjectFilter, attempts = 40, intervalMs = 3_000 } = opts;
-  const query = `to:${email}` + (subjectFilter ? ` subject:"${subjectFilter}"` : '');
+  // Quote the address: Mailpit's query parser treats unquoted '+' as a term
+  // separator, breaking lookup for '+'-tagged addresses like qa+test@...
+  const query = `to:"${email}"` + (subjectFilter ? ` subject:"${subjectFilter}"` : '');
   const api: APIRequestContext = await request.newContext({ ignoreHTTPSErrors: true });
   try {
     for (let i = 0; i < attempts; i++) {
@@ -64,7 +66,7 @@ export async function findEmail(
 export async function deleteEmails(email: string): Promise<void> {
   const api = await request.newContext({ ignoreHTTPSErrors: true });
   try {
-    await api.delete(`${MAILPIT_URL}/api/v1/search?query=${encodeURIComponent(`to:${email}`)}`);
+    await api.delete(`${MAILPIT_URL}/api/v1/search?query=${encodeURIComponent(`to:"${email}"`)}`);;
   } catch {
     /* best effort */
   } finally {
