@@ -184,34 +184,27 @@ export async function addToCart(page: Page, region: Region, pdp: PdpConfig): Pro
     return { productName, unitPrice };
   }
 
-  // Shop-first: open the first non-bundle product, capture, add.
-  await page.goto('shop/');
-  await page.waitForLoadState('load');
-  await dismissPopups(page);
-  await resilientClick(ctx, {
-    primary: page.locator("li:not([data-slug*='bundle']) a[href*='/products/']").first(),
-    ai: 'the first non-bundle product link on the shop page',
-  });
+  // Shop-first (GI 06): no PDP — customers can't access product pages.
+  // Extract title + price from the shop grid, then click the direct add-to-cart link.
+  await page.goto('products/');
   await page.waitForLoadState('load');
   await dismissPopups(page);
 
+  const card = page.locator("ul.wc-block-grid__products > li:not([data-slug*='bundle'])").first();
   const productName = await resilientText(ctx, {
-    primary: page.locator('.product-main .product_title, h1.product_title'),
-    ai: 'the product title heading',
+    primary: card.locator('.wc-block-grid__product-title'),
+    ai: 'the first non-bundle product title in the shop grid',
   });
   const unitPrice = await resilientText(ctx, {
-    primary: page
-      .locator('.product-main p.price ins .woocommerce-Price-amount.amount')
-      .or(page.locator('.product-main .woocommerce-Price-amount.amount')),
-    ai: 'the product price',
+    primary: card.locator('.wc-block-grid__product-price ins .woocommerce-Price-amount.amount')
+      .or(card.locator('.wc-block-grid__product-price .woocommerce-Price-amount.amount')),
+    ai: 'the first non-bundle product price in the shop grid',
   });
-  await setQuantity(page, pdp.qty);
   await resilientClick(ctx, {
-    primary: page.locator("li:not([data-slug*='bundle']) a[href*='?add-to-cart=']")
-      .or(page.locator('form.cart .single_add_to_cart_button')),
-    alt: page.getByRole('button', { name: /add to cart/i }),
-    ai: 'the Add to cart button',
+    primary: card.locator("a[href*='?add-to-cart=']"),
+    ai: 'the direct add-to-cart link on the first non-bundle product',
   });
+  await page.waitForLoadState('load');
   return { productName, unitPrice };
 }
 
