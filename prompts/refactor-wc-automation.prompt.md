@@ -14,17 +14,25 @@ The essentials:
 
 - **GI export is the SOURCE OF TRUTH — dump the test JSON, don't guess.** Read the actual GI step list for selectors/flow (refund qty-fill, `selectFirstAvailableVariation`, set-password flow). The migrated TS is a lossy derivative.
 - **Live-explore the real site first** (playwright-cli) — the GI export's selectors have drifted. Pair the JSON dump with live DOM confirmation (it catches no-`bdi` price markup, pickup-label-not-price, reCAPTCHA, real product prices) before writing code.
-- **Triage GI tests, don't 1:1 port** — nav/screenshot → one data-driven visual spec; duplicates → skip; genuinely-new → build.
+- **Triage GI tests, don't 1:1 port** — nav/screenshot → one data-driven visual spec; duplicates → skip; genuinely-new → build. But **triage ≠ drop**: every GI test lands on the `docs/TODO.md` parity ledger and gets classified after the refactor (see "GI parity ledger"). Enumerate from the raw `suites/*.json`, not from `generated/` — a basic/visual suite with no runnable generated spec is invisible otherwise.
 - **Real events, never eval** — `el.value=…; dispatch('change')` won't trigger WC `update_checkout`/variations/composite validity; use Playwright `selectOption`/`fill`/`check`.
 - **Cart/checkout AJAX races** — `.blockUI` intercepts clicks (navigate remove-URLs instead); wait for a positive signal (recalc landed), not just "overlay hidden".
 - **Money/text DOM is messy** — currency symbol in its own span, thousands commas, double-spaced labels, `<del>list</del><ins>discount</ins>`, discount-as-fee, select2 hidden natives, a "money" field that's actually a shipping-method label, pricing plugins that drop `bdi`, `$0`/"price on request" products → normalize + capture the right node, compare as money only when numeric.
 - **Capture-once parity + 3-context fixture + resilient wrapper + Mailpit email + unique per-run data** — see the playbook for each.
 
-## Input you must provide
+## Input you must provide — GATHER before refactoring
 
-1. All generated spec files from `generated/specs/*.spec.ts`
-2. All generated helper files from `generated/helpers/*.ts`
-3. Project name (e.g. "repurposedmaterials", "no-pong") and BASE_URL.
+1. **Raw GI test JSON** — every `suites/<suite>/*.json` for the project. This is the
+   source of truth, and it is the **complete** set: enumerate ALL GI suites, not
+   just the ones that made it into `generated/specs/`. (A basic/visual suite often
+   has no runnable generated spec — it will be invisible if you start from `generated/`.)
+2. All generated spec files from `generated/specs/*.spec.ts` (the `migrate-gi.js` output).
+3. All generated helper files from `generated/helpers/*.ts`.
+4. Project name (e.g. "repurposedmaterials", "no-pong") and BASE_URL.
+5. **Build `docs/TODO.md` — the GI parity ledger — BEFORE writing any spec.** One
+   checkbox per GI test, grouped by suite, capturing testId + per-test attributes
+   that the generated TS drops (non-default **viewport / mobile**, open-then-close
+   assertions, qty values, product IDs). See "GI parity ledger" below.
 
 ---
 
@@ -136,6 +144,40 @@ Blocks library quirks the helpers don't cover:
 **Cart helpers — pick the right one (or none).** `addAProductToCart(page, id)` goes via `/shop/?add-to-cart=ID`; `addOneOrMoreProductToCart(page, slug)` goes via `/product/{slug}`. If your existing flow uses `/checkout/?add-to-cart=ID` (lands directly on checkout), keep the hand-rolled helper — switching costs an extra `goto('checkout/')` and depends on a published shop page or accurate slug map.
 
 ---
+
+## GI parity ledger (MANDATORY — gather → refactor → verify → mark done)
+
+Triage ("don't 1:1 port") consolidates *how* tests are expressed; it does **NOT**
+license silently dropping coverage. Every GI test is accounted for, on the record.
+The ledger (`docs/TODO.md`) is that record. Workflow:
+
+1. **GATHER** — before refactoring, enumerate every test in every GI suite under
+   `suites/` (dump the JSON, don't read names off `generated/`). Write one ledger
+   entry per GI test:
+   ```
+   - [ ] **<suite> / <NN - GI test name>** (testId `…`) — <what it asserts>
+         viewport: <default | 375×812 mobile>; notes: <qty/product-id/open+close/etc>
+   ```
+   Flag anything the generated TS loses: **mobile viewport**, open-*and*-close
+   assertions, specific quantities/product IDs, region (au/ca/us), points/loyalty.
+2. **REFACTOR** — build the suite as usual (rules below). Consolidate freely.
+3. **VERIFY against the ledger** — after refactoring, walk EVERY entry and classify:
+   - **replicated** — a spec covers it. Record the spec test ID next to the entry.
+   - **improved** — covered + strengthened (e.g. capture-once parity, added close
+     assertion). Note what improved.
+   - **consolidated** — folded into another test (e.g. email/backend parity into the
+     place-order test). Name the absorbing test.
+   - **skipped (with reason)** — duplicate, or deliberately out of scope. The reason
+     is written; "didn't get to it" is NOT a skip, it stays `[ ]`.
+   Do not classify from memory — grep the specs / expand data-driven loops (a
+   `for (const p of PAGES)` covers many ledger rows; a slug list hides single-detail
+   pages). Confirm viewport + every assertion, not just that a test with a similar
+   name exists.
+4. **MARK DONE** — tick `[x]` only for replicated/improved/consolidated/skipped-with-reason.
+   Whatever is still `[ ]` at the end is the real remaining-work list. Leave it in
+   `docs/TODO.md` for the live run + follow-up.
+
+A refactor is not "done" while ungrouped `[ ]` entries have no classification.
 
 ## Refactoring rules
 
@@ -329,6 +371,9 @@ Each file with full path and complete contents — no placeholders or `// ...exi
 ## What NOT to do
 
 - Don't invent test cases not in generated code.
+- Don't drop a GI test without a written skip reason on the `docs/TODO.md` ledger — silent omission is the failure this guards against.
+- Don't build the ledger from `generated/specs/` — enumerate the raw `suites/*.json` (basic/visual suites have no generated spec).
+- Don't classify a GI test "replicated" from memory — grep the spec, expand data-driven loops, confirm viewport + every assertion.
 - Don't remove assertions — every `expect()` is preserved.
 - Don't add error handling for impossible scenarios.
 - Don't abstract one-time operations.
