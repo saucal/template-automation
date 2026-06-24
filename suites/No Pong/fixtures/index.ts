@@ -250,7 +250,7 @@ export const test = base.extend<Fixtures>({
     // server-side bypass flag (cookie) for this context, so the later checkout /
     // registration submits skip the captcha. Relative goto resolves against the
     // baseURL trailing slash (rule 12). Best-effort: skipped when baseURL is unset.
-    await page.goto('?sc_bypass=1', { waitUntil: 'domcontentloaded' }).catch(() => {});
+    await page.goto('?sc_bypass=1', { waitUntil: 'load' }).catch(() => {});
     await use(page);
     await finishContext(ctx, page, 'shopperPage', testInfo);
   },

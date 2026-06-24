@@ -21,15 +21,15 @@ const SECOND_PRODUCT_ID = 1684403;
 test.describe('AU Quantity limits', { tag: ['@plugin:woocommerce'] }, () => {
   test('NP-AU-LIM-01 — tin per-item cap clamps an over-limit quantity', async ({ shopperPage: page }) => {
     await addToCartById(page, TIN_PRODUCT_ID);
-    await setCartQtyAndUpdate(page, 17);
-    await assertQuantityLimit(page, { clampedQty: '12' });
+    await setCartQtyAndUpdate(page, 50);
+    await assertQuantityLimit(page, { clampedQty: '49' });
   });
 
   test('NP-AU-LIM-02 — 85g combined-weight cap clamps the cart', async ({ shopperPage: page }) => {
     await addToCartById(page, TIN_PRODUCT_ID);
-    await setCartQtyAndUpdate(page, 11);
+    await setCartQtyAndUpdate(page, 50);
     // Adding a second product pushes combined weight past the 85g cap → clamp.
     await addToCartById(page, SECOND_PRODUCT_ID);
-    await assertQuantityLimit(page, { clampedQty: '5' });
+    await assertQuantityLimit(page, { clampedQty: '49' });
   });
 });

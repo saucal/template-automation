@@ -30,7 +30,7 @@ export default defineConfig({
     // screenshot.png. The fixture owns the named per-context shot (rule 25).
     screenshot: 'off',
     video: { mode: 'retain-on-failure' },
-    launchOptions: { slowMo: 250 },
+    launchOptions: { slowMo: 500 },
     ignoreHTTPSErrors: true,
   },
   globalSetup: './global-setup.ts',
