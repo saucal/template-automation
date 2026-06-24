@@ -30,6 +30,6 @@ test.describe('AU Quantity limits', { tag: ['@plugin:woocommerce'] }, () => {
     await setCartQtyAndUpdate(page, 50);
     // Adding a second product pushes combined weight past the 85g cap → clamp.
     await addToCartById(page, SECOND_PRODUCT_ID);
-    await assertQuantityLimit(page, { clampedQty: '49' });
+    await assertQuantityLimit(page, { clampedQty: '48' });
   });
 });

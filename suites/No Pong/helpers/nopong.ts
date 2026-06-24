@@ -411,6 +411,47 @@ async function setQuantity(page: Page, qty: number): Promise<void> {
 }
 
 // ---------------------------------------------------------------------------
+// Cart navigation — customer click path (NO page.goto to cart or checkout).
+// ---------------------------------------------------------------------------
+
+/**
+ * Navigate to the cart page via the header mini-cart:
+ * Shopping Cart button → mini-cart expands → click "View cart".
+ * Never use page.goto('cart/') — customers navigate by clicking, not URL changes.
+ */
+export async function goToCart(page: Page): Promise<void> {
+  const ctx = ctxFor(page);
+  await resilientClick(ctx, {
+    primary: page.getByRole('button', { name: /shopping cart/i }),
+    ai: 'the Shopping Cart header button',
+  });
+  await page.locator('.mini-cart-container, .woocommerce-mini-cart__buttons').first()
+    .waitFor({ state: 'visible', timeout: 10_000 });
+  await resilientClick(ctx, {
+    primary: page.locator('.mini-cart-container a.button.wc-forward:not(.checkout)'),
+    alt: page.getByRole('link', { name: /view cart/i }),
+    ai: 'the View cart link in the mini-cart flyout',
+  });
+  await page.waitForLoadState('load');
+  await waitForCheckoutReady(page);
+}
+
+/**
+ * Navigate to checkout from the cart page by clicking "Proceed to checkout".
+ * Never use page.goto('check-out/') — customers navigate by clicking.
+ */
+export async function proceedToCheckout(page: Page): Promise<void> {
+  const ctx = ctxFor(page);
+  await resilientClick(ctx, {
+    primary: page.locator('a.checkout-button, .wc-proceed-to-checkout a').first(),
+    alt: page.getByRole('link', { name: /proceed to checkout/i }),
+    ai: 'the Proceed to checkout button on the cart page',
+  });
+  await page.waitForLoadState('load');
+  await waitForCheckoutReady(page);
+}
+
+// ---------------------------------------------------------------------------
 // Cart — direct add-by-id + classic qty editing (quantity-limit specs).
 // ---------------------------------------------------------------------------
 
@@ -429,22 +470,16 @@ export async function readFirstCartQty(page: Page): Promise<string> {
 }
 
 /**
- * Set the first cart line-item quantity and click "Update cart". The update
- * button stays disabled until the qty field changes, so we blur after filling.
+ * Set the first cart line-item quantity. Navigates to cart via the mini-cart
+ * click path (goToCart), fills the qty, then waits for WC to recalculate.
  */
 export async function setCartQtyAndUpdate(page: Page, qty: number): Promise<void> {
   const ctx = ctxFor(page);
-  await page.goto('cart/');
-  await waitForCheckoutReady(page);
+  await goToCart(page);
   const field = page.locator('input.qty, input[title="Qty"]').first();
   await field.waitFor({ state: 'visible', timeout: 10_000 });
   await resilientFill(ctx, { primary: field, ai: 'the cart quantity field' }, String(qty));
   await field.blur().catch(() => {});
-  // await resilientClick(ctx, {
-  //   primary: page.locator('button[name="update_cart"]'),
-  //   alt: page.getByRole('button', { name: /update cart/i }),
-  //   ai: 'the Update cart button',
-  // });
   await waitForCheckoutReady(page);
 }
 
@@ -453,14 +488,14 @@ export async function setCartQtyAndUpdate(page: Page, qty: number): Promise<void
 // ---------------------------------------------------------------------------
 
 /**
- * Fill the classic checkout billing form for a NEW or GUEST user, creating an
- * account when config.user === 'new'. For a logged-in user the saved address
- * prefills, so we skip address entry entirely (no `vars.logged` string flag —
- * we branch on the typed user kind).
+ * Navigate to checkout via customer clicks then fill the billing form.
+ * Flow: Shopping Cart button → View cart → Proceed to checkout → fill form.
+ * No page.goto — customers navigate by clicking, not URL changes.
+ * Logged-in users skip address entry (saved address prefills).
  */
-export async function fillCheckoutAddress(page: Page, config: OrderConfig, checkoutPath = 'checkout/?sc_bypass=1'): Promise<void> {
-  await page.goto(checkoutPath);
-  await waitForCheckoutReady(page);
+export async function fillCheckoutAddress(page: Page, config: OrderConfig): Promise<void> {
+  await goToCart(page);
+  await proceedToCheckout(page);
 
   if (config.user === 'logged') return; // saved address prefills
 

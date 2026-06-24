@@ -127,7 +127,7 @@ export async function loginAccount(page: Page, email: string, password: string):
  */
 export async function forgotPassword(page: Page, email: string, newPassword: string): Promise<void> {
   const ctx = ctxFor(page);
-  await page.goto('my-account/lost-password/');
+  await page.goto('my-account/lost-password/?sc_bypass=1');
   await page.waitForLoadState('load');
   await dismissPopups(page);
 
