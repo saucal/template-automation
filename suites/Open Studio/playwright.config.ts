@@ -32,10 +32,18 @@ export default defineConfig({
     ignoreHTTPSErrors: true,
   },
   globalSetup: './global-setup.ts',
-  // Single host, single project. Relative goto() everywhere (no leading slash).
-  // Refund/renew specs are gated by RUN_REFUND / RUN_RENEW via test.skip guards
-  // inside the specs — not by testMatch.
+  // Single host. The `setup` project purchases ONE membership (member.setup.ts) and
+  // saves auth/member.json + creds; `open-studio` depends on it so the member specs
+  // always have a real purchaser to reuse (memberPage / memberCreds fixtures).
+  // Relative goto() everywhere (no leading slash). Refund/renew specs are gated by
+  // RUN_REFUND / RUN_RENEW via test.skip guards inside the specs — not by testMatch.
   projects: [
-    { name: 'open-studio', use: { ...devices['Desktop Chrome'] } },
+    { name: 'setup', testMatch: /member\.setup\.ts/ },
+    {
+      name: 'open-studio',
+      testIgnore: /member\.setup\.ts/,
+      dependencies: ['setup'],
+      use: { ...devices['Desktop Chrome'] },
+    },
   ],
 });
