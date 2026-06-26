@@ -19,6 +19,15 @@ user's to drive.
 - [x] **Bookmark add/remove/count=0 (24)** → OS-CONTENT-bookmark.
 - [x] Review fixes: funnel-confirmation email fallback, OS-JOIN-03 → fixme,
   assertCoursePlusSubscription retargeted + wired, Stripe Link opt-in uncheck.
+- [x] **Member specs reuse a real purchaser** — `member.setup.ts` setup project
+  creates one membership-holder (auth/member.json + creds); memberPage/memberCreds
+  fixtures; no fake pre-provisioned account. Member content pages COMPARE content
+  (assertPageContent: path + heading + token).
+- [x] **Visual coverage, all WARN-only** (`softScreenshot`): guest page sweep +
+  menus (converted from hard-fail); NEW `guest/commerce-visual.spec.ts` =
+  cart-membership/cart-course, checkout-membership/checkout-course,
+  thankyou-course/thankyou-membership; member content pages also shoot
+  `member-<slug>.png`. Diffs warn, never fail.
 
 ## Still to do
 
@@ -40,12 +49,17 @@ user's to drive.
 
 ### Live-run validation (user runs, not Claude)
 
-- [ ] **Full run never executed live**: `npx playwright test` (38 tests). Expect
+- [ ] **Full run never executed live**: `npx playwright test` (44 tests). Expect
   selector drift — many specs built from GI JSON, not live-explored. The new
-  parity selectors (gating / nav / bookmark / profile / sessions) are the
-  least-verified — triage them first.
-- [ ] **Visual baselines don't exist** — first run needs `--update-snapshots`
-  (guest page sweep + desktop/mobile menus).
+  parity selectors (gating / nav / bookmark / profile / sessions), the member
+  content tokens (assertPageContent), and the visual masks are the least-verified
+  — triage them first.
+- [ ] **Visual baselines don't exist** — auto-created on first run (softScreenshot
+  warns, doesn't fail, on a missing/diffing baseline). REVIEW the generated PNGs
+  before trusting them: guest page sweep + menus, cart/checkout/thankyou
+  (membership + course), member-<slug> content pages.
+- [ ] **Purchase cost** — a full run does the setup membership purchase + the 2
+  thankyou-* visual purchases. `--grep-invert thankyou` to skip the visual buys.
 
 ### At repo move (not now)
 
