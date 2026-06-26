@@ -15,6 +15,7 @@ import { test as base, chromium, type Browser, type Page, type BrowserContext, t
 import { Stagehand } from '@browserbasehq/stagehand';
 import { setActiveStagehand } from '../helpers/resilient';
 import path from 'path';
+import fs from 'fs';
 
 const AI_ENABLED = !!process.env.ANTHROPIC_API_KEY;
 const STAGEHAND_MODEL = process.env.STAGEHAND_MODEL || 'anthropic/claude-sonnet-4-6';
@@ -24,6 +25,8 @@ const STAGEHAND_MODEL = process.env.STAGEHAND_MODEL || 'anthropic/claude-sonnet-
 // LLM client, just log noise here.
 (globalThis as Record<string, unknown>).AI_SDK_LOG_WARNINGS = false;
 
+type MemberCreds = { email: string; password: string };
+
 type Fixtures = {
   /** Stagehand instance for AI fallback, or null when ANTHROPIC_API_KEY is unset. */
   stagehand: Stagehand | null;
@@ -32,6 +35,10 @@ type Fixtures = {
   shopperPage: Page;
   adminPage: Page;
   emailPage: Page;
+  /** Logged-in as the membership-holder created by member.setup (auth/member.json). */
+  memberPage: Page;
+  /** Raw creds of that member — for specs that test login/forgot-password directly. */
+  memberCreds: MemberCreds;
 };
 
 // ---- config bridges ------------------------------------------------------
@@ -193,6 +200,8 @@ function makeLazyPage(factory: () => Promise<{ ctx: BrowserContext; page: Page }
 }
 
 const ADMIN_STATE = path.join(__dirname, '..', 'auth', 'admin.json');
+const MEMBER_STATE = path.join(__dirname, '..', 'auth', 'member.json');
+const MEMBER_CREDS = path.join(__dirname, '..', 'auth', 'member-creds.json');
 
 export const test = base.extend<Fixtures>({
   // Stagehand owns the browser when an API key is present; otherwise null.
@@ -263,6 +272,23 @@ export const test = base.extend<Fixtures>({
     const { proxy, teardown } = makeLazyPage(() => openContext(pageBrowser, testInfo, { storageState: ADMIN_STATE }));
     await use(proxy);
     await teardown('emailPage', testInfo);
+  },
+
+  // Authenticated as the membership-holder from member.setup — content/nav specs
+  // reuse this purchaser instead of logging in per test. Requires the setup project
+  // to have run first (declared as a project dependency in playwright.config).
+  memberPage: async ({ pageBrowser }, use, testInfo) => {
+    const { proxy, teardown } = makeLazyPage(() => openContext(pageBrowser, testInfo, { storageState: MEMBER_STATE }));
+    await use(proxy);
+    await teardown('memberPage', testInfo);
+  },
+
+  // The member's raw creds, written by member.setup. For login / forgot-password
+  // specs that must drive auth by hand rather than reuse the saved session.
+  // eslint-disable-next-line no-empty-pattern
+  memberCreds: async ({}, use) => {
+    const creds = JSON.parse(fs.readFileSync(MEMBER_CREDS, 'utf-8')) as MemberCreds;
+    await use(creds);
   },
 });
 

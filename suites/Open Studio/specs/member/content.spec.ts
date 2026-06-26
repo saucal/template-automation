@@ -1,60 +1,56 @@
 import { test, expect } from '../../fixtures';
-import { loginAccount } from '../../helpers/account';
 import {
   PATHS, gotoCourseDetail, gotoEvents, openProSession, openFreeSession,
   toggleBookmark, removeFirstBookmark,
 } from '../../helpers/openstudio';
-import { assertJoinCta, assertProGated, assertSessionJoinable, assertBookmarksCleared } from '../../helpers/assertions';
+import {
+  assertJoinCta, assertProGated, assertSessionJoinable, assertBookmarksCleared, assertPageContent,
+} from '../../helpers/assertions';
 
-const MEMBER = {
-  email: process.env.MEMBER_EMAIL ?? 'qa+os-member@saucal.com',
-  password: process.env.MEMBER_PASS ?? 'Test12345!',
-};
-
-const CONTENT_PAGES: ReadonlyArray<readonly [string, string]> = [
-  ['home', PATHS.home],
-  ['community', PATHS.community],
-  ['events', PATHS.events],
-  ['gps', PATHS.gps],
-  ['sessions', PATHS.osSessions],
+// Logged in as the membership-holder created by member.setup (memberPage) — no
+// fake pre-provisioned account, no per-test login.
+//
+// Content pages are compared, not just smoke-loaded: each asserts its path + a
+// page-specific content token (verify the tokens against the live site on first run).
+const CONTENT_PAGES: ReadonlyArray<readonly [string, string, RegExp]> = [
+  ['home', PATHS.home, /Open Studio/i],
+  ['community', PATHS.community, /communit/i],
+  ['events', PATHS.events, /event|session|calendar/i],
+  ['gps', PATHS.gps, /practice|guided/i],
+  ['sessions', PATHS.osSessions, /session/i],
 ];
 
 test.describe('Member · content pages [WooCommerce][OS theme][Membership]', () => {
-  test.beforeEach(async ({ shopperPage }) => {
-    await loginAccount(shopperPage, MEMBER.email, MEMBER.password);
-  });
-
-  for (const [slug, path] of CONTENT_PAGES) {
-    test(`OS-CONTENT-${slug}`, async ({ shopperPage }) => {
-      await shopperPage.goto(path, { waitUntil: 'networkidle' });
-      await expect(shopperPage.locator('main, #main, .site-main').first()).toBeVisible();
+  for (const [slug, path, content] of CONTENT_PAGES) {
+    test(`OS-CONTENT-${slug}`, async ({ memberPage }) => {
+      await assertPageContent(memberPage, path, content);
     });
   }
 
   // GI member #17: a member on a course detail no longer sees the "Join now" CTA.
-  test('OS-CONTENT-course-no-join', async ({ shopperPage }) => {
-    await gotoCourseDetail(shopperPage);
-    await assertJoinCta(shopperPage, false);
+  test('OS-CONTENT-course-no-join', async ({ memberPage }) => {
+    await gotoCourseDetail(memberPage);
+    await assertJoinCta(memberPage, false);
   });
 
   // GI member #19: a free session is joinable; a Pro session still gates a
   // non-Pro member toward upgrading.
-  test('OS-CONTENT-session-access', async ({ shopperPage }) => {
-    await gotoEvents(shopperPage);
-    await openFreeSession(shopperPage);
-    await assertSessionJoinable(shopperPage);
-    await gotoEvents(shopperPage);
-    await openProSession(shopperPage);
-    await assertProGated(shopperPage);
+  test('OS-CONTENT-session-access', async ({ memberPage }) => {
+    await gotoEvents(memberPage);
+    await openFreeSession(memberPage);
+    await assertSessionJoinable(memberPage);
+    await gotoEvents(memberPage);
+    await openProSession(memberPage);
+    await assertProGated(memberPage);
   });
 
   // GI member #24: add a bookmark, remove it, count returns to 0.
-  test('OS-CONTENT-bookmark', async ({ shopperPage }) => {
-    await gotoCourseDetail(shopperPage);
-    await toggleBookmark(shopperPage);
-    await shopperPage.goto(PATHS.bookmarks, { waitUntil: 'networkidle' });
-    await expect(shopperPage.locator('main, .site-main').first()).toBeVisible();
-    await removeFirstBookmark(shopperPage);
-    await assertBookmarksCleared(shopperPage);
+  test('OS-CONTENT-bookmark', async ({ memberPage }) => {
+    await gotoCourseDetail(memberPage);
+    await toggleBookmark(memberPage);
+    await memberPage.goto(PATHS.bookmarks, { waitUntil: 'networkidle' });
+    await expect(memberPage.locator('main, .site-main').first()).toBeVisible();
+    await removeFirstBookmark(memberPage);
+    await assertBookmarksCleared(memberPage);
   });
 });

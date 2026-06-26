@@ -1,6 +1,6 @@
 import { test } from '../../fixtures';
 import { runJoinFlow } from '../../helpers/flows';
-import { assertOrderPlaced, assertDashboardPlan, assertBackendOrder } from '../../helpers/assertions';
+import { assertOrderPlaced } from '../../helpers/assertions';
 import type { JoinConfig, UserConfig } from '../../types/test-config';
 
 function newUser(slug: string): UserConfig {
@@ -10,19 +10,10 @@ function newUser(slug: string): UserConfig {
 
 const SURVEY = { instrument: 'piano', skillLevel: 'beginner' };
 
+// OS-JOIN-01 (the annually submit-survey + accept-upsell purchase) now lives in
+// `specs/member.setup.ts` — it creates the reusable member that the rest of the
+// member specs share. These cover the OTHER join scenarios.
 test.describe.serial('Member · join via FunnelKit [WooCommerce][WC Subscriptions][FunnelKit][Stripe]', () => {
-  test('OS-JOIN-01 submit survey', async ({ shopperPage, adminPage }) => {
-    const cfg: JoinConfig = {
-      // GI submit-survey / accept-upsell exercise the Annually variant.
-      testId: 'OS-JOIN-01', title: 'submit survey', frequency: 'annually',
-      survey: 'submit', upsell: 'accept', surveyData: SURVEY,
-    };
-    const result = await runJoinFlow(shopperPage, cfg, newUser('submit'));
-    assertOrderPlaced(result);
-    await assertDashboardPlan(shopperPage, cfg.frequency);
-    await assertBackendOrder(adminPage, result);
-  });
-
   test('OS-JOIN-02 ignore survey', async ({ shopperPage }) => {
     const cfg: JoinConfig = {
       testId: 'OS-JOIN-02', title: 'ignore survey', frequency: 'monthly',

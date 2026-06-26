@@ -21,6 +21,17 @@ export async function assertDashboardPlan(page: Page, frequency: Frequency): Pro
   expect(d.frequency).toMatch(expected);
 }
 
+/**
+ * Compare a content page beyond "it loaded": the page reached its path, renders a
+ * heading, and its main region actually contains the expected content token.
+ */
+export async function assertPageContent(page: Page, path: string, content: RegExp): Promise<void> {
+  await page.goto(path, { waitUntil: 'networkidle' });
+  await expect(page).toHaveURL(new RegExp(path === './' ? '/$' : path.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+  await expect(page.locator('h1, h2, .entry-title, .os-page-title').first()).toBeVisible();
+  await expect(page.locator('main, #main, .site-main').first()).toContainText(content);
+}
+
 /** A course-only buyer never gets a membership: dashboard shows NO PLAN + a join CTA. */
 export async function assertNoMembership(page: Page): Promise<void> {
   await page.goto(os.PATHS.dashboard, { waitUntil: 'networkidle' });
