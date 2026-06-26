@@ -1,11 +1,34 @@
 // All expect() lives here. Assertions branch on typed config/result, never on
 // project/region. Blocks-checkout + custom OS-theme surfaces.
-import { type Page, expect } from '@playwright/test';
+import { type Page, type Locator, expect } from '@playwright/test';
 import type { OrderResult, Frequency } from '../types/test-config';
 import * as os from './openstudio';
 import { refundEmailText } from './email';
 
 const PAYMENT_LABEL_RE = /Credit ?\/? ?Debit Card|Payment via/i;
+
+/**
+ * Visual comparison that WARNS instead of failing. A baseline diff (or a missing
+ * baseline on first run) logs a non-fatal warning and the test continues — the
+ * functional assertions around it still guard real breakage. Pass `locator` to
+ * shoot a single element instead of the full page.
+ */
+export async function softScreenshot(
+  page: Page,
+  name: string,
+  opts: { mask?: Locator[]; locator?: Locator; fullPage?: boolean } = {},
+): Promise<void> {
+  await os.dismissPopups(page);
+  try {
+    if (opts.locator) {
+      await expect(opts.locator).toHaveScreenshot(name, { mask: opts.mask ?? [] });
+    } else {
+      await expect(page).toHaveScreenshot(name, { fullPage: opts.fullPage ?? true, mask: opts.mask ?? [] });
+    }
+  } catch (err) {
+    console.warn(`[visual] ${name} differs from baseline (non-fatal): ${(err as Error).message.split('\n')[0]}`);
+  }
+}
 
 export function assertOrderPlaced(result: OrderResult): void {
   expect(result.orderNumber, 'order number present').toMatch(/\d+/);

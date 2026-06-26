@@ -4,7 +4,7 @@ import {
   toggleBookmark, removeFirstBookmark,
 } from '../../helpers/openstudio';
 import {
-  assertJoinCta, assertProGated, assertSessionJoinable, assertBookmarksCleared, assertPageContent,
+  assertJoinCta, assertProGated, assertSessionJoinable, assertBookmarksCleared, assertPageContent, softScreenshot,
 } from '../../helpers/assertions';
 
 // Logged in as the membership-holder created by member.setup (memberPage) — no
@@ -24,6 +24,8 @@ test.describe('Member · content pages [WooCommerce][OS theme][Membership]', () 
   for (const [slug, path, content] of CONTENT_PAGES) {
     test(`OS-CONTENT-${slug}`, async ({ memberPage }) => {
       await assertPageContent(memberPage, path, content);
+      // Non-fatal visual comparison of the logged-in page (warns on diff).
+      await softScreenshot(memberPage, `member-${slug}.png`);
     });
   }
 
