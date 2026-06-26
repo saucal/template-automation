@@ -30,6 +30,7 @@ export const PATHS = {
   orders: 'my-account/orders/',
   membersArea: 'my-account/members-area/',
   bookmarks: 'mybookmarks/',
+  cart: 'cart/',
   checkout: 'checkout/',
   membershipProduct: 'product/open-studio/',
   singleCourse: 'product/jazz-piano-jump-start-course/',
