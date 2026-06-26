@@ -13,7 +13,8 @@ const SURVEY = { instrument: 'piano', skillLevel: 'beginner' };
 test.describe.serial('Member · join via FunnelKit [WooCommerce][WC Subscriptions][FunnelKit][Stripe]', () => {
   test('OS-JOIN-01 submit survey', async ({ shopperPage, adminPage }) => {
     const cfg: JoinConfig = {
-      testId: 'OS-JOIN-01', title: 'submit survey', frequency: 'monthly',
+      // GI submit-survey / accept-upsell exercise the Annually variant.
+      testId: 'OS-JOIN-01', title: 'submit survey', frequency: 'annually',
       survey: 'submit', upsell: 'accept', surveyData: SURVEY,
     };
     const result = await runJoinFlow(shopperPage, cfg, newUser('submit'));
@@ -31,12 +32,12 @@ test.describe.serial('Member · join via FunnelKit [WooCommerce][WC Subscription
     assertOrderPlaced(result);
   });
 
-  test('OS-JOIN-03 backend & renew', async ({ adminPage }) => {
-    test.skip(!process.env.RUN_RENEW, 'renewal gated by RUN_RENEW (real side effect on staging)');
-    // Trigger a renewal from the subscription admin screen and assert the next
-    // payment date advances. Confirm the exact admin renewal action against the
-    // live site before wiring it (selector: td.subscription-next-payment;
-    // admin.php?page=wc-orders shop_subscription edit screen).
+  // fixme (not skip): the body is unimplemented, so a RUN_RENEW gate would report
+  // a false green. Mark fixme until the admin renewal action is wired + verified
+  // live, then swap to a RUN_RENEW gate (real side effect on staging).
+  // TODO: trigger renewal on admin.php?page=wc-orders shop_subscription edit
+  // screen; assert td.subscription-next-payment advances.
+  test.fixme('OS-JOIN-03 backend & renew', async ({ adminPage }) => {
     void adminPage;
   });
 });

@@ -1,6 +1,6 @@
 import { test } from '../../fixtures';
 import { runSingleCourseFlow, runCoursePlusSubscriptionFlow, runRefundFlow } from '../../helpers/flows';
-import { assertOrderPlaced, assertCourseAccess, assertRefunded, assertRefundEmail } from '../../helpers/assertions';
+import { assertOrderPlaced, assertCourseAccess, assertCoursePlusSubscription, assertNoMembership, assertRefunded, assertRefundEmail } from '../../helpers/assertions';
 import type { UserConfig } from '../../types/test-config';
 
 function newUser(slug: string): UserConfig {
@@ -13,11 +13,14 @@ test.describe('Member · commerce [WooCommerce][WC Subscriptions][Stripe]', () =
     const result = await runSingleCourseFlow(shopperPage, newUser('course'));
     assertOrderPlaced(result);
     await assertCourseAccess(shopperPage);
+    // GI #22: buying a single course grants NO membership plan.
+    await assertNoMembership(shopperPage);
   });
 
   test('OS-COM-02 course + subscription', async ({ shopperPage }) => {
     const result = await runCoursePlusSubscriptionFlow(shopperPage, newUser('coursesub'), 'monthly');
     assertOrderPlaced(result);
+    await assertCoursePlusSubscription(shopperPage);
   });
 
   test('OS-COM-03 refund', async ({ shopperPage, adminPage, emailPage }) => {
