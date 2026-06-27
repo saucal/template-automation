@@ -69,11 +69,16 @@ export async function dismissPopups(page: Page): Promise<void> {
 
 // ---- cart + checkout -----------------------------------------------------
 
+// Membership subscription variation IDs (GI: /checkout/?add-to-cart=16|17). These
+// are site-specific — if the Open Studio product is rebuilt the IDs drift; confirm
+// against the live #os-sub-variant-16/17 radios on the product page.
+export const MEMBERSHIP_VARIATION = { monthly: 16, annually: 17 } as const;
+
+/** Add the membership subscription straight to cart and land on checkout (GI path). */
 export async function addMembershipToCart(page: Page, frequency: Frequency): Promise<void> {
-  const attr = frequency === 'monthly' ? 'Monthly' : 'Annually';
-  await page.goto(`${PATHS.membershipProduct}?attribute_frequency=${attr}`, { waitUntil: 'networkidle' });
+  const id = MEMBERSHIP_VARIATION[frequency];
+  await page.goto(`${PATHS.checkout}?add-to-cart=${id}&quantity=1`, { waitUntil: 'networkidle' });
   await dismissPopups(page);
-  await page.locator('button[name="add-to-cart"]').or(page.getByRole('link', { name: /Sign Up|Join/i })).first().click();
 }
 
 export async function addSingleCourse(page: Page): Promise<{ title: string; price: string }> {

@@ -24,10 +24,13 @@ user's to drive.
   fixtures; no fake pre-provisioned account. Member content pages COMPARE content
   (assertPageContent: path + heading + token).
 - [x] **Visual coverage, all WARN-only** (`softScreenshot`): guest page sweep +
-  menus (converted from hard-fail); NEW `guest/commerce-visual.spec.ts` =
-  cart-membership/cart-course, checkout-membership/checkout-course,
-  thankyou-course/thankyou-membership; member content pages also shoot
-  `member-<slug>.png`. Diffs warn, never fail.
+  menus (converted from hard-fail); `guest/commerce-visual.spec.ts` = COURSE
+  (cart/checkout/thankyou); `member/commerce-visual.spec.ts` = MEMBERSHIP, runs
+  logged-in via memberPage (cart/checkout/thankyou); member content pages also
+  shoot `member-<slug>.png`. Diffs warn, never fail.
+- [x] **Membership add-to-cart uses GI direct link** — `addMembershipToCart` →
+  `checkout/?add-to-cart=16|17` (MEMBERSHIP_VARIATION), lands on checkout; no
+  product-page click. IDs site-specific — verify vs live #os-sub-variant-16/17.
 
 ## Still to do
 
