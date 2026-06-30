@@ -19,6 +19,9 @@ import {
   addToCart,
   addWholesaleProductToCart,
   captureCheckoutTotals,
+  captureCheckoutRecurringTotals,
+  captureOrderRecurringTotals,
+  readCheckoutStories,
   dismissPopups,
   emailFor,
   fillCheckoutAddress,
@@ -30,10 +33,12 @@ import {
   warnIfNoTaxOrShipping,
   type OrderReceived,
   type PdpCapture,
+  type Totals,
 } from './nopong';
 
-/** A SubscriptionConfig drives the same checkout path as a new-user order. */
-function subscriptionAsOrder(config: SubscriptionConfig): OrderConfig {
+/** A SubscriptionConfig drives the same checkout path as a new-user order. Exported
+ *  so subscription specs can reuse the order-parity asserts (which take an OrderConfig). */
+export function subscriptionAsOrder(config: SubscriptionConfig): OrderConfig {
   return {
     testId: config.testId,
     title: config.title,
@@ -53,13 +58,23 @@ export interface OrderPages {
   emailPage: Page;
 }
 
-/** Everything captured during the order, for parity assertions downstream. */
-export interface FlowCapture {
+/**
+ * Everything captured during the order, for parity assertions downstream. Generic
+ * over the result type so a subscription flow carries its richer SubscriptionResult
+ * (recurring totals, subscription number) without a separate capture type.
+ */
+export interface FlowCapture<R extends OrderResult = OrderResult> {
   pdp: PdpCapture;
-  checkout: Pick<OrderResult, 'subtotal' | 'shipping' | 'tax' | 'total'>;
+  checkout: Totals;
   order: OrderReceived;
-  result: OrderResult;
+  result: R;
   email: string;
+  /** Custom checkout "stories" headings captured during order processing. */
+  stories: string[];
+  /** Subscription-only: the "Recurring totals" section captured at checkout (source
+   *  of truth) and again on the thank-you page (for surface parity). */
+  recurringCheckout?: Totals;
+  recurringOrder?: Totals;
 }
 
 /**
@@ -86,6 +101,9 @@ export async function runOrderFlow(
   const pointsEarned = await readPointsEarned(shopperPage);
 
   await pay(shopperPage, config);
+  // The custom checkout "stories" modal shows during processing — capture it
+  // BEFORE readOrderReceived waits for the redirect (which tears the modal down).
+  const stories = await readCheckoutStories(shopperPage);
   const order = await readOrderReceived(shopperPage);
 
   const result: OrderResult = {
@@ -101,7 +119,15 @@ export async function runOrderFlow(
     pointsEarned,
   };
 
-  return { pdp, checkout, order, result, email: result.email };
+  console.log(
+    `[${config.testId}] order #${result.orderNumber}` +
+      `\n  product:  ${result.productName} @ ${result.unitPrice}` +
+      `\n  checkout: subtotal=${checkout.subtotal} shipping=${checkout.shipping} tax=${checkout.tax} total=${checkout.total}` +
+      `\n  order:    subtotal=${result.subtotal} shipping=${result.shipping} tax=${result.tax} total=${result.total}` +
+      `\n  points:   ${result.pointsEarned ?? 'none'} | payment: ${result.paymentLabel}`
+  );
+
+  return { pdp, checkout, order, result, email: result.email, stories };
 }
 
 // ---------------------------------------------------------------------------
@@ -117,7 +143,7 @@ export async function runOrderFlow(
 export async function runSubscriptionFlow(
   { shopperPage }: OrderPages,
   config: SubscriptionConfig
-): Promise<SubscriptionResult> {
+): Promise<FlowCapture<SubscriptionResult>> {
   const orderLike = subscriptionAsOrder(config);
 
   await shopperPage.goto('./');
@@ -128,14 +154,21 @@ export async function runSubscriptionFlow(
   await fillCheckoutAddress(shopperPage, orderLike);
 
   const checkout = await captureCheckoutTotals(shopperPage);
+  // Recurring totals from the checkout review's "Recurring totals" section, captured
+  // here (after address, before payment) — subtotal/shipping/total + AU inclusive GST.
+  const recurring = await captureCheckoutRecurringTotals(shopperPage);
   await warnIfNoTaxOrShipping(shopperPage, { testId: config.testId });
   const pointsEarned = await readPointsEarned(shopperPage);
 
   await pay(shopperPage, orderLike);
+  const stories = await readCheckoutStories(shopperPage); // during processing, before redirect
   const order = await readOrderReceived(shopperPage);
+  // Recurring totals again on the thank-you page — for surface parity against the
+  // checkout-captured recurring (BEFORE readSubscriptionDetails navigates away).
+  const recurringOrder = await captureOrderRecurringTotals(shopperPage);
   const { subscriptionNumber, nextPaymentDate } = await readSubscriptionDetails(shopperPage);
 
-  return {
+  const result: SubscriptionResult = {
     productName: order.productName || pdp.productName,
     unitPrice: pdp.unitPrice,
     subtotal: order.subtotal,
@@ -148,6 +181,19 @@ export async function runSubscriptionFlow(
     pointsEarned,
     subscriptionNumber,
     nextPaymentDate,
+    recurring,
+    stories,
+  };
+
+  return {
+    pdp,
+    checkout,
+    order,
+    result,
+    email: result.email,
+    stories,
+    recurringCheckout: recurring,
+    recurringOrder,
   };
 }
 

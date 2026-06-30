@@ -325,10 +325,19 @@ export async function goToSubscription(page: Page, subscriptionNumber: string): 
   await dismissPopups(page);
 }
 
-/** Cancel a subscription as the logged-in customer (confirms the cancel link). */
+/**
+ * Cancel a subscription as the logged-in customer. No Pong gates the cancel link
+ * behind a confirmation modal (GI 21 steps 102-103): clicking `a.button.cancel`
+ * opens the modal, then the modal's "Cancel Subscription" confirm link (href
+ * carries `change_subscription_to=cancelled`) actually performs the cancel.
+ */
 export async function cancelSubscriptionAsCustomer(page: Page, subscriptionNumber: string): Promise<void> {
   const ctx = ctxFor(page);
   await goToSubscription(page, subscriptionNumber);
+  // The cancel link triggers a native confirm() ("Are you sure…"). Playwright
+  // auto-DISMISSES dialogs by default (= clicking Cancel), which aborts the
+  // cancellation — so accept it explicitly before clicking (cf. the refund flow).
+  page.once('dialog', (d) => d.accept().catch(() => {}));
   await resilientClick(ctx, {
     primary: page.locator('a.button.cancel'),
     alt: page.getByRole('link', { name: /cancel subscription/i }),
@@ -415,23 +424,34 @@ async function setQuantity(page: Page, qty: number): Promise<void> {
 // ---------------------------------------------------------------------------
 
 /**
- * Navigate to the cart page via the header mini-cart:
- * Shopping Cart button → mini-cart expands → click "View cart".
- * Never use page.goto('cart/') — customers navigate by clicking, not URL changes.
+ * Navigate to the cart page via the header cart control.
+ * Develop has a side-cart flyout (Shopping Cart button → mini-cart → View cart).
+ * Preprod has no side cart — falls back to the plain header "Cart" link.
  */
 export async function goToCart(page: Page): Promise<void> {
   const ctx = ctxFor(page);
-  await resilientClick(ctx, {
-    primary: page.getByRole('button', { name: /shopping cart/i }),
-    ai: 'the Shopping Cart header button',
-  });
-  await page.locator('.mini-cart-container, .woocommerce-mini-cart__buttons').first()
-    .waitFor({ state: 'visible', timeout: 10_000 });
-  await resilientClick(ctx, {
-    primary: page.locator('.mini-cart-container a.button.wc-forward:not(.checkout)'),
-    alt: page.getByRole('link', { name: /view cart/i }),
-    ai: 'the View cart link in the mini-cart flyout',
-  });
+  const hasMiniCart = await page.getByRole('button', { name: /shopping cart/i })
+    .isVisible({ timeout: 2_000 }).catch(() => false);
+  if (hasMiniCart) {
+    await resilientClick(ctx, {
+      primary: page.getByRole('button', { name: /shopping cart/i }),
+      ai: 'the Shopping Cart header button',
+    });
+    await page.locator('.mini-cart-container, .woocommerce-mini-cart__buttons').first()
+      .waitFor({ state: 'visible', timeout: 10_000 });
+    await resilientClick(ctx, {
+      primary: page.locator('.mini-cart-container a.button.wc-forward:not(.checkout)'),
+      alt: page.getByRole('link', { name: /view cart/i }),
+      ai: 'the View cart link in the mini-cart flyout',
+    });
+  } else {
+    // No side cart (preprod): use the header "Cart" link or a "View cart" notice link.
+    await resilientClick(ctx, {
+      primary: page.getByRole('link', { name: /^cart$/i }),
+      alt: page.getByRole('link', { name: /view cart/i }),
+      ai: 'the header Cart link',
+    });
+  }
   await page.waitForLoadState('load');
   await waitForCheckoutReady(page);
 }
@@ -470,16 +490,74 @@ export async function readFirstCartQty(page: Page): Promise<string> {
 }
 
 /**
- * Set the first cart line-item quantity. Navigates to cart via the mini-cart
- * click path (goToCart), fills the qty, then waits for WC to recalculate.
+ * Set the first cart line-item quantity and commit the recalculation. Two cart
+ * variants exist: the classic cart with an "Update cart" button reacts to Enter,
+ * while No Pong's current AJAX cart (a React spinbutton `[aria-label="Product
+ * quantity"]`, NO Update button) only persists on the field's change/blur event —
+ * Enter alone leaves the typed value uncommitted and it reverts. So we fill, press
+ * Enter (classic), AND blur (AJAX cart) to cover both.
  */
 export async function setCartQtyAndUpdate(page: Page, qty: number): Promise<void> {
   const ctx = ctxFor(page);
   await goToCart(page);
-  const field = page.locator('input.qty, input[title="Qty"]').first();
+  const field = page.locator('input[aria-label="Product quantity"], input.qty, input[title="Qty"]').first();
   await field.waitFor({ state: 'visible', timeout: 10_000 });
   await resilientFill(ctx, { primary: field, ai: 'the cart quantity field' }, String(qty));
-  await field.blur().catch(() => {});
+  await field.press('Enter');
+  await field.evaluate((el: HTMLInputElement) => el.blur()); // fires change → AJAX recalculation
+  await page.locator('.blockUI.blockOverlay, .wc-block-components-spinner').first()
+    .waitFor({ state: 'visible', timeout: 3_000 }).catch(() => {});
+  await waitForCheckoutReady(page);
+}
+
+/** Pick an option in a WooCommerce select2 dropdown (the cart shipping calculator uses these). */
+async function pickSelect2(page: Page, fieldId: string, label: string): Promise<void> {
+  await page.locator(`#select2-${fieldId}-container`).click({ timeout: 10_000 });
+  const search = page.locator('input.select2-search__field');
+  if (await search.isVisible({ timeout: 2_000 }).catch(() => false)) await search.fill(label);
+  await page.locator('li.select2-results__option', { hasText: label }).first().click({ timeout: 10_000 });
+}
+
+/**
+ * Set the cart "Calculate shipping" destination (GI 10 seq 12-19). Country/state
+ * are select2 widgets; the state field appears only after a country with states
+ * is chosen. Defaults to the AU destination GI used (Queensland / Nobby / 4360) —
+ * pass `dest` for CA/US later.
+ */
+export async function setCartShippingDestination(
+  page: Page,
+  dest: { country: string; state?: string; city: string; postcode: string } = {
+    country: 'Australia', state: 'Queensland', city: 'Nobby', postcode: '4360',
+  }
+): Promise<void> {
+  const ctx = ctxFor(page);
+  // The calculator is collapsed behind a toggle on some themes; expand if present.
+  const toggle = page.locator('a.shipping-calculator-button')
+    .or(page.getByRole('link', { name: /calculate shipping/i }));
+  if (await toggle.first().isVisible({ timeout: 3_000 }).catch(() => false)) {
+    await toggle.first().click().catch(() => {});
+  }
+  await pickSelect2(page, 'calc_shipping_country', dest.country);
+  await waitForCheckoutReady(page);
+  if (dest.state) {
+    await page.locator(`#calc_shipping_state`).selectOption(dest.state).catch(() => {});
+    await waitForCheckoutReady(page);
+  }
+  // Fill suburb + postcode AFTER the country/state re-render settles, and re-fill
+  // if a late re-render wiped them (the reason the suburb wasn't sticking).
+  const fillStable = async (sel: string, val: string) => {
+    const field = page.locator(sel);
+    await field.waitFor({ state: 'visible', timeout: 10_000 });
+    await field.fill(val);
+    if ((await field.inputValue()) !== val) await field.fill(val);
+  };
+  await fillStable('#calc_shipping_city', dest.city);
+  await fillStable('#calc_shipping_postcode', dest.postcode);
+  await resilientClick(ctx, {
+    primary: page.locator('button[name="calc_shipping"]'),
+    alt: page.getByRole('button', { name: /update|calculate shipping/i }),
+    ai: 'the Update / Calculate shipping button',
+  });
   await waitForCheckoutReady(page);
 }
 
@@ -530,36 +608,76 @@ export async function fillCheckoutAddress(page: Page, config: OrderConfig): Prom
   await waitForCheckoutReady(page);
 }
 
-type Totals = Pick<CapturedPrices, 'subtotal' | 'shipping' | 'tax' | 'total'>;
+export type Totals = Pick<CapturedPrices, 'subtotal' | 'shipping' | 'tax' | 'total'>;
 
 /**
- * Read a WooCommerce-style totals table by row label. Scans the last table that
- * mentions "subtotal" so it works for both the checkout review and the
- * order-received details table. Exact label match (lowercased, colon-stripped)
- * so "Total" never collides with "Subtotal".
+ * Read a WooCommerce-style totals table by row label. Works for the checkout
+ * review and the order-received details table. Exact label match (lowercased,
+ * colon-stripped) so "Total" never collides with "Subtotal".
+ *
+ * Subscription pages render TWO totals sections in the same table — the first
+ * payment AND a "Recurring totals" section whose rows carry the `recurring-total`
+ * class. `opts.recurring` selects which: default reads the FIRST-PAYMENT rows
+ * (skipping `.recurring-total`); `recurring: true` reads ONLY the recurring rows.
+ * Without this, the recurring "Subtotal" row would overwrite the first-payment one.
  */
-export async function readTotals(page: Page, tableSelector: string): Promise<Totals> {
-  return page.evaluate((sel) => {
+export async function readTotals(
+  page: Page,
+  tableSelector: string,
+  opts: { recurring?: boolean } = {}
+): Promise<Totals> {
+  return page.evaluate(({ sel, recurring }) => {
     const norm = (s: string | null | undefined) => (s ?? '').replace(/\s+/g, ' ').trim();
     const tables = [...document.querySelectorAll(sel)].filter((t) => /subtotal/i.test(t.textContent ?? ''));
-    const t = tables[tables.length - 1];
     const out = { subtotal: '', shipping: '', tax: '', total: '' };
-    if (!t) return out;
-    for (const r of Array.from(t.querySelectorAll('tr'))) {
-      const head = norm(r.querySelector('th, td')?.textContent).toLowerCase().replace(':', '').trim();
-      const amtEl = r.querySelector('td:last-child .woocommerce-Price-amount, td:last-child');
-      const amt = norm(amtEl?.textContent);
-      if (head === 'subtotal') out.subtotal = amt;
-      else if (head.startsWith('shipping')) out.shipping = amt;
-      else if (head === 'tax' || head === 'gst') out.tax = amt;
-      else if (head === 'total') out.total = amt;
+    if (!tables.length) return out;
+    // Iterate every matching table (recurring totals may be a separate table) and
+    // bucket rows by the `recurring-total` class so the two sections never mix.
+    for (const t of tables) {
+      for (const r of Array.from(t.querySelectorAll('tr'))) {
+        if (recurring !== r.classList.contains('recurring-total')) continue;
+        const head = norm(r.querySelector('th, td')?.textContent).toLowerCase().replace(':', '').trim();
+        // Take the row's main price amount, EXCLUDING the inclusive-tax note
+        // (<small class="includes_tax">Includes $X GST</small>) AU renders inside
+        // the Total cell — else out.total becomes "$6.82 Includes $0.62 GST".
+        const priceEl = Array.from(r.querySelectorAll('td:last-child .woocommerce-Price-amount')).find(
+          (el) => !el.closest('.includes_tax')
+        );
+        const amtEl = priceEl ?? r.querySelector('td:last-child');
+        const amt = norm(amtEl?.textContent);
+        if (head === 'subtotal') out.subtotal = amt;
+        else if (head.startsWith('shipping') || head.startsWith('shipment')) {
+          // Multiple shipping methods shown as radios → read the checked one.
+          const checked = r.querySelector<HTMLInputElement>('input[type="radio"]:checked');
+          if (checked) {
+            const li = checked.closest('li') ?? checked.parentElement;
+            const pe = li?.querySelector('.woocommerce-Price-amount');
+            out.shipping = pe ? norm(pe.textContent) : norm(li?.textContent);
+          } else {
+            out.shipping = amt;
+          }
+        }
+        else if (head === 'tax' || head === 'gst') out.tax = amt;
+        // Initial total row is "Total"; the recurring total row is "Recurring total".
+        else if (head === 'total' || head === 'recurring total') out.total = amt;
+      }
+    }
+    // AU tax-inclusive: no separate Tax row, but the Total cell has
+    // <small class="includes_tax">. Capture it from the matching section's rows.
+    if (!out.tax) {
+      for (const t of tables) {
+        const inclEl = Array.from(t.querySelectorAll('small.includes_tax .woocommerce-Price-amount.amount')).find(
+          (el) => recurring === !!el.closest('tr')?.classList.contains('recurring-total')
+        );
+        if (inclEl) { out.tax = norm(inclEl.textContent); break; }
+      }
     }
     return out;
-  }, tableSelector);
+  }, { sel: tableSelector, recurring: !!opts.recurring });
 }
 
 const CHECKOUT_TOTALS_TABLE = 'table.shop_table, table.woocommerce-checkout-review-order-table';
-const ORDER_DETAILS_TABLE = 'table.woocommerce-table--order-details, table.shop_table.order_details';
+export const ORDER_DETAILS_TABLE = 'table.woocommerce-table--order-details, table.shop_table.order_details';
 
 /** Capture the order-summary money values from the checkout review. */
 export async function captureCheckoutTotals(page: Page): Promise<Totals> {
@@ -567,12 +685,54 @@ export async function captureCheckoutTotals(page: Page): Promise<Totals> {
   return readTotals(page, CHECKOUT_TOTALS_TABLE);
 }
 
+/**
+ * Capture the "Recurring totals" section from the checkout review (after the address
+ * is filled, BEFORE payment). The review table renders two sections — the first
+ * payment and a `recurring-total`-classed section — so `recurring: true` reads only
+ * the recurring rows: subtotal, shipping, and total, plus AU's inclusive GST note
+ * (readTotals buckets `small.includes_tax` by the same recurring class).
+ */
+export async function captureCheckoutRecurringTotals(page: Page): Promise<Totals> {
+  await waitForCheckoutReady(page);
+  return readTotals(page, CHECKOUT_TOTALS_TABLE, { recurring: true });
+}
+
+/**
+ * Capture the recurring totals from the order-received / view-order page — read for
+ * surface PARITY against the checkout-captured recurring totals. The CART/checkout
+ * splits into a `.recurring-total`-classed section; the order page may instead render
+ * a single "Subscription totals" table (no recurring class). So: try the classed rows
+ * first, else fall back to the main totals table.
+ */
+export async function captureOrderRecurringTotals(page: Page): Promise<Totals> {
+  const classed = await readTotals(page, ORDER_DETAILS_TABLE, { recurring: true });
+  return classed.total ? classed : readTotals(page, ORDER_DETAILS_TABLE);
+}
+
+/**
+ * Capture the custom No Pong checkout "stories" — the `#np-custom-checkout-modal`
+ * that REPLACES the blockUI during order processing, rotating story cards (one
+ * `.active` at a time; all are in the DOM). Best-effort: read in the brief window
+ * between Place Order and the order-received redirect (Stripe processing keeps the
+ * modal up a few seconds). Returns every story heading; [] if the modal didn't show.
+ */
+export async function readCheckoutStories(page: Page): Promise<string[]> {
+  const sel = '#np-custom-checkout-modal .np-custom-checkout-story h3';
+  await page.locator(sel).first().waitFor({ state: 'attached', timeout: 10_000 }).catch(() => {});
+  const texts = await page.locator(sel).allTextContents().catch(() => []);
+  return texts.map((s) => s.replace(/\s+/g, ' ').trim()).filter(Boolean);
+}
+
 /** Points awarded by the Points/Rewards plugin, read at cart/checkout. Undefined if absent. */
 export async function readPointsEarned(page: Page): Promise<number | undefined> {
-  const tip = page.locator('.npl-tooltip, .wc-points-rewards-earn-points').first();
+  // No Pong: tr.npl-credits-granted in the order-review table.
+  // Fallback: legacy plugin classes used by other sites.
+  const tip = page.locator('tr.npl-credits-granted td, .npl-tooltip, .wc-points-rewards-earn-points').first();
   if (!(await tip.count())) return undefined;
   const text = (await tip.innerText().catch(() => '')) ?? '';
-  const n = parseInt(text.replace(/[^0-9]/g, ''), 10);
+  // Text format: "$1.82 = 10 pointsYou'll earn 10 points" — extract first "N points".
+  const m = text.match(/(\d+)\s*points/i);
+  const n = m ? parseInt(m[1], 10) : NaN;
   return Number.isNaN(n) ? undefined : n;
 }
 
@@ -588,12 +748,17 @@ export async function pay(page: Page, config: OrderConfig): Promise<void> {
     await resilientCheck(ctx, { primary: terms, ai: 'the terms and conditions agreement checkbox' });
   }
 
-  if (config.payment === 'stripe') await payStripe(page);
+  if (config.payment === 'stripe') await payStripe(page, config);
   else await payPaypal(page);
 }
 
-/** Stripe: select the CC method, fill the iframe card fields (rule 15), place order. */
-async function payStripe(page: Page): Promise<void> {
+/**
+ * Stripe: select the CC method, then either pay with a SAVED card token
+ * (`config.useSavedCard`) or enter a new card in the iframe (rule 15) — optionally
+ * ticking "Save payment information…" (`config.savePaymentMethod`) so the token is
+ * stored on the account for a later saved-card order. Then place the order.
+ */
+async function payStripe(page: Page, config: OrderConfig): Promise<void> {
   const ctx = ctxFor(page);
   await resilientClick(ctx, {
     primary: page.locator('label[for="payment_method_stripe"]'),
@@ -601,19 +766,36 @@ async function payStripe(page: Page): Promise<void> {
     ai: 'the Credit / Debit Card (Stripe) payment method option',
   });
 
-  // Stripe renders its inputs inside an iframe — CSS can't cross frames (rule 15).
-  const frame = page.locator('iframe[src*="js.stripe.com"]').first().contentFrame();
-  await frame.locator('input[name="number"]').first().fill(STRIPE_CARD.number);
-  await frame.locator('input[name="expiry"]').first().fill(STRIPE_CARD.expiry);
-  await frame.locator('input[name="cvc"]').first().fill(STRIPE_CARD.cvc);
+  if (config.useSavedCard) {
+    // A saved card from a prior order — select its token radio (anything but the
+    // "new card" option). No iframe entry needed. Fails loudly if no card was saved.
+    const savedToken = page.locator('input[name="wc-stripe-payment-token"]:not([value="new"])').first();
+    await savedToken.waitFor({ state: 'visible', timeout: 10_000 });
+    await savedToken.check();
+  } else {
+    // New card — Stripe renders its inputs inside an iframe (CSS can't cross frames).
+    const frame = page.locator('iframe[src*="js.stripe.com"]').first().contentFrame();
+    await frame.locator('input[name="number"]').first().fill(STRIPE_CARD.number);
+    await frame.locator('input[name="expiry"]').first().fill(STRIPE_CARD.expiry);
+    await frame.locator('input[name="cvc"]').first().fill(STRIPE_CARD.cvc);
+    if (config.savePaymentMethod) {
+      const saveCard = page.locator('#wc-stripe-new-payment-method');
+      if (await saveCard.count()) await saveCard.check().catch(() => {});
+    }
+  }
 
   await placeOrder(page);
 }
 
 /**
- * PayPal: select the PayPal gateway, place the order, then drive the PayPal
- * sandbox login (email → password → log in → pay). Sandbox screens vary, so the
- * login steps are best-effort. Faithful to the GI `payPalTemplate` selectors.
+ * PayPal (PPCP Smart Buttons): select the PayPal gateway, then — instead of the
+ * classic #place_order button (PPCP hides it) — click the "Pay with PayPal"
+ * button rendered inside PayPal's cross-origin SDK iframe. That opens the PayPal
+ * sandbox in a popup window; we drive the sandbox login (email → password) and
+ * the approve/pay button. The popup then closes and the main page redirects to
+ * order-received. Sandbox screens vary (and the account may already be signed
+ * in), so the login steps are best-effort. Falls back to driving the main page
+ * if PPCP redirects in-place rather than opening a popup.
  */
 async function payPaypal(page: Page): Promise<void> {
   const ctx = ctxFor(page);
@@ -622,21 +804,94 @@ async function payPaypal(page: Page): Promise<void> {
     alt: page.locator('input[id*="ppcp"], input[id*="paypal"]').first(),
     ai: 'the PayPal payment method option',
   });
-  await placeOrder(page);
+  await waitForCheckoutReady(page);
 
-  // PayPal Smart Button can render in an iframe; the popup/redirect opens the
-  // sandbox login. Best-effort drive of the sandbox screens.
+  // The Smart Button renders inside PayPal's SDK iframe (cross-origin, generated
+  // name/src — no stable iframe selector). Scan every frame for the button
+  // ("Pay with PayPal" role=link, or [data-funding-source="paypal"]); the SDK
+  // renders it asynchronously after PayPal is selected, so poll until it shows.
+  const findPayButton = async () => {
+    for (const frame of page.frames()) {
+      const byRole = frame.getByRole('link', { name: /pay with paypal/i });
+      if (await byRole.count().catch(() => 0)) return byRole.first();
+      const byData = frame.locator('[data-funding-source="paypal"]');
+      if (await byData.count().catch(() => 0)) return byData.first();
+    }
+    return null;
+  };
+  let payButton = await findPayButton();
+  for (let i = 0; i < 20 && !payButton; i++) {
+    await page.waitForTimeout(1_000);
+    payButton = await findPayButton();
+  }
+  if (!payButton) throw new Error('PayPal Smart Button never rendered in any frame after selecting PayPal');
+  await payButton.waitFor({ state: 'visible', timeout: 20_000 });
+
+  // Clicking the button opens the sandbox popup. Race the popup event with the
+  // click so we don't miss it; if no popup fires (in-place redirect), drive the
+  // main page instead.
+  const popupPromise = page.waitForEvent('popup', { timeout: 30_000 }).catch(() => null);
+  await payButton.click({ timeout: 20_000 });
+  const popup = await popupPromise;
+  const flow = popup ?? page;
+  // The popup opens as about:blank and only navigates to sandbox.paypal.com a
+  // few seconds later — wait for the real URL before driving login, or every
+  // field check runs against the blank page and silently skips.
+  if (popup) {
+    await popup.waitForURL((u) => !u.toString().includes('about:blank'), { timeout: 30_000 }).catch(() => {});
+    await popup.waitForLoadState('domcontentloaded').catch(() => {});
+  }
+
+  // Drive the sandbox login + approve. The sandbox buttons have NO ids (only
+  // visible text), so match by role/text, not selectors. Flow: enter email →
+  // Next → password appears → Log In → review → Pay/Continue. Account state
+  // varies (already-signed-in skips login), so each step is best-effort.
   const user = process.env.PAY_PAL_USER ?? '';
   const pass = process.env.PAY_PAL_PASS ?? '';
-  const tryFill = async (loc: ReturnType<Page['locator']>, value: string) =>
-    loc.first().fill(value, { timeout: 15_000 }).catch(() => {});
-  const tryClick = async (loc: ReturnType<Page['locator']>) =>
-    loc.first().click({ timeout: 20_000 }).catch(() => {});
+  const emailField = flow.locator('#email, input[name="login_email"], input[type="email"]').first();
+  const passField = flow.locator('#password, input[name="login_password"], input[type="password"]').first();
 
-  await tryFill(page.locator("#email, #login_email, *[id*='email'][type='email']"), user);
-  await tryClick(page.locator('#btnNext'));
-  await tryFill(page.locator("#password, input[name='login_password']"), pass);
-  await tryClick(page.locator('#btnLogin, button[type="submit"]'));
+  // PayPal sandbox screens + timing vary run-to-run (email→Next→password→Log In,
+  // or combined; transitions show transient spinner states where buttons briefly
+  // vanish). A linear sequence races those transitions, so drive it as a resilient
+  // loop: each tick, fill whatever email/password field is visible+empty and click
+  // the first available advance button (Next → Log In → Pay/Continue). Stop when
+  // the merchant page reaches order-received or the popup closes.
+  const nextBtn = flow.getByRole('button', { name: /^next$/i }).first();
+  const loginBtn = flow.getByRole('button', { name: /log\s?in|^login$/i }).first();
+  // Review-screen SUBMIT button is #one-time-cta (text "Pay"). NOT the
+  // "Pay in full" tile (id-pay-in-full-action, role=checkbox) which only selects
+  // the funding source. Target the CTA first; keep text fallbacks for variants.
+  const approveBtn = flow
+    .locator('#one-time-cta, button:has-text("Pay Now"), button:has-text("Complete Purchase"), [data-testid="submit-button-initial"]')
+    .first();
+  const fillIfEmpty = async (loc: ReturnType<Page['locator']>, value: string) => {
+    if (!value) return;
+    if (!(await loc.isVisible({ timeout: 500 }).catch(() => false))) return;
+    if (await loc.inputValue().catch(() => '')) return; // already filled
+    await loc.fill(value, { timeout: 5_000 }).catch(() => {});
+  };
+  const clickIfVisible = async (loc: ReturnType<Page['locator']>) => {
+    if (await loc.isVisible({ timeout: 500 }).catch(() => false)) {
+      await loc.click({ timeout: 5_000 }).catch(() => {});
+      return true;
+    }
+    return false;
+  };
+
+  for (let i = 0; i < 15; i++) {
+    if (page.url().includes('/order-received/')) break;
+    if (popup && popup.isClosed()) break;
+    await fillIfEmpty(emailField, user);
+    await fillIfEmpty(passField, pass);
+    // Advance: Next (email step) → Log In (password step) → Pay CTA (review).
+    if (!(await clickIfVisible(nextBtn))) {
+      if (!(await clickIfVisible(loginBtn))) {
+        await clickIfVisible(approveBtn);
+      }
+    }
+    await page.waitForTimeout(2_000);
+  }
 
   await page.waitForURL('**/order-received/**', { timeout: 60_000 }).catch(() => {});
 }
@@ -662,6 +917,8 @@ export interface OrderReceived {
   orderNumber: string;
   paymentLabel: string;
   productName: string;
+  /** The customer-details (billing) address block text — asserted for parity. */
+  address: string;
   subtotal: string;
   shipping: string;
   tax: string;
@@ -686,13 +943,21 @@ export async function readOrderReceived(page: Page): Promise<OrderReceived> {
     ai: 'the payment method on the order confirmation',
   });
 
-  const productName = await resilientText(ctx, {
-    primary: page.locator('td.woocommerce-table__product-name.product-name a, td.product-name'),
-    ai: 'the product name in the order confirmation table',
+  const productName = (
+    await resilientText(ctx, {
+      primary: page.locator('td.woocommerce-table__product-name.product-name a, td.product-name a, td.product-name'),
+      ai: 'the product name in the order confirmation table',
+    })
+  ).replace(/\s*[×x]\s*\d+.*$/i, '').trim();
+
+  const address = await resilientText(ctx, {
+    primary: page.locator('.woocommerce-customer-details address').first()
+      .or(page.locator('.woocommerce-customer-details').first()),
+    ai: 'the billing address block on the order confirmation',
   });
 
   const totals = await readTotals(page, ORDER_DETAILS_TABLE);
-  return { orderNumber, paymentLabel, productName, ...totals };
+  return { orderNumber, paymentLabel, productName, address, ...totals };
 }
 
 // ---------------------------------------------------------------------------
@@ -705,15 +970,17 @@ export async function readOrderReceived(page: Page): Promise<OrderReceived> {
  * shipping method is acceptable and does NOT warn.
  */
 export async function warnIfNoTaxOrShipping(page: Page, ctx: { testId: string }): Promise<void> {
-  const tax = page.locator('tr.tax-rate, tr.fee.tax, .wc-block-components-totals-taxes');
-  const shipping = page.locator('tr.shipping, .wc-block-components-totals-shipping');
+  // AU uses inclusive tax: no tr.tax-rate, but small.includes_tax inside Total row.
+  const taxExclusive = page.locator('tr.tax-rate, tr.fee.tax, .wc-block-components-totals-taxes');
+  const taxInclusive = page.locator('small.includes_tax .woocommerce-Price-amount.amount');
+  const shipping = page.locator('tr.shipping, tr.shipment, .wc-block-components-totals-shipping');
 
-  const taxMissing = (await tax.count()) === 0;
+  const taxMissing = (await taxExclusive.count()) === 0 && (await taxInclusive.count()) === 0;
   const shipMissing = (await shipping.count()) === 0;
-  const taxZero = !taxMissing && isZeroAmount(await tax.first().innerText());
+  const taxZero = !taxMissing && (await taxExclusive.count()) > 0 && isZeroAmount(await taxExclusive.first().innerText());
   const shipZero = !shipMissing && isZeroAmount(await shipping.first().innerText());
 
-  if (taxMissing) console.warn(`[${ctx.testId}] no Tax row at checkout — verify tax classes / region for this site`);
+  if (taxMissing) console.warn(`[${ctx.testId}] no Tax row or inclusive-tax indicator at checkout — verify tax classes / region for this site`);
   else if (taxZero) console.warn(`[${ctx.testId}] Tax row is $0 — verify tax is configured for this site`);
   if (shipMissing) console.warn(`[${ctx.testId}] no Shipping row at checkout — verify shipping zones / product types for this site`);
   else if (shipZero) console.warn(`[${ctx.testId}] Shipping row is $0 — verify shipping is configured (a "Free" method is fine; literal $0.00 is suspect)`);
