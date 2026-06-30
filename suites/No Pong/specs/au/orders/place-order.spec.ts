@@ -14,6 +14,7 @@ import { test } from '../../../fixtures';
 import { runOrderFlow, type FlowCapture } from '../../../helpers/flows';
 import {
   assertBackend,
+  assertCheckoutStories,
   assertEmail,
   assertFrontendParity,
   assertMyAccount,
@@ -38,6 +39,7 @@ const newUser: OrderConfig = {
   pdp: { kind: 'simple', slug: '', qty: 1 },
   expectedStatus: 'Processing',
   refundedStatus: 'Refunded',
+  savePaymentMethod: true, // save the card so PO-03 can reorder with it
 };
 
 // Shared across the serial chain.
@@ -52,13 +54,18 @@ test.describe.serial('NP-AU-PO — Place order', { tag: TAGS }, () => {
     chain.email = capture.email;
 
     assertFrontendParity(capture, newUser);
-    assertPointsEarned(capture, newUser);
-    await assertMyAccount(shopperPage, capture, newUser);
-    await assertBackend(adminPage, capture, newUser);
+    assertCheckoutStories(capture.stories);
+    assertPointsEarned(capture.result, newUser);
+    await assertMyAccount(shopperPage, capture.result, newUser);
+    await assertBackend(adminPage, capture.result, newUser);
     await assertEmail(emailPage, capture, newUser);
   });
 
-  test('NP-AU-PO-02 — full refund (Stripe) + refund email', async ({ adminPage, emailPage }) => {
+  // shopperPage is requested only as a keepalive: the CDP-attached browser exits
+  // when its last real page closes (and a lone stray about:blank confuses
+  // connectOverCDP's active-target resolution), so admin/email-only tests still
+  // need one eager page to keep adminPage.reload() etc. attached.
+  test('NP-AU-PO-02 — full refund (Stripe) + refund email', async ({ shopperPage: _keepalive, adminPage, emailPage }) => {
     test.skip(process.env.REFUND_PROJECT !== 'au', 'refund is gated to a single region (REFUND_PROJECT)');
     if (!chain.capture) throw new Error('NP-AU-PO-01 must have produced an order before the refund runs');
 
@@ -75,14 +82,16 @@ test.describe.serial('NP-AU-PO — Place order', { tag: TAGS }, () => {
       title: 'Logged-in user reorder (Stripe)',
       user: 'logged',
       accountEmail: chain.email,
+      savePaymentMethod: false,
+      useSavedCard: true, // reuse the card saved in PO-01
     };
 
     await loginAccount(shopperPage, chain.email!, PASSWORD);
     const capture = await runOrderFlow({ shopperPage, adminPage, emailPage }, loggedUser);
 
     assertFrontendParity(capture, loggedUser);
-    await assertMyAccount(shopperPage, capture, loggedUser);
-    await assertBackend(adminPage, capture, loggedUser);
+    await assertMyAccount(shopperPage, capture.result, loggedUser);
+    await assertBackend(adminPage, capture.result, loggedUser);
   });
 
   test('NP-AU-PO-04 — non-wholesale user is blocked from wholesale pricing', async ({ shopperPage }) => {
@@ -111,7 +120,7 @@ test.describe('NP-AU-PO-05 — PayPal place order', { tag: ['@plugin:woocommerce
     const capture = await runOrderFlow({ shopperPage, adminPage, emailPage }, paypalUser);
 
     assertFrontendParity(capture, paypalUser);
-    await assertBackend(adminPage, capture, paypalUser);
+    await assertBackend(adminPage, capture.result, paypalUser);
     await assertEmail(emailPage, capture, paypalUser);
   });
 });

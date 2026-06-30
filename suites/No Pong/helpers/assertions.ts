@@ -11,9 +11,9 @@
 // Grows per phase: quantity limits (Task 9) → order parity (Task 11) →
 // subscription / wholesale asserts (Tasks 13-15).
 import { expect, type Page } from '@playwright/test';
-import type { OrderConfig, OrderResult, SubscriptionResult } from '../types/test-config';
+import type { BillingDetails, OrderConfig, OrderResult, SubscriptionResult } from '../types/test-config';
 import type { FlowCapture } from './flows';
-import { goToCart, PAYMENT_LABEL, readFirstCartQty, toAmount } from './nopong';
+import { goToCart, ORDER_DETAILS_TABLE, PAYMENT_LABEL, readFirstCartQty, readTotals, regionFor, toAmount, waitForCheckoutReady, type Totals } from './nopong';
 import { expectOrderNoteMatches } from './order-notes';
 import { findEmail, mailpitViewUrl } from './playgrounds-email';
 import { ctxFor, resilientClick, resilientText } from './resilient';
@@ -28,12 +28,43 @@ const OVER_LIMIT_NOTICE = /too many items|whoops/i;
  *   - paypal meta: "Payment via PayPal";       note: a PayPal capture/complete line.
  */
 const BACKEND_PAYMENT: Record<OrderConfig['payment'], { metaPattern: RegExp; notePattern: RegExp }> = {
-  stripe: { metaPattern: /payment via credit card/i, notePattern: /Stripe charge complete \(Charge ID: ch_[a-zA-Z0-9]+\)/ },
+  stripe: { metaPattern: /payment via credit.*card/i, notePattern: /Stripe charge complete \(Charge ID: ch_[a-zA-Z0-9]+\)/ },
   paypal: { metaPattern: /payment via paypal/i, notePattern: /paypal/i },
 };
 
+/**
+ * Assert an order address block shows the expected billing identity. Checks the
+ * stable, unambiguous parts (name + street + city + postcode) rather than the
+ * whole formatted string, which varies by surface (state long/short, country line).
+ */
+function assertAddressShown(addressText: string, billing: BillingDetails, where: string): void {
+  for (const part of [billing.firstName, billing.lastName, billing.street, billing.city, billing.zip]) {
+    expect(addressText, `${where} should display the order address part "${part}"`).toContain(part);
+  }
+}
+
+/** Case-insensitive substring assert — the payment-method label is rendered in
+ *  different cases per surface (e.g. view-order uppercases it via CSS/markup). */
+function expectContainsCI(haystack: string, needle: string, msg: string): void {
+  expect(haystack.toLowerCase(), `${msg} — got "${haystack}"`).toContain(needle.toLowerCase());
+}
+
+/** Assert a full totals set (subtotal/shipping/tax/total) matches the expected
+ *  capture. Used for every storefront surface, where tax representation is uniform
+ *  (AU inclusive). NOT for admin, which stores tax exclusively (only Order Total is
+ *  cross-comparable there). */
+function expectTotals(actual: Totals, expected: Totals, where: string): void {
+  expectMoney(actual.subtotal, expected.subtotal, `${where} subtotal should match`);
+  expectMoney(actual.shipping, expected.shipping, `${where} shipping should match`);
+  expectMoney(actual.tax, expected.tax, `${where} tax should match`);
+  expectMoney(actual.total, expected.total, `${where} total should match`);
+}
+
 /** Assert two rendered money strings are numerically equal. */
 function expectMoney(actual: string, expected: string, msg: string): void {
+  // Both empty means the row is absent on both surfaces (e.g. AU tax-inclusive has no
+  // separate Tax row, free shipping has no Shipping row). Skip rather than NaN === NaN.
+  if (!actual && !expected) return;
   expect(toAmount(actual), `${msg} — got "${actual}", expected "${expected}"`).toBeCloseTo(toAmount(expected), 2);
 }
 
@@ -61,6 +92,67 @@ export async function assertQuantityLimit(
 }
 
 /**
+ * GI 10 (+ the qty-discount behaviour in GI 21): raising a subscription product's
+ * cart quantity to >=2 triggers No Pong's quantity discount, which surfaces as a
+ * SALE price on the line item — the per-unit price drops into <ins>
+ * (e.g. <del>$10.95</del> <ins>$8.46</ins>) and the recurring total = that
+ * effective unit price × qty (the discount is baked into the per-unit price, NOT a
+ * separate recurring discount row). We assert the discount engaged (an <ins> sale
+ * price appears) and that the recurring total equals effective unit × qty.
+ * Recurring totals exclude the one-off sign-up fee, so they're the clean surface.
+ */
+export async function assertSubscriptionCartTotal(
+  page: Page,
+  opts: { qty: number }
+): Promise<void> {
+  const ctx = ctxFor(page);
+  // Effective unit price: the <ins> sale price when discounted, else the plain
+  // price. NOT an .or() of both — <del> (struck regular) precedes <ins> in the DOM,
+  // so .or().first() (DOM order) would wrongly pick the regular price.
+  const onSale = (await page.locator('td.product-price ins').count()) > 0;
+  expect(onSale, `qty ${opts.qty} should trigger the subscription quantity discount (a sale price on the line item)`).toBe(true);
+  const unitPrice = await resilientText(ctx, {
+    primary: page.locator('td.product-price ins .woocommerce-Price-amount.amount').first(),
+    ai: 'the subscription line-item discounted (sale) unit price on the cart page',
+  });
+  const signUpFee = await resilientText(ctx, {
+    primary: page.locator('td.product-subtotal > span > span.subscription-details .woocommerce-Price-amount.amount').first(),
+    ai: 'the subscription line-item sign-up fee on the cart page',
+  });
+  const subtotal = await resilientText(ctx, {
+    primary: page.locator('tbody > tr.cart-subtotal:not(.recurring-total) > td > .woocommerce-Price-amount.amount').first(),
+    ai: 'the subscription line-item subtotal on the cart page',
+  });
+  const total = await resilientText(ctx, {
+    primary: page.locator('tbody > tr.order-total:not(.recurring-total) > td > strong > .woocommerce-Price-amount.amount').first(),
+    ai: 'the subscription line-item total on the cart page',
+  });
+  const recurringSubtotal = await resilientText(ctx, {
+    primary: page.locator('tr.cart-subtotal.recurring-total td strong .woocommerce-Price-amount.amount').first()
+      .or(page.locator('tr.cart-subtotal.recurring-total td .woocommerce-Price-amount.amount').first()),
+    ai: 'the "Recurring subtotal" amount in the cart',
+  });
+  const recurringTotal = await resilientText(ctx, {
+    primary: page.locator('tr.order-total.recurring-total td strong .woocommerce-Price-amount.amount').first()
+      .or(page.locator('tr.order-total.recurring-total td .woocommerce-Price-amount.amount').first()),
+    ai: 'the "Recurring total" amount in the cart',
+  });
+  // KNOWN SITE BUG — these two assertions FAIL BY DESIGN as a regression guard.
+  // The line "Subtotal" cell renders the sign-up fee WITHOUT multiplying by qty
+  // ("…and a $1.00 sign-up fee" at qty 2), while the cart Subtotal correctly
+  // charges qty × fee ($18.92 = 16.92 + 2.00). So `signUpFee` reads the buggy
+  // $1.00 → expected 17.92 vs actual 18.92. When the site fixes the per-line
+  // display to $2.00, `signUpFee` reads 2.00 → expected 18.92 == actual and these
+  // go green on their own. Do NOT × qty here to "fix" it — that would mask the bug.
+  // Ticket: <BUG-TICKET>
+  expectMoney(subtotal, ((toAmount(unitPrice) * opts.qty) + toAmount(signUpFee)).toFixed(2), 'subtotal should equal discounted unit price + sign-up fee (KNOWN BUG: line sign-up fee not × qty)');
+  expectMoney(total, ((toAmount(unitPrice) * opts.qty) + toAmount(signUpFee)).toFixed(2), 'total should equal discounted unit price + sign-up fee (KNOWN BUG: line sign-up fee not × qty)');
+  expectMoney(recurringSubtotal, (toAmount(unitPrice) * opts.qty).toFixed(2), `recurring subtotal should equal discounted unit price × ${opts.qty}`);
+  expectMoney(recurringTotal, (toAmount(unitPrice) * opts.qty).toFixed(2),
+    `recurring total should equal discounted unit price × ${opts.qty}`);
+}
+
+/**
  * Frontend parity across the surfaces captured during the flow: the checkout
  * review totals equal the thank-you totals, the line-item product name matches
  * the PDP title, and the payment label matches the config.
@@ -68,25 +160,53 @@ export async function assertQuantityLimit(
 export function assertFrontendParity(cap: FlowCapture, config: OrderConfig): void {
   const { pdp, checkout, order } = cap;
 
-  expectMoney(order.subtotal, checkout.subtotal, 'thank-you subtotal should match the checkout subtotal');
-  expectMoney(order.shipping, checkout.shipping, 'thank-you shipping should match the checkout shipping');
-  expectMoney(order.tax, checkout.tax, 'thank-you tax should match the checkout tax');
-  expectMoney(order.total, checkout.total, 'thank-you total should match the checkout total');
+  // First-payment totals: thank-you must equal checkout (full breakdown).
+  expectTotals(order, checkout, 'thank-you vs checkout');
+
+  // Internal consistency on the ORDER surface, computing nothing: total = subtotal +
+  // tax + shipping. Every figure is read from the same page, so they share one tax
+  // basis — AU is inclusive (no tax row → 0, GST already in subtotal), CA/US carry a
+  // separate tax row. We deliberately do NOT reconcile against pdp.unitPrice: the PDP
+  // is geolocated separately and can disagree on tax basis (false-fail for a non-bug).
+  const orderTax = Number.isNaN(toAmount(order.tax)) ? 0 : toAmount(order.tax);
+  const orderShip = Number.isNaN(toAmount(order.shipping)) ? 0 : toAmount(order.shipping);
+  expectMoney(order.total, (toAmount(order.subtotal) + orderTax + orderShip).toFixed(2),
+    'order total should equal subtotal + tax + shipping (AU: tax inclusive in subtotal)');
+
+  // Subscription: the recurring section must read the same at checkout and thank-you.
+  if (cap.recurringCheckout && cap.recurringOrder) {
+    expectTotals(cap.recurringOrder, cap.recurringCheckout, 'thank-you recurring vs checkout recurring');
+  }
+
+  assertAddressShown(order.address, regionFor(config.region).billing, 'thank-you page');
 
   expect(order.productName, `thank-you product name should contain "${pdp.productName}"`).toContain(pdp.productName);
-  expect(
-    order.paymentLabel,
-    `thank-you payment method should be "${PAYMENT_LABEL[config.payment]}"`
-  ).toContain(PAYMENT_LABEL[config.payment]);
+  expectContainsCI(order.paymentLabel, PAYMENT_LABEL[config.payment], `thank-you payment method should be "${PAYMENT_LABEL[config.payment]}"`);
   expect(order.orderNumber, 'order number should have been captured from the order-received page').toMatch(/^\d+$/);
+}
+
+/**
+ * The custom No Pong checkout "stories" modal (#np-custom-checkout-modal) that
+ * replaces the blockUI during processing must have shown its rotating story cards.
+ * GI's "Stories Assertion" matched all four verbatim; we match on intent (rule 26)
+ * so a copy tweak doesn't break the gate. Captured during the flow (stories are
+ * only on-screen between Place Order and the redirect).
+ */
+const CHECKOUT_STORY_PATTERNS = [/processing your order/i, /freshness incoming/i, /victory dance/i, /finalise your order/i];
+export function assertCheckoutStories(stories: string[]): void {
+  expect(stories.length, 'the custom checkout stories modal should have shown story cards during processing').toBeGreaterThan(0);
+  const blob = stories.join(' | ');
+  for (const re of CHECKOUT_STORY_PATTERNS) {
+    expect(blob, `checkout stories should include one matching ${re} (got: ${blob})`).toMatch(re);
+  }
 }
 
 /**
  * Points/Rewards parity: an order earns points, captured at checkout. AU always
  * awards points, so a missing/zero value is a config regression.
  */
-export function assertPointsEarned(cap: FlowCapture, config: OrderConfig): void {
-  const points = cap.result.pointsEarned;
+export function assertPointsEarned(result: OrderResult, config: OrderConfig): void {
+  const points = result.pointsEarned;
   expect(
     points,
     `order ${config.testId} should earn Points/Rewards points at checkout (got ${points ?? 'none'})`
@@ -98,10 +218,9 @@ export function assertPointsEarned(cap: FlowCapture, config: OrderConfig): void 
  * the account at checkout). The orders list shows the order with the expected
  * status; the view-order page repeats the product + total.
  */
-export async function assertMyAccount(shopperPage: Page, cap: FlowCapture, config: OrderConfig): Promise<void> {
+export async function assertMyAccount(shopperPage: Page, result: OrderResult, config: OrderConfig): Promise<void> {
   if (config.user === 'guest') return; // guests have no My Account
 
-  const { result } = cap;
   const ctx = ctxFor(shopperPage);
   await shopperPage.goto('my-account/orders/');
   await shopperPage.waitForLoadState('load');
@@ -122,6 +241,40 @@ export async function assertMyAccount(shopperPage: Page, cap: FlowCapture, confi
     ai: 'the product name on the view-order page',
   });
   expect(viewProduct, `view-order should show product "${result.productName}"`).toContain(result.productName);
+
+  // Money parity (same model as assertFrontendParity): the view-order details
+  // table totals must match the captured order totals (full breakdown).
+  const view = await readTotals(shopperPage, ORDER_DETAILS_TABLE);
+  expectTotals(view, result, 'view-order');
+
+  // Subscription: the view-order page also renders a recurring section — reconcile it
+  // against the captured recurring totals. Warn (don't fail) if the page omits it, so
+  // a template that hides recurring on view-order doesn't mask the rest.
+  if ('recurring' in result) {
+    const viewRecurring = await readTotals(shopperPage, ORDER_DETAILS_TABLE, { recurring: true });
+    if (viewRecurring.total) {
+      expectTotals(viewRecurring, (result as SubscriptionResult).recurring, 'view-order recurring');
+    } else {
+      console.warn(`[${config.testId}] view-order page showed no recurring totals section to reconcile`);
+    }
+  }
+
+  const viewAddress = await resilientText(ctx, {
+    primary: shopperPage.locator('.woocommerce-customer-details address').first()
+      .or(shopperPage.locator('.woocommerce-customer-details').first()),
+    ai: 'the billing address block on the view-order page',
+  });
+  assertAddressShown(viewAddress, regionFor(config.region).billing, 'My Account view-order');
+
+  const viewPayment = await resilientText(ctx, {
+    // View-order has NO order-overview list (that's order-received only) — the
+    // payment method is a "Payment method:" row in the order-details table tfoot.
+    primary: shopperPage.locator('table.woocommerce-table--order-details tr, table.shop_table.order_details tr')
+      .filter({ hasText: /payment method/i }).locator('td').first()
+      .or(shopperPage.locator('li.woocommerce-order-overview__payment-method.method > strong').first()),
+    ai: 'the payment method shown on the view-order page',
+  });
+  expectContainsCI(viewPayment, PAYMENT_LABEL[config.payment], `view-order payment method should be "${PAYMENT_LABEL[config.payment]}"`);
 }
 
 /**
@@ -130,8 +283,7 @@ export async function assertMyAccount(shopperPage: Page, cap: FlowCapture, confi
  * and the gateway payment note. HPOS (`wc-orders`) and legacy (`post.php`) URLs
  * both reach the editor — try HPOS first, fall back.
  */
-export async function assertBackend(adminPage: Page, cap: FlowCapture, config: OrderConfig): Promise<void> {
-  const { result } = cap;
+export async function assertBackend(adminPage: Page, result: OrderResult, config: OrderConfig): Promise<void> {
   const ctx = ctxFor(adminPage);
   await adminPage.goto(`wp-admin/admin.php?page=wc-orders&action=edit&id=${result.orderNumber}`);
   await adminPage.waitForLoadState('load');
@@ -160,13 +312,22 @@ export async function assertBackend(adminPage: Page, cap: FlowCapture, config: O
   expect(adminItem, `admin order items should list "${result.productName}"`).toContain(result.productName);
 
   const adminTotal = await resilientText(ctx, {
+    // The admin order editor renders multiple table.wc-order-totals (Stripe adds a
+    // "Stripe Payout" table after the main one). The first such table carries the
+    // canonical Order Total row as its last <tr>.
     primary: adminPage
-      .locator('table.wc-order-totals:last-of-type tr:last-child td.total .woocommerce-Price-amount.amount')
-      .or(adminPage.locator('.wc_order_total .amount'))
-      .last(),
+      .locator('table.wc-order-totals tr:last-child td.total .woocommerce-Price-amount.amount')
+      .first(),
     ai: 'the order total in the admin order editor',
   });
   expectMoney(adminTotal, result.total, 'admin order total should match the order total');
+
+  const adminAddress = await resilientText(ctx, {
+    primary: adminPage.locator('.order_data_column .address').first()
+      .or(adminPage.locator('.order_data_column address').first()),
+    ai: 'the billing address in the admin order editor',
+  });
+  assertAddressShown(adminAddress, regionFor(config.region).billing, 'admin order editor');
 
   await expectOrderNoteMatches(
     adminPage,
@@ -197,8 +358,14 @@ export async function assertEmail(emailPage: Page, cap: FlowCapture, config: Ord
 
   expect(text, `email should reference order #${result.orderNumber}`).toContain(result.orderNumber);
   expect(text, `email should reference product "${result.productName}"`).toContain(result.productName);
-  expect(compact, `email should show the order total ${result.total}`).toContain(amount(result.total));
-  expect(text, `email should show payment method "${PAYMENT_LABEL[config.payment]}"`).toContain(PAYMENT_LABEL[config.payment]);
+  // Totals: assert each amount that's actually rendered as a number — skip rows
+  // with no amount on this surface ("Free" shipping, AU's inclusive tax) like expectMoney.
+  for (const [label, val] of ([['subtotal', result.subtotal], ['shipping', result.shipping], ['tax', result.tax], ['total', result.total]] as const)) {
+    if (Number.isNaN(toAmount(val))) continue;
+    expect(compact, `email should show the order ${label} ${val}`).toContain(amount(val));
+  }
+  expectContainsCI(text, PAYMENT_LABEL[config.payment], `email should show payment method "${PAYMENT_LABEL[config.payment]}"`);
+  assertAddressShown(text, regionFor(config.region).billing, 'order email');
 }
 
 /**
@@ -213,7 +380,12 @@ export async function assertEmail(emailPage: Page, cap: FlowCapture, config: Ord
 export async function performAndAssertRefund(adminPage: Page, cap: FlowCapture, config: OrderConfig): Promise<void> {
   const { result } = cap;
   const ctx = ctxFor(adminPage);
-  if (!adminPage.url().includes(String(result.orderNumber))) {
+  // adminPage may be an uninitialised lazy proxy here (the refund test is the
+  // first to touch it — earlier tests use a separate, torn-down context). On a
+  // lazy proxy `.url()` returns a Promise, not a string, so flatten with
+  // Promise.resolve before calling .includes; this also forces init.
+  const currentUrl = await Promise.resolve(adminPage.url());
+  if (!currentUrl.includes(String(result.orderNumber))) {
     await adminPage.goto(`wp-admin/admin.php?page=wc-orders&action=edit&id=${result.orderNumber}`);
     await adminPage.waitForLoadState('load');
   }
@@ -273,8 +445,8 @@ export async function performAndAssertRefund(adminPage: Page, cap: FlowCapture, 
   await resilientClick(ctx, { primary: refundBtn.first(), ai: 'the Refund via Stripe button' });
 
   await adminPage.waitForLoadState('load');
+  await waitForCheckoutReady(adminPage);
   await adminPage.waitForTimeout(3_000);
-  await adminPage.reload();
   await adminPage.waitForLoadState('load');
 
   // Gateway refund note: "Refunded {total} – Refund ID: re_… – Reason: Testing Refund".
@@ -353,11 +525,28 @@ export function assertWholesalePricing(result: OrderResult): void {
 // Subscriptions (Tasks 13-14).
 // ---------------------------------------------------------------------------
 
-/** A placed subscription captured an order number, a subscription number, and a total. */
+/**
+ * A placed subscription captured an order number, a subscription number, and both
+ * the first-payment total and the recurring total. Also checks the recurring
+ * section is internally consistent (recurring total = recurring subtotal +
+ * recurring shipping — AU is tax-inclusive, so tax is already in those).
+ */
 export function assertSubscriptionPlaced(result: SubscriptionResult): void {
   expect(result.orderNumber, 'subscription order should have an order number from the thank-you page').toMatch(/^\d+$/);
   expect(result.subscriptionNumber, 'a subscription number should be captured from My Account').toMatch(/^\d+$/);
-  expect(toAmount(result.total), `subscription order total should be a positive amount (got "${result.total}")`).toBeGreaterThan(0);
+  expect(toAmount(result.total), `first-payment total should be a positive amount (got "${result.total}")`).toBeGreaterThan(0);
+  expect(toAmount(result.recurring.total), `recurring total should be a positive amount (got "${result.recurring.total}")`).toBeGreaterThan(0);
+  const recShip = Number.isNaN(toAmount(result.recurring.shipping)) ? 0 : toAmount(result.recurring.shipping);
+  expectMoney(result.recurring.total, (toAmount(result.recurring.subtotal) + recShip).toFixed(2),
+    'recurring total should equal recurring subtotal + recurring shipping');
+
+  // First-payment total: same internal-consistency check as a normal order — total =
+  // subtotal + tax + shipping (AU tax inclusive → tax row empty/0, GST already in
+  // subtotal; the one-off sign-up fee is carried inside the first-payment subtotal).
+  const firstTax = Number.isNaN(toAmount(result.tax)) ? 0 : toAmount(result.tax);
+  const firstShip = Number.isNaN(toAmount(result.shipping)) ? 0 : toAmount(result.shipping);
+  expectMoney(result.total, (toAmount(result.subtotal) + firstTax + firstShip).toFixed(2),
+    'first-payment total should equal subtotal + tax + shipping');
 }
 
 /** Admin subscription editor URL (HPOS shop_subscription). */
@@ -380,15 +569,19 @@ export async function assertSubscriptionBackend(adminPage: Page, result: Subscri
     '';
   expect(status, `subscription #${result.subscriptionNumber} should be Active in the admin editor`).toMatch(/active/i);
 
+  // The subscription editor totals are labeled rows ("Items Subtotal:", "Shipping:",
+  // "GST:", "Order Total:") — the recurring amount is the "Order Total:" row. Match
+  // by label, NOT position: the editor renders a second (empty) totals table, so
+  // :last-of-type / tr:last-child grabbed the wrong one.
   const recurringTotal = await resilientText(ctxFor(adminPage), {
-    primary: adminPage
-      .locator('table.wc-order-totals:last-of-type tr:last-child td.total .woocommerce-Price-amount.amount')
-      .last(),
-    ai: 'the recurring total in the subscription editor',
-  }).catch(() => '');
-  if (recurringTotal) {
-    expectMoney(recurringTotal, result.total, 'subscription recurring total should match the order total');
-  }
+    primary: adminPage.locator('table.wc-order-totals tr').filter({ hasText: /order total/i })
+      .locator('.woocommerce-Price-amount').last()
+      .or(adminPage.getByRole('row', { name: /order total/i }).locator('.woocommerce-Price-amount').last()),
+    ai: 'the Order Total (recurring) amount in the subscription editor',
+  });
+  // Compare against the RECURRING total captured from the thank-you page (NOT
+  // result.total — that's the first payment, which includes the one-off sign-up fee).
+  expectMoney(recurringTotal, result.recurring.total, 'admin subscription recurring total should match the recurring total');
 }
 
 /** Subscription confirmation email parity. */
@@ -398,8 +591,12 @@ export async function assertSubscriptionEmail(emailPage: Page, result: Subscript
   await emailPage.goto(mailpitViewUrl(msg!.ID)).catch(() => {});
 
   const text = `${msg!.Subject} ${(msg!.HTML ?? '').replace(/<[^>]+>/g, ' ')} ${msg!.Text ?? ''}`.replace(/\s+/g, ' ').trim();
+  const compact = text.replace(/[\s,]+/g, '');
   expect(text, `subscription email should reference order #${result.orderNumber}`).toContain(result.orderNumber);
   expect(text, `subscription email should reference product "${result.productName}"`).toContain(result.productName);
+  // The subscription email shows the first-payment total AND the recurring total.
+  expect(compact, `subscription email should show the first-payment total ${result.total}`).toContain(toAmount(result.total).toFixed(2));
+  expect(compact, `subscription email should show the recurring total ${result.recurring.total}`).toContain(toAmount(result.recurring.total).toFixed(2));
 }
 
 /**
@@ -429,9 +626,11 @@ export async function assertScheduleChanged(
     'changing the billing schedule should show a success notice'
   ).toContainText(/billing period changed successfully/i, { timeout: 15_000 });
 
+  // The recurring "{total} EVERY 3 WEEKS" line lives in the order-details tfoot
+  // (GI 24 step 13), NOT subscription_details (which only lists Status/dates).
   const everyPattern = new RegExp(`every\\s+${schedule.interval}\\s+${schedule.period}s?`, 'i');
   await expect(
-    page.locator('table.shop_table.order_details tfoot, table.shop_table.subscription_details').first(),
+    page.locator('table.shop_table.order_details tfoot'),
     `the subscription recurring line should reflect "every ${schedule.interval} ${schedule.period}(s)"`
   ).toContainText(everyPattern, { timeout: 15_000 });
 }
@@ -443,25 +642,69 @@ export async function assertScheduleChanged(
  */
 export async function performAndAssertRenewal(adminPage: Page, result: SubscriptionResult): Promise<void> {
   const ctx = ctxFor(adminPage);
+  // The "process renewal" order action fires a native confirm() ("Are you sure
+  // you want to process a renewal? This will charge the customer…"). Playwright
+  // auto-DISMISSES dialogs (= Cancel), so the renewal never runs and no renewal
+  // order is created. Accept every dialog raised during this flow.
   await adminPage.goto(subscriptionEditUrl(result.subscriptionNumber));
   await adminPage.waitForLoadState('load');
+  // Register the dialog handler AFTER goto: adminPage is a lazy proxy, and calling
+  // .on() before the first goto double-inits the context (the handler would bind
+  // to a different page instance than the one navigating). The "process renewal"
+  // action fires a native confirm() ("…This will charge the customer…"); Playwright
+  // auto-DISMISSES dialogs (= Cancel), so without accepting it the renewal never
+  // runs and no renewal order is created.
+  adminPage.on('dialog', (d) => d.accept().catch(() => {}));
+  // Confirm the subscription editor actually rendered (the order-action select +
+  // Update button). The HPOS editor can take >8s under slowMo, so wait here
+  // rather than let the 8s resilient tier time out mid-flow.
+  await adminPage.locator('select[name="wc_order_action"]').waitFor({ state: 'visible', timeout: 30_000 });
 
-  // Enable renewals (debug toggle) so the gateway is allowed to charge.
-  await adminPage.locator('select[name="wc_order_action"]').selectOption('wcs_debug_toggle_renewals').catch(() => {});
-  await resilientClick(ctx, { primary: adminPage.locator('button[name="save"]'), ai: 'the subscription Save (toggle renewals) button' });
-  await adminPage.waitForLoadState('load');
+  // Each order-action Save is a full form POST → redirect → editor reload. GI
+  // runs a settle sub-test after every save; we wait for the editor to come back
+  // (the wc_order_action select re-attaches) so the action persists before the
+  // next one — otherwise "process renewal" can run before renewals are enabled
+  // and no renewal order is created.
+  const saveOrderAction = async (action: string, label: string) => {
+    await adminPage.locator('select[name="wc_order_action"]').selectOption(action).catch(() => {});
+    const saveBtn = adminPage.locator('button[name="save"]');
+    await saveBtn.waitFor({ state: 'visible', timeout: 30_000 });
+    await resilientClick(ctx, { primary: saveBtn, ai: label });
+    await adminPage.waitForLoadState('load');
+    await adminPage.locator('select[name="wc_order_action"]').waitFor({ state: 'visible', timeout: 30_000 }).catch(() => {});
+  };
 
-  // Process a renewal payment.
-  await adminPage.locator('select[name="wc_order_action"]').selectOption('wcs_process_renewal');
-  await resilientClick(ctx, { primary: adminPage.locator('button[name="save"]'), ai: 'the subscription Save (process renewal) button' });
-  await adminPage.waitForLoadState('load');
+  // Enable renewals (debug toggle) so the gateway is allowed to charge, then
+  // process a renewal payment.
+  await saveOrderAction('wcs_debug_toggle_renewals', 'the subscription Save (toggle renewals) button');
+  await saveOrderAction('wcs_process_renewal', 'the subscription Save (process renewal) button');
 
   const status =
     (await adminPage.locator('#select2-order_status-container').first().textContent().catch(() => ''))?.trim() || '';
   expect(status, `subscription #${result.subscriptionNumber} should remain Active after renewal`).toMatch(/active/i);
 
-  await expect(
-    adminPage.locator('.woocommerce_subscriptions_related_orders table tbody tr, #subscription_renewal_orders table tbody tr').first(),
-    'a renewal order should be created in the subscription related-orders table'
-  ).toContainText(/renewal order/i, { timeout: 15_000 });
+  // The renewal order can be created asynchronously (Action Scheduler) and the
+  // related-orders metabox only reflects it after a reload. Poll the WHOLE tbody
+  // (any row, not just the first — the parent order also lists here) for a
+  // "Renewal Order" row, reloading each attempt.
+  await expect
+    .poll(
+      async () => {
+        await adminPage.reload();
+        await adminPage.waitForLoadState('load');
+        return (
+          (await adminPage
+            .locator('.woocommerce_subscriptions_related_orders table tbody, #subscription_renewal_orders table tbody')
+            .first()
+            .textContent()
+            .catch(() => '')) || ''
+        );
+      },
+      {
+        timeout: 45_000,
+        intervals: [2_000, 4_000, 6_000, 8_000, 10_000],
+        message: 'a renewal order should be created in the subscription related-orders table',
+      }
+    )
+    .toMatch(/renewal order/i);
 }

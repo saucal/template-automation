@@ -73,6 +73,10 @@ export interface OrderConfig {
   refundNotePattern?: RegExp;
   /** Email to reuse for a logged-in order (rule 28) — the SAME account as a prior order. */
   accountEmail?: string;
+  /** Stripe: tick "Save payment information…" so the card is stored on the account. */
+  savePaymentMethod?: boolean;
+  /** Stripe: pay with a previously-saved card token instead of entering a new card. */
+  useSavedCard?: boolean;
 }
 
 /** Money/label values captured at PDP/cart — the source of truth for parity. */
@@ -110,6 +114,15 @@ export interface SubscriptionResult extends OrderResult {
   subscriptionNumber: string;
   /** next payment date as rendered on the subscription. */
   nextPaymentDate: string;
+  /**
+   * The "Recurring totals" section from the checkout review (what bills each
+   * renewal), captured before payment. The inherited subtotal/shipping/tax/total are
+   * the FIRST payment (which includes any one-off sign-up fee); these are the
+   * recurring amounts: subtotal, shipping, total, and AU's inclusive GST.
+   */
+  recurring: Pick<CapturedPrices, 'subtotal' | 'shipping' | 'tax' | 'total'>;
+  /** Custom checkout "stories" headings captured during order processing. */
+  stories: string[];
 }
 
 export interface WholesaleConfig {

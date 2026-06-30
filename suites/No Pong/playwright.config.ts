@@ -43,7 +43,19 @@ export default defineConfig({
   projects: [
     {
       name: 'au',
-      use: { ...devices['Desktop Chrome'], baseURL: process.env.BASE_URL_AU },
+      use: {
+        ...devices['Desktop Chrome'],
+        baseURL: process.env.BASE_URL_AU,
+        // Tax (GST) only shows when WooCommerce geolocates the visitor to AU. WC keys
+        // off the request IP (WC_Geolocation::get_ip_address reads X-Forwarded-For /
+        // X-Real-IP), NOT navigator.geolocation — so we spoof an AU IP via headers.
+        // 139.130.4.5 = Telstra (AU). ponytail: header spoof; if go-vip's edge
+        // overwrites X-Forwarded-For, switch to an AU-exit `proxy` instead.
+        extraHTTPHeaders: {
+          'X-Forwarded-For': process.env.AU_GEO_IP || '139.130.4.5',
+          'X-Real-IP': process.env.AU_GEO_IP || '139.130.4.5',
+        },
+      },
       testMatch: ['au/**'],
     },
     {
