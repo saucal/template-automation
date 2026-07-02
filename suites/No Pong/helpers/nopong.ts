@@ -826,6 +826,14 @@ async function payPaypal(page: Page): Promise<void> {
   // ("Pay with PayPal" role=link, or [data-funding-source="paypal"]); the SDK
   // renders it asynchronously after PayPal is selected, so poll until it shows.
   const findPayButton = async () => {
+    // Preferred: the SDK iframe is named with "paypal" — address it directly and read
+    // the "Pay with PayPal" link inside its content frame.
+    const framed = page.locator('iframe[name*="paypal" i]').first();
+    if (await framed.count().catch(() => 0)) {
+      const link = framed.contentFrame().getByRole('link', { name: /pay with paypal/i });
+      if (await link.count().catch(() => 0)) return link.first();
+    }
+    // Fallback: scan every frame (iframe name/src can be generated/opaque).
     for (const frame of page.frames()) {
       const byRole = frame.getByRole('link', { name: /pay with paypal/i });
       if (await byRole.count().catch(() => 0)) return byRole.first();
@@ -863,8 +871,12 @@ async function payPaypal(page: Page): Promise<void> {
   // varies (already-signed-in skips login), so each step is best-effort.
   const user = process.env.PAY_PAL_USER ?? '';
   const pass = process.env.PAY_PAL_PASS ?? '';
-  const emailField = flow.locator('#email, input[name="login_email"], input[type="email"]').first();
-  const passField = flow.locator('#password, input[name="login_password"], input[type="password"]').first();
+  // PayPal's sandbox login is matched by accessible name first (its markup ids drift),
+  // with the legacy id/type selectors as a fallback for older sandbox variants.
+  const emailField = flow.getByRole('textbox', { name: /email or mobile/i })
+    .or(flow.locator('#email, input[name="login_email"], input[type="email"]')).first();
+  const passField = flow.getByRole('textbox', { name: /^password$/i })
+    .or(flow.locator('#password, input[name="login_password"], input[type="password"]')).first();
 
   // PayPal sandbox screens + timing vary run-to-run (email→Next→password→Log In,
   // or combined; transitions show transient spinner states where buttons briefly
@@ -877,8 +889,11 @@ async function payPaypal(page: Page): Promise<void> {
   // Review-screen SUBMIT button is #one-time-cta (text "Pay"). NOT the
   // "Pay in full" tile (id-pay-in-full-action, role=checkbox) which only selects
   // the funding source. Target the CTA first; keep text fallbacks for variants.
-  const approveBtn = flow
-    .locator('#one-time-cta, button:has-text("Pay Now"), button:has-text("Complete Purchase"), [data-testid="submit-button-initial"]')
+  // Review-screen SUBMIT: the "Pay" button (role=button, exact — NOT the "Pay in full"
+  // tile, which is a role=checkbox that only selects funding). #one-time-cta is its id;
+  // keep it plus text variants as fallback.
+  const approveBtn = flow.getByRole('button', { name: 'Pay', exact: true })
+    .or(flow.locator('#one-time-cta, button:has-text("Pay Now"), button:has-text("Complete Purchase"), [data-testid="submit-button-initial"]'))
     .first();
   const fillIfEmpty = async (loc: ReturnType<Page['locator']>, value: string) => {
     if (!value) return;
