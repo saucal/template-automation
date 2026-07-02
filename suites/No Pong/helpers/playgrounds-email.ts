@@ -8,7 +8,7 @@
 // Override the inbox host with MAILPIT_URL if the environment differs.
 import { request, type APIRequestContext } from '@playwright/test';
 
-const MAILPIT_URL = process.env.MAILPIT_URL ?? 'https://mail.playgrounds.saucal.io';
+const MAILPIT_URL = process.env.MAILPIT_URL || 'https://mail.playgrounds.saucal.io';
 
 export interface MailpitMessage {
   ID: string;

@@ -11,7 +11,7 @@
 // Playwright's auto trace/screenshot/video do NOT apply — we honor the config's
 // trace/screenshot/video settings manually below. shopperPage is eager;
 // adminPage/emailPage are lazy.
-import { test as base, chromium, type Browser, type Page, type BrowserContext, type Video, type TestInfo } from '@playwright/test';
+import { test as base, chromium, devices, type Browser, type Page, type BrowserContext, type Video, type TestInfo } from '@playwright/test';
 import { Stagehand } from '@browserbasehq/stagehand';
 import { setActiveStagehand } from '../helpers/resilient';
 import path from 'path';
@@ -19,10 +19,66 @@ import path from 'path';
 const AI_ENABLED = !!process.env.ANTHROPIC_API_KEY;
 const STAGEHAND_MODEL = process.env.STAGEHAND_MODEL || 'anthropic/claude-sonnet-4-6';
 
-// Silence the Vercel AI SDK warning Stagehand triggers ("System messages in the
-// prompt or messages fields can be a security risk…") — expected for Stagehand's
-// LLM client, just log noise here.
+// Drop benign log noise at the console layer:
+//  - the Vercel AI SDK "System messages in the prompt…" warning Stagehand triggers
+//    (AI_SDK_LOG_WARNINGS=false doesn't catch this one in the bundled SDK version);
+//  - the background CDP-teardown rejection (#1390) that STAGEHAND'S OWN logger prints.
+//    The process guard below already stops these from FAILING a test; Stagehand's
+//    own once-handler still LOGS the one it absorbs — this silences that residual line.
+// Stringify object args so a `{ reason }` object is matched, not just string lines.
 (globalThis as Record<string, unknown>).AI_SDK_LOG_WARNINGS = false;
+const LOG_NOISE = /System messages in the prompt|allowSystemInMessages|-32001|Session with given id not found|CDP session detached/i;
+for (const level of ['log', 'warn', 'error'] as const) {
+  const orig = console[level].bind(console);
+  console[level] = (...args: any[]) => {
+    let blob = '';
+    try { blob = args.map((a) => (typeof a === 'string' ? a : JSON.stringify(a))).join(' '); } catch { /* circular arg */ }
+    if (LOG_NOISE.test(blob)) return;
+    orig(...args);
+  };
+}
+
+// ---- Stagehand background-CDP rejection guard -----------------------------
+// Known Stagehand v3 bug — browserbase/stagehand#1390. Stagehand connects over
+// CDP and auto-attaches to EVERY target, including the short-lived Stripe iframe
+// (js.stripe.com), PayPal popup, and lazily-created admin/email contexts our
+// flows open/close. When such a transient target dies mid-attach, an inflight CDP
+// op rejects ("-32001 Session with given id not found" / "CDP session detached").
+// Stagehand registers its OWN handler with process.once('unhandledRejection'), so
+// it absorbs the FIRST such rejection then unhooks — the 2nd reaches Playwright's
+// worker handler (process.on('unhandledRejection') → _currentTest._failWithError),
+// failing a test for a reason unrelated to its assertions (the flow succeeded).
+//
+// The issue's endorsed workaround is a PERSISTENT host-app handler that catches
+// CDP-session errors specifically and lets everything else propagate. We can't
+// patch Stagehand's bundled dist, so we filter at the process level: swallow ONLY
+// these benign background CDP-teardown rejections and re-dispatch every other
+// reason to Playwright's original handler(s), preserving real failure detection.
+// This only intercepts the UNHANDLED-rejection channel — awaited Stagehand/Playwright
+// failures throw with real stacks through the test's await chain and are untouched,
+// so a genuine bug is never masked. Runs once per worker.
+const STAGEHAND_CDP_NOISE = /-32001|Session with given id not found|CDP session detached/i;
+const REJECTION_GUARD_FLAG = '__nopongStagehandRejectionGuard';
+if (AI_ENABLED && !(globalThis as Record<string, unknown>)[REJECTION_GUARD_FLAG]) {
+  (globalThis as Record<string, unknown>)[REJECTION_GUARD_FLAG] = true;
+  // Playwright's worker registers its unhandledRejection listener in the
+  // WorkerMain constructor, before any test file (and thus this module) loads —
+  // so it's already present and we proxy through it.
+  const priorListeners = process.listeners('unhandledRejection') as Array<
+    (reason: unknown, promise: Promise<unknown>) => void
+  >;
+  process.removeAllListeners('unhandledRejection');
+  process.on('unhandledRejection', (reason, promise) => {
+    const msg = String((reason as { message?: string } | undefined)?.message ?? reason);
+    if (STAGEHAND_CDP_NOISE.test(msg)) return; // benign Stagehand CDP teardown race — drop
+    if (priorListeners.length === 0) {
+      // No handler to defer to: don't silently swallow a real rejection.
+      console.error('[fixtures] unhandled rejection (no prior listener):', reason);
+      return;
+    }
+    for (const listener of priorListeners) listener(reason, promise);
+  });
+}
 
 type Fixtures = {
   /** Stagehand instance for AI fallback, or null when ANTHROPIC_API_KEY is unset. */
@@ -30,9 +86,19 @@ type Fixtures = {
   /** Browser the contexts are created from — Stagehand's CDP browser, or plain PW. */
   pageBrowser: Browser;
   shopperPage: Page;
+  /** Shopper context emulating a phone (375×812, touch) — for responsive-only UI. */
+  mobileShopperPage: Page;
   adminPage: Page;
   emailPage: Page;
 };
+
+// Mobile emulation profile for mobileShopperPage — the iPhone X descriptor is
+// 375×812 (exactly GI 19's viewport) and carries the real mobile UA, scale,
+// isMobile + hasTouch. Baked into the context at creation (NOT setViewportSize
+// after load) so the page paints mobile from the first byte and any
+// breakpoint/touch-gated JS binds correctly. GI 19's add-to-cart popup only
+// fires below the theme's 767px breakpoint.
+const MOBILE_EMULATION = devices['iPhone X'];
 
 // ---- config bridges ------------------------------------------------------
 
@@ -175,6 +241,10 @@ function makeLazyPage(factory: () => Promise<{ ctx: BrowserContext; page: Page }
 
   const proxy = new Proxy({} as Page, {
     get(_, prop: string) {
+      // Unwrap to the underlying real Page for libraries that reject the Proxy
+      // (Stagehand: "expected Page or Frame"). Undefined until first use — but by
+      // the time the AI tier runs, a Playwright tier has already initialised it.
+      if (prop === '__realPage') return page;
       if (prop === 'then' || prop === 'catch' || prop === 'finally') return undefined;
       if (page) {
         const v = (page as any)[prop];
@@ -229,6 +299,11 @@ export const test = base.extend<Fixtures>({
       const cdp = await chromium.connectOverCDP({ wsEndpoint: stagehand.connectURL(), slowMo });
       // Stagehand's init() opens a default about:blank page/window we never use.
       // Close it so there's no stray window (Stagehand acts on the pages we pass).
+      // NOTE: every test must request the eager shopperPage so a real page always
+      // exists — Chromium exits when its last page closes, and a lone stray
+      // about:blank confuses connectOverCDP's active-target resolution (admin-only
+      // tests otherwise fail with "browser has been closed" / "Not attached to an
+      // active page"). Admin/email-only specs add shopperPage purely as a keepalive.
       for (const ctx of cdp.contexts()) {
         for (const pg of ctx.pages()) {
           if (pg.url() === 'about:blank') await pg.close().catch(() => {});
@@ -253,6 +328,22 @@ export const test = base.extend<Fixtures>({
     await page.goto('?sc_bypass=1', { waitUntil: 'load' }).catch(() => {});
     await use(page);
     await finishContext(ctx, page, 'shopperPage', testInfo);
+  },
+
+  // Phone-emulated shopper context. DELIBERATELY independent of pageBrowser /
+  // Stagehand: Stagehand owns Chrome via connectOverCDP, and that hop DROPS
+  // newContext device emulation (the page falls back to Stagehand's 1288px
+  // window — see the Stagehand-CDP memory). The popup check uses only plain
+  // locator clicks + toBeVisible (no AI self-heal), so we launch our own plain
+  // chromium where devices['iPhone X'] applies cleanly. Not requesting
+  // pageBrowser means Stagehand never even inits for these tests.
+  mobileShopperPage: async ({}, use, testInfo) => {
+    const browser = await chromium.launch({ ...testInfo.project.use.launchOptions, headless: isHeadless(testInfo) });
+    const { ctx, page } = await openContext(browser, testInfo, MOBILE_EMULATION);
+    await page.goto('?sc_bypass=1', { waitUntil: 'load' }).catch(() => {});
+    await use(page);
+    await finishContext(ctx, page, 'mobileShopperPage', testInfo);
+    await browser.close();
   },
 
   adminPage: async ({ pageBrowser }, use, testInfo) => {

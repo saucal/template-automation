@@ -45,6 +45,16 @@ export interface Target {
 const TIER_TIMEOUT = 8_000;
 
 /**
+ * Unwrap the lazy-page Proxy (adminPage / emailPage) to the underlying real Page
+ * before handing it to Stagehand — Stagehand rejects the Proxy with "page:
+ * expected Page or Frame". The eager shopperPage is already a real Page (no
+ * `__realPage`), so it passes through unchanged.
+ */
+function realPage(page: Page): Page {
+  return (page as unknown as { __realPage?: Page }).__realPage ?? page;
+}
+
+/**
  * Run the Playwright tiers (primary → alt) then the Stagehand tier. Returns the
  * first success; throws the first Playwright error if every tier fails.
  */
@@ -92,11 +102,12 @@ async function withFallback<T>(
  * act on the observed result, so the action targets exactly what observe matched.
  */
 async function aiAct(sh: Stagehand, page: Page, instruction: string): Promise<void> {
-  const actions = await sh.observe(instruction, { page });
+  const p = realPage(page);
+  const actions = await sh.observe(instruction, { page: p });
   if (!actions || actions.length === 0) {
     throw new Error(`Stagehand observe() found no element for: ${instruction}`);
   }
-  await sh.act(actions[0], { page });
+  await sh.act(actions[0], { page: p });
 }
 
 export async function resilientClick(ctx: ResilientCtx, target: Target): Promise<void> {
@@ -151,7 +162,7 @@ export async function resilientText(ctx: ResilientCtx, target: Target): Promise<
     target,
     async (loc) => ((await loc.textContent({ timeout: TIER_TIMEOUT })) ?? '').trim(),
     async (sh) => {
-      const r = await sh.extract(`the visible text of ${target.ai}`, z.object({ text: z.string() }), { page: ctx.page });
+      const r = await sh.extract(`the visible text of ${target.ai}`, z.object({ text: z.string() }), { page: realPage(ctx.page) });
       return ((r as { text?: string })?.text ?? '').trim();
     }
   );

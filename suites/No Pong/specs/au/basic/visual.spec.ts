@@ -18,7 +18,7 @@
 // etc. resolve correctly. NEVER start a goto path with '/'.
 //
 // Refresh baselines:  npx playwright test specs/au/basic/visual.spec.ts --project=au --update-snapshots
-import { type Page } from '@playwright/test';
+import { type Page, type Locator } from '@playwright/test';
 import { test, expect } from '../../../fixtures';
 import { addToCart, dismissPopups } from '../../../helpers/nopong';
 
@@ -151,19 +151,52 @@ test.describe('AU Visual — slider autoplay', { tag: ['@plugin:woocommerce'] },
   });
 });
 
-test.describe('AU Visual — subscription popup', { tag: ['@plugin:woocommerce'] }, () => {
-  // GI 19: on the Monthly Club page, clicking "Join the Club" opens the No Pong
-  // product popup modal. We assert the modal appears.
-  test('monthly-club "Join the Club" opens product popup', async ({ shopperPage: page }) => {
-    await page.goto('monthly-club/');
-    await page.waitForLoadState('load');
-    await dismissPopups(page);
+test.describe('AU Visual — mobile add-to-cart popup', { tag: ['@plugin:woocommerce'] }, () => {
+  // GI 19: on MOBILE (≤767px) clicking an add-to-cart link pops the No Pong
+  // product modal; on desktop it doesn't (the GI test gated the assert on
+  // window.innerWidth). GI only covered the subscription product — we cover a
+  // subscription product (Monthly Club) AND a simple product (Shop grid).
+  // GI 19 seq 4 clicks the product CARD (`<li>`), not the inner anchor — on
+  // mobile, tapping the card is what opens the popup; the add-to-cart link is the
+  // GI fallback. The Monthly Club page renders cards in a `.wp-block-handpicked-products`
+  // block (per the GI selector); we scope to cards that contain an add-to-cart
+  // link and take the first, rather than hardcoding GI's `:nth-of-type(3)` / id 704019.
+  const CASES: Array<{ label: string; path: string; trigger: (page: Page) => Locator }> = [
+    {
+      label: 'subscription product',
+      path: 'monthly-club/',
+      trigger: (page) => page.locator([
+        '.wp-block-handpicked-products > ul > li:has(a[href*="?add-to-cart="])',
+        '#main ul.wc-block-grid__products > li:has(a[href*="?add-to-cart="])',
+      ].join(', ')).first(),
+    },
+    {
+      label: 'simple product',
+      path: 'products/',
+      // No GI ref (our addition) — mirror GI's card-tap on the shop grid.
+      trigger: (page) =>
+        page.locator("ul.wc-block-grid__products > li:not([data-slug*='bundle']):has(a[href*='?add-to-cart='])").first(),
+    },
+  ];
 
-    const join = page.locator('a[href*="?add-to-cart="]').filter({ hasText: /join the club/i }).first()
-      .or(page.getByRole('link', { name: /join the club/i }).first());
-    await join.click({ timeout: 15_000 });
+  for (const c of CASES) {
+    test(`mobile add-to-cart opens product popup — ${c.label}`, async ({ mobileShopperPage: page }) => {
+      await page.goto(c.path);
+      await page.waitForLoadState('load');
+      // Fail fast & unambiguously if the mobile context didn't take — separates
+      // "emulation not applied" from "popup didn't fire on mobile" (GI 19's gate
+      // is window.innerWidth <= 767).
+      const innerWidth = await page.evaluate(() => window.innerWidth);
+      expect(innerWidth, 'mobileShopperPage should emulate a ≤767px viewport').toBeLessThanOrEqual(767);
+      // Clear the cookie banner BEFORE adding — dismissPopups also closes the
+      // product modal, so it must not run after the add-to-cart click.
+      await dismissPopups(page);
 
-    const modal = page.locator('.nopong-product-popup-modal').first();
-    await expect(modal, 'subscription product popup modal should appear after Join the Club').toBeVisible({ timeout: 15_000 });
-  });
+      await c.trigger(page).click({ timeout: 15_000 });
+
+      const modal = page.locator('.nopong-product-popup-modal').first();
+      await expect(modal, `${c.label}: product popup modal should appear on mobile after add-to-cart`)
+        .toBeVisible({ timeout: 15_000 });
+    });
+  }
 });

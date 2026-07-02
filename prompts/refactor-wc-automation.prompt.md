@@ -98,6 +98,50 @@ test('RM-PO-001 – place order', async ({ shopperPage, adminPage, emailPage }) 
 ```
 Without WC REST → drop `suiteVars` plumbing; spec becomes config → flow → assertions.
 
+**Place-order parity matrix (MANDATORY for EVERY place-order test).** Capture the
+core facts ONCE during the flow (order-received), then assert the SAME captured
+values on every surface that renders them — never hardcode, never assert only one
+surface:
+
+| Surface | Totals (subtotal · shipping · tax · total) | Billing address | Payment method | Gateway order note |
+|---|---|---|---|---|
+| Thank-you (order-received) | ✓ | ✓ | ✓ | — |
+| My Account (view-order) | ✓ | ✓ | ✓ | — |
+| Order email (Mailpit) | ✓ | ✓ | ✓ | — |
+| Admin order editor | ✓ | ✓ | ✓ (`Payment via <Method>` meta) | ✓ (scan-all + regex, rule 16) |
+
+- **Totals** — share one `expectMoney` that SKIPS rows legitimately absent on a
+  surface (AU inclusive-tax has no Tax row; free shipping has no amount) instead of
+  asserting `$0`/`NaN`. Don't assert a row that doesn't exist on that surface.
+- **Address** — assert the stable parts only (name + street + city + postcode); skip
+  state/country (long vs short form differs per surface). The thank-you assert is
+  sync over the capture, so capture the order-received address block into the Result.
+- **Payment method** — the customer-facing label on thank-you / My Account / email;
+  the `Payment via <Method>` meta line on admin (plus the gateway note, rules 16, 21).
+- A surface that genuinely doesn't render a fact (some themes omit payment method on
+  view-order) is the ONLY reason to drop that cell — record it in the ledger, don't
+  silently skip. Never weaken or × a value to paper over a real bug (see "Don't
+  weaken assertions"); a cross-surface mismatch is a finding, not a test defect.
+
+**Subscriptions — RECURRING totals too (MANDATORY).** A subscription order has TWO
+totals: the FIRST payment (often includes a one-off sign-up fee) AND the per-renewal
+RECURRING total. Assert BOTH — the recurring total is the whole point of a
+subscription, so reviewing only the order total misses regressions in renewal pricing.
+- **Capture the recurring total separately** from the first-payment total. WooCommerce
+  renders them in distinct ways and a generic "read the totals table" will silently
+  grab the wrong one: the CART marks recurring rows with the `recurring-total` class
+  (a separate section), while the subscription ORDER-RECEIVED page often renders a
+  single "Subscription totals" table whose Total IS the recurring `$X / period`, with
+  the first payment only in the related-orders row. Branch your totals reader on the
+  `recurring-total` class and fall back to the subscription-totals table.
+- **Assert recurring on every surface that shows it** — thank-you / My Account
+  view-subscription / email / the admin **subscription** editor (its recurring total,
+  unconditionally — don't `if (found)`-skip). Compare the admin recurring total against
+  the captured *recurring* total, NOT the first-payment total.
+- **Region tax model still applies** — recurring consistency is `recurring total =
+  recurring subtotal + recurring shipping` for tax-INCLUSIVE regions (AU); add
+  `+ recurring tax` for tax-EXCLUSIVE regions (CA/US).
+
 **3. Serial test chains** — `describe.serial` + `auth/chain-<project>-<id>.json` persistence + skip-guard so mid-chain tests run standalone. → **`templates/chain-state.ts`**.
 
 **4. Replace `page.evaluate()` with locators** wherever a Playwright API works:

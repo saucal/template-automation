@@ -15,3 +15,6 @@ node_modules/
 # Local env / auth
 .env
 auth/
+
+# playwright-cli live-exploration scratch dumps
+.playwright-cli/

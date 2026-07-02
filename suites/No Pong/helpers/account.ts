@@ -138,13 +138,28 @@ export async function forgotPassword(page: Page, email: string, newPassword: str
     ai: 'the Reset password button',
   });
   await page.waitForLoadState('load');
+  // Wait for any notice to appear (success OR error — both share role="alert").
+  const noticeLocator = page.locator(
+    '.woocommerce-message, .woocommerce-error, .wc-block-components-notice-banner__content'
+  ).first();
+  await expect(noticeLocator, 'a password-reset notice should show after submitting the form').toBeVisible({
+    timeout: 15_000,
+  });
+  const noticeText = (await noticeLocator.textContent()) ?? '';
+  if (/rate limit|exceeded.*reset|too many|wait a few/i.test(noticeText)) {
+    throw new Error(
+      `WP password-reset IP rate limit hit — wait a few minutes then re-run.\n` +
+        `Notice: "${noticeText.trim()}"`
+    );
+  }
   await expect(
-    page.locator('.woocommerce-message, .wc-block-components-notice-banner__content').first(),
+    noticeLocator,
     'a password-reset confirmation should show'
   ).toContainText(/password reset email has been sent|check your email/i);
 
   // Follow the reset link from the email (may be a SendGrid-wrapped CTA).
-  const msg = await findEmail(email, { subjectFilter: 'Password' });
+  // No Pong relays via SendGrid which can add up to ~3 min of latency.
+  const msg = await findEmail(email, { subjectFilter: 'Password', attempts: 80 });
   expect(msg, `a password-reset email for ${email} should arrive in Playgrounds Mailpit`).not.toBeNull();
   const html = msg!.HTML ?? '';
   const link =

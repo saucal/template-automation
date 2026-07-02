@@ -37,12 +37,29 @@ async function loginOnHost(page: Page, origin: string): Promise<void> {
   await page.locator('#user_pass').fill(process.env.ADMIN_PASS!);
   await page.locator('#wp-submit').click();
 
-  // Either we land in wp-admin, or WP shows the "verify admin email" interstitial.
-  await page.waitForLoadState('domcontentloaded');
+  // After submit WP either redirects toward wp-admin / confirm-email, OR shows
+  // #login_error (bad creds, blocked account). Race them with `commit` (fires when
+  // the matching navigation commits, not after a full `load` — VIP's self-redirecting
+  // "Loading…" page makes `load` slow/flaky). BOTH waits are non-fatal: a bad-creds
+  // run is caught explicitly below with a clear message, and the recovery loop
+  // further down (goto wp-admin → wait for #wpadminbar) handles the slow-redirect
+  // case — so we never abort here on a 30s "waiting for navigation" timeout.
+  await Promise.race([
+    page.waitForURL(/wp-admin|confirm_admin_email/, { timeout: 45_000, waitUntil: 'commit' }).catch(() => {}),
+    page.locator('#login_error').filter({ visible: true }).first().waitFor({ state: 'visible', timeout: 45_000 }).catch(() => {}),
+  ]);
+  const loginError = page.locator('#login_error').filter({ visible: true });
+  if (await loginError.count()) {
+    const msg = (await loginError.first().innerText().catch(() => '')).replace(/\s+/g, ' ').trim();
+    throw new Error(
+      `loginOnHost(${origin}): WP login failed — "${msg}". ` +
+        `Check WP_ADMIN_USER / ADMIN_PASS in .env (and that the account isn't 2FA/SSO-gated).`
+    );
+  }
   const confirmEmail = page.locator('#correct-admin-email').filter({ visible: true });
   if (await confirmEmail.count()) {
     await confirmEmail.first().click({ force: true }).catch(() => {});
-    await page.waitForLoadState('domcontentloaded');
+    await page.waitForURL(/wp-admin/, { timeout: 15_000 }).catch(() => {});
   }
 
   // VIP serves a "Loading…" interstitial after submit that redirects itself to
@@ -51,14 +68,33 @@ async function loginOnHost(page: Page, origin: string): Promise<void> {
   // goto, then confirm auth via the admin bar — a reliable logged-in signal.
   for (let attempt = 1; ; attempt++) {
     try {
-      await page.goto(`${origin}wp-admin/`, { waitUntil: 'domcontentloaded' });
+      await page.goto(`${origin}wp-admin/`, { waitUntil: 'load' });
       break;
     } catch (err) {
       if (attempt >= 5) throw err;
       await page.waitForTimeout(1_000);
     }
   }
-  await page.locator('#wpadminbar').waitFor({ state: 'visible', timeout: 30_000 });
+  // Robustly wait for wp-admin. The confirm-admin-email interstitial can appear
+  // (a) after the initial login, (b) after the direct wp-admin goto on VIP (the
+  // loading page races `waitForLoadState`). Loop until wpadminbar is visible,
+  // handling each confirmation as it appears.
+  for (let pass = 0; pass < 8; pass++) {
+    const confirmCheck = page.locator('#correct-admin-email').filter({ visible: true });
+    if (await confirmCheck.count()) {
+      await confirmCheck.first().click({ force: true }).catch(() => {});
+      await page.waitForLoadState('load');
+      await page.goto(`${origin}wp-admin/`, { waitUntil: 'load' }).catch(() => {});
+      continue;
+    }
+    if (await page.locator('#wpadminbar').isVisible({ timeout: 5_000 }).catch(() => false)) break;
+    // Neither confirm button nor admin bar — may still be on a VIP loading interstitial.
+    await page.waitForTimeout(2_000);
+  }
+  const adminBarVisible = await page.locator('#wpadminbar').isVisible({ timeout: 10_000 }).catch(() => false);
+  if (!adminBarVisible) {
+    throw new Error(`loginOnHost(${origin}): admin bar not visible after login. Current URL: ${page.url()}`);
+  }
 }
 
 export default async function globalSetup() {
