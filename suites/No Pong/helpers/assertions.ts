@@ -43,6 +43,24 @@ function assertAddressShown(addressText: string, billing: BillingDetails, where:
   }
 }
 
+/**
+ * Normalize a product name for cross-surface comparison. Surfaces disagree on
+ * typographic punctuation — en/em-dash vs hyphen, curly vs straight quotes — and on
+ * case/whitespace, because `wptexturize` runs on some templates and not others (the
+ * PDP shows "No Pong – …Shackin’…" while the thank-you/email shows "No Pong - …Shackin'…").
+ * Map all those variants to one canonical form before matching. GI normalizes the same
+ * way (en-dash→hyphen, quotes, whitespace, lowercase) before asserting product names.
+ */
+function normalizeProductName(s: string): string {
+  return s
+    .toLowerCase()
+    .replace(/[–—]/g, '-')   // en/em-dash → hyphen
+    .replace(/[‘’]/g, "'")   // curly single quotes → straight
+    .replace(/[“”]/g, '"')   // curly double quotes → straight
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 /** Case-insensitive substring assert — the payment-method label is rendered in
  *  different cases per surface (e.g. view-order uppercases it via CSS/markup). */
 function expectContainsCI(haystack: string, needle: string, msg: string): void {
@@ -197,7 +215,7 @@ export function assertFrontendParity(cap: FlowCapture, config: OrderConfig): voi
 
   assertAddressShown(order.address, regionFor(config.region).billing, 'thank-you page');
 
-  expect(order.productName, `thank-you product name should contain "${pdp.productName}"`).toContain(pdp.productName);
+  expect(normalizeProductName(order.productName), `thank-you product name should contain "${pdp.productName}" (got "${order.productName}")`).toContain(normalizeProductName(pdp.productName));
   expectContainsCI(order.paymentLabel, PAYMENT_LABEL[config.payment], `thank-you payment method should be "${PAYMENT_LABEL[config.payment]}"`);
   expect(order.orderNumber, 'order number should have been captured from the order-received page').toMatch(/^\d+$/);
 }
@@ -257,7 +275,7 @@ export async function assertMyAccount(shopperPage: Page, result: OrderResult, co
     primary: shopperPage.locator('td.woocommerce-table__product-name.product-name, td.product-name').first(),
     ai: 'the product name on the view-order page',
   });
-  expect(viewProduct, `view-order should show product "${result.productName}"`).toContain(result.productName);
+  expect(normalizeProductName(viewProduct), `view-order should show product "${result.productName}" (got "${viewProduct}")`).toContain(normalizeProductName(result.productName));
 
   // Money parity (same model as assertFrontendParity): the view-order details
   // table totals must match the captured order totals (full breakdown).
@@ -326,7 +344,7 @@ export async function assertBackend(adminPage: Page, result: OrderResult, config
     primary: adminPage.locator('.woocommerce_order_items td.name, #order_line_items td.name').first(),
     ai: 'the order line-item product name in the admin order editor',
   });
-  expect(adminItem, `admin order items should list "${result.productName}"`).toContain(result.productName);
+  expect(normalizeProductName(adminItem), `admin order items should list "${result.productName}" (got "${adminItem}")`).toContain(normalizeProductName(result.productName));
 
   const adminTotal = await resilientText(ctx, {
     // The admin order editor renders multiple table.wc-order-totals (Stripe adds a
@@ -374,7 +392,7 @@ export async function assertEmail(emailPage: Page, cap: FlowCapture, config: Ord
   const amount = (money: string) => toAmount(money).toFixed(2);
 
   expect(text, `email should reference order #${result.orderNumber}`).toContain(result.orderNumber);
-  expect(text, `email should reference product "${result.productName}"`).toContain(result.productName);
+  expect(normalizeProductName(text), `email should reference product "${result.productName}"`).toContain(normalizeProductName(result.productName));
   // Totals: assert each amount that's actually rendered as a number — skip rows
   // with no amount on this surface ("Free" shipping, AU's inclusive tax) like expectMoney.
   for (const [label, val] of ([['subtotal', result.subtotal], ['shipping', result.shipping], ['tax', result.tax], ['total', result.total]] as const)) {
@@ -607,7 +625,7 @@ export async function assertSubscriptionEmail(emailPage: Page, result: Subscript
   const text = `${msg!.Subject} ${(msg!.HTML ?? '').replace(/<[^>]+>/g, ' ')} ${msg!.Text ?? ''}`.replace(/\s+/g, ' ').trim();
   const compact = text.replace(/[\s,]+/g, '');
   expect(text, `subscription email should reference order #${result.orderNumber}`).toContain(result.orderNumber);
-  expect(text, `subscription email should reference product "${result.productName}"`).toContain(result.productName);
+  expect(normalizeProductName(text), `subscription email should reference product "${result.productName}"`).toContain(normalizeProductName(result.productName));
   // The subscription email shows the first-payment total AND the recurring total.
   expect(compact, `subscription email should show the first-payment total ${result.total}`).toContain(toAmount(result.total).toFixed(2));
   expect(compact, `subscription email should show the recurring total ${result.recurring.total}`).toContain(toAmount(result.recurring.total).toFixed(2));
