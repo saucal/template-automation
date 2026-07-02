@@ -75,6 +75,7 @@ export const regionConfig: Record<Region, RegionConfig> = {
       wholesale: { slug: '' },
     },
     expectTax: true,
+    taxInclusive: true, // AU GST is inclusive — baked into subtotal & total.
     expectShipping: true,
   },
   // Filled by the CA/US replication plan (Phase: post-AU). Not exercised by AU specs.

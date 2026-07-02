@@ -39,7 +39,7 @@ test.describe.serial('NP-AU-SUBM — Subscription management', { tag: ['@plugin:
   test('NP-AU-SUBM-01 — place the subscription to manage', async ({ shopperPage, adminPage, emailPage }) => {
     const capture = await runSubscriptionFlow({ shopperPage, adminPage, emailPage }, config);
     chain.result = capture.result;
-    assertSubscriptionPlaced(capture.result);
+    assertSubscriptionPlaced(capture.result, config.region);
   });
 
   test('NP-AU-SUBM-02 — customer cancels → Pending Cancellation', async ({ shopperPage }) => {

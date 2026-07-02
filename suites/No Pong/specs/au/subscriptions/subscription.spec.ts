@@ -36,7 +36,7 @@ test.describe.serial('NP-AU-SUB — Subscription', { tag: ['@plugin:woocommerce'
     chain.result = capture.result;
     const orderCfg = subscriptionAsOrder(config);
 
-    assertSubscriptionPlaced(capture.result);
+    assertSubscriptionPlaced(capture.result, config.region);
     assertCheckoutStories(capture.stories);
     // Same order-parity coverage a normal order gets, plus recurring-totals parity
     // (inside assertFrontendParity / assertMyAccount when the capture has recurring).

@@ -150,6 +150,13 @@ export interface RegionConfig {
   };
   /** whether a tax row is expected at checkout for this region (rule 22). */
   expectTax: boolean;
+  /**
+   * whether tax is INCLUSIVE (baked into subtotal & total — AU GST) rather than a
+   * separate additive row (CA/US). `readTotals` surfaces the amount either way (AU's
+   * "Includes $X GST" note), but the internal total-consistency check must NOT add it
+   * back when inclusive — the subtotal already contains it.
+   */
+  taxInclusive: boolean;
   /** whether a shipping row is expected at checkout for this region (rule 22). */
   expectShipping: boolean;
 }

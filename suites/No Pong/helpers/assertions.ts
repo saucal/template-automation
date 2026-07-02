@@ -11,7 +11,7 @@
 // Grows per phase: quantity limits (Task 9) → order parity (Task 11) →
 // subscription / wholesale asserts (Tasks 13-15).
 import { expect, type Page } from '@playwright/test';
-import type { BillingDetails, OrderConfig, OrderResult, SubscriptionResult } from '../types/test-config';
+import type { BillingDetails, OrderConfig, OrderResult, Region, SubscriptionResult } from '../types/test-config';
 import type { FlowCapture } from './flows';
 import { goToCart, ORDER_DETAILS_TABLE, PAYMENT_LABEL, readFirstCartQty, readTotals, regionFor, toAmount, waitForCheckoutReady, type Totals } from './nopong';
 import { expectOrderNoteMatches } from './order-notes';
@@ -58,6 +58,20 @@ function expectTotals(actual: Totals, expected: Totals, where: string): void {
   expectMoney(actual.shipping, expected.shipping, `${where} shipping should match`);
   expectMoney(actual.tax, expected.tax, `${where} tax should match`);
   expectMoney(actual.total, expected.total, `${where} total should match`);
+}
+
+/**
+ * Assert a totals set is internally consistent, computing nothing from other
+ * surfaces: total = subtotal + shipping, PLUS tax only when the region taxes
+ * EXCLUSIVELY. For a tax-INCLUSIVE region (AU GST) the tax is already inside the
+ * subtotal — `readTotals` still surfaces the "Includes $X GST" amount for
+ * cross-surface parity, but adding it here would double-count it. Tax mode is typed
+ * config (rule 11), never a DOM guess.
+ */
+function assertTotalConsistency(t: Totals, region: Region, where: string): void {
+  const ship = Number.isNaN(toAmount(t.shipping)) ? 0 : toAmount(t.shipping);
+  const tax = regionFor(region).taxInclusive || Number.isNaN(toAmount(t.tax)) ? 0 : toAmount(t.tax);
+  expectMoney(t.total, (toAmount(t.subtotal) + tax + ship).toFixed(2), where);
 }
 
 /** Assert two rendered money strings are numerically equal. */
@@ -163,15 +177,13 @@ export function assertFrontendParity(cap: FlowCapture, config: OrderConfig): voi
   // First-payment totals: thank-you must equal checkout (full breakdown).
   expectTotals(order, checkout, 'thank-you vs checkout');
 
-  // Internal consistency on the ORDER surface, computing nothing: total = subtotal +
-  // tax + shipping. Every figure is read from the same page, so they share one tax
-  // basis — AU is inclusive (no tax row → 0, GST already in subtotal), CA/US carry a
-  // separate tax row. We deliberately do NOT reconcile against pdp.unitPrice: the PDP
-  // is geolocated separately and can disagree on tax basis (false-fail for a non-bug).
-  const orderTax = Number.isNaN(toAmount(order.tax)) ? 0 : toAmount(order.tax);
-  const orderShip = Number.isNaN(toAmount(order.shipping)) ? 0 : toAmount(order.shipping);
-  expectMoney(order.total, (toAmount(order.subtotal) + orderTax + orderShip).toFixed(2),
-    'order total should equal subtotal + tax + shipping (AU: tax inclusive in subtotal)');
+  // Internal consistency on the ORDER surface, computing nothing from other surfaces.
+  // Every figure is read from the same page, so they share one tax basis; the helper
+  // adds tax only for tax-EXCLUSIVE regions (AU GST is inclusive, so it's already in
+  // the subtotal). We deliberately do NOT reconcile against pdp.unitPrice: the PDP is
+  // geolocated separately and can disagree on tax basis (false-fail for a non-bug).
+  assertTotalConsistency(order, config.region,
+    'order total should equal subtotal + shipping (+ tax only when region taxes exclusively; AU GST is inclusive)');
 
   // Subscription: the recurring section must read the same at checkout and thank-you.
   if (cap.recurringCheckout && cap.recurringOrder) {
@@ -531,22 +543,19 @@ export function assertWholesalePricing(result: OrderResult): void {
  * section is internally consistent (recurring total = recurring subtotal +
  * recurring shipping — AU is tax-inclusive, so tax is already in those).
  */
-export function assertSubscriptionPlaced(result: SubscriptionResult): void {
+export function assertSubscriptionPlaced(result: SubscriptionResult, region: Region): void {
   expect(result.orderNumber, 'subscription order should have an order number from the thank-you page').toMatch(/^\d+$/);
   expect(result.subscriptionNumber, 'a subscription number should be captured from My Account').toMatch(/^\d+$/);
   expect(toAmount(result.total), `first-payment total should be a positive amount (got "${result.total}")`).toBeGreaterThan(0);
   expect(toAmount(result.recurring.total), `recurring total should be a positive amount (got "${result.recurring.total}")`).toBeGreaterThan(0);
-  const recShip = Number.isNaN(toAmount(result.recurring.shipping)) ? 0 : toAmount(result.recurring.shipping);
-  expectMoney(result.recurring.total, (toAmount(result.recurring.subtotal) + recShip).toFixed(2),
-    'recurring total should equal recurring subtotal + recurring shipping');
 
-  // First-payment total: same internal-consistency check as a normal order — total =
-  // subtotal + tax + shipping (AU tax inclusive → tax row empty/0, GST already in
-  // subtotal; the one-off sign-up fee is carried inside the first-payment subtotal).
-  const firstTax = Number.isNaN(toAmount(result.tax)) ? 0 : toAmount(result.tax);
-  const firstShip = Number.isNaN(toAmount(result.shipping)) ? 0 : toAmount(result.shipping);
-  expectMoney(result.total, (toAmount(result.subtotal) + firstTax + firstShip).toFixed(2),
-    'first-payment total should equal subtotal + tax + shipping');
+  // Both sections are internally consistent via the same region-aware check: tax is
+  // added only when the region taxes exclusively (AU GST is inclusive in the
+  // subtotal). The first-payment subtotal carries the one-off sign-up fee.
+  assertTotalConsistency(result.recurring, region,
+    'recurring total should equal recurring subtotal + recurring shipping (+ tax only when exclusive)');
+  assertTotalConsistency(result, region,
+    'first-payment total should equal subtotal + shipping (+ tax only when exclusive; AU GST is inclusive)');
 }
 
 /** Admin subscription editor URL (HPOS shop_subscription). */
