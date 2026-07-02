@@ -648,15 +648,18 @@ export async function readTotals(
         const amt = norm(amtEl?.textContent);
         if (head === 'subtotal') out.subtotal = amt;
         else if (head.startsWith('shipping') || head.startsWith('shipment')) {
-          // Multiple shipping methods shown as radios → read the checked one.
+          // Read the SELECTED method's price amount when methods are radios, else the
+          // row's. FREE shipping renders as a method LABEL ("Regular") with no price
+          // amount — capture '' (no cost), never the label: the label differs per
+          // surface (thank-you shows "Regular", checkout may omit it), which would
+          // make two non-numeric strings fail parity. '' matches the "no shipping
+          // cost" convention and reads as 0 in the total-consistency check.
           const checked = r.querySelector<HTMLInputElement>('input[type="radio"]:checked');
-          if (checked) {
-            const li = checked.closest('li') ?? checked.parentElement;
-            const pe = li?.querySelector('.woocommerce-Price-amount');
-            out.shipping = pe ? norm(pe.textContent) : norm(li?.textContent);
-          } else {
-            out.shipping = amt;
-          }
+          const scope = checked ? (checked.closest('li') ?? r) : r;
+          const shipEl = Array.from(scope.querySelectorAll('.woocommerce-Price-amount')).find(
+            (el) => !el.closest('.includes_tax')
+          );
+          out.shipping = shipEl ? norm(shipEl.textContent) : '';
         }
         else if (head === 'tax' || head === 'gst') out.tax = amt;
         // Initial total row is "Total"; the recurring total row is "Recurring total".
