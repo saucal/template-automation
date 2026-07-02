@@ -185,9 +185,14 @@ export function assertFrontendParity(cap: FlowCapture, config: OrderConfig): voi
   assertTotalConsistency(order, config.region,
     'order total should equal subtotal + shipping (+ tax only when region taxes exclusively; AU GST is inclusive)');
 
-  // Subscription: the recurring section must read the same at checkout and thank-you.
-  if (cap.recurringCheckout && cap.recurringOrder) {
-    expectTotals(cap.recurringOrder, cap.recurringCheckout, 'thank-you recurring vs checkout recurring');
+  // Subscription recurring parity: the order page shows the recurring amount as a
+  // single `td.subscription-total` ("$9.95 / month") — only the TOTAL, no
+  // subtotal/shipping/tax breakdown — so we compare just that against the checkout
+  // recurring total (this is the exact figure the GI thank-you step asserts). Guard on
+  // captured totals so a non-subscription order simply skips.
+  if (cap.recurringCheckout?.total && cap.recurringOrder?.total) {
+    expectMoney(cap.recurringOrder.total, cap.recurringCheckout.total,
+      'thank-you recurring total should match checkout recurring total');
   }
 
   assertAddressShown(order.address, regionFor(config.region).billing, 'thank-you page');

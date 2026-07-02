@@ -702,15 +702,26 @@ export async function captureCheckoutRecurringTotals(page: Page): Promise<Totals
 }
 
 /**
- * Capture the recurring totals from the order-received / view-order page — read for
- * surface PARITY against the checkout-captured recurring totals. The CART/checkout
- * splits into a `.recurring-total`-classed section; the order page may instead render
- * a single "Subscription totals" table (no recurring class). So: try the classed rows
- * first, else fall back to the main totals table.
+ * Capture the recurring total from the order-received / view-order page — read for
+ * PARITY against the checkout-captured recurring total. Unlike the cart/checkout
+ * (which split into a `.recurring-total`-classed section with a full breakdown), No
+ * Pong's order page renders the recurring amount as a single WCS subscription row,
+ * `td.subscription-total` ("$9.95 / month") — only the TOTAL, no subtotal/shipping/tax
+ * repeat (matches the GI Thank-you assertion on `td.subscription-total`). So this
+ * returns just `total`; the other fields stay empty and the parity check compares only
+ * the total. Empty when the page has no subscription row (non-subscription order).
  */
 export async function captureOrderRecurringTotals(page: Page): Promise<Totals> {
-  const classed = await readTotals(page, ORDER_DETAILS_TABLE, { recurring: true });
-  return classed.total ? classed : readTotals(page, ORDER_DETAILS_TABLE);
+  const total = await page.evaluate(() => {
+    const cell = document.querySelector('td.subscription-total');
+    if (!cell) return '';
+    // The recurring price, excluding any inclusive-tax note (AU "Includes $X GST").
+    const el = Array.from(cell.querySelectorAll('.woocommerce-Price-amount.amount')).find(
+      (e) => !e.closest('.includes_tax')
+    ) ?? cell.querySelector('.woocommerce-Price-amount.amount');
+    return (el?.textContent ?? '').replace(/\s+/g, ' ').trim();
+  });
+  return { subtotal: '', shipping: '', tax: '', total };
 }
 
 /**
