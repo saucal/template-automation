@@ -15,6 +15,8 @@ import dotenv from 'dotenv';
 
 dotenv.config({ path: path.join(__dirname, '.env') });
 
+import { baseUrlFor, TARGET_ENV } from './env-tier';
+
 /** Origin (scheme + host) of a URL, with a trailing slash. Used to find the host to log into. */
 function originOf(url: string | undefined): string | null {
   if (!url) return null;
@@ -101,13 +103,14 @@ export default async function globalSetup() {
   const authDir = path.join(__dirname, 'auth');
   if (!fs.existsSync(authDir)) fs.mkdirSync(authDir, { recursive: true });
 
-  // Hosts to authenticate: AU host + the CA/US parent origin (deduped).
-  const auHost = originOf(process.env.BASE_URL_AU);
-  const multisiteHost = originOf(process.env.BASE_URL_CA) ?? originOf(process.env.BASE_URL_US);
+  // Hosts to authenticate: AU host + the CA/US parent origin (deduped) — resolved on
+  // the SAME tier the tests run against (TARGET_ENV), so admin auth matches the host.
+  const auHost = originOf(baseUrlFor('au'));
+  const multisiteHost = originOf(baseUrlFor('ca')) ?? originOf(baseUrlFor('us'));
   const hosts = [...new Set([auHost, multisiteHost].filter((h): h is string => !!h))];
 
   if (hosts.length === 0) {
-    throw new Error('global-setup: no BASE_URL_AU / BASE_URL_CA / BASE_URL_US set in .env');
+    throw new Error(`global-setup: no BASE_URL_<REGION>_${TARGET_ENV.toUpperCase()} set in .env for tier "${TARGET_ENV}"`);
   }
 
   const browser = await chromium.launch();

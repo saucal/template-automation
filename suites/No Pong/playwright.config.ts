@@ -4,6 +4,9 @@ import path from 'path';
 
 dotenv.config({ path: path.join(__dirname, '.env') });
 
+// Region → --project (au|ca|us); tier → TARGET_ENV (preprod|develop, default preprod).
+import { baseUrlFor } from './env-tier';
+
 export default defineConfig({
   // Refactored, region-grouped suite lives in ./specs (generated/ kept for reference, not run).
   testDir: './specs',
@@ -45,7 +48,7 @@ export default defineConfig({
       name: 'au',
       use: {
         ...devices['Desktop Chrome'],
-        baseURL: process.env.BASE_URL_AU,
+        baseURL: baseUrlFor('au'),
         // NB: no X-Forwarded-For / X-Real-IP AU-geolocation spoof here. It was sent to
         // EVERY request in the context, and PayPal's CDN rejects cross-origin asset
         // requests carrying a client-spoofed XFF (net::ERR_FAILED on the modular-checkout
@@ -57,12 +60,12 @@ export default defineConfig({
     },
     {
       name: 'ca',
-      use: { ...devices['Desktop Chrome'], baseURL: process.env.BASE_URL_CA },
+      use: { ...devices['Desktop Chrome'], baseURL: baseUrlFor('ca') },
       testMatch: ['ca/**'],
     },
     {
       name: 'us',
-      use: { ...devices['Desktop Chrome'], baseURL: process.env.BASE_URL_US },
+      use: { ...devices['Desktop Chrome'], baseURL: baseUrlFor('us') },
       testMatch: ['us/**'],
     },
   ],
