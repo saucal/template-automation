@@ -15,7 +15,7 @@ import dotenv from 'dotenv';
 
 dotenv.config({ path: path.join(__dirname, '.env') });
 
-import { baseUrlFor, TARGET_ENV } from './env-tier';
+import { baseUrlFor, targetEnv } from './env-tier';
 
 /** Origin (scheme + host) of a URL, with a trailing slash. Used to find the host to log into. */
 function originOf(url: string | undefined): string | null {
@@ -110,7 +110,7 @@ export default async function globalSetup() {
   const hosts = [...new Set([auHost, multisiteHost].filter((h): h is string => !!h))];
 
   if (hosts.length === 0) {
-    throw new Error(`global-setup: no BASE_URL_<REGION>_${TARGET_ENV.toUpperCase()} set in .env for tier "${TARGET_ENV}"`);
+    throw new Error(`global-setup: no BASE_URL_<REGION>_${targetEnv().toUpperCase()} set in .env for tier "${targetEnv()}"`);
   }
 
   const browser = await chromium.launch();
