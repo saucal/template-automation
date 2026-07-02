@@ -46,15 +46,12 @@ export default defineConfig({
       use: {
         ...devices['Desktop Chrome'],
         baseURL: process.env.BASE_URL_AU,
-        // Tax (GST) only shows when WooCommerce geolocates the visitor to AU. WC keys
-        // off the request IP (WC_Geolocation::get_ip_address reads X-Forwarded-For /
-        // X-Real-IP), NOT navigator.geolocation — so we spoof an AU IP via headers.
-        // 139.130.4.5 = Telstra (AU). ponytail: header spoof; if go-vip's edge
-        // overwrites X-Forwarded-For, switch to an AU-exit `proxy` instead.
-        extraHTTPHeaders: {
-          'X-Forwarded-For': process.env.AU_GEO_IP || '139.130.4.5',
-          'X-Real-IP': process.env.AU_GEO_IP || '139.130.4.5',
-        },
+        // NB: no X-Forwarded-For / X-Real-IP AU-geolocation spoof here. It was sent to
+        // EVERY request in the context, and PayPal's CDN rejects cross-origin asset
+        // requests carrying a client-spoofed XFF (net::ERR_FAILED on the modular-checkout
+        // CSS/JS chunks → unstyled, non-hydrated sandbox popup). If AU GST must be forced
+        // for a non-AU runner, scope the header to the SUT host only (context.route on
+        // the baseURL origin) or use an AU-exit `proxy` — never a context-wide header.
       },
       testMatch: ['au/**'],
     },
