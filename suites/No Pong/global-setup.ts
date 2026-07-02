@@ -15,7 +15,7 @@ import dotenv from 'dotenv';
 
 dotenv.config({ path: path.join(__dirname, '.env') });
 
-import { baseUrlFor, targetEnv } from './env-tier';
+import { baseUrlFor, REGIONS, TIERS } from './env-tier';
 
 /** Origin (scheme + host) of a URL, with a trailing slash. Used to find the host to log into. */
 function originOf(url: string | undefined): string | null {
@@ -103,14 +103,15 @@ export default async function globalSetup() {
   const authDir = path.join(__dirname, 'auth');
   if (!fs.existsSync(authDir)) fs.mkdirSync(authDir, { recursive: true });
 
-  // Hosts to authenticate: AU host + the CA/US parent origin (deduped) — resolved on
-  // the SAME tier the tests run against (TARGET_ENV), so admin auth matches the host.
-  const auHost = originOf(baseUrlFor('au'));
-  const multisiteHost = originOf(baseUrlFor('ca')) ?? originOf(baseUrlFor('us'));
-  const hosts = [...new Set([auHost, multisiteHost].filter((h): h is string => !!h))];
+  // Authenticate every configured host across all region × tier combos (deduped) —
+  // globalSetup can't know which --project will run, so it covers them all. One storage
+  // state (auth/admin.json) holds cookies for every host. CA/US share one parent origin
+  // per tier, so the dedup keeps this to the ~4 distinct hosts actually configured.
+  const origins = REGIONS.flatMap((r) => TIERS.map((t) => originOf(baseUrlFor(r, t))));
+  const hosts = [...new Set(origins.filter((h): h is string => !!h))];
 
   if (hosts.length === 0) {
-    throw new Error(`global-setup: no BASE_URL_<REGION>_${targetEnv().toUpperCase()} set in .env for tier "${targetEnv()}"`);
+    throw new Error('global-setup: no BASE_URL_<REGION>_<TIER> set in .env');
   }
 
   const browser = await chromium.launch();
