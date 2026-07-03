@@ -1,8 +1,10 @@
 // AU visual-regression suite — replaces the GI "Basic WooCommerce Test"
 // navigation/screenshot chains (home / shop / FAQ / in-the-news / store-locator /
-// cart / checkout) that existed only for per-page screenshot comparison, plus the
-// two GI checks that are genuinely FUNCTIONAL (slider autoplay 02, subscription
-// popup 19) and so are kept as small functional tests, not screenshots.
+// cart / checkout). The pages keep a layout screenshot, AND the GI checks that were
+// genuinely FUNCTIONAL (not pixels) are kept as behaviour tests: slider autoplay (02)
+// and mobile add-to-cart popup (19) inline below, plus FAQ accordion (12) and Store
+// Locator search (14) via assertFaqAccordion / assertStoreLocatorSearch — GI verified
+// real behaviour on those two, which a screenshot alone doesn't cover.
 //
 // Runs on the project fixture (same as the rest of the suite). Maintenance-cycle
 // workflow: run once BEFORE updates with --update-snapshots to refresh baselines,
@@ -21,6 +23,7 @@
 import { type Page, type Locator } from '@playwright/test';
 import { test, expect } from '../../../fixtures';
 import { addToCart, dismissPopups } from '../../../helpers/nopong';
+import { assertFaqAccordion, assertStoreLocatorSearch } from '../../../helpers/assertions';
 
 // Mask dynamic content so visual diffs flag layout/markup changes, not price/date drift.
 const dynamicMasks = (page: Page) => [
@@ -199,4 +202,27 @@ test.describe('AU Visual — mobile add-to-cart popup', { tag: ['@plugin:woocomm
         .toBeVisible({ timeout: 15_000 });
     });
   }
+});
+
+// --- Functional content checks (GI 12 + GI 14) — behaviour a screenshot can't cover -
+// GI verified these pages FUNCTIONALLY; the assertions live in helpers/assertions.ts
+// (rule 6). The layout screenshots above still guard markup/layout regressions.
+
+test.describe('AU Basic — FAQ accordion', { tag: ['@plugin:woocommerce'] }, () => {
+  test('faq accordion toggles and embeds a video (GI 12)', async ({ shopperPage: page }) => {
+    await page.goto('faq/');
+    await page.waitForLoadState('load');
+    await dismissPopups(page);
+    await assertFaqAccordion(page);
+  });
+});
+
+test.describe('AU Basic — store locator search', { tag: ['@plugin:woocommerce'] }, () => {
+  test('store locator search: no-results + in-range results + map (GI 14)', async ({ shopperPage: page }) => {
+    await page.goto('stockists/');
+    await page.waitForLoadState('load');
+    await dismissPopups(page);
+    // wanaka (NZ) is outside the AU store radius → no results; Alice Springs has stockists.
+    await assertStoreLocatorSearch(page, { noResultsQuery: 'wanaka', inRangeQuery: 'Alice Springs' });
+  });
 });

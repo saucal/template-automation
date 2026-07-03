@@ -124,6 +124,83 @@ export async function assertQuantityLimit(
 }
 
 /**
+ * GI 12 (FAQ Accordion) — the FAQ page's behaviour, not just its screenshot: it titles
+ * correctly, its accordion items toggle (a header expands its answer; clicking again
+ * collapses it), and at least one answer embeds a YouTube video. GI pinned item #7 and a
+ * specific video id — we assert an embed EXISTS without pinning either (both drift).
+ * Call after navigating to the FAQ page. NB: selectors are GI's (`.header.has-icon-
+ * align-left`, answer = header's next sibling); confirm on a live run if the FAQ block
+ * markup changes.
+ */
+export async function assertFaqAccordion(page: Page): Promise<void> {
+  const title = (await page.locator('h1.entry-title').first().innerText().catch(() => '')).toLowerCase();
+  expect(title, 'FAQ page should title "Frequently Asked Questions"').toContain('frequently asked questions');
+
+  const headers = page.locator('.header.has-icon-align-left').filter({ visible: true });
+  const first = headers.first();
+  await expect(first, 'FAQ should render at least one accordion header').toBeVisible({ timeout: 15_000 });
+
+  // The answer pane is the header's following sibling within the item (GI: div > .header
+  // then div:nth-of-type(2)). Toggle it: expand shows the answer, re-click hides it.
+  const firstAnswer = first.locator('xpath=following-sibling::*[1]');
+  await first.click();
+  await expect(firstAnswer, 'clicking an FAQ header should expand its answer').toBeVisible();
+  await first.click();
+  await expect(firstAnswer, 'clicking an expanded FAQ header should collapse its answer').toBeHidden();
+
+  // A FAQ answer embeds a video (GI 12 seq 8). Expand items one at a time and stop as
+  // soon as a YouTube iframe mounts — robust to single-open vs multi-open accordions and
+  // to lazy-mounted embeds, and doesn't depend on which item holds the video.
+  const n = await headers.count();
+  let videoFound = false;
+  for (let i = 0; i < n && !videoFound; i++) {
+    await headers.nth(i).click().catch(() => {});
+    videoFound = (await page.locator('iframe[src*="youtube.com/embed"], iframe[src*="youtube-nocookie.com/embed"]').count()) > 0;
+  }
+  expect(videoFound, 'a FAQ answer should embed a YouTube video').toBe(true);
+}
+
+/**
+ * GI 14 (WP Store Locator) — the stockists page SEARCHES: an out-of-range query shows a
+ * "No results found" message; an in-range locality returns a non-empty store list with
+ * the map visible. We assert the search BEHAVIOUR, never specific store names (they
+ * drift). Uses the WPSL ids from GI. Call after navigating to the stockists page.
+ * NB: the in-range search geocodes via Google Places autocomplete (`.pac-item`) — an
+ * external, occasionally-slow dependency, so selecting the suggestion is best-effort.
+ */
+export async function assertStoreLocatorSearch(
+  page: Page,
+  opts: { noResultsQuery: string; inRangeQuery: string }
+): Promise<void> {
+  const title = (await page.locator('h1.entry-title').first().innerText().catch(() => '')).toLowerCase();
+  expect(title, 'store-locator page should title "Stockists"').toContain('stockists');
+
+  const input = page.locator('#wpsl-search-input');
+  const searchBtn = page.locator('#wpsl-search-btn');
+  const results = page.locator('.wpsl-stores li, ul.wpsl-stores > li, .wpsl-store-location').filter({ visible: true });
+
+  // Out-of-range locality → "No results found".
+  await input.fill(opts.noResultsQuery);
+  await searchBtn.click();
+  await expect(page.locator('.wpsl-no-results-msg'),
+    `an out-of-range search ("${opts.noResultsQuery}") should show a no-results message`)
+    .toContainText(/no results found/i, { timeout: 15_000 });
+
+  // In-range locality → non-empty results + visible map. Pick the Google autocomplete
+  // suggestion if it appears (WPSL geocodes via Places), else search the typed text.
+  await input.fill(opts.inRangeQuery);
+  const suggestion = page.locator('.pac-container .pac-item').first();
+  if (await suggestion.isVisible({ timeout: 5_000 }).catch(() => false)) {
+    await suggestion.click().catch(() => {});
+  }
+  await searchBtn.click();
+  await expect(results.first(),
+    `an in-range search ("${opts.inRangeQuery}") should return at least one stockist`).toBeVisible({ timeout: 20_000 });
+  await expect(page.locator('#wpsl-map, div[aria-label="Map"]').first(),
+    'the store-locator map should be visible after a search').toBeVisible();
+}
+
+/**
  * GI 10 (+ the qty-discount behaviour in GI 21): raising a subscription product's
  * cart quantity to >=2 triggers No Pong's quantity discount, which surfaces as a
  * SALE price on the line item — the per-unit price drops into <ins>
