@@ -38,10 +38,15 @@ export default defineConfig({
     launchOptions: { slowMo: 500 },
     ignoreHTTPSErrors: true,
   },
-  globalSetup: './global-setup.ts',
   // Region is the outermost dimension (rule 11). AU is a standalone host; CA/US are
   // multisite subsites under a shared parent host (baseURL ends with /ca/ or /us/,
   // trailing slash REQUIRED). All goto() calls are relative (rule 12).
+  //
+  // Each region×tier is TWO projects: a `setup-<name>` project (auth.setup.ts) that
+  // logs the admin into that site, and the `<name>` test project that DEPENDS on it.
+  // Playwright runs a project's dependency only when that project runs, so selecting
+  // `--project=au-preprod` authenticates ONLY the AU preprod host — no global login
+  // into hosts you're not testing. No globalSetup.
   //
   // Refund/destructive specs are gated to one region by REFUND_PROJECT via a
   // test.skip guard inside place-order.spec.ts — not by testMatch.
@@ -51,10 +56,13 @@ export default defineConfig({
   // cross-origin assets carrying a client-spoofed XFF. If GST ever needs forcing for a
   // non-AU runner, scope the header to the SUT host (context.route) or use an AU proxy.
   projects: REGIONS.flatMap((region) =>
-    TIERS.map((tier) => ({
-      name: `${region}-${tier}`,
-      use: { ...devices['Desktop Chrome'], baseURL: baseUrlFor(region, tier) },
-      testMatch: [`${region}/**`],
-    }))
+    TIERS.flatMap((tier) => {
+      const name = `${region}-${tier}`;
+      const use = { ...devices['Desktop Chrome'], baseURL: baseUrlFor(region, tier) };
+      return [
+        { name: `setup-${name}`, testMatch: /auth\.setup\.ts$/, use },
+        { name, use, testMatch: [`${region}/**`], dependencies: [`setup-${name}`] },
+      ];
+    })
   ),
 });

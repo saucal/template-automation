@@ -1,24 +1,23 @@
-// Logs the admin in on every host the suite touches and persists ONE storage
-// state (auth/admin.json) whose cookies cover them all.
+// Admin login for the per-project auth setup (specs/auth.setup.ts). One setup project
+// per region×tier logs into ITS OWN host and writes auth/admin-<project>.json; the
+// matching test project loads that file. So only the site you actually run authenticates
+// — a develop host being down never blocks a preprod run, and vice versa.
 //
-// No Pong topology: AU is a standalone host; CA/US are multisite subsites under a
-// shared parent host. One login on the AU host + one on the CA/US parent host
-// covers all three regions (the subsite cookie is scoped to the parent host).
-//
-// Login quirks carried over from the GI `adminLoginSkip2FA` flow: an optional
-// Jetpack SSO toggle (to reveal the native WP login when SSO is enabled) and an
-// optional "confirm admin email" interstitial after submit.
-import { chromium, type Page, type BrowserContext } from '@playwright/test';
+// Login quirks carried over from the GI `adminLoginSkip2FA` flow: an optional Jetpack
+// SSO toggle (to reveal the native WP login when SSO is enabled) and an optional
+// "confirm admin email" interstitial after submit.
+import { type Page } from '@playwright/test';
 import path from 'path';
-import fs from 'fs';
-import dotenv from 'dotenv';
 
-dotenv.config({ path: path.join(__dirname, '.env') });
+/** Storage-state path for a project. The setup project writes it; the test project
+ *  reads it. The `setup-` prefix is stripped so `setup-au-preprod` and `au-preprod`
+ *  resolve to the SAME file (auth/admin-au-preprod.json). */
+export function authStatePath(projectName: string): string {
+  return path.join(__dirname, 'auth', `admin-${projectName.replace(/^setup-/, '')}.json`);
+}
 
-import { baseUrlFor, REGIONS, TIERS } from './env-tier';
-
-/** Origin (scheme + host) of a URL, with a trailing slash. Used to find the host to log into. */
-function originOf(url: string | undefined): string | null {
+/** Origin (scheme + host) of a URL, with a trailing slash. */
+export function originOf(url: string | undefined): string | null {
   if (!url) return null;
   try {
     return new URL(url).origin + '/';
@@ -28,7 +27,7 @@ function originOf(url: string | undefined): string | null {
 }
 
 /** Log the admin in on one host. */
-async function loginOnHost(page: Page, origin: string): Promise<void> {
+export async function loginOnHost(page: Page, origin: string): Promise<void> {
   await page.goto(`${origin}wp-login.php`, { waitUntil: 'domcontentloaded' });
 
   // Optional: when Jetpack SSO is active the native form is hidden behind a toggle.
@@ -97,31 +96,4 @@ async function loginOnHost(page: Page, origin: string): Promise<void> {
   if (!adminBarVisible) {
     throw new Error(`loginOnHost(${origin}): admin bar not visible after login. Current URL: ${page.url()}`);
   }
-}
-
-export default async function globalSetup() {
-  const authDir = path.join(__dirname, 'auth');
-  if (!fs.existsSync(authDir)) fs.mkdirSync(authDir, { recursive: true });
-
-  // Authenticate every configured host across all region × tier combos (deduped) —
-  // globalSetup can't know which --project will run, so it covers them all. One storage
-  // state (auth/admin.json) holds cookies for every host. CA/US share one parent origin
-  // per tier, so the dedup keeps this to the ~4 distinct hosts actually configured.
-  const origins = REGIONS.flatMap((r) => TIERS.map((t) => originOf(baseUrlFor(r, t))));
-  const hosts = [...new Set(origins.filter((h): h is string => !!h))];
-
-  if (hosts.length === 0) {
-    throw new Error('global-setup: no BASE_URL_<REGION>_<TIER> set in .env');
-  }
-
-  const browser = await chromium.launch();
-  const ctx: BrowserContext = await browser.newContext({ ignoreHTTPSErrors: true });
-  const page = await ctx.newPage();
-
-  for (const host of hosts) {
-    await loginOnHost(page, host);
-  }
-
-  await ctx.storageState({ path: path.join(authDir, 'admin.json') });
-  await browser.close();
 }
