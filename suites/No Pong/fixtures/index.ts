@@ -262,7 +262,7 @@ function makeLazyPage(factory: () => Promise<{ ctx: BrowserContext; page: Page }
   return { proxy, teardown };
 }
 
-import { authStatePath } from '../admin-login';
+import { ensureAdminState } from '../admin-login';
 
 export const test = base.extend<Fixtures>({
   // Stagehand owns the browser when an API key is present; otherwise null.
@@ -347,14 +347,20 @@ export const test = base.extend<Fixtures>({
   },
 
   adminPage: async ({ pageBrowser }, use, testInfo) => {
-    const { proxy, teardown } = makeLazyPage(() => openContext(pageBrowser, testInfo, { storageState: authStatePath(testInfo.project.name) }));
+    const { proxy, teardown } = makeLazyPage(async () => {
+      const state = await ensureAdminState(testInfo.project.name, testInfo.project.use.baseURL);
+      return openContext(pageBrowser, testInfo, { storageState: state });
+    });
     await use(proxy);
     await teardown('adminPage', testInfo);
   },
 
   emailPage: async ({ pageBrowser }, use, testInfo) => {
     // Admin auth so the Mailpit view + any wp-admin nav is available.
-    const { proxy, teardown } = makeLazyPage(() => openContext(pageBrowser, testInfo, { storageState: authStatePath(testInfo.project.name) }));
+    const { proxy, teardown } = makeLazyPage(async () => {
+      const state = await ensureAdminState(testInfo.project.name, testInfo.project.use.baseURL);
+      return openContext(pageBrowser, testInfo, { storageState: state });
+    });
     await use(proxy);
     await teardown('emailPage', testInfo);
   },

@@ -6,14 +6,57 @@
 // Login quirks carried over from the GI `adminLoginSkip2FA` flow: an optional Jetpack
 // SSO toggle (to reveal the native WP login when SSO is enabled) and an optional
 // "confirm admin email" interstitial after submit.
-import { type Page } from '@playwright/test';
+import { chromium, type Page } from '@playwright/test';
+import fs from 'fs';
 import path from 'path';
 
-/** Storage-state path for a project. The setup project writes it; the test project
- *  reads it. The `setup-` prefix is stripped so `setup-au-preprod` and `au-preprod`
- *  resolve to the SAME file (auth/admin-au-preprod.json). */
+/** Per-project storage-state path (auth/admin-<project>.json). */
 export function authStatePath(projectName: string): string {
-  return path.join(__dirname, 'auth', `admin-${projectName.replace(/^setup-/, '')}.json`);
+  return path.join(__dirname, 'auth', `admin-${projectName}.json`);
+}
+
+/**
+ * Lazily ensure the admin storage state for THIS project exists, logging in only if
+ * it's missing — so only the site you actually run authenticates, with no visible
+ * "setup" test in the runner. Called from the admin fixtures' lazy openContext thunk,
+ * so the login fires only when a test really uses adminPage/emailPage.
+ *
+ * ponytail: reuse the cached state if present. If cookies go stale you'll see logged-out
+ * failures — delete auth/ to force a fresh login (add a max-age check here if that bites).
+ *
+ * A cross-worker lock (exclusive-create .lock) makes exactly one worker perform the
+ * login; the others wait for the file so they never read a half-written state.
+ */
+export async function ensureAdminState(projectName: string, baseURL: string | undefined): Promise<string> {
+  const file = authStatePath(projectName);
+  if (fs.existsSync(file)) return file;
+
+  const origin = originOf(baseURL);
+  if (!origin) throw new Error(`admin auth: project "${projectName}" has no baseURL — set BASE_URL_<REGION>_<TIER> in .env`);
+
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  const lock = `${file}.lock`;
+  try {
+    fs.writeFileSync(lock, String(process.pid), { flag: 'wx' });
+  } catch {
+    // Another worker holds the lock — wait (up to 2 min) for it to write the state.
+    for (let i = 0; i < 120 && !fs.existsSync(file); i++) await new Promise((r) => setTimeout(r, 1000));
+    if (!fs.existsSync(file)) throw new Error(`admin auth: timed out waiting for ${file} from another worker`);
+    return file;
+  }
+  try {
+    const browser = await chromium.launch();
+    try {
+      const ctx = await browser.newContext({ ignoreHTTPSErrors: true });
+      await loginOnHost(await ctx.newPage(), origin);
+      await ctx.storageState({ path: file });
+    } finally {
+      await browser.close();
+    }
+  } finally {
+    fs.rmSync(lock, { force: true });
+  }
+  return file;
 }
 
 /** Origin (scheme + host) of a URL, with a trailing slash. */
