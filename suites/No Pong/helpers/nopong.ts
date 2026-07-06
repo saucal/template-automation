@@ -718,7 +718,9 @@ export async function readTotals(
           );
           out.shipping = shipEl ? norm(shipEl.textContent) : '';
         }
-        else if (head === 'tax' || head === 'gst') out.tax = amt;
+        // Tax row header varies by region: AU "GST", CA "HST (13%)" / "GST (5%)" /
+        // "PST" / "QST", generic "Tax" / "VAT". Match any of them, not an exact string.
+        else if (/\b(?:gst|hst|pst|qst|vat|tax)\b/.test(head)) out.tax = amt;
         // Initial total row is "Total"; the recurring total row is "Recurring total".
         else if (head === 'total' || head === 'recurring total') out.total = amt;
       }
