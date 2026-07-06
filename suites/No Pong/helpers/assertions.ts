@@ -617,7 +617,7 @@ export async function assertWholesaleAccess(page: Page): Promise<void> {
   await page.goto('wholesale-products/');
   await page.waitForLoadState('load');
   await expect(
-    page.locator('h1.entry-title').first(),
+    page.locator('h1.entry-title, h2.wp-block-heading').first(),
     'a wholesale customer should see the WHOLESALE PRODUCTS catalogue heading'
   ).toContainText(/wholesale products/i, { timeout: 15_000 });
   await expect(

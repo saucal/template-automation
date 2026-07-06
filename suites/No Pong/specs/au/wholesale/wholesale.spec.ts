@@ -10,6 +10,7 @@ import { runWholesaleFlow } from '../../../helpers/flows';
 import { wholesaleLogin } from '../../../helpers/nopong';
 import { assertWholesaleAccess, assertWholesalePricing } from '../../../helpers/assertions';
 import type { WholesaleConfig } from '../../../types/test-config';
+import { loginAccount } from '../../../helpers/account';
 
 const WHOLESALE_USER = process.env.WHOLESALE_USER || '';
 const WHOLESALE_PASS = process.env.WHOLESALE_PASS || '';
@@ -31,15 +32,15 @@ test.describe.serial('NP-AU-WS — Wholesale', { tag: ['@plugin:woocommerce', '@
   // wholesale-approved (My Account "Wholesale products" nav link present). GI
   // expected 8 products. Both tests need products to exist; un-skip once preprod
   // wholesale catalogue is populated.
-  test.skip(true, 'preprod wholesale catalogue renders no products (data/config gap, not a test bug)');
+  test.skip(false, 'preprod wholesale catalogue renders no products (data/config gap, not a test bug)');
 
   test('NP-AU-WS-01 — wholesale login unlocks the wholesale catalogue', async ({ shopperPage }) => {
-    await wholesaleLogin(shopperPage, WHOLESALE_USER, WHOLESALE_PASS);
+    await loginAccount(shopperPage, WHOLESALE_USER, WHOLESALE_PASS);
     await assertWholesaleAccess(shopperPage);
   });
 
   test('NP-AU-WS-02 — wholesale-priced order', async ({ shopperPage, adminPage, emailPage }) => {
-    await wholesaleLogin(shopperPage, WHOLESALE_USER, WHOLESALE_PASS);
+    await loginAccount(shopperPage, WHOLESALE_USER, WHOLESALE_PASS);
     const result = await runWholesaleFlow({ shopperPage, adminPage, emailPage }, config);
     assertWholesalePricing(result);
   });

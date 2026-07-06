@@ -78,9 +78,7 @@ const shot = async (page: Page, name: string) => {
 const PAGES: Array<{ name: string; path: string }> = [
   { name: 'home', path: './' },
   { name: 'shop', path: 'shop/' },
-  { name: 'faq', path: 'faq/' },
   { name: 'in-the-news', path: 'news/' },
-  { name: 'store-locator', path: 'stockists/' },
 ];
 
 test.describe('AU Visual — content pages', { tag: ['@plugin:woocommerce'] }, () => {
@@ -214,6 +212,7 @@ test.describe('AU Basic — FAQ accordion', { tag: ['@plugin:woocommerce'] }, ()
     await page.waitForLoadState('load');
     await dismissPopups(page);
     await assertFaqAccordion(page);
+    await shot(page, 'faq');
   });
 });
 
@@ -224,5 +223,6 @@ test.describe('AU Basic — store locator search', { tag: ['@plugin:woocommerce'
     await dismissPopups(page);
     // wanaka (NZ) is outside the AU store radius → no results; Alice Springs has stockists.
     await assertStoreLocatorSearch(page, { noResultsQuery: 'wanaka', inRangeQuery: 'Alice Springs' });
+    await shot(page, 'stockists');
   });
 });
