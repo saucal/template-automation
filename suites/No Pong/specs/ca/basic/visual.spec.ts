@@ -221,8 +221,8 @@ test.describe('CA Basic — store locator search', { tag: ['@plugin:woocommerce'
     await page.goto('retailers/');
     await page.waitForLoadState('load');
     await dismissPopups(page);
-    // CA store locator is "Retailers" at /retailers. wanaka (NZ) has no retailer → no
-    // results; Toronto is the in-range query (adjust if no CA retailer is near it).
+    // CA store locator is "Retailers" (WPSL) at /retailers. Verified live: wanaka (NZ)
+    // → "No results found"; Toronto → 20 retailers + map.
     await assertStoreLocatorSearch(page, { noResultsQuery: 'wanaka', inRangeQuery: 'Toronto', titlePattern: /retailers/i });
     await shot(page, 'retailers');
   });

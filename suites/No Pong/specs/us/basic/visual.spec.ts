@@ -23,7 +23,7 @@
 import { type Page, type Locator } from '@playwright/test';
 import { test, expect } from '../../../fixtures';
 import { addToCart, dismissPopups } from '../../../helpers/nopong';
-import { assertFaqAccordion, assertStoreLocatorSearch } from '../../../helpers/assertions';
+import { assertFaqAccordion } from '../../../helpers/assertions';
 
 // Mask dynamic content so visual diffs flag layout/markup changes, not price/date drift.
 const dynamicMasks = (page: Page) => [
@@ -216,13 +216,5 @@ test.describe('US Basic — FAQ accordion', { tag: ['@plugin:woocommerce'] }, ()
   });
 });
 
-test.describe('US Basic — store locator search', { tag: ['@plugin:woocommerce'] }, () => {
-  test('store locator search: no-results + in-range results + map (GI 14)', async ({ shopperPage: page }) => {
-    await page.goto('stockists/');
-    await page.waitForLoadState('load');
-    await dismissPopups(page);
-    // wanaka (NZ) is outside the AU store radius → no results; Alice Springs has stockists.
-    await assertStoreLocatorSearch(page, { noResultsQuery: 'wanaka', inRangeQuery: 'Alice Springs' });
-    await shot(page, 'stockists');
-  });
-});
+// US has no searchable store locator — /us/retailers redirects to a "Become A
+// Retailer" info page (no WPSL widget), so there's no GI-14 equivalent to test.
