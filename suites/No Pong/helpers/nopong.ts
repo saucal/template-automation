@@ -60,6 +60,40 @@ const AU_BILLING: BillingDetails = {
   phone: '+61412345678',
 };
 
+// CA: Ontario. Checkout uses shortCountry/shortState only (value-based select2);
+// long forms are parity-display fields. Adjust if the CA store restricts shipping.
+const CA_BILLING: BillingDetails = {
+  firstName: 'QA',
+  lastName: 'GI NoPong',
+  company: 'Saucal Test',
+  street: '123 False Street',
+  city: 'Toronto',
+  state: 'Ontario',
+  shortState: 'ON',
+  zip: 'M5V 3L9',
+  country: 'Canada',
+  shortCountry: 'CA',
+  countryComplete: 'Canada',
+  phone: '+14165550123',
+};
+
+// US: Oregon — a no-sales-tax state, matching the store's "US charges no tax" config
+// (expectTax:false). Adjust the state if US tax should actually appear.
+const US_BILLING: BillingDetails = {
+  firstName: 'QA',
+  lastName: 'GI NoPong',
+  company: 'Saucal Test',
+  street: '123 False Street',
+  city: 'Portland',
+  state: 'Oregon',
+  shortState: 'OR',
+  zip: '97201',
+  country: 'United States (US)',
+  shortCountry: 'US',
+  countryComplete: 'United States (US)',
+  phone: '+15035550123',
+};
+
 export const regionConfig: Record<Region, RegionConfig> = {
   au: {
     currency: '$',
@@ -78,9 +112,32 @@ export const regionConfig: Record<Region, RegionConfig> = {
     taxInclusive: true, // AU GST is inclusive — baked into subtotal & total.
     expectShipping: true,
   },
-  // Filled by the CA/US replication plan (Phase: post-AU). Not exercised by AU specs.
-  ca: undefined as unknown as RegionConfig,
-  us: undefined as unknown as RegionConfig,
+  ca: {
+    currency: '$',
+    currencyCode: 'CAD',
+    billing: CA_BILLING,
+    products: {
+      simple: { slug: '' },
+      variable: { slug: '', variation: '' },
+      subscription: { slug: '' },
+    },
+    expectTax: true,
+    taxInclusive: false, // CA tax is exclusive — a separate additive row at checkout.
+    expectShipping: true,
+  },
+  us: {
+    currency: '$',
+    currencyCode: 'USD',
+    billing: US_BILLING,
+    products: {
+      simple: { slug: '' },
+      variable: { slug: '', variation: '' },
+      subscription: { slug: '' },
+    },
+    expectTax: false, // US store charges no tax.
+    taxInclusive: false,
+    expectShipping: true,
+  },
 };
 
 /** Region constants for a config, with a clear error if a region isn't configured yet. */
