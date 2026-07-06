@@ -14,8 +14,8 @@ test.describe('US Cart — subscription quantity', { tag: ['@plugin:woocommerce'
   test('NP-US-CART-01 — subscription recurring total tracks cart quantity', async ({ shopperPage: page }) => {
     await addSubscriptionToCart(page, 'us');
     await setCartQtyAndUpdate(page, 2);
-    // GI 10: set the AU shipping destination so the cart renders full totals.
-    await setCartShippingDestination(page);
+    // GI 10: set an in-region shipping destination so the cart renders full totals.
+    await setCartShippingDestination(page, 'us');
     // GI 10 seq 11 (refresh): the qty commits to the session (mini-cart updates),
     // but the cart-page line item/totals can render stale — reload for the fresh,
     // server-rendered qty-2 state (incl. the discounted <ins> price) before asserting.

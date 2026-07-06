@@ -579,15 +579,18 @@ async function pickSelect2(page: Page, fieldId: string, label: string): Promise<
 /**
  * Set the cart "Calculate shipping" destination (GI 10 seq 12-19). Country/state
  * are select2 widgets; the state field appears only after a country with states
- * is chosen. Defaults to the AU destination GI used (Queensland / Nobby / 4360) —
- * pass `dest` for CA/US later.
+ * is chosen. The destination is driven by the region's typed billing (rule 11) —
+ * any valid in-region address makes the cart compute full totals; it needn't match
+ * the checkout address.
  */
-export async function setCartShippingDestination(
-  page: Page,
-  dest: { country: string; state?: string; city: string; postcode: string } = {
-    country: 'Australia', state: 'Queensland', city: 'Nobby', postcode: '4360',
-  }
-): Promise<void> {
+export async function setCartShippingDestination(page: Page, region: Region): Promise<void> {
+  const { billing } = regionFor(region);
+  const dest = {
+    country: billing.countryComplete,
+    state: billing.shortState,
+    city: billing.city,
+    postcode: billing.zip,
+  };
   const ctx = ctxFor(page);
   // The calculator is collapsed behind a toggle on some themes; expand if present.
   const toggle = page.locator('a.shipping-calculator-button')
