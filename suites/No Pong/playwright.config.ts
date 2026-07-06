@@ -47,8 +47,8 @@ export default defineConfig({
   // missing. So only the site you run authenticates — no globalSetup, and no visible
   // "setup" test in the runner.
   //
-  // Refund/destructive specs are gated to one region by REFUND_PROJECT via a
-  // test.skip guard inside place-order.spec.ts — not by testMatch.
+  // Each region's place-order chain refunds its own order on its own site, so the
+  // refund test runs unconditionally per region (no cross-region gating).
   //
   // NB: no X-Forwarded-For / X-Real-IP AU-geolocation spoof (AU GST is shop-base, shown
   // without it). A context-wide XFF header also broke PayPal — its CDN rejects

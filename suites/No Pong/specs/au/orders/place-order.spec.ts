@@ -8,8 +8,8 @@
 // (rule 6) — all parity lives in helpers/assertions.ts.
 //
 // Chain state is shared in module scope (describe.serial runs sequentially in
-// one worker, so the capture from test 1 is visible to later tests). The refund
-// test is gated to a single region (rule 12) via REFUND_PROJECT.
+// one worker, so the capture from test 1 is visible to later tests). Each region
+// refunds its own order on its own site (rule 12).
 import { test } from '../../../fixtures';
 import { runOrderFlow, type FlowCapture } from '../../../helpers/flows';
 import {
@@ -66,7 +66,6 @@ test.describe.serial('NP-AU-PO — Place order', { tag: TAGS }, () => {
   // connectOverCDP's active-target resolution), so admin/email-only tests still
   // need one eager page to keep adminPage.reload() etc. attached.
   test('NP-AU-PO-02 — full refund (Stripe) + refund email', async ({ shopperPage: _keepalive, adminPage, emailPage }) => {
-    test.skip(process.env.REFUND_PROJECT !== 'au', 'refund is gated to a single region (REFUND_PROJECT)');
     if (!chain.capture) throw new Error('NP-AU-PO-01 must have produced an order before the refund runs');
 
     await performAndAssertRefund(adminPage, chain.capture!, newUser);
