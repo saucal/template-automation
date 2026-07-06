@@ -133,7 +133,9 @@ export async function assertQuantityLimit(
  * markup changes.
  */
 export async function assertFaqAccordion(page: Page): Promise<void> {
-  const title = (await page.locator('h1.entry-title').first().innerText().catch(() => '')).toLowerCase();
+  // Classic themes render the page title as h1.entry-title; block pages (CA/US) use
+  // h2.wp-block-heading — accept either.
+  const title = (await page.locator('h1.entry-title, h2.wp-block-heading').first().innerText().catch(() => '')).toLowerCase();
   expect(title, 'FAQ page should title "Frequently Asked Questions"').toContain('frequently asked questions');
 
   const headers = page.locator('.header.has-icon-align-left').filter({ visible: true });
@@ -170,10 +172,13 @@ export async function assertFaqAccordion(page: Page): Promise<void> {
  */
 export async function assertStoreLocatorSearch(
   page: Page,
-  opts: { noResultsQuery: string; inRangeQuery: string }
+  opts: { noResultsQuery: string; inRangeQuery: string; titlePattern?: RegExp }
 ): Promise<void> {
-  const title = (await page.locator('h1.entry-title').first().innerText().catch(() => '')).toLowerCase();
-  expect(title, 'store-locator page should title "Stockists"').toContain('stockists');
+  // The page title is region-specific (AU "Stockists", CA "Retailers"); block pages
+  // use h2.wp-block-heading rather than h1.entry-title.
+  const titlePattern = opts.titlePattern ?? /stockists/i;
+  const title = (await page.locator('h1.entry-title, h2.wp-block-heading').first().innerText().catch(() => ''));
+  expect(title, `store-locator page title should match ${titlePattern}`).toMatch(titlePattern);
 
   const input = page.locator('#wpsl-search-input');
   const searchBtn = page.locator('#wpsl-search-btn');

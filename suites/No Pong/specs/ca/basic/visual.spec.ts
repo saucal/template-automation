@@ -218,11 +218,12 @@ test.describe('CA Basic — FAQ accordion', { tag: ['@plugin:woocommerce'] }, ()
 
 test.describe('CA Basic — store locator search', { tag: ['@plugin:woocommerce'] }, () => {
   test('store locator search: no-results + in-range results + map (GI 14)', async ({ shopperPage: page }) => {
-    await page.goto('stockists/');
+    await page.goto('retailers/');
     await page.waitForLoadState('load');
     await dismissPopups(page);
-    // wanaka (NZ) is outside the AU store radius → no results; Alice Springs has stockists.
-    await assertStoreLocatorSearch(page, { noResultsQuery: 'wanaka', inRangeQuery: 'Alice Springs' });
-    await shot(page, 'stockists');
+    // CA store locator is "Retailers" at /retailers. wanaka (NZ) has no retailer → no
+    // results; Toronto is the in-range query (adjust if no CA retailer is near it).
+    await assertStoreLocatorSearch(page, { noResultsQuery: 'wanaka', inRangeQuery: 'Toronto', titlePattern: /retailers/i });
+    await shot(page, 'retailers');
   });
 });
