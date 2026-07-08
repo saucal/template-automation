@@ -98,6 +98,50 @@ test('RM-PO-001 – place order', async ({ shopperPage, adminPage, emailPage }) 
 ```
 Without WC REST → drop `suiteVars` plumbing; spec becomes config → flow → assertions.
 
+**Place-order parity matrix (MANDATORY for EVERY place-order test).** Capture the
+core facts ONCE during the flow (order-received), then assert the SAME captured
+values on every surface that renders them — never hardcode, never assert only one
+surface:
+
+| Surface | Totals (subtotal · shipping · tax · total) | Billing address | Payment method | Gateway order note |
+|---|---|---|---|---|
+| Thank-you (order-received) | ✓ | ✓ | ✓ | — |
+| My Account (view-order) | ✓ | ✓ | ✓ | — |
+| Order email (Mailpit) | ✓ | ✓ | ✓ | — |
+| Admin order editor | ✓ | ✓ | ✓ (`Payment via <Method>` meta) | ✓ (scan-all + regex, rule 16) |
+
+- **Totals** — share one `expectMoney` that SKIPS rows legitimately absent on a
+  surface (AU inclusive-tax has no Tax row; free shipping has no amount) instead of
+  asserting `$0`/`NaN`. Don't assert a row that doesn't exist on that surface.
+- **Address** — assert the stable parts only (name + street + city + postcode); skip
+  state/country (long vs short form differs per surface). The thank-you assert is
+  sync over the capture, so capture the order-received address block into the Result.
+- **Payment method** — the customer-facing label on thank-you / My Account / email;
+  the `Payment via <Method>` meta line on admin (plus the gateway note, rules 16, 21).
+- A surface that genuinely doesn't render a fact (some themes omit payment method on
+  view-order) is the ONLY reason to drop that cell — record it in the ledger, don't
+  silently skip. Never weaken or × a value to paper over a real bug (see "Don't
+  weaken assertions"); a cross-surface mismatch is a finding, not a test defect.
+
+**Subscriptions — RECURRING totals too (MANDATORY).** A subscription order has TWO
+totals: the FIRST payment (often includes a one-off sign-up fee) AND the per-renewal
+RECURRING total. Assert BOTH — the recurring total is the whole point of a
+subscription, so reviewing only the order total misses regressions in renewal pricing.
+- **Capture the recurring total separately** from the first-payment total. WooCommerce
+  renders them in distinct ways and a generic "read the totals table" will silently
+  grab the wrong one: the CART marks recurring rows with the `recurring-total` class
+  (a separate section), while the subscription ORDER-RECEIVED page often renders a
+  single "Subscription totals" table whose Total IS the recurring `$X / period`, with
+  the first payment only in the related-orders row. Branch your totals reader on the
+  `recurring-total` class and fall back to the subscription-totals table.
+- **Assert recurring on every surface that shows it** — thank-you / My Account
+  view-subscription / email / the admin **subscription** editor (its recurring total,
+  unconditionally — don't `if (found)`-skip). Compare the admin recurring total against
+  the captured *recurring* total, NOT the first-payment total.
+- **Region tax model still applies** — recurring consistency is `recurring total =
+  recurring subtotal + recurring shipping` for tax-INCLUSIVE regions (AU); add
+  `+ recurring tax` for tax-EXCLUSIVE regions (CA/US).
+
 **3. Serial test chains** — `describe.serial` + `auth/chain-<project>-<id>.json` persistence + skip-guard so mid-chain tests run standalone. → **`templates/chain-state.ts`**.
 
 **4. Replace `page.evaluate()` with locators** wherever a Playwright API works:
@@ -169,7 +213,7 @@ Blocks library quirks the helpers don't cover:
 }
 ```
 **`@babel/runtime` is required.** `@woocommerce/e2e-utils-playwright` is built with Babel and emits `require('@babel/runtime/helpers/...')` calls (e.g. `interopRequireDefault`). The package declares it as a runtime dep but the version pin is loose; if it isn't resolvable in the consumer project the first call into the library throws `Cannot find module '@babel/runtime/helpers/...'` at test time. Pin it explicitly in `devDependencies`.
-11. **Multi-region (au/ca/us)** — region as outermost dimension. Per-region SuiteVars from per-region API. Per-region constants in a typed map (`regionConfig: Record<'au'|'ca'|'us', { currency, taxRate, ... }>`) inside the site helper.
+11. **Multi-region (au/ca/us)** — region as outermost dimension. Per-region SuiteVars from per-region API. Per-region constants in a typed map (`regionConfig: Record<'au'|'ca'|'us', { currency, taxRate, ... }>`) inside the site helper. **Entity IDs drift per subsite** — product/term/page IDs are NOT shared across regional subsites (no-pong: the 85g product was `1684403` on AU but `750731` on CA). Confirm every hardcoded ID live on each region; a copied ID silently adds the wrong product or 404s. Keep IDs in the per-region `regionConfig` map, never a single shared constant.
 12. **WP multisite — subsite-per-project (payoneer pattern):** each subsite is a Playwright project; `baseURL` ends with subsite path + trailing slash. **Never use leading `/`** in `page.goto` — strips subsite path. Always relative (`'cart/'`, `'wp-admin/'`, `'./'`). Refund/destructive specs run on a single project (`REFUND_PROJECT` env) — replicating across all 4 wastes time. Admin user must exist on EACH subsite (network-add or per-subsite User → Add Existing) — admin AJAX rejects users not registered to subsite.
 ```typescript
 projects: [
@@ -180,7 +224,7 @@ projects: [
 ]
 ```
 13. **Lazy-init fixtures** — `adminPage` / `emailPage` aren't used by every test. Wrap in a Proxy that initialises on first async call; after init, sync methods (`locator`, `getByRole`) MUST `.bind(page)` or `.first()` errors with "is not a function". `shopperPage` stays eager. → **`templates/fixtures.ts`** has the pattern.
-14. **Email assertions via SAU/CAL Email Redirect To Playgrounds plugin** — runs through `page.evaluate()` (WPEngine WAF blocks non-browser POSTs to `admin-ajax.php`). Plugin must be active per-subsite, admin user added to each subsite. Filter by site title for parallel safety. → **`templates/playgrounds-email.ts`**. After viewing `mail.playgrounds.saucal.io/...` navigate back to subsite root before next call (different host strips `ajax_object`).
+14. **Email assertions via SAU/CAL Email Redirect To Playgrounds plugin** — runs through `page.evaluate()` (WPEngine WAF blocks non-browser POSTs to `admin-ajax.php`). Plugin must be active per-subsite, admin user added to each subsite. Filter by site title for parallel safety. → **`templates/playgrounds-email.ts`**. After viewing `mail.playgrounds.saucal.io/...` navigate back to subsite root before next call (different host strips `ajax_object`). **ESP relays lag AND reorder.** When a site sends through a real ESP (SendGrid etc. — tracker-link rewriting, e.g. `url….com/ls/click`) instead of a local trap, delivery is delayed and out-of-order: widen the email poll window (no-pong needed 60s→120s) and never assume `messages[0]` is the one you just triggered — resolve by subject + recency (see rule 30, Mailpit newest-first).
 15. **Iframe chain selectors** — CSS doesn't cross iframes. Chain `frameLocator()` per nesting level:
 ```typescript
 await page
@@ -189,6 +233,7 @@ await page
   .locator('button[type="submit"]')
   .click();
 ```
+**PayPal PPCP is a popup, not just an iframe — and it's expensive to maintain.** The Smart Button lives in a cross-origin SDK iframe (scan `page.frames()` for `getByRole('link',{name:/pay with paypal/i})` / `[data-funding-source="paypal"]`); clicking it opens a sandbox POPUP that starts at `about:blank` then navigates to `sandbox.paypal.com` — WAIT for it to leave `about:blank` before driving it. Login/approve varies screen-to-screen, so drive it with a resilient LOOP (each tick: fill visible email/pass, click first of Next → Log In → the review Pay CTA). The review SUBMIT is `#one-time-cta` (text "Pay"), NOT the "Pay in full" funding tile (`id-pay-in-full-action`, a checkbox that only selects funding). Because it's this fragile, treat PayPal as **optional per region**: keep it on ONE reference region and DROP it from low-value regions (no-pong keeps PayPal on AU, dropped it from US) — pruning a high-maintenance flow is a valid migration decision, not a coverage gap.
 16. **Order-note assertions — scan all + regex match.** Plugins reorder/insert notes; `nth-of-type` selectors break across environments. → **`templates/order-notes.ts`**.
 17. **`force: true` audit.** Default to no `force`. Justified for: non-interactive elements with JS click handlers (`td`, `tr.shipping > td.line_cost`), fallback radios hidden behind labels (click input not label), WC Blocks place-order button briefly covered by `.blockUI`. Remove `force` from any click on a real button/link/input.
 18. **Guest users have no My Account — guard early.** WC `my-account/view-order/` redirects guests to login. Guard at top: `if (config.user === 'guest') return;` Don't rely on a generic page-text check that silently passes on the login page.
@@ -297,14 +342,30 @@ Build a shared wrapper so specs/helpers call `resilientClick/Fill/Select/Check/T
 
 28. **Account-creation flows — passwordless verify-email + "logged user" = the SAME account, not admin.** Registration and checkout create-account can be **passwordless**: the form is email-only ("a link to set a new password will be sent"). Flow: register → fetch the "account has been created" email → follow the "set your new password" link → set `#password_1`/`#password_2` (this verifies the email AND logs the user in). It's the same set-password page as forgot-password — share one helper. Watch for **reCAPTCHA** on the standalone register form (a raw submit may be blocked). When a GI test reuses "the logged-in user" across orders, that means the **same account from the prior order**, not admin — its saved address prefills checkout. Playwright equivalent without the email round-trip: in a `describe.serial` block, save the new user's cookies (`context().storageState().cookies`) after order 1 and `addCookies` them in the logged-user test; drive identity off the reused account email (`OrderConfig.accountEmail`), not a per-test address. Contractor/role registration with a file upload (EIN/company/license) keeps a committed placeholder fixture under `tests/fixtures/` — see `helpers/contractor.ts`; don't delete it.
 
+30. **STRICT: Navigate via customer clicks — never `page.goto()` to cart or checkout.** Customers change URLs by clicking, not typing. Every navigation from add-to-cart → cart → checkout MUST follow the real click path:
+    - **To cart:** click the header cart icon/button → wait for mini-cart to expand → click "View cart" (or equivalent). Never `page.goto('cart/')`.
+    - **To checkout:** click "Proceed to checkout" on the cart page. Never `page.goto('checkout/')` or any `check-out/?...` URL.
+    - Implement `goToCart(page)` and `proceedToCheckout(page)` helpers (or site-equivalent names) in `helpers/<site>.ts`. `fillCheckoutAddress` must call them instead of `goto`.
+    - `page.goto()` is only allowed for: initial home/priming visit, direct product add-to-cart links (`?add-to-cart=ID`), admin/backend pages, and email/Mailpit. Nowhere else in the customer flow.
+    - Why: click navigation exercises the mini-cart, cart totals, and redirect logic that URL-only navigation silently skips — these are real regression surfaces.
+
 29. **Every `test.describe` declares `@plugin` coverage tags.** Native Playwright tags name which WP plugins the spec exercises: `test.describe('…', { tag: ['@plugin:woocommerce', '@plugin:woocommerce-composite-products'] }, () => { … })`. Slugs MUST be the WP plugin-folder slugs (anchored to a leading alphanumeric) so the maintenance `coverage-check` step can map an updated plugin → its tests. `npm run lint:plugin-tags` fails CI on any untagged spec; `npm run coverage:manifest` regenerates `coverage-manifest.json`; `npm run coverage:gaps` writes the gap list. A maintenance run filters to changed plugins via `--grep "@plugin:woocommerce|@plugin:kadence"`.
 
 30. **Silent-failure checklist — check these FIRST when a test fails for no obvious reason.**
-- **MANDATORY: read the GI source test BEFORE investigating.** When a migrated spec fails, open the original GI test JSON for that step (`suites/<suite>/<test>.json` — and any `execute`-referenced common step) BEFORE touching the spec, helper, or assuming a real bug. The GI `command`/`target`/`value` is ground truth for what the step intended: the exact selector, the literal asserted value, the navigation path, the order of operations. Diff the migrated selector/assertion against GI first — most "failures" are a migration-time selector simplification or a dropped step, not a site regression. Only after the GI step confirms the migrated intent is faithful do you proceed to the drift-triage tree (`docs/maintenance-cycle.md`). Never rewrite a failing assertion without having read its GI origin.
 - **Wrong credential env key.** Login using `PASSWORD` when global-setup reads `ADMIN_PASS` (or vice-versa) fails silently at auth. Confirm the exact key global-setup reads.
 - **UI-mode title edit orphans the test.** Editing a spec title in Playwright **UI mode** mid-run leaves a 0.0ms spinner that never resolves — run from the CLI to triage.
 - **Mailpit search is newest-first.** When two same-subject emails land in one inbox (order 1 + order 2 on a reused account), `messages[0]` is the LATEST — order your assertions so each resolves the right message.
 - **`$0` / "price on request" products** pass a naive `<= max` price picker and break price parity — require `p > 0` in the picker.
+
+31. **Facade, not widget — assert the lazy-embed placeholder, don't force-load it.** Lazy media/embed blocks (YouTube/Vimeo, maps, chat, "consent-gated" video) render a THUMBNAIL + a play/activate `<button>` and only mount the real cross-origin `<iframe>` after a click. Asserting the mounted iframe (`iframe[src*="youtube.com/embed"]`) fails because it never exists until interaction. Assert the FACADE's presence instead — it proves the embed is configured — and accept either form: `page.locator('iframe[src*="youtube.com/embed"], iframe[src*="youtube-nocookie.com/embed"]').or(page.getByRole('button', { name: /youtube video/i }))`. Don't click through to load the heavy, flaky cross-origin frame just to satisfy an "embed exists" check (no-pong FAQ, GI 12). This is distinct from rule 24 (lazy *images* in visual specs).
+
+32. **Auth strategy scales with host count — single host uses `global-setup`, multi-host/region uses lazy per-site auth.** Rule 6's `global-setup.ts` (log in once → `auth/admin.json`) is correct for one host (incl. a multisite whose subsites share the parent cookie). But when regions live on SEPARATE hosts (no-pong AU = `no-pong-au…`, US = `no-pong-america…`), a single global-setup either logs into all N hosts every run or covers only one. Drop global-setup and authenticate LAZILY per host: an `ensureAdminState(project, baseURL)` called on first `adminPage`/`emailPage` use logs into THIS project's host only if `auth/admin-<project>.json` is missing (cross-worker `.lock`), so you only authenticate the site you actually run. Do NOT use a setup-project dependency for this — it surfaces a fake "authenticate" entry as a test in the runner.
+
+33. **Reuse the polling login helper; know which forms arm on blur.** Never hand-roll a login with a blind `waitForTimeout` — reuse one `loginAccount`-style helper that POLLS for a success signal (`expect(.woocommerce-MyAccount-navigation).toBeVisible`). Gotcha that costs a silent no-op: some REGISTER forms arm their submit button on the password field's `blur` event, so a submit-without-blur first click does nothing (no-pong `#reg_password`). The LOGIN form usually doesn't need the blur because the helper polls. Add to the rule-30 silent-failure checklist: a login/register that "does nothing on click" is probably missing a blur, not broken selectors.
+
+34. **Tier (preprod/develop/staging) is a Playwright PROJECT dimension, not an env var.** When a site has multiple deploy tiers, don't gate on a `TARGET_ENV` env var — that only ever surfaces ONE tier per run and hides the others from the runner. Make each region×tier its own project generated from a typed map (`REGIONS × TIERS → baseUrlFor(region, tier)`), e.g. `au-preprod`, `au-develop`, `ca-preprod`. You get two selectable lists in the VS Code Explorer and `--project=au-develop` on the CLI. **Consequence: visual baselines are per-project** — filenames carry the project (`home-au-develop-darwin.png`); regenerate per tier with `--update-snapshots`.
+
+35. **Assert BEHAVIOUR and existence, not pinned indices / ids / names.** Broadens rule 26 beyond label copy to any data the GI export pinned to a specific value that drifts: GI pinned FAQ item #7, a specific YouTube video id, specific store-locator result names. Assert the behaviour or existence — "an accordion item expands its answer", "at least one answer embeds a video", "an in-range search returns a non-empty result list" — never the specific item, id, or name. Pinned data is a guaranteed future flake as content changes; the behaviour is the actual regression surface.
 
 ---
 
