@@ -15,21 +15,45 @@ export function authStatePath(projectName: string): string {
   return path.join(__dirname, 'auth', `admin-${projectName}.json`);
 }
 
+/** Re-auth this far BEFORE the login cookie's real expiry, so a long full-suite run
+ *  can't have the admin session lapse mid-run. */
+const STATE_EXPIRY_BUFFER_SEC = 30 * 60;
+
+/**
+ * True when `file` exists and its WordPress admin session is still valid. WP stores
+ * `wordpress_logged_in_<hash>` as a session cookie (storageState `expires: -1`), so the
+ * cookie attribute tells us nothing — the authoritative expiry is the 2nd pipe-field of
+ * the cookie VALUE (`user|EXPIRATION|token|hmac`). Missing/corrupt/expired → false → re-login.
+ */
+export function isStateFresh(file: string): boolean {
+  try {
+    const state = JSON.parse(fs.readFileSync(file, 'utf8')) as { cookies?: Array<{ name?: string; value?: string }> };
+    const login = (state.cookies ?? []).find((c) => c.name?.startsWith('wordpress_logged_in_'));
+    if (!login?.value) return false;
+    const expiration = Number(decodeURIComponent(login.value).split('|')[1]);
+    return Number.isFinite(expiration) && expiration > Date.now() / 1000 + STATE_EXPIRY_BUFFER_SEC;
+  } catch {
+    return false;
+  }
+}
+
 /**
  * Lazily ensure the admin storage state for THIS project exists, logging in only if
  * it's missing — so only the site you actually run authenticates, with no visible
  * "setup" test in the runner. Called from the admin fixtures' lazy openContext thunk,
  * so the login fires only when a test really uses adminPage/emailPage.
  *
- * ponytail: reuse the cached state if present. If cookies go stale you'll see logged-out
- * failures — delete auth/ to force a fresh login (add a max-age check here if that bites).
+ * Reuse the cached state only while it's still fresh: WP's `wordpress_logged_in_*`
+ * cookie is stored as a SESSION cookie (storageState `expires: -1`), so its real
+ * expiry lives in the cookie VALUE (`user|EXPIRATION|token|hmac`) — an expired one
+ * silently replays as logged-out. `isStateFresh` re-logs-in when it's gone/stale.
  *
  * A cross-worker lock (exclusive-create .lock) makes exactly one worker perform the
- * login; the others wait for the file so they never read a half-written state.
+ * login; the others wait for a FRESH file so they never read a half-written or stale one.
  */
 export async function ensureAdminState(projectName: string, baseURL: string | undefined): Promise<string> {
   const file = authStatePath(projectName);
-  if (fs.existsSync(file)) return file;
+  if (isStateFresh(file)) return file;
 
   const origin = originOf(baseURL);
   if (!origin) throw new Error(`admin auth: project "${projectName}" has no baseURL — set BASE_URL_<REGION>_<TIER> in .env`);
@@ -39,12 +63,15 @@ export async function ensureAdminState(projectName: string, baseURL: string | un
   try {
     fs.writeFileSync(lock, String(process.pid), { flag: 'wx' });
   } catch {
-    // Another worker holds the lock — wait (up to 2 min) for it to write the state.
-    for (let i = 0; i < 120 && !fs.existsSync(file); i++) await new Promise((r) => setTimeout(r, 1000));
-    if (!fs.existsSync(file)) throw new Error(`admin auth: timed out waiting for ${file} from another worker`);
+    // Another worker holds the lock — wait (up to 2 min) for it to write a fresh state.
+    for (let i = 0; i < 120 && !isStateFresh(file); i++) await new Promise((r) => setTimeout(r, 1000));
+    if (!isStateFresh(file)) throw new Error(`admin auth: timed out waiting for a fresh ${file} from another worker`);
     return file;
   }
   try {
+    // Re-check under the lock: a worker that held it just before us may have already
+    // refreshed the state, so don't log in a second time.
+    if (isStateFresh(file)) return file;
     const browser = await chromium.launch();
     try {
       const ctx = await browser.newContext({ ignoreHTTPSErrors: true });
