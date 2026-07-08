@@ -126,8 +126,9 @@ export async function assertQuantityLimit(
 /**
  * GI 12 (FAQ Accordion) — the FAQ page's behaviour, not just its screenshot: it titles
  * correctly, its accordion items toggle (a header expands its answer; clicking again
- * collapses it), and at least one answer embeds a YouTube video. GI pinned item #7 and a
- * specific video id — we assert an embed EXISTS without pinning either (both drift).
+ * collapses it), and at least one answer embeds a YouTube video (a lazy facade button
+ * or a mounted iframe). GI pinned item #7 and a specific video id — we assert an embed
+ * EXISTS without pinning either (both drift).
  * Call after navigating to the FAQ page. NB: selectors are GI's (`.header.has-icon-
  * align-left`, answer = header's next sibling); confirm on a live run if the FAQ block
  * markup changes.
@@ -150,14 +151,20 @@ export async function assertFaqAccordion(page: Page): Promise<void> {
   await first.click();
   await expect(firstAnswer, 'clicking an expanded FAQ header should collapse its answer').toBeHidden();
 
-  // A FAQ answer embeds a video (GI 12 seq 8). Expand items one at a time and stop as
-  // soon as a YouTube iframe mounts — robust to single-open vs multi-open accordions and
-  // to lazy-mounted embeds, and doesn't depend on which item holds the video.
+  // A FAQ answer embeds a video (GI 12 seq 8). The block pages render a LAZY YouTube
+  // facade — a thumbnail + a "play Youtube video" button — and only mount the real
+  // <iframe> after the button is clicked, so accept EITHER the facade button OR a
+  // mounted embed. Expand items one at a time and stop as soon as one appears — robust
+  // to single-open vs multi-open accordions and to lazy-mounted embeds, and doesn't
+  // depend on which item holds the video.
+  const videoEmbed = page
+    .locator('iframe[src*="youtube.com/embed"], iframe[src*="youtube-nocookie.com/embed"]')
+    .or(page.getByRole('button', { name: /youtube video/i }));
   const n = await headers.count();
   let videoFound = false;
   for (let i = 0; i < n && !videoFound; i++) {
     await headers.nth(i).click().catch(() => {});
-    videoFound = (await page.locator('iframe[src*="youtube.com/embed"], iframe[src*="youtube-nocookie.com/embed"]').count()) > 0;
+    videoFound = (await videoEmbed.count()) > 0;
   }
   expect(videoFound, 'a FAQ answer should embed a YouTube video').toBe(true);
 }
