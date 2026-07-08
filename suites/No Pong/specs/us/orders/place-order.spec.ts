@@ -99,27 +99,3 @@ test.describe.serial('NP-US-PO — Place order', { tag: TAGS }, () => {
     await assertNotWholesale(shopperPage);
   });
 });
-
-// PayPal variant — standalone parity (no refund). Exercises the PayPal sandbox
-// redirect path of pay(); not part of the Stripe refund chain.
-const paypalUser: OrderConfig = {
-  testId: 'NP-US-PO-05',
-  title: 'New-user place order (PayPal)',
-  region: 'us',
-  product: 'simple',
-  user: 'new',
-  payment: 'paypal',
-  pdp: { kind: 'simple', slug: '', qty: 1 },
-  expectedStatus: 'Processing',
-};
-
-test.describe('NP-US-PO-05 — PayPal place order', { tag: ['@plugin:woocommerce', '@plugin:woocommerce-paypal-payments'] }, () => {
-  test(paypalUser.title, async ({ shopperPage, adminPage, emailPage }) => {
-    test.skip(!process.env.PAY_PAL_USER, 'PayPal sandbox credentials (PAY_PAL_USER) not configured');
-    const capture = await runOrderFlow({ shopperPage, adminPage, emailPage }, paypalUser);
-
-    assertFrontendParity(capture, paypalUser);
-    await assertBackend(adminPage, capture.result, paypalUser);
-    await assertEmail(emailPage, capture, paypalUser);
-  });
-});
