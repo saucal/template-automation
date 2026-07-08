@@ -3,18 +3,20 @@
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "lib": [
-      "ESNext",
-      "DOM"
-    ],
-    "strict": false,
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "strict": true,
+    "skipLibCheck": true,
     "esModuleInterop": true,
-    "typeRoots": [
-      "node_modules/@types"
-    ]
+    "resolveJsonModule": true,
+    "typeRoots": ["node_modules/@types"]
   },
   "include": [
     "playwright.config.ts",
-    "global-setup.ts"
-  ]
+    "admin-login.ts",
+    "types/**/*.ts",
+    "fixtures/**/*.ts",
+    "helpers/**/*.ts",
+    "specs/**/*.ts"
+  ],
+  "exclude": ["node_modules", "generated"]
 }
