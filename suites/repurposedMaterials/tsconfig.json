@@ -3,18 +3,18 @@
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "lib": [
-      "ESNext",
-      "DOM"
-    ],
+    "lib": ["ESNext", "DOM"],
     "strict": false,
     "esModuleInterop": true,
-    "typeRoots": [
-      "node_modules/@types"
-    ]
+    "typeRoots": ["node_modules/@types"],
+    "skipLibCheck": true
   },
   "include": [
     "playwright.config.ts",
-    "global-setup.ts"
+    "global-setup.ts",
+    "types/**/*.ts",
+    "fixtures/**/*.ts",
+    "helpers/**/*.ts",
+    "specs/**/*.ts"
   ]
 }

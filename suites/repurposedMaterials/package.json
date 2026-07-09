@@ -1,5 +1,5 @@
 {
-  "name": "repurposedmaterials-playwright",
+  "name": "repurposedmaterials-automation-playwright",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -10,7 +10,11 @@
     "dotenv": "^16.0.0"
   },
   "devDependencies": {
-    "@playwright/test": "^1.49.0",
-    "@types/node": "^20.0.0"
+    "@browserbasehq/stagehand": "^3.0.8",
+    "@playwright/test": "^1.60.0",
+    "@types/node": "^20.0.0",
+    "playwright-core": "^1.60.0",
+    "typescript": "^6.0.3",
+    "zod": "^4.4.3"
   }
 }

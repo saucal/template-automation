@@ -5,14 +5,14 @@ import path from 'path';
 dotenv.config({ path: path.join(__dirname, '.env') });
 
 export default defineConfig({
-  testDir: 'generated/specs',
+  testDir: './specs',
   timeout: 240_000,
   expect: {
     timeout: 15_000,
     toHaveScreenshot: { maxDiffPixelRatio: 0.1 },
   },
   fullyParallel: false,
-  workers: 1,
+  workers: 2,
   retries: process.env.CI ? 1 : 0,
   reporter: [
     ['html', { outputFolder: 'reports', open: 'never' }],
@@ -20,10 +20,10 @@ export default defineConfig({
   ],
   use: {
     baseURL: process.env.BASE_URL,
-    viewport: { width: 1280, height: 800 },
+    viewport: { width: 1920, height: 1080 },
     actionTimeout: 15_000,
     trace: 'on',
-    screenshot: 'on',
+    screenshot: 'only-on-failure',
     video: { mode: 'on' },
     launchOptions: { slowMo: 250 },
     ignoreHTTPSErrors: true,
