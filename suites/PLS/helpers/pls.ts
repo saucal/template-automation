@@ -772,6 +772,20 @@ export async function openAdminOrder(adminPage: Page, postId: string): Promise<v
 }
 
 /**
+ * Open the admin orders LIST (HPOS first, legacy post-list fallback) — the row
+ * carries the sequential order number and the order total (GI Place Order 03
+ * asserts the list total before opening the order).
+ */
+export async function openAdminOrdersList(adminPage: Page): Promise<void> {
+  await adminPage.goto('wp-admin/admin.php?page=wc-orders');
+  await adminPage.waitForLoadState('load');
+  if ((await adminPage.locator('table.wp-list-table tbody tr').count()) === 0) {
+    await adminPage.goto('wp-admin/edit.php?post_type=shop_order');
+    await adminPage.waitForLoadState('load');
+  }
+}
+
+/**
  * Fill the admin refund form for a FULL refund: copy each line's ordered qty into
  * the refund qty input and set the reason. Playwright's fill alone did NOT make
  * WC recompute the amount on this site (live-confirmed) — the handler needs a

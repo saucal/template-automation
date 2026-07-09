@@ -17,6 +17,7 @@ import {
   isLoggedIn,
   normalizeProductName,
   openAdminOrder,
+  openAdminOrdersList,
   ORDER_DETAILS_TABLE,
   ORDER_NOTE,
   PAYMENT_LABEL,
@@ -235,6 +236,13 @@ export async function assertMyAccount(shopperPage: Page, cap: FlowCapture, confi
   });
   assertAddressShown(viewAddress, BILLING, 'My Account view-order');
 
+  // Downloads section (GI 01 step 61): a course order grants downloadable
+  // on-demand webinar access — the section must render on view-order.
+  await expect(
+    shopperPage.locator('.woocommerce-order-downloads'),
+    'view-order should render the downloadable-course (on-demand webinar) section'
+  ).not.toHaveCount(0);
+
   // Subscriptions tab: one Active subscription per seat at the per-seat price.
   await shopperPage.goto('my-account/subscriptions/');
   await shopperPage.waitForLoadState('load');
@@ -262,6 +270,22 @@ export async function assertMyAccount(shopperPage: Page, cap: FlowCapture, confi
 export async function assertBackend(adminPage: Page, cap: FlowCapture, config: OrderConfig): Promise<void> {
   const { result } = cap;
   const ctx = ctxFor(adminPage);
+
+  // Orders-list row total (GI 03 step 7): the list shows the order at its total
+  // before we open it.
+  await openAdminOrdersList(adminPage);
+  const listRow = adminPage
+    .locator('table.wp-list-table tbody tr')
+    .filter({ hasText: result.orderNumber })
+    .first();
+  await expect(listRow, `admin orders list should contain order ${result.orderNumber}`).toBeVisible({ timeout: 15_000 });
+  const listTotal = await listRow
+    .locator('td.order_total .woocommerce-Price-amount, td.column-order_total .woocommerce-Price-amount')
+    .first()
+    .textContent()
+    .catch(() => '');
+  expectMoney(listTotal ?? '', result.total, 'admin orders-list row total should match the order total');
+
   await openAdminOrder(adminPage, result.postId);
 
   await expect(
@@ -285,6 +309,19 @@ export async function assertBackend(adminPage: Page, cap: FlowCapture, config: O
     ai: 'the billing address in the admin order editor',
   });
   assertAddressShown(adminAddress, BILLING, 'admin order editor');
+
+  // Billing contact links (GI 03 steps 12-13): the billing column renders the
+  // purchaser email as a mailto link and the phone as a tel link.
+  const billingCol = adminPage.locator('.order_data_column .address').first();
+  await expect(
+    billingCol.locator('a[href^="mailto:"]').first(),
+    'admin billing block should show the purchaser email as a mailto link'
+  ).toContainText(result.email);
+  const telText =
+    (await billingCol.locator('a[href^="tel:"]').first().textContent().catch(() => '')) ?? '';
+  expect(telText.replace(/\D/g, ''), `admin billing block should show the purchaser phone ${BILLING.phone}`).toContain(
+    BILLING.phone.replace(/\D/g, '')
+  );
 
   await expect(
     adminPage.locator('.order_note, .note_content').first(),
@@ -421,6 +458,17 @@ export async function assertRefundEmail(emailPage: Page, cap: FlowCapture): Prom
   expect(text.replace(/[\s,]+/g, ''), `refund email should show the refunded total ${result.total}`).toContain(
     toAmount(result.total).toFixed(2)
   );
+
+  // Original total struck through (<del>) and the new total shown as $0.00
+  // (<ins>) after a full refund (GI 05 steps 5-6).
+  const html = msg!.HTML ?? '';
+  const delText = html.match(/<del\b[^>]*>([\s\S]*?)<\/del>/i)?.[1]?.replace(/<[^>]+>/g, '') ?? '';
+  const insText = html.match(/<ins\b[^>]*>([\s\S]*?)<\/ins>/i)?.[1]?.replace(/<[^>]+>/g, '') ?? '';
+  expect(toAmount(delText), 'refund email should strike through the original order total').toBeCloseTo(
+    toAmount(result.total),
+    2
+  );
+  expect(toAmount(insText), 'refund email new total should be $0.00 after a full refund').toBeCloseTo(0, 2);
 }
 
 // ---------------------------------------------------------------------------
@@ -489,6 +537,15 @@ export async function performAndAssertRefund(adminPage: Page, cap: FlowCapture, 
     .textContent()
     .catch(() => '');
   expectMoney((refundLine ?? '').replace('-', ''), result.total, 'the refund line should reverse the full order total');
+
+  // Refunded-total row (GI 04 step 20): the order-total row shows the refunded
+  // amount after a full refund.
+  const refundedTotal = await adminPage
+    .locator('td.total.refunded-total .woocommerce-Price-amount')
+    .first()
+    .textContent()
+    .catch(() => '');
+  expectMoney((refundedTotal ?? '').replace('-', ''), result.total, 'the refunded-total row should show the full order total');
 }
 
 // ---------------------------------------------------------------------------
@@ -498,8 +555,8 @@ export async function performAndAssertRefund(adminPage: Page, cap: FlowCapture, 
 /** Login must land on the account dashboard (polled — rule 33). */
 export async function assertLoggedIn(page: Page): Promise<void> {
   await expect(
-    page.locator('.woocommerce-MyAccount-navigation').first(),
-    'login should reveal the My Account navigation'
+    page.locator('.woocommerce-MyAccount-content').first(),
+    'login should reveal the My Account content'
   ).toBeVisible({ timeout: 15_000 });
 }
 
