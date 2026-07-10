@@ -33,6 +33,9 @@ export const BILLING = {
 
 export const PAYMENT_LABEL = 'Credit Card';
 
+/** Order note filled at checkout — asserted on thank-you, backend, and email (GI parity). */
+export const ORDER_NOTE = 'Order Note for Testing this field';
+
 /** Normalise a rendered money string to a number. */
 export function toAmount(text: string | null | undefined): number {
   return parseFloat((text ?? '').replace(/[^0-9.-]/g, ''));
@@ -108,6 +111,8 @@ export async function uncheckNewsletters(page: Page): Promise<void> {
 export interface PdpCapture {
   productName: string;
   unitPrice: string;
+  /** Selected variation option labels (variable products) — asserted on the order (GI Check_variations). */
+  variations?: string[];
 }
 
 /**
@@ -268,6 +273,14 @@ export async function findAndAddVariableProduct(page: Page, pdp: VariablePdp): P
   // Variation resolves → add-to-cart button loses its `disabled` class.
   await page.locator('button.single_add_to_cart_button:not(.disabled)').first().waitFor({ state: 'visible', timeout: 15_000 }).catch(() => {});
 
+  // Record the selected option labels so we can assert them on the order later
+  // (GI Check_variations: the order/backend product title must include each).
+  const variations = await page.$$eval('table.variations select[name^="attribute_"]', (selects) =>
+    (selects as HTMLSelectElement[])
+      .map((s) => s.options[s.selectedIndex]?.textContent?.trim() ?? '')
+      .filter((t) => t !== '')
+  );
+
   // Price node varies: variation price when present, else the (tiered) summary price.
   // Note: the Tiered Pricing plugin renders no `bdi`, so match `.amount` directly.
   const unitPrice = await resilientText(ctx, {
@@ -295,7 +308,7 @@ export async function findAndAddVariableProduct(page: Page, pdp: VariablePdp): P
 
   await page.locator('.woocommerce-message').first().waitFor({ state: 'visible', timeout: 15_000 }).catch(() => {});
 
-  return { productName, unitPrice };
+  return { productName, unitPrice, variations };
 }
 
 // ---------------------------------------------------------------------------
@@ -380,6 +393,17 @@ export async function fillCheckout(page: Page, config: OrderConfig): Promise<voi
     }
   }
 
+  // GI parity (Fill_Checkout step 0): new/guest checkout ships to a DISTINCT
+  // address — tick "ship to a different address" so the shipping fields render
+  // and get their own values (different last name / company / street).
+  if (config.user !== 'logged') {
+    const shipDiff = page.locator('#ship-to-different-address-checkbox');
+    if ((await shipDiff.count()) > 0 && !(await shipDiff.isChecked().catch(() => false))) {
+      await resilientCheck(ctx, { primary: shipDiff, ai: 'the "Ship to a different address?" checkbox' }).catch(() => {});
+      await waitForCheckoutReady(page);
+    }
+  }
+
   // Same logic for shipping — fill for guest/new, or for a logged user whose
   // saved shipping address didn't prefill (only when the fields are present).
   const shippingVisible = await page.locator('#shipping_address_1').isVisible().catch(() => false);
@@ -400,7 +424,7 @@ export async function fillCheckout(page: Page, config: OrderConfig): Promise<voi
   await waitForCheckoutReady(page);
 
   // Order notes
-  await resilientFill(ctx, { primary: page.locator('#order_comments'), ai: 'the order notes field' }, 'Order Note for Testing this field').catch(() => {});
+  await resilientFill(ctx, { primary: page.locator('#order_comments'), ai: 'the order notes field' }, ORDER_NOTE).catch(() => {});
 
   // Custom field: purchase_repurposing (textarea)
   await resilientFill(ctx, { primary: page.locator('#purchase_repurposing'), ai: 'the "What are you repurposing this for?" field' }, 'Test using').catch(() => {});
@@ -513,6 +537,8 @@ export interface OrderReceived {
   productName: string;
   subtotal: string;
   shipping: string;
+  /** Accept.Blue 3.25% technology fee row on the thank-you order table. */
+  fee: string;
   tax: string;
   total: string;
 }
@@ -543,7 +569,7 @@ export async function readOrderReceived(page: Page): Promise<OrderReceived> {
       (t) => /subtotal/i.test(t.textContent ?? '')
     );
     const t = tables[tables.length - 1];
-    const out = { subtotal: '', shipping: '', tax: '', total: '' };
+    const out = { subtotal: '', shipping: '', fee: '', tax: '', total: '' };
     if (!t) return out;
     for (const r of Array.from(t.querySelectorAll('tfoot tr'))) {
       const head = norm(r.querySelector('th, td')?.textContent).toLowerCase().replace(':', '').trim();
@@ -552,6 +578,8 @@ export async function readOrderReceived(page: Page): Promise<OrderReceived> {
       if (head === 'subtotal') out.subtotal = amt;
       // Shipping may be money OR a method label (free local pickup has no price amount).
       else if (head.startsWith('shipping')) out.shipping = amt || norm(r.querySelector('td:last-child')?.textContent);
+      // "3.25% Technology Fee" — the only fee row (matched before total so it can't collide).
+      else if (head.includes('fee')) out.fee = amt;
       else if (head === 'tax') out.tax = amt;
       else if (head === 'total') out.total = amt;
     }

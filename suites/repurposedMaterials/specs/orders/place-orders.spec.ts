@@ -13,7 +13,9 @@ import type { BrowserContext } from '@playwright/test';
 import { runOrderFlow } from '../../helpers/flows';
 import {
   assertThankYouPage,
+  assertThankYouDetails,
   assertCheckoutParity,
+  assertMoneyMath,
   assertMyAccount,
   assertBackendOrder,
   performAndAssertRefund,
@@ -50,7 +52,9 @@ test.describe.serial('Place Orders', () => {
     const capture = await runOrderFlow({ shopperPage, adminPage, emailPage }, newUserConfig);
 
     assertThankYouPage(capture.result);
+    await assertThankYouDetails(shopperPage, capture.result, newUserConfig);
     assertCheckoutParity(capture.checkout, capture.result);
+    assertMoneyMath({ unitPrice: capture.pdp.unitPrice, ...capture.checkout }, { qty: newUserConfig.pdp.qty });
     await assertMyAccount(shopperPage, capture.result, newUserConfig);
     await assertBackendOrder(adminPage, capture.result, newUserConfig);
     await assertOrderEmail(capture.result);
@@ -87,7 +91,9 @@ test.describe.serial('Place Orders', () => {
     const capture = await runOrderFlow({ shopperPage, adminPage, emailPage }, config);
 
     assertThankYouPage(capture.result);
+    await assertThankYouDetails(shopperPage, capture.result, config);
     assertCheckoutParity(capture.checkout, capture.result);
+    assertMoneyMath({ unitPrice: capture.pdp.unitPrice, ...capture.checkout }, { qty: config.pdp.qty });
     await assertMyAccount(shopperPage, capture.result, config);
     await assertBackendOrder(adminPage, capture.result, config);
     await assertOrderEmail(capture.result);

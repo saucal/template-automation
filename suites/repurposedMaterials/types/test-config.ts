@@ -64,6 +64,8 @@ export interface OrderResult extends CapturedPrices {
   email: string;
   /** Payment-method label as it appears on order surfaces, e.g. 'Credit Card'. */
   paymentLabel: string;
+  /** Selected variation option labels (variable products) — asserted on the order. */
+  variations?: string[];
 }
 
 /** Site-level values fetched once (DOM read). */

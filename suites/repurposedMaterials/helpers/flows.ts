@@ -70,11 +70,14 @@ export async function runOrderFlow(
     subtotal: order.subtotal || checkout.subtotal,
     shipping: order.shipping || checkout.shipping,
     tax: order.tax || checkout.tax,
-    ccFee: checkout.ccFee,
+    // Prefer the thank-you fee so fee parity vs the checkout capture is a real
+    // cross-surface comparison, not a value compared against itself.
+    ccFee: order.fee || checkout.ccFee,
     total: order.total || checkout.total,
     orderNumber: order.orderNumber,
     email: emailFor(config),
     paymentLabel: order.paymentLabel || PAYMENT_LABEL,
+    variations: pdp.variations,
   };
 
   return { pdp, checkout, order, result, email: result.email };

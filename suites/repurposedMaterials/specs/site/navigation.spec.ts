@@ -1,5 +1,6 @@
 // Site navigation tests — replaces GI "Basic WooCommerce tests" 01-11.
-// Each test verifies a page renders correctly with key elements present.
+// Functional render checks only: each test verifies a page loads with its key
+// elements present. Pixel comparisons for the same pages live in visual.spec.ts.
 import { test, expect } from '../../fixtures';
 import { dismissOverlays } from '../../helpers/repurposed';
 
@@ -11,8 +12,6 @@ test.describe('Site Navigation', () => {
 
     await expect(shopperPage.locator('.avia-slide-wrap').first(), 'hero slider should be present').toBeVisible();
     await expect(shopperPage.locator('.avia-animated-number').first(), 'animated numbers should be present').toBeVisible();
-    await shopperPage.waitForTimeout(2_000); // let animations settle
-    await expect(shopperPage).toHaveScreenshot('home.png', { fullPage: true });
   });
 
   test('RM-NAV-02 — Header navigation', async ({ shopperPage }) => {
@@ -25,7 +24,6 @@ test.describe('Site Navigation', () => {
 
     await shopperPage.locator('#menu-item-56846').first().hover();
     await expect(shopperPage.locator('#menu-item-16307 > ul').first(), 'submenu should hide when hovering away').not.toBeVisible();
-    await expect(shopperPage.locator('#header').or(shopperPage.locator('header#header, #avia-header, .av-main-nav-wrap')).first()).toHaveScreenshot('header.png');
   });
 
   test('RM-NAV-03 — Footer', async ({ shopperPage }) => {
@@ -35,7 +33,6 @@ test.describe('Site Navigation', () => {
 
     await expect(shopperPage.locator('#menu-quick-links'), 'quick links should be present').not.toHaveCount(0);
     await expect(shopperPage.locator('.noLightbox').first(), 'trust badges / images should be present').toBeVisible();
-    await expect(shopperPage.locator('#av_section_9').first()).toHaveScreenshot('footer.png');
   });
 
   test('RM-NAV-04 — Shop page', async ({ shopperPage }) => {
@@ -45,7 +42,6 @@ test.describe('Site Navigation', () => {
 
     await expect(shopperPage.locator('ul.products > li').first(), 'products should be listed').toBeVisible();
     await expect(shopperPage.locator('a[href*="/view-all-products/page/"]').first(), 'pagination should exist').toBeVisible();
-    await expect(shopperPage).toHaveScreenshot('shop.png', { fullPage: true });
   });
 
   test('RM-NAV-05 — Simple product page', async ({ shopperPage }) => {
@@ -60,7 +56,6 @@ test.describe('Site Navigation', () => {
     await expect(shopperPage.locator('h1.product_title').first(), 'product title should render').toBeVisible();
     await expect(shopperPage.locator('.woocommerce-product-gallery').first(), 'product gallery should render').toBeVisible();
     await expect(shopperPage.locator('button[name="add-to-cart"], .single_add_to_cart_button').first(), 'add-to-cart button should render').toBeVisible();
-    await expect(shopperPage).toHaveScreenshot('pdp.png', { fullPage: true });
   });
 
   test('RM-NAV-06 — Variable product page', async ({ shopperPage }) => {
@@ -79,7 +74,6 @@ test.describe('Site Navigation', () => {
 
     await expect(shopperPage.locator('h1.product_title').first(), 'product title should render').toBeVisible();
     await expect(shopperPage.locator('.variations select, .variations_form').first(), 'variation selects should render').toBeVisible();
-    await expect(shopperPage).toHaveScreenshot('variable-product.png', { fullPage: true });
   });
 
   test('RM-NAV-07 — Cart page', async ({ shopperPage }) => {
@@ -96,7 +90,6 @@ test.describe('Site Navigation', () => {
 
     await expect(shopperPage.locator('table.shop_table.cart, .woocommerce-cart-form').first(), 'cart table should render').toBeVisible();
     await expect(shopperPage.locator('.cart-subtotal, .order-total').first(), 'cart totals should render').toBeVisible();
-    await expect(shopperPage).toHaveScreenshot('cart.png', { fullPage: true });
   });
 
   test('RM-NAV-08 — Checkout validation', async ({ shopperPage }) => {
@@ -121,10 +114,16 @@ test.describe('Site Navigation', () => {
     await shopperPage.locator('#place_order').click({ force: true });
 
     // Accept.Blue or WC validation errors — either client-side or server-side
-    await expect(
-      shopperPage.locator('.woocommerce-error, .woocommerce-NoticeGroup-checkout, .woocommerce-error-message').first(),
-      'validation errors should appear'
-    ).toBeVisible({ timeout: 30_000 });
-    await expect(shopperPage).toHaveScreenshot('checkout-validation.png', { fullPage: false });
+    const errorNotice = shopperPage
+      .locator('.woocommerce-error, .woocommerce-NoticeGroup-checkout, .woocommerce-error-message')
+      .first();
+    await expect(errorNotice, 'validation errors should appear').toBeVisible({ timeout: 30_000 });
+
+    // GI parity (Basic 08 step 11): the notice names the specific missing fields,
+    // not just "something is wrong". Billing is empty here, so WC flags required
+    // billing fields server-side.
+    const errorText = (await errorNotice.textContent().catch(() => '')) ?? '';
+    expect(errorText, 'validation should say a field is required').toMatch(/required/i);
+    expect(errorText, 'validation should flag the missing billing first name').toMatch(/first name/i);
   });
 });
