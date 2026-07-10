@@ -35,15 +35,18 @@ test.describe('Shop', () => {
     await shopperPage.waitForLoadState('load');
     await dismissOverlays(shopperPage);
 
-    // WPC filter widget: find the term row by its label text, tick its checkbox.
+    // WPC filter widget: the checkbox is JS-decorative and check() won't toggle it —
+    // the term's <a class="wpc-filter-link"> carries the real ?location= URL.
     const term = shopperPage.locator('.wpc-term-item', { hasText: /arizona inventory/i }).first();
     if ((await term.count()) === 0) {
       test.skip(true, 'WPC "Arizona Inventory" location filter not present');
       return;
     }
-    await term.locator('input[type="checkbox"]').first().check({ force: true });
+    await term.locator('a.wpc-filter-link, label').first().click();
+    await shopperPage.waitForLoadState('load');
+    await dismissOverlays(shopperPage);
 
-    // Filter applies via AJAX behind an overlay — wait for it to clear.
+    // Filter may also apply via AJAX behind an overlay — wait for it to clear.
     await shopperPage.locator('.wpc-filters-overlay').first().waitFor({ state: 'hidden', timeout: 15_000 }).catch(() => {});
 
     await expect(

@@ -31,7 +31,9 @@ export const BILLING = {
   shippingStreet2: '4th Floor',
 } as const;
 
-export const PAYMENT_LABEL = 'Credit Card';
+// Gateway title as it renders across surfaces: "Card Payment (3.25% Technology Fee
+// applies)". Match the stable "Card Payment" prefix (substring on every surface).
+export const PAYMENT_LABEL = 'Card Payment';
 
 /** Order note filled at checkout — asserted on thank-you, backend, and email (GI parity). */
 export const ORDER_NOTE = 'Order Note for Testing this field';
@@ -393,22 +395,14 @@ export async function fillCheckout(page: Page, config: OrderConfig): Promise<voi
     }
   }
 
-  // GI parity (Fill_Checkout step 0): new/guest checkout ships to a DISTINCT
-  // address — tick "ship to a different address" so the shipping fields render
-  // and get their own values (different last name / company / street).
-  if (config.user !== 'logged') {
-    const shipDiff = page.locator('#ship-to-different-address-checkbox');
-    if ((await shipDiff.count()) > 0 && !(await shipDiff.isChecked().catch(() => false))) {
-      await resilientCheck(ctx, { primary: shipDiff, ai: 'the "Ship to a different address?" checkbox' }).catch(() => {});
-      await waitForCheckoutReady(page);
-    }
-  }
-
-  // Same logic for shipping — fill for guest/new, or for a logged user whose
-  // saved shipping address didn't prefill (only when the fields are present).
+  // This site offers local pickup and ships to the billing address — WC drops any
+  // distinct shipping address under local pickup (the thank-you page shows only a
+  // billing address), so we do NOT tick "ship to a different address". Fill the
+  // shipping fields only if the site actually renders them (e.g. a logged user
+  // whose saved shipping address didn't prefill).
   const shippingVisible = await page.locator('#shipping_address_1').isVisible().catch(() => false);
   const shippingPrefilled = ((await page.locator('#shipping_address_1').inputValue().catch(() => '')) || '').trim() !== '';
-  if (config.user !== 'logged' || (shippingVisible && !shippingPrefilled)) {
+  if (shippingVisible && !shippingPrefilled) {
     // Shipping address
     await resilientFill(ctx, { primary: page.locator('#shipping_first_name'), ai: 'the shipping first name field' }, BILLING.firstName);
     await resilientFill(ctx, { primary: page.locator('#shipping_last_name'), ai: 'the shipping last name field' }, BILLING.shippingLastName);
@@ -419,6 +413,10 @@ export async function fillCheckout(page: Page, config: OrderConfig): Promise<voi
     await resilientFill(ctx, { primary: page.locator('#shipping_city'), ai: 'the shipping city field' }, BILLING.city);
     await setSelectValue(page, '#shipping_state', BILLING.state);
     await resilientFill(ctx, { primary: page.locator('#shipping_postcode'), ai: 'the shipping postcode field' }, BILLING.zip);
+    // Shipping phone is required once "ship to a different address" is ticked.
+    if ((await page.locator('#shipping_phone').count()) > 0) {
+      await resilientFill(ctx, { primary: page.locator('#shipping_phone'), ai: 'the shipping phone field' }, BILLING.phone);
+    }
   }
 
   await waitForCheckoutReady(page);
@@ -429,8 +427,9 @@ export async function fillCheckout(page: Page, config: OrderConfig): Promise<voi
   // Custom field: purchase_repurposing (textarea)
   await resilientFill(ctx, { primary: page.locator('#purchase_repurposing'), ai: 'the "What are you repurposing this for?" field' }, 'Test using').catch(() => {});
 
-  // Custom field: how_did_you_hear_about_us (Select2)
-  await setSelectValue(page, '#how_did_you_hear_about_us', 'Ebay').catch(() => {});
+  // Custom field: how_did_you_hear_about_us (required Select2). GI selects Google;
+  // the option value is "Google" (note: the eBay option is "eBay", not "Ebay").
+  await setSelectValue(page, '#how_did_you_hear_about_us', 'Google').catch(() => {});
 
   // Select shipping method (local pickup)
   const localPickup = page.locator('#shipping_method_0_local_pickup14');

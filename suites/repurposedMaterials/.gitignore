@@ -12,3 +12,6 @@ auth/
 reports/
 .worktrees/
 .playwright-cli/
+
+# Test run logs
+*.log
