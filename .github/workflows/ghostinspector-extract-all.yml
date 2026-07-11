@@ -5,7 +5,6 @@ on:
 
 permissions:
   contents: write
-  pull-requests: write
 
 jobs:
   extract:
@@ -37,17 +36,16 @@ jobs:
             echo "changed=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Create pull request with changes
+      - name: Push branch with changes
         if: steps.check.outputs.changed == 'true'
-        uses: peter-evans/create-pull-request@v5
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ghostinspector-extract-all-${{ github.run_number }}
-          commit-message: "chore: full-org Ghost Inspector extraction #${{ github.run_number }}"
-          title: "chore: full-org Ghost Inspector extraction #${{ github.run_number }}"
-          body: |
-            Automated full-organization extraction of Ghost Inspector suites.
-            Walks every folder + suite + test in the org, nests output by folder under suites/,
-            bakes _gi {testId, suiteId, suiteName} into each test JSON (no separate annotate step),
-            and saves organization variables to suites/_organization.json.
-          base: main
+        env:
+          BRANCH: ghostinspector-extract-all-${{ github.run_number }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add -A
+          git commit -m "chore: full-org Ghost Inspector extraction #${{ github.run_number }}"
+          git push origin "$BRANCH"
+          echo "Branch $BRANCH pushed. Open a PR against main:" >> "$GITHUB_STEP_SUMMARY"
+          echo "https://github.com/${{ github.repository }}/pull/new/$BRANCH" >> "$GITHUB_STEP_SUMMARY"
