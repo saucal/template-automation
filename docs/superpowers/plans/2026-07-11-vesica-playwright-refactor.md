@@ -4,7 +4,9 @@
 
 **Goal:** Migrate the `Vesica Institute` GI suite (2 brands × Guest/User) into a clean, config-driven Playwright project inside `suites/Vesica Institute/`, preserving full GI parity. Vesica brand first as the proven reference, then Pur Crystal.
 
-**Architecture:** Self-contained project (PLS pattern) with brand as the outermost Playwright-project dimension (two Kinsta hosts). DOM-first (no WC REST). Capture-once parity across thank-you · My Account · email · admin. Auth.Net CC (test-gateway prefill) + PayPal PPCP popup. Every action/assertion through a resilient Playwright→Stagehand wrapper; every `expect()` in `assertions.ts`.
+> **AMENDMENT 2026-07-11 — two-branch split.** Vesica and Pur Crystal ship in **two separate branches**, each a single-brand self-contained project with the core DUPLICATED. This plan now covers the **Vesica brand only** (Tasks 0–7, 9). **Task 8 (Pur Crystal) is REMOVED from this plan** → Pur Crystal gets its own branch (`feat/purcrystal-playwright-refactor`) + own plan, built by duplicating this branch's core after Vesica is green. Single Playwright project per branch (`BASE_URL`), `Brand` is a single literal.
+
+**Architecture:** Self-contained single-brand project (PLS pattern), one Playwright project per branch (one Kinsta host). DOM-first (no WC REST). Capture-once parity across thank-you · My Account · email · admin. Auth.Net CC (test-gateway prefill) + PayPal PPCP popup. Every action/assertion through a resilient Playwright→Stagehand wrapper; every `expect()` in `assertions.ts`.
 
 **Tech Stack:** `@playwright/test`, `@woocommerce/e2e-utils-playwright`, `dotenv`, `@browserbasehq/stagehand`, TypeScript. Node 24.
 

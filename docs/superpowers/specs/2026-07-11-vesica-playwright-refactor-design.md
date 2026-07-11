@@ -3,7 +3,13 @@
 **Date:** 2026-07-11
 **Branch:** `feat/vesica-playwright-refactor` (worktree `.worktrees/vesica`)
 **Project dir:** `suites/Vesica Institute/` (self-contained Playwright project, PLS pattern)
-**References:** PLS (in-`suites/` layout, DOM-first, lazy auth, refund), No Pong (parity matrix, PayPal PPCP, resilient+Stagehand, brand-as-project), repurposedMaterials (nav+visual merge, card label).
+**References:** PLS (in-`suites/` layout, DOM-first, lazy auth, refund), No Pong (parity matrix, PayPal PPCP, resilient+Stagehand), repurposedMaterials (nav+visual merge, card label).
+
+> **AMENDMENT 2026-07-11 — two-branch split.** The two brands ship in **two separate branches** (each a single-brand project, core DUPLICATED), not one project with a brand dimension:
+> - `feat/vesica-playwright-refactor` (worktree `.worktrees/vesica`) — **Vesica brand only** (this doc's primary scope).
+> - `feat/purcrystal-playwright-refactor` (worktree `.worktrees/purcrystal`) — **Pur Crystal brand only**, core duplicated from Vesica, own plan.
+>
+> Consequences: single Playwright project per branch (`BASE_URL`, one `auth/admin-vesica.json`); `Brand` type is a single literal per branch; §2 (brand-as-project-dimension) and Task 8 (Pur Crystal in-repo) are **superseded** — Pur Crystal is built on its own branch by duplicating this branch's core once Vesica is green. GI source folder stays `suites/Vesica Institute/` on both branches (contains both brands' sub-suites); each branch builds only its brand's specs.
 **Canonical rules:** `prompts/refactor-wc-automation.prompt.md` + `docs/{migration-playbook,maintenance-cycle,locator-fallback-strategy}.md`.
 
 ## Source of truth

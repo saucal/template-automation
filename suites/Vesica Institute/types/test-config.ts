@@ -13,10 +13,12 @@
  */
 
 // ---------------------------------------------------------------------------
-// Brand (the outermost Playwright-project dimension — two Kinsta hosts)
+// Brand — this project targets ONE brand/host. Pur Crystal is a separate branch
+// (feat/purcrystal-playwright-refactor) with the core duplicated; there this
+// literal is 'purcrystal'. Kept as a typed field so both branches stay parallel.
 // ---------------------------------------------------------------------------
 
-export type Brand = 'vesica' | 'purcrystal';
+export type Brand = 'vesica';
 
 export type Payment = 'cc' | 'paypal';
 export type UserKind = 'guest' | 'new' | 'logged';
@@ -58,8 +60,6 @@ export interface BrandProduct {
 }
 
 export interface BrandConfig {
-  /** .env key holding this brand's baseURL (BASE_URL_VESICA / BASE_URL_PURCRYSTAL). */
-  baseUrlEnvKey: 'BASE_URL_VESICA' | 'BASE_URL_PURCRYSTAL';
   /** Default product the order flow buys. */
   product: BrandProduct;
   /** Optional variable product (Pur Crystal). */

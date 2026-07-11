@@ -1,21 +1,9 @@
-// Vesica Institute — two Kinsta-hosted WooCommerce brands (Vesica + Pur Crystal),
-// each modeled as its own Playwright project so specs can target either host
-// via `--project`. No WC REST; DOM-first suite. Auth is lazy per-host (added
-// in a later task) — no globalSetup here.
+// Vesica Institute (Vesica brand) — single Kinsta-hosted WooCommerce site.
+// Pur Crystal is a SEPARATE branch/project (feat/purcrystal-playwright-refactor),
+// core duplicated. DOM-first suite, no WC REST. Auth is lazy per-host (admin-login.ts,
+// keyed on the project name → auth/admin-vesica.json) — no globalSetup here.
 import { defineConfig, devices } from '@playwright/test';
 import 'dotenv/config';
-
-const BRANDS = ['vesica', 'purcrystal'] as const;
-type Brand = (typeof BRANDS)[number];
-
-const BASE_URLS: Record<Brand, string | undefined> = {
-  vesica: process.env.BASE_URL_VESICA,
-  purcrystal: process.env.BASE_URL_PURCRYSTAL,
-};
-
-function baseUrlFor(brand: Brand): string | undefined {
-  return BASE_URLS[brand];
-}
 
 export default defineConfig({
   testDir: 'specs',
@@ -40,12 +28,9 @@ export default defineConfig({
   },
   projects: [
     {
+      // Project name doubles as the auth-state key (auth/admin-vesica.json).
       name: 'vesica',
-      use: { ...devices['Desktop Chrome'], baseURL: baseUrlFor('vesica') },
-    },
-    {
-      name: 'purcrystal',
-      use: { ...devices['Desktop Chrome'], baseURL: baseUrlFor('purcrystal') },
+      use: { ...devices['Desktop Chrome'], baseURL: process.env.BASE_URL },
     },
   ],
 });
