@@ -55,6 +55,9 @@
         },
         {
           "selector": "table > tbody > tr > td.product-name-area > div.product-name.wfacp_summary_img_true > span"
+        },
+        {
+          "selector": "div > table > tbody > tr > td.product-name-area > div > span"
         }
       ],
       "value": "{{description2}}",
@@ -72,6 +75,9 @@
         },
         {
           "selector": "td.product-total > ins > .woocommerce-Price-amount > bdi"
+        },
+        {
+          "selector": "#order_summary_field > div > table > tbody > tr > td.product-total > div > span > bdi"
         }
       ],
       "value": "{{unitPrice2}}",
@@ -79,7 +85,9 @@
     },
     {
       "command": "assertTextPresent",
-      "condition": null,
+      "condition": {
+        "statement": "return !!document.querySelector('tr.cart-subtotal > td .woocommerce-Price-amount.amount > bdi')"
+      },
       "optional": false,
       "private": false,
       "sequence": 4,
@@ -93,7 +101,14 @@
       "optional": false,
       "private": false,
       "sequence": 5,
-      "target": "tr.order-total > td .woocommerce-Price-amount.amount > bdi",
+      "target": [
+        {
+          "selector": "tr.order-total > td .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "tr.order-total > td > strong > span > bdi"
+        }
+      ],
       "value": "{{unitPrice2}}",
       "variableName": ""
     },
@@ -370,16 +385,6 @@
       "private": false,
       "sequence": 33,
       "target": "",
-      "value": "69e767f4fde844e9f2facd66",
-      "variableName": ""
-    },
-    {
-      "command": "execute",
-      "condition": null,
-      "optional": false,
-      "private": false,
-      "sequence": 34,
-      "target": "",
       "value": "6022b6b2d2fb38677e5d8a9a",
       "variableName": ""
     },
@@ -388,7 +393,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 35,
+      "sequence": 34,
       "target": [
         {
           "selector": ".order > strong"
@@ -405,7 +410,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 36,
+      "sequence": 35,
       "target": "",
       "value": "let orderNumber = '{{orderNumber}}'.match(/\\d+/g)\n\nreturn orderNumber[0]",
       "variableName": "orderNumber"
@@ -415,7 +420,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 37,
+      "sequence": 36,
       "target": [
         {
           "selector": ".email > strong"
@@ -432,7 +437,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 38,
+      "sequence": 37,
       "target": ".os-chintzy-show-link__card",
       "value": ""
     },
@@ -441,7 +446,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 39,
+      "sequence": 38,
       "target": [
         {
           "selector": "h3.os-course__title > a[href*=\"/courses/\"]"
@@ -457,7 +462,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 40,
+      "sequence": 39,
       "target": [
         {
           "selector": "td.woocommerce-table__product-name"
@@ -474,7 +479,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 41,
+      "sequence": 40,
       "target": [
         {
           "selector": "td.woocommerce-table__product-total > .woocommerce-Price-amount.amount > bdi"
@@ -491,7 +496,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 42,
+      "sequence": 41,
       "target": "tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount",
       "value": "{{unitPrice2}}",
       "variableName": ""
@@ -501,7 +506,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 43,
+      "sequence": 42,
       "target": "tr:nth-of-type(3) > td > .woocommerce-Price-amount.amount",
       "value": "{{unitPrice2}}",
       "variableName": ""
@@ -511,7 +516,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 44,
+      "sequence": 43,
       "target": [
         {
           "selector": ".site-header-main-section-center > .site-header-item > .site-branding.site-brand-logo-only > a[href*=\"/dashboard/\"].brand.has-logo-image > img.custom-logo"
@@ -526,7 +531,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 45,
+      "sequence": 44,
       "target": "",
       "value": "6022b6b2d2fb38677e5d8a9a",
       "variableName": ""
@@ -536,7 +541,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 46,
+      "sequence": 45,
       "target": "",
       "value": "return window.location.href === \"{{startUrl}}dashboard/\"",
       "variableName": ""
@@ -546,7 +551,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 47,
+      "sequence": 46,
       "target": "div#block_cd7bfb6a5a5cb6c1bd0f72a84c5fe8f0 h4.openstudio-courses-list-header-label-text",
       "value": "",
       "variableName": ""
@@ -556,7 +561,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 48,
+      "sequence": 47,
       "target": "div#block_cd7bfb6a5a5cb6c1bd0f72a84c5fe8f0 h4.openstudio-courses-list-header-label-text",
       "value": "Purchased courses",
       "variableName": ""
@@ -566,7 +571,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 49,
+      "sequence": 48,
       "target": "div#block_cd7bfb6a5a5cb6c1bd0f72a84c5fe8f0 li.openstudio-courses-list-row-item",
       "value": "",
       "variableName": ""
@@ -576,7 +581,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 50,
+      "sequence": 49,
       "target": "#block_cd7bfb6a5a5cb6c1bd0f72a84c5fe8f0 > div.openstudio-courses-list.cols-4 > div > ul > li > div > div > a > span.openstudio-courses-list-row-item-content-title",
       "value": "{{description2}}"
     },
@@ -585,7 +590,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 51,
+      "sequence": 50,
       "target": "a[href*=\"/my-account/\"] > .kadence-svg-iconset > svg",
       "value": "",
       "variableName": ""
@@ -595,7 +600,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 52,
+      "sequence": 51,
       "target": "",
       "value": "6022b6b2d2fb38677e5d8a9a",
       "variableName": ""
@@ -605,7 +610,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 53,
+      "sequence": 52,
       "target": ".os-my-dashboard__next > span",
       "value": "",
       "variableName": ""
@@ -615,7 +620,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 54,
+      "sequence": 53,
       "target": ".woocommerce-Price-amount",
       "value": "",
       "variableName": ""
@@ -625,7 +630,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 55,
+      "sequence": 54,
       "target": ".os-my-dashboard__frequency > span",
       "value": "",
       "variableName": ""
@@ -635,7 +640,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 56,
+      "sequence": 55,
       "target": "a[href*=\"/product/open-studio-subscription/?switch-subscription\"]",
       "value": "",
       "variableName": ""
@@ -645,7 +650,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 57,
+      "sequence": 56,
       "target": "a[href*=\"/my-account/view-subscription/\"].button",
       "value": "",
       "variableName": ""
@@ -655,7 +660,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 58,
+      "sequence": 57,
       "target": "a[href*=\"/join\"].button",
       "value": "",
       "variableName": ""
@@ -665,7 +670,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 59,
+      "sequence": 58,
       "target": ".os-account-membership",
       "value": "NO PLAN IS ACTIVE",
       "variableName": ""
@@ -675,7 +680,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 60,
+      "sequence": 59,
       "target": [
         {
           "selector": "//a[contains(text(), \"Orders\")]"
@@ -690,7 +695,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 61,
+      "sequence": 60,
       "target": "th.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-number > a[href*=\"/my-account/view-order/{{orderNumber}}/\"]",
       "value": "#{{orderNumber}}"
     },
@@ -699,7 +704,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 62,
+      "sequence": 61,
       "target": "td.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-status",
       "value": "Completed"
     },
@@ -708,7 +713,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 63,
+      "sequence": 62,
       "target": ".woocommerce-Price-amount",
       "value": "{{unitPrice2}}",
       "variableName": ""
@@ -718,7 +723,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 64,
+      "sequence": 63,
       "target": [
         {
           "selector": "//a[contains(text(), \"View\")]"
@@ -733,7 +738,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 65,
+      "sequence": 64,
       "target": "mark.order-number",
       "value": "{{orderNumber}}",
       "variableName": ""
@@ -743,7 +748,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 66,
+      "sequence": 65,
       "target": "mark.order-status",
       "value": "Completed"
     },
@@ -752,7 +757,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 67,
+      "sequence": 66,
       "target": ".woocommerce-Price-amount > bdi",
       "value": "{{unitPrice2}}",
       "variableName": ""
@@ -762,7 +767,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 68,
+      "sequence": 67,
       "target": "tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount",
       "value": "{{unitPrice2}}",
       "variableName": ""
@@ -772,7 +777,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 69,
+      "sequence": 68,
       "target": "tr:nth-of-type(3) > td > .woocommerce-Price-amount.amount",
       "value": "{{unitPrice2}}",
       "variableName": ""
@@ -782,7 +787,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 70,
+      "sequence": 69,
       "target": ".woocommerce-customer-details > address",
       "value": "{{firstName}} {{lastName}}\n\n{{email2}}",
       "variableName": ""
@@ -792,7 +797,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 71,
+      "sequence": 70,
       "target": [
         {
           "selector": "//a[contains(text(), \"Purchased courses\")]"
@@ -807,7 +812,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 72,
+      "sequence": 71,
       "target": [
         {
           "selector": "h3.os-course__title > a[href*=\"/courses/jazz-piano-jump-start/welcome-lets-jump-start-2/\"]"
@@ -823,7 +828,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 73,
+      "sequence": 72,
       "target": [
         {
           "selector": "h3.os-course__title > a[href*=\"/courses/jazz-piano-jump-start/welcome-lets-jump-start-2/\"]"

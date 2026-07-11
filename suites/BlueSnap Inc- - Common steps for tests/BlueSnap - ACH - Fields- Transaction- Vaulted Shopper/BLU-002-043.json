@@ -22,7 +22,7 @@
   "region": null,
   "screenshotCompareEnabled": null,
   "screenshotCompareThreshold": 0.1,
-  "startUrl": null,
+  "startUrl": "",
   "steps": [
     {
       "command": "store",

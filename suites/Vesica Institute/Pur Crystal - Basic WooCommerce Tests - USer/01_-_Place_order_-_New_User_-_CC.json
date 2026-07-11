@@ -289,11 +289,22 @@
       "value": "{{zipCode}}"
     },
     {
+      "command": "assign",
+      "condition": {
+        "statement": "return !!document.querySelector('#shipping_phone')"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "#shipping_phone",
+      "value": "{{phone}}"
+    },
+    {
       "command": "execute",
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 28,
+      "sequence": 29,
       "target": "",
       "value": "6022b74a262f437a9af8d9a3",
       "variableName": ""
@@ -303,7 +314,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 29,
+      "sequence": 30,
       "target": "li:nth-of-type(1) > label > .woocommerce-Price-amount.amount > bdi",
       "value": "",
       "variableName": "shippingPrice"
@@ -313,7 +324,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 30,
+      "sequence": 31,
       "target": "tr.tax-total > td > .woocommerce-Price-amount.amount > bdi",
       "value": "",
       "variableName": "taxPrice"
@@ -323,7 +334,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 31,
+      "sequence": 32,
       "target": "strong > .woocommerce-Price-amount.amount > bdi",
       "value": "",
       "variableName": "total"
@@ -333,7 +344,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 32,
+      "sequence": 33,
       "target": "",
       "value": "6283bd24a0299821fc353a72",
       "variableName": ""
@@ -343,7 +354,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 33,
+      "sequence": 34,
       "target": "#terms"
     },
     {
@@ -353,7 +364,7 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 34,
+      "sequence": 35,
       "target": "#payment_method_authorize_net_aim_emulation",
       "value": ""
     },
@@ -362,7 +373,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 35,
+      "sequence": 36,
       "target": "",
       "value": "62753765c5f501e7105625b8",
       "variableName": ""
@@ -372,7 +383,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 36,
+      "sequence": 37,
       "target": "",
       "value": "6022b74a262f437a9af8d9a3",
       "variableName": ""
@@ -382,7 +393,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 37,
+      "sequence": 38,
       "target": "",
       "value": "6022b6b2d2fb38677e5d8a9a",
       "variableName": ""
@@ -392,7 +403,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 38,
+      "sequence": 39,
       "target": ".order > strong",
       "value": "",
       "variableName": "orderNumber"
@@ -402,7 +413,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 39,
+      "sequence": 40,
       "target": ".email > strong",
       "value": "{{email}}"
     },
@@ -411,7 +422,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 40,
+      "sequence": 41,
       "target": "strong > .woocommerce-Price-amount.amount > bdi",
       "value": "{{total}}",
       "variableName": ""
@@ -421,7 +432,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 41,
+      "sequence": 42,
       "target": ".method > strong",
       "value": "Credit Card"
     },
@@ -430,7 +441,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 42,
+      "sequence": 43,
       "target": "td.woocommerce-table__product-name",
       "value": "{{prod_desc}} × {{qty}}",
       "variableName": ""
@@ -440,7 +451,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 43,
+      "sequence": 44,
       "target": "td.woocommerce-table__product-total > .woocommerce-Price-amount.amount > bdi",
       "value": "{{subtotalPrice}}",
       "variableName": ""
@@ -450,7 +461,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 44,
+      "sequence": 45,
       "target": "tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount",
       "value": "{{subtotalPrice}}",
       "variableName": ""
@@ -460,7 +471,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 45,
+      "sequence": 46,
       "target": "tr:nth-of-type(2) > td > .woocommerce-Price-amount.amount",
       "value": "{{shippingPrice}}",
       "variableName": ""
@@ -470,7 +481,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 46,
+      "sequence": 47,
       "target": "tr:nth-of-type(3) > td > .woocommerce-Price-amount.amount",
       "value": "{{taxPrice}}",
       "variableName": ""
@@ -480,7 +491,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 47,
+      "sequence": 48,
       "target": "tfoot > tr:nth-of-type(4) > td",
       "value": "Credit Card"
     },
@@ -489,7 +500,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 48,
+      "sequence": 49,
       "target": "tr:nth-of-type(5) > td > .woocommerce-Price-amount.amount",
       "value": "{{total}}",
       "variableName": ""
@@ -499,7 +510,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 49,
+      "sequence": 50,
       "target": ".woocommerce-column.woocommerce-column--1 > address",
       "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{street2}}\n{{city}}, {{state}} {{zipCode}}\n\n{{phone}}\n\n{{email}}",
       "variableName": ""
@@ -509,9 +520,9 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 50,
+      "sequence": 51,
       "target": ".woocommerce-column.woocommerce-column--2 > address",
-      "value": "{{firstName}} {{lastName}}\n{{company2}}\n{{street}}\n{{street3}}\n{{city}}, {{state}} {{zipCode}}",
+      "value": "{{firstName}} {{lastName}}\n{{company2}}\n{{street}}\n{{street3}}\n{{city}}, {{state}} {{zipCode}}\n\n{{phone}}",
       "variableName": ""
     },
     {
@@ -519,7 +530,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 51,
+      "sequence": 52,
       "target": ".elementor-column.elementor-top-column.elementor-element.elementor-element-3cbde5e > .elementor-widget-wrap.elementor-element-populated > .elementor-element.elementor-widget__width-auto.elementor-widget.elementor-widget-account_links > .elementor-widget-container > .account-links > a[href=\"/my-account/\"]"
     },
     {
@@ -527,7 +538,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 52,
+      "sequence": 53,
       "target": [
         {
           "selector": "//a[contains(text(), \"Orders\")]"
@@ -542,7 +553,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 53,
+      "sequence": 54,
       "target": "td.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-status",
       "value": "Processing"
     },
@@ -551,7 +562,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 54,
+      "sequence": 55,
       "target": "td.woocommerce-orders-table__cell > .woocommerce-Price-amount.amount",
       "value": "{{total}}",
       "variableName": ""
@@ -561,7 +572,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 55,
+      "sequence": 56,
       "target": [
         {
           "selector": "//a[contains(text(), \"#{{orderNumber}}\")]"
@@ -576,7 +587,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 56,
+      "sequence": 57,
       "target": "td.woocommerce-table__product-name",
       "value": "{{prod_desc}} × {{qty}}",
       "variableName": ""
@@ -586,7 +597,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 57,
+      "sequence": 58,
       "target": "td.woocommerce-table__product-total > .woocommerce-Price-amount.amount > bdi",
       "value": "{{subtotalPrice}}",
       "variableName": ""
@@ -596,7 +607,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 58,
+      "sequence": 59,
       "target": "tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount",
       "value": "{{subtotalPrice}}",
       "variableName": ""
@@ -606,7 +617,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 59,
+      "sequence": 60,
       "target": "tr:nth-of-type(2) > td > .woocommerce-Price-amount.amount",
       "value": "{{shippingPrice}}",
       "variableName": ""
@@ -616,7 +627,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 60,
+      "sequence": 61,
       "target": "tr:nth-of-type(3) > td > .woocommerce-Price-amount.amount",
       "value": "{{taxPrice}}",
       "variableName": ""
@@ -626,7 +637,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 61,
+      "sequence": 62,
       "target": "tfoot > tr:nth-of-type(4) > td",
       "value": "Credit Card"
     },
@@ -635,7 +646,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 62,
+      "sequence": 63,
       "target": "tr:nth-of-type(5) > td > .woocommerce-Price-amount.amount",
       "value": "{{total}}",
       "variableName": ""
@@ -645,7 +656,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 63,
+      "sequence": 64,
       "target": ".woocommerce-column.woocommerce-column--1 > address",
       "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{street2}}\n{{city}}, {{state}} {{zipCode}}\n\n{{phone}}\n\n{{email}}",
       "variableName": ""
@@ -655,9 +666,9 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 64,
+      "sequence": 65,
       "target": ".woocommerce-column.woocommerce-column--2 > address",
-      "value": "{{firstName}} {{lastName}}\n{{company2}}\n{{street}}\n{{street3}}\n{{city}}, {{state}} {{zipCode}}",
+      "value": "{{firstName}} {{lastName}}\n{{company2}}\n{{street}}\n{{street3}}\n{{city}}, {{state}} {{zipCode}}\n\n{{phone}}",
       "variableName": ""
     }
   ],

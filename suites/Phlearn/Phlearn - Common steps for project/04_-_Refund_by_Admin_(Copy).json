@@ -123,7 +123,7 @@
       "private": false,
       "sequence": 10,
       "target": "",
-      "value": "function checkRefundNote(note) {\n    const total = '\\\\{{total}}'\n    const pattern = new RegExp(`Braintree \\\\(Credit Card\\\\) Void in the amount of ${total} approved. \\\\(Transaction ID [a-zA-Z0-9]+\\\\)`);\n    console.log(pattern)\n    return pattern.test(note);\n}\n\n// Select all <p> elements within ul.order_notes > li > div > p\nconst notes = document.querySelectorAll('ul.order_notes > li > div > p');\n\n// Check if any note matches the pattern\nreturn Array.from(notes).some(note => checkRefundNote(note.textContent));",
+      "value": "function checkRefundNote(note) {\n    const total = '\\\\{{total}}'\n    const pattern = new RegExp(`Braintree \\\\(Credit Card\\\\) Void in the amount of ${total} approved. \\\\(Transaction ID [a-zA-Z0-9]+\\\\)`);\n    console.log(pattern)\n    return pattern.test(note);\n}\n\n// Select all <p> elements within ul.order_notes > li > div > p\nconst notes = document.querySelectorAll('ul.order_notes > li > div p');\n\n// Check if any note matches the pattern\nreturn Array.from(notes).some(note => checkRefundNote(note.textContent));",
       "variableName": ""
     }
   ],
