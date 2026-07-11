@@ -31,7 +31,14 @@
       "optional": false,
       "private": false,
       "sequence": 0,
-      "target": ".bwf-inner-col > h2.bwf-adv-heading.bwf-width-default:nth-of-type(2)",
+      "target": [
+        {
+          "selector": ".bwf-inner-col > h2.bwf-adv-heading.bwf-width-default:nth-of-type(2)"
+        },
+        {
+          "selector": ".woofunnels-container > div > section > div > h1"
+        }
+      ],
       "value": "",
       "variableName": ""
     },
@@ -144,7 +151,14 @@
       "optional": false,
       "private": false,
       "sequence": 8,
-      "target": "a.bwf-btn.solid.wfocu_skip_offer > .bwf-btn-inner-text",
+      "target": [
+        {
+          "selector": "a.bwf-btn.solid.wfocu_skip_offer > .bwf-btn-inner-text"
+        },
+        {
+          "selector": "a.wfocu_skip_offer"
+        }
+      ],
       "value": "",
       "variableName": ""
     },

@@ -87,8 +87,15 @@
       "optional": false,
       "private": false,
       "sequence": 6,
-      "target": "#mobile-menu > .menu-item.menu-item-type-post_type_archive.menu-item-object-sfwd-courses > a[href*=\"/courses/\"]",
-      "value": "Courses"
+      "target": [
+        {
+          "selector": "#mobile-menu > .menu-item.menu-item-type-post_type_archive.menu-item-object-sfwd-courses > a[href*=\"/courses/\"]"
+        },
+        {
+          "selector": "#menu-item-1106781 > div > a"
+        }
+      ],
+      "value": "Explore"
     },
     {
       "command": "assertTextPresent",

@@ -91,7 +91,7 @@
       "optional": false,
       "private": false,
       "sequence": 6,
-      "target": "li.note.system-note:nth-of-type(2) > .note_content > p",
+      "target": "li.note.system-note:nth-of-type(4) .note_content p",
       "value": "",
       "variableName": "transactionNote"
     },
@@ -111,7 +111,7 @@
       "optional": false,
       "private": false,
       "sequence": 8,
-      "target": "li.note.system-note:nth-of-type(2) > .note_content > p",
+      "target": "li.note.system-note:nth-of-type(4) .note_content p",
       "value": "Inspire Commerce payment completed. Transaction ID:",
       "variableName": ""
     },
