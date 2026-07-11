@@ -150,7 +150,7 @@
       "private": false,
       "sequence": 13,
       "target": "select#input_2_8",
-      "value": "Website"
+      "value": "YouTube"
     },
     {
       "command": "click",

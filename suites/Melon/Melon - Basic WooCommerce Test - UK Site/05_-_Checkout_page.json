@@ -161,7 +161,14 @@
       "optional": false,
       "private": false,
       "sequence": 10,
-      "target": ".wfacp_mini_cart_reviews > tbody > tr.order-total > td > small > span",
+      "target": [
+        {
+          "selector": ".wfacp_mini_cart_reviews > tbody > tr.order-total > td > small > span"
+        },
+        {
+          "selector": ".wfacp_mini_cart_reviews > tfoot > tr.order-total > td > small > span"
+        }
+      ],
       "value": "",
       "variableName": "taxPriceSmall"
     }

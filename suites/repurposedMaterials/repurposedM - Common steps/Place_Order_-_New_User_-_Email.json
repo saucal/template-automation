@@ -240,7 +240,7 @@
       "private": false,
       "sequence": 14,
       "target": "td:nth-of-type(2) > address.address",
-      "value": "{{firstName}} {{lastName2}}\n{{company2}}\n{{street3}}\n{{street4}}\n{{city}}, {{state}} {{zipCode}}",
+      "value": "{{firstName}} {{lastName2}}\n{{company2}}\n{{street3}}\n{{street4}}\n{{city}}, {{state}} {{zipCode}}\n{{countryComplete}}\n{{phone}}",
       "variableName": ""
     }
   ],

@@ -231,7 +231,7 @@
     {
       "command": "assertEval",
       "condition": {
-        "statement": "return '{{paymentMethod}}' !== 'Purchase Order'"
+        "statement": "return '{{paymentMethod}}' !== 'Credit / Debit Card'"
       },
       "optional": false,
       "private": false,
