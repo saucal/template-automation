@@ -222,7 +222,7 @@
       "private": false,
       "sequence": 19,
       "target": ".woocommerce-column.woocommerce-column--2 > address",
-      "value": "{{firstName}} {{lastName2}}\n{{company2}}\n{{street3}}\n{{city}}, {{state}} {{zipCode}}\n{{countryComplete}}",
+      "value": "{{firstName}} {{lastName2}}\n{{company2}}\n{{street3}}\n{{city}}, {{state}} {{zipCode}}\n{{countryComplete}}\n\n{{phone}}",
       "variableName": ""
     },
     {
@@ -342,7 +342,7 @@
       "private": false,
       "sequence": 31,
       "target": ".woocommerce-column.woocommerce-column--2 > address",
-      "value": "{{firstName}} {{lastName2}}\n{{company2}}\n{{street3}}\n{{city}}, {{state}} {{zipCode}}\n{{countryComplete}}",
+      "value": "{{firstName}} {{lastName2}}\n{{company2}}\n{{street3}}\n{{city}}, {{state}} {{zipCode}}\n{{countryComplete}}\n\n{{phone}}",
       "variableName": ""
     }
   ],

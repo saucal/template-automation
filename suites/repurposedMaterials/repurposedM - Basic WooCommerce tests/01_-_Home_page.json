@@ -53,20 +53,11 @@
       "variableName": ""
     },
     {
-      "command": "assertElementPresent",
-      "condition": null,
-      "optional": false,
-      "private": false,
-      "sequence": 3,
-      "target": "#after_section_6 > .container > .template-page.content.av-content-full.alpha.units",
-      "value": ""
-    },
-    {
       "command": "execute",
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 4,
+      "sequence": 3,
       "target": "",
       "value": "6981e67476f083a56521e0ab",
       "variableName": ""
@@ -76,7 +67,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 5,
+      "sequence": 4,
       "target": "",
       "value": "62974e21a0299821fcec4a32",
       "variableName": ""

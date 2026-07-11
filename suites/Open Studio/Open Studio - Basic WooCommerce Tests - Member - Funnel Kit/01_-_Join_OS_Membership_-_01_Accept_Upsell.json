@@ -428,7 +428,7 @@
       "private": false,
       "sequence": 36,
       "target": "",
-      "value": "return new Promise(function(resolve, reject) {\n  var selector = '.bwf-inner-col > h2.bwf-adv-heading.bwf-width-default';\n  var timeout = 10000;\n\n  if (document.querySelector(selector)) {\n    resolve(true);\n    return;\n  }\n\n  var timer = setTimeout(function() {\n    observer.disconnect();\n    resolve(false);\n  }, timeout);\n\n  var observer = new MutationObserver(function() {\n    if (document.querySelector(selector)) {\n      clearTimeout(timer);\n      observer.disconnect();\n      resolve(true);\n    }\n  });\n\n  var target = document.body || document.documentElement;\n  observer.observe(target, {\n    childList: true,\n    subtree: true,\n    attributes: true\n  });\n})",
+      "value": "return new Promise(function(resolve, reject) {\n  var selector = '.bwf-inner-col > h2.bwf-adv-heading.bwf-width-default, .woofunnels-container';\n  var timeout = 10000;\n\n  if (document.querySelector(selector)) {\n    resolve(true);\n    return;\n  }\n\n  var timer = setTimeout(function() {\n    observer.disconnect();\n    resolve(false);\n  }, timeout);\n\n  var observer = new MutationObserver(function() {\n    if (document.querySelector(selector)) {\n      clearTimeout(timer);\n      observer.disconnect();\n      resolve(true);\n    }\n  });\n\n  var target = document.body || document.documentElement;\n  observer.observe(target, {\n    childList: true,\n    subtree: true,\n    attributes: true\n  });\n})",
       "variableName": "upsellFlow"
     },
     {

@@ -63,6 +63,16 @@
       "private": false,
       "sequence": 3,
       "target": "",
+      "value": "",
+      "variableName": "company"
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "",
       "value": "{{accountNumberA}}",
       "variableName": "accountNumber"
     },
@@ -71,7 +81,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 4,
+      "sequence": 5,
       "target": "",
       "value": "{{routingNumberA}}",
       "variableName": "routingNumber"
@@ -81,7 +91,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 5,
+      "sequence": 6,
       "target": "",
       "value": "On hold",
       "variableName": "status"
@@ -91,7 +101,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 6,
+      "sequence": 7,
       "target": "",
       "value": "{{email_BLU-002-012}}",
       "variableName": "username"
@@ -101,7 +111,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 7,
+      "sequence": 8,
       "target": "",
       "value": "60c91e7a4f70ce5aa436fe2a",
       "variableName": ""
@@ -111,7 +121,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 8,
+      "sequence": 9,
       "target": "",
       "value": "60abe83bef68371384fe5dde",
       "variableName": ""
@@ -123,7 +133,7 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 9,
+      "sequence": 10,
       "target": "#payment_method_bluesnap_ach",
       "value": "",
       "variableName": ""
@@ -133,29 +143,21 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 10,
+      "sequence": 11,
       "target": "",
       "value": "60d0bc83fd5d095fc942518b",
       "variableName": ""
     },
     {
       "command": "execute",
-      "condition": null,
-      "optional": false,
-      "private": false,
-      "sequence": 11,
-      "target": "",
-      "value": "60ae9973386331066dbb4dad",
-      "variableName": ""
-    },
-    {
-      "command": "execute",
-      "condition": null,
+      "condition": {
+        "statement": "const element = document.querySelector('form.checkout.woocommerce-checkout')\nreturn  !element "
+      },
       "optional": false,
       "private": false,
       "sequence": 12,
       "target": "",
-      "value": "60e74955ed68ff1796486747",
+      "value": "60afae19c894e66ce1666874",
       "variableName": ""
     },
     {
@@ -165,7 +167,7 @@
       "private": false,
       "sequence": 13,
       "target": "",
-      "value": "60afddfb373d3a09fef13e98",
+      "value": "60ae9973386331066dbb4dad",
       "variableName": ""
     },
     {
@@ -175,17 +177,17 @@
       "private": false,
       "sequence": 14,
       "target": "",
-      "value": "6213d88e5f85360d3f1496b4",
+      "value": "60e74955ed68ff1796486747",
       "variableName": ""
     },
     {
-      "command": "assertEval",
+      "command": "execute",
       "condition": null,
       "optional": false,
       "private": false,
       "sequence": 15,
       "target": "",
-      "value": "const jsonOrder = {{myOrder}}\nreturn jsonOrder.status === \"on-hold\"",
+      "value": "60afddfb373d3a09fef13e98",
       "variableName": ""
     },
     {
@@ -195,6 +197,26 @@
       "private": false,
       "sequence": 16,
       "target": "",
+      "value": "6213d88e5f85360d3f1496b4",
+      "variableName": ""
+    },
+    {
+      "command": "assertEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "",
+      "value": "const jsonOrder = {{myOrder}}\nreturn jsonOrder.status === \"on-hold\"",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "",
       "value": "6213dcb3029c844528c9ac72",
       "variableName": ""
     },
@@ -203,7 +225,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 17,
+      "sequence": 19,
       "target": "",
       "value": "6213dddb5f85360d3f170bee",
       "variableName": ""
@@ -213,7 +235,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 18,
+      "sequence": 20,
       "target": "",
       "value": "{{payDateRenew}}",
       "variableName": "payDate"
@@ -223,7 +245,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 19,
+      "sequence": 21,
       "target": "",
       "value": "60e71211ed68ff1796455d0c",
       "variableName": ""
@@ -233,7 +255,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 20,
+      "sequence": 22,
       "target": "",
       "value": "60e752b0ed68ff179648d89c",
       "variableName": ""
@@ -243,7 +265,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 21,
+      "sequence": 23,
       "target": "",
       "value": "{{transaction_id}}",
       "variableName": "transaction_id013"
@@ -253,7 +275,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 22,
+      "sequence": 24,
       "target": "",
       "value": "{{orderNumber}}",
       "variableName": "orderNumber013"
