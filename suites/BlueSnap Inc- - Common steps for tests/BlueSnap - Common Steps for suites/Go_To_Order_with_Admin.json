@@ -89,13 +89,25 @@
       "value": ""
     },
     {
+      "command": "eval",
+      "condition": {
+        "statement": "let orderVisible = \"{{orderVisible}}\"\n\nreturn orderVisible === \"true\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "",
+      "value": "  const selector = 'a[href*=\"/wp-admin/post.php?post={{orderNumber}}&action=edit\"] > strong, a[href*=\"/wp-admin/admin.php?page=wc-orders&action=edit&id={{orderNumber}}\"] > strong';\n  const el = document.querySelector(selector);\n  \n  if (el) {\n    el.click();\n    console.log('✅ Clicked:', el.href);\n  } else {\n    console.warn('⚠️ Element not found:', selector);\n  }",
+      "variableName": ""
+    },
+    {
       "command": "click",
       "condition": {
         "statement": "let orderVisible = \"{{orderVisible}}\"\n\nreturn orderVisible === \"false\""
       },
       "optional": false,
       "private": false,
-      "sequence": 5,
+      "sequence": 6,
       "target": ".next-page.button",
       "value": ""
     },
@@ -106,7 +118,7 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 6,
+      "sequence": 7,
       "target": "",
       "value": "6022b6b2d2fb38677e5d8a9a",
       "variableName": ""
@@ -118,7 +130,7 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 7,
+      "sequence": 8,
       "target": [
         {
           "selector": "a[href*=\"/wp-admin/post.php?post={{orderNumber}}&action=edit\"] > strong"
@@ -128,6 +140,18 @@
         }
       ],
       "value": ""
+    },
+    {
+      "command": "eval",
+      "condition": {
+        "statement": "let orderVisible = \"{{orderVisible}}\"\n\nreturn orderVisible === \"false\""
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "  const selector = 'a[href*=\"/wp-admin/post.php?post={{orderNumber}}&action=edit\"] > strong, a[href*=\"/wp-admin/admin.php?page=wc-orders&action=edit&id={{orderNumber}}\"] > strong';\n  const el = document.querySelector(selector);\n  \n  if (el) {\n    el.click();\n    console.log('✅ Clicked:', el.href);\n  } else {\n    console.warn('⚠️ Element not found:', selector);\n  }",
+      "variableName": ""
     }
   ],
   "testFrequency": 0,

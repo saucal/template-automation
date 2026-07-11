@@ -197,11 +197,21 @@
       "variableName": ""
     },
     {
-      "command": "assertTextPresent",
+      "command": "assertText",
       "condition": null,
       "optional": false,
       "private": false,
       "sequence": 18,
+      "target": "div:nth-child(3) > div.address > p:nth-child(2)",
+      "value": "Phone:\n{{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 19,
       "target": "#order_line_items tr > td.name > a",
       "value": "{{prod_desc}}"
     },
@@ -210,7 +220,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 19,
+      "sequence": 20,
       "target": "#order_line_items td.item_cost > .view > .woocommerce-Price-amount.amount > bdi",
       "value": "{{unitPrice}}",
       "variableName": ""
@@ -220,7 +230,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 20,
+      "sequence": 21,
       "target": "#order_line_items td.quantity > .view",
       "value": "× {{qty}}",
       "variableName": ""
@@ -230,7 +240,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 21,
+      "sequence": 22,
       "target": "#order_line_items td.line_cost > .view > .woocommerce-Price-amount.amount > bdi",
       "value": "{{subtotalPrice}}",
       "variableName": ""
@@ -240,7 +250,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 22,
+      "sequence": 23,
       "target": "#order_shipping_line_items td.line_cost > .view > .woocommerce-Price-amount.amount",
       "value": "{{shippingPrice}}",
       "variableName": ""
@@ -250,7 +260,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 23,
+      "sequence": 24,
       "target": "table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(1) > td.total > .woocommerce-Price-amount.amount > bdi",
       "value": "{{subtotalPrice}}",
       "variableName": ""
@@ -260,7 +270,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 24,
+      "sequence": 25,
       "target": ".wc-order-data-row.wc-order-totals-items > table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(2) > td.total > .woocommerce-Price-amount.amount > bdi",
       "value": "{{shippingPrice}}",
       "variableName": ""
@@ -270,7 +280,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 25,
+      "sequence": 26,
       "target": ".wc-order-data-row.wc-order-totals-items > table.wc-order-totals:nth-of-type(1) > tbody > tr:last-of-type > td.total > .woocommerce-Price-amount.amount > bdi",
       "value": "{{total}}",
       "variableName": ""
@@ -280,7 +290,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 26,
+      "sequence": 27,
       "target": "table.wc-order-totals:nth-of-type(2) > tbody > tr:nth-of-type(1) > td.total > .woocommerce-Price-amount.amount > bdi",
       "value": "{{total}}",
       "variableName": ""

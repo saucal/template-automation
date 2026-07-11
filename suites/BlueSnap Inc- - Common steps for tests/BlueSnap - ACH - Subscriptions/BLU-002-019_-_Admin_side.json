@@ -105,11 +105,21 @@
       "variableName": ""
     },
     {
+      "command": "eval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "",
+      "value": "  const selector = 'a[href=\"admin.php?page=wc-orders--shop_subscription\"], a[href=\"edit.php?post_type=shop_subscription\"]';\n  const el = document.querySelector(selector);\n  \n  if (el) {\n    el.click();\n    console.log('✅ Clicked:', el.href);\n  } else {\n    console.warn('⚠️ Element not found:', selector);\n  }",
+      "variableName": ""
+    },
+    {
       "command": "assertText",
       "condition": null,
       "optional": true,
       "private": false,
-      "sequence": 6,
+      "sequence": 7,
       "target": [
         {
           "selector": "tr.iedit.level-1.type-shop_subscription.hentry:nth-of-type(1) > td.status.column-status > mark.subscription-status.order-status.tips > span"
@@ -126,7 +136,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 7,
+      "sequence": 8,
       "target": [
         {
           "selector": "tr.iedit.level-1.type-shop_subscription.hentry:nth-of-type(1) > td.recurring_total.column-recurring_total > small.meta"
@@ -143,7 +153,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 8,
+      "sequence": 9,
       "target": [
         {
           "selector": "a[href*=\"/wp-admin/post.php?post={{subscriptionID}}&action=edit\"]"
@@ -156,13 +166,23 @@
       "variableName": ""
     },
     {
+      "command": "eval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "",
+      "value": "  const selector = 'a[href*=\"/wp-admin/post.php?post={{subscriptionID}}&action=edit\"], a[href*=\"/wp-admin/admin.php?page=wc-orders--shop_subscription&action=edit&id={{subscriptionID}}\"]';\n  const el = document.querySelector(selector);\n  \n  if (el) {\n    el.click();\n    console.log('✅ Clicked:', el.href);\n  } else {\n    console.warn('⚠️ Element not found:', selector);\n  }",
+      "variableName": ""
+    },
+    {
       "command": "assertTextPresent",
       "condition": {
         "statement": "let element = document.getElementsByClassName(\"order-status\")\nlet n = element.length\nlet text = element[n-1].innerText\nreturn text === \"On hold\""
       },
       "optional": false,
       "private": false,
-      "sequence": 9,
+      "sequence": 11,
       "target": "#select2-order_status-container",
       "value": "Pending",
       "variableName": ""
@@ -174,7 +194,7 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 10,
+      "sequence": 12,
       "target": "#select2-order_status-container",
       "value": "Pending",
       "variableName": ""
@@ -184,7 +204,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 11,
+      "sequence": 13,
       "target": ".bluesnap_ach",
       "value": "{{paymentMethodTitle}}",
       "variableName": ""

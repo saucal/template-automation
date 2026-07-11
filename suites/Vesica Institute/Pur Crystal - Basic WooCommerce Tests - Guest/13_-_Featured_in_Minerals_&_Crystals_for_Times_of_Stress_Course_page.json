@@ -39,8 +39,7 @@
       "optional": false,
       "private": false,
       "sequence": 1,
-      "target": "a[href*=\"/crystals-minerals/featured-in-minerals-crystals-for-times-of-stress-course/\"] > img.entered.lazyloaded",
-      "value": null
+      "target": "a[href*=\"/crystals-minerals\"] > img"
     }
   ],
   "testFrequency": 0,

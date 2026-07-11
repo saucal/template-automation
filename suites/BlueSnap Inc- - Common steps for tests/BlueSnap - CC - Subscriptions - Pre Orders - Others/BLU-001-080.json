@@ -67,13 +67,28 @@
       "variableName": ""
     },
     {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": [
+        {
+          "selector": "#payment_method_bluesnap"
+        },
+        {
+          "selector": "#radio-control-wc-payment-method-options-bluesnap__label > span"
+        }
+      ]
+    },
+    {
       "command": "assertEval",
       "condition": {
         "statement": "let _3dsSetting = \"{{3dsSetting}}\";\nlet BlueSnapVs = \"{{BlueSnapVs}}\";\nBlueSnapVs = BlueSnapVs.split('.');\nlet payment = \"{{payment}}\";\n\nreturn (Number(BlueSnapVs[0]) >= 3 && Number(BlueSnapVs[1]) >= 0) && \n        _3dsSetting !== \"deactivated\" &&\n        payment === \"cc\""
       },
       "optional": false,
       "private": false,
-      "sequence": 4,
+      "sequence": 5,
       "target": "",
       "value": "const targetElement = document.querySelector('#place_order, .wc-block-components-checkout-place-order-button');\nreturn targetElement.getAttribute('data-bluesnap') === 'submitButton'",
       "variableName": ""
@@ -83,7 +98,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 5,
+      "sequence": 6,
       "target": [
         {
           "selector": "#select2-billing_country-container"
@@ -98,7 +113,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 6,
+      "sequence": 7,
       "target": [
         {
           "selector": "//li[contains(text(), \"Canada\")]"
@@ -113,7 +128,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 7,
+      "sequence": 8,
       "target": "",
       "value": "6022b74a262f437a9af8d9a3",
       "variableName": ""
@@ -125,7 +140,7 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 8,
+      "sequence": 9,
       "target": "",
       "value": "const targetElement = document.querySelector('#place_order, .wc-block-components-checkout-place-order-button');\nreturn targetElement.getAttribute('data-bluesnap') === 'submitButton'",
       "variableName": ""
@@ -137,7 +152,7 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 9,
+      "sequence": 10,
       "target": "#payment_method_ppcp-gateway"
     },
     {
@@ -147,7 +162,7 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 10,
+      "sequence": 11,
       "target": "",
       "value": "const targetElement = document.querySelector('#place_order, .wc-block-components-checkout-place-order-button');\nreturn targetElement.getAttribute('data-bluesnap') === null",
       "variableName": ""
@@ -159,7 +174,7 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 11,
+      "sequence": 12,
       "target": [
         {
           "selector": "#payment_method_bluesnap_ach"
@@ -176,7 +191,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 12,
+      "sequence": 13,
       "target": [
         {
           "selector": "#payment_method_bluesnap"
@@ -193,7 +208,7 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 13,
+      "sequence": 14,
       "target": "",
       "value": "const targetElement = document.querySelector('#place_order, .wc-block-components-checkout-place-order-button');\nreturn targetElement.getAttribute('data-bluesnap') === 'submitButton'",
       "variableName": ""
@@ -205,7 +220,7 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 14,
+      "sequence": 15,
       "target": "",
       "value": "64f5cbcbe0dfa97aa9f14eb0",
       "variableName": ""

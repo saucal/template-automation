@@ -219,7 +219,7 @@
       "private": false,
       "sequence": 18,
       "target": "",
-      "value": "function checkAdminNote(note) {\n    const pattern = /Payment Status: Succeeded, Source: Payment is Completed via Visa/;\n    return pattern.test(note);\n}\n\n// Select all <p> elements within ul.order_notes > li > div > p\nconst notes = document.querySelectorAll('ul.order_notes > li > div > p');\n\n// Check if any note matches the pattern\nreturn Array.from(notes).some(note => checkAdminNote(note.textContent));\n",
+      "value": "function checkAdminNote(note) {\n    const pattern = /Payment Status: Succeeded, Source: Payment is Completed via Visa/;\n    return pattern.test(note);\n}\n\n// Select all <p> elements within ul.order_notes > li > div > p\nconst notes = document.querySelectorAll('ul.order_notes > li > div > div > p');\n\n// Check if any note matches the pattern\nreturn Array.from(notes).some(note => checkAdminNote(note.textContent));\n",
       "variableName": ""
     },
     {
@@ -231,7 +231,7 @@
       "private": false,
       "sequence": 19,
       "target": "",
-      "value": "function checkAdminNote(note) {\n    const pattern = /Payment Status: Succeeded, Source: Payment is Completed via Klarna/;\n    return pattern.test(note);\n}\n\n// Select all <p> elements within ul.order_notes > li > div > p\nconst notes = document.querySelectorAll('ul.order_notes > li > div > p');\n\n// Check if any note matches the pattern\nreturn Array.from(notes).some(note => checkAdminNote(note.textContent));\n",
+      "value": "function checkAdminNote(note) {\n    const pattern = /Payment Status: Succeeded, Source: Payment is Completed via Klarna/;\n    return pattern.test(note);\n}\n\n// Select all <p> elements within ul.order_notes > li > div > p\nconst notes = document.querySelectorAll('ul.order_notes > li > div > div > p');\n\n// Check if any note matches the pattern\nreturn Array.from(notes).some(note => checkAdminNote(note.textContent));\n",
       "variableName": ""
     },
     {
@@ -243,7 +243,7 @@
       "private": false,
       "sequence": 20,
       "target": "",
-      "value": "function checkAdminNote(note) {\n    const total = '{{total}}'.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&')\n    const pattern = new RegExp(`Captured charge of ${total} \\\\(charge ID [0-9A-Z]+-[0-9A-Z]+ / event ID [0-9A-Z]+\\\\)`);\n    return pattern.test(note);\n}\n\n// Select all <p> elements within ul.order_notes > li > div > p\nconst notes = document.querySelectorAll('ul.order_notes > li > div > p');\n\n// Check if any note matches the pattern\nreturn Array.from(notes).some(note => checkAdminNote(note.textContent));\n",
+      "value": "function checkAdminNote(note) {\n    const total = '{{total}}'.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&')\n    const pattern = new RegExp(`Captured charge of ${total} \\\\(charge ID [0-9A-Z]+-[0-9A-Z]+ / event ID [0-9A-Z]+\\\\)`);\n    return pattern.test(note);\n}\n\n// Select all <p> elements within ul.order_notes > li > div > p\nconst notes = document.querySelectorAll('ul.order_notes > li > div > div > p');\n\n// Check if any note matches the pattern\nreturn Array.from(notes).some(note => checkAdminNote(note.textContent));\n",
       "variableName": ""
     },
     {
@@ -255,7 +255,7 @@
       "private": false,
       "sequence": 21,
       "target": "",
-      "value": "function checkAdminNote(note) {\n    const pattern = /PayPal transaction ID: [0-9A-Z]+/;\n    return pattern.test(note);\n}\n\n// Select all <p> elements within ul.order_notes > li > div > p\nconst notes = document.querySelectorAll('ul.order_notes > li > div > p');\n\n// Check if any note matches the pattern\nreturn Array.from(notes).some(note => checkAdminNote(note.textContent));\n",
+      "value": "function checkAdminNote(note) {\n    const pattern = /PayPal transaction ID: [0-9A-Z]+/;\n    return pattern.test(note);\n}\n\n// Select all <p> elements within ul.order_notes > li > div > p\nconst notes = document.querySelectorAll('ul.order_notes > li > div > div > p');\n\n// Check if any note matches the pattern\nreturn Array.from(notes).some(note => checkAdminNote(note.textContent));\n",
       "variableName": ""
     },
     {
@@ -267,7 +267,7 @@
       "private": false,
       "sequence": 22,
       "target": "",
-      "value": "function checkAdminNote(note) {\n    const pattern = /Payment approved\\. Afterpay Order ID: [0-9]+\\./;\n    return pattern.test(note);\n}\n\n// Select all <p> elements within ul.order_notes > li > div > p\nconst notes = document.querySelectorAll('ul.order_notes > li > div > p');\n\n// Check if any note matches the pattern\nreturn Array.from(notes).some(note => checkAdminNote(note.textContent));\n",
+      "value": "function checkAdminNote(note) {\n    const pattern = /Payment approved\\. Afterpay Order ID: [0-9]+\\./;\n    return pattern.test(note);\n}\n\n// Select all <p> elements within ul.order_notes > li > div > p\nconst notes = document.querySelectorAll('ul.order_notes > li > div > div > p');\n\n// Check if any note matches the pattern\nreturn Array.from(notes).some(note => checkAdminNote(note.textContent));\n",
       "variableName": ""
     }
   ],

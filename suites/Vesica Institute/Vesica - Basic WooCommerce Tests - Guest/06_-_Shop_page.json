@@ -37,7 +37,17 @@
       "optional": false,
       "private": false,
       "sequence": 1,
-      "target": "nav.elementor-nav-menu--main > .elementor-nav-menu > li.menu-item.menu-item-type-custom.menu-item-object-custom.menu-item-has-children:nth-of-type(5) > a[href*=\"/vesica-shop/\"].elementor-item.has-submenu"
+      "target": [
+        {
+          "selector": "nav.elementor-nav-menu--main > .elementor-nav-menu > li.menu-item.menu-item-type-custom.menu-item-object-custom.menu-item-has-children:nth-of-type(5) > a[href*=\"/vesica-shop/\"].elementor-item.has-submenu"
+        },
+        {
+          "selector": "a[href=\"{{startUrl}}vesica-shop/\"]"
+        },
+        {
+          "selector": "a[href=\"{{startUrl}}product-category/all-products/\"]"
+        }
+      ]
     },
     {
       "command": "click",
@@ -45,7 +55,17 @@
       "optional": false,
       "private": false,
       "sequence": 2,
-      "target": "nav.elementor-nav-menu--main > .elementor-nav-menu > li.menu-item.menu-item-type-custom.menu-item-object-custom.menu-item-has-children:nth-of-type(5) > a[href*=\"/vesica-shop/\"].elementor-item.has-submenu"
+      "target": [
+        {
+          "selector": "nav.elementor-nav-menu--main > .elementor-nav-menu > li.menu-item.menu-item-type-custom.menu-item-object-custom.menu-item-has-children:nth-of-type(5) > a[href*=\"/vesica-shop/\"].elementor-item.has-submenu"
+        },
+        {
+          "selector": "a[href=\"{{startUrl}}vesica-shop/\"]"
+        },
+        {
+          "selector": "a[href=\"{{startUrl}}product-category/all-products/\"]"
+        }
+      ]
     },
     {
       "command": "execute",

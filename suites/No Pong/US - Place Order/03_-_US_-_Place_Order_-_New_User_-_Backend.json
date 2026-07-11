@@ -145,7 +145,7 @@
       "optional": false,
       "private": false,
       "sequence": 10,
-      "target": "a[href*=\"tel:\"]",
+      "target": "div.order_data_column:nth-of-type(2) > .address a[href*=\"tel:\"]",
       "value": "{{phone}}",
       "variableName": ""
     },

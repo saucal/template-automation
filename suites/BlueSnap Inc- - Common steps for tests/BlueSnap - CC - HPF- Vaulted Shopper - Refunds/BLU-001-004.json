@@ -148,7 +148,7 @@
           "selector": ".woocommerce-error"
         },
         {
-          "selector": "div.wc-block-store-notice.wc-block-components-notice-banner.is-error.is-dismissible > div > div"
+          "selector": "div.wc-block-store-notice.wc-block-components-notice-banner.is-error > div > div"
         }
       ],
       "value": "Please enter your credit card's expiration date",
