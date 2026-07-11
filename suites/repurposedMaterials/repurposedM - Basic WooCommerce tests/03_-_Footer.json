@@ -20,7 +20,7 @@
   "publicStatusEnabled": false,
   "region": null,
   "screenshotCompareEnabled": null,
-  "screenshotTarget": "#av_section_9",
+  "screenshotTarget": "#av_section_12",
   "screenshotCompareThreshold": 0.1,
   "startUrl": "",
   "steps": [

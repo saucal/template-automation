@@ -260,6 +260,12 @@
         },
         {
           "selector": "button[type='submit'] > div > div > div:nth-of-type(1)"
+        },
+        {
+          "selector": "//*[@id=\"one-time-cta\"]//*[contains(text(),'Pay')]"
+        },
+        {
+          "selector": "#one-time-cta"
         }
       ],
       "value": "",
@@ -282,6 +288,12 @@
         },
         {
           "selector": "button[type='submit'] > div > div > div:nth-of-type(1)"
+        },
+        {
+          "selector": "//*[@id=\"one-time-cta\"]//*[contains(text(),'Pay')]"
+        },
+        {
+          "selector": "#one-time-cta"
         }
       ],
       "value": "",

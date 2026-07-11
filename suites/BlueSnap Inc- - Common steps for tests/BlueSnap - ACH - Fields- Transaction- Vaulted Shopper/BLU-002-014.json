@@ -37,11 +37,21 @@
       "variableName": ""
     },
     {
-      "command": "click",
+      "command": "store",
       "condition": null,
       "optional": false,
       "private": false,
       "sequence": 1,
+      "target": "",
+      "value": "Saucal Inc.",
+      "variableName": "company"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 2,
       "target": [
         {
           "selector": "xpath=//a[contains(text(), \"Payment methods\")]"
@@ -58,7 +68,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 2,
+      "sequence": 3,
       "target": [
         {
           "selector": "xpath=//a[contains(text(), \"Add payment method\")]"
@@ -75,7 +85,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 3,
+      "sequence": 4,
       "target": "",
       "value": "5000",
       "variableName": ""
@@ -85,7 +95,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 4,
+      "sequence": 5,
       "target": [
         {
           "selector": "xpath=//label[contains(text(), \"ACH/ECP Transactions\")]"
@@ -102,7 +112,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 5,
+      "sequence": 6,
       "target": "#bluesnap_ach-routing-number",
       "value": "{{routingNumber}}",
       "variableName": ""
@@ -112,7 +122,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 6,
+      "sequence": 7,
       "target": "#bluesnap_ach-account-type",
       "value": "corporate-checking",
       "variableName": ""
@@ -122,7 +132,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 7,
+      "sequence": 8,
       "target": [
         {
           "selector": "xpath=//button[contains(text(), \"Add payment method\")]"
@@ -139,7 +149,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 8,
+      "sequence": 9,
       "target": [
         {
           "selector": ".woocommerce-error > li:nth-of-type(1)"
@@ -156,7 +166,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 9,
+      "sequence": 10,
       "target": [
         {
           "selector": ".woocommerce-error > li:nth-of-type(2)"
@@ -173,7 +183,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 10,
+      "sequence": 11,
       "target": [
         {
           "selector": ".woocommerce-error > li:nth-of-type(3)"

@@ -243,7 +243,7 @@
       "private": false,
       "sequence": 20,
       "target": "",
-      "value": "function checkRefundNote(note) {\n    const total = '{{total}}'.replace(/\\$/g, '\\\\$');\n    const pattern = /Transaction ID : re_[a-zA-Z0-9]+/;\n    return pattern.test(note);\n}\n\n// Select all <p> elements within ul.order_notes > li > div > p\nconst notes = document.querySelectorAll('ul.order_notes > li > div > p');\n\n// Check if any note matches the pattern\nreturn Array.from(notes).some(note => checkRefundNote(note.textContent));",
+      "value": "function checkRefundNote(note) {\n    const total = '{{total}}'.replace(/\\$/g, '\\\\$');\n    const pattern = /Transaction ID : re_[a-zA-Z0-9]+/;\n    return pattern.test(note);\n}\n\n// Select all <p> elements within ul.order_notes > li > div > p\nconst notes = document.querySelectorAll('ul.order_notes > li > div > div > p');\n\n// Check if any note matches the pattern\nreturn Array.from(notes).some(note => checkRefundNote(note.textContent));",
       "variableName": ""
     },
     {
@@ -255,7 +255,7 @@
       "private": false,
       "sequence": 21,
       "target": "",
-      "value": "function checkRefundNote(note) {\n    const total = '{{total}}'.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&');\n    const pattern = new RegExp(`Refund of ${total} sent to Afterpay. Reason: Testing Refund`);\n    return pattern.test(note);\n}\n\n// Select all <p> elements within ul.order_notes > li > div > p\nconst notes = document.querySelectorAll('ul.order_notes > li > div > p');\n\n// Check if any note matches the pattern\nreturn Array.from(notes).some(note => checkRefundNote(note.textContent));",
+      "value": "function checkRefundNote(note) {\n    const total = '{{total}}'.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&');\n    const pattern = new RegExp(`Refund of ${total} sent to Afterpay. Reason: Testing Refund`);\n    return pattern.test(note);\n}\n\n// Select all <p> elements within ul.order_notes > li > div > p\nconst notes = document.querySelectorAll('ul.order_notes > li > div > div > p');\n\n// Check if any note matches the pattern\nreturn Array.from(notes).some(note => checkRefundNote(note.textContent));",
       "variableName": ""
     },
     {
@@ -267,7 +267,7 @@
       "private": false,
       "sequence": 22,
       "target": "",
-      "value": "function checkRefundNote(note) {\n    const total = '{{total}}'.replace(/\\$/g, '\\\\$');\n    const pattern = /PayPal refund ID: [A-Z0-9]+/;\n    return pattern.test(note);\n}\n\n// Select all <p> elements within ul.order_notes > li > div > p\nconst notes = document.querySelectorAll('ul.order_notes > li > div > p');\n\n// Check if any note matches the pattern\nreturn Array.from(notes).some(note => checkRefundNote(note.textContent));",
+      "value": "function checkRefundNote(note) {\n    const total = '{{total}}'.replace(/\\$/g, '\\\\$');\n    const pattern = /PayPal refund ID: [A-Z0-9]+/;\n    return pattern.test(note);\n}\n\n// Select all <p> elements within ul.order_notes > li > div > p\nconst notes = document.querySelectorAll('ul.order_notes > li > div > div > p');\n\n// Check if any note matches the pattern\nreturn Array.from(notes).some(note => checkRefundNote(note.textContent));",
       "variableName": ""
     }
   ],

@@ -113,7 +113,14 @@
       "optional": false,
       "private": false,
       "sequence": 9,
-      "target": ".header-loggedin-menu > li:nth-of-type(1) > a[href*=\"/courses/\"]",
+      "target": [
+        {
+          "selector": ".header-loggedin-menu > li:nth-of-type(1) > a[href*=\"/courses/\"]"
+        },
+        {
+          "selector": "#main-header > div > div.site-header-upper-wrap > div > div > div > div > div > div.site-header-main-section-right.site-header-section.site-header-section-right > div:nth-child(1) > ul > li.header-loggedin-menu__item.header-loggedin-menu__item--has-dropdown.os-explore-menu > a"
+        }
+      ],
       "value": ""
     },
     {
