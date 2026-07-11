@@ -91,7 +91,7 @@
       "optional": false,
       "private": false,
       "sequence": 6,
-      "target": ".wpc-checkbox-item.wpc-term-item.wpc-term-count-34 > .wpc-term-item-content-wrapper > input[type=\"checkbox\"]"
+      "target": "#wpc-term-taxonomy-pwb-brand-1504 > .wpc-term-item-content-wrapper > input[type=\"checkbox\"]"
     },
     {
       "command": "assertElementNotVisible",

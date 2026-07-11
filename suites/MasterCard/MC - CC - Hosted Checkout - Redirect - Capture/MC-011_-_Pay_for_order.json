@@ -160,6 +160,9 @@
         },
         {
           "selector": "a[href*=\"/checkout/order-pay/{{orderNumber}}/?pay_for_order=true&key\"]"
+        },
+        {
+          "selector": "a[href*=\"/order-pay/{{orderNumber}}/?pay_for_order=true&key\"]"
         }
       ],
       "value": "",
