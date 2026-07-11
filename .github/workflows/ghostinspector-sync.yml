@@ -6,6 +6,8 @@ on:
 jobs:
   sync:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     env:
       GHOST_INSPECTOR_API_KEY: ${{ secrets.GHOST_INSPECTOR_API_KEY }}
       GHOST_INSPECTOR_FOLDER_ID: ${{ vars.GHOST_INSPECTOR_FOLDER_ID || secrets.GHOST_INSPECTOR_FOLDER_ID }}
@@ -40,15 +42,16 @@ jobs:
             echo "changed=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Create pull request with changes
+      - name: Push branch with changes
         if: steps.check.outputs.changed == 'true'
-        uses: peter-evans/create-pull-request@v5
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ghostinspector-sync-${{ github.run_number }}
-          commit-message: "chore: sync Ghost Inspector suites #${{ github.run_number }}"
-          title: "chore: sync Ghost Inspector suites #${{ github.run_number }}"
-          body: |
-            Automated sync of Ghost Inspector suites from folder.
-            Fetches suite list from folder API, then for each suite: downloads/unzips test files, syncs to folders (adds new, updates existing, removes deleted), and saves suite JSON.
-          base: main
+        env:
+          BRANCH: ghostinspector-sync-${{ github.run_number }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add -A
+          git commit -m "chore: sync Ghost Inspector suites #${{ github.run_number }}"
+          git push origin "$BRANCH"
+          echo "Branch $BRANCH pushed. Open a PR against main:" >> "$GITHUB_STEP_SUMMARY"
+          echo "https://github.com/${{ github.repository }}/pull/new/$BRANCH" >> "$GITHUB_STEP_SUMMARY"
