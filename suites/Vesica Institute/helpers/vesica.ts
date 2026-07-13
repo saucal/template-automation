@@ -36,12 +36,12 @@ export const BILLING: Omit<BillingAddress, 'email'> = {
   firstName: 'QA',
   lastName: `qa${Math.random().toString(36).slice(2, 8)}`,
   company: 'Testing Inc.',
-  address: '1000 Nw 42nd Ave',
+  address: '931 W. 12 St',
   address2: 'Ap. 4',
-  city: 'Miami',
-  state: 'Florida',
-  shortState: 'FL',
-  zip: '33126-3645',
+  city: 'Safford',
+  state: 'Arizona',
+  shortState: 'AZ',
+  zip: '85546',
   country: 'United States (US)',
   shortCountry: 'US',
   phone: '4089211861',
@@ -420,7 +420,14 @@ export async function readOrderReceived(page: Page, config: OrderConfig): Promis
   const txt = async (sel: string) => ((await page.locator(sel).first().textContent().catch(() => '')) ?? '').trim();
   const orderNumber = (await txt('li.woocommerce-order-overview__order.order > strong')).replace(/[^0-9]/g, '');
   const postId = page.url().match(/order-received\/(\d+)/)?.[1] ?? orderNumber;
-  const paymentLabel = await txt('li.woocommerce-order-overview__payment-method.method > strong');
+  // Overview item's class is `woocommerce-order-overview__payment-method` (NOT `.method`)
+  // and <strong> may be nested — use a descendant match. Fall back to the order-details
+  // "Payment method" row (GI reads it there too) if the overview isn't rendered.
+  let paymentLabel = await txt('li.woocommerce-order-overview__payment-method strong');
+  if (!paymentLabel) {
+    const rows = page.locator(`${ORDER_DETAILS_TABLE} tfoot tr`).filter({ hasText: /payment method/i });
+    paymentLabel = ((await rows.first().locator('td').first().textContent().catch(() => '')) ?? '').trim();
+  }
   const productName = normalizeProductName(await txt('td.product-name a[href*="/product/"], td.woocommerce-table__product-name a'));
   const totals = await readTotals(page, ORDER_DETAILS_TABLE);
 
