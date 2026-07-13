@@ -9,7 +9,7 @@
 // admin/email. Selectors verified live 2026-07-13 (docs/site-exploration.md) and
 // cross-checked against generated/specs/vesica-basic-woocommerce-tests-user.spec.ts.
 import { type Page } from '@playwright/test';
-import { ctxFor, resilientClick } from './resilient';
+import { ctxFor, resilientClick, resilientFill } from './resilient';
 import type { BrandConfig, BillingAddress, OrderConfig, OrderResult, CapturedTotals } from '../types/test-config';
 
 // ---------------------------------------------------------------------------
@@ -60,8 +60,10 @@ export function normalizeProductName(s: string): string {
   return (s ?? '').replace(/[“”]/g, '"').replaceAll('–', '-').trim();
 }
 
+/** Unique per-run email on the Playgrounds trap domain (the inbox findEmail searches).
+ *  Must be @playgrounds.saucal.io so the SAU/CAL email-redirect plugin captures it. */
 export function orderEmail(prefix = 'order'): string {
-  return `qa+gi_${prefix}_${Math.random().toString(36).slice(2, 10)}@saucal.com`;
+  return `qa+gi_${prefix}_${Math.random().toString(36).slice(2, 10)}@playgrounds.saucal.io`;
 }
 
 // ---------------------------------------------------------------------------
@@ -165,9 +167,10 @@ export async function submitContactForm(
   data: { name?: string; email?: string; message?: string } = {}
 ): Promise<void> {
   const { name = 'QA Test', email = orderEmail('form'), message = 'test message' } = data;
-  await page.locator('#form-field-name').fill(name).catch(() => {});
-  await page.locator('#form-field-email').fill(email).catch(() => {});
-  await page.locator('#form-field-message').fill(message).catch(() => {});
+  const ctx = ctxFor(page);
+  await resilientFill(ctx, { primary: page.locator('#form-field-name'), ai: 'the contact form Name field' }, name);
+  await resilientFill(ctx, { primary: page.locator('#form-field-email'), ai: 'the contact form Email field' }, email);
+  await resilientFill(ctx, { primary: page.locator('#form-field-message'), ai: 'the contact form Message field' }, message);
   await resilientClick(ctxFor(page), {
     primary: page.getByRole('button', { name: /^send$/i }),
     alt: page.locator('button[type="submit"] .elementor-button-text, button[type="submit"]').first(),
@@ -213,20 +216,22 @@ export async function submitEmptyCheckoutForErrors(page: Page): Promise<string> 
 /** Fill the classic checkout billing fields (select2 country/state via native value+change). */
 export async function fillCheckoutAddress(page: Page, billing: BillingAddress): Promise<void> {
   await waitForCheckoutReady(page);
-  const text: Array<[string, string | undefined]> = [
-    ['#billing_first_name', billing.firstName],
-    ['#billing_last_name', billing.lastName],
-    ['#billing_company', billing.company],
-    ['#billing_address_1', billing.address],
-    ['#billing_address_2', billing.address2],
-    ['#billing_city', billing.city],
-    ['#billing_postcode', billing.zip],
-    ['#billing_phone', billing.phone],
-    ['#billing_email', billing.email],
+  const ctx = ctxFor(page);
+  // Stable IDs → resilient primary + Stagehand-only fallback (no alt), per rule 23.
+  const text: Array<[string, string | undefined, string]> = [
+    ['#billing_first_name', billing.firstName, 'the billing first name field'],
+    ['#billing_last_name', billing.lastName, 'the billing last name field'],
+    ['#billing_company', billing.company, 'the billing company field'],
+    ['#billing_address_1', billing.address, 'the billing street address field'],
+    ['#billing_address_2', billing.address2, 'the billing address line 2 field'],
+    ['#billing_city', billing.city, 'the billing city field'],
+    ['#billing_postcode', billing.zip, 'the billing ZIP / postcode field'],
+    ['#billing_phone', billing.phone, 'the billing phone field'],
+    ['#billing_email', billing.email, 'the billing email field'],
   ];
-  for (const [sel, val] of text) {
+  for (const [sel, val, ai] of text) {
     if (val === undefined) continue;
-    await page.locator(sel).fill(val).catch(() => {});
+    await resilientFill(ctx, { primary: page.locator(sel), ai }, val);
   }
   await setSelect(page, '#billing_country', billing.shortCountry ?? billing.country);
   await waitForCheckoutReady(page);
@@ -446,9 +451,10 @@ export async function loginShopper(page: Page, email: string, password: string):
   await page.goto('my-account/', { waitUntil: 'load' });
   await dismissCookieBanner(page);
   if (await page.locator('.woocommerce-MyAccount-navigation').isVisible({ timeout: 2_000 }).catch(() => false)) return;
-  await page.locator('#username').fill(email);
-  await page.locator('#password').fill(password);
-  await resilientClick(ctxFor(page), {
+  const ctx = ctxFor(page);
+  await resilientFill(ctx, { primary: page.locator('#username'), ai: 'the account username / email field' }, email);
+  await resilientFill(ctx, { primary: page.locator('#password'), ai: 'the account password field' }, password);
+  await resilientClick(ctx, {
     primary: page.getByRole('button', { name: /log in/i }),
     alt: page.locator('button[name="login"]'),
     ai: 'the account Log in button',
@@ -459,9 +465,10 @@ export async function loginShopper(page: Page, email: string, password: string):
 /** Set a new password on the reset/set-password page (#password_1/#password_2). */
 export async function setNewPassword(page: Page, newPassword: string): Promise<void> {
   await page.locator('#password_1').waitFor({ state: 'visible', timeout: 20_000 });
-  await page.locator('#password_1').fill(newPassword);
-  await page.locator('#password_2').fill(newPassword);
-  await resilientClick(ctxFor(page), {
+  const ctx = ctxFor(page);
+  await resilientFill(ctx, { primary: page.locator('#password_1'), ai: 'the new password field' }, newPassword);
+  await resilientFill(ctx, { primary: page.locator('#password_2'), ai: 'the confirm new password field' }, newPassword);
+  await resilientClick(ctx, {
     primary: page.getByRole('button', { name: /save|reset password|set password/i }),
     alt: page.locator('button[type="submit"]').first(),
     ai: 'the Save / Set password button',
@@ -472,8 +479,9 @@ export async function setNewPassword(page: Page, newPassword: string): Promise<v
 export async function requestPasswordReset(page: Page, email: string): Promise<void> {
   await page.goto('my-account/lost-password/', { waitUntil: 'load' });
   await dismissCookieBanner(page);
-  await page.locator('#user_login').fill(email);
-  await resilientClick(ctxFor(page), {
+  const ctx = ctxFor(page);
+  await resilientFill(ctx, { primary: page.locator('#user_login'), ai: 'the lost-password username / email field' }, email);
+  await resilientClick(ctx, {
     primary: page.getByRole('button', { name: /reset password|get new password/i }),
     alt: page.locator('button[type="submit"]').first(),
     ai: 'the Reset password button',

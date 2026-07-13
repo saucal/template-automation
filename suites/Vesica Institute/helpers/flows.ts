@@ -22,6 +22,7 @@ import {
   type PdpCapture,
 } from './vesica';
 import { resetLinkFromEmail } from './assertions';
+import { ctxFor, resilientFill } from './resilient';
 
 export interface OrderPages {
   shopperPage: Page;
@@ -97,9 +98,11 @@ export async function establishAccountViaEmail(page: Page, email: string, passwo
 export async function runRegisterFlow(page: Page): Promise<string> {
   const email = orderEmail('reg');
   await page.goto('my-account/', { waitUntil: 'load' });
-  await page.locator('#reg_email').fill(email).catch(async () => {
-    await page.locator('input[name="email"]').first().fill(email);
-  });
+  await resilientFill(
+    ctxFor(page),
+    { primary: page.locator('#reg_email'), alt: page.locator('input[name="email"]').first(), ai: 'the registration email field' },
+    email
+  );
   await page.getByRole('button', { name: /register/i })
     .or(page.locator('button.woocommerce-form-register__submit, button[name="register"]'))
     .first()
