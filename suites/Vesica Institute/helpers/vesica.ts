@@ -136,6 +136,29 @@ export async function readCartLine(page: Page): Promise<{ name: string; price: s
   };
 }
 
+/**
+ * Open a course sub-page via the Courses header dropdown (GI guest test 04). The GI
+ * source has NO slug for these pages — it navigates purely by dropdown position, so
+ * we replicate that: hover the Courses parent (matched by its href), then click the
+ * Nth sub-item. Positions (from GI): BG=2, C&M=3, VS=4, SS=5 (1 = Courses landing).
+ * Brittle by nature (nth) — once first-run reveals the real URLs, prefer slug gotos.
+ */
+export async function openCoursesSubPage(page: Page, nth: number): Promise<void> {
+  await page.goto('/', { waitUntil: 'load' });
+  await dismissCookieBanner(page);
+  const coursesParent = page
+    .locator('nav.elementor-nav-menu--main a[href*="/calendar-of-courses-and-events/"].has-submenu')
+    .or(page.getByRole('link', { name: /^courses$/i }))
+    .first();
+  await coursesParent.hover().catch(() => {});
+  const subItem = page
+    .locator(`nav.elementor-nav-menu--main .elementor-nav-menu > li.menu-item-has-children > ul.sub-menu > li:nth-of-type(${nth}) > a.elementor-sub-item`)
+    .filter({ visible: true })
+    .first();
+  await subItem.click({ force: true });
+  await page.waitForLoadState('load');
+}
+
 /** Fill + submit the Elementor contact form on /contact-us/ (GI guest test 08). */
 export async function submitContactForm(
   page: Page,

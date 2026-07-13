@@ -9,7 +9,7 @@
 // Follow-up (need auth / exact slugs — first-run): Members (/my-account/courses/,
 // auth-gated) and the 4 course sub-pages (BG/C&M/SS/VS drill-downs).
 import { test, expect } from '../../fixtures';
-import { dismissCookieBanner, pickFirstProduct, ALL_PRODUCTS_CATEGORY } from '../../helpers/vesica';
+import { dismissCookieBanner, pickFirstProduct, openCoursesSubPage, ALL_PRODUCTS_CATEGORY } from '../../helpers/vesica';
 import { assertPageRenders } from '../../helpers/assertions';
 
 interface NavPage {
@@ -30,10 +30,15 @@ const PAGES: NavPage[] = [
   { name: 'contact', path: 'contact-us/' },
 ];
 
-// DEFERRED (first-run): the 4 course sub-pages (BG/C&M/SS/VS — GI guest test 04) are
-// reached only via the Courses dropdown (nth items); their staging slugs aren't in the
-// captured nav snapshot (dropdown wasn't expanded; header shows offsite vesica.org links).
-// Add them here with real slugs once confirmed live, rather than pin brittle nth selectors.
+// Course sub-pages (GI guest test 04) — GI has NO slug for these; it navigates by
+// Courses-dropdown position only, so we replicate that (nth). Once first-run reveals
+// the real URLs, prefer slug gotos.
+const COURSE_SUBPAGES: Array<{ key: string; nth: number }> = [
+  { key: 'course-bg', nth: 2 },
+  { key: 'course-cm', nth: 3 },
+  { key: 'course-vs', nth: 4 },
+  { key: 'course-ss', nth: 5 },
+];
 
 /**
  * Trigger lazy-loaded media before a full-page screenshot (rule 24): step-scroll to
@@ -82,6 +87,21 @@ test.describe(
 
         // Mask dynamic chrome (header cart total) so the baseline tracks LAYOUT.
         await expect(shopperPage, `${name} page visual regression`).toHaveScreenshot(`${name}.png`, {
+          fullPage: true,
+          animations: 'disabled',
+          maxDiffPixelRatio: 0.02,
+          mask: [shopperPage.getByRole('link', { name: /cart/i }).first()],
+        });
+      });
+    }
+
+    // Course sub-pages (GI guest test 04): reached via the Courses dropdown by position.
+    for (const { key, nth } of COURSE_SUBPAGES) {
+      test(`VES-NAV-${key} – ${key} loads + visual`, async ({ shopperPage }) => {
+        await openCoursesSubPage(shopperPage, nth);
+        await assertPageRenders(shopperPage, key);
+        await triggerLazyLoad(shopperPage);
+        await expect(shopperPage, `${key} visual regression`).toHaveScreenshot(`${key}.png`, {
           fullPage: true,
           animations: 'disabled',
           maxDiffPixelRatio: 0.02,
