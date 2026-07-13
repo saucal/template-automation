@@ -215,14 +215,34 @@ export async function assertPasswordResetRequested(page: Page): Promise<void> {
   await expect(page.locator('.woocommerce-message, .woocommerce-info').first(), 'a password-reset confirmation notice should show').toContainText(/email|reset|link/i);
 }
 
-/** Extract the set-password / reset link from the emailed message for `email`. */
+/** Decode the handful of HTML entities that appear in href attributes. */
+function decodeHref(url: string): string {
+  return url.replace(/&amp;/g, '&').replace(/&#0?38;/g, '&').replace(/&#x26;/gi, '&');
+}
+
+/**
+ * Extract the set-password / reset link from the account-created (or lost-password)
+ * email. The site sends through an ESP that REWRITES links as tracking redirects
+ * (track.smtpsendemail.com → the real kinsta reset URL), so we can't match the reset
+ * URL directly — grab the href of the "set your new password" anchor and let goto
+ * follow the redirect. Falls back to a direct reset URL, then any tracking link.
+ */
 export async function resetLinkFromEmail(email: string): Promise<string> {
   const msg = await findEmail(email, { contains: 'password', attempts: 40 });
   expect(msg, `a set-password email to ${email} should arrive`).not.toBeNull();
-  const body = `${msg?.HTML ?? ''}${msg?.Text ?? ''}`;
-  const url = body.match(/https?:\/\/[^\s"'<>]*(?:reset-password|lost-password|action=rp)[^\s"'<>]*/i)?.[0];
-  expect(url, `the email should contain a set-password link\nbody:\n${body.slice(0, 500)}`).toBeTruthy();
-  return url as string;
+  const html = msg?.HTML ?? '';
+  const text = msg?.Text ?? '';
+
+  const anchors = [...html.matchAll(/<a[^>]+href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/gi)];
+  const setPwAnchor = anchors.find(([, , label]) => /set\s+(?:a\s+)?(?:your\s+)?(?:new\s+)?password|create.*password/i.test(label.replace(/<[^>]+>/g, ' ')));
+  const url =
+    setPwAnchor?.[1] ??
+    html.match(/https?:\/\/[^\s"'<>]*(?:reset-password|lost-password|action=rp)[^\s"'<>]*/i)?.[0] ??
+    text.match(/https?:\/\/[^\s"'<>]*(?:reset-password|lost-password|action=rp)[^\s"'<>]*/i)?.[0] ??
+    anchors.map((a) => a[1]).find((h) => /track\.smtpsendemail|\/ls\/click|smtp/i.test(h));
+
+  expect(url, `the email should contain a set-password link\nhtml:\n${html.slice(0, 900)}`).toBeTruthy();
+  return decodeHref(url as string);
 }
 
 export async function assertPasswordWasReset(page: Page): Promise<void> {
