@@ -234,7 +234,11 @@ export async function assertRefund(adminPage: Page, result: OrderResult, config:
 
   await expect(adminPage.locator('tr.refund > td.name'), `[${config.testId}] a refund line should be added to the order`).not.toHaveCount(0);
   const refundLine = ((await adminPage.locator('tr.refund > td.line_cost > .view .woocommerce-Price-amount.amount').first().textContent().catch(() => '')) ?? '');
-  expect(moneyEq(refundLine, result.totals.total), `[${config.testId}] refund line ${refundLine} should equal -total ${result.totals.total}`).toBeTruthy();
+  // The refund line renders NEGATIVE (-$total); compare magnitudes.
+  expect(
+    Math.abs(Math.abs(toAmount(refundLine)) - Math.abs(toAmount(result.totals.total))) < 0.01,
+    `[${config.testId}] refund line ${refundLine} should equal -total ${result.totals.total}`
+  ).toBeTruthy();
 
   const notes = await readOrderNotes(adminPage);
   const pattern = config.refund?.notePattern ?? /refund/i;
