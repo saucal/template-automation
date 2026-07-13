@@ -386,6 +386,41 @@ Each file with full path and complete contents — no placeholders or `// ...exi
 11. `helpers/assertions.ts` — all `expect()`, branching on TestConfig + SuiteVars
 12. Spec files under `specs/<feature-area>/`
 
+Do NOT generate the `README.md` here — it is a post-approval step (see Handoff).
+
+---
+
+## Handoff — after the user approves the suite
+
+`template-automation` is the BUILD home, not the final home. Once the user has
+APPROVED the working suite (specs reviewed / passing live), do these — each gated
+on explicit user approval, in order:
+
+1. **Write the suite `README.md`** (in the suite root) — only now, not during
+   initial generation, so it documents the settled shape. Cover: the
+   environments/projects and how to select them, setup (`npm install`,
+   `setup:browsers`, the `.env` keys incl. the per-environment base URLs), run
+   commands (per environment, per feature area, single spec, `--ui`, `show-report`,
+   `typecheck`), the `specs/`/`helpers/` layout, and the site's load-bearing gotchas.
+   Keep it practical and runnable.
+
+2. **Move the executable suite into the project's OWN repo** (the site's codebase,
+   e.g. `saucal/<project>`). **Ask the user for — or confirm — the project's main
+   repo and local clone path** first. Then:
+   - Create a dedicated branch off the repo's mainline — **`main` or `production`
+     (confirm which)** — e.g. `playwright` / `migration/playwright`.
+   - Copy ONLY the runnable Playwright project into a **`tests/`** folder (or the
+     repo's existing test dir): `specs/`, `helpers/`, `fixtures/`, `types/`,
+     `playwright.config.ts`, `tsconfig.json`, `package.json` (+ lockfile),
+     `README.md`, `.env.example`, `admin-login.ts`, `docs/`.
+   - **EXCLUDE** everything not needed to run: `node_modules/`, `generated/`, the
+     raw GI JSON export folders, `auth/` / `reports/` / `test-results/`, the real
+     `.env` (ship **`.env.example` only** — never secrets), and visual `*-snapshots/`.
+   - It stays a self-contained nested project (own `package.json`/`node_modules`);
+     Playwright runs from `tests/`. Push the branch — the suite now lives with the
+     code under test. (Copy, don't delete from `template-automation`, unless the
+     user asks; the migration branch is the build record.)
+
 ---
 
 ## What NOT to do
