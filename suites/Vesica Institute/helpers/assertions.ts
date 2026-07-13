@@ -38,7 +38,9 @@ export function assertOrderParity(result: OrderResult, config: OrderConfig): voi
  * Re-reads totals + payment label on view-order and compares to the captured result.
  */
 export async function assertMyAccount(shopperPage: Page, result: OrderResult, config: OrderConfig): Promise<void> {
-  if (config.user === 'guest') return;
+  // Only a logged-in shopper reaches view-order; guest/new checkout redirects to
+  // login (rule 18). My-account parity is asserted on the logged-user order.
+  if (config.user !== 'logged') return;
 
   await shopperPage.goto(`my-account/view-order/${result.postId}/`, { waitUntil: 'load' });
   const ctx = ctxFor(shopperPage);
