@@ -3,7 +3,19 @@
 // core duplicated. DOM-first suite, no WC REST. Auth is lazy per-host (admin-login.ts,
 // keyed on the project name → auth/admin-vesica.json) — no globalSetup here.
 import { defineConfig, devices } from '@playwright/test';
-import 'dotenv/config';
+import dotenv from 'dotenv';
+import path from 'path';
+
+// Load .env from THIS config's directory, not process.cwd() — so the suite works
+// when launched from the repo/worktree root or the VS Code runner (whose cwd differs).
+dotenv.config({ path: path.resolve(__dirname, '.env') });
+
+if (!process.env.BASE_URL) {
+  throw new Error(
+    'BASE_URL is not set. Copy "suites/Vesica Institute/.env.example" to ".env" and fill it, ' +
+      'or run from the suite directory.'
+  );
+}
 
 export default defineConfig({
   testDir: 'specs',
