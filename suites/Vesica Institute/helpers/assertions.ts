@@ -83,19 +83,21 @@ export function assertOrderParity(result: OrderResult, config: OrderConfig): voi
   expect(result.paymentLabel, `[${config.testId}] thank-you payment label "${result.paymentLabel}" should match ${expectedLabel}`).toMatch(expectedLabel);
 
   const { subtotal, shipping, tax, total } = result.totals;
-  // total = subtotal + shipping + tax (rows absent read as 0).
+  // total = subtotal + shipping + tax (rows absent read as 0). This math check covers
+  // every order shape — membership (no shipping, tax by address), physical (ship+tax) —
+  // so there is no membership-specific totals rule (tax now applies via the AZ address).
   const sum = [subtotal, shipping, tax].reduce((a, v) => a + (Number.isNaN(toAmount(v)) ? 0 : toAmount(v)), 0);
   expect(Math.abs(sum - toAmount(total)), `[${config.testId}] total ${total} should equal subtotal+shipping+tax (${subtotal}+${shipping}+${tax})`).toBeLessThan(0.01);
 
   if (config.isMembership) {
-    // GI membership order: total == unit price, no shipping cost, no tax.
-    expect(moneyEq(subtotal, total), `[${config.testId}] membership order total ${total} should equal subtotal ${subtotal} (no shipping/tax)`).toBeTruthy();
+    // Membership/virtual product: no physical shipment → no shipping COST.
+    expect(toAmount(shipping) === 0 || Number.isNaN(toAmount(shipping)), `[${config.testId}] membership order should have no shipping cost (got "${shipping}")`).toBeTruthy();
   }
   if (config.expectShipping) {
     expect(toAmount(shipping) > 0, `[${config.testId}] order should have a non-$0 shipping row (got "${shipping}")`).toBeTruthy();
   }
   if (config.expectTax) {
-    expect(!Number.isNaN(toAmount(tax)), `[${config.testId}] order should have a tax row (got "${tax}")`).toBeTruthy();
+    expect(toAmount(tax) > 0, `[${config.testId}] order should have a non-$0 tax row (got "${tax}")`).toBeTruthy();
   }
 
   assertAddressBlock(result.billingBlock, config, 'thank-you billing');
