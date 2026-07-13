@@ -82,20 +82,25 @@ export interface OrderConfig {
   brand: Brand;
   user: UserKind;
   payment: Payment;
-  /** Override the brand's default product. */
-  product?: BrandProduct;
+  /** Category page to pick the FIRST in-stock product from (GI flow). */
+  categoryPath: string;
   qty?: number;
-  /** For user='new', create a WP account during/after checkout (passwordless). */
-  createAccount?: boolean;
   /** For user='logged', the reused account email from an earlier chain test. */
   accountEmail?: string;
   /** Expected WC order status on the thank-you / admin surfaces. */
-  expectedStatus: 'Processing' | 'Completed' | 'On hold';
+  expectedStatus: 'Processing' | 'Completed' | 'On hold' | 'Refunded';
+  /** This product grants a membership (GI CC order → tr.membership + My-Membership). */
+  isMembership?: boolean;
+  /** Whether this order is expected to have a non-$0 shipping row. */
+  expectShipping?: boolean;
+  /** Whether this order is expected to have a tax row. */
+  expectTax?: boolean;
   /** Refund expectations (config-driven — differs per gateway). */
   refund?: {
-    /** Overrides brand default when the same brand has multiple gateways. */
     notePattern?: RegExp;
     status?: 'Refunded' | 'Cancelled';
+    /** Also refund the shipping line + shipping tax (full refund). */
+    includeShipping?: boolean;
   };
 }
 
@@ -108,8 +113,9 @@ export interface CapturedTotals {
 }
 
 /**
- * Facts captured ONCE at order-received, then asserted on every surface that renders
- * them (thank-you · My Account · email · admin). Never re-read per surface, never hardcode.
+ * Facts captured ONCE during the flow (PDP + order-received), then asserted on every
+ * surface that renders them (thank-you · My Account · email · admin). Never re-read
+ * per surface, never hardcode.
  */
 export interface OrderResult {
   orderNumber: string;
@@ -117,11 +123,17 @@ export interface OrderResult {
   postId: string;
   /** Email used for billing — guest/new random or reused logged account. */
   billingEmail: string;
+  /** Product name captured from the PDP (h1.product_title, dash-normalised). */
+  productName: string;
+  /** Unit price captured from the PDP (raw display, e.g. "$100.00"). */
+  unitPrice: string;
   /** Customer-facing payment-method label ("Credit Card" / "PayPal"). */
   paymentLabel: string;
   totals: CapturedTotals;
-  /** Stable billing-block lines captured from thank-you (name/street/city/postcode). */
+  /** Billing address block text (order-received). */
   billingBlock: string;
+  /** Shipping address block text (order-received) — present when a shipping column shows. */
+  shippingBlock?: string;
   /** Gateway order note text (admin) if captured during the flow. */
   gatewayNote?: string;
 }
