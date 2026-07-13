@@ -464,7 +464,19 @@ export async function loginShopper(page: Page, email: string, password: string):
 
 /** Set a new password on the reset/set-password page (#password_1/#password_2). */
 export async function setNewPassword(page: Page, newPassword: string): Promise<void> {
-  await page.locator('#password_1').waitFor({ state: 'visible', timeout: 20_000 });
+  // The reset form (#password_1) OR an "invalid/expired/already used" notice appears.
+  // Surface the latter with a clear message instead of a bare 20s waitFor timeout.
+  const pw = page.locator('#password_1');
+  const invalid = page.locator('.woocommerce-error, .wp-die-message, #login_error').filter({ hasText: /invalid|expired|already been used|no longer valid/i });
+  await Promise.race([
+    pw.waitFor({ state: 'visible', timeout: 20_000 }),
+    invalid.first().waitFor({ state: 'visible', timeout: 20_000 }),
+  ]).catch(() => {});
+  if (await invalid.count()) {
+    const msg = ((await invalid.first().innerText().catch(() => '')) ?? '').replace(/\s+/g, ' ').trim();
+    throw new Error(`set-password link is not usable — "${msg}". The reset key was likely already used or invalidated by a newer reset request.`);
+  }
+  await pw.waitFor({ state: 'visible', timeout: 5_000 });
   const ctx = ctxFor(page);
   await resilientFill(ctx, { primary: page.locator('#password_1'), ai: 'the new password field' }, newPassword);
   await resilientFill(ctx, { primary: page.locator('#password_2'), ai: 'the confirm new password field' }, newPassword);
