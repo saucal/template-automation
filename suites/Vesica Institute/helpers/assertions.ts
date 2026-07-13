@@ -15,6 +15,7 @@ import {
   goToMyAccountOrders,
   goToViewOrder,
   ORDER_DETAILS_TABLE,
+  BILLING,
 } from './vesica';
 import { findEmail } from './playgrounds-email';
 
@@ -25,9 +26,13 @@ function moneyEq(a: string | undefined, b: string | undefined): boolean {
   return Math.abs(na - nb) < 0.01;
 }
 
-/** Assert a captured address block carries the stable parts (name + street + city + zip). */
+/** Assert a captured address block carries the stable parts of the order's billing
+ *  address — derived from BILLING (never hardcoded), so changing BILLING (e.g. to a
+ *  taxable address) keeps the assertion correct. Skips state/country (long-vs-short
+ *  form differs per surface) and uses the ZIP's leading 5 digits (surfaces vary +4). */
 function assertAddressBlock(block: string, config: OrderConfig, surface: string): void {
-  for (const part of ['QA', '1000 Nw 42nd Ave', 'Miami', '33126']) {
+  const parts = [BILLING.firstName, BILLING.address, BILLING.city, BILLING.zip.split('-')[0]];
+  for (const part of parts) {
     expect(block, `[${config.testId}] ${surface} address should include "${part}"\nblock:\n${block}`).toContain(part);
   }
 }
@@ -116,11 +121,38 @@ export async function assertMyAccount(shopperPage: Page, result: OrderResult, co
   await expect(shopperPage.locator('mark.order-number').first(), `[${config.testId}] view-order should show order number ${result.orderNumber}`).toContainText(result.orderNumber);
   await expect(shopperPage.locator('mark.order-status').first(), `[${config.testId}] view-order status should be "${config.expectedStatus}"`).toContainText(config.expectedStatus);
 
-  const label = ((await shopperPage.locator('li.woocommerce-order-overview__payment-method.method > strong').first().textContent().catch(() => '')) ?? '').toLowerCase();
-  expect(label, `[${config.testId}] view-order payment label should include "${result.paymentLabel}"`).toContain(result.paymentLabel.toLowerCase());
+  // Product line: name link + line total (GI asserts both on view-order).
+  await expect(
+    shopperPage.locator('td.product-name a[href*="/product/"], td.woocommerce-table__product-name a').first(),
+    `[${config.testId}] view-order should list the product "${result.productName}"`
+  ).toContainText(result.productName);
+  const productTotal = ((await shopperPage.locator('td.woocommerce-table__product-total .woocommerce-Price-amount.amount > bdi, td.product-total .woocommerce-Price-amount.amount > bdi').first().textContent().catch(() => '')) ?? '');
+  expect(moneyEq(productTotal, result.unitPrice), `[${config.testId}] view-order product total ${productTotal} should equal unit price ${result.unitPrice}`).toBeTruthy();
 
+  // On view-order the payment method is a ROW in the order-details table
+  // ("Payment method: <label>"), not the order-received overview's `.method > strong`.
+  const pmRow = shopperPage
+    .locator('.woocommerce-table--order-details tfoot tr, table.shop_table.order_details tfoot tr')
+    .filter({ hasText: /payment method/i })
+    .first();
+  const label = ((await pmRow.locator('td').first().innerText().catch(() => '')) ?? '').toLowerCase();
+  expect(label, `[${config.testId}] view-order payment method row should show "${result.paymentLabel}"`).toContain(result.paymentLabel.toLowerCase());
+
+  // Every total ROW must match the captured order-received values (not just the total).
   const totals = await readTotals(shopperPage, ORDER_DETAILS_TABLE);
-  expect(moneyEq(totals.total, result.totals.total), `[${config.testId}] view-order total ${totals.total} should equal thank-you total ${result.totals.total}`).toBeTruthy();
+  for (const row of ['subtotal', 'shipping', 'tax', 'total'] as const) {
+    const captured = result.totals[row];
+    // Only assert rows that exist on the captured order (absent/empty → surface omits it).
+    if (!captured || Number.isNaN(toAmount(captured))) continue;
+    expect(
+      moneyEq(totals[row], captured),
+      `[${config.testId}] view-order ${row} ${totals[row]} should equal order-received ${row} ${captured}`
+    ).toBeTruthy();
+  }
+
+  // Billing address parity on view-order (GI asserts the address block here too).
+  const address = ((await shopperPage.locator('.woocommerce-customer-details address').first().innerText().catch(() => '')) ?? '');
+  assertAddressBlock(address, config, 'view-order billing');
 }
 
 // ---------------------------------------------------------------------------
