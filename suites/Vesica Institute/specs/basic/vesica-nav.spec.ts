@@ -9,7 +9,7 @@
 // Follow-up (need auth / exact slugs — first-run): Members (/my-account/courses/,
 // auth-gated) and the 4 course sub-pages (BG/C&M/SS/VS drill-downs).
 import { test, expect } from '../../fixtures';
-import { dismissCookieBanner } from '../../helpers/vesica';
+import { dismissCookieBanner, pickFirstProduct, ALL_PRODUCTS_CATEGORY } from '../../helpers/vesica';
 import { assertPageRenders } from '../../helpers/assertions';
 
 interface NavPage {
@@ -18,14 +18,22 @@ interface NavPage {
 }
 
 // Real paths captured live from the header nav (docs/site-exploration.md).
+// Members (/my-account/courses/) is auth-gated — as a guest it renders the login
+// screen; the visual baseline captures that (GI guest test 07).
 const PAGES: NavPage[] = [
   { name: 'home', path: '/' },
   { name: 'about', path: 'about-us/' },
   { name: 'courses', path: 'calendar-of-courses-and-events/' },
   { name: 'articles', path: 'article-topics/' },
   { name: 'shop', path: 'product-category/all-products/' },
+  { name: 'members', path: 'my-account/courses/' },
   { name: 'contact', path: 'contact-us/' },
 ];
+
+// DEFERRED (first-run): the 4 course sub-pages (BG/C&M/SS/VS — GI guest test 04) are
+// reached only via the Courses dropdown (nth items); their staging slugs aren't in the
+// captured nav snapshot (dropdown wasn't expanded; header shows offsite vesica.org links).
+// Add them here with real slugs once confirmed live, rather than pin brittle nth selectors.
 
 /**
  * Trigger lazy-loaded media before a full-page screenshot (rule 24): step-scroll to
@@ -81,5 +89,19 @@ test.describe(
         });
       });
     }
+
+    // Product page (GI guest test 09): open the first product PDP and snapshot it.
+    test('VES-NAV-product – product page loads + visual', async ({ shopperPage }) => {
+      await shopperPage.goto('/', { waitUntil: 'load' });
+      await pickFirstProduct(shopperPage, ALL_PRODUCTS_CATEGORY);
+      await assertPageRenders(shopperPage, 'product');
+      await triggerLazyLoad(shopperPage);
+      await expect(shopperPage, 'product page visual regression').toHaveScreenshot('product.png', {
+        fullPage: true,
+        animations: 'disabled',
+        maxDiffPixelRatio: 0.02,
+        mask: [shopperPage.getByRole('link', { name: /cart/i }).first()],
+      });
+    });
   }
 );

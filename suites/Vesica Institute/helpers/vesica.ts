@@ -136,6 +136,22 @@ export async function readCartLine(page: Page): Promise<{ name: string; price: s
   };
 }
 
+/** Fill + submit the Elementor contact form on /contact-us/ (GI guest test 08). */
+export async function submitContactForm(
+  page: Page,
+  data: { name?: string; email?: string; message?: string } = {}
+): Promise<void> {
+  const { name = 'QA Test', email = orderEmail('form'), message = 'test message' } = data;
+  await page.locator('#form-field-name').fill(name).catch(() => {});
+  await page.locator('#form-field-email').fill(email).catch(() => {});
+  await page.locator('#form-field-message').fill(message).catch(() => {});
+  await resilientClick(ctxFor(page), {
+    primary: page.getByRole('button', { name: /^send$/i }),
+    alt: page.locator('button[type="submit"] .elementor-button-text, button[type="submit"]').first(),
+    ai: 'the contact form Send button',
+  });
+}
+
 // ---------------------------------------------------------------------------
 // Cart / checkout navigation (rule 30 — customer click paths)
 // ---------------------------------------------------------------------------

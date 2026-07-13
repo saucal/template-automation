@@ -229,6 +229,14 @@ export async function assertPasswordWasReset(page: Page): Promise<void> {
   await expect(page.locator('.woocommerce-message, .woocommerce-MyAccount-content, body').first(), 'a password-changed confirmation should show').toContainText(/password.*(changed|reset|updated)|log in/i);
 }
 
+/** The contact form showed its success confirmation (match intent, not exact copy — rule 26). */
+export async function assertContactFormSubmitted(page: Page): Promise<void> {
+  await expect(
+    page.locator('div.page .elementor-widget-container, .elementor-message-success, main').first(),
+    'contact form should confirm the message was sent'
+  ).toContainText(/message was sent|get back to you/i, { timeout: 90_000 });
+}
+
 /** A page rendered its main content — behaviour, not pinned copy (visual specs). */
 export async function assertPageRenders(page: Page, name: string): Promise<void> {
   await expect(page.locator('main, #main, .elementor, article, .site-main').first(), `${name} page should render its main content`).toBeVisible({ timeout: 15_000 });
