@@ -192,10 +192,34 @@ export async function assertBackend(adminPage: Page, result: OrderResult, config
 // ---------------------------------------------------------------------------
 
 export async function assertMembershipActive(shopperPage: Page, config: OrderConfig): Promise<void> {
-  await shopperPage.goto('my-account/my-membership-content/', { waitUntil: 'load' }).catch(() => {});
-  const membershipRow = shopperPage.locator('tr.membership').first()
-    .or(shopperPage.locator('td.membership-plan, .wc-memberships').first());
-  await expect(membershipRow, `[${config.testId}] a membership should be active after the membership order`).toBeVisible({ timeout: 15_000 });
+  // GI membership signals: `tr.membership` on the My-Account dashboard (test 02) and a
+  // `a[href*="my-membership-content"]` link → `td.membership-plan` + "My Membership"
+  // breadcrumb (test 01). Check the dashboard first, then follow the membership link.
+  await shopperPage.goto('my-account/', { waitUntil: 'load' });
+  const dashboardSignal = shopperPage
+    .locator('tr.membership')
+    .or(shopperPage.locator('a[href*="my-membership-content"], a[href*="members-area"]'))
+    .first();
+  await expect(
+    dashboardSignal,
+    `[${config.testId}] My Account should show a membership (tr.membership or a My-Membership link) after the membership order`
+  ).toBeVisible({ timeout: 15_000 });
+
+  // Follow the membership link and confirm the membership content (plan row / breadcrumb).
+  const memberLink = shopperPage.locator('a[href*="my-membership-content"], a[href*="members-area"]').first();
+  if (await memberLink.count().catch(() => 0)) {
+    await memberLink.click({ force: true }).catch(() => {});
+    await shopperPage.waitForLoadState('load').catch(() => {});
+    const content = shopperPage
+      .locator('td.membership-plan')
+      .or(shopperPage.locator('nav[aria-label="Breadcrumb"]').filter({ hasText: /my membership/i }))
+      .or(shopperPage.locator('.wc-memberships, .my-membership'))
+      .first();
+    await expect(
+      content,
+      `[${config.testId}] the My Membership page should list the membership plan`
+    ).toBeVisible({ timeout: 15_000 });
+  }
 }
 
 // ---------------------------------------------------------------------------
