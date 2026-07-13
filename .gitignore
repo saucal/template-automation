@@ -16,3 +16,6 @@ playwright/.auth/
 # Local env / auth
 .env
 auth/
+
+# Playwright visual-regression baselines (kept local, not committed)
+*-snapshots/
