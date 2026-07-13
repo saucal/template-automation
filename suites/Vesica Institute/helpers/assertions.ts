@@ -127,6 +127,14 @@ export async function assertRefundEmail(emailPage: Page, result: OrderResult, co
 // Account flows
 // ---------------------------------------------------------------------------
 
+/** A page rendered its main content (not an error/empty shell) — behaviour, not pinned copy. */
+export async function assertPageRenders(page: Page, name: string): Promise<void> {
+  await expect(
+    page.locator('main, #main, .elementor, article, .site-main').first(),
+    `${name} page should render its main content`
+  ).toBeVisible({ timeout: 15_000 });
+}
+
 /** The my-account nav is visible → the shopper is logged in. */
 export async function assertLoggedIn(page: Page): Promise<void> {
   await expect(

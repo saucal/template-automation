@@ -1,0 +1,85 @@
+// Vesica guest nav + visual regression. The GI guest suite's page-by-page nav
+// tests collapse into ONE data-driven visual spec (triage rule): each public page
+// loads (behaviour assert, rule 35) and matches its full-page screenshot baseline.
+// Cart/checkout render is exercised by the orders flow (not duplicated here).
+//
+// Baselines: generate per-project on first run with `--update-snapshots`
+// (filenames carry the project, e.g. home-vesica-darwin.png).
+//
+// Follow-up (need auth / exact slugs — first-run): Members (/my-account/courses/,
+// auth-gated) and the 4 course sub-pages (BG/C&M/SS/VS drill-downs).
+import { test, expect } from '../../fixtures';
+import { dismissCookieBanner } from '../../helpers/vesica';
+import { assertPageRenders } from '../../helpers/assertions';
+
+interface NavPage {
+  name: string;
+  path: string;
+}
+
+// Real paths captured live from the header nav (docs/site-exploration.md).
+const PAGES: NavPage[] = [
+  { name: 'home', path: '/' },
+  { name: 'about', path: 'about-us/' },
+  { name: 'courses', path: 'calendar-of-courses-and-events/' },
+  { name: 'articles', path: 'article-topics/' },
+  { name: 'shop', path: 'product-category/all-products/' },
+  { name: 'contact', path: 'contact-us/' },
+];
+
+/**
+ * Trigger lazy-loaded media before a full-page screenshot (rule 24): step-scroll to
+ * the bottom, await each <img> decode (BOUNDED — a placeholder with no src fires
+ * neither load nor error, so race a 3s timeout), then scroll back to top.
+ */
+async function triggerLazyLoad(page: import('@playwright/test').Page): Promise<void> {
+  await page.evaluate(async () => {
+    const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+    const step = Math.max(300, Math.floor(window.innerHeight * 0.9));
+    for (let y = 0; y < document.body.scrollHeight; y += step) {
+      window.scrollTo(0, y);
+      await sleep(150);
+    }
+    await Promise.all(
+      Array.from(document.images)
+        .filter((img) => !img.complete)
+        .map(
+          (img) =>
+            new Promise<void>((resolve) => {
+              const done = () => resolve();
+              img.addEventListener('load', done, { once: true });
+              img.addEventListener('error', done, { once: true });
+              setTimeout(done, 3_000); // bound: unresolved lazy src never fires events
+            })
+        )
+    );
+    window.scrollTo(0, 0);
+  });
+  await page.waitForLoadState('networkidle', { timeout: 8_000 }).catch(() => {});
+}
+
+test.describe(
+  'Vesica guest nav + visual',
+  { tag: ['@plugin:woocommerce', '@plugin:elementor'] },
+  () => {
+    for (const { name, path } of PAGES) {
+      test(`VES-NAV-${name} – ${name} page loads + visual`, async ({ shopperPage }) => {
+        await shopperPage.goto(path, { waitUntil: 'load' });
+        await dismissCookieBanner(shopperPage);
+
+        // Behaviour: the page rendered real content (not an error/empty shell).
+        await assertPageRenders(shopperPage, name);
+
+        await triggerLazyLoad(shopperPage);
+
+        // Mask dynamic chrome (header cart total) so the baseline tracks LAYOUT.
+        await expect(shopperPage, `${name} page visual regression`).toHaveScreenshot(`${name}.png`, {
+          fullPage: true,
+          animations: 'disabled',
+          maxDiffPixelRatio: 0.02,
+          mask: [shopperPage.getByRole('link', { name: /cart/i }).first()],
+        });
+      });
+    }
+  }
+);
