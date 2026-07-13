@@ -138,7 +138,7 @@ export async function loginOnHost(page: Page, origin: string): Promise<void> {
   // goto, then confirm auth via the admin bar — a reliable logged-in signal.
   for (let attempt = 1; ; attempt++) {
     try {
-      await page.goto(`${origin}wp-admin/`, { waitUntil: 'load' });
+      await page.goto(`${origin}wp-admin/`, { waitUntil: 'domcontentloaded' });
       break;
     } catch (err) {
       if (attempt >= 5) throw err;
@@ -153,8 +153,8 @@ export async function loginOnHost(page: Page, origin: string): Promise<void> {
     const confirmCheck = page.locator('#correct-admin-email').filter({ visible: true });
     if (await confirmCheck.count()) {
       await confirmCheck.first().click({ force: true }).catch(() => {});
-      await page.waitForLoadState('load');
-      await page.goto(`${origin}wp-admin/`, { waitUntil: 'load' }).catch(() => {});
+      await page.waitForLoadState('domcontentloaded');
+      await page.goto(`${origin}wp-admin/`, { waitUntil: 'domcontentloaded' }).catch(() => {});
       continue;
     }
     if (await page.locator('#wpadminbar').isVisible({ timeout: 5_000 }).catch(() => false)) break;

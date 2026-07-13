@@ -524,7 +524,22 @@ export async function goToViewOrder(page: Page, orderNumber: string): Promise<vo
 // ---------------------------------------------------------------------------
 
 export async function openAdminOrder(adminPage: Page, postId: string): Promise<void> {
-  await adminPage.goto(`wp-admin/post.php?post=${postId}&action=edit`, { waitUntil: 'load' });
+  // WP-admin behind Kinsta/Cloudflare rarely fires 'load' inside 30s (heartbeat +
+  // analytics keep the page busy) — wait for DOM only, then confirm the admin session.
+  await adminPage.goto(`wp-admin/post.php?post=${postId}&action=edit`, { waitUntil: 'domcontentloaded' });
+  const adminBar = adminPage.locator('#wpadminbar');
+  const orderEditor = adminPage.locator('#order_data, h2.woocommerce-order-data__heading');
+  await Promise.race([
+    adminBar.waitFor({ state: 'visible', timeout: 20_000 }),
+    orderEditor.first().waitFor({ state: 'visible', timeout: 20_000 }),
+  ]).catch(() => {});
+  if (!(await adminBar.isVisible().catch(() => false)) && !(await orderEditor.first().isVisible().catch(() => false))) {
+    throw new Error(
+      `admin order editor for post ${postId} did not load as an admin (no #wpadminbar / order editor). ` +
+        `Current URL: ${adminPage.url()} — the saved admin session may be stale/rejected (delete auth/ to force re-login) ` +
+        `or the account lacks edit_shop_orders on this site.`
+    );
+  }
 }
 
 export async function readAdminOrderStatus(adminPage: Page): Promise<string> {
