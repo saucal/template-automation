@@ -42,8 +42,18 @@ Header links: Home, About, Courses, Articles, Shop, Members, Contact; Cart = `li
 - New-user CC: order as guest → passwordless account auto-created → "Click here to set your new password" email → `#password_1`/`#password_2`. Same set-password page as forgot-password.
 - GI emailed via `email.ghostinspector.com` → **migrate to Playgrounds** (`mail.playgrounds.saucal.io`); confirm redirect plugin active on Kinsta.
 
-## STILL PENDING (resume here tomorrow)
-1. Admin login persistence + open order 153814 in `post.php` editor → capture: `#order_status` select, payment-via meta selector, order-notes container (`.order_notes li`), **refund form** (`input.refund_order_item_qty`, `#refund_amount`, refund button label) and **whether Auth.Net REFUNDS (→ Refunded) or VOIDS (→ Cancelled)** + exact gateway note text.
-2. PayPal PPCP popup flow selectors (sandbox login).
-3. Playgrounds email plugin active? (register + refund-email + set-password).
-4. Pur Crystal — separate branch, its own Task 0.
+## Admin editor (order 153814, legacy post.php) — CAPTURED 2026-07-13
+- Login: `#user_login`/`#user_pass`/`#wp-submit` (or role textboxes "Username or Email Address"/"Password" + "Log In" button). No SSO/2FA. Confirm-email interstitial not seen.
+- `#order_status` select, value `wc-processing`.
+- Payment method meta: dropdown with "Payment method: … Credit Card/PayPal/Other".
+- **Order notes** (`#woocommerce-order-notes li .note_content` / `.order_notes li .note_content`), CC gateway notes:
+  - `Payment via Credit Card (80057161678).` → regex `/Payment via Credit Card \(\d+\)/`
+  - `Authorize.Net Emulation – Credit Card Test Charge Approved: Visa ending in 0027` (en-dash)
+  - plus "Email 'Processing order' sent", "Email 'New order' sent", AvaTax + stock notes.
+- **Refund form** (`button.refund-items` → opens): `input.refund_order_item_qty` (fill + bubbling `change` → recomputes), `#refund_amount`, `input.refund_line_total` (2). Buttons: `button.do-manual-refund` ("Refund $X manually") + `.cancel-action`. **Auth.Net AIM emulation = MANUAL refund ONLY (no `do-api-refund`, no void)** → a CC refund goes to status **Refunded** via manual refund. (Filling item qty=1 → `#refund_amount`=24.00; shipping row separate. Order left UNMODIFIED — no refund submitted.)
+
+## STILL PENDING (build-time / first-run capture)
+1. **PayPal PPCP** place-order (sandbox popup) + its refund — Vesica's refund test (User 02) is on the PayPal order, NOT CC. PPCP likely has `button.do-api-refund` ("Refund $X via PayPal"). Capture when placing a PayPal order (needs sandbox login loop, No Pong pattern).
+2. Playgrounds email plugin active on Kinsta? (register + refund-email + set-password link).
+3. Register / forgot-password `#password_1`/`#password_2` set-password flow + reCAPTCHA on standalone register.
+4. Pur Crystal — separate branch, its own Task 0 (incl Auth.Net CC "Refund by Admin" — manual refund confirmed above applies there).
