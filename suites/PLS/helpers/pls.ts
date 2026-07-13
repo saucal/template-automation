@@ -14,6 +14,7 @@
 //   - Stripe Payment Element (single js.stripe.com iframe with labeled fields).
 //   - Sequential order numbers: displayed number 'O-08924' ≠ WP post id.
 import type { Frame, Page } from '@playwright/test';
+import { fillBillingCheckoutBlocks } from '@woocommerce/e2e-utils-playwright';
 import type { BillingDetails, CourseCapture, OrderConfig, Participant, Totals } from '../types/test-config';
 import { ctxFor, resilientCheck, resilientClick, resilientFill, resilientSelect, resilientText } from './resilient';
 
@@ -146,6 +147,31 @@ export async function waitForBlocksReady(page: Page): Promise<void> {
   ]) {
     await page.locator(sel).first().waitFor({ state: 'hidden', timeout: 15_000 }).catch(() => {});
   }
+}
+
+/**
+ * Best-effort wait for WC Blocks' debounced address push to the Store API
+ * (/wc/store/v1/batch) to land, so the SERVER persists the value before we touch
+ * the next field — otherwise the batch response syncs the address back to the
+ * geo-IP default and reverts what we just set. Bounded + swallowed: periodic
+ * heartbeats mean networkidle may never truly settle.
+ */
+export async function settleNetwork(page: Page): Promise<void> {
+  await page.waitForLoadState('networkidle', { timeout: 8_000 }).catch(() => {});
+}
+
+/** Read the country/state the blocks STORE holds — the value the wizard actually
+ *  validates against (the DOM <select> can lag or be reverted independently). */
+async function storeBillingField(page: Page, field: 'country' | 'state'): Promise<string> {
+  return page
+    .evaluate((f) => {
+      const w = window as unknown as { wp?: { data?: { select: (s: string) => unknown } } };
+      const cart = w.wp?.data?.select('wc/store/cart') as
+        | { getCustomerData?: () => { billingAddress?: Record<string, string> } }
+        | undefined;
+      return cart?.getCustomerData?.()?.billingAddress?.[f] ?? '';
+    }, field)
+    .catch(() => '');
 }
 
 // ---------------------------------------------------------------------------
@@ -298,9 +324,39 @@ export async function proceedToCheckout(page: Page): Promise<void> {
     ai: 'the Proceed to checkout button on the cart page',
   });
   await page.waitForURL('**/checkout/**', { timeout: 20_000 });
-  // The blocks checkout + wizard mount client-side after the page load.
+  await waitForCheckoutLoaded(page);
+}
+
+/**
+ * Wait for the blocks checkout + pls-core wizard to be FULLY hydrated before any
+ * field interaction. The Store API cart/session must be established first —
+ * editing fields against a half-mounted checkout races hydration and orphans
+ * the cart ("Cannot create order from empty cart" at Place Order). Gates on:
+ * the wizard mounted, the billing country <select> populated with its full
+ * option list, the order summary showing a real (non-zero) total (= the cart
+ * actually loaded into the checkout), spinners gone, and the network settled.
+ */
+export async function waitForCheckoutLoaded(page: Page): Promise<void> {
   await page.locator('.pls-checkout-steps').waitFor({ state: 'visible', timeout: 30_000 });
+  await page
+    .waitForFunction(
+      () => {
+        const sel = document.querySelector('#billing-country') as HTMLSelectElement | null;
+        if (!sel || sel.options.length <= 10) return false;
+        const totals = Array.from(
+          document.querySelectorAll('.wc-block-components-totals-item__value, .wc-block-formatted-money-amount')
+        );
+        return totals.some((e) => {
+          const t = (e.textContent || '').trim();
+          return /\d/.test(t) && !/^\$?0(\.00)?$/.test(t);
+        });
+      },
+      undefined,
+      { timeout: 30_000 }
+    )
+    .catch(() => {});
   await waitForBlocksReady(page);
+  await settleNetwork(page);
 }
 
 /** The single cart line as rendered (name incl. " - 7 Days", price, sub price, qty). */
@@ -414,58 +470,127 @@ export async function activeStep(page: Page): Promise<string> {
  */
 export async function nextStep(page: Page, expected: string): Promise<void> {
   const ctx = ctxFor(page);
-  await waitForBlocksReady(page);
-  await resilientClick(ctx, {
-    primary: page.locator(NEXT_BTN).filter({ visible: true }).first(),
-    alt: page.getByRole('button', { name: /^next$/i }).first(),
-    ai: 'the Next button of the checkout wizard',
-  });
-  try {
-    await page
-      .locator(`${STEP_ACTIVE}:has-text("${expected}")`)
-      .waitFor({ state: 'visible', timeout: 15_000 });
-  } catch {
-    const current = await activeStep(page);
-    const invalid = await page
-      .locator('[aria-invalid="true"]')
-      .evaluateAll((els) => els.map((e) => e.id || (e as HTMLInputElement).name || e.className));
-    throw new Error(
-      `checkout wizard did not advance to "${expected}" (still on "${current}"). ` +
-        `The wizard validates silently — check for empty required fields. aria-invalid: [${invalid.join(', ')}]`
-    );
+  const invalidFields = () =>
+    page.locator('[aria-invalid="true"]').evaluateAll((els) => els.map((e) => e.id || (e as HTMLInputElement).name || e.className));
+
+  // The click can race the blocks store committing the last field's value: Next
+  // then validates stale-empty state and SILENTLY no-ops. So retry while no
+  // field is actually invalid; fail fast only when a required field is empty.
+  for (let attempt = 0; attempt < 3; attempt++) {
+    await waitForBlocksReady(page);
+    await resilientClick(ctx, {
+      primary: page.locator(NEXT_BTN).filter({ visible: true }).first(),
+      alt: page.getByRole('button', { name: /^next$/i }).first(),
+      ai: 'the Next button of the checkout wizard',
+    });
+    try {
+      await page.locator(`${STEP_ACTIVE}:has-text("${expected}")`).waitFor({ state: 'visible', timeout: 8_000 });
+      await waitForBlocksReady(page);
+      return;
+    } catch {
+      const invalid = await invalidFields();
+      if (invalid.length > 0) {
+        throw new Error(
+          `checkout wizard did not advance to "${expected}" (still on "${await activeStep(page)}"). ` +
+            `Empty/invalid required fields: [${invalid.join(', ')}]`
+        );
+      }
+      // No invalid field → the click raced the store commit; settle and retry.
+      await page.waitForTimeout(1_500);
+    }
   }
-  await waitForBlocksReady(page);
+  throw new Error(
+    `checkout wizard did not advance to "${expected}" after retries (still on "${await activeStep(page)}", ` +
+      `no invalid fields — the Next click kept no-oping).`
+  );
 }
 
 /**
- * Step 1 — Billing. Order matters: the COUNTRY select goes first — changing it
- * re-renders the state select and WIPES postcode + phone (live-confirmed), so
- * filling it later would silently discard earlier values.
+ * Step 1 — Billing. Delegates the standard blocks address fields to the
+ * WooCommerce e2e-utils helper `fillBillingCheckoutBlocks` — it scopes to the
+ * "Billing address" group, fills COUNTRY first (via a real group-scoped
+ * selectOption that updates the blocks store), then city/state/ZIP/phone by
+ * their WC-canonical labels. Email + the pls-core custom fields (middle name,
+ * company, address_2) aren't part of the library shape, so we fill them here.
+ *
+ * The site geo-defaults the country to AR and WC Blocks can sync it BACK after
+ * its debounced address push (live-confirmed: intermittent "stuck on Billing"
+ * with the country reverted). So after the fill we let the push settle and, if
+ * the store country/state drifted, re-run the (idempotent) library fill until
+ * it holds — the store is what the wizard validates.
+ *
+ * Ordering is load-bearing (both live-confirmed):
+ *   - COUNTRY first — its change re-renders the address group, wiping fields
+ *     set before it (an email filled first came back empty → wizard stuck).
+ *   - EMAIL right after country, NOT last — a brand-new email fires a debounced
+ *     account lookup that switches the guest session; done late it lands mid-
+ *     wizard and orphans the cart ("Cannot create order from empty cart" at
+ *     Place Order). Done early, the lookup settles during the rest of billing.
+ * So: set country → set email → let the library fill the remaining standard
+ * fields (country is already set, so its selectOption is a no-op that doesn't
+ * re-render and wipe the email) → custom fields last.
  */
 export async function fillBillingStep(page: Page, billing: BillingDetails, email: string): Promise<void> {
   const ctx = ctxFor(page);
-  await page.locator('#email').waitFor({ state: 'visible', timeout: 30_000 });
+  // Do not touch a field until the checkout is fully hydrated (cart/session
+  // established) — otherwise the edits race hydration and orphan the cart.
+  await waitForCheckoutLoaded(page);
+  const group = page.getByRole('group', { name: 'Billing address' });
+  const billingValue = async (field: 'country' | 'state') =>
+    (await storeBillingField(page, field)) ||
+    (await page.locator(field === 'country' ? '#billing-country' : '#billing-state').inputValue().catch(() => ''));
 
-  await resilientSelect(ctx, { primary: page.locator('#billing-country'), ai: 'the billing country dropdown' }, billing.country);
-  // The state <select> re-renders after the country change — give the blocks
-  // store a beat, then interact with the fresh node.
-  await waitForBlocksReady(page);
-
-  await resilientFill(ctx, { primary: page.locator('#email'), ai: 'the checkout email field' }, email);
-  await resilientFill(ctx, { primary: page.locator('#billing-first_name'), ai: 'the billing first name field' }, billing.firstName);
-  await resilientFill(ctx, { primary: page.locator('#billing-pls-core-middle_name'), ai: 'the billing middle name field' }, billing.middleName);
-  await resilientFill(ctx, { primary: page.locator('#billing-last_name'), ai: 'the billing last name field' }, billing.lastName);
-  await resilientFill(ctx, { primary: page.locator('#billing-company'), ai: 'the billing company field' }, billing.company);
-  await resilientFill(ctx, { primary: page.locator('#billing-address_1'), ai: 'the billing street address field' }, billing.street);
-  // address_2 is present (no reveal toggle on this theme) but keep it optional.
-  const addr2 = page.locator('#billing-address_2');
-  if (await addr2.isVisible({ timeout: 1_000 }).catch(() => false)) {
-    await resilientFill(ctx, { primary: addr2, ai: 'the billing apartment / suite field' }, billing.street2);
+  // 1. Country FIRST, guarded against the geo-IP revert (store is what the
+  //    wizard validates; the DOM mirrors it after the push settles).
+  for (let attempt = 0; attempt < 5; attempt++) {
+    await group.getByLabel('Country').selectOption(billing.country).catch(() => {});
+    await waitForBlocksReady(page);
+    await settleNetwork(page);
+    if ((await billingValue('country')) === billing.country) break;
   }
-  await resilientFill(ctx, { primary: page.locator('#billing-city'), ai: 'the billing city field' }, billing.city);
-  await resilientSelect(ctx, { primary: page.locator('#billing-state'), ai: 'the billing state dropdown' }, billing.state);
-  await resilientFill(ctx, { primary: page.locator('#billing-postcode'), ai: 'the billing ZIP code field' }, billing.zip);
-  await resilientFill(ctx, { primary: page.locator('#billing-phone'), ai: 'the billing phone field' }, billing.phone);
+
+  // 2. Email EARLY (after country, before the rest) so the account lookup
+  //    settles well before Place Order. Confirm it committed.
+  for (let i = 0; i < 3; i++) {
+    await resilientFill(ctx, { primary: page.locator('#email'), ai: 'the checkout email field' }, email);
+    await waitForBlocksReady(page);
+    await settleNetwork(page);
+    if ((await page.locator('#email').inputValue().catch(() => '')) === email) break;
+  }
+
+  // 3. Remaining standard fields via the e2e-utils helper. Country is already
+  //    set, so the library's country selectOption is a no-op (no re-render).
+  await fillBillingCheckoutBlocks(page, {
+    firstName: billing.firstName,
+    lastName: billing.lastName,
+    address: billing.street,
+    country: billing.country,
+    city: billing.city,
+    state: billing.state,
+    zip: billing.zip,
+    phone: billing.phone,
+    isPostalCode: false, // US → "ZIP Code" label
+  });
+
+  // State can lag the US-states re-render — guard it explicitly.
+  for (let attempt = 0; attempt < 4; attempt++) {
+    await waitForBlocksReady(page);
+    await settleNetwork(page);
+    if ((await billingValue('state')) === billing.state) break;
+    await group.getByLabel('State/County', { exact: false }).selectOption(billing.state).catch(() => {});
+  }
+
+  // 4. Custom pls-core fields the library doesn't own.
+  await resilientFill(ctx, { primary: page.locator('#billing-pls-core-middle_name'), ai: 'the billing middle name field' }, billing.middleName);
+  await resilientFill(ctx, { primary: page.locator('#billing-company'), ai: 'the billing company field' }, billing.company);
+  const addr2Toggle = page.locator('.wc-block-components-address-form__address_2-toggle');
+  if ((await addr2Toggle.count()) > 0) {
+    await addr2Toggle.filter({ visible: true }).first().click().catch(() => {});
+  }
+  const addr2Input = page.locator('#billing-address_2').first();
+  if ((await addr2Input.count()) > 0) {
+    await addr2Input.fill(billing.street2 ?? '').catch(() => {});
+  }
 }
 
 /**
@@ -578,6 +703,9 @@ export async function placeOrderWithNote(page: Page, note: string): Promise<void
     },
     note
   );
+  await page.waitForLoadState('networkidle', { timeout: 10_000 }).catch(() => {});
+  await waitForBlocksReady(page);
+  await page.waitForTimeout(5_000); // let the note commit to the store before Place Order
   await resilientClick(ctx, {
     primary: page.getByRole('button', { name: /place order/i }).first(),
     ai: 'the Place Order button',
@@ -620,10 +748,12 @@ export async function readOrderReceived(page: Page): Promise<OrderReceived> {
     })
   ).trim();
 
-  const email = await resilientText(ctx, {
-    primary: page.locator('li.woocommerce-order-overview__email.email > strong'),
-    ai: 'the email on the order confirmation',
-  });
+  // Best-effort: WC omits the email row from the overview for LOGGED-IN users,
+  // and a guest order auto-logs-in the purchaser — so this row is absent here.
+  // The purchaser email is known from config; '' when the row isn't shown.
+  const email = (
+    (await page.locator('li.woocommerce-order-overview__email.email > strong').first().textContent().catch(() => '')) ?? ''
+  ).trim();
 
   const paymentLabel = await resilientText(ctx, {
     primary: page.locator('li.woocommerce-order-overview__payment-method.method > strong'),
@@ -642,35 +772,44 @@ export async function readOrderReceived(page: Page): Promise<OrderReceived> {
     await page.locator('.pls-confirmation-summary__participant').allInnerTexts().catch(() => [])
   ).map((t) => t.replace(/\s+/g, ' ').trim());
 
-  const address = await resilientText(ctx, {
-    primary: page.locator('.woocommerce-customer-details address').first(),
-    alt: page.locator('.woocommerce-customer-details').first(),
-    ai: 'the billing address block on the order confirmation',
-  });
+  // Best-effort: this thank-you page omits the customer-details/address block
+  // for the (auto-logged-in) purchaser of a virtual order. The address is
+  // asserted on My Account view-order + admin + email instead. '' when absent.
+  const address = (
+    (await page.locator('.woocommerce-customer-details address, .woocommerce-customer-details').first().textContent().catch(() => '')) ?? ''
+  ).replace(/\s+/g, ' ').trim();
 
   const totals = await readTotals(page, ORDER_DETAILS_TABLE);
 
-  // "Note: Testing Notes" tfoot row (label-based readTotals skips it).
+  // Customer note row: rowheader "Note:" + value cell "Testing Notes" (its own
+  // row, not part of the label-based totals). Target the row by header text and
+  // read the value cell — the note lives outside tfoot on the blocks thank-you.
   const note = (
     await page
-      .locator(`${ORDER_DETAILS_TABLE} tfoot tr`)
-      .filter({ hasText: /note/i })
-      .locator('td')
+      .getByRole('row', { name: /note:/i })
       .first()
+      .getByRole('cell')
+      .last()
       .textContent()
       .catch(() => '')
   )?.trim() ?? '';
 
-  // Related subscriptions: one row per seat (#26774 Active - $18.00 View).
+  // Related subscriptions: one row per seat. The "Related subscriptions" table
+  // is a plain <table> (no distinctive class); rows are identified by their
+  // /view-subscription/ link (number text "#26807"), with Status + Total cells.
   const subscriptions = await page
-    .locator('.woocommerce-orders-table--subscriptions tbody tr, table.subscription_details tbody tr')
+    .locator('tr')
+    .filter({ has: page.locator('a[href*="/view-subscription/"]') })
     .evaluateAll((rows) =>
       rows.map((r) => {
         const norm = (s: string | null | undefined) => (s ?? '').replace(/\s+/g, ' ').trim();
+        const cells = Array.from(r.querySelectorAll('td'));
+        const priceCell = cells.find((c) => /\$|\d+\.\d{2}/.test(c.textContent || ''));
+        const statusCell = cells.find((c) => /active|pending|cancel|on-hold|expired/i.test(c.textContent || ''));
         return {
-          number: norm(r.querySelector('.subscription-id, td:first-child')?.textContent).replace(/\s*View.*$/, ''),
-          status: norm(r.querySelector('.subscription-status, td:nth-child(2)')?.textContent),
-          total: norm(r.querySelector('.subscription-total .woocommerce-Price-amount, td .woocommerce-Price-amount')?.textContent),
+          number: norm(r.querySelector('a[href*="/view-subscription/"]')?.textContent).replace(/\s*view.*$/i, ''),
+          status: norm(statusCell?.textContent),
+          total: norm(priceCell?.querySelector('.woocommerce-Price-amount')?.textContent ?? priceCell?.textContent),
         };
       })
     )
@@ -689,6 +828,17 @@ export async function loginAccount(page: Page, email: string, password: string):
   await page.goto('my-account/');
   await page.waitForLoadState('load');
   await dismissPopups(page);
+
+  // A prior step may have left us authenticated — WooCommerce auto-logs-in the
+  // user right after a password reset — in which case my-account/ shows the
+  // dashboard, not the login form (#username absent). Log out first so the
+  // credentials are actually exercised.
+  if (await isLoggedIn(page)) {
+    await logoutAccount(page);
+    await page.goto('my-account/');
+    await page.waitForLoadState('load');
+    await dismissPopups(page);
+  }
 
   await resilientFill(ctx, { primary: page.locator('#username'), ai: 'the login username / email field' }, email);
   await resilientFill(ctx, { primary: page.locator('#password'), ai: 'the login password field' }, password);
@@ -722,10 +872,11 @@ export async function logoutAccount(page: Page): Promise<void> {
  * (assertions/flows) so the Mailpit lookup stays in one place.
  */
 export async function requestPasswordReset(page: Page): Promise<void> {
-  await page.goto('my-account/lost-password/');
+  await page.goto('my-account/');
   await page.waitForLoadState('load');
+  await page.locator('.woocommerce-LostPassword.lost_password > a').first().click({ timeout: 5_000 });
   await dismissPopups(page);
-  await page.locator('form.woocommerce-ResetPassword #user_login').waitFor({ state: 'visible', timeout: 15_000 });
+  await page.locator('#user_login').waitFor({ state: 'visible', timeout: 15_000 });
 }
 
 /** Fill + submit the lost-password form (page must already be on lost-password). */

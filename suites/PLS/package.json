@@ -16,8 +16,10 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@babel/runtime": "^7.29.7",
     "@playwright/test": "^1.60.0",
     "@types/node": "^20.0.0",
+    "@woocommerce/e2e-utils-playwright": "^0.4.0",
     "typescript": "^5.9.3"
   }
 }

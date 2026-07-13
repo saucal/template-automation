@@ -34,9 +34,9 @@ export function mailpitViewUrl(id: string): string {
  */
 export async function findEmail(
   email: string,
-  opts: { subjectFilter?: string; attempts?: number; intervalMs?: number } = {}
+  opts: { subjectFilter?: string; contains?: string; attempts?: number; intervalMs?: number } = {}
 ): Promise<MailpitMessage | null> {
-  const { subjectFilter, attempts = 40, intervalMs = 3_000 } = opts;
+  const { subjectFilter, contains, attempts = 40, intervalMs = 3_000 } = opts;
   // Quote the address: Mailpit's query parser treats unquoted '+' as a term
   // separator, breaking lookup for '+'-tagged addresses like qa+test@...
   const query = `to:"${email}"` + (subjectFilter ? ` subject:"${subjectFilter}"` : '');
@@ -46,9 +46,19 @@ export async function findEmail(
       const res = await api.get(`${MAILPIT_URL}/api/v1/search?query=${encodeURIComponent(query)}&limit=5`);
       if (res.ok()) {
         const data = (await res.json()) as { messages?: Array<{ ID: string }> };
-        if (data.messages && data.messages.length > 0) {
-          const detail = await api.get(`${MAILPIT_URL}/api/v1/message/${data.messages[0].ID}`);
-          if (detail.ok()) return (await detail.json()) as MailpitMessage;
+        // Mailpit can index a message (so it shows in search) a beat before its
+        // body is stored — returning it then yields empty HTML/Text and a false
+        // content-assertion failure. So fetch each candidate (newest first) and
+        // only accept one whose body is actually populated (and, if a `contains`
+        // token was given, present in the body). Otherwise keep polling.
+        for (const summary of data.messages ?? []) {
+          const detail = await api.get(`${MAILPIT_URL}/api/v1/message/${summary.ID}`);
+          if (!detail.ok()) continue;
+          const msg = (await detail.json()) as MailpitMessage;
+          const body = `${msg.HTML ?? ''}${msg.Text ?? ''}`.trim();
+          if (!body) continue; // indexed but body not fully stored yet — retry
+          if (contains && !`${msg.Subject ?? ''} ${body}`.toLowerCase().includes(contains.toLowerCase())) continue;
+          return msg;
         }
       }
       if (i < attempts - 1) await new Promise((r) => setTimeout(r, intervalMs));

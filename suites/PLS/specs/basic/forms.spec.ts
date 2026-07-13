@@ -33,6 +33,8 @@ test.describe('PLS Forms', { tag: ['@plugin:kadence-blocks', '@plugin:woocommerc
     await resilientFill(ctx, { primary: page.getByLabel(/^email/i).first(), ai: 'the inquiry form Email field' }, emailForTest('form_refresher'));
     await resilientFill(ctx, { primary: page.getByLabel(/^phone/i).first(), ai: 'the inquiry form Phone field' }, '1231231234');
     await resilientFill(ctx, { primary: page.getByLabel(/currently licensed/i).first(), ai: 'the inquiry form Currently licensed field' }, 'yes');
+    // Year Graduated* is a required number field — the form won't submit without it.
+    await resilientFill(ctx, { primary: page.getByLabel(/year graduated/i).first(), ai: 'the inquiry form Year Graduated field' }, '2010');
     await resilientFill(ctx, { primary: page.getByLabel(/why are you interested/i).first(), ai: 'the inquiry form message field' }, 'Testing message');
 
     await resilientClick(ctx, {

@@ -31,6 +31,7 @@ import {
   readCartTotals,
   readCredentialOptions,
   readOrderReceived,
+  waitForCheckoutLoaded,
   warnIfNoTaxOrShipping,
   type CartLine,
   type OrderReceived,
@@ -98,16 +99,23 @@ export async function runOrderFlow({ shopperPage: page }: OrderPages, config: Or
   await proceedToCheckout(page);
 
   await fillBillingStep(page, BILLING, emailFor(config));
+  await waitForCheckoutLoaded(page);
+  
   await nextStep(page, 'Participants');
 
   const participants = participantsFor(config);
+  await waitForCheckoutLoaded(page);
+
   await fillParticipantsStep(page, participants);
   const credentialOptions = await readCredentialOptions(page);
+  await waitForCheckoutLoaded(page);
   await nextStep(page, 'Payment');
-
+  await waitForCheckoutLoaded(page);
   await fillStripeStep(page);
-  await nextStep(page, 'Confirmation');
+  await waitForCheckoutLoaded(page);
 
+  await nextStep(page, 'Confirmation');
+  await waitForCheckoutLoaded(page);
   const checkout = await readBlocksSummary(page);
   await placeOrderWithNote(page, ORDER_NOTE);
 

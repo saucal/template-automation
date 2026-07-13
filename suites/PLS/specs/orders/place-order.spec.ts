@@ -101,6 +101,8 @@ test.describe.serial('PLS-PO — Place order (multi-step checkout)', { tag: TAGS
     await setNewPassword(shopperPage, PASSWORD2);
     await assertPasswordWasReset(shopperPage);
 
+    await logoutAccount(shopperPage).catch(() => {});
+    await shopperPage.waitForLoadState('load');
     await loginAccount(shopperPage, email, PASSWORD2);
     await assertLoggedIn(shopperPage);
   });
