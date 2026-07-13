@@ -52,6 +52,11 @@ Header links: Home, About, Courses, Articles, Shop, Members, Contact; Cart = `li
   - plus "Email 'Processing order' sent", "Email 'New order' sent", AvaTax + stock notes.
 - **Refund form** (`button.refund-items` → opens): `input.refund_order_item_qty` (fill + bubbling `change` → recomputes), `#refund_amount`, `input.refund_line_total` (2). Buttons: `button.do-manual-refund` ("Refund $X manually") + `.cancel-action`. **Auth.Net AIM emulation = MANUAL refund ONLY (no `do-api-refund`, no void)** → a CC refund goes to status **Refunded** via manual refund. (Filling item qty=1 → `#refund_amount`=24.00; shipping row separate. Order left UNMODIFIED — no refund submitted.)
 
+## Email (Playgrounds) — CONFIRMED 2026-07-13
+- Generated emails MUST use **@playgrounds.saucal.io** (the SAU/CAL trap inbox `findEmail` searches). `@saucal.com` does NOT land.
+- Emails route through an **ESP (SMTP.com) that REWRITES links as tracking redirects** (`https://track.smtpsendemail.com/…` → real kinsta URL). So the direct reset URL never appears in the body — extract the **"Click here to set your new password"** anchor href (tracking URL) and let `goto` follow the redirect (handled in `resetLinkFromEmail`).
+- Account-created email headline: "Welcome to the Vesica Institute for Holistic Studies". Expect ESP delivery lag/reorder → poll window widened (findEmail 40×3s=120s).
+
 ## STILL PENDING (build-time / first-run capture)
 1. **PayPal PPCP** place-order (sandbox popup) + its refund — Vesica's refund test (User 02) is on the PayPal order, NOT CC. PPCP likely has `button.do-api-refund` ("Refund $X via PayPal"). Capture when placing a PayPal order (needs sandbox login loop, No Pong pattern).
 2. Playgrounds email plugin active on Kinsta? (register + refund-email + set-password link).
