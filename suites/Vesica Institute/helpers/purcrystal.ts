@@ -298,6 +298,27 @@ export async function fillCheckoutAddress(page: Page, billing: BillingAddress): 
   }
 }
 
+/** Tick "Create an account?" during checkout (GI Pur Crystal) so the purchaser gets an
+ *  account + is auto-logged-in for the My-Account parity checks. Passwordless (no field). */
+export async function enableCreateAccount(page: Page): Promise<void> {
+  const cb = page.locator('#createaccount').first();
+  if (await cb.count().catch(() => 0)) {
+    if (!(await cb.isChecked().catch(() => false))) {
+      await cb.check().catch(async () => {
+        await page.locator('label[for="createaccount"]').click({ force: true }).catch(() => {});
+      });
+    }
+    await waitForCheckoutReady(page);
+    return;
+  }
+  // Fallback: a themed "Create an account?" toggle rendered as a span/heading.
+  const toggle = page.getByText(/create an account\?/i).first();
+  if (await toggle.isVisible({ timeout: 2_000 }).catch(() => false)) {
+    await toggle.click({ force: true }).catch(() => {});
+    await waitForCheckoutReady(page);
+  }
+}
+
 /**
  * Ship to a DIFFERENT address (GI Pur Crystal): tick the ship-to-different checkbox,
  * then fill the `#shipping_*` fields. Produces the second (shipping) address block.

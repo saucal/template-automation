@@ -12,6 +12,7 @@ import {
   selectCreditCard,
   submitEmptyCheckoutForErrors,
   fillCheckoutAddress,
+  enableCreateAccount,
   fillShippingAddress,
   captureCheckoutTotals,
   placeOrderAuthNet,
@@ -66,6 +67,8 @@ export async function runOrderFlow({ shopperPage: page }: OrderPages, config: Or
   // GI Pur Crystal orders as a guest: validation-first, fill billing, ship-to-different.
   const validationError = await submitEmptyCheckoutForErrors(page);
   await fillCheckoutAddress(page, { ...BILLING, email });
+  // GI creates an account during checkout → purchaser auto-logs-in for My-Account parity.
+  await enableCreateAccount(page);
   if (config.shipToDifferent) await fillShippingAddress(page, SHIPPING);
 
   const checkoutTotals = await captureCheckoutTotals(page);
