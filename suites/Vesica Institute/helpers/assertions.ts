@@ -245,24 +245,60 @@ export async function assertRefund(adminPage: Page, result: OrderResult, config:
   expect(notes.some((n) => pattern.test(n)), `[${config.testId}] expected a refund note matching ${pattern}\nnotes:\n${notes.join('\n---\n')}`).toBeTruthy();
 }
 
-/** Refund email parity: the total shown struck-through (<del>) and the new total $0.00 (<ins>). */
+/** Strip HTML tags + entities so a money amount can be matched in an email body. */
+function plainText(html: string): string {
+  return html.replace(/<[^>]+>/g, ' ').replace(/&nbsp;|&#160;/gi, ' ').replace(/\s+/g, ' ');
+}
+/** True when the email body renders a money amount (matches the numeric value). */
+function bodyHasAmount(body: string, val: string | undefined): boolean {
+  const n = toAmount(val);
+  if (Number.isNaN(n)) return true; // absent row (e.g. no shipping) — nothing to assert
+  return plainText(body).includes(n.toFixed(2));
+}
+
+/**
+ * Refund email parity (GI test 02 refund email): the original total is struck-through
+ * (<del>) and the new total is $0.00 (<ins>) — a full refund. Assert the del/ins
+ * structure carries those exact values.
+ */
 export async function assertRefundEmail(emailPage: Page, result: OrderResult, config: OrderConfig): Promise<void> {
   const msg = await findEmail(result.billingEmail, { subjectFilter: 'refund', contains: 'refund', attempts: 40 });
   expect(msg, `[${config.testId}] a refund email to ${result.billingEmail} should arrive`).not.toBeNull();
-  const body = `${msg?.HTML ?? ''}${msg?.Text ?? ''}`;
-  expect(body.toLowerCase(), `[${config.testId}] refund email should mention the refund`).toContain('refund');
-  // The original total appears struck-through and the new total is $0.00.
+  const html = `${msg?.HTML ?? ''}`;
   const totalNum = toAmount(result.totals.total).toFixed(2);
-  expect(body.includes(totalNum) || body.includes(result.totals.total), `[${config.testId}] refund email should show the original total ${result.totals.total}`).toBeTruthy();
+
+  const dels = html.match(/<del\b[^>]*>[\s\S]*?<\/del>/gi) ?? [];
+  const ins = html.match(/<ins\b[^>]*>[\s\S]*?<\/ins>/gi) ?? [];
+  expect(
+    dels.some((d) => plainText(d).includes(totalNum)),
+    `[${config.testId}] refund email should strike through the original total ${result.totals.total} in a <del>\nhtml:\n${html.slice(0, 800)}`
+  ).toBeTruthy();
+  expect(
+    ins.some((i) => plainText(i).includes('0.00')),
+    `[${config.testId}] refund email should show the new total $0.00 in an <ins>\nhtml:\n${html.slice(0, 800)}`
+  ).toBeTruthy();
 }
 
-/** Order email parity — the order-confirmation email carries the captured total. */
+/**
+ * Order email parity (GI checkOrderOnEmail): the confirmation email carries the product,
+ * subtotal, tax, total (+ shipping for a physical order) and the payment-method label —
+ * all matching the captured order values.
+ */
 export async function assertOrderEmail(emailPage: Page, result: OrderResult, config: OrderConfig): Promise<void> {
   const msg = await findEmail(result.billingEmail, { subjectFilter: 'order', attempts: 40 });
   expect(msg, `[${config.testId}] an order email to ${result.billingEmail} should arrive`).not.toBeNull();
   const body = `${msg?.HTML ?? ''}${msg?.Text ?? ''}`;
-  const totalNum = toAmount(result.totals.total).toFixed(2);
-  expect(body.includes(totalNum) || body.includes(result.totals.total), `[${config.testId}] order email should show the total ${result.totals.total}`).toBeTruthy();
+  const text = plainText(body);
+
+  expect(text, `[${config.testId}] order email should list the product "${result.productName}"`).toContain(result.productName);
+  expect(bodyHasAmount(body, result.totals.subtotal), `[${config.testId}] order email should show subtotal ${result.totals.subtotal}`).toBeTruthy();
+  expect(bodyHasAmount(body, result.totals.tax), `[${config.testId}] order email should show tax ${result.totals.tax}`).toBeTruthy();
+  expect(bodyHasAmount(body, result.totals.total), `[${config.testId}] order email should show total ${result.totals.total}`).toBeTruthy();
+  if (config.expectShipping) {
+    expect(bodyHasAmount(body, result.totals.shipping), `[${config.testId}] order email should show shipping ${result.totals.shipping}`).toBeTruthy();
+  }
+  const label = config.payment === 'paypal' ? 'PayPal' : 'Credit Card';
+  expect(text, `[${config.testId}] order email should show the payment method "${label}"`).toContain(label);
 }
 
 // ---------------------------------------------------------------------------
