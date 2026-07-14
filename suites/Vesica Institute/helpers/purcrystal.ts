@@ -173,7 +173,9 @@ export async function pickFirstProduct(
   return { productName, unitPrice, qty };
 }
 
-/** Click "Add to cart" on the current PDP, then go to the cart via the "View cart" link. */
+/** Click "Add to cart" on the current PDP, then go to the cart. Pur Crystal shows a
+ *  "View cart" link after add (no auto-redirect) — click it (GI's step); fall back to
+ *  the header cart link. Lands on /cart/. */
 export async function addToCartFromPdp(page: Page): Promise<void> {
   await resilientClick(ctxFor(page), {
     primary: page.getByRole('button', { name: /add to cart/i }),
@@ -181,6 +183,15 @@ export async function addToCartFromPdp(page: Page): Promise<void> {
     ai: 'the Add to cart button',
   });
   await page.waitForLoadState('load').catch(() => {});
+  if (page.url().includes('/cart/')) return; // some themes auto-redirect
+  const viewCart = page.getByRole('link', { name: /view cart/i })
+    .or(page.locator('a.added_to_cart, .woocommerce-message a[href*="/cart/"]')).first();
+  if (await viewCart.isVisible({ timeout: 8_000 }).catch(() => false)) {
+    await viewCart.click({ force: true }).catch(() => {});
+  } else {
+    await goToCart(page); // fallback: header cart
+  }
+  await page.waitForURL('**/cart/**', { timeout: 20_000 }).catch(() => {});
 }
 
 /** Subtotal (unit price × qty), formatted as the site does ($X.00). */
