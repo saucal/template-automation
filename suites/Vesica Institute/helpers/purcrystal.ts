@@ -319,6 +319,7 @@ export async function fillShippingAddress(page: Page, shipping: Omit<BillingAddr
     ['#shipping_address_2', shipping.address2, 'the shipping address line 2 field'],
     ['#shipping_city', shipping.city, 'the shipping city field'],
     ['#shipping_postcode', shipping.zip, 'the shipping ZIP / postcode field'],
+    ['#shipping_phone', shipping.phone, 'the shipping phone field'],
   ];
   for (const [sel, val, ai] of text) {
     if (val === undefined) continue;
