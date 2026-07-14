@@ -168,6 +168,31 @@ export async function readCartLine(page: Page): Promise<{ name: string; price: s
   };
 }
 
+/**
+ * Navigate to a Courses sub-page THROUGH the header dropdown (GI guest test 04 — the
+ * real interaction, not a direct goto). Scopes to the Courses <li> (by its landing
+ * href, since several menu items have submenus), hovers to open the Elementor submenu,
+ * then clicks the sub-item by its real href (robust vs pinned nth). Falls back to the
+ * submenu caret if hover doesn't reveal it.
+ */
+export async function goToCoursesMenuItem(page: Page, slug: string): Promise<void> {
+  await page.goto('/', { waitUntil: 'load' });
+  await dismissCookieBanner(page);
+  const coursesLi = page
+    .locator('nav.elementor-nav-menu--main li.menu-item-has-children', {
+      has: page.locator('a[href*="/calendar-of-courses-and-events/"]'),
+    })
+    .first();
+  await coursesLi.locator('a[href*="/calendar-of-courses-and-events/"]').first().hover().catch(() => {});
+  const subItem = coursesLi.locator(`ul.sub-menu a[href*="${slug}"]`).first();
+  if (!(await subItem.isVisible({ timeout: 6_000 }).catch(() => false))) {
+    // Hover didn't open the submenu (headless/JS timing) — click the caret/toggle.
+    await coursesLi.locator('.sub-arrow, .elementor-item.has-submenu').first().click({ force: true }).catch(() => {});
+  }
+  await subItem.click({ force: true });
+  await page.waitForURL(`**/${slug}`, { timeout: 20_000 });
+}
+
 /** Fill + submit the Elementor contact form on /contact-us/ (GI guest test 08). */
 export async function submitContactForm(
   page: Page,

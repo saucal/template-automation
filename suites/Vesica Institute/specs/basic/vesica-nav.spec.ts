@@ -9,7 +9,7 @@
 // Follow-up (need auth / exact slugs — first-run): Members (/my-account/courses/,
 // auth-gated) and the 4 course sub-pages (BG/C&M/SS/VS drill-downs).
 import { test, expect } from '../../fixtures';
-import { dismissCookieBanner, pickFirstProduct, ALL_PRODUCTS_CATEGORY } from '../../helpers/vesica';
+import { dismissCookieBanner, pickFirstProduct, goToCoursesMenuItem, ALL_PRODUCTS_CATEGORY } from '../../helpers/vesica';
 import { assertPageRenders } from '../../helpers/assertions';
 
 interface NavPage {
@@ -28,13 +28,15 @@ const PAGES: NavPage[] = [
   { name: 'shop', path: 'product-category/all-products/' },
   { name: 'members', path: 'my-account/courses/' },
   { name: 'contact', path: 'contact-us/' },
-  // Course sub-pages (GI guest test 04). GI navigated the Courses dropdown by position
-  // (no slug recorded); live-exploration gave the real slugs, so we goto them directly
-  // (rule 35 — real nav over pinned nth-dropdown clicks).
-  { name: 'course-bg', path: 'bg-courses/' },
-  { name: 'course-cm', path: 'crystals-and-minerals-courses/' },
-  { name: 'course-vs', path: 'vibrational-science-courses/' },
-  { name: 'course-ss', path: 'spiritual-science-courses/' },
+];
+
+// Course sub-pages (GI guest test 04) — navigated THROUGH the Courses dropdown (the
+// real interaction), identifying each sub-item by its real slug (from live-exploration).
+const COURSE_PAGES: Array<{ key: string; slug: string }> = [
+  { key: 'course-bg', slug: 'bg-courses/' },
+  { key: 'course-cm', slug: 'crystals-and-minerals-courses/' },
+  { key: 'course-vs', slug: 'vibrational-science-courses/' },
+  { key: 'course-ss', slug: 'spiritual-science-courses/' },
 ];
 
 /**
@@ -84,6 +86,21 @@ test.describe(
 
         // Mask dynamic chrome (header cart total) so the baseline tracks LAYOUT.
         await expect(shopperPage, `${name} page visual regression`).toHaveScreenshot(`${name}.png`, {
+          fullPage: true,
+          animations: 'disabled',
+          maxDiffPixelRatio: 0.02,
+          mask: [shopperPage.getByRole('link', { name: /cart/i }).first()],
+        });
+      });
+    }
+
+    // Course sub-pages (GI guest test 04): navigate via the Courses dropdown, then snapshot.
+    for (const { key, slug } of COURSE_PAGES) {
+      test(`VES-NAV-${key} – ${key} loads + visual`, async ({ shopperPage }) => {
+        await goToCoursesMenuItem(shopperPage, slug);
+        await assertPageRenders(shopperPage, key);
+        await triggerLazyLoad(shopperPage);
+        await expect(shopperPage, `${key} visual regression`).toHaveScreenshot(`${key}.png`, {
           fullPage: true,
           animations: 'disabled',
           maxDiffPixelRatio: 0.02,
