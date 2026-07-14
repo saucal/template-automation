@@ -9,8 +9,38 @@
 // admin/email. Selectors verified live 2026-07-13 (docs/site-exploration.md) and
 // cross-checked against generated/specs/vesica-basic-woocommerce-tests-user.spec.ts.
 import { type Page } from '@playwright/test';
+import fs from 'fs';
+import path from 'path';
 import { ctxFor, resilientClick, resilientFill } from './resilient';
 import type { BrandConfig, BillingAddress, OrderConfig, OrderResult, CapturedTotals } from '../types/test-config';
+
+// ---------------------------------------------------------------------------
+// Chain auth — persist the account created by the CC order so the PayPal (logged)
+// test can run STANDALONE. PO-01 saves {email, cookies}; PO-02 replays the cookies
+// into its shopper context (already logged in — no set-password/ESP round-trip).
+// ---------------------------------------------------------------------------
+
+const CHAIN_FILE = path.join(__dirname, '..', 'auth', 'chain-vesica.json');
+
+/** Save the logged-in shopper session (email + cookies) after the CC order. */
+export async function saveChainState(page: Page, email: string): Promise<void> {
+  const { cookies } = await page.context().storageState();
+  fs.mkdirSync(path.dirname(CHAIN_FILE), { recursive: true });
+  fs.writeFileSync(CHAIN_FILE, JSON.stringify({ email, cookies }, null, 2));
+}
+
+/** Replay the saved chain session into `page`'s context; returns the account email
+ *  (or null if no chain state exists yet — caller should skip). Call BEFORE navigating. */
+export async function loadChainAuth(page: Page): Promise<string | null> {
+  if (!fs.existsSync(CHAIN_FILE)) return null;
+  try {
+    const { email, cookies } = JSON.parse(fs.readFileSync(CHAIN_FILE, 'utf8')) as { email: string; cookies: any[] };
+    if (cookies?.length) await page.context().addCookies(cookies);
+    return email ?? null;
+  } catch {
+    return null;
+  }
+}
 
 // ---------------------------------------------------------------------------
 // Brand config + constants (this branch = Vesica only)
@@ -628,5 +658,14 @@ export async function performRefund(
     alt: useApi ? manualBtn : apiBtn,
     ai: useApi ? 'the gateway refund button' : 'the manual refund button',
   });
-  await adminPage.waitForLoadState('load').catch(() => {});
+  // The refund runs via AJAX (gateway API call) and then reloads the editor. Wait for
+  // the result to LAND before returning — otherwise a status read races the reload and
+  // sees the pre-refund status. The refund row + Refunded status survive the reload.
+  await adminPage.locator('tr.refund').first().waitFor({ state: 'visible', timeout: 60_000 }).catch(() => {});
+  await adminPage
+    .locator('#select2-order_status-container')
+    .filter({ hasText: /refund/i })
+    .first()
+    .waitFor({ state: 'visible', timeout: 20_000 })
+    .catch(() => {});
 }

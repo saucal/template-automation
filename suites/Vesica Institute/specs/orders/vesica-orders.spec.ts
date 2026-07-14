@@ -10,8 +10,8 @@
 // page slug, and set-password chain — see docs/site-exploration.md.
 import { test } from '../../fixtures';
 import type { OrderConfig, OrderResult } from '../../types/test-config';
-import { runOrderFlow, establishAccountViaEmail, type OrderFlowCapture } from '../../helpers/flows';
-import { performRefund, openAdminOrder, ALL_PRODUCTS_CATEGORY, PHYSICAL_CATEGORY } from '../../helpers/vesica';
+import { runOrderFlow, type OrderFlowCapture } from '../../helpers/flows';
+import { performRefund, openAdminOrder, saveChainState, loadChainAuth, ALL_PRODUCTS_CATEGORY, PHYSICAL_CATEGORY } from '../../helpers/vesica';
 import {
   assertValidationErrors,
   assertCartParity,
@@ -23,8 +23,6 @@ import {
   assertRefund,
   assertRefundEmail,
 } from '../../helpers/assertions';
-
-const PASSWORD = process.env.PASSWORD || 'fric2171Biot';
 
 test.describe.serial(
   'Vesica orders',
@@ -39,7 +37,7 @@ test.describe.serial(
       expectedStatus: 'Completed',
       isMembership: true,
       expectShipping: false,
-      expectTax: false,
+      expectTax: true,
     };
 
     let ccCapture: OrderFlowCapture;
@@ -55,6 +53,9 @@ test.describe.serial(
       // Guest checkout auto-logs-in the purchaser → My Account + membership in the SAME context.
       await assertMyAccount(shopperPage, ccCapture.result, ccConfig);
       await assertMembershipActive(shopperPage, ccConfig);
+      // Persist the logged-in account so VES-PO-02 can run STANDALONE (no re-run of 01,
+      // no ESP set-password round-trip) — it replays these cookies + reuses this email.
+      await saveChainState(shopperPage, ccEmail);
     });
 
     test('VES-PO-01b – CC order backend + email parity', async ({ shopperPage, adminPage, emailPage }) => {
@@ -64,9 +65,10 @@ test.describe.serial(
     });
 
     test('VES-PO-02 – place order (logged user, PayPal, physical)', async ({ shopperPage }) => {
-      test.skip(!ccEmail, 'depends on VES-PO-01 account');
-      // Reuse the CC account: follow its set-password email, then log in.
-      await establishAccountViaEmail(shopperPage, ccEmail, PASSWORD);
+      // Reuse the CC account by replaying its saved session cookies (works same-run OR
+      // standalone). This fresh context isn't logged in until we add them.
+      const email = await loadChainAuth(shopperPage);
+      test.skip(!email, 'no chain state — run VES-PO-01 first to seed auth/chain-vesica.json');
       const ppConfig: OrderConfig = {
         testId: 'VES-PO-02',
         brand: 'vesica',
@@ -76,7 +78,7 @@ test.describe.serial(
         expectedStatus: 'Processing',
         expectShipping: true,
         expectTax: true,
-        accountEmail: ccEmail,
+        accountEmail: email as string,
       };
       const cap = await runOrderFlow({ shopperPage }, ppConfig);
       ppResult = cap.result;
