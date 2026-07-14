@@ -186,10 +186,10 @@ export async function addToCartFromPdp(page: Page): Promise<void> {
   // Prefer the post-add "View cart" message link; else the mini-cart drawer (goToCart).
   const addedMsg = page.locator('a.added_to_cart[href*="/cart/"], .woocommerce-message a[href*="/cart/"]').first();
   if (await addedMsg.isVisible({ timeout: 5_000 }).catch(() => false)) {
-    await addedMsg.click({ force: true }).catch(() => {});
+    await resilientClick(ctxFor(page), { primary: addedMsg, ai: 'the "View cart" link in the added-to-cart notice' });
     await page.waitForURL('**/cart/**', { timeout: 15_000 }).catch(() => {});
   }
-  await goToCart(page); // no-op if already on /cart/, else drawer → View cart (+ goto fallback)
+  await goToCart(page); // no-op if already on /cart/, else drawer → View cart
 }
 
 /** Subtotal (unit price × qty), formatted as the site does ($X.00). */
@@ -235,11 +235,19 @@ export async function submitContactForm(
  *  open it, then click its "View cart" link (a real /cart/ href). */
 export async function goToCart(page: Page): Promise<void> {
   if (page.url().includes('/cart/')) return;
-  // Open the mini-cart drawer, then click its "View cart" (real /cart/ href, not "#").
-  await page.getByRole('link', { name: /cart/i }).first().click({ force: true });
-  const viewCart = page.locator('a[href$="/cart/"]').filter({ visible: true })
-    .or(page.getByRole('link', { name: /view cart/i })).first();
-  await viewCart.click({ force: true });
+  const ctx = ctxFor(page);
+  // Open the mini-cart drawer (header cart), then click its "View cart" (real /cart/
+  // href, not the header "#") — both through the resilient wrapper (rule 23).
+  await resilientClick(ctx, {
+    primary: page.getByRole('link', { name: /cart/i }).first(),
+    alt: page.locator('a[href="#"][class*="cart"], .header-cart a, li.menu-item a[href$="/cart/"]').first(),
+    ai: 'the header mini-cart link',
+  });
+  await resilientClick(ctx, {
+    primary: page.locator('a[href$="/cart/"]').filter({ visible: true }).first(),
+    alt: page.getByRole('link', { name: /view cart/i }),
+    ai: 'the View cart link in the mini-cart drawer',
+  });
   await page.waitForURL('**/cart/**', { timeout: 15_000 });
 }
 
