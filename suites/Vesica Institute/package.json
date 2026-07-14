@@ -4,13 +4,23 @@
   "private": true,
   "scripts": {
     "test": "playwright test",
-    "setup:browsers": "playwright install chromium"
+    "test:basic": "playwright test specs/basic",
+    "test:orders": "playwright test specs/orders",
+    "setup:browsers": "playwright install chromium",
+    "typecheck": "tsc --noEmit",
+    "lint:plugin-tags": "! grep -rL 'tag:' specs --include='*.spec.ts' 2>/dev/null | grep ."
   },
   "dependencies": {
+    "@woocommerce/e2e-utils-playwright": "^0.4.0",
     "dotenv": "^16.0.0"
   },
   "devDependencies": {
-    "@playwright/test": "^1.49.0",
-    "@types/node": "^20.0.0"
+    "@babel/runtime": "^7.29.2",
+    "@browserbasehq/stagehand": "^3.0.8",
+    "@playwright/test": "^1.59.1",
+    "@types/node": "^20.0.0",
+    "playwright-core": "^1.59.1",
+    "typescript": "^5.0.0",
+    "zod": "^4.4.3"
   }
 }
