@@ -38,8 +38,26 @@ async function triggerLazyLoad(page: import('@playwright/test').Page): Promise<v
       )
     );
     window.scrollTo(0, 0);
+    // Freeze CSS animations/transitions AND common JS sliders (Playwright's
+    // animations:'disabled' only handles CSS) so the page stops mutating between the two
+    // stability shots — otherwise autoplay carousels fail "two consecutive stable shots".
+    const style = document.createElement('style');
+    style.textContent =
+      '*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}' +
+      '.swiper-wrapper,.slick-track,[class*="carousel"] .slides{transform:none!important;transition:none!important}';
+    document.head.appendChild(style);
+    // Pause autoplaying media + slider timers.
+    document.querySelectorAll('video,audio').forEach((m) => { try { (m as HTMLMediaElement).pause(); } catch { /* noop */ } });
   });
   await page.waitForLoadState('networkidle', { timeout: 8_000 }).catch(() => {});
+}
+
+/** Common continuously-animating regions to mask so the baseline tracks layout, not motion. */
+function dynamicMasks(page: import('@playwright/test').Page) {
+  return [
+    page.getByRole('link', { name: /cart/i }).first(),
+    page.locator('.swiper, .slick-slider, [class*="carousel"], [class*="marquee"], .wp-video, video'),
+  ];
 }
 
 async function snapshot(page: import('@playwright/test').Page, name: string): Promise<void> {
@@ -49,7 +67,8 @@ async function snapshot(page: import('@playwright/test').Page, name: string): Pr
     fullPage: true,
     animations: 'disabled',
     maxDiffPixelRatio: 0.02,
-    mask: [page.getByRole('link', { name: /cart/i }).first()],
+    timeout: 30_000, // animated content needs longer to settle into two stable shots
+    mask: dynamicMasks(page),
   });
 }
 
