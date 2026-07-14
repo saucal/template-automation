@@ -230,23 +230,17 @@ export async function submitContactForm(
 // Cart / checkout navigation (rule 30 — customer click paths)
 // ---------------------------------------------------------------------------
 
-/** Go to the cart page. The header cart is a mini-cart DRAWER (href="#") — open it,
- *  then click its "View cart" link (a real /cart/ href). Falls back to a direct nav. */
+/** Go to the cart page via the real customer path (rule 30 — NO goto fallback; broken
+ *  nav must surface as a failure). The header cart is a mini-cart DRAWER (href="#"):
+ *  open it, then click its "View cart" link (a real /cart/ href). */
 export async function goToCart(page: Page): Promise<void> {
   if (page.url().includes('/cart/')) return;
-  // Open the mini-cart drawer.
-  await page.getByRole('link', { name: /cart/i }).first().click({ force: true }).catch(() => {});
-  // Click a REAL cart link (ends with /cart/, not the header "#"), e.g. drawer "View cart".
+  // Open the mini-cart drawer, then click its "View cart" (real /cart/ href, not "#").
+  await page.getByRole('link', { name: /cart/i }).first().click({ force: true });
   const viewCart = page.locator('a[href$="/cart/"]').filter({ visible: true })
     .or(page.getByRole('link', { name: /view cart/i })).first();
-  if (await viewCart.isVisible({ timeout: 5_000 }).catch(() => false)) {
-    await viewCart.click({ force: true }).catch(() => {});
-  }
-  await page.waitForURL('**/cart/**', { timeout: 15_000 }).catch(() => {});
-  if (!page.url().includes('/cart/')) {
-    // Last resort so the flow can proceed (drawer variants differ).
-    await page.goto('cart/', { waitUntil: 'domcontentloaded' }).catch(() => {});
-  }
+  await viewCart.click({ force: true });
+  await page.waitForURL('**/cart/**', { timeout: 15_000 });
 }
 
 export async function proceedToCheckout(page: Page): Promise<void> {
