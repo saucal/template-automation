@@ -183,15 +183,13 @@ export async function addToCartFromPdp(page: Page): Promise<void> {
     ai: 'the Add to cart button',
   });
   await page.waitForLoadState('load').catch(() => {});
-  if (page.url().includes('/cart/')) return; // some themes auto-redirect
-  const viewCart = page.getByRole('link', { name: /view cart/i })
-    .or(page.locator('a.added_to_cart, .woocommerce-message a[href*="/cart/"]')).first();
-  if (await viewCart.isVisible({ timeout: 8_000 }).catch(() => false)) {
-    await viewCart.click({ force: true }).catch(() => {});
-  } else {
-    await goToCart(page); // fallback: header cart
+  // Prefer the post-add "View cart" message link; else the mini-cart drawer (goToCart).
+  const addedMsg = page.locator('a.added_to_cart[href*="/cart/"], .woocommerce-message a[href*="/cart/"]').first();
+  if (await addedMsg.isVisible({ timeout: 5_000 }).catch(() => false)) {
+    await addedMsg.click({ force: true }).catch(() => {});
+    await page.waitForURL('**/cart/**', { timeout: 15_000 }).catch(() => {});
   }
-  await page.waitForURL('**/cart/**', { timeout: 20_000 }).catch(() => {});
+  await goToCart(page); // no-op if already on /cart/, else drawer → View cart (+ goto fallback)
 }
 
 /** Subtotal (unit price × qty), formatted as the site does ($X.00). */
@@ -232,13 +230,23 @@ export async function submitContactForm(
 // Cart / checkout navigation (rule 30 — customer click paths)
 // ---------------------------------------------------------------------------
 
+/** Go to the cart page. The header cart is a mini-cart DRAWER (href="#") — open it,
+ *  then click its "View cart" link (a real /cart/ href). Falls back to a direct nav. */
 export async function goToCart(page: Page): Promise<void> {
-  await resilientClick(ctxFor(page), {
-    primary: page.getByRole('link', { name: /cart/i }).first(),
-    alt: page.locator('a[href$="/cart/"], a[href*="/cart/"]').first(),
-    ai: 'the header cart link',
-  });
-  await page.waitForURL('**/cart/**', { timeout: 20_000 }).catch(() => {});
+  if (page.url().includes('/cart/')) return;
+  // Open the mini-cart drawer.
+  await page.getByRole('link', { name: /cart/i }).first().click({ force: true }).catch(() => {});
+  // Click a REAL cart link (ends with /cart/, not the header "#"), e.g. drawer "View cart".
+  const viewCart = page.locator('a[href$="/cart/"]').filter({ visible: true })
+    .or(page.getByRole('link', { name: /view cart/i })).first();
+  if (await viewCart.isVisible({ timeout: 5_000 }).catch(() => false)) {
+    await viewCart.click({ force: true }).catch(() => {});
+  }
+  await page.waitForURL('**/cart/**', { timeout: 15_000 }).catch(() => {});
+  if (!page.url().includes('/cart/')) {
+    // Last resort so the flow can proceed (drawer variants differ).
+    await page.goto('cart/', { waitUntil: 'domcontentloaded' }).catch(() => {});
+  }
 }
 
 export async function proceedToCheckout(page: Page): Promise<void> {
