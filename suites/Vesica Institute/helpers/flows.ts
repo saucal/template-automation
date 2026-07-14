@@ -89,7 +89,9 @@ export async function runOrderFlow({ shopperPage: page }: OrderPages, config: Or
  */
 export async function establishAccountViaEmail(page: Page, email: string, password: string): Promise<void> {
   const link = await resetLinkFromEmail(email);
-  await page.goto(link, { waitUntil: 'load' });
+  // The link is an ESP tracking redirect (track.smtpsendemail.com → kinsta reset page);
+  // 'load' never settles through the redirect chain + Cloudflare — wait for DOM only.
+  await page.goto(link, { waitUntil: 'domcontentloaded' });
   await setNewPassword(page, password);
   await loginShopper(page, email, password);
 }
@@ -118,6 +120,7 @@ export async function runForgotPasswordFlow(page: Page, email: string): Promise<
 
 /** Follow a set-password link (from email) and set the new password. */
 export async function completeSetPassword(page: Page, resetUrl: string, newPassword: string): Promise<void> {
-  await page.goto(resetUrl, { waitUntil: 'load' });
+  // ESP tracking-redirect link — DOM-only wait (see establishAccountViaEmail).
+  await page.goto(resetUrl, { waitUntil: 'domcontentloaded' });
   await setNewPassword(page, newPassword);
 }
