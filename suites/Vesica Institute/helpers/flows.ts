@@ -9,6 +9,7 @@ import {
   addToCartFromPdp,
   readCartLine,
   proceedToCheckout,
+  selectCreditCard,
   submitEmptyCheckoutForErrors,
   fillCheckoutAddress,
   fillShippingAddress,
@@ -59,6 +60,9 @@ export async function runOrderFlow({ shopperPage: page }: OrderPages, config: Or
   const cartLine = await readCartLine(page);
   await proceedToCheckout(page);
 
+  // PC's default gateway (ppcp-card-button) hides the classic #place_order button;
+  // select Auth.Net first so the place-order button exists for the validation-first submit.
+  await selectCreditCard(page);
   // GI Pur Crystal orders as a guest: validation-first, fill billing, ship-to-different.
   const validationError = await submitEmptyCheckoutForErrors(page);
   await fillCheckoutAddress(page, { ...BILLING, email });
