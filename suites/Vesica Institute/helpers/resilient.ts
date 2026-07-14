@@ -42,7 +42,10 @@ export interface Target {
   ai: string;
 }
 
-const TIER_TIMEOUT = 8_000;
+// Per-tier action timeout. Matches the config actionTimeout — Kinsta full-page navs
+// triggered by a click (product tile, Save) can take >8s, and the click auto-waits for
+// them, so a tighter budget spuriously fails a click that actually succeeded.
+const TIER_TIMEOUT = 15_000;
 
 /**
  * Unwrap the lazy-page Proxy (adminPage / emailPage) to the underlying real Page
