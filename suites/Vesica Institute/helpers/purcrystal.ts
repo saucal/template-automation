@@ -644,9 +644,10 @@ export async function goToMyAccountOrders(page: Page): Promise<void> {
   await dismissCookieBanner(page);
 }
 
-/** Open a specific order from the My Account view-order page. */
-export async function goToViewOrder(page: Page, orderNumber: string): Promise<void> {
-  await page.goto(`my-account/view-order/${orderNumber}/`, { waitUntil: 'load' });
+/** Open a specific order from the My Account view-order page. Takes the order ID (post ID),
+ *  not the displayed sequential order number (view-order/{number} → WC "Invalid order."). */
+export async function goToViewOrder(page: Page, orderId: string): Promise<void> {
+  await page.goto(`my-account/view-order/${orderId}/`, { waitUntil: 'load' });
   await dismissCookieBanner(page);
 }
 

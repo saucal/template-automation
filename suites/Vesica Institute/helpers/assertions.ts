@@ -129,7 +129,9 @@ export async function assertMyAccount(shopperPage: Page, result: OrderResult, co
   const statusCell = shopperPage.locator('.woocommerce-orders-table__cell-order-status').first();
   await expect(statusCell, `[${config.testId}] orders list should show status "${config.expectedStatus}"`).toContainText(config.expectedStatus);
 
-  await goToViewOrder(shopperPage, result.orderNumber);
+  // view-order/{id} needs the order ID (post ID); this site's displayed order number is a
+  // sequential-plugin value that differs from the ID (using it → WC "Invalid order.").
+  await goToViewOrder(shopperPage, result.postId);
   await expect(shopperPage.locator('mark.order-number').first(), `[${config.testId}] view-order should show order number ${result.orderNumber}`).toContainText(result.orderNumber);
   await expect(shopperPage.locator('mark.order-status').first(), `[${config.testId}] view-order status should be "${config.expectedStatus}"`).toContainText(config.expectedStatus);
 
