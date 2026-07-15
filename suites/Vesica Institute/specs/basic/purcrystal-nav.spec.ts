@@ -3,11 +3,12 @@
 // loads (behaviour, rule 35) and matches its full-page screenshot baseline, plus the
 // simple + variable product PDPs. Cart/checkout render is covered by the order flow.
 //
-// Stability: fullPage was non-deterministic because the Cookie Law Info bar slides in
-// after load (racing any click-dismiss) and its ~1852px settings modal leaks into
-// documentElement.scrollWidth, toggling the capture width. We pre-seed the plugin's
-// consent cookies (acceptCookieConsent) BEFORE navigation so nothing cli-* ever renders,
-// then capture fullPage after freezing CSS motion, eager-loading media, and scrolling.
+// Stability (verified live with playwright-cli): fullPage was non-deterministic because the
+// JetMenu mega-menu dropdown panels (.jet-mega-menu-mega-container) get laid out on the
+// resize/scroll that fullPage capture fires, toggling documentElement.scrollWidth 1280↔1852
+// so two consecutive shots never match. stabilize() display:none's those panels. We also
+// pre-seed Cookie Law Info consent (acceptCookieConsent) so its bottom-right bar never
+// renders into the baseline. Capture after freezing motion, eager-loading media, scrolling.
 //
 // Baselines are per-project (`*-purcrystal-darwin.png`); seed with `--update-snapshots`.
 import { test, expect } from '../../fixtures';
@@ -36,8 +37,14 @@ async function stabilize(page: import('@playwright/test').Page): Promise<void> {
     const style = document.createElement('style');
     style.textContent =
       '*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}' +
-      // Belt-and-suspenders clamp for any horizontal overflow (`clip` forces
-      // scrollWidth == clientWidth; `hidden` would still report content width).
+      // ROOT CAUSE of the width oscillation (verified live with playwright-cli): the JetMenu
+      // mega-menu dropdown panels (.jet-mega-menu-mega-container, position:absolute, right
+      // edge ~1852px) are laid out whenever a resize/scroll fires — which is exactly what
+      // fullPage capture does — flipping documentElement.scrollWidth 1280↔1852 so two shots
+      // never match. They're hover-only panels (invisible above the fold), so display:none
+      // (removes them from layout → no scrollWidth contribution) is safe and deterministic.
+      '.jet-mega-menu-mega-container{display:none!important}' +
+      // Belt-and-suspenders clamp for any other horizontal overflow.
       'html,body{overflow-x:clip!important}' +
       // Hide fixed/sticky overlays — they recompute position during full-page capture.
       '.elementor-menu-cart__container,.woolentor-quickview-modal,[class*="quickview-modal"]{visibility:hidden!important}';
@@ -76,7 +83,7 @@ async function snapshot(page: import('@playwright/test').Page, name: string): Pr
   await assertPageRenders(page, name);
   await stabilize(page);
   await expect(page, `${name} visual regression`).toHaveScreenshot(`${name}.png`, {
-    fullPage: true, // stable once the cli cookie bar is pre-empted (see acceptCookieConsent)
+    fullPage: true, // stable once JetMenu mega panels are hidden (see stabilize)
     animations: 'disabled',
     maxDiffPixelRatio: 0.05,
     timeout: 30_000,
