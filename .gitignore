@@ -16,3 +16,6 @@ playwright/.auth/
 # Local env / auth
 .env
 auth/
+
+# playwright-cli exploration artifacts
+.playwright-cli/
