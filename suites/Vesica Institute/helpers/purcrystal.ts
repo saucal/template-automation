@@ -549,8 +549,13 @@ export async function readOrderReceived(page: Page, config: OrderConfig): Promis
   await page.waitForLoadState('load');
 
   const txt = async (sel: string) => ((await page.locator(sel).first().textContent().catch(() => '')) ?? '').trim();
-  const orderNumber = (await txt('li.woocommerce-order-overview__order.order > strong')).replace(/[^0-9]/g, '');
-  const postId = page.url().match(/order-received\/(\d+)/)?.[1] ?? orderNumber;
+  // Keep the FULL displayed order number incl. any sequential-plugin prefix (e.g. "pc8703")
+  // — the admin heading and view-order both render it verbatim. Strip only surrounding
+  // punctuation/whitespace (e.g. a leading "#"), not the alpha prefix.
+  const orderNumber = (await txt('li.woocommerce-order-overview__order.order > strong')).replace(/[^a-z0-9]/gi, '');
+  // postId is the numeric order/post ID from the URL (drives admin + view-order URLs);
+  // fall back to digits-only of the display number if the URL somehow lacks it.
+  const postId = page.url().match(/order-received\/(\d+)/)?.[1] ?? orderNumber.replace(/\D/g, '');
   // Overview item's class is `woocommerce-order-overview__payment-method` (NOT `.method`)
   // and <strong> may be nested — use a descendant match. Fall back to the order-details
   // "Payment method" row (GI reads it there too) if the overview isn't rendered.
