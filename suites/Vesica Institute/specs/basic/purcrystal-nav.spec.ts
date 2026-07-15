@@ -3,10 +3,11 @@
 // loads (behaviour, rule 35) and matches its full-page screenshot baseline, plus the
 // simple + variable product PDPs. Cart/checkout render is covered by the order flow.
 //
-// Stability: the page has no sliders/lazy media, but fixed-position overlays (the
-// Elementor mini-cart container + WooLentor quick-view modal) recompute their offset
-// as `fullPage` capture scrolls, so two consecutive shots never match. We freeze CSS
-// animations/transitions and HIDE fixed overlays before the shot.
+// Stability: verified live that FULL-PAGE capture never yields two consecutive stable
+// shots here — Playwright stitches full-page by scrolling, and the scroll re-triggers
+// progressive/IntersectionObserver content loads, alternating between two renders. The
+// VIEWPORT (above-fold) shot IS byte-stable, so we snapshot the viewport (not fullPage)
+// after freezing CSS motion and hiding fixed overlays. Captures the hero/header layout.
 //
 // Baselines are per-project (`*-purcrystal-darwin.png`); seed with `--update-snapshots`.
 import { test, expect } from '../../fixtures';
@@ -59,7 +60,7 @@ async function snapshot(page: import('@playwright/test').Page, name: string): Pr
   await assertPageRenders(page, name);
   await stabilize(page);
   await expect(page, `${name} visual regression`).toHaveScreenshot(`${name}.png`, {
-    fullPage: true,
+    fullPage: false, // viewport only — fullPage scroll-stitch is non-deterministic here
     animations: 'disabled',
     maxDiffPixelRatio: 0.02,
     timeout: 30_000,
