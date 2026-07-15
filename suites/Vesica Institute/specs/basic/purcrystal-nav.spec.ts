@@ -24,13 +24,36 @@ const PAGES: NavPage[] = [
   { name: 'contact', path: 'contact/' },
 ];
 
-/** Load lazy media, freeze motion, and HIDE fixed overlays so `fullPage` capture is
- *  stable (fixed elements otherwise smear/recompute between the two stability shots). */
+/** Freeze motion, hide fixed overlays, force lazy media to load eagerly, then scroll the
+ *  whole page as the LAST step before capture. fullPage is non-deterministic otherwise:
+ *  Playwright's fullPage resize re-triggers IntersectionObserver/lazy image loads *during*
+ *  capture, so a one-shot scroll at page-load goes stale. Eager-loading kills the lazy
+ *  trigger; the trailing scroll settles progressive content immediately before the shot. */
 async function stabilize(page: import('@playwright/test').Page): Promise<void> {
+  // Freeze + hide + eager-load first, so the scroll below is the final thing that happens.
+  await page.evaluate(() => {
+    const style = document.createElement('style');
+    style.textContent =
+      '*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}' +
+      // Hide fixed/sticky overlays — they recompute position during full-page capture.
+      '.elementor-menu-cart__container,.woolentor-quickview-modal,[class*="quickview-modal"]{visibility:hidden!important}';
+    document.head.appendChild(style);
+    document.querySelectorAll<HTMLElement>('*').forEach((el) => {
+      const pos = getComputedStyle(el).position;
+      if ((pos === 'fixed' || pos === 'sticky') && el.offsetHeight > 0) el.style.visibility = 'hidden';
+    });
+    // loading="lazy" is what re-fires during Playwright's fullPage viewport resize — make
+    // every image eager so no image request is left to trigger mid-capture.
+    document.querySelectorAll<HTMLImageElement>('img[loading="lazy"]').forEach((img) => { img.loading = 'eager'; });
+  });
+
+  // Scroll the whole page (re-reading scrollHeight as progressive content grows it),
+  // awaiting every pending image, as the LAST action before toHaveScreenshot.
   await page.evaluate(async () => {
     const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
     const step = Math.max(300, Math.floor(window.innerHeight * 0.9));
     for (let y = 0; y < document.body.scrollHeight; y += step) { window.scrollTo(0, y); await sleep(120); }
+    window.scrollTo(0, document.body.scrollHeight);
     await Promise.all(
       Array.from(document.images).filter((img) => !img.complete).map(
         (img) => new Promise<void>((resolve) => {
@@ -40,20 +63,6 @@ async function stabilize(page: import('@playwright/test').Page): Promise<void> {
         })
       )
     );
-    window.scrollTo(0, 0);
-    const style = document.createElement('style');
-    style.textContent =
-      '*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}' +
-      // Hide fixed/sticky overlays — they recompute position during full-page capture.
-      // The CookieYes banner (.cky-*) is position:fixed and Playwright duplicates it at
-      // several scroll offsets during full-page stitch ("banner appears twice"); hide it
-      // by vendor class rather than trusting the accept click or the position heuristic.
-      '.elementor-menu-cart__container,.woolentor-quickview-modal,[class*="quickview-modal"],[class*="cky-"]{visibility:hidden!important}';
-    document.head.appendChild(style);
-    document.querySelectorAll<HTMLElement>('*').forEach((el) => {
-      const pos = getComputedStyle(el).position;
-      if ((pos === 'fixed' || pos === 'sticky') && el.offsetHeight > 0) el.style.visibility = 'hidden';
-    });
   });
   await page.waitForLoadState('networkidle', { timeout: 8_000 }).catch(() => {});
 }
@@ -82,13 +91,11 @@ test.describe(
     }
 
     test('PC-NAV-product – simple product page loads + visual', async ({ shopperPage }) => {
-      await shopperPage.goto('/', { waitUntil: 'domcontentloaded' });
       await pickFirstProduct(shopperPage, MINERAL_CATEGORY, { type: 'simple' });
       await snapshot(shopperPage, 'product');
     });
 
     test('PC-NAV-variable-product – variable product page loads + visual', async ({ shopperPage }) => {
-      await shopperPage.goto('/', { waitUntil: 'domcontentloaded' });
       await pickFirstProduct(shopperPage, MINERAL_CATEGORY, { type: 'variable' });
       await snapshot(shopperPage, 'variable-product');
     });
