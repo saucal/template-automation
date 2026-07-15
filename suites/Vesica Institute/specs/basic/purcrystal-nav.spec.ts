@@ -3,14 +3,15 @@
 // loads (behaviour, rule 35) and matches its full-page screenshot baseline, plus the
 // simple + variable product PDPs. Cart/checkout render is covered by the order flow.
 //
-// Stability: full-page scroll-stitch was non-deterministic while cookies were REJECTED —
-// consent-gated embeds rendered as lazy placeholders that re-drew as Playwright scrolled.
-// ACCEPTING the banner (see dismissCookieBanner) loads the real embeds, which settle to a
-// fixed size, so we capture fullPage after freezing CSS motion and hiding fixed overlays.
+// Stability: fullPage was non-deterministic because the Cookie Law Info bar slides in
+// after load (racing any click-dismiss) and its ~1852px settings modal leaks into
+// documentElement.scrollWidth, toggling the capture width. We pre-seed the plugin's
+// consent cookies (acceptCookieConsent) BEFORE navigation so nothing cli-* ever renders,
+// then capture fullPage after freezing CSS motion, eager-loading media, and scrolling.
 //
 // Baselines are per-project (`*-purcrystal-darwin.png`); seed with `--update-snapshots`.
 import { test, expect } from '../../fixtures';
-import { dismissCookieBanner, pickFirstProduct, MINERAL_CATEGORY } from '../../helpers/purcrystal';
+import { acceptCookieConsent, pickFirstProduct, MINERAL_CATEGORY } from '../../helpers/purcrystal';
 import { assertPageRenders } from '../../helpers/assertions';
 
 interface NavPage { name: string; path: string }
@@ -73,14 +74,9 @@ async function stabilize(page: import('@playwright/test').Page): Promise<void> {
 
 async function snapshot(page: import('@playwright/test').Page, name: string): Promise<void> {
   await assertPageRenders(page, name);
-  // Accept cookies (Cookie Law Info) so the plugin removes #cookie-law-info-bar — its
-  // inner tab-container reflows to ~1852px during fullPage's capture-resize and toggles
-  // scrollWidth (1280 ↔ 1852), which is what stops two consecutive shots from matching.
-  await dismissCookieBanner(page);
-  await page.locator('#cookie-law-info-bar').waitFor({ state: 'hidden', timeout: 5_000 }).catch(() => {});
   await stabilize(page);
   await expect(page, `${name} visual regression`).toHaveScreenshot(`${name}.png`, {
-    fullPage: true, // consent-gated embeds settle once cookies are ACCEPTED (see dismissCookieBanner)
+    fullPage: true, // stable once the cli cookie bar is pre-empted (see acceptCookieConsent)
     animations: 'disabled',
     maxDiffPixelRatio: 0.05,
     timeout: 30_000,
@@ -93,17 +89,20 @@ test.describe(
   () => {
     for (const { name, path } of PAGES) {
       test(`PC-NAV-${name} – ${name} page loads + visual`, async ({ shopperPage }) => {
+        await acceptCookieConsent(shopperPage); // pre-seed before the page renders the cli bar
         await shopperPage.goto(path, { waitUntil: 'load' });
         await snapshot(shopperPage, name);
       });
     }
 
     test('PC-NAV-product – simple product page loads + visual', async ({ shopperPage }) => {
+      await acceptCookieConsent(shopperPage);
       await pickFirstProduct(shopperPage, MINERAL_CATEGORY, { type: 'simple' });
       await snapshot(shopperPage, 'product');
     });
 
     test('PC-NAV-variable-product – variable product page loads + visual', async ({ shopperPage }) => {
+      await acceptCookieConsent(shopperPage);
       await pickFirstProduct(shopperPage, MINERAL_CATEGORY, { type: 'variable' });
       await snapshot(shopperPage, 'variable-product');
     });

@@ -110,6 +110,20 @@ export function orderEmail(prefix = 'order'): string {
 // Popups / readiness
 // ---------------------------------------------------------------------------
 
+/** Pre-seed Cookie Law Info consent so the bar never renders. Clicking Accept races the
+ *  bar's delayed slide-in (it appears mid-capture) and its ~1852px settings modal leaks
+ *  into scrollWidth, breaking the fullPage nav visual. Setting the plugin's own consent
+ *  cookies BEFORE navigation is the deterministic "accept" — nothing cli-* ever paints.
+ *  Call before the first goto of a page you intend to screenshot. */
+export async function acceptCookieConsent(page: Page): Promise<void> {
+  const domain = new URL(page.url()).hostname;
+  const cats = ['necessary', 'functional', 'analytics', 'performance', 'advertisement', 'others'];
+  await page.context().addCookies([
+    { name: 'viewed_cookie_policy', value: 'yes', domain, path: '/' },
+    ...cats.map((c) => ({ name: `cookielawinfo-checkbox-${c}`, value: 'yes', domain, path: '/' })),
+  ]);
+}
+
 /** Dismiss the CookieYes consent banner if present (GI clicks "Reject All"). */
 export async function dismissCookieBanner(page: Page): Promise<void> {
   // This site runs "Cookie Law Info" (cli-* / #cookie-law-info-bar), NOT the newer
