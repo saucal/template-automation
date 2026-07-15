@@ -112,9 +112,12 @@ export function orderEmail(prefix = 'order'): string {
 
 /** Dismiss the CookieYes consent banner if present (GI clicks "Reject All"). */
 export async function dismissCookieBanner(page: Page): Promise<void> {
+  // ACCEPT (not reject): rejecting leaves consent-gated embeds as lazy placeholders
+  // that jitter during full-page scroll-stitch; accepting loads the real embeds which
+  // settle to a fixed size → deterministic fullPage capture for the nav visuals.
   const btn = page
-    .locator('.cky-notice-btn-wrapper > button.cky-btn-reject, button[aria-label="Reject All"]')
-    .or(page.getByRole('button', { name: /reject all|accept all|got it/i }))
+    .locator('.cky-notice-btn-wrapper > button.cky-btn-accept, button[aria-label="Accept All"]')
+    .or(page.getByRole('button', { name: /accept all|got it/i }))
     .first();
   if (await btn.isVisible({ timeout: 1_500 }).catch(() => false)) {
     await btn.click({ force: true, timeout: 3_000 }).catch(() => {});
