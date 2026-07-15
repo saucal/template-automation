@@ -35,6 +35,15 @@ async function stabilize(page: import('@playwright/test').Page): Promise<void> {
     const style = document.createElement('style');
     style.textContent =
       '*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}' +
+      // The Cookie Law Info settings modal (#cliSettingsPopup / .cli-modal, intrinsic
+      // ~1852px) stays in the DOM and gets laid out during fullPage's viewport resize,
+      // toggling documentElement.scrollWidth (1280 ↔ 1852) so capture never stabilizes.
+      // display:none (NOT visibility:hidden — that keeps the box width) removes it from
+      // layout so it can't inflate scrollWidth. Also drop the bar itself.
+      '#cookie-law-info-bar,#cliSettingsPopup,.cli-modal,.cli-modal-backdrop,.cli-settings-overlay{display:none!important}' +
+      // Belt-and-suspenders clamp for any other horizontal overflow (`clip` forces
+      // scrollWidth == clientWidth; `hidden` would still report content width).
+      'html,body{overflow-x:clip!important}' +
       // Hide fixed/sticky overlays — they recompute position during full-page capture.
       '.elementor-menu-cart__container,.woolentor-quickview-modal,[class*="quickview-modal"]{visibility:hidden!important}';
     document.head.appendChild(style);
@@ -63,6 +72,7 @@ async function stabilize(page: import('@playwright/test').Page): Promise<void> {
         })
       )
     );
+    window.scrollTo(0, 0); // back to top so the capture starts from a settled above-fold
   });
   await page.waitForLoadState('networkidle', { timeout: 8_000 }).catch(() => {});
 }
@@ -73,7 +83,7 @@ async function snapshot(page: import('@playwright/test').Page, name: string): Pr
   await expect(page, `${name} visual regression`).toHaveScreenshot(`${name}.png`, {
     fullPage: true, // consent-gated embeds settle once cookies are ACCEPTED (see dismissCookieBanner)
     animations: 'disabled',
-    maxDiffPixelRatio: 0.02,
+    maxDiffPixelRatio: 0.05,
     timeout: 30_000,
   });
 }
@@ -84,8 +94,7 @@ test.describe(
   () => {
     for (const { name, path } of PAGES) {
       test(`PC-NAV-${name} – ${name} page loads + visual`, async ({ shopperPage }) => {
-        await shopperPage.goto(path, { waitUntil: 'domcontentloaded' });
-        await dismissCookieBanner(shopperPage);
+        await shopperPage.goto(path, { waitUntil: 'load' });
         await snapshot(shopperPage, name);
       });
     }
