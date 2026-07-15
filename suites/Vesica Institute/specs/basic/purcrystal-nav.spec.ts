@@ -45,7 +45,10 @@ async function stabilize(page: import('@playwright/test').Page): Promise<void> {
     style.textContent =
       '*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}' +
       // Hide fixed/sticky overlays — they recompute position during full-page capture.
-      '.elementor-menu-cart__container,.woolentor-quickview-modal,[class*="quickview-modal"]{visibility:hidden!important}';
+      // The CookieYes banner (.cky-*) is position:fixed and Playwright duplicates it at
+      // several scroll offsets during full-page stitch ("banner appears twice"); hide it
+      // by vendor class rather than trusting the accept click or the position heuristic.
+      '.elementor-menu-cart__container,.woolentor-quickview-modal,[class*="quickview-modal"],[class*="cky-"]{visibility:hidden!important}';
     document.head.appendChild(style);
     document.querySelectorAll<HTMLElement>('*').forEach((el) => {
       const pos = getComputedStyle(el).position;
