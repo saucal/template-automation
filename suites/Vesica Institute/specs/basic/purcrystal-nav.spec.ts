@@ -35,13 +35,7 @@ async function stabilize(page: import('@playwright/test').Page): Promise<void> {
     const style = document.createElement('style');
     style.textContent =
       '*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}' +
-      // The Cookie Law Info settings modal (#cliSettingsPopup / .cli-modal, intrinsic
-      // ~1852px) stays in the DOM and gets laid out during fullPage's viewport resize,
-      // toggling documentElement.scrollWidth (1280 ↔ 1852) so capture never stabilizes.
-      // display:none (NOT visibility:hidden — that keeps the box width) removes it from
-      // layout so it can't inflate scrollWidth. Also drop the bar itself.
-      '#cookie-law-info-bar,#cliSettingsPopup,.cli-modal,.cli-modal-backdrop,.cli-settings-overlay{display:none!important}' +
-      // Belt-and-suspenders clamp for any other horizontal overflow (`clip` forces
+      // Belt-and-suspenders clamp for any horizontal overflow (`clip` forces
       // scrollWidth == clientWidth; `hidden` would still report content width).
       'html,body{overflow-x:clip!important}' +
       // Hide fixed/sticky overlays — they recompute position during full-page capture.
@@ -79,6 +73,11 @@ async function stabilize(page: import('@playwright/test').Page): Promise<void> {
 
 async function snapshot(page: import('@playwright/test').Page, name: string): Promise<void> {
   await assertPageRenders(page, name);
+  // Accept cookies (Cookie Law Info) so the plugin removes #cookie-law-info-bar — its
+  // inner tab-container reflows to ~1852px during fullPage's capture-resize and toggles
+  // scrollWidth (1280 ↔ 1852), which is what stops two consecutive shots from matching.
+  await dismissCookieBanner(page);
+  await page.locator('#cookie-law-info-bar').waitFor({ state: 'hidden', timeout: 5_000 }).catch(() => {});
   await stabilize(page);
   await expect(page, `${name} visual regression`).toHaveScreenshot(`${name}.png`, {
     fullPage: true, // consent-gated embeds settle once cookies are ACCEPTED (see dismissCookieBanner)
