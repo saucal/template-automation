@@ -1,35 +1,48 @@
+// Vesica Institute (Vesica brand) — single Kinsta-hosted WooCommerce site.
+// Pur Crystal is a SEPARATE branch/project (feat/purcrystal-playwright-refactor),
+// core duplicated. DOM-first suite, no WC REST. Auth is lazy per-host (admin-login.ts,
+// keyed on the project name → auth/admin-purcrystal.json) — no globalSetup here.
 import { defineConfig, devices } from '@playwright/test';
 import dotenv from 'dotenv';
 import path from 'path';
 
-dotenv.config({ path: path.join(__dirname, '.env') });
+// Load .env from THIS config's directory, not process.cwd() — so the suite works
+// when launched from the repo/worktree root or the VS Code runner (whose cwd differs).
+dotenv.config({ path: path.resolve(__dirname, '.env') });
+
+if (!process.env.BASE_URL) {
+  throw new Error(
+    'BASE_URL is not set. Copy "suites/Vesica Institute/.env.example" to ".env" and fill it, ' +
+      'or run from the suite directory.'
+  );
+}
 
 export default defineConfig({
-  testDir: 'generated/specs',
+  testDir: 'specs',
   timeout: 240_000,
   expect: {
     timeout: 15_000,
-    toHaveScreenshot: { maxDiffPixelRatio: 0.1 },
   },
   fullyParallel: false,
-  workers: 1,
+  workers: 2,
   retries: process.env.CI ? 1 : 0,
   reporter: [
     ['html', { outputFolder: 'reports', open: 'never' }],
     ['list'],
   ],
   use: {
-    baseURL: process.env.BASE_URL,
-    viewport: { width: 1280, height: 800 },
-    actionTimeout: 15_000,
     trace: 'on',
-    screenshot: 'on',
-    video: { mode: 'on' },
+    video: 'on',
+    screenshot: 'off',
+    navigationTimeout: 30_000,
+    actionTimeout: 15_000,
     launchOptions: { slowMo: 250 },
-    ignoreHTTPSErrors: true,
   },
-  globalSetup: './global-setup.ts',
   projects: [
-    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
+    {
+      // Project name doubles as the auth-state key (auth/admin-purcrystal.json).
+      name: 'purcrystal',
+      use: { ...devices['Desktop Chrome'], baseURL: process.env.BASE_URL },
+    },
   ],
 });
