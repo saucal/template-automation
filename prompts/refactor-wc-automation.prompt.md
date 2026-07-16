@@ -356,6 +356,9 @@ Build a shared wrapper so specs/helpers call `resilientClick/Fill/Select/Check/T
 - **UI-mode title edit orphans the test.** Editing a spec title in Playwright **UI mode** mid-run leaves a 0.0ms spinner that never resolves — run from the CLI to triage.
 - **Mailpit search is newest-first.** When two same-subject emails land in one inbox (order 1 + order 2 on a reused account), `messages[0]` is the LATEST — order your assertions so each resolves the right message.
 - **`$0` / "price on request" products** pass a naive `<= max` price picker and break price parity — require `p > 0` in the picker.
+- **Visual "two stable screenshots" failing with a CHANGING WIDTH** → a widget is overflowing and relaying-out during capture (rule 38). Eval-walk for `getBoundingClientRect().right > innerWidth` to name it; do NOT blame the cookie banner.
+- **Read the trace's `error-context.md` FIRST.** Its ARIA page snapshot shows the actual rendered state at failure (banner still visible, wrong heading text, "Invalid order." notice) and usually reframes the whole investigation before you touch code.
+- **`dismissCookieBanner` doing nothing** → wrong plugin selectors (`cli-*` vs `cky-*`) or the banner slides in after the click; pre-seed consent cookies (rule 39).
 
 31. **Facade, not widget — assert the lazy-embed placeholder, don't force-load it.** Lazy media/embed blocks (YouTube/Vimeo, maps, chat, "consent-gated" video) render a THUMBNAIL + a play/activate `<button>` and only mount the real cross-origin `<iframe>` after a click. Asserting the mounted iframe (`iframe[src*="youtube.com/embed"]`) fails because it never exists until interaction. Assert the FACADE's presence instead — it proves the embed is configured — and accept either form: `page.locator('iframe[src*="youtube.com/embed"], iframe[src*="youtube-nocookie.com/embed"]').or(page.getByRole('button', { name: /youtube video/i }))`. Don't click through to load the heavy, flaky cross-origin frame just to satisfy an "embed exists" check (no-pong FAQ, GI 12). This is distinct from rule 24 (lazy *images* in visual specs).
 
@@ -386,6 +389,12 @@ Build a shared wrapper so specs/helpers call `resilientClick/Fill/Select/Check/T
     - **WooCommerce auto-logs-in the user right after a password reset** — a `loginAccount` that navigates to my-account/ then finds the logged-in dashboard, not the form (`#username` absent). Log out first if already authenticated, so the credentials are actually exercised.
 
 37. **Email assertions via Mailpit — wait for the BODY, and target the totals row, not the first match.** (a) Mailpit indexes a message (it appears in search) a beat BEFORE its HTML/Text body is stored; returning on the first search hit yields an empty body and a false content-assertion failure. Poll until a matching message with a non-empty body exists (fetch `/api/v1/message/<id>`, require `HTML||Text`), optionally gated on a `contains` token so you wait for the email that actually references this order. (b) Refund/order emails carry `<del>`/`<ins>` price pairs on EACH LINE ITEM as well as the totals row, so matching the FIRST `<del>` grabs an item price, not the order total — target the totals row: take the pair whose struck amount equals the captured order total (or the LAST pair, GI's `order-totals-last`).
+
+38. **Visual `toHaveScreenshot` "Failed to take two consecutive stable screenshots" with a CHANGING WIDTH = a widget relaying-out during capture, not content jitter.** Learned live on Pur Crystal (Elementor + Crocoblock JetMenu). `fullPage` sizes the canvas to `documentElement.scrollWidth`; if height is stable but width flips between two values across the stability shots (e.g. `1280 ↔ 1852`, sometimes drifting `+Npx` each cycle), an element is overflowing right and being re-laid-out by the very resize/scroll `toHaveScreenshot` fires. Usual culprits: absolute-positioned **mega-menu dropdown panels** (JetMenu `.jet-mega-menu-mega-container`), **carousels/sliders** in loop mode (Swiper clones → the `+Npx` drift), off-screen modals. **Diagnose by instrumenting, never by guessing** — ONE eval walking every element for `getBoundingClientRect().right > innerWidth` names the exact node in a single shot (`playwright-cli --raw eval` against the live site is ideal). Blind fixes — accept/hide the cookie banner, eager-load images, retime the scroll — cost rounds and miss it; the banner is usually a RED HERRING here. **Fix = `display:none` the offending node inside the stabilize step** (it's typically a hover-only/hidden panel, invisible above the fold, so hiding it doesn't change the shot). Note `overflow-x: clip`/`hidden` on `html,body` does NOT clamp `scrollWidth` (absolute descendants escape the clip; `hidden` still reports content width) — only `display:none` removes the box from layout. Distinct from rule 24 (below-fold lazy *images*).
+
+39. **Identify the actual consent/cookie plugin before dismissing it — and prefer pre-seeding consent cookies over clicking a delayed banner.** A `dismissCookieBanner` written for one plugin's selectors is a SILENT no-op on another's: Pur Crystal ran the older **Cookie Law Info** (`cli-*`, `#cookie-law-info-bar`, accept `#cookie_action_close_header`) while the duplicated helper targeted **CookieYes** (`cky-*`), clicking a button that never existed. Confirm against the live DOM (`grep` the fetched page HTML for `cli-` / `cky-` / `#cookie-law-info-bar`). Banners frequently slide in AFTER load, so a click right after `goto` races the animation and is skipped — the deterministic fix is to set the plugin's OWN consent cookies BEFORE navigation so the bar never renders (Cookie Law Info: `viewed_cookie_policy=yes` + `cookielawinfo-checkbox-<category>=yes` via `context.addCookies`; CookieYes: its `cky-*` consent cookie). Cleaner than hiding it, and it also loads consent-gated content deterministically.
+
+40. **Sequential-order-number plugins split the DISPLAYED number from the order ID — and the number can carry an alpha PREFIX.** `my-account/view-order/{id}/` and `wp-admin/post.php?post={id}` need the numeric order/post ID (capture from the `/order-received/(\d+)/` URL) — feeding the displayed number yields WC **"Invalid order."** But display assertions (`mark.order-number`, the admin `Order #… details` heading) need the FULL displayed number, which may be prefixed (Pur Crystal shows `pc8703`). Capture `orderNumber` preserving the alpha prefix — strip only punctuation/whitespace (`replace(/[^a-z0-9]/gi,'')`), NEVER `[^0-9]` (that drops the prefix and breaks the admin-heading match) — and keep a separate numeric `postId` for every ID-based URL. The orders-LIST assertion passing while view-order 404s is the tell that only the URL identifier is wrong.
 
 ---
 
@@ -432,10 +441,16 @@ on explicit user approval, in order:
    - Copy ONLY the runnable Playwright project into a **`tests/`** folder (or the
      repo's existing test dir): `specs/`, `helpers/`, `fixtures/`, `types/`,
      `playwright.config.ts`, `tsconfig.json`, `package.json` (+ lockfile),
-     `README.md`, `.env.example`, `admin-login.ts`, `docs/`.
-   - **EXCLUDE** everything not needed to run: `node_modules/`, `generated/`, the
+     `README.md`, `.env.example`, `admin-login.ts`. Executables + config only.
+   - **EXCLUDE everything not needed to run:** `node_modules/`, `generated/`, the
      raw GI JSON export folders, `auth/` / `reports/` / `test-results/`, the real
-     `.env` (ship **`.env.example` only** — never secrets), and visual `*-snapshots/`.
+     `.env` (ship **`.env.example` only** — never secrets), visual `*-snapshots/`
+     (re-seeded per machine), and **`docs/`** and any other non-executable build
+     notes (site-exploration inventories stay in the `template-automation` build
+     record, not the shipped suite). A clean copy: `rsync -a --exclude` the above.
+   - Rename `package.json` `"name"` to `<project>-playwright`, and scrub any
+     stale sibling-brand strings from `.env.example` / config headers / error
+     messages when the suite was duplicated from another brand's suite.
    - It stays a self-contained nested project (own `package.json`/`node_modules`);
      Playwright runs from `tests/`. Push the branch — the suite now lives with the
      code under test. (Copy, don't delete from `template-automation`, unless the
