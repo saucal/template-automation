@@ -759,9 +759,13 @@ export async function setCartShippingDestination(page: Page, region: Region): Pr
 export async function fillCheckoutAddress(page: Page, config: OrderConfig): Promise<void> {
   await goToCart(page);
   await proceedToCheckout(page);
+  if (config.user === 'logged') return; // saved address prefills (both flows)
+  if (await isBlockCheckout(page)) return fillCheckoutAddressBlocks(page, config);
+  return fillCheckoutAddressClassic(page, config);
+}
 
-  if (config.user === 'logged') return; // saved address prefills
-
+/** Classic checkout: fill the #billing_* fields. */
+async function fillCheckoutAddressClassic(page: Page, config: OrderConfig): Promise<void> {
   const ctx = ctxFor(page);
   const billing = regionFor(config.region).billing;
   const email = emailFor(config);
@@ -785,6 +789,56 @@ export async function fillCheckoutAddress(page: Page, config: OrderConfig): Prom
       await resilientCheck(ctx, { primary: create, ai: 'the "Create an account?" checkbox' });
     }
     const pass = page.locator('#account_password');
+    if (await pass.isVisible({ timeout: 2_000 }).catch(() => false)) {
+      await resilientFill(ctx, { primary: pass, ai: 'the account password field' }, process.env.PASSWORD ?? '');
+    }
+  }
+
+  await waitForCheckoutReady(page);
+}
+
+/**
+ * Blocks checkout: accessible-name fields inside the `form "Checkout"` shipping
+ * group. "Use same address for billing" is checked by default, so billing mirrors
+ * shipping — no separate billing fill. State combobox label varies by region
+ * ("Province" CA, "State/County" AU) so it's matched by exclusion of the country
+ * combobox. Confirmed against au-checkout-blocks.yml / ca-checkout-blocks.yml.
+ */
+async function fillCheckoutAddressBlocks(page: Page, config: OrderConfig): Promise<void> {
+  const ctx = ctxFor(page);
+  const billing = regionFor(config.region).billing;
+  const email = emailFor(config);
+
+  await resilientFill(ctx, { primary: page.getByRole('textbox', { name: /email address/i }), ai: 'the checkout email field' }, email);
+  await page.getByRole('combobox', { name: /country/i }).first().selectOption(billing.shortCountry);
+  await waitForCheckoutReady(page);
+  await resilientFill(ctx, { primary: page.getByRole('textbox', { name: /^first name$/i }), ai: 'the first name field' }, billing.firstName);
+  await resilientFill(ctx, { primary: page.getByRole('textbox', { name: /^last name$/i }), ai: 'the last name field' }, billing.lastName);
+  await resilientFill(ctx, { primary: page.getByRole('textbox', { name: /^address$/i }), ai: 'the street address field' }, billing.street);
+  await resilientFill(ctx, { primary: page.getByRole('textbox', { name: /^city$/i }), ai: 'the city field' }, billing.city);
+  if (billing.shortState) {
+    const combos = page.getByRole('combobox');
+    const n = await combos.count();
+    for (let i = 0; i < n; i++) {
+      const cb = combos.nth(i);
+      if (/country/i.test((await cb.getAttribute('aria-label')) ?? '')) continue;
+      await cb.selectOption(billing.shortState).catch(() => {});
+      break;
+    }
+  }
+  await resilientFill(ctx, { primary: page.getByRole('textbox', { name: /postal code|postcode|zip/i }), ai: 'the postcode field' }, billing.zip);
+  const phone = page.getByRole('textbox', { name: /phone/i });
+  if (await phone.count()) {
+    await resilientFill(ctx, { primary: phone.first(), ai: 'the phone field' }, billing.phone);
+  }
+
+  if (config.user === 'new') {
+    const create = page.getByRole('checkbox', { name: /create an account/i });
+    if ((await create.count()) > 0 && !(await create.isChecked().catch(() => false))) {
+      await resilientCheck(ctx, { primary: create, ai: 'the "Create an account" checkbox' });
+    }
+    const pass = page.getByRole('textbox', { name: /password/i })
+      .or(page.locator('input[type="password"]')).first();
     if (await pass.isVisible({ timeout: 2_000 }).catch(() => false)) {
       await resilientFill(ctx, { primary: pass, ai: 'the account password field' }, process.env.PASSWORD ?? '');
     }
