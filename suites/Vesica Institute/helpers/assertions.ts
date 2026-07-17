@@ -330,6 +330,22 @@ export async function assertLoggedIn(page: Page): Promise<void> {
   await expect(page.locator('.woocommerce-MyAccount-navigation'), 'my-account navigation should be visible after login').toBeVisible({ timeout: 20_000 });
 }
 
+/**
+ * The My Account dashboard shows its standard navigation links. Matches by endpoint
+ * href (stable across theme copy) — Orders, Addresses, Account details, Log out are
+ * the endpoints every WooCommerce account exposes (Downloads is optional, skipped).
+ */
+export async function assertMyAccountLinks(page: Page): Promise<void> {
+  const nav = page.locator('.woocommerce-MyAccount-navigation');
+  await expect(nav, 'my-account navigation should be visible').toBeVisible({ timeout: 20_000 });
+  for (const endpoint of ['orders', 'edit-address', 'edit-account', 'customer-logout']) {
+    await expect(
+      nav.locator(`a[href*="${endpoint}"]`).first(),
+      `my-account nav should link to "${endpoint}"`
+    ).toBeVisible();
+  }
+}
+
 export async function assertPasswordResetRequested(page: Page): Promise<void> {
   await expect(page.locator('.woocommerce-message, .woocommerce-info').first(), 'a password-reset confirmation notice should show').toContainText(/email|reset|link/i);
 }

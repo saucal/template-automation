@@ -18,12 +18,18 @@ import {
   placeOrderAuthNet,
   payPayPal,
   readOrderReceived,
+  loginShopper,
+  logoutShopper,
+  setNewPassword,
+  requestPasswordReset,
   BILLING,
   SHIPPING,
   DEFAULT_QTY,
   orderEmail,
   type PdpCapture,
 } from './purcrystal';
+import { resetLinkFromEmail } from './assertions';
+import { ctxFor, resilientFill, resilientClick } from './resilient';
 
 export interface OrderPages {
   shopperPage: Page;
@@ -82,4 +88,57 @@ export async function runOrderFlow({ shopperPage: page }: OrderPages, config: Or
   result.productName = result.productName || pdp.productName;
 
   return { config, pdp, cartLine, validationError, checkoutTotals, result };
+}
+
+// ---------------------------------------------------------------------------
+// Account flows (register / login / forgot-password). Mirrors the Vesica GI
+// "Register user" + "Forgot password flow" tests. This site registers
+// PASSWORDLESS — the account-created email carries a "set your new password"
+// link (same set-password page as a reset), so registration and reset share
+// completeSetPassword. NO expect() here — assertions live in assertions.ts.
+// ---------------------------------------------------------------------------
+
+/**
+ * Register a new account (passwordless) at /my-account/ — returns the email used.
+ * The confirmation email carries the set-password link (followed by the spec).
+ */
+export async function runRegisterFlow(page: Page): Promise<string> {
+  const email = orderEmail('reg');
+  await page.goto('my-account/', { waitUntil: 'load' });
+  const ctx = ctxFor(page);
+  await resilientFill(
+    ctx,
+    { primary: page.locator('#reg_email'), alt: page.locator('input[name="email"]').first(), ai: 'the registration email field' },
+    email
+  );
+  await resilientClick(ctx, {
+    primary: page.getByRole('button', { name: /register/i }),
+    alt: page.locator('button.woocommerce-form-register__submit, button[name="register"]').first(),
+    ai: 'the Register button',
+  });
+  return email;
+}
+
+/** Follow a set-password link (from email) and set the new password. */
+export async function completeSetPassword(page: Page, resetUrl: string, newPassword: string): Promise<void> {
+  // The link is an ESP tracking redirect (track.smtpsendemail.com → kinsta reset page);
+  // 'load' never settles through the redirect chain + Cloudflare — wait for DOM only.
+  await page.goto(resetUrl, { waitUntil: 'domcontentloaded' });
+  await setNewPassword(page, newPassword);
+}
+
+/**
+ * Establish a usable account from a just-registered email: follow the set-password
+ * link, set `password`, then log in. Leaves the shopper logged in as `email`.
+ */
+export async function establishAccountViaEmail(page: Page, email: string, password: string): Promise<void> {
+  const link = await resetLinkFromEmail(email);
+  await completeSetPassword(page, link, password);
+  await logoutShopper(page);
+  await loginShopper(page, email, password);
+}
+
+/** Request a password reset for `email` (the emailed link is followed in the spec). */
+export async function runForgotPasswordFlow(page: Page, email: string): Promise<void> {
+  await requestPasswordReset(page, email);
 }

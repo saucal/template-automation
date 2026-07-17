@@ -605,6 +605,21 @@ export async function loginShopper(page: Page, email: string, password: string):
   await page.locator('.woocommerce-MyAccount-navigation').waitFor({ state: 'visible', timeout: 20_000 });
 }
 
+/** Log the shopper out via the My Account logout link (no-op if already logged out). */
+export async function logoutShopper(page: Page): Promise<void> {
+  await page.goto('my-account/customer-logout/', { waitUntil: 'load' });
+  await dismissCookieBanner(page);
+  // WooCommerce logout may show a "Are you sure you want to log out?" confirm link.
+  const confirm = page.getByRole('link', { name: /log out/i }).first();
+  if (await confirm.isVisible({ timeout: 2_000 }).catch(() => false)) {
+    await confirm.click().catch(() => {});
+    await page.waitForLoadState('load').catch(() => {});
+  }
+  // Logged out → the login form reappears on /my-account/.
+  await page.goto('my-account/', { waitUntil: 'load' });
+  await page.locator('#username, form.woocommerce-form-login').first().waitFor({ state: 'visible', timeout: 20_000 }).catch(() => {});
+}
+
 /** Set a new password on the reset/set-password page (#password_1/#password_2). */
 export async function setNewPassword(page: Page, newPassword: string): Promise<void> {
   // The reset form (#password_1) OR an "invalid/expired/already used" notice appears.
