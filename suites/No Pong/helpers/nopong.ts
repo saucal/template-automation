@@ -632,6 +632,12 @@ async function setCartQtyAndUpdateBlocks(page: Page, qty: number, opts: { verify
 
 /** Set the cart line-item quantity — classic qty input or Blocks spinbutton. */
 export async function setCartQtyAndUpdate(page: Page, qty: number, opts: { verify?: boolean } = {}): Promise<void> {
+  // Navigate to the cart BEFORE detecting its type. limits.spec calls this straight
+  // after addToCartById (which does goto('?add-to-cart=ID') and lands on the shop, not
+  // the cart), so detecting here without navigating first would inspect the wrong page
+  // — isBlocksCart would see no cart block and wrongly pick the classic branch, whose
+  // qty input doesn't exist on the Blocks cart. The siblings re-navigate per retry.
+  await goToCart(page);
   if (await isBlocksCart(page)) return setCartQtyAndUpdateBlocks(page, qty, opts);
   return setCartQtyAndUpdateClassic(page, qty, opts);
 }
@@ -805,42 +811,46 @@ async function fillCheckoutAddressClassic(page: Page, config: OrderConfig): Prom
  * combobox. Confirmed against au-checkout-blocks.yml / ca-checkout-blocks.yml.
  */
 async function fillCheckoutAddressBlocks(page: Page, config: OrderConfig): Promise<void> {
-  const ctx = ctxFor(page);
   const billing = regionFor(config.region).billing;
   const email = emailFor(config);
 
-  await resilientFill(ctx, { primary: page.getByRole('textbox', { name: /email address/i }), ai: 'the checkout email field' }, email);
-  await page.getByRole('combobox', { name: /country/i }).first().selectOption(billing.shortCountry);
+  // Target Blocks checkout fields by their STABLE ids, not accessible names/roles.
+  // Confirmed via trace DOM: #email, #shipping-first_name/last_name/address_1/city/
+  // postcode/phone are <input>, #shipping-country/#shipping-state are <select>. The
+  // accessible role of #shipping-address_1 flips textbox↔combobox by region (AU serves
+  // an address-autocomplete combobox), and the card/label wording varies — so a
+  // role/name approach is fragile and (with Stagehand credits exhausted) has no AI
+  // fallback. Ids are role-agnostic and survive the per-field re-renders.
+  const fill = async (sel: string, value: string, opts: { required?: boolean } = {}) => {
+    const field = page.locator(sel).first();
+    if (!opts.required && !(await field.count())) return;
+    await field.waitFor({ state: 'visible', timeout: 10_000 });
+    await field.fill(value);
+  };
+
+  await fill('#email', email, { required: true });
+  // Country change refetches shipping methods and re-renders the address block, so set
+  // it FIRST and let the re-render settle before filling the rest.
+  await page.locator('#shipping-country').selectOption(billing.shortCountry);
   await waitForCheckoutReady(page);
-  await resilientFill(ctx, { primary: page.getByRole('textbox', { name: /^first name$/i }), ai: 'the first name field' }, billing.firstName);
-  await resilientFill(ctx, { primary: page.getByRole('textbox', { name: /^last name$/i }), ai: 'the last name field' }, billing.lastName);
-  await resilientFill(ctx, { primary: page.getByRole('textbox', { name: /^address$/i }), ai: 'the street address field' }, billing.street);
-  await resilientFill(ctx, { primary: page.getByRole('textbox', { name: /^city$/i }), ai: 'the city field' }, billing.city);
+  await fill('#shipping-first_name', billing.firstName, { required: true });
+  await fill('#shipping-last_name', billing.lastName, { required: true });
+  await fill('#shipping-address_1', billing.street, { required: true });
+  await fill('#shipping-city', billing.city, { required: true });
   if (billing.shortState) {
-    const combos = page.getByRole('combobox');
-    const n = await combos.count();
-    for (let i = 0; i < n; i++) {
-      const cb = combos.nth(i);
-      if (/country/i.test((await cb.getAttribute('aria-label')) ?? '')) continue;
-      await cb.selectOption(billing.shortState).catch(() => {});
-      break;
-    }
+    await page.locator('#shipping-state').selectOption(billing.shortState).catch(() => {});
   }
-  await resilientFill(ctx, { primary: page.getByRole('textbox', { name: /postal code|postcode|zip/i }), ai: 'the postcode field' }, billing.zip);
-  const phone = page.getByRole('textbox', { name: /phone/i });
-  if (await phone.count()) {
-    await resilientFill(ctx, { primary: phone.first(), ai: 'the phone field' }, billing.phone);
-  }
+  await fill('#shipping-postcode', billing.zip, { required: true });
+  await fill('#shipping-phone', billing.phone);
 
   if (config.user === 'new') {
-    const create = page.getByRole('checkbox', { name: /create an account/i });
+    const create = page.getByRole('checkbox', { name: /create an account/i }).first();
     if ((await create.count()) > 0 && !(await create.isChecked().catch(() => false))) {
-      await resilientCheck(ctx, { primary: create, ai: 'the "Create an account" checkbox' });
+      await create.check().catch(() => {});
     }
-    const pass = page.getByRole('textbox', { name: /password/i })
-      .or(page.locator('input[type="password"]')).first();
+    const pass = page.locator('input[type="password"]').first();
     if (await pass.isVisible({ timeout: 2_000 }).catch(() => false)) {
-      await resilientFill(ctx, { primary: pass, ai: 'the account password field' }, process.env.PASSWORD ?? '');
+      await pass.fill(process.env.PASSWORD ?? '').catch(() => {});
     }
   }
 
@@ -1076,10 +1086,14 @@ async function payStripeBlocks(page: Page, config: OrderConfig): Promise<void> {
     await savedToken.waitFor({ state: 'visible', timeout: 10_000 });
     await savedToken.check();
   } else {
+    // Stripe Payment Element renders its inputs inside the js.stripe.com iframe with
+    // the SAME name attributes as the classic card element (number/expiry/cvc). Target
+    // those, NOT accessible names — the visible labels vary by region ("Expiration date
+    // MM / YY" on AU vs "Expiration (MM/YY)" on CA), which broke the role-based fill.
     const frame = page.locator('iframe[src*="js.stripe.com"], iframe[title*="payment" i], iframe[name*="stripe" i]').first().contentFrame();
-    await frame.getByRole('textbox', { name: /card number/i }).fill(STRIPE_CARD.number);
-    await frame.getByRole('textbox', { name: /expiration date/i }).fill(STRIPE_CARD.expiry);
-    await frame.getByRole('textbox', { name: /security code/i }).fill(STRIPE_CARD.cvc);
+    await frame.locator('input[name="number"]').first().fill(STRIPE_CARD.number);
+    await frame.locator('input[name="expiry"]').first().fill(STRIPE_CARD.expiry);
+    await frame.locator('input[name="cvc"]').first().fill(STRIPE_CARD.cvc);
     if (config.savePaymentMethod) {
       const save = page.getByRole('checkbox', { name: /save (payment information|.*card)/i }).first();
       if (await save.count()) await save.check().catch(() => {});

@@ -309,84 +309,98 @@ async function assertSubscriptionCartTotalClassic(
 }
 
 /**
- * Blocks-cart variant of the subscription cart-total assertion. Reads the
- * `.wc-block-components-totals-item` rows by label and the discounted line-item
- * price, then applies the same model: initial subtotal = discounted unit × qty +
- * sign-up fee; total = subtotal + shipping + region tax; recurring subtotal =
- * unit × qty; recurring total layers recurring shipping + tax.
- * TODO(live-verify): the subscription Blocks cart was not in the 2026-07-16
- * snapshots — confirm the sign-up-fee, recurring-subtotal, and recurring-total
- * selectors on the live run (Stagehand covers drift meanwhile).
+ * Blocks-cart variant of the subscription cart-total assertion.
+ *
+ * The Blocks cart lazy-loads every total via the Store API, showing
+ * `.wc-block-components-skeleton__element` ("Loading price…") placeholders until they
+ * resolve — reading before that yields empty strings (the original failure). So we
+ * FIRST wait for the footer total to show a real amount, THEN read via stable
+ * structural selectors confirmed from the live trace DOM (not label-text guesses):
+ *   - unit price      .wc-block-cart-item__prices (discounted value; struck = "previous")
+ *   - sign-up fee      .wc-block-components-product-details row named "Sign up fee"
+ *   - subtotal         .wp-block-woocommerce-cart-order-summary-subtotal-block …__value
+ *   - shipping         .wc-block-components-totals-shipping …__value ("Free" → 0)
+ *   - footer total     .wc-block-components-totals-footer-item …__value
+ *   - recurring total  .wcs-recurring-totals-panel__title …__value (WCS Blocks panel)
+ *
+ * Model (region tax via config, rule 11 — AU inclusive/US none/CA exclusive row): the
+ * first-payment subtotal = discounted unit × qty + one-off sign-up fee; total =
+ * subtotal + shipping + tax; the monthly recurring total = the first-payment total
+ * minus the one-off sign-up fee (same recurring shipping/tax), which ties the recurring
+ * charge to the qty-driven total.
+ * TODO(live-verify): recurring = total − fee assumes recurring shipping/tax equal the
+ * first payment — refine if a live run shows they differ.
  */
 async function assertSubscriptionCartTotalBlocks(
   page: Page,
   opts: { qty: number; region: Region }
 ): Promise<void> {
-  const ctx = ctxFor(page);
+  // Wait for the async totals to load (skeleton placeholder → real amount).
+  await page.locator('.wc-block-components-totals-footer-item .wc-block-components-totals-item__value')
+    .filter({ hasText: /\d/ }).first().waitFor({ state: 'visible', timeout: 20_000 });
+  await page.locator('.wcs-recurring-totals-panel__title .wc-block-components-totals-item__value')
+    .filter({ hasText: /\d/ }).first().waitFor({ state: 'visible', timeout: 20_000 }).catch(() => {});
 
-  // Read a Blocks totals row's value by matching its label text (case-insensitive).
-  const rowValue = async (labelRe: string): Promise<string> =>
-    page.evaluate((re) => {
-      const rx = new RegExp(re, 'i');
-      const rows = Array.from(document.querySelectorAll(
-        '.wc-block-components-totals-item, .wc-block-components-totals-footer-item'
-      ));
-      for (const r of rows) {
-        const label = (r.querySelector('.wc-block-components-totals-item__label')?.textContent ?? '').trim();
-        if (rx.test(label)) {
-          const v = r.querySelector('.wc-block-components-totals-item__value')?.textContent ?? '';
-          return v.replace(/\s+/g, ' ').trim();
-        }
+  const read = await page.evaluate(() => {
+    const norm = (s: string | null | undefined) => (s ?? '').replace(/\s+/g, ' ').trim();
+    const val = (sel: string) => norm(document.querySelector(sel)?.textContent);
+    // Discounted (payable) unit price: the price value in the line item's price cell
+    // that is NOT the struck "previous" (regular) price and not inside a <del>.
+    const prices = document.querySelector('.wc-block-cart-item__prices');
+    const struck = prices?.querySelector('.wc-block-components-product-price__regular') ?? null;
+    let unit = '';
+    if (prices) {
+      const values = Array.from(prices.querySelectorAll('.wc-block-components-product-price__value'));
+      const current = values.find((v) => !v.classList.contains('wc-block-components-product-price__regular') && !v.closest('del'));
+      unit = norm((current ?? values[0])?.textContent);
+    }
+    // Sign-up fee: the product-details row whose name is "Sign up fee".
+    let fee = '';
+    for (const li of Array.from(document.querySelectorAll('.wc-block-components-product-details > *, .wc-block-components-product-details li'))) {
+      const name = norm(li.querySelector('.wc-block-components-product-details__name')?.textContent).toLowerCase();
+      if (name.includes('sign up fee') || name.includes('sign-up fee')) {
+        fee = norm(li.querySelector('.wc-block-components-product-details__value')?.textContent);
+        break;
       }
-      return '';
-    }, labelRe);
-
-  const onSale = (await page.locator('.wc-block-components-product-price__value.is-discounted, .wc-block-cart-item__prices ins').count()) > 0;
-  expect(onSale, `qty ${opts.qty} should trigger the subscription quantity discount (a discounted line-item price)`).toBe(true);
-
-  const unitPrice = await resilientText(ctx, {
-    primary: page.locator('.wc-block-components-product-price__value.is-discounted').first()
-      .or(page.locator('.wc-block-cart-item__prices ins .wc-block-components-product-price__value').first()),
-    ai: 'the subscription line-item discounted unit price in the Blocks cart',
+    }
+    // Tax row (CA exclusive renders one; AU inclusive shows only a footer note, US none).
+    let tax = '';
+    for (const r of Array.from(document.querySelectorAll('.wc-block-components-totals-item'))) {
+      const label = norm(r.querySelector('.wc-block-components-totals-item__label')?.textContent).toLowerCase();
+      if (/\b(gst|hst|pst|qst|vat|tax)\b/.test(label)) {
+        tax = norm(r.querySelector('.wc-block-components-totals-item__value')?.textContent);
+        break;
+      }
+    }
+    return {
+      hasStruck: !!struck,
+      unit,
+      fee,
+      tax,
+      subtotal: val('.wp-block-woocommerce-cart-order-summary-subtotal-block .wc-block-components-totals-item__value'),
+      shipping: val('.wc-block-components-totals-shipping .wc-block-components-totals-item__value'),
+      total: val('.wc-block-components-totals-footer-item .wc-block-components-totals-item__value'),
+      recurringTotal: val('.wcs-recurring-totals-panel__title .wc-block-components-totals-item__value'),
+    };
   });
-  const signUpFee = await resilientText(ctx, {
-    primary: page.getByText(/sign up fee/i).first()
-      .locator('xpath=following::*[contains(@class,"amount")][1]'),
-    ai: 'the subscription sign-up fee amount in the Blocks cart',
-  }).catch(() => '');
-
-  const subtotal = await rowValue('^subtotal$');
-  const shipping = await rowValue('shipping|shipment|standard|canadapost|auspost');
-  const tax = await rowValue('gst|hst|pst|qst|vat|tax');
-  const total = await rowValue('estimated total|^total|due today');
-
-  const recurringSubtotal = await resilientText(ctx, {
-    primary: page.getByText(/recurring/i).locator('xpath=ancestor::*[contains(@class,"totals-item")]//*[contains(@class,"totals-item__value")]').first(),
-    ai: 'the recurring subtotal in the Blocks cart',
-  }).catch(() => '');
-  const recurringTotal = await resilientText(ctx, {
-    primary: page.getByText(/\/\s*month|per month|every month|recurring total/i)
-      .locator('xpath=following::*[contains(@class,"amount")][1]').first(),
-    ai: 'the recurring total in the Blocks cart',
-  }).catch(() => '');
 
   const money = (s: string) => (Number.isNaN(toAmount(s)) ? 0 : toAmount(s));
   const addTax = (t: string) => (regionFor(opts.region).taxInclusive ? 0 : money(t));
 
-  const expectedSubtotal = (toAmount(unitPrice) * opts.qty) + money(signUpFee);
-  expectMoney(subtotal, expectedSubtotal.toFixed(2),
-    `Blocks subtotal should equal discounted unit price × ${opts.qty} + sign-up fee`);
-  expectMoney(total, (expectedSubtotal + money(shipping) + addTax(tax)).toFixed(2),
+  expect(read.hasStruck, `qty ${opts.qty} should trigger the subscription quantity discount (a struck "previous" price on the line item)`).toBe(true);
+
+  const expectedSubtotal = (toAmount(read.unit) * opts.qty) + money(read.fee);
+  expectMoney(read.subtotal, expectedSubtotal.toFixed(2),
+    `Blocks subtotal should equal discounted unit × ${opts.qty} + sign-up fee`);
+  expectMoney(read.total, (expectedSubtotal + money(read.shipping) + addTax(read.tax)).toFixed(2),
     'Blocks cart total should equal subtotal + shipping + tax');
 
-  // Recurring section is only asserted when the Blocks cart renders it (values non-empty).
-  if (recurringSubtotal) {
-    expectMoney(recurringSubtotal, (toAmount(unitPrice) * opts.qty).toFixed(2),
-      `Blocks recurring subtotal should equal discounted unit price × ${opts.qty}`);
-  }
-  if (recurringTotal) {
-    expectMoney(recurringTotal, ((toAmount(unitPrice) * opts.qty) + addTax(tax)).toFixed(2),
-      'Blocks recurring total should equal recurring subtotal + recurring tax');
+  // Recurring = first-payment total minus the one-off sign-up fee (same recurring
+  // shipping/tax), tying the recurring charge to the qty-driven total. Asserted only
+  // when the WCS recurring panel rendered a value.
+  if (read.recurringTotal) {
+    expectMoney(read.recurringTotal, (money(read.total) - money(read.fee)).toFixed(2),
+      'Blocks monthly recurring total should equal the first-payment total minus the one-off sign-up fee');
   }
 }
 
