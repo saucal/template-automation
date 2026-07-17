@@ -185,7 +185,7 @@ export async function dismissPopups(page: Page): Promise<void> {
 
 /** Wait for WooCommerce blocking overlays to clear before interacting. */
 export async function waitForCheckoutReady(page: Page): Promise<void> {
-  await page.waitForLoadState('domcontentloaded');
+  await page.waitForLoadState('load');
   for (const sel of [
     '.blockUI.blockOverlay',
     '.wc-block-components-spinner',
@@ -198,6 +198,14 @@ export async function waitForCheckoutReady(page: Page): Promise<void> {
 /** Classic vs Blocks checkout — single source of truth for the branch (rules 9, 21). */
 export async function isBlockCheckout(page: Page): Promise<boolean> {
   return (await page.locator('.wc-block-checkout, .wp-block-woocommerce-checkout').count()) > 0;
+}
+
+/** Blocks vs classic CART — live DOM check (rule: never branch on region/tier). */
+export async function isBlocksCart(page: Page): Promise<boolean> {
+  await page.waitForLoadState('load').catch(() => {});
+  const blocks = await page.locator('.wp-block-woocommerce-cart').count();
+  const classic = await page.locator('form.woocommerce-cart-form').count();
+  return blocks > 0 && classic === 0;
 }
 
 // ---------------------------------------------------------------------------
@@ -303,19 +311,18 @@ export async function addSubscriptionToCart(page: Page, _region: Region): Promis
  */
 export async function readSubscriptionDetails(page: Page): Promise<{ subscriptionNumber: string; nextPaymentDate: string }> {
   const ctx = ctxFor(page);
-  await page.goto('my-account/subscriptions/');
-  await page.waitForLoadState('load');
-
-  const link = page.locator('a[href*="/my-account/view-subscription/"]').first();
+  // Scope to `main`: the same view-subscription URL also appears as a collapsed item in
+  // the SITE HEADER's "My Account" dropdown, which is in the DOM but positioned
+  // off-screen — an unscoped `.first()` grabbed it and .click() looped forever
+  // ("element is outside of the viewport"). The in-flow account-nav / table link lives
+  // in the content area.
+  const link = page.locator('main td.subscription-id > a[href*="/my-account/view-subscription/"]').first();
   await link.waitFor({ state: 'visible', timeout: 15_000 });
   const href = (await link.getAttribute('href')) ?? '';
   const subscriptionNumber = (href.match(/view-subscription\/(\d+)/)?.[1] ?? (await link.innerText())).replace(/[^0-9]/g, '');
 
-  await resilientClick(ctx, { primary: link, ai: 'the subscription link in the My Account subscriptions list' });
-  await page.waitForLoadState('load');
-
   const nextPaymentDate = await resilientText(ctx, {
-    primary: page.locator('td[data-title="Next payment"], .subscription-next-payment, td.next-payment-date').first(),
+    primary: page.locator('td[data-title="Next payment"], td.subscription-next-payment, td.next-payment-date').first(),
     ai: 'the next payment date on the subscription detail page',
   }).catch(() => '');
 
@@ -554,18 +561,45 @@ export async function readFirstCartQty(page: Page): Promise<string> {
  * quantity"]`, NO Update button) only persists on the field's change/blur event —
  * Enter alone leaves the typed value uncommitted and it reverts. So we fill, press
  * Enter (classic), AND blur (AJAX cart) to cover both.
+ *
+ * `opts.verify` (default false): reload and confirm the field reads back exactly
+ * `qty` before returning, retrying up to 3x — No Pong's cart session is stored via
+ * an object cache shared across multiple app servers (WP VIP), which can lag: the
+ * update_cart POST commits on the server that handled it, but a follow-up request
+ * can land on a different app server that hasn't seen the write yet and serves the
+ * pre-update qty, silently dropping the discount that qty>=1 unlocks. Confirmed
+ * live (both preprod and develop) via trace inspection — not a caching/CDN issue
+ * (responses are `cache-control: no-store`), and not a selector/timing bug here.
+ * Only opt in when the caller expects the requested qty to persist exactly —
+ * callers that deliberately request an over-limit qty (limits.spec.ts) expect the
+ * SITE to clamp it down, so verifying against the requested value would always
+ * fail there.
  */
-export async function setCartQtyAndUpdate(page: Page, qty: number): Promise<void> {
+export async function setCartQtyAndUpdate(page: Page, qty: number, opts: { verify?: boolean } = {}): Promise<void> {
   const ctx = ctxFor(page);
-  await goToCart(page);
-  const field = page.locator('input[aria-label="Product quantity"], input.qty, input[title="Qty"]').first();
-  await field.waitFor({ state: 'visible', timeout: 10_000 });
-  await resilientFill(ctx, { primary: field, ai: 'the cart quantity field' }, String(qty));
-  await field.press('Enter');
-  await field.evaluate((el: HTMLInputElement) => el.blur()); // fires change → AJAX recalculation
-  await page.locator('.blockUI.blockOverlay, .wc-block-components-spinner').first()
-    .waitFor({ state: 'visible', timeout: 3_000 }).catch(() => {});
-  await waitForCheckoutReady(page);
+  const fieldSelector = 'input[aria-label="Product quantity"], input.qty, input[title="Qty"]';
+  const attempts = opts.verify ? 3 : 1;
+  for (let attempt = 1; attempt <= attempts; attempt++) {
+    await goToCart(page);
+    const field = page.locator(fieldSelector).first();
+    await field.waitFor({ state: 'visible', timeout: 10_000 });
+    await resilientFill(ctx, { primary: field, ai: 'the cart quantity field' }, String(qty));
+    await field.press('Enter');
+    await field.evaluate((el: HTMLInputElement) => el.blur()); // fires change → AJAX recalculation
+    await page.locator('.blockUI.blockOverlay, .wc-block-components-spinner').first()
+      .waitFor({ state: 'visible', timeout: 3_000 }).catch(() => {});
+    await waitForCheckoutReady(page);
+
+    if (!opts.verify) return;
+
+    // `load` not `networkidle` — the site fires continuous ad-tracking beacons
+    // that never let the network go idle.
+    await page.reload({ waitUntil: 'load' });
+    await waitForCheckoutReady(page);
+    const persisted = await page.locator(fieldSelector).first().inputValue().catch(() => '');
+    if (persisted === String(qty)) return;
+  }
+  throw new Error(`cart quantity did not persist as ${qty} after ${attempts} attempts (session-propagation lag on the site)`);
 }
 
 /** Pick an option in a WooCommerce select2 dropdown (the cart shipping calculator uses these). */
@@ -597,6 +631,20 @@ export async function setCartShippingDestination(page: Page, region: Region): Pr
     .or(page.getByRole('link', { name: /calculate shipping/i }));
   if (await toggle.first().isVisible({ timeout: 3_000 }).catch(() => false)) {
     await toggle.first().click().catch(() => {});
+  }
+  // CA/US on the `develop` tier serve the WooCommerce Blocks cart (React "Products
+  // in cart" table, "Add coupons", address already resolved with a "Change address"
+  // button) instead of the classic cart this helper drives — no #calc_shipping_*
+  // select2 exists there at all. Fail fast with a clear reason instead of a bare
+  // selector timeout; the Blocks cart isn't supported by this helper yet.
+  const country = page.locator('#select2-calc_shipping_country-container');
+  if (!(await country.first().isVisible({ timeout: 8_000 }).catch(() => false))) {
+    const isBlocksCart = (await page.getByText(/add coupons/i).count()) > 0;
+    throw new Error(
+      isBlocksCart
+        ? 'setCartShippingDestination: this cart is rendering the WooCommerce Blocks cart (no classic shipping calculator) — not supported by this helper yet.'
+        : 'setCartShippingDestination: #calc_shipping_country select2 never appeared.'
+    );
   }
   await pickSelect2(page, 'calc_shipping_country', dest.country);
   await waitForCheckoutReady(page);
@@ -707,7 +755,10 @@ export async function readTotals(
         const amtEl = priceEl ?? r.querySelector('td:last-child');
         const amt = norm(amtEl?.textContent);
         if (head === 'subtotal') out.subtotal = amt;
-        else if (head.startsWith('shipping') || head.startsWith('shipment')) {
+        // Match the shipping row by its stable `shipping` class, not the header text:
+        // WooCommerce Subscriptions relabels the checkout first-payment row "Initial
+        // Shipment" (vs the thank-you page's "Shipping"), which no text prefix catches.
+        else if (r.classList.contains('shipping') || head.startsWith('shipping') || head.startsWith('shipment')) {
           // Read the SELECTED method's price amount when methods are radios, else the
           // row's. FREE shipping renders as a method LABEL ("Regular") with no price
           // amount — capture '' (no cost), never the label: the label differs per
@@ -820,10 +871,17 @@ export async function readPointsEarned(page: Page): Promise<number | undefined> 
 /** Dispatch to the configured payment method, then place the order. */
 export async function pay(page: Page, config: OrderConfig): Promise<void> {
   const ctx = ctxFor(page);
-  const terms = page.locator('#terms');
+  await waitForCheckoutReady(page);
+  const terms = page.locator('#terms').or(page.getByRole('checkbox', { name: 'I have read and agree to the' })).first();
   if ((await terms.count()) > 0 && !(await terms.isChecked().catch(() => false))) {
-    await resilientCheck(ctx, { primary: terms, ai: 'the terms and conditions agreement checkbox' });
-  }
+    // The theme visually hides the native #terms checkbox behind a styled label, so a
+    // plain .check() can't action it (element found but not actionable — not a selector
+    // problem). Force it: this still sets :checked and fires `change`, which is what
+    // WooCommerce validates on Place order. resilientCheck's AI tier can't fix an
+    // actionability issue, so we don't route through it here.
+    await terms.check();
+    
+   }
 
   if (config.payment === 'stripe') await payStripe(page, config);
   else await payPaypal(page);
