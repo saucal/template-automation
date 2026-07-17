@@ -617,7 +617,7 @@ async function pickSelect2(page: Page, fieldId: string, label: string): Promise<
  * any valid in-region address makes the cart compute full totals; it needn't match
  * the checkout address.
  */
-export async function setCartShippingDestination(page: Page, region: Region): Promise<void> {
+async function setCartShippingDestinationClassic(page: Page, region: Region): Promise<void> {
   const { billing } = regionFor(region);
   const dest = {
     country: billing.countryComplete,
@@ -632,19 +632,9 @@ export async function setCartShippingDestination(page: Page, region: Region): Pr
   if (await toggle.first().isVisible({ timeout: 3_000 }).catch(() => false)) {
     await toggle.first().click().catch(() => {});
   }
-  // CA/US on the `develop` tier serve the WooCommerce Blocks cart (React "Products
-  // in cart" table, "Add coupons", address already resolved with a "Change address"
-  // button) instead of the classic cart this helper drives — no #calc_shipping_*
-  // select2 exists there at all. Fail fast with a clear reason instead of a bare
-  // selector timeout; the Blocks cart isn't supported by this helper yet.
   const country = page.locator('#select2-calc_shipping_country-container');
   if (!(await country.first().isVisible({ timeout: 8_000 }).catch(() => false))) {
-    const isBlocksCart = (await page.getByText(/add coupons/i).count()) > 0;
-    throw new Error(
-      isBlocksCart
-        ? 'setCartShippingDestination: this cart is rendering the WooCommerce Blocks cart (no classic shipping calculator) — not supported by this helper yet.'
-        : 'setCartShippingDestination: #calc_shipping_country select2 never appeared.'
-    );
+    throw new Error('setCartShippingDestinationClassic: #calc_shipping_country select2 never appeared.');
   }
   await pickSelect2(page, 'calc_shipping_country', dest.country);
   await waitForCheckoutReady(page);
@@ -668,6 +658,58 @@ export async function setCartShippingDestination(page: Page, region: Region): Pr
     ai: 'the Update / Calculate shipping button',
   });
   await waitForCheckoutReady(page);
+}
+
+/**
+ * Blocks cart: the shipping destination is set through the inline address editor in
+ * the "Cart totals" block ("Change address" once resolved, "Calculate shipping"
+ * before). The mini-form has a Country/Region combobox, a state combobox (label
+ * varies by region — "Province" CA, "State/County" AU — so matched by exclusion),
+ * and a Postcode/ZIP textbox (NO City field), committed with "Update".
+ * TODO(live-verify): the expanded mini-form was not in the 2026-07-16 snapshots
+ * (captured while the cart was still loading) — confirm the combobox/textbox names.
+ */
+async function setCartShippingDestinationBlocks(page: Page, region: Region): Promise<void> {
+  const { billing } = regionFor(region);
+  const ctx = ctxFor(page);
+  const opener = page.getByRole('button', { name: /change address|calculate shipping/i }).first();
+  if (await opener.isVisible({ timeout: 8_000 }).catch(() => false)) {
+    await opener.click().catch(() => {});
+  }
+  const country = page.getByRole('combobox', { name: /country/i }).first();
+  await country.waitFor({ state: 'visible', timeout: 10_000 });
+  await country.selectOption(billing.shortCountry).catch(async () => {
+    await country.selectOption({ label: billing.countryComplete });
+  });
+  await waitForCheckoutReady(page);
+  if (billing.shortState) {
+    // The state combobox is the one that is NOT the country combobox.
+    const combos = page.getByRole('combobox');
+    const n = await combos.count();
+    for (let i = 0; i < n; i++) {
+      const cb = combos.nth(i);
+      if (/country/i.test((await cb.getAttribute('aria-label')) ?? '')) continue;
+      await cb.selectOption(billing.shortState).catch(() => {});
+      break;
+    }
+    await waitForCheckoutReady(page);
+  }
+  const postcode = page.getByRole('textbox', { name: /postcode|postal|zip/i }).first();
+  if (await postcode.isVisible({ timeout: 5_000 }).catch(() => false)) {
+    await postcode.fill(billing.zip);
+  }
+  await resilientClick(ctx, {
+    primary: page.getByRole('button', { name: /^update$/i }),
+    alt: page.getByRole('button', { name: /update/i }),
+    ai: 'the Update button in the Blocks cart shipping-address editor',
+  });
+  await waitForCheckoutReady(page);
+}
+
+/** Set the cart shipping destination — classic calculator or Blocks address editor. */
+export async function setCartShippingDestination(page: Page, region: Region): Promise<void> {
+  if (await isBlocksCart(page)) return setCartShippingDestinationBlocks(page, region);
+  return setCartShippingDestinationClassic(page, region);
 }
 
 // ---------------------------------------------------------------------------
