@@ -575,7 +575,7 @@ export async function readFirstCartQty(page: Page): Promise<string> {
  * SITE to clamp it down, so verifying against the requested value would always
  * fail there.
  */
-export async function setCartQtyAndUpdate(page: Page, qty: number, opts: { verify?: boolean } = {}): Promise<void> {
+async function setCartQtyAndUpdateClassic(page: Page, qty: number, opts: { verify?: boolean }): Promise<void> {
   const ctx = ctxFor(page);
   const fieldSelector = 'input[aria-label="Product quantity"], input.qty, input[title="Qty"]';
   const attempts = opts.verify ? 3 : 1;
@@ -600,6 +600,40 @@ export async function setCartQtyAndUpdate(page: Page, qty: number, opts: { verif
     if (persisted === String(qty)) return;
   }
   throw new Error(`cart quantity did not persist as ${qty} after ${attempts} attempts (session-propagation lag on the site)`);
+}
+
+/**
+ * Blocks cart: the line-item quantity is a spinbutton (aria-label "Quantity of
+ * {product} in your cart.") with +/- steppers; there is NO "Update cart" button —
+ * the Blocks store recalculates on change. `{ verify }` reloads and re-reads the
+ * spinbutton to confirm the qty stuck (same session-propagation lag as classic).
+ */
+async function setCartQtyAndUpdateBlocks(page: Page, qty: number, opts: { verify?: boolean }): Promise<void> {
+  const ctx = ctxFor(page);
+  const sel = () => page.getByRole('spinbutton', { name: /quantity of/i }).first();
+  const attempts = opts.verify ? 3 : 1;
+  for (let attempt = 1; attempt <= attempts; attempt++) {
+    await goToCart(page);
+    const spin = sel();
+    await spin.waitFor({ state: 'visible', timeout: 10_000 });
+    await resilientFill(ctx, { primary: spin, ai: 'the Blocks cart quantity spinbutton' }, String(qty));
+    await spin.press('Tab'); // commit → Blocks store recalculates
+    await page.locator('.wc-block-components-spinner').first()
+      .waitFor({ state: 'visible', timeout: 3_000 }).catch(() => {});
+    await waitForCheckoutReady(page);
+    if (!opts.verify) return;
+    await page.reload({ waitUntil: 'load' });
+    await waitForCheckoutReady(page);
+    const persisted = await sel().inputValue().catch(() => '');
+    if (persisted === String(qty)) return;
+  }
+  throw new Error(`Blocks cart quantity did not persist as ${qty} after ${attempts} attempts (session-propagation lag on the site)`);
+}
+
+/** Set the cart line-item quantity — classic qty input or Blocks spinbutton. */
+export async function setCartQtyAndUpdate(page: Page, qty: number, opts: { verify?: boolean } = {}): Promise<void> {
+  if (await isBlocksCart(page)) return setCartQtyAndUpdateBlocks(page, qty, opts);
+  return setCartQtyAndUpdateClassic(page, qty, opts);
 }
 
 /** Pick an option in a WooCommerce select2 dropdown (the cart shipping calculator uses these). */
