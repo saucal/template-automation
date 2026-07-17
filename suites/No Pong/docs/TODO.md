@@ -177,8 +177,10 @@ extraction method):
 ## WooCommerce Blocks cart/checkout (2026-07-17)
 
 Helpers now dispatch classic vs Blocks by live DOM check (`isBlocksCart` /
-`isBlockCheckout`). AU renders classic (must stay green); CA/US develop render Blocks.
-Classic path is deleted later once Blocks is fully rolled out.
+`isBlockCheckout`). AU, CA, and US develop all render Blocks now — the only per-region
+difference is tax mode (AU inclusive / CA exclusive / US none), driven by
+`regionConfig.taxInclusive`. Classic path stays only as a fallback for any tier still
+serving the old cart/checkout, and is deleted once Blocks is fully rolled out everywhere.
 
 **TODO(live-verify) — selectors not covered by the 2026-07-16 snapshots:**
 - Blocks cart shipping mini-form combobox/textbox names (`setCartShippingDestinationBlocks`).

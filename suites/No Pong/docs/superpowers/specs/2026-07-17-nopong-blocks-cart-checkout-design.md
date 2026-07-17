@@ -110,8 +110,11 @@ Selectors below are from the live ARIA snapshots at
 
 - **No "AI agent" checkbox** on either AU or CA Blocks checkout in the 2026-07-16
   snapshots — the earlier concern is dropped. (Re-check if a live run surfaces it.)
-- AU still renders **classic** cart + checkout in these snapshots — its dispatchers must
-  keep taking the classic branch. The live DOM check handles this automatically.
+- **AU is also on Blocks** (au-{cart,checkout}-blocks.yml, 2026-07-16) — same as CA/US.
+  The only AU/CA/US difference is tax mode, driven entirely by `regionConfig.taxInclusive`
+  (AU inclusive → no separate tax row; CA exclusive → additive row; US none). The live DOM
+  check routes each region through the Blocks branch automatically; no region-specific code.
+  Classic branch remains only as a fallback for any tier still serving the old cart/checkout.
 
 ## Nav helpers (verify, likely no change)
 
@@ -125,8 +128,9 @@ Selectors below are from the live ARIA snapshots at
 Per project convention (`nopong_user_runs_tests`): Claude writes specs + runs `tsc`
 only; the **user runs live Playwright**. No spec files change shape — the dispatchers are
 transparent to `cart.spec.ts` / `place-order.spec.ts`. Deliverable = tsc-clean helpers +
-this design doc + updated `docs/TODO.md`. User validates AU (classic, must stay green)
-and CA/US (Blocks) on the live develop tier.
+this design doc + updated `docs/TODO.md`. User validates AU + CA/US (all Blocks) on the
+live develop tier — the only per-region difference is tax mode (AU inclusive / CA
+exclusive / US none), already driven by `regionConfig.taxInclusive`.
 
 ## Out of scope
 
