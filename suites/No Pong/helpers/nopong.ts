@@ -998,23 +998,30 @@ export async function readPointsEarned(page: Page): Promise<number | undefined> 
 // Payment.
 // ---------------------------------------------------------------------------
 
-/** Dispatch to the configured payment method, then place the order. */
+/** Dispatch to the configured payment method for the active checkout flow. */
 export async function pay(page: Page, config: OrderConfig): Promise<void> {
-  const ctx = ctxFor(page);
   await waitForCheckoutReady(page);
-  const terms = page.locator('#terms').or(page.getByRole('checkbox', { name: 'I have read and agree to the' })).first();
-  if ((await terms.count()) > 0 && !(await terms.isChecked().catch(() => false))) {
-    // The theme visually hides the native #terms checkbox behind a styled label, so a
-    // plain .check() can't action it (element found but not actionable — not a selector
-    // problem). Force it: this still sets :checked and fires `change`, which is what
-    // WooCommerce validates on Place order. resilientCheck's AI tier can't fix an
-    // actionability issue, so we don't route through it here.
-    await terms.check();
-    
-   }
+  const blocks = await isBlockCheckout(page);
+  await acceptTerms(page, blocks);
+  if (config.payment === 'stripe') {
+    await (blocks ? payStripeBlocks(page, config) : payStripeClassic(page, config));
+  } else {
+    await (blocks ? payPaypalBlocks(page) : payPaypalClassic(page));
+  }
+}
 
-  if (config.payment === 'stripe') await payStripe(page, config);
-  else await payPaypal(page);
+/**
+ * Tick the "terms and conditions" consent. Classic renders a visually-hidden native
+ * #terms behind a styled label (a plain .check() finds it but can't action it, so we
+ * force it); Blocks renders `checkbox "You must accept our Terms…"`.
+ */
+async function acceptTerms(page: Page, blocks: boolean): Promise<void> {
+  const terms = blocks
+    ? page.getByRole('checkbox', { name: /accept our terms/i }).first()
+    : page.locator('#terms').or(page.getByRole('checkbox', { name: 'I have read and agree to the' })).first();
+  if ((await terms.count()) > 0 && !(await terms.isChecked().catch(() => false))) {
+    await terms.check().catch(async () => { await terms.check({ force: true }); });
+  }
 }
 
 /**
@@ -1023,7 +1030,7 @@ export async function pay(page: Page, config: OrderConfig): Promise<void> {
  * ticking "Save payment information…" (`config.savePaymentMethod`) so the token is
  * stored on the account for a later saved-card order. Then place the order.
  */
-async function payStripe(page: Page, config: OrderConfig): Promise<void> {
+async function payStripeClassic(page: Page, config: OrderConfig): Promise<void> {
   const ctx = ctxFor(page);
   await resilientClick(ctx, {
     primary: page.locator('label[for="payment_method_stripe"]'),
@@ -1049,7 +1056,36 @@ async function payStripe(page: Page, config: OrderConfig): Promise<void> {
     }
   }
 
-  await placeOrder(page);
+  await placeOrderClassic(page);
+}
+
+/**
+ * Blocks Stripe: the "Credit / Debit Card" method is selected by default. The Stripe
+ * Payment Element renders textboxes (accessible names "Card number", "Expiration date
+ * MM / YY", "Security code") inside its iframe — a different shape than the classic
+ * 3-input iframe. Confirmed against {au,ca}-checkout-blocks.yml.
+ */
+async function payStripeBlocks(page: Page, config: OrderConfig): Promise<void> {
+  const cc = page.getByRole('radio', { name: /credit \/ debit card/i }).first();
+  if ((await cc.count()) > 0 && !(await cc.isChecked().catch(() => false))) {
+    await cc.check().catch(() => {});
+  }
+  if (config.useSavedCard) {
+    // TODO(live-verify): saved-token radio markup on Blocks not snapshotted.
+    const savedToken = page.locator('input[name*="saved-token" i]:not([value="new"]), input[name*="wc-stripe-payment-token" i]:not([value="new"])').first();
+    await savedToken.waitFor({ state: 'visible', timeout: 10_000 });
+    await savedToken.check();
+  } else {
+    const frame = page.locator('iframe[src*="js.stripe.com"], iframe[title*="payment" i], iframe[name*="stripe" i]').first().contentFrame();
+    await frame.getByRole('textbox', { name: /card number/i }).fill(STRIPE_CARD.number);
+    await frame.getByRole('textbox', { name: /expiration date/i }).fill(STRIPE_CARD.expiry);
+    await frame.getByRole('textbox', { name: /security code/i }).fill(STRIPE_CARD.cvc);
+    if (config.savePaymentMethod) {
+      const save = page.getByRole('checkbox', { name: /save (payment information|.*card)/i }).first();
+      if (await save.count()) await save.check().catch(() => {});
+    }
+  }
+  await placeOrderBlocks(page);
 }
 
 /**
@@ -1062,7 +1098,7 @@ async function payStripe(page: Page, config: OrderConfig): Promise<void> {
  * in), so the login steps are best-effort. Falls back to driving the main page
  * if PPCP redirects in-place rather than opening a popup.
  */
-async function payPaypal(page: Page): Promise<void> {
+async function payPaypalClassic(page: Page): Promise<void> {
   const ctx = ctxFor(page);
   await resilientClick(ctx, {
     primary: page.locator('label[for*="payment_method_ppcp"], label[for*="payment_method_paypal"]'),
@@ -1070,7 +1106,33 @@ async function payPaypal(page: Page): Promise<void> {
     ai: 'the PayPal payment method option',
   });
   await waitForCheckoutReady(page);
+  await drivePaypalSmartButton(page);
+}
 
+/**
+ * Blocks PayPal: select the "PayPal" payment radio, then drive the same PPCP Smart
+ * Button + sandbox popup as classic (the SDK button + popup are gateway-agnostic).
+ * TODO(live-verify): the loaded PayPal-radio state was not in the 2026-07-16
+ * snapshots — confirm the radio name and that the Smart Button renders after
+ * selecting it (vs the top "Express Checkout" PayPal iframe) on the live run.
+ */
+async function payPaypalBlocks(page: Page): Promise<void> {
+  const ctx = ctxFor(page);
+  const radio = page.getByRole('radio', { name: /^paypal$/i }).first();
+  if ((await radio.count()) > 0 && !(await radio.isChecked().catch(() => false))) {
+    await resilientClick(ctx, { primary: radio, ai: 'the PayPal payment method radio (Blocks)' });
+  }
+  await waitForCheckoutReady(page);
+  await drivePaypalSmartButton(page);
+}
+
+/**
+ * Shared PayPal PPCP driver: find the "Pay with PayPal" Smart Button in whichever
+ * (cross-origin) frame the SDK rendered it, click it, and drive the sandbox popup
+ * login + approve. Called by both the classic and Blocks PayPal paths after each has
+ * selected its own PayPal gateway option.
+ */
+async function drivePaypalSmartButton(page: Page): Promise<void> {
   // The Smart Button renders inside PayPal's SDK iframe (cross-origin, generated
   // name/src — no stable iframe selector). Scan every frame for the button
   // ("Pay with PayPal" role=link, or [data-funding-source="paypal"]); the SDK
@@ -1177,7 +1239,7 @@ async function payPaypal(page: Page): Promise<void> {
 }
 
 /** Wait for #place_order to be enabled, then click it (GI `placeOrderElement`). */
-async function placeOrder(page: Page): Promise<void> {
+async function placeOrderClassic(page: Page): Promise<void> {
   await waitForCheckoutReady(page);
   const btn = page.locator('#place_order').filter({ visible: true }).first();
   await btn.waitFor({ state: 'visible', timeout: 15_000 });
@@ -1186,6 +1248,22 @@ async function placeOrder(page: Page): Promise<void> {
     primary: page.locator('#place_order').filter({ visible: true }),
     alt: page.getByRole('button', { name: /place order|join the club/i }),
     ai: 'the Place Order / Join the Club button',
+  });
+}
+
+/**
+ * Blocks place-order button. Located by class, not text — the label varies
+ * ("Place Order" simple, "Join the Club" subscription). Confirmed
+ * `.wc-block-components-checkout-place-order-button` in {au,ca}-checkout-blocks.yml.
+ */
+async function placeOrderBlocks(page: Page): Promise<void> {
+  await waitForCheckoutReady(page);
+  const btn = page.locator('.wc-block-components-checkout-place-order-button').filter({ visible: true }).first();
+  await btn.waitFor({ state: 'visible', timeout: 15_000 });
+  await resilientClick(ctxFor(page), {
+    primary: btn,
+    alt: page.getByRole('button', { name: /place order|join the club/i }),
+    ai: 'the Blocks Place Order / Join the Club button',
   });
 }
 
