@@ -182,10 +182,26 @@ difference is tax mode (AU inclusive / CA exclusive / US none), driven by
 `regionConfig.taxInclusive`. Classic path stays only as a fallback for any tier still
 serving the old cart/checkout, and is deleted once Blocks is fully rolled out everywhere.
 
-**TODO(live-verify) — selectors not covered by the 2026-07-16 snapshots:**
-- Blocks cart shipping mini-form combobox/textbox names (`setCartShippingDestinationBlocks`).
-- Blocks subscription cart totals: sign-up-fee / recurring-subtotal / recurring-total
-  (`assertSubscriptionCartTotalBlocks`) — Stagehand covers drift meanwhile.
-- Blocks Stripe saved-token radio markup (`payStripeBlocks`, useSavedCard path).
-- Blocks PayPal: radio name + Smart Button renders after selecting the radio
-  (vs the top Express-Checkout iframe) (`payPaypalBlocks`).
+**2026-07-17 live run — 4 Blocks bugs root-caused from trace DOM + fixed** (commit on branch):
+- `setCartQtyAndUpdate` detected cart type off-cart (limits.spec) → now navigates to cart first.
+- `fillCheckoutAddressBlocks` role/name fragility (AU Address = autocomplete combobox) →
+  now uses stable ids (`#email`, `#shipping-*`; country/state `<select>`, rest `<input>`).
+- `payStripeBlocks` expiry label mismatch (CA "Expiration (MM/YY)") → now Stripe iframe
+  `input[name=number/expiry/cvc]`.
+- `assertSubscriptionCartTotalBlocks` read skeleton loaders → now waits for load, reads via
+  structural selectors + WCS recurring panel; recurring = first-payment total − sign-up fee.
+
+**BLOCKER:** Stagehand AI tier is dead — org is **out of usage credits** ("credit balance
+too low"). Not a code issue. Every resilient fallback → hard error, so Blocks primaries were
+made id/structural-based (no AI needed). Restore credits before relying on the AI tier again.
+
+**TODO(live-verify) — still unconfirmed:**
+- `assertSubscriptionCartTotalBlocks`: recurring = total − fee assumes recurring shipping/tax
+  equal the first payment; `.wc-block-cart-item__prices` discounted-unit selector.
+- `setCartShippingDestinationBlocks` Change-address mini-form (not in any trace yet).
+- `payStripeBlocks` saved-token radio markup (useSavedCard path).
+- `payPaypalBlocks` radio + Smart Button render point (CA PO-05 timed out at 240s — revisit
+  once Stagehand credits are back / PayPal popup flow re-explored).
+
+**Not Blocks bugs (pre-existing / data):** AU WS-01 empty wholesale catalogue; US ACC-02
+`#password_1` forgot-password (registration setup slowness).
