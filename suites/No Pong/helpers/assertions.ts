@@ -10,10 +10,10 @@
 //
 // Grows per phase: quantity limits (Task 9) → order parity (Task 11) →
 // subscription / wholesale asserts (Tasks 13-15).
-import { expect, type Page } from '@playwright/test';
+import { expect, type Locator, type Page } from '@playwright/test';
 import type { BillingDetails, OrderConfig, OrderResult, Region, SubscriptionResult } from '../types/test-config';
 import type { FlowCapture } from './flows';
-import { goToCart, ORDER_DETAILS_TABLE, PAYMENT_LABEL, readFirstCartQty, readTotals, regionFor, toAmount, waitForCheckoutReady, type Totals } from './nopong';
+import { goToCart, isBlocksCart, ORDER_DETAILS_TABLE, PAYMENT_LABEL, readFirstCartQty, readTotals, regionFor, toAmount, waitForCheckoutReady, type Totals } from './nopong';
 import { expectOrderNoteMatches } from './order-notes';
 import { findEmail, mailpitViewUrl } from './playgrounds-email';
 import { ctxFor, resilientClick, resilientText } from './resilient';
@@ -222,9 +222,9 @@ export async function assertStoreLocatorSearch(
  * price appears) and that the recurring total equals effective unit × qty.
  * Recurring totals exclude the one-off sign-up fee, so they're the clean surface.
  */
-export async function assertSubscriptionCartTotal(
+async function assertSubscriptionCartTotalClassic(
   page: Page,
-  opts: { qty: number }
+  opts: { qty: number; region: Region }
 ): Promise<void> {
   const ctx = ctxFor(page);
   // Effective unit price: the <ins> sale price when discounted, else the plain
@@ -244,6 +244,25 @@ export async function assertSubscriptionCartTotal(
     primary: page.locator('tbody > tr.cart-subtotal:not(.recurring-total) > td > .woocommerce-Price-amount.amount').first(),
     ai: 'the subscription line-item subtotal on the cart page',
   });
+
+  // Shipping and tax rows are OPTIONAL: free shipping renders a "Free"/method label
+  // with no price amount, and a region may omit the tax row entirely (AU GST inclusive,
+  // US untaxed). Read best-effort → '' when there's no price element, which the sum
+  // treats as $0. resilientText is wrong here — it retries + escalates to Stagehand and
+  // throws on a legitimately-absent row (that's what broke AU's free shipping).
+  const readMoneyOrEmpty = async (locator: Locator): Promise<string> => {
+    const el = locator.first();
+    if (!(await el.count())) return '';
+    return ((await el.textContent().catch(() => '')) ?? '').replace(/\s+/g, ' ').trim();
+  };
+
+  const shipping = await readMoneyOrEmpty(
+    page.locator('tbody > tr.shipping:not(.recurring-total) > td li:nth-child(1) .woocommerce-Price-amount.amount')
+  );
+  const tax = await readMoneyOrEmpty(
+    page.locator('tbody > tr.tax-rate:not(.recurring-total) > td > .woocommerce-Price-amount.amount')
+  );
+
   const total = await resilientText(ctx, {
     primary: page.locator('tbody > tr.order-total:not(.recurring-total) > td > strong > .woocommerce-Price-amount.amount').first(),
     ai: 'the subscription line-item total on the cart page',
@@ -253,24 +272,131 @@ export async function assertSubscriptionCartTotal(
       .or(page.locator('tr.cart-subtotal.recurring-total td .woocommerce-Price-amount.amount').first()),
     ai: 'the "Recurring subtotal" amount in the cart',
   });
+  const recurringShipping = await readMoneyOrEmpty(
+    page.locator('tr.shipping.recurring-total td strong .woocommerce-Price-amount.amount')
+      .or(page.locator('tr.shipping.recurring-total td .woocommerce-Price-amount.amount'))
+  );
+  const recurringTax = await readMoneyOrEmpty(
+    page.locator('tr.tax-rate.recurring-total td strong .woocommerce-Price-amount.amount')
+      .or(page.locator('tr.tax-rate.recurring-total td .woocommerce-Price-amount.amount'))
+  );
   const recurringTotal = await resilientText(ctx, {
     primary: page.locator('tr.order-total.recurring-total td strong .woocommerce-Price-amount.amount').first()
       .or(page.locator('tr.order-total.recurring-total td .woocommerce-Price-amount.amount').first()),
     ai: 'the "Recurring total" amount in the cart',
   });
-  // KNOWN SITE BUG — these two assertions FAIL BY DESIGN as a regression guard.
-  // The line "Subtotal" cell renders the sign-up fee WITHOUT multiplying by qty
-  // ("…and a $1.00 sign-up fee" at qty 2), while the cart Subtotal correctly
-  // charges qty × fee ($18.92 = 16.92 + 2.00). So `signUpFee` reads the buggy
-  // $1.00 → expected 17.92 vs actual 18.92. When the site fixes the per-line
-  // display to $2.00, `signUpFee` reads 2.00 → expected 18.92 == actual and these
-  // go green on their own. Do NOT × qty here to "fix" it — that would mask the bug.
-  // Ticket: <BUG-TICKET>
-  expectMoney(subtotal, ((toAmount(unitPrice) * opts.qty) + toAmount(signUpFee)).toFixed(2), 'subtotal should equal discounted unit price + sign-up fee (KNOWN BUG: line sign-up fee not × qty)');
-  expectMoney(total, ((toAmount(unitPrice) * opts.qty) + toAmount(signUpFee)).toFixed(2), 'total should equal discounted unit price + sign-up fee (KNOWN BUG: line sign-up fee not × qty)');
-  expectMoney(recurringSubtotal, (toAmount(unitPrice) * opts.qty).toFixed(2), `recurring subtotal should equal discounted unit price × ${opts.qty}`);
-  expectMoney(recurringTotal, (toAmount(unitPrice) * opts.qty).toFixed(2),
-    `recurring total should equal discounted unit price × ${opts.qty}`);
+  // A blank money cell (free shipping, or a tax row a region doesn't render) counts
+  // as $0 in the sum. Tax mode is typed config (rule 11), never a DOM guess: AU GST is
+  // INCLUSIVE (already inside the subtotal, no separate row) so it's not re-added; CA
+  // renders an exclusive tax row that IS added; US charges no tax.
+  const money = (s: string) => (Number.isNaN(toAmount(s)) ? 0 : toAmount(s));
+  const addTax = (t: string) => (regionFor(opts.region).taxInclusive ? 0 : money(t));
+
+  // Initial payment: subtotal = discounted unit × qty + the one-off sign-up fee (the
+  // per-line fee now correctly reflects qty), and Total layers shipping + tax on top.
+  const expectedSubtotal = (toAmount(unitPrice) * opts.qty) + money(signUpFee);
+  expectMoney(subtotal, expectedSubtotal.toFixed(2),
+    `subtotal should equal discounted unit price × ${opts.qty} + sign-up fee`);
+  expectMoney(total, (expectedSubtotal + money(shipping) + addTax(tax)).toFixed(2),
+    'cart total should equal subtotal + shipping + tax');
+
+  // Recurring payment: excludes the one-off sign-up fee, so subtotal = unit × qty; the
+  // recurring Total then layers recurring shipping + recurring tax the same way.
+  expectMoney(recurringSubtotal, (toAmount(unitPrice) * opts.qty).toFixed(2),
+    `recurring subtotal should equal discounted unit price × ${opts.qty}`);
+  expectMoney(recurringTotal, ((toAmount(unitPrice) * opts.qty) + money(recurringShipping) + addTax(recurringTax)).toFixed(2),
+    'recurring total should equal recurring subtotal + recurring shipping + recurring tax');
+}
+
+/**
+ * Blocks-cart variant of the subscription cart-total assertion. Reads the
+ * `.wc-block-components-totals-item` rows by label and the discounted line-item
+ * price, then applies the same model: initial subtotal = discounted unit × qty +
+ * sign-up fee; total = subtotal + shipping + region tax; recurring subtotal =
+ * unit × qty; recurring total layers recurring shipping + tax.
+ * TODO(live-verify): the subscription Blocks cart was not in the 2026-07-16
+ * snapshots — confirm the sign-up-fee, recurring-subtotal, and recurring-total
+ * selectors on the live run (Stagehand covers drift meanwhile).
+ */
+async function assertSubscriptionCartTotalBlocks(
+  page: Page,
+  opts: { qty: number; region: Region }
+): Promise<void> {
+  const ctx = ctxFor(page);
+
+  // Read a Blocks totals row's value by matching its label text (case-insensitive).
+  const rowValue = async (labelRe: string): Promise<string> =>
+    page.evaluate((re) => {
+      const rx = new RegExp(re, 'i');
+      const rows = Array.from(document.querySelectorAll(
+        '.wc-block-components-totals-item, .wc-block-components-totals-footer-item'
+      ));
+      for (const r of rows) {
+        const label = (r.querySelector('.wc-block-components-totals-item__label')?.textContent ?? '').trim();
+        if (rx.test(label)) {
+          const v = r.querySelector('.wc-block-components-totals-item__value')?.textContent ?? '';
+          return v.replace(/\s+/g, ' ').trim();
+        }
+      }
+      return '';
+    }, labelRe);
+
+  const onSale = (await page.locator('.wc-block-components-product-price__value.is-discounted, .wc-block-cart-item__prices ins').count()) > 0;
+  expect(onSale, `qty ${opts.qty} should trigger the subscription quantity discount (a discounted line-item price)`).toBe(true);
+
+  const unitPrice = await resilientText(ctx, {
+    primary: page.locator('.wc-block-components-product-price__value.is-discounted').first()
+      .or(page.locator('.wc-block-cart-item__prices ins .wc-block-components-product-price__value').first()),
+    ai: 'the subscription line-item discounted unit price in the Blocks cart',
+  });
+  const signUpFee = await resilientText(ctx, {
+    primary: page.getByText(/sign up fee/i).first()
+      .locator('xpath=following::*[contains(@class,"amount")][1]'),
+    ai: 'the subscription sign-up fee amount in the Blocks cart',
+  }).catch(() => '');
+
+  const subtotal = await rowValue('^subtotal$');
+  const shipping = await rowValue('shipping|shipment|standard|canadapost|auspost');
+  const tax = await rowValue('gst|hst|pst|qst|vat|tax');
+  const total = await rowValue('estimated total|^total|due today');
+
+  const recurringSubtotal = await resilientText(ctx, {
+    primary: page.getByText(/recurring/i).locator('xpath=ancestor::*[contains(@class,"totals-item")]//*[contains(@class,"totals-item__value")]').first(),
+    ai: 'the recurring subtotal in the Blocks cart',
+  }).catch(() => '');
+  const recurringTotal = await resilientText(ctx, {
+    primary: page.getByText(/\/\s*month|per month|every month|recurring total/i)
+      .locator('xpath=following::*[contains(@class,"amount")][1]').first(),
+    ai: 'the recurring total in the Blocks cart',
+  }).catch(() => '');
+
+  const money = (s: string) => (Number.isNaN(toAmount(s)) ? 0 : toAmount(s));
+  const addTax = (t: string) => (regionFor(opts.region).taxInclusive ? 0 : money(t));
+
+  const expectedSubtotal = (toAmount(unitPrice) * opts.qty) + money(signUpFee);
+  expectMoney(subtotal, expectedSubtotal.toFixed(2),
+    `Blocks subtotal should equal discounted unit price × ${opts.qty} + sign-up fee`);
+  expectMoney(total, (expectedSubtotal + money(shipping) + addTax(tax)).toFixed(2),
+    'Blocks cart total should equal subtotal + shipping + tax');
+
+  // Recurring section is only asserted when the Blocks cart renders it (values non-empty).
+  if (recurringSubtotal) {
+    expectMoney(recurringSubtotal, (toAmount(unitPrice) * opts.qty).toFixed(2),
+      `Blocks recurring subtotal should equal discounted unit price × ${opts.qty}`);
+  }
+  if (recurringTotal) {
+    expectMoney(recurringTotal, ((toAmount(unitPrice) * opts.qty) + addTax(tax)).toFixed(2),
+      'Blocks recurring total should equal recurring subtotal + recurring tax');
+  }
+}
+
+/** Assert the subscription cart total — classic table or Blocks totals block. */
+export async function assertSubscriptionCartTotal(
+  page: Page,
+  opts: { qty: number; region: Region }
+): Promise<void> {
+  if (await isBlocksCart(page)) return assertSubscriptionCartTotalBlocks(page, opts);
+  return assertSubscriptionCartTotalClassic(page, opts);
 }
 
 /**
