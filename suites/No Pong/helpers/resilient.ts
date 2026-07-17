@@ -86,7 +86,7 @@ async function withFallback<T>(
       // Every tier failed (Playwright + Stagehand) — throw an aggregated error so
       // the report shows both failure reasons, not just the Playwright one.
       throw new Error(
-        `All resilient tiers failed for "${target.ai}".\n` +
+        `${target.ai} — not found.\n` +
           `  Playwright: ${(firstError as Error)?.message ?? firstError}\n` +
           `  Stagehand:  ${(aiErr as Error)?.message ?? aiErr}`
       );
