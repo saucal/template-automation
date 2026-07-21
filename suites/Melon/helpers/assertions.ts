@@ -1,9 +1,30 @@
 // All expect() calls live here (rule 6). Specs call these; they never inline expect().
 // Every expect carries a behaviour-phrased message with dynamic data (rule 19).
 import { expect, type Page } from '@playwright/test';
-import type { RegionConfig, CountrySwitch, CartResult, CheckoutTotals } from '../types/test-config';
+import type { RegionConfig, CountrySwitch, CartResult, CheckoutTotals, PlacedOrder } from '../types/test-config';
 import { getSelectedCountryCode, getSelectedCurrency, money, SELECTORS } from './melon';
 import { ctxFor, resilientText } from './resilient';
+
+/** Value part of a "Label : Value" main-component string, e.g. "Frame : Cosmic Black" → "Cosmic Black". */
+function componentValue(component: string): string {
+  const parts = component.split(':');
+  return (parts.length > 1 ? parts.slice(1).join(':') : component).trim();
+}
+
+/** Read the visible text of the order-details region (WFACP/wfty thank-you OR standard Woo). */
+async function orderRegionText(page: Page): Promise<string> {
+  // Join ALL order blocks, not just .first(): the items/totals live in
+  // .woocommerce-order-details while the email + billing/shipping addresses render in a
+  // separate .woocommerce-customer-details block on the thank-you / view-order page.
+  const region = page.locator(
+    // FunnelKit custom thank-you: items in .wfty_pro_list_cont, email + billing/shipping
+    // in .wfty_customer_info (the .wffn_wfty_wc_thankyou wrapper holds both). The woo
+    // classes cover the standard My Account view-order page.
+    '.wffn_wfty_wc_thankyou, .wfty_customer_info, .wfty_pro_list_cont, .woocommerce-order-details, .woocommerce-customer-details, .woocommerce-order, section.woocommerce-order-details, .woocommerce-table--order-details'
+  );
+  const parts = await region.allTextContents().catch(() => []);
+  return parts.join(' ').replace(/\s+/g, ' ').trim();
+}
 
 /**
  * Assert the storefront reflects the primed country: the country dropdown holds
@@ -130,7 +151,7 @@ export async function assertResetEmailSent(page: Page): Promise<void> {
 }
 
 /** Assert a product page loaded with the expected title, a visible price, and an add-to-cart button (rule 35). */
-export async function assertProductPage(page: Page, product: { title: string }): Promise<void> {
+export async function assertProductPage(page: Page, product: { title: string }, symbol = '£'): Promise<void> {
   const title = await resilientText(ctxFor(page), {
     primary: page.locator(SELECTORS.productTitle),
     ai: 'the product title heading',
@@ -141,11 +162,98 @@ export async function assertProductPage(page: Page, product: { title: string }):
     primary: page.locator(SELECTORS.productPrice).filter({ visible: true }),
     ai: 'the product price',
   });
-  expect(price, `product "${product.title}" should show a price`).toContain('£');
+  expect(price, `product "${product.title}" should show a price in ${symbol}`).toContain(symbol);
 
   const addToCart = await resilientText(ctxFor(page), {
     primary: page.locator(SELECTORS.addToCart),
     ai: 'the add-to-cart button',
   });
   expect(addToCart.toLowerCase(), `product "${product.title}" should have an add-to-cart button`).toContain('add');
+}
+
+/**
+ * Assert the order-received (thank-you) page reflects the placed order: the composite
+ * product + its component values, any accepted upsell item, the Stripe payment method,
+ * the customer email, and both addresses. Totals parity is covered by checkout.spec, so
+ * here we assert the order shows the unit price + a total (not re-derive the math).
+ */
+export async function assertOrderReceived(page: Page, order: PlacedOrder): Promise<void> {
+  expect(new URL(page.url()).href, 'should land on the order-received / thank-you page')
+    .toMatch(/order-received|thank-you/i);
+  expect(order.orderNumber, 'the order should have a number').not.toBe('');
+
+  const text = await orderRegionText(page);
+  expect(text, `order should list the product "${order.selection.prodDesc}"`).toContain(order.selection.prodDesc);
+  for (const comp of order.selection.components) {
+    const val = componentValue(comp);
+    expect(text, `order should show the component "${val}"`).toContain(val);
+  }
+  if (order.upsell.accepted) {
+    for (const item of order.upsell.items) {
+      expect(text, `order should include the accepted upsell "${item.desc}"`).toContain(item.desc);
+    }
+  }
+  expect(text, 'order should be paid via Credit Card (Stripe)').toMatch(/Stripe/i);
+  expect(text, `order should show the customer email ${order.customer.email}`).toContain(order.customer.email);
+  expect(text, 'order should show the billing recipient')
+    .toContain(`${order.customer.billing.firstName} ${order.customer.billing.lastName}`);
+  expect(text, 'order should show the shipping recipient')
+    .toContain(`${order.customer.shipping.firstName} ${order.customer.shipping.lastName}`);
+  expect(text, `order should show the shipping postcode ${order.customer.shipping.postcode}`)
+    .toContain(order.customer.shipping.postcode);
+}
+
+/**
+ * Assert the order appears in My Account: status Processing, the product listed, and the
+ * total shown. Assumes the caller navigated to the order's view-order page.
+ */
+export async function assertMyAccountOrder(page: Page, order: PlacedOrder): Promise<void> {
+  const status = await resilientText(ctxFor(page), {
+    primary: page.locator('mark.order-status, .woocommerce-orders-table__cell-order-status'),
+    ai: 'the order status',
+  });
+  expect(status, 'the placed order should be in the Processing state').toMatch(/Processing/i);
+
+  const text = await orderRegionText(page);
+  expect(text, `my-account order should list the product "${order.selection.prodDesc}"`).toContain(order.selection.prodDesc);
+  if (order.upsell.accepted) {
+    for (const item of order.upsell.items) {
+      expect(text, `my-account order should include the accepted upsell "${item.desc}"`).toContain(item.desc);
+    }
+  }
+  // Address on the order record (the closest reachable order back-office — the admin
+  // account has no wp-admin order access). billing == shipping here (single address).
+  const addr = order.customer.shipping;
+  expect(text, 'my-account order should show the recipient')
+    .toContain(`${addr.firstName} ${addr.lastName}`);
+  expect(text, `my-account order should show the street "${addr.address1}"`).toContain(addr.address1);
+  expect(text, `my-account order should show the city "${addr.city}"`).toContain(addr.city);
+  expect(text, `my-account order should show the postcode "${addr.postcode}"`).toContain(addr.postcode);
+}
+
+/**
+ * Assert the order-receipt email (emailPage already opened on the rendered Mailpit message):
+ * it shows the product, the Stripe payment, the customer email, and both addresses.
+ */
+export async function assertOrderEmail(emailPage: Page, order: PlacedOrder): Promise<void> {
+  const body = ((await emailPage.locator('body').textContent().catch(() => '')) ?? '').replace(/\s+/g, ' ').trim();
+  expect(body, `the receipt email should list the product "${order.selection.prodDesc}"`).toContain(order.selection.prodDesc);
+  for (const comp of order.selection.components) {
+    const val = componentValue(comp);
+    expect(body, `the receipt email should show the component "${val}"`).toContain(val);
+  }
+  if (order.upsell.accepted) {
+    for (const item of order.upsell.items) {
+      expect(body, `the receipt email should include the accepted upsell "${item.desc}"`).toContain(item.desc);
+    }
+  }
+  expect(body, `the receipt email should be addressed to ${order.customer.email}`).toContain(order.customer.email);
+  expect(body, 'the receipt email should show the billing recipient')
+    .toContain(`${order.customer.billing.firstName} ${order.customer.billing.lastName}`);
+  // Address lines (billing == shipping here — single address). Assert the street, city
+  // and postcode appear so the receipt reflects where the order ships.
+  const addr = order.customer.shipping;
+  expect(body, `the receipt email should show the street "${addr.address1}"`).toContain(addr.address1);
+  expect(body, `the receipt email should show the city "${addr.city}"`).toContain(addr.city);
+  expect(body, `the receipt email should show the postcode "${addr.postcode}"`).toContain(addr.postcode);
 }

@@ -36,9 +36,18 @@ export const SELECTORS = {
   wfacpTotalRow: 'tr.order-total',
 } as const;
 
-/** Parse a WooCommerce price string ("£1,234.50") to a number. NaN if none. */
+/**
+ * Parse a WooCommerce price string to a number. Locale-aware: the LAST separator is the
+ * decimal point, earlier separators are thousands — so UK "£1,234.50" → 1234.5 AND EU
+ * "€1.234,56" / "€80,00" → 1234.56 / 80. NaN if no digits.
+ */
 export function money(text: string | null | undefined): number {
-  const n = parseFloat((text || '').replace(/[^0-9.]/g, ''));
+  const raw = (text || '').replace(/[^0-9.,]/g, '');
+  if (!raw) return NaN;
+  const lastSep = Math.max(raw.lastIndexOf('.'), raw.lastIndexOf(','));
+  const normalized =
+    lastSep === -1 ? raw : `${raw.slice(0, lastSep).replace(/[.,]/g, '')}.${raw.slice(lastSep + 1)}`;
+  const n = parseFloat(normalized);
   return Number.isNaN(n) ? NaN : n;
 }
 
@@ -53,10 +62,24 @@ export const COMPOSITE_GOGGLE = {
   presetQuery: 'pa_frame=cosmic-black&pa_lens=smoke&pa_outrigger-nosepiece=galaxy-matte&pa_strap=black-with-white-silicon',
 } as const;
 
-/** Products under test. Goggles = WooCommerce Composite; jester = redesigned product page. */
+/**
+ * Products under test. Goggles = WooCommerce Composite; jester = redesigned product page.
+ * `menuTrigger` = the top-level mega-menu whose flyout links to the product (customer
+ * path — see openProductViaMegaMenu). The goggle is NOT on the shop grid, only in the
+ * "Goggles" flyout (confirmed live 2026-07-17).
+ */
 export const PRODUCTS = {
-  goggles: { slug: 'diablo-mtb-goggles', title: 'Diablo Goggle (mtb)' },
-  jester: { slug: 'jester-sunglasses', title: 'Jester Sunglasses' },
+  goggles: { slug: 'diablo-mtb-goggles', title: 'Diablo Goggle (mtb)', menuTrigger: 'Goggles' },
+  jester: { slug: 'jester-sunglasses', title: 'Jester Sunglasses', menuTrigger: 'Sunglasses' },
+} as const;
+
+/**
+ * EU products. Same composite goggle, but the EU storefront's top menu differs —
+ * the goggle flyout lives under the "Bike" trigger (UK uses "Goggles"). Confirmed live
+ * 2026-07-21: top nav = Bike / Snow / Sunglasses / Extras / LTD Editions.
+ */
+export const EU_PRODUCTS = {
+  goggles: { slug: 'diablo-mtb-goggles', title: 'Diablo Goggle (mtb)', menuTrigger: 'Bike' },
 } as const;
 
 /**
@@ -69,6 +92,16 @@ export const UK_MENU_NAVS: MenuNav[] = [
   { name: 'Accessories', trigger: 'Parts & Acc', category: 'accessories' },
   // GI's zero-assertion "Sunglasses Menu" (menu-open smoke) is folded — the mega-menu
   // open/hover is already exercised by the Accessories nav above (prompt: nav smoke → fold).
+];
+
+/**
+ * EU mega-menu navs (GI "02 – Accessories Page"). The accessories flyout lives under the
+ * "Extras" trigger on the EU blog (confirmed live 2026-07-21). GI's "02 – Bike Menu"
+ * menu-open smoke is folded (same call as UK's Sunglasses smoke — the open/hover is
+ * already exercised here).
+ */
+export const EU_MENU_NAVS: MenuNav[] = [
+  { name: 'Accessories', trigger: 'Extras', category: 'accessories' },
 ];
 
 /**
@@ -129,24 +162,24 @@ export async function switchCountry(page: Page, sw: CountrySwitch): Promise<void
   const current = await dropdown.inputValue(); // form-value read (not text) — raw is fine
   if (current !== sw.mocs) {
     await Promise.all([
-      page.waitForNavigation({ waitUntil: 'load', timeout: 20_000 }),
+      page.waitForLoadState('domcontentloaded', { timeout: 20_000 }),
+      page.waitForLoadState('load', { timeout: 30_000 }),
       resilientSelect(ctxFor(page), { primary: dropdown, ai: 'the country dropdown' }, sw.mocs),
     ]);
   }
-  await closePopup(page);
 }
 
 /**
- * Dismiss the Klaviyo signup popup. It fires on a DELAY and re-shows after each page
- * load, covering content (add-to-cart, View cart, Proceed), so call this after every
- * navigation before clicking. Waits a bounded window for it to appear, then closes it;
- * silently proceeds if it never shows.
+ * Dismiss the Klaviyo signup popup. It fires on a DELAY on the FIRST page load of a
+ * session and does not re-show, so call this only after the initial landing goto.
+ * Waits a bounded window for it to appear, then closes it; silently proceeds if it
+ * never shows.
  */
 export async function closePopup(page: Page): Promise<void> {
-  // Real click of the Klaviyo popup's close button. It's delayed (~1.2s) and re-shows
-  // per page, so the click auto-waits for it to appear; if it never does within the
-  // window, the .catch lets the flow proceed. Scoped to the modal container so it only
-  // matches the actual popup close, not other elements.
+  // Real click of the Klaviyo popup's close button. It's delayed (~1.2s), so the click
+  // auto-waits for it to appear; if it never does within the window, the .catch lets
+  // the flow proceed. Scoped to the modal container so it only matches the actual popup
+  // close, not other elements.
   await page.locator('div[data-testid="modal-form-container"] button.klaviyo-close-form').click({ timeout: 10_000 }).catch(() => {});
 }
 
@@ -177,7 +210,6 @@ export async function navigateToCategory(page: Page, trigger: string, category: 
     page.waitForNavigation({ waitUntil: 'load', timeout: 20_000 }),
     resilientClick(ctxFor(page), { primary: catLink, ai: `the "${category}" category link` }),
   ]);
-  await closePopup(page);
 }
 
 /**
@@ -188,6 +220,39 @@ export async function openProduct(page: Page, region: RegionConfig, product: { s
   await page.goto(`${region.path}shop/${product.slug}/?mocs=${region.mocs}`);
   await page.waitForLoadState('load');
   await closePopup(page);
+}
+
+/**
+ * Reach a product page the customer way (rule 30): prime the region, open the product's
+ * top-level mega-menu, then click its tile in the flyout. Verified live 2026-07-17 —
+ * the goggle is NOT on the shop grid; the Goggles flyout is the only click-path.
+ *
+ * This flyout differs from the category navs: it holds product tiles, no
+ * `a[href*="/product-category/"]`, so the "menu open" signal is the product TILE
+ * flipping visible (flyout links are visibility:hidden until the click-type Max Mega
+ * Menu opens). The tile sits below the fold — resilientClick auto-scrolls it in.
+ */
+export async function openProductViaMegaMenu(
+  page: Page,
+  region: RegionConfig,
+  product: { slug: string; menuTrigger: string }
+): Promise<void> {
+  await primeRegion(page, region);
+  const trigger = page.locator(SELECTORS.megaMenuLink).filter({ hasText: product.menuTrigger }).filter({ visible: true });
+  await resilientClick(ctxFor(page), {
+    primary: trigger,
+    alt: page.getByRole('link', { name: product.menuTrigger }),
+    ai: `the "${product.menuTrigger}" top menu`,
+  });
+  // Open-signal: the product tile in the flyout flips visible.
+  const tile = page.locator(`a[href*="/shop/${product.slug}/"]`).filter({ visible: true }).first();
+  await tile.waitFor({ state: 'visible', timeout: 8_000 });
+  await Promise.all([
+    page.waitForNavigation({ waitUntil: 'load', timeout: 45_000 }),
+    // noWaitAfter: the composite product page loads slower than TIER_TIMEOUT; the
+    // waitForNavigation above owns the load wait, so the click must not also block on it.
+    resilientClick(ctxFor(page), { primary: tile, ai: `the ${product.slug} product tile` }, { noWaitAfter: true }),
+  ]);
 }
 
 /**
@@ -232,7 +297,6 @@ export async function addCompositeToCart(page: Page, region: RegionConfig): Prom
  * directly on the (confirmed-visible) link — still a click on the real element.
  */
 export async function goToCart(page: Page): Promise<void> {
-  await closePopup(page);
   const viewCart = page.locator(SELECTORS.viewCartLink).first();
   await viewCart.waitFor({ state: 'visible', timeout: 15_000 });
   await Promise.all([
@@ -240,7 +304,6 @@ export async function goToCart(page: Page): Promise<void> {
     viewCart.dispatchEvent('click'),
   ]);
   await page.waitForLoadState('load');
-  await closePopup(page);
 }
 
 /**
@@ -250,7 +313,6 @@ export async function goToCart(page: Page): Promise<void> {
  * directly on the confirmed-visible button.
  */
 export async function goToCheckoutFromCart(page: Page): Promise<void> {
-  await closePopup(page);
   const proceed = page.locator(SELECTORS.cartProceed).first();
   await proceed.waitFor({ state: 'visible', timeout: 15_000 });
   await Promise.all([
@@ -258,7 +320,6 @@ export async function goToCheckoutFromCart(page: Page): Promise<void> {
     proceed.dispatchEvent('click'),
   ]);
   await page.locator(SELECTORS.wfacpTotalRow).filter({ visible: true }).first().waitFor({ state: 'visible', timeout: 30_000 });
-  await closePopup(page);
 }
 
 /** Read the FunnelKit Aero (WFACP) order-summary totals. */
@@ -305,4 +366,15 @@ export async function getSelectedCountryCode(page: Page): Promise<string> {
 /** Selected currency code (e.g. 'GBP'). SOFT signal — the switcher lags a page load. */
 export async function getSelectedCurrency(page: Page): Promise<string> {
   return currencySwitcher(page).inputValue();
+}
+
+export async function waitForCheckoutReady(page: Page): Promise<void> {
+  await page.waitForLoadState('load');
+  for (const sel of [
+    '.blockUI.blockOverlay',
+    '.wc-block-components-spinner',
+    '.wc-block-components-checkout-place-order-button--loading',
+  ]) {
+    await page.locator(sel).first().waitFor({ state: 'hidden', timeout: 15_000 }).catch(() => {});
+  }
 }

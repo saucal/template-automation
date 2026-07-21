@@ -102,11 +102,18 @@ async function aiAct(sh: Stagehand, page: Page, instruction: string): Promise<vo
   await sh.act(actions[0], { page });
 }
 
-export async function resilientClick(ctx: ResilientCtx, target: Target): Promise<void> {
+export async function resilientClick(
+  ctx: ResilientCtx,
+  target: Target,
+  opts?: { noWaitAfter?: boolean }
+): Promise<void> {
+  // noWaitAfter: for clicks that TRIGGER a slow full-page navigation — the click's own
+  // auto-wait for the nav to settle would exceed TIER_TIMEOUT (the composite pages load
+  // ~10-15s+); let the caller's own waitForNavigation own that instead.
   await withFallback(
     ctx,
     target,
-    (loc) => loc.click({ timeout: TIER_TIMEOUT }),
+    (loc) => loc.click({ timeout: TIER_TIMEOUT, ...opts }),
     (sh) => aiAct(sh, ctx.page, `click ${target.ai}`)
   );
 }

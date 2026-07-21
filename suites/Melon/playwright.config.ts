@@ -29,6 +29,11 @@ export default defineConfig({
   reporter: [['html', { outputFolder: 'reports', open: 'never' }], ['list']],
   use: {
     actionTimeout: 15_000,
+    // Composite product pages build slowly on the maintenance host — the configurator
+    // resolves the combination + loads per-component images, so `load` fires ~11s (DCL
+    // ~10s, barely faster). Actions stay tight at 15s; only navigations get headroom so
+    // these heavy pages don't flake at the edge of the budget under parallel load.
+    navigationTimeout: 45_000,
     trace: 'retain-on-failure',
     // Fixture owns the named per-context failure shot (rule 25); disable the built-in.
     screenshot: 'off',

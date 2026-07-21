@@ -27,8 +27,9 @@ const S = {
   lostPasswordLink: 'a[href*="/my-account/lost-password/"]',
   userLogin: '#user_login',
   lostPasswordSubmit: 'button[type="submit"].woocommerce-Button, button[value="Reset password"]',
-  logout: 'a[href*="/my-account/customer-logout/"]',
+  logout: '.account-navigation-wrap a[href*="/my-account/customer-logout/"]',
   accountNav: '.woocommerce-MyAccount-navigation',
+  ordersTab: '.woocommerce-MyAccount-navigation a[href*="/orders"], .account-navigation-wrap a[href*="/orders"]',
 } as const;
 
 /** Unique per-run test email so repeated runs don't collide on an existing account. */
@@ -44,21 +45,48 @@ async function goToMyAccount(page: Page, region: { path: string; mocs: string })
 }
 
 /**
+ * Reach a placed order in My Account the customer way (rule 30): land on My Account
+ * (account-page prime), click the Orders tab, then the order's "View" button — instead
+ * of a direct goto to /view-order/<id>/. Assumes the shopper is logged in (the WFACP
+ * checkout auto-creates + logs in the account).
+ */
+export async function openMyAccountOrder(
+  page: Page,
+  region: { path: string; mocs: string },
+  orderNumber: string
+): Promise<void> {
+  await goToMyAccount(page, region);
+  const ctx = ctxFor(page);
+  await resilientClick(ctx, {
+    primary: page.locator(S.ordersTab).filter({ visible: true }).first(),
+    ai: 'the Orders tab in the account navigation',
+  });
+  await page.waitForLoadState('load');
+  await resilientClick(ctx, {
+    primary: page.locator(`a.view[href*="view-order/${orderNumber}/"], a.woocommerce-button[href*="view-order/${orderNumber}/"]`).filter({ visible: true }).first(),
+    ai: `the "View" button for order ${orderNumber}`,
+  });
+  await page.waitForLoadState('load');
+}
+
+/**
  * Open the password-setup email, follow its link on the shopper page, and set the
  * password (this verifies the email + logs the user in). Shared by register + forgot.
  */
 async function followPasswordEmailAndSet(
   shopperPage: Page,
+  emailPage: Page,
   email: string,
   subject: string,
   password: string
 ): Promise<void> {
-  // Mailpit is public — fetch the ESP tracker link via the shopper's request context
-  // (no admin auth needed). Navigate to it; it 302s to the real set-password page.
-  const link = await fetchPasswordLinkFromEmail(shopperPage, email, subject);
-  await shopperPage.goto(link);
+  // Read the ESP tracker link off the rendered email (emailPage), then follow it
+  // on the shopper page — it 302s to the real set-password page. The Listrak
+  // tracker redirect chain can be slower than the suite's default 15s action
+  // timeout, so give this specific navigation more headroom.
+  const link = await fetchPasswordLinkFromEmail(emailPage, email, subject);
+  await shopperPage.goto(link, { timeout: 45_000 });
   await shopperPage.waitForLoadState('load');
-  await closePopup(shopperPage);
   await shopperPage.locator(S.pass1).waitFor({ state: 'visible', timeout: 20_000 });
 
   await resilientFill(ctxFor(shopperPage), { primary: shopperPage.locator(S.pass1), ai: 'the new password field' }, password);
@@ -73,6 +101,7 @@ async function followPasswordEmailAndSet(
  */
 export async function registerAccount(
   shopperPage: Page,
+  emailPage: Page,
   region: { path: string; mocs: string },
   email: string,
   password: string
@@ -83,7 +112,7 @@ export async function registerAccount(
   await shopperPage.waitForLoadState('load');
   // Register auto-logs-in with a TEMP password + emails a set-password link; follow it
   // to set our known password (so the later log-in step can use it).
-  await followPasswordEmailAndSet(shopperPage, email, ACCOUNT.registerEmailSubject, password);
+  await followPasswordEmailAndSet(shopperPage, emailPage, email, ACCOUNT.registerEmailSubject, password);
 }
 
 /** Log in with credentials on the My Account page. */
@@ -123,10 +152,11 @@ export async function requestPasswordReset(
 /** Complete a requested reset via the emailed link, setting a new password. Leaves the shopper logged in. */
 export async function completePasswordReset(
   shopperPage: Page,
+  emailPage: Page,
   email: string,
   newPassword: string
 ): Promise<void> {
-  await followPasswordEmailAndSet(shopperPage, email, ACCOUNT.resetEmailSubject, newPassword);
+  await followPasswordEmailAndSet(shopperPage, emailPage, email, ACCOUNT.resetEmailSubject, newPassword);
 }
 
 export const ACCOUNT_SELECTORS = S;

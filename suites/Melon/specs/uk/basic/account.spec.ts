@@ -9,10 +9,10 @@ import { assertLoggedIn, assertAccountNavTabs } from '../../../helpers/assertion
 const PASSWORD = process.env.PASSWORD || 'Melon-QA-Pass-1!';
 
 test.describe('UK — account', { tag: ['@plugin:woocommerce'] }, () => {
-  test('MO-UK-ACCT-01 – register, browse account nav, log out and back in', async ({ shopperPage }) => {
+  test('MO-UK-ACCT-01 – register, browse account nav, log out and back in', async ({ shopperPage, emailPage }) => {
     const email = uniqueEmail();
 
-    await registerAccount(shopperPage, REGIONS.uk, email, PASSWORD);
+    await registerAccount(shopperPage, emailPage, REGIONS.uk, email, PASSWORD);
     await assertLoggedIn(shopperPage);
     await assertAccountNavTabs(shopperPage, ['Orders', 'Downloads', 'Addresses', 'Account details']);
 

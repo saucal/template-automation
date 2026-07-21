@@ -4,12 +4,14 @@
 // (behaviour/existence, rule 35). The full component-selection + price parity is
 // exercised by the cart/checkout specs.
 import { test } from '../../../fixtures';
-import { REGIONS, PRODUCTS, openProduct } from '../../../helpers/melon';
+import { REGIONS, PRODUCTS, openProductViaMegaMenu } from '../../../helpers/melon';
 import { assertProductPage } from '../../../helpers/assertions';
 
-test.describe('UK — product page', { tag: ['@plugin:woocommerce', '@plugin:woocommerce-composite-products'] }, () => {
+test.describe('UK — product page', { tag: ['@plugin:woocommerce', '@plugin:woocommerce-composite-products', '@plugin:megamenu'] }, () => {
+  // Reach the product the customer way (rule 30): home → Goggles mega-menu → tile.
+  // The goggle is not on the shop grid, so the flyout is the only click-path.
   test('MO-UK-PROD-01 – composite goggle product page loads', async ({ shopperPage }) => {
-    await openProduct(shopperPage, REGIONS.uk, PRODUCTS.goggles);
+    await openProductViaMegaMenu(shopperPage, REGIONS.uk, PRODUCTS.goggles);
     await assertProductPage(shopperPage, PRODUCTS.goggles);
   });
 });

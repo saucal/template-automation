@@ -58,3 +58,62 @@ export interface CheckoutTotals {
   shipping: number;
   total: number;
 }
+
+/** A postal address filled into the WFACP checkout (no company field on this site). */
+export interface Address {
+  firstName: string;
+  lastName: string;
+  address1: string;
+  address2: string;
+  city: string;
+  postcode: string;
+  /** Country code for the WooCommerce checkout select (e.g. 'GB'). Drives shipping/tax. */
+  countryCode: string;
+  /** Human country name as shown on the order (e.g. 'United Kingdom (UK)'). */
+  countryName: string;
+  phone?: string;
+}
+
+/** A checkout customer: a per-run email plus billing + (different) shipping addresses. */
+export interface Customer {
+  email: string;
+  billing: Address;
+  shipping: Address;
+}
+
+/** Whether the post-purchase wfocu upsell offer is accepted or rejected. */
+export type UpsellChoice = 'accept' | 'reject';
+
+/** Composite goggle facts captured on the product page, asserted across the order surfaces. */
+export interface CompositeSelection {
+  /** Product title, e.g. 'Diablo Goggle (mtb)'. */
+  prodDesc: string;
+  /** Unit price as a money number. */
+  unitPrice: number;
+  /** The 4 main-component display texts, e.g. 'Frame : Cosmic Black'. */
+  components: string[];
+}
+
+/** One accepted upsell line item (wfocu can present up to two offers in sequence). */
+export interface UpsellItem {
+  desc: string;
+  price: number;
+}
+
+/** Result of the post-purchase upsell step. */
+export interface UpsellResult {
+  accepted: boolean;
+  items: UpsellItem[];
+}
+
+/** Everything captured while placing an order, asserted on thank-you / my-account / email. */
+export interface PlacedOrder {
+  selection: CompositeSelection;
+  upsell: UpsellResult;
+  customer: Customer;
+  orderNumber: string;
+  /** Totals are covered by checkout.spec; captured opportunistically, not always asserted. */
+  subtotal?: number;
+  shipping?: number;
+  total?: number;
+}
