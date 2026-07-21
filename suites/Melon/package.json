@@ -6,6 +6,8 @@
     "test": "playwright test",
     "test:uk": "playwright test specs/uk",
     "test:eu": "playwright test specs/eu",
+    "test:ui": "playwright test --ui",
+    "test:report": "playwright show-report reports",
     "setup:browsers": "playwright install chromium",
     "typecheck": "tsc --noEmit"
   },
