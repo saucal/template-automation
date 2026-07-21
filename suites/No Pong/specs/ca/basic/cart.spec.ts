@@ -7,19 +7,22 @@
 // Thin spec: actions via the cart helpers, the single assert in assertions.ts
 // (rule 6). Runs at the default desktop viewport (no add-to-cart popup there).
 import { test } from '../../../fixtures';
-import { addSubscriptionToCart, setCartQtyAndUpdate, setCartShippingDestination } from '../../../helpers/nopong';
+import { addSubscriptionToCart, goToCart, setCartQtyAndUpdate, setCartShippingDestination } from '../../../helpers/nopong';
 import { assertSubscriptionCartTotal } from '../../../helpers/assertions';
 
 test.describe('CA Cart — subscription quantity', { tag: ['@plugin:woocommerce'] }, () => {
   test('NP-CA-CART-01 — subscription recurring total tracks cart quantity', async ({ shopperPage: page }) => {
     await addSubscriptionToCart(page, 'ca');
-    await setCartQtyAndUpdate(page, 2);
-    // GI 10: set an in-region shipping destination so the cart renders full totals.
-    await setCartShippingDestination(page, 'ca');
-    // GI 10 seq 11 (refresh): the qty commits to the session (mini-cart updates),
-    // but the cart-page line item/totals can render stale — reload for the fresh,
-    // server-rendered qty-2 state (incl. the discounted <ins> price) before asserting.
     await page.waitForLoadState('load');
-    await assertSubscriptionCartTotal(page, { qty: 2 });
+    await goToCart(page);
+    // GI 10: set an in-region shipping destination BEFORE the qty change — the
+    // shipping-calculator form POST does not carry cart-quantity fields, and
+    // submitting it after the qty update was found to reset the line item back
+    // to qty=1 (a real site bug, confirmed via network trace on AU: the
+    // calc_shipping response itself renders quantity=1). Doing it first, then
+    // changing qty last, avoids that reset.
+    await setCartShippingDestination(page, 'ca');
+    await setCartQtyAndUpdate(page, 2, { verify: true });
+    await assertSubscriptionCartTotal(page, { qty: 2, region: 'ca' });
   });
 });

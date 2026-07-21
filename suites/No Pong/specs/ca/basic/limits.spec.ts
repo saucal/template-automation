@@ -15,7 +15,7 @@ import { assertQuantityLimit } from '../../../helpers/assertions';
 // CA add-to-cart ids: 616 = 35g product (confirmed live: 12-item cap). 1684403 =
 // 85g product (from the AU export; confirm the CA id if LIM-02 finds no product).
 const PRODUCT_35G_ID = 616;
-const PRODUCT_85G_ID = 750731;
+const PRODUCT_85G_ID = 737969;
 
 // CA over-limit notice, e.g. "There is a limit of 12 items per order."
 const caLimitNotice = (cap: number) => new RegExp(`limit of ${cap} items per order`, 'i');

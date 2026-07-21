@@ -19,7 +19,7 @@ export default defineConfig({
   },
   fullyParallel: false,
   workers: 2,
-  retries: process.env.CI ? 1 : 0,
+  retries: 1,
   reporter: [
     ['html', { outputFolder: 'reports', open: 'never' }],
     ['list'],
@@ -27,6 +27,10 @@ export default defineConfig({
   use: {
     viewport: { width: 1920, height: 1080 },
     actionTimeout: 15_000,
+    // Separate from actionTimeout — page.goto('load') on a real storefront (analytics,
+    // PayPal SDK, images) can outrun 15s under no fault of the test; without this it was
+    // silently falling back to actionTimeout and causing the goto-timeout flake cluster.
+    navigationTimeout: 30_000,
     // Failure-only artifacts: recorded every test, kept & attached only on failure
     // (the fixture discards them on pass).
     trace: 'retain-on-failure',

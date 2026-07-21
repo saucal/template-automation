@@ -91,10 +91,10 @@ export async function assertMyAccountLinks(page: Page): Promise<void> {
 
 /** Log out via the My Account logout link. */
 export async function logoutAccount(page: Page): Promise<void> {
-  await page.goto('my-account/customer-logout/');
-  await page.waitForLoadState('load').catch(() => {});
+  await page.waitForLoadState('load');
   // Some themes interpose a "Confirm and log out" page.
-  await page.getByRole('link', { name: /confirm and log out/i }).first().click({ timeout: 3_000 }).catch(() => {});
+  await page.getByRole('link', { name: /confirm and log out/i }).or(page.locator('.woocommerce-MyAccount-navigation-link--customer-logout > a')).first().click({ timeout: 15_000 });
+  await page.locator('form.woocommerce-form woocommerce-form-login.login').first().waitFor({ state: 'visible', timeout: 15_000 });
 }
 
 /** Log in to an existing account. GI common "Login": #username / #password. */
@@ -127,9 +127,12 @@ export async function loginAccount(page: Page, email: string, password: string):
  */
 export async function forgotPassword(page: Page, email: string, newPassword: string): Promise<void> {
   const ctx = ctxFor(page);
-  await page.goto('my-account/lost-password/?sc_bypass=1');
+  await resilientClick(ctx, {
+    primary: page.getByRole('link', { name: /lost your password\?/i }).first(),
+    alt: page.locator('.woocommerce-LostPassword.lost_password > a').first(),
+    ai: 'the Lost your password? link',
+  });
   await page.waitForLoadState('load');
-  await dismissPopups(page);
 
   await resilientFill(ctx, { primary: page.locator('#user_login'), ai: 'the username / email field' }, email);
   await resilientClick(ctx, {
@@ -170,8 +173,8 @@ export async function forgotPassword(page: Page, email: string, newPassword: str
 
   await page.goto(link!.replace(/&amp;/g, '&'));
   await page.waitForLoadState('load');
-  await dismissPopups(page);
-  await page.locator('#password_1').waitFor({ state: 'visible', timeout: 15_000 });
+
+  await page.locator('#password_1').waitFor({ state: 'visible', timeout: 30_000 });
   await resilientFill(ctx, { primary: page.locator('#password_1'), ai: 'the new password field' }, newPassword);
   await resilientFill(ctx, { primary: page.locator('#password_2'), ai: 'the confirm password field' }, newPassword);
   await resilientClick(ctx, {

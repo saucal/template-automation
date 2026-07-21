@@ -9,7 +9,7 @@
 import { expect, type Page } from '@playwright/test';
 
 export async function getOrderNoteTexts(adminPage: Page): Promise<string[]> {
-  return adminPage.locator('ul.order_notes > li > div > p').allTextContents();
+  return adminPage.locator('ul.order_notes > li > div p').allTextContents();
 }
 
 export async function expectOrderNoteMatches(

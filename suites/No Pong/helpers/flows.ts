@@ -148,7 +148,6 @@ export async function runSubscriptionFlow(
 
   await shopperPage.goto('./');
   await shopperPage.waitForLoadState('load');
-  await dismissPopups(shopperPage);
 
   const pdp = await addSubscriptionToCart(shopperPage, config.region);
   await fillCheckoutAddress(shopperPage, orderLike);

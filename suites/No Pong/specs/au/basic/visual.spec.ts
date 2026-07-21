@@ -107,7 +107,7 @@ test.describe('AU Visual — cart & checkout', { tag: ['@plugin:woocommerce'] },
     await page.goto('./');
     await dismissPopups(page);
     await addToCart(page, 'au', { kind: 'simple', slug: '', qty: 1 });
-    await page.goto('checkout/');
+    await page.goto('check-out/');
     await page.waitForLoadState('load');
     // No Pong uses CLASSIC WooCommerce checkout — wait for the classic form
     // (best-effort; not the leggari WooFunnels #wfacp_checkout_form).

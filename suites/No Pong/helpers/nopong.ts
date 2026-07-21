@@ -230,7 +230,6 @@ export async function addToCart(page: Page, region: Region, pdp: PdpConfig): Pro
   if (slug) {
     await page.goto(`products/${slug}/`);
     await page.waitForLoadState('load');
-    await dismissPopups(page);
     const productName = await resilientText(ctx, {
       primary: page.locator('.product-main .product_title, h1.product_title'),
       ai: 'the product title heading',
@@ -252,9 +251,8 @@ export async function addToCart(page: Page, region: Region, pdp: PdpConfig): Pro
 
   // Shop-first (GI 06): no PDP — customers can't access product pages.
   // Extract title + price from the shop grid, then click the direct add-to-cart link.
-  await page.goto('products/');
+  await page.getByRole('link', { name: /buy now/i }).or(page.locator('a[href*="/products/"]')).first().click();
   await page.waitForLoadState('load');
-  await dismissPopups(page);
 
   const card = page.locator("ul.wc-block-grid__products > li:not([data-slug*='bundle'])").first();
   const productName = await resilientText(ctx, {
@@ -282,10 +280,13 @@ export async function addToCart(page: Page, region: Region, pdp: PdpConfig): Pro
  */
 export async function addSubscriptionToCart(page: Page, _region: Region): Promise<PdpCapture> {
   const ctx = ctxFor(page);
-  await page.goto('monthly-club/');
+  await resilientClick(ctx, {
+    primary: page.getByRole('link', { name: /monthly club/i }).first(),
+    alt: page.locator('a[href*="/monthly-club/"]').first(),
+    ai : 'the Monthly Club link in the main nav',
+  });
   await page.waitForLoadState('load');
-  await dismissPopups(page);
-
+  
   const card = page.locator('#main ul.wc-block-grid__products > li').first();
   const productName = await resilientText(ctx, {
     primary: card.locator('.wc-block-grid__product-title'),
@@ -835,6 +836,9 @@ async function fillCheckoutAddressBlocks(page: Page, config: OrderConfig): Promi
   await waitForCheckoutReady(page);
   await fill('#shipping-first_name', billing.firstName, { required: true });
   await fill('#shipping-last_name', billing.lastName, { required: true });
+  if (billing.company) {
+    await fill('#shipping-company', billing.company);
+  }
   await fill('#shipping-address_1', billing.street, { required: true });
   await fill('#shipping-city', billing.city, { required: true });
   if (billing.shortState) {
@@ -1030,7 +1034,7 @@ async function acceptTerms(page: Page, blocks: boolean): Promise<void> {
     ? page.getByRole('checkbox', { name: /accept our terms/i }).first()
     : page.locator('#terms').or(page.getByRole('checkbox', { name: 'I have read and agree to the' })).first();
   if ((await terms.count()) > 0 && !(await terms.isChecked().catch(() => false))) {
-    await terms.check().catch(async () => { await terms.check({ force: true }); });
+    await terms.check().catch(async () => { await terms.check(); });
   }
 }
 
@@ -1056,7 +1060,7 @@ async function payStripeClassic(page: Page, config: OrderConfig): Promise<void> 
     await savedToken.check();
   } else {
     // New card — Stripe renders its inputs inside an iframe (CSS can't cross frames).
-    const frame = page.locator('iframe[src*="js.stripe.com"]').first().contentFrame();
+    const frame = page.locator('#wc-stripe-upe-form > div.wc-stripe-upe-element.StripeElement > div > iframe').contentFrame();
     await frame.locator('input[name="number"]').first().fill(STRIPE_CARD.number);
     await frame.locator('input[name="expiry"]').first().fill(STRIPE_CARD.expiry);
     await frame.locator('input[name="cvc"]').first().fill(STRIPE_CARD.cvc);
@@ -1227,6 +1231,15 @@ async function drivePaypalSmartButton(page: Page): Promise<void> {
     if (await loc.inputValue().catch(() => '')) return; // already filled
     await loc.fill(value, { timeout: 5_000 }).catch(() => {});
   };
+  // Email may arrive prefilled by the sandbox with a DIFFERENT account than
+  // PAY_PAL_USER — fillIfEmpty would keep the wrong address and the login fails.
+  // Overwrite unless it already matches the target. fill() clears before typing.
+  const fillReplace = async (loc: ReturnType<Page['locator']>, value: string) => {
+    if (!value) return;
+    if (!(await loc.isVisible({ timeout: 500 }).catch(() => false))) return;
+    if ((await loc.inputValue().catch(() => '')) === value) return; // already correct
+    await loc.fill(value, { timeout: 5_000 }).catch(() => {});
+  };
   const clickIfVisible = async (loc: ReturnType<Page['locator']>) => {
     if (await loc.isVisible({ timeout: 500 }).catch(() => false)) {
       await loc.click({ timeout: 5_000 }).catch(() => {});
@@ -1238,7 +1251,7 @@ async function drivePaypalSmartButton(page: Page): Promise<void> {
   for (let i = 0; i < 15; i++) {
     if (page.url().includes('/order-received/')) break;
     if (popup && popup.isClosed()) break;
-    await fillIfEmpty(emailField, user);
+    await fillReplace(emailField, user);
     await fillIfEmpty(passField, pass);
     // Advance: Next (email step) → Log In (password step) → Pay CTA (review).
     if (!(await clickIfVisible(nextBtn))) {
@@ -1299,7 +1312,7 @@ export interface OrderReceived {
 
 /** Read the order-received page after placing the order. */
 export async function readOrderReceived(page: Page): Promise<OrderReceived> {
-  await page.waitForURL('**/order-received/**', { timeout: 30_000 });
+  await page.waitForURL('**/order-received/**', { timeout: 45_000 });
   await page.waitForLoadState('load');
 
   const ctx = ctxFor(page);

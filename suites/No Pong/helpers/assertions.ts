@@ -586,12 +586,23 @@ export async function assertBackend(adminPage: Page, result: OrderResult, config
   });
   expectMoney(adminTotal, result.total, 'admin order total should match the order total');
 
-  const adminAddress = await resilientText(ctx, {
-    primary: adminPage.locator('.order_data_column .address').first()
-      .or(adminPage.locator('.order_data_column address').first()),
+  // Billing + shipping. No Pong checkout is ship-to-same, so the order's shipping
+  // address must equal the billing identity. The editor renders the billing block
+  // then the shipping block as `.order_data_column .address` (nth 0 / nth 1); assert
+  // both carry the expected parts — that proves shipping == billing on the order.
+  const billing = regionFor(config.region).billing;
+  const adminBilling = await resilientText(ctx, {
+    primary: adminPage.locator('.order_data_column .address').nth(0)
+      .or(adminPage.locator('.order_data_column address').nth(0)),
     ai: 'the billing address in the admin order editor',
   });
-  assertAddressShown(adminAddress, regionFor(config.region).billing, 'admin order editor');
+  assertAddressShown(adminBilling, billing, 'admin order editor billing');
+  const adminShipping = await resilientText(ctx, {
+    primary: adminPage.locator('.order_data_column .address').nth(1)
+      .or(adminPage.locator('.order_data_column address').nth(1)),
+    ai: 'the shipping address in the admin order editor',
+  });
+  assertAddressShown(adminShipping, billing, 'admin order editor shipping (must match billing — ship-to-same)');
 
   await expectOrderNoteMatches(
     adminPage,
@@ -629,7 +640,21 @@ export async function assertEmail(emailPage: Page, cap: FlowCapture, config: Ord
     expect(compact, `email should show the order ${label} ${val}`).toContain(amount(val));
   }
   expectContainsCI(text, PAYMENT_LABEL[config.payment], `email should show payment method "${PAYMENT_LABEL[config.payment]}"`);
-  assertAddressShown(text, regionFor(config.region).billing, 'order email');
+
+  // Billing + shipping. Ship-to-same → the email's shipping block must show the
+  // same identity as billing. WC renders a "Billing address" heading then a
+  // "Shipping address" heading (email-addresses.php); slice the two sections apart
+  // and assert each carries the expected parts, so shipping == billing is verified
+  // rather than a single blob match that a missing shipping block would still pass.
+  const billing = regionFor(config.region).billing;
+  const lower = text.toLowerCase();
+  const bIdx = lower.indexOf('billing address');
+  const sIdx = lower.indexOf('shipping address');
+  expect(sIdx, 'order email should render a Shipping address section').toBeGreaterThan(-1);
+  const billingSection = bIdx >= 0 ? text.slice(bIdx, sIdx > bIdx ? sIdx : undefined) : text;
+  const shippingSection = text.slice(sIdx);
+  assertAddressShown(billingSection, billing, 'order email billing');
+  assertAddressShown(shippingSection, billing, 'order email shipping (must match billing — ship-to-same)');
 }
 
 /**
@@ -930,7 +955,9 @@ export async function performAndAssertRenewal(adminPage: Page, result: Subscript
     await adminPage.locator('select[name="wc_order_action"]').selectOption(action).catch(() => {});
     const saveBtn = adminPage.locator('button[name="save"]');
     await saveBtn.waitFor({ state: 'visible', timeout: 30_000 });
-    await resilientClick(ctx, { primary: saveBtn, ai: label });
+    // process-renewal fires confirm() → POST → redirect; give the click room for
+    // that nav chain to settle under slowMo so it doesn't false-timeout at 8s.
+    await resilientClick(ctx, { primary: saveBtn, ai: label }, { timeout: 30_000 });
     await adminPage.waitForLoadState('load');
     await adminPage.locator('select[name="wc_order_action"]').waitFor({ state: 'visible', timeout: 30_000 }).catch(() => {});
   };

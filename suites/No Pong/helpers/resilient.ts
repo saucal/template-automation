@@ -83,6 +83,17 @@ async function withFallback<T>(
     try {
       return await aiAction(ctx.stagehand);
     } catch (aiErr) {
+      // The org-wide Anthropic rate limit is per-minute — one short wait clears it.
+      // Only retried here (not a general Stagehand flakiness retry).
+      if (/rate limit/i.test((aiErr as Error)?.message ?? '')) {
+        console.warn(`[resilient] Anthropic rate limit hit for "${target.ai}" — waiting 20s and retrying once.`);
+        await new Promise((r) => setTimeout(r, 20_000));
+        try {
+          return await aiAction(ctx.stagehand);
+        } catch (retryErr) {
+          aiErr = retryErr;
+        }
+      }
       // Every tier failed (Playwright + Stagehand) — throw an aggregated error so
       // the report shows both failure reasons, not just the Playwright one.
       throw new Error(
@@ -110,11 +121,20 @@ async function aiAct(sh: Stagehand, page: Page, instruction: string): Promise<vo
   await sh.act(actions[0], { page: p });
 }
 
-export async function resilientClick(ctx: ResilientCtx, target: Target): Promise<void> {
+export async function resilientClick(
+  ctx: ResilientCtx,
+  target: Target,
+  opts?: { timeout?: number }
+): Promise<void> {
+  // Some clicks submit a form that fires confirm() → POST → redirect chain;
+  // click() blocks until those scheduled navigations settle, which under slowMo
+  // can exceed the 8s tier even though the click itself lands (false-negative
+  // timeout). Callers driving such submits pass a longer timeout.
+  const timeout = opts?.timeout ?? TIER_TIMEOUT;
   await withFallback(
     ctx,
     target,
-    (loc) => loc.click({ timeout: TIER_TIMEOUT }),
+    (loc) => loc.click({ timeout }),
     (sh) => aiAct(sh, ctx.page, `click ${target.ai}`)
   );
 }
