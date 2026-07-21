@@ -161,11 +161,11 @@ export async function switchCountry(page: Page, sw: CountrySwitch): Promise<void
   const dropdown = countryDropdown(page);
   const current = await dropdown.inputValue(); // form-value read (not text) — raw is fine
   if (current !== sw.mocs) {
-    await Promise.all([
-      page.waitForLoadState('domcontentloaded', { timeout: 20_000 }),
-      page.waitForLoadState('load', { timeout: 30_000 }),
-      resilientSelect(ctxFor(page), { primary: dropdown, ai: 'the country dropdown' }, sw.mocs),
-    ]);
+    await page.waitForLoadState('load', { timeout: 30_000 });
+    await resilientClick(ctxFor(page), { primary: page.getByRole('link', { name: 'Menu' }), alt: page.locator('a.button.header-button'), ai: 'Open the hamburger menu in the header' }); // focus the select so the next select() is visible
+    await resilientSelect(ctxFor(page), { primary: dropdown, ai: 'the country dropdown' }, sw.mocs);
+    await page.locator('.kadence-desktop-menu-section.menu-open').waitFor({ state: 'detached', timeout: 15_000 });
+    await page.waitForLoadState('load', { timeout: 30_000 });
   }
 }
 
