@@ -20,7 +20,7 @@ const CONTENT_PAGES: ReadonlyArray<readonly [string, string, RegExp]> = [
   ['sessions', PATHS.osSessions, /session/i],
 ];
 
-test.describe('Member · content pages [WooCommerce][OS theme][Membership]', () => {
+test.describe('Member · content pages', { tag: ['@plugin:woocommerce', '@plugin:woocommerce-subscriptions'] }, () => {
   for (const [slug, path, content] of CONTENT_PAGES) {
     test(`OS-CONTENT-${slug}`, async ({ memberPage }) => {
       await assertPageContent(memberPage, path, content);
@@ -50,7 +50,7 @@ test.describe('Member · content pages [WooCommerce][OS theme][Membership]', () 
   test('OS-CONTENT-bookmark', async ({ memberPage }) => {
     await gotoCourseDetail(memberPage);
     await toggleBookmark(memberPage);
-    await memberPage.goto(PATHS.bookmarks, { waitUntil: 'networkidle' });
+    await memberPage.goto(PATHS.bookmarks, { waitUntil: 'load' });
     await expect(memberPage.locator('main, .site-main').first()).toBeVisible();
     await removeFirstBookmark(memberPage);
     await assertBookmarksCleared(memberPage);

@@ -4,7 +4,7 @@ import { assertJoinCta } from '../../helpers/assertions';
 
 // GI guest #13 (instructor detail), #14 (course detail + Join now CTA), #19
 // (instrument archive). Functional nav + the guest-facing "Join now" CTA.
-test.describe('Guest · content surfaces [WooCommerce][OS theme][Membership]', () => {
+test.describe('Guest · content surfaces', { tag: ['@plugin:woocommerce', '@plugin:woocommerce-subscriptions'] }, () => {
   test('OS-GUEST-course-detail-join-cta', async ({ shopperPage }) => {
     await gotoCourseDetail(shopperPage);
     await assertJoinCta(shopperPage, true); // guest sees Join now

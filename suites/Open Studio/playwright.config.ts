@@ -25,7 +25,7 @@ export default defineConfig({
     actionTimeout: 15_000,
     // Failure-only artifacts: the fixture owns the named per-context shot, so the
     // built-in screenshot is off to avoid a duplicate screenshot.png (rule 25).
-    trace: 'retain-on-failure',
+    trace: 'on',
     screenshot: 'off',
     video: { mode: 'retain-on-failure' },
     launchOptions: { slowMo: 500 },

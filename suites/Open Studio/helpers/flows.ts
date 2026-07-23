@@ -35,7 +35,7 @@ export async function runCoursePlusSubscriptionFlow(shopper: Page, user: UserCon
 
 /** Admin-side refund of an order via the WC order edit screen. */
 export async function runRefundFlow(adminPage: Page, orderNumber: string): Promise<void> {
-  await adminPage.goto(`wp-admin/admin.php?page=wc-orders&action=edit&id=${orderNumber}`, { waitUntil: 'networkidle' });
+  await adminPage.goto(`wp-admin/admin.php?page=wc-orders&action=edit&id=${orderNumber}`, { waitUntil: 'load' });
   await adminPage.locator('button.button.refund-items').click();
   await adminPage.locator('#refund_reason').fill('Testing Refund');
   await adminPage.locator('button.button-primary.do-api-refund').click();

@@ -49,7 +49,7 @@ export async function assertDashboardPlan(page: Page, frequency: Frequency): Pro
  * heading, and its main region actually contains the expected content token.
  */
 export async function assertPageContent(page: Page, path: string, content: RegExp): Promise<void> {
-  await page.goto(path, { waitUntil: 'networkidle' });
+  await page.goto(path, { waitUntil: 'load' });
   await expect(page).toHaveURL(new RegExp(path === './' ? '/$' : path.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
   await expect(page.locator('h1, h2, .entry-title, .os-page-title').first()).toBeVisible();
   await expect(page.locator('main, #main, .site-main').first()).toContainText(content);
@@ -57,13 +57,13 @@ export async function assertPageContent(page: Page, path: string, content: RegEx
 
 /** A course-only buyer never gets a membership: dashboard shows NO PLAN + a join CTA. */
 export async function assertNoMembership(page: Page): Promise<void> {
-  await page.goto(os.PATHS.dashboard, { waitUntil: 'networkidle' });
+  await page.goto(os.PATHS.dashboard, { waitUntil: 'load' });
   await expect(page.locator('.os-account-membership')).toContainText(/NO PLAN IS ACTIVE/i);
   await expect(page.locator('a[href*="/join"].button').first()).toBeVisible();
 }
 
 export async function assertBackendOrder(adminPage: Page, result: OrderResult): Promise<void> {
-  await adminPage.goto(`wp-admin/admin.php?page=wc-orders&action=edit&id=${result.orderNumber}`, { waitUntil: 'networkidle' });
+  await adminPage.goto(`wp-admin/admin.php?page=wc-orders&action=edit&id=${result.orderNumber}`, { waitUntil: 'load' });
   await expect(adminPage.locator('.woocommerce-order-data, #order_data').first()).toContainText(PAYMENT_LABEL_RE);
   // status select + customer email on the order edit screen (GI Check_order_on_Backend).
   await expect(adminPage.locator('#select2-order_status-container, #order_status')).toContainText(/Completed|Processing/i);
@@ -73,7 +73,7 @@ export async function assertBackendOrder(adminPage: Page, result: OrderResult): 
 }
 
 export async function assertCourseAccess(page: Page): Promise<void> {
-  await page.goto(os.PATHS.membersArea, { waitUntil: 'networkidle' });
+  await page.goto(os.PATHS.membersArea, { waitUntil: 'load' });
   await expect(page.locator('main, .site-main').first()).toBeVisible();
 }
 

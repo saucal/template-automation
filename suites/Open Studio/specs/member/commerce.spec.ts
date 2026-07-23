@@ -8,7 +8,7 @@ function newUser(slug: string): UserConfig {
   return { email: `qa+os-${slug}-${stamp}@saucal.com`, password: 'Test12345!', firstName: 'QA', lastName: slug };
 }
 
-test.describe('Member · commerce [WooCommerce][WC Subscriptions][Stripe]', () => {
+test.describe('Member · commerce', { tag: ['@plugin:woocommerce', '@plugin:woocommerce-subscriptions', '@plugin:woocommerce-gateway-stripe'] }, () => {
   test('OS-COM-01 purchase single course', async ({ shopperPage }) => {
     const result = await runSingleCourseFlow(shopperPage, newUser('course'));
     assertOrderPlaced(result);

@@ -2,7 +2,7 @@
 // survey/dashboard primitives. All goto() are relative (no leading slash) so they
 // resolve against the configured baseURL. No project/region conditionals: this is
 // the Open-Studio-only path expressed through typed config.
-import { type Page } from '@playwright/test';
+import { expect, type Page } from '@playwright/test';
 import type { Frequency, UserConfig, UpsellChoice, SurveyChoice, SurveyConfig, OrderResult } from '../types/test-config';
 
 /** Relative paths — all goto() are relative (no leading slash). */
@@ -61,7 +61,15 @@ export const GUEST_PAGES: ReadonlyArray<readonly [string, string]> = [
 
 /** Best-effort dismissal of cookie/consent + newsletter popups. Swallow if absent. */
 export async function dismissPopups(page: Page): Promise<void> {
-  for (const sel of ['button:has-text("Accept")', '.pum-close', '[aria-label="Close"]']) {
+  for (const sel of [
+    'button:has-text("Accept")',
+    '.pum-close',
+    // Kadence Conversions leadgen popup (timed) — close it so it stops intercepting clicks.
+    '.kadence-blocks-conversion-close',
+    '.kadence-conversion-popup .kadence-conversion-close',
+    '.kadence-conversion-popup button[aria-label="Close"]',
+    '[aria-label="Close"]',
+  ]) {
     const el = page.locator(sel).filter({ visible: true });
     if (await el.count()) await el.first().click({ force: true }).catch(() => {});
   }
@@ -77,12 +85,12 @@ export const MEMBERSHIP_VARIATION = { monthly: 16, annually: 17 } as const;
 /** Add the membership subscription straight to cart and land on checkout (GI path). */
 export async function addMembershipToCart(page: Page, frequency: Frequency): Promise<void> {
   const id = MEMBERSHIP_VARIATION[frequency];
-  await page.goto(`${PATHS.checkout}?add-to-cart=${id}&quantity=1`, { waitUntil: 'networkidle' });
+  await page.goto(`${PATHS.checkout}?add-to-cart=${id}&quantity=1`, { waitUntil: 'load' });
   await dismissPopups(page);
 }
 
 export async function addSingleCourse(page: Page): Promise<{ title: string; price: string }> {
-  await page.goto(PATHS.singleCourse, { waitUntil: 'networkidle' });
+  await page.goto(PATHS.singleCourse, { waitUntil: 'load' });
   await dismissPopups(page);
   const title = ((await page.locator('h2.os-course-info-page-header__title').first().textContent().catch(() => '')) ?? '').trim();
   const price = ((await page.locator('.summary.entry-summary .price bdi').last().textContent().catch(() => '')) ?? '').trim();
@@ -92,10 +100,12 @@ export async function addSingleCourse(page: Page): Promise<{ title: string; pric
 
 /** Fill Blocks checkout contact + account fields for a new member. */
 export async function fillCheckout(page: Page, user: UserConfig): Promise<void> {
-  await page.goto(PATHS.checkout, { waitUntil: 'networkidle' });
+  await page.goto(PATHS.checkout, { waitUntil: 'load' });
   await dismissPopups(page);
   await page.locator('#email, #billing_email').first().fill(user.email);
-  const pw = page.locator('#account_password, #password');
+  // WFACP create-account password is #account_password; #password is the hidden
+  // returning-customer login field — filter visible so we never fill the wrong one (GI).
+  const pw = page.locator('#account_password').filter({ visible: true });
   if (await pw.count()) await pw.first().fill(user.password);
   const fn = page.locator('#billing_first_name, #shipping-first_name');
   if (await fn.count()) await fn.first().fill(user.firstName);
@@ -117,8 +127,9 @@ export async function payStripeAndPlaceOrder(page: Page): Promise<void> {
   if (await linkOptIn.count() && await linkOptIn.isChecked().catch(() => false)) {
     await linkOptIn.uncheck().catch(() => {});
   }
-  await page.locator('button.wc-block-components-checkout-place-order-button').click();
-  await page.locator('.wc-block-components-spinner, .blockUI').first().waitFor({ state: 'hidden' }).catch(() => {});
+  // WFACP funnel checkout: submit is a plain input, not the WC Blocks button (GI: input[type="submit"].button).
+  await page.locator('#place_order').first().click();
+  await expect(page.locator('.wc-block-components-spinner, .blockUI').first()).toHaveCount(0).catch(() => {});
 }
 
 // ---- FunnelKit upsell + survey + confirmation ----------------------------
@@ -137,7 +148,7 @@ export async function handleFunnelKitUpsell(page: Page, choice: UpsellChoice): P
   }
   const sel = choice === 'accept' ? 'a.bwf-btn.solid.wfocu_upsell' : 'a.bwf-btn.solid.wfocu_skip_offer';
   await page.locator(sel).first().click();
-  await page.waitForLoadState('networkidle');
+  await page.waitForLoadState('load');
   return true;
 }
 
@@ -160,10 +171,10 @@ export async function readOrderReceived(page: Page): Promise<OrderResult> {
 
 /** Welcome-page survey: submit it (with data) or skip via ?skip-survey=1. */
 export async function doSurvey(page: Page, choice: SurveyChoice, data: SurveyConfig): Promise<void> {
-  await page.goto(PATHS.welcome, { waitUntil: 'networkidle' });
+  await page.goto(PATHS.welcome, { waitUntil: 'load' });
   if (choice === 'skip') {
     await page.locator('a[href*="/dashboard/?skip-survey=1"]').first().click();
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('load');
     return;
   }
   await page.locator(`input[name="os-survey-instrument"][value="${data.instrument}"]`)
@@ -171,7 +182,7 @@ export async function doSurvey(page: Page, choice: SurveyChoice, data: SurveyCon
   await page.locator(`input[name="os-survey-skill-level"][value="${data.skillLevel}"]`)
     .or(page.locator('input[name="os-survey-skill-level"]')).first().check();
   await page.locator('input[type="submit"].button').first().click();
-  await page.waitForLoadState('networkidle');
+  await page.waitForLoadState('load');
 }
 
 export interface DashboardReading {
@@ -181,7 +192,7 @@ export interface DashboardReading {
 }
 
 export async function readDashboard(page: Page): Promise<DashboardReading> {
-  await page.goto(PATHS.dashboard, { waitUntil: 'networkidle' });
+  await page.goto(PATHS.dashboard, { waitUntil: 'load' });
   const plan = ((await page.locator('.os-account-membership').first().textContent().catch(() => '')) ?? '').trim();
   const frequency = ((await page.locator('.os-my-dashboard__frequency > span').first().textContent().catch(() => '')) ?? '').trim();
   const nextPayment = ((await page.locator('.os-my-dashboard__next > span').first().textContent().catch(() => '')) ?? '').trim();
@@ -204,20 +215,20 @@ export async function openMobileMenu(page: Page): Promise<void> {
 
 /** Course detail (content, not the product page). Guest sees a "Join now" CTA. */
 export async function gotoCourseDetail(page: Page): Promise<void> {
-  await page.goto(PATHS.courseDetail, { waitUntil: 'networkidle' });
+  await page.goto(PATHS.courseDetail, { waitUntil: 'load' });
   await dismissPopups(page);
 }
 
 /** Instrument archive reached from the courses instrument grid. */
 export async function gotoInstrumentPage(page: Page): Promise<void> {
-  await page.goto(PATHS.courses, { waitUntil: 'networkidle' });
+  await page.goto(PATHS.courses, { waitUntil: 'load' });
   await dismissPopups(page);
   await page.locator('a[href*="/piano/"].os-instruments-grid__instrument').first().click().catch(() => {});
-  await page.waitForLoadState('networkidle');
+  await page.waitForLoadState('load');
 }
 
 export async function gotoInstructorDetail(page: Page): Promise<void> {
-  await page.goto(PATHS.instructorDetail, { waitUntil: 'networkidle' });
+  await page.goto(PATHS.instructorDetail, { waitUntil: 'load' });
   await dismissPopups(page);
 }
 
@@ -225,7 +236,7 @@ export async function gotoInstructorDetail(page: Page): Promise<void> {
 
 /** Open the events calendar (live schedule, all timezones render in GMT label). */
 export async function gotoEvents(page: Page): Promise<void> {
-  await page.goto(PATHS.events, { waitUntil: 'networkidle' });
+  await page.goto(PATHS.events, { waitUntil: 'load' });
   await dismissPopups(page);
   // calendar hydrates async — give it a beat (GI used explicit pauses here).
   await page.locator('.os-calendar-event-item').first().waitFor({ state: 'visible', timeout: 15_000 }).catch(() => {});
@@ -233,16 +244,18 @@ export async function gotoEvents(page: Page): Promise<void> {
 
 /** Click into a Pro-only (locked) upcoming session. */
 export async function openProSession(page: Page): Promise<void> {
-  await page.locator('div.os-calendar-event-item.os-calendar-event-item-pro:not(.os-calendar-event-item-past)')
-    .first().click();
-  await page.waitForLoadState('networkidle');
+  await dismissPopups(page); // timed Kadence leadgen popup can appear after calendar load
+  await expect(page.locator('.os-events-spinner').first()).toHaveCount(0).catch(() => {});
+  await page.locator('div.os-calendar-event-item.os-calendar-event-item-pro:not(.os-calendar-event-item-past) a').filter({ visible: true })
+    .first().click({timeout: 30_000});
+  await page.waitForLoadState('load');
 }
 
 /** Click into a free upcoming session (non-pro). */
 export async function openFreeSession(page: Page): Promise<void> {
   await page.locator('div.os-calendar-event-item:not(.os-calendar-event-item-pro):not(.os-calendar-event-item-past)')
     .first().click();
-  await page.waitForLoadState('networkidle');
+  await page.waitForLoadState('load');
 }
 
 // ---- bookmarks -----------------------------------------------------------
@@ -256,7 +269,7 @@ export async function toggleBookmark(page: Page): Promise<void> {
 
 /** Remove the first bookmark on the My Bookmarks page (confirm in the popup). */
 export async function removeFirstBookmark(page: Page): Promise<void> {
-  await page.goto(PATHS.bookmarks, { waitUntil: 'networkidle' });
+  await page.goto(PATHS.bookmarks, { waitUntil: 'load' });
   const remove = page.locator('button.os-bookmark-item__remove').first();
   if (!(await remove.count())) return;
   await remove.click();
@@ -269,11 +282,11 @@ export async function removeFirstBookmark(page: Page): Promise<void> {
 
 /** Update the my-profile survey (instrument + skill level) and save. */
 export async function updateProfile(page: Page, data: SurveyConfig): Promise<void> {
-  await page.goto(PATHS.myProfile, { waitUntil: 'networkidle' });
+  await page.goto(PATHS.myProfile, { waitUntil: 'load' });
   await page.locator(`//label[contains(translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'${data.instrument.toLowerCase()}')]`)
     .first().click().catch(() => {});
   await page.locator(`//label[contains(translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'${data.skillLevel.toLowerCase()}')]`)
     .first().click().catch(() => {});
   await page.locator('input[type="submit"].button[value="Update"], input[type="submit"].button').first().click();
-  await page.waitForLoadState('networkidle');
+  await page.waitForLoadState('load');
 }

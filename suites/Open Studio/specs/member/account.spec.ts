@@ -4,7 +4,7 @@ import { updateProfile, PATHS } from '../../helpers/openstudio';
 
 // Uses the membership-holder created by member.setup: memberCreds for the auth
 // flows that must be driven by hand, memberPage for the already-authed checks.
-test.describe('Member · account [WooCommerce][Login-With-Ajax]', () => {
+test.describe('Member · account', { tag: ['@plugin:woocommerce', '@plugin:login-with-ajax'] }, () => {
   test('OS-ACC-01 login & my-account', async ({ shopperPage, memberCreds }) => {
     await loginAccount(shopperPage, memberCreds.email, memberCreds.password);
     await assertMyAccountLinks(shopperPage);

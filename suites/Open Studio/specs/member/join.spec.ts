@@ -13,7 +13,7 @@ const SURVEY = { instrument: 'piano', skillLevel: 'beginner' };
 // OS-JOIN-01 (the annually submit-survey + accept-upsell purchase) now lives in
 // `specs/member.setup.ts` — it creates the reusable member that the rest of the
 // member specs share. These cover the OTHER join scenarios.
-test.describe.serial('Member · join via FunnelKit [WooCommerce][WC Subscriptions][FunnelKit][Stripe]', () => {
+test.describe.serial('Member · join via FunnelKit', { tag: ['@plugin:woocommerce', '@plugin:woocommerce-subscriptions', '@plugin:funnel-builder', '@plugin:woocommerce-gateway-stripe'] }, () => {
   test('OS-JOIN-02 ignore survey', async ({ shopperPage }) => {
     const cfg: JoinConfig = {
       testId: 'OS-JOIN-02', title: 'ignore survey', frequency: 'monthly',

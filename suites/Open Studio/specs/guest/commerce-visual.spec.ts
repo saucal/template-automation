@@ -3,10 +3,11 @@ import { type Page, type Locator } from '@playwright/test';
 import { PATHS, addSingleCourse, fillCheckout, payStripeAndPlaceOrder } from '../../helpers/openstudio';
 import { softScreenshot } from '../../helpers/assertions';
 import type { UserConfig } from '../../types/test-config';
+import { expect } from '@playwright/test';
 
 function newUser(slug: string): UserConfig {
   const stamp = Date.now();
-  return { email: `qa+os-vis-${slug}-${stamp}@saucal.com`, password: 'Test12345!', firstName: 'QA', lastName: slug };
+  return { email: `qa+os-vis-${slug}-${stamp}@saucal.com`, password: 'fric2171Biot', firstName: 'QA', lastName: slug };
 }
 
 // Course commerce is a guest flow (single course = one-time, no login required).
@@ -18,16 +19,17 @@ function newUser(slug: string): UserConfig {
 const visualCheck = (page: Page, name: string, masks: Locator[] = []): Promise<void> =>
   softScreenshot(page, name, { mask: masks });
 
-test.describe('Guest · commerce visual [WooCommerce][WC Blocks][visual]', () => {
+test.describe('Guest · commerce visual', { tag: ['@plugin:woocommerce', '@plugin:woocommerce-gateway-stripe', '@plugin:funnel-builder'] }, () => {
   test('OS-VIS-cart-course', async ({ shopperPage }) => {
     await addSingleCourse(shopperPage);
-    await shopperPage.goto(PATHS.cart, { waitUntil: 'networkidle' });
+    await shopperPage.goto(PATHS.cart, { waitUntil: 'load' });
     await visualCheck(shopperPage, 'cart-course.png');
   });
 
   test('OS-VIS-checkout-course', async ({ shopperPage }) => {
     await addSingleCourse(shopperPage);
-    await shopperPage.goto(PATHS.checkout, { waitUntil: 'networkidle' });
+    await shopperPage.goto(PATHS.checkout, { waitUntil: 'load' });
+    await expect(shopperPage.locator('.blockUI, .wc-block-components-spinner').first()).toHaveCount(0).catch(() => {});
     await visualCheck(shopperPage, 'checkout-course.png');
   });
 

@@ -12,10 +12,10 @@ import { softScreenshot } from '../../helpers/assertions';
 const visualCheck = (page: Page, name: string, masks: Locator[] = []): Promise<void> =>
   softScreenshot(page, name, { mask: masks });
 
-test.describe('Member · membership commerce visual [WooCommerce][WC Subscriptions][WC Blocks][visual]', () => {
+test.describe('Member · membership commerce visual', { tag: ['@plugin:woocommerce', '@plugin:woocommerce-subscriptions', '@plugin:woocommerce-gateway-stripe', '@plugin:funnel-builder'] }, () => {
   test('OS-VIS-cart-membership', async ({ memberPage }) => {
     await addMembershipToCart(memberPage, 'monthly');
-    await memberPage.goto(PATHS.cart, { waitUntil: 'networkidle' });
+    await memberPage.goto(PATHS.cart, { waitUntil: 'load' });
     await visualCheck(memberPage, 'cart-membership.png');
   });
 
