@@ -28,7 +28,7 @@
     "region": "eu-west-2",
     "screenshotCompareEnabled": true,
     "screenshotCompareThreshold": 0.1,
-    "startUrl": "https://melonoptics-staging.mystagingwebsite.com/",
+    "startUrl": "https://melonoptics-maintenance.mystagingwebsite.com/",
     "testCount": 2,
     "testFrequency": 0,
     "testFrequencyAdvanced": [],

@@ -61,11 +61,21 @@
       "variableName": ""
     },
     {
-      "command": "store",
+      "command": "eval",
       "condition": null,
       "optional": false,
       "private": false,
       "sequence": 3,
+      "target": "",
+      "value": "const selector = 'a[href=\"admin.php?page=wc-orders\"], a[href=\"edit.php?post_type=shop_order\"]';\nconst el = document.querySelector(selector);\n\nif (el) {\nel.click();\nconsole.log('✅ Clicked:', el.href);\n} else {\nconsole.warn('⚠️ Element not found:', selector);\n}",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
       "target": "",
       "value": "Pending payment",
       "variableName": "status"
@@ -75,7 +85,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 4,
+      "sequence": 5,
       "target": [
         {
           "selector": "tr#post-{{orderNumber}} mark.order-status.status-pending > span"

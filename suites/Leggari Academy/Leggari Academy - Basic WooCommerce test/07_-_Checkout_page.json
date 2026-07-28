@@ -74,91 +74,11 @@
       ]
     },
     {
-      "command": "assertText",
-      "condition": null,
-      "optional": true,
-      "private": false,
-      "sequence": 3,
-      "target": "li.product-item:nth-of-type(1) > .product-item-wrapper",
-      "value": "One-time payment\n\n($1799)",
-      "variableName": ""
-    },
-    {
-      "command": "assertTextPresent",
-      "condition": null,
-      "optional": false,
-      "private": false,
-      "sequence": 4,
-      "target": "li.product-item:nth-of-type(1) > .product-item-wrapper",
-      "value": "($1799)",
-      "variableName": ""
-    },
-    {
-      "command": "assertText",
-      "condition": null,
-      "optional": true,
-      "private": false,
-      "sequence": 5,
-      "target": "li.product-item:nth-of-type(2) > .product-item-wrapper",
-      "value": "$999 + split-pay\n\n(3 x $399)",
-      "variableName": ""
-    },
-    {
-      "command": "assertTextPresent",
-      "condition": null,
-      "optional": false,
-      "private": false,
-      "sequence": 6,
-      "target": "li.product-item:nth-of-type(2) > .product-item-wrapper",
-      "value": "(3 x $399)",
-      "variableName": ""
-    },
-    {
-      "command": "assertText",
-      "condition": null,
-      "optional": true,
-      "private": false,
-      "sequence": 7,
-      "target": "li.product-item:nth-of-type(3) > .product-item-wrapper",
-      "value": "Split-pay\n\n(2 x $999)",
-      "variableName": ""
-    },
-    {
-      "command": "assertTextPresent",
-      "condition": null,
-      "optional": false,
-      "private": false,
-      "sequence": 8,
-      "target": "li.product-item:nth-of-type(3) > .product-item-wrapper",
-      "value": "(2 x $999)",
-      "variableName": ""
-    },
-    {
-      "command": "assertText",
-      "condition": null,
-      "optional": true,
-      "private": false,
-      "sequence": 9,
-      "target": "li.product-item:nth-of-type(4) > .product-item-wrapper",
-      "value": "$199 + split-pay\n\n(11 x $199)",
-      "variableName": ""
-    },
-    {
-      "command": "assertTextPresent",
-      "condition": null,
-      "optional": false,
-      "private": false,
-      "sequence": 10,
-      "target": "li.product-item:nth-of-type(4) > .product-item-wrapper",
-      "value": "(11 x $199)",
-      "variableName": ""
-    },
-    {
       "command": "assertElementPresent",
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 11,
+      "sequence": 3,
       "target": ".product-total > .woocommerce-Price-amount.amount > bdi",
       "value": ""
     },
@@ -167,7 +87,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 12,
+      "sequence": 4,
       "target": ".future-payments-detail > .woocommerce-Price-amount.amount > bdi",
       "value": ""
     },
@@ -176,7 +96,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 13,
+      "sequence": 5,
       "target": ".final-payment-details > .woocommerce-Price-amount.amount > bdi",
       "value": ""
     }

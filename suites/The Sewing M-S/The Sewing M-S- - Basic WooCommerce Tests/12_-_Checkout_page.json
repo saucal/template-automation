@@ -49,27 +49,27 @@
       ]
     },
     {
-      "command": "assertTextPresent",
+      "command": "assertEval",
       "condition": {
         "statement": "return '{{product}}' === 'simple' || '{{product}}' === ''"
       },
       "optional": false,
       "private": false,
       "sequence": 2,
-      "target": "td.product-name",
-      "value": "{{prod_desc}}",
+      "target": "",
+      "value": "const n = s => s.replace(/[\\u2033\\u201C\\u201D]/g,'\"').replace(/[\\u2032\\u2018\\u2019]/g,\"'\").replace(/\\s+/g,' ').trim();\nconst el = document.querySelector('td.product-name');\nreturn !!el && n(el.innerText).includes(n('{{prod_desc}}'));",
       "variableName": ""
     },
     {
-      "command": "assertTextPresent",
+      "command": "assertEval",
       "condition": {
         "statement": "return '{{product}}' === 'variable'"
       },
       "optional": false,
       "private": false,
       "sequence": 3,
-      "target": "td.product-name",
-      "value": "{{prod_desc}} - {{color}}",
+      "target": "",
+      "value": "const n = s => s.replace(/[\\u2033\\u201C\\u201D]/g,'\"').replace(/[\\u2032\\u2018\\u2019]/g,\"'\").replace(/\\s+/g,' ').trim();\nconst el = document.querySelector('td.product-name');\nreturn !!el && n(el.innerText).includes(n('{{prod_desc}} - {{color}}'));",
       "variableName": ""
     },
     {
