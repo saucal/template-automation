@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": [
+      "ESNext",
+      "DOM"
+    ],
+    "strict": false,
+    "esModuleInterop": true,
+    "typeRoots": [
+      "../node_modules/@types"
+    ],
+    "paths": {
+      "@playwright/test": [
+        "../node_modules/@playwright/test"
+      ]
+    }
+  },
+  "include": [
+    "**/*.ts"
+  ]
+}
