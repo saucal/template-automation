@@ -43,20 +43,8 @@
         "statement": "return '{{logged}}' !== 'yes'"
       },
       "optional": false,
-      "private": true,
-      "sequence": 1,
-      "target": "#account_password",
-      "value": "{{password}}",
-      "variableName": ""
-    },
-    {
-      "command": "assign",
-      "condition": {
-        "statement": "return '{{logged}}' !== 'yes'"
-      },
-      "optional": false,
       "private": false,
-      "sequence": 2,
+      "sequence": 1,
       "target": "#billing_first_name",
       "value": "{{firstName}}",
       "variableName": ""
@@ -68,7 +56,7 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 3,
+      "sequence": 2,
       "target": "#billing_last_name",
       "value": "{{lastName}}",
       "variableName": ""
@@ -80,9 +68,58 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 4,
+      "sequence": 3,
       "target": "#billing_phone",
       "value": "{{phone}}",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 4,
+      "target": "#leggari-btn-continue",
+      "value": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "li.product-item:nth-of-type(1) > .product-item-wrapper",
+      "value": "One-time payment\n\n($1799)",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "li.product-item:nth-of-type(2) > .product-item-wrapper",
+      "value": "$999 + split-pay\n\n(3 x $399)",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "li.product-item:nth-of-type(3) > .product-item-wrapper",
+      "value": "Split-pay\n\n(2 x $999)",
+      "variableName": ""
+    },
+    {
+      "command": "assertText",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "li.product-item:nth-of-type(4) > .product-item-wrapper",
+      "value": "$199 + split-pay\n\n(11 x $199)",
       "variableName": ""
     },
     {
@@ -92,7 +129,7 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 5,
+      "sequence": 9,
       "target": "#billing_language"
     },
     {
@@ -102,21 +139,9 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 6,
+      "sequence": 10,
       "target": "#billing_language",
       "value": "spanish"
-    },
-    {
-      "command": "click",
-      "condition": {
-        "statement": "return '{{logged}}' !== 'yes'"
-      },
-      "optional": false,
-      "private": false,
-      "sequence": 7,
-      "target": "#leggari-btn-continue",
-      "value": "",
-      "variableName": ""
     },
     {
       "command": "assign",
@@ -125,7 +150,7 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 8,
+      "sequence": 11,
       "target": "#shipping_address_1",
       "value": "{{street3}}",
       "variableName": ""
@@ -137,7 +162,7 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 9,
+      "sequence": 12,
       "target": "#shipping_city",
       "value": "{{city}}",
       "variableName": ""
@@ -149,7 +174,7 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 10,
+      "sequence": 13,
       "target": "#shipping_state",
       "value": "",
       "variableName": ""
@@ -161,7 +186,7 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 11,
+      "sequence": 14,
       "target": "#shipping_state > option[value=\"{{state}}\"]",
       "value": "",
       "variableName": ""
@@ -173,7 +198,7 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 12,
+      "sequence": 15,
       "target": "#shipping_postcode",
       "value": "{{zipCode}}",
       "variableName": ""
@@ -185,7 +210,7 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 13,
+      "sequence": 16,
       "target": "#shipping_phone",
       "value": "{{phone}}",
       "variableName": ""
@@ -197,7 +222,7 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 14,
+      "sequence": 17,
       "target": "#select2-shipping_country-container",
       "value": "{{countryComplete}}",
       "variableName": ""
@@ -207,7 +232,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 15,
+      "sequence": 18,
       "target": "#bill-to-different-address-checkbox",
       "value": "",
       "variableName": ""
@@ -219,7 +244,7 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 16,
+      "sequence": 19,
       "target": "#select2-billing_country-container",
       "value": "{{countryComplete}}",
       "variableName": ""
@@ -231,7 +256,7 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 17,
+      "sequence": 20,
       "target": "#billing_address_1",
       "value": "{{street}}",
       "variableName": ""
@@ -243,7 +268,7 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 18,
+      "sequence": 21,
       "target": "#billing_city",
       "value": "{{city}}",
       "variableName": ""
@@ -255,7 +280,7 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 19,
+      "sequence": 22,
       "target": "#billing_state",
       "value": "",
       "variableName": ""
@@ -267,7 +292,7 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 20,
+      "sequence": 23,
       "target": "#billing_state > option[value=\"{{state}}\"]",
       "value": "",
       "variableName": ""
@@ -279,7 +304,7 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 21,
+      "sequence": 24,
       "target": "#billing_postcode",
       "value": "{{zipCode}}",
       "variableName": ""
@@ -289,7 +314,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 22,
+      "sequence": 25,
       "target": "",
       "value": "6022b74a262f437a9af8d9a3",
       "variableName": ""
@@ -299,7 +324,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 23,
+      "sequence": 26,
       "target": "input[name=\"add_to_cart\"][value=\"17041\"]"
     },
     {
@@ -307,7 +332,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 24,
+      "sequence": 27,
       "target": "",
       "value": "$999",
       "variableName": "unitPrice"
@@ -317,7 +342,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 25,
+      "sequence": 28,
       "target": "",
       "value": "$399",
       "variableName": "renewPrice"
@@ -327,7 +352,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 26,
+      "sequence": 29,
       "target": "li.product-item:nth-of-type(2) > .product-item-wrapper > .product-item-title",
       "value": "{{unitPrice}} + split-pay"
     },
@@ -336,7 +361,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 27,
+      "sequence": 30,
       "target": "li.product-item:nth-of-type(2) > .product-item-wrapper > .price > .woocommerce-Price-amount.amount > bdi",
       "value": "(3 x {{renewPrice}})"
     },
@@ -345,7 +370,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 28,
+      "sequence": 31,
       "target": "",
       "value": "6022b74a262f437a9af8d9a3",
       "variableName": ""
@@ -355,7 +380,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 29,
+      "sequence": 32,
       "target": "",
       "value": "8000",
       "variableName": ""
@@ -365,7 +390,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 30,
+      "sequence": 33,
       "target": ".product-total > .woocommerce-Price-amount.amount > bdi",
       "value": "{{unitPrice}}",
       "variableName": ""
@@ -375,7 +400,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 31,
+      "sequence": 34,
       "target": ".future-payments-detail > .woocommerce-Price-amount.amount > bdi",
       "value": "{{renewPrice}}",
       "variableName": ""
@@ -385,7 +410,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 32,
+      "sequence": 35,
       "target": ".future-text",
       "value": "Three monthly\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t payments"
     },
@@ -394,7 +419,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 33,
+      "sequence": 36,
       "target": ".final-payment-details > .woocommerce-Price-amount.amount > bdi",
       "value": "{{unitPrice}}",
       "variableName": ""
@@ -405,7 +430,7 @@
       "notes": "",
       "optional": false,
       "private": false,
-      "sequence": 34,
+      "sequence": 37,
       "target": [
         {
           "selector": "#terms"

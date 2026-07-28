@@ -69,7 +69,14 @@
       "optional": false,
       "private": false,
       "sequence": 4,
-      "target": "li#menu-item-1123032 > a[href*=\"/mentor-sessions/\"]",
+      "target": [
+        {
+          "selector": "li#menu-item-1123032 > a[href*=\"/mentor-sessions/\"]"
+        },
+        {
+          "selector": "li#menu-item-1123032 > a[href*=\"/?page_id=1122600\"]"
+        }
+      ],
       "value": "Mentor Sessions",
       "variableName": ""
     },

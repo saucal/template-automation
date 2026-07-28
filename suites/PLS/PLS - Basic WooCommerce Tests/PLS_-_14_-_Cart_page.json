@@ -50,7 +50,7 @@
       "private": false,
       "sequence": 2,
       "target": "",
-      "value": "const firstProductTop = document.querySelectorAll(\n  \"ul.products > li.product-type-subscription.instock, ul.products > li.product-type-variable-subscription.instock\"\n)[2];\n\nconst firstLink = firstProductTop.querySelector(\"a\");\n\nif (firstLink) {\n  firstLink.click();\n} else {\n  console.log(\"No product found in stock\");\n}",
+      "value": "const firstProductTop = document.querySelectorAll(\n  \"ul.products > li.product-type-subscription.instock, ul.products > li.product-type-variable-subscription.instock\"\n)[3];\n\nconst firstLink = firstProductTop.querySelector(\"a\");\n\nif (firstLink) {\n  firstLink.click();\n} else {\n  console.log(\"No product found in stock\");\n}",
       "variableName": ""
     },
     {

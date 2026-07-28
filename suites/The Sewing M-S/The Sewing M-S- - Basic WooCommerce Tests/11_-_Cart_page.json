@@ -89,27 +89,27 @@
       "value": ""
     },
     {
-      "command": "assertText",
+      "command": "assertEval",
       "condition": {
         "statement": "return '{{product}}' === 'simple' || '{{product}}' === ''"
       },
       "optional": false,
       "private": false,
       "sequence": 5,
-      "target": "td.product-name > a[href*=\"/product/\"]",
-      "value": "{{prod_desc}}",
+      "target": "",
+      "value": "const n = s => s.replace(/[\\u2033\\u201C\\u201D]/g,'\"').replace(/[\\u2032\\u2018\\u2019]/g,\"'\").replace(/\\s+/g,' ').trim();\nreturn n(document.querySelector('td.product-name > a[href*=\"/product/\"]').innerText) === n('{{prod_desc}}');",
       "variableName": ""
     },
     {
-      "command": "assertText",
+      "command": "assertEval",
       "condition": {
         "statement": "return '{{product}}' === 'variable'"
       },
       "optional": false,
       "private": false,
       "sequence": 6,
-      "target": "td.product-name > a[href*=\"/product/\"]",
-      "value": "{{prod_desc}} - {{color}}",
+      "target": "",
+      "value": "const n = s => s.replace(/[\\u2033\\u201C\\u201D]/g,'\"').replace(/[\\u2032\\u2018\\u2019]/g,\"'\").replace(/\\s+/g,' ').trim();\nreturn n(document.querySelector('td.product-name > a[href*=\"/product/\"]').innerText) === n('{{prod_desc}} - {{color}}');",
       "variableName": ""
     },
     {

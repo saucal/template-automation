@@ -501,7 +501,7 @@
     {
       "command": "assertText",
       "condition": {
-        "statement": "return \"{{project}}\" == \"purCrystal\""
+        "statement": "return \"{{project}}\" === \"purCrystal\""
       },
       "notes": "",
       "optional": false,
@@ -547,7 +547,7 @@
       "private": false,
       "sequence": 41,
       "target": "td:nth-of-type(2) > address.address",
-      "value": "{{firstName}} {{lastName}}\n{{company2}}\n{{street}}\n{{street3}}\n{{city}}, {{state}} {{zipCode}}\n{{countryComplete}}",
+      "value": "{{firstName}} {{lastName}}\n{{company2}}\n{{street}}\n{{street3}}\n{{city}}, {{state}} {{zipCode}}\n{{countryComplete}}\n{{phone}}",
       "variableName": ""
     },
     {

@@ -1119,7 +1119,7 @@
     {
       "command": "assign",
       "condition": {
-        "statement": "let project = \"{{project}}\"\nreturn project === \"Deans\" || project === \"talkbox\"\n|| project === \"mood\""
+        "statement": "let project = \"{{project}}\"\nreturn project === \"Deans\" || project === \"talkbox\"\n|| project === \"mood\" || project === \"nopong\""
       },
       "optional": false,
       "private": false,

@@ -44,7 +44,7 @@
       "private": false,
       "sequence": 1,
       "target": "",
-      "value": "const logs = {{logs}}\n\nreturn logs[0].content[1]",
+      "value": "const logs = {{logs}}\n\nreturn logs[0].content[logs[0].content.length - 1]",
       "variableName": "log"
     },
     {

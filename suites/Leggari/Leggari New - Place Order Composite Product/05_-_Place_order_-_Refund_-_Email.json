@@ -24,11 +24,21 @@
   "startUrl": "",
   "steps": [
     {
-      "command": "open",
+      "command": "pause",
       "condition": null,
       "optional": false,
       "private": false,
       "sequence": 0,
+      "target": "",
+      "value": "15000",
+      "variableName": ""
+    },
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
       "target": "",
       "value": "https://email.ghostinspector.com/{{userEmailExtract}}",
       "variableName": ""
@@ -38,7 +48,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 1,
+      "sequence": 2,
       "target": "//a[contains(text(), \"has been refunded\")]"
     },
     {
@@ -46,7 +56,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 2,
+      "sequence": 3,
       "target": "tr:nth-of-type(5) > td.td > .woocommerce-Price-amount.amount",
       "value": "-{{total}}",
       "variableName": ""
@@ -56,7 +66,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 3,
+      "sequence": 4,
       "target": [
         {
           "selector": "tfoot > tr > td.td > del"
@@ -73,7 +83,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 4,
+      "sequence": 5,
       "target": [
         {
           "selector": "tfoot > tr > td.td > ins > .woocommerce-Price-amount.amount"
