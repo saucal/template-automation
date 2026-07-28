@@ -250,7 +250,17 @@
       "optional": false,
       "private": false,
       "sequence": 21,
-      "target": "li.note.system-note:nth-of-type(2) > .note_content > p",
+      "target": [
+        {
+          "selector": "li.note.system-note:nth-of-type(2) > .note_content p"
+        },
+        {
+          "selector": "li.note.system-note:nth-of-type(3) > .note_content p"
+        },
+        {
+          "selector": "li.note.system-note:nth-of-type(4) > .note_content p"
+        }
+      ],
       "value": "Authorize.Net Credit Card Void in the amount of {{total}} approved. (Transaction ID",
       "variableName": ""
     }

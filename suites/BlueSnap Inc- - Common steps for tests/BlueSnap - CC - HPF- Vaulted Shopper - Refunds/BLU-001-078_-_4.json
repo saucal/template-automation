@@ -133,11 +133,31 @@
       "value": ""
     },
     {
-      "command": "click",
+      "command": "execute",
       "condition": null,
       "optional": false,
       "private": false,
       "sequence": 10,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
       "target": [
         {
           "selector": "a[href*=\"/cart\"]"
@@ -156,7 +176,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 11,
+      "sequence": 13,
       "target": "",
       "value": "65cb6688d76b6bca5f578635",
       "variableName": ""
@@ -166,7 +186,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 12,
+      "sequence": 14,
       "target": "",
       "value": "{{startUrl}}cart/?r=4",
       "variableName": ""
@@ -176,7 +196,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 13,
+      "sequence": 15,
       "target": "",
       "value": "6022b6b2d2fb38677e5d8a9a",
       "variableName": ""
@@ -188,7 +208,7 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 14,
+      "sequence": 16,
       "target": "",
       "value": "let element1 = document.querySelector(\"#woocommerce-bluesnap-multicurrency-js\")\nlet element2 = document.querySelector(\"#woocommerce-bluesnap-payment-request-js\")\nlet element3 = document.querySelector(\"#woocommerce-bluesnap-gateway-general-js\")\nlet element4 = document.querySelector(\"#woocommerce-bluesnap-gateway-general-css\")\n\n\nreturn element1 === null && element2 !== null && element3 === null && element4 !== null\n",
       "variableName": ""
@@ -200,7 +220,7 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 15,
+      "sequence": 17,
       "target": "",
       "value": "let element1 = document.querySelector(\"#woocommerce-bluesnap-multicurrency-js\")\nlet element2 = document.querySelector(\"#woocommerce-bluesnap-payment-request-js\")\nlet element3 = document.querySelector(\"#woocommerce-bluesnap-gateway-general-js\")\nlet element4 = document.querySelector(\"#woocommerce-bluesnap-gateway-general-css\")\n\n\nreturn element1 === null && element2 !== null && element3 !== null && element4 !== null\n",
       "variableName": ""
@@ -210,7 +230,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 16,
+      "sequence": 18,
       "target": "a[href*=\"/checkout\"]",
       "value": ""
     },
@@ -219,7 +239,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 17,
+      "sequence": 19,
       "target": "",
       "value": "65cb6688d76b6bca5f578635",
       "variableName": ""
@@ -229,7 +249,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 18,
+      "sequence": 20,
       "target": "",
       "value": "{{startUrl}}checkout/?r=4",
       "variableName": ""
@@ -239,7 +259,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 19,
+      "sequence": 21,
       "target": "",
       "value": "6022b6b2d2fb38677e5d8a9a",
       "variableName": ""
@@ -251,7 +271,7 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 20,
+      "sequence": 22,
       "target": "",
       "value": "let element1 = document.querySelector(\"#woocommerce-bluesnap-multicurrency-js\")\nlet element2 = document.querySelector(\"#woocommerce-bluesnap-payment-request-js\")\nlet element3 = document.querySelector(\"#woocommerce-bluesnap-gateway-general-js\")\nlet element4 = document.querySelector(\"#woocommerce-bluesnap-gateway-general-css\")\n\n\nreturn element1 === null && element2 !== null && element3 !== null && element4 !== null\n",
       "variableName": ""
@@ -263,7 +283,7 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 21,
+      "sequence": 23,
       "target": "",
       "value": "let element1 = document.querySelector(\"#woocommerce-bluesnap-multicurrency-js\")\nlet element2 = document.querySelector(\"#woocommerce-bluesnap-payment-request-js\")\nlet element3 = document.querySelector(\"#woocommerce-bluesnap-gateway-general-js\")\nlet element4 = document.querySelector(\"#woocommerce-bluesnap-gateway-general-css\")\n\n\nreturn element1 === null && element2 !== null && element3 !== null && element4 !== null\n",
       "variableName": ""
@@ -273,7 +293,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 22,
+      "sequence": 24,
       "target": "",
       "value": "64b69ae4e62b31988df8a6da",
       "variableName": ""

@@ -131,13 +131,15 @@
       "optional": false,
       "private": false,
       "sequence": 10,
-      "target": "#order_summary_field > div > table > tbody > tr > td.product-total > div > span > span.woocommerce-Price-amount.amount > bdi",
+      "target": "#order_summary_field > div > table > tbody > tr > td.product-total > div span.woocommerce-Price-amount.amount > bdi",
       "value": "",
       "variableName": "totalPrice"
     },
     {
       "command": "assertTextPresent",
-      "condition": null,
+      "condition": {
+        "statement": "return false"
+      },
       "optional": false,
       "private": false,
       "sequence": 11,
@@ -311,7 +313,7 @@
       "private": false,
       "sequence": 28,
       "target": "",
-      "value": "return new Promise(function(resolve, reject) {\n  var selector = '.bwf-inner-col > h2.bwf-adv-heading.bwf-width-default';\n  var timeout = 30000;\n\n  if (document.querySelector(selector)) {\n    resolve(true);\n    return;\n  }\n\n  var timer = setTimeout(function() {\n    observer.disconnect();\n    resolve(false);\n  }, timeout);\n\n  var observer = new MutationObserver(function() {\n    if (document.querySelector(selector)) {\n      clearTimeout(timer);\n      observer.disconnect();\n      resolve(true);\n    }\n  });\n\n  var target = document.body || document.documentElement;\n  observer.observe(target, {\n    childList: true,\n    subtree: true,\n    attributes: true\n  });\n})",
+      "value": "return new Promise(function(resolve, reject) {\n  var selector = '.bwf-inner-col > h2.bwf-adv-heading.bwf-width-default, .woofunnels-container';\n  var timeout = 30000;\n\n  if (document.querySelector(selector)) {\n    resolve(true);\n    return;\n  }\n\n  var timer = setTimeout(function() {\n    observer.disconnect();\n    resolve(false);\n  }, timeout);\n\n  var observer = new MutationObserver(function() {\n    if (document.querySelector(selector)) {\n      clearTimeout(timer);\n      observer.disconnect();\n      resolve(true);\n    }\n  });\n\n  var target = document.body || document.documentElement;\n  observer.observe(target, {\n    childList: true,\n    subtree: true,\n    attributes: true\n  });\n})",
       "variableName": "upsellFlow"
     },
     {

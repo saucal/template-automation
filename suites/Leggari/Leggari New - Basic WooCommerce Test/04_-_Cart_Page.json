@@ -289,7 +289,17 @@
       "optional": false,
       "private": false,
       "sequence": 25,
-      "target": "dd.variation-VaporBarrier",
+      "target": [
+        {
+          "selector": "dd.variation-VaporBarrier"
+        },
+        {
+          "selector": "dd.variation-VaporBarrier3gal"
+        },
+        {
+          "selector": "dd.variation-VaporBarrier15gal"
+        }
+      ],
       "value": "{{vapor}}"
     },
     {

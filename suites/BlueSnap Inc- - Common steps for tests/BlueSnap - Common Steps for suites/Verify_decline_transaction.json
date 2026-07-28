@@ -21,7 +21,7 @@
   "region": null,
   "screenshotCompareEnabled": null,
   "screenshotCompareThreshold": 0.1,
-  "startUrl": null,
+  "startUrl": "",
   "steps": [
     {
       "command": "assertEval",
@@ -46,27 +46,25 @@
     {
       "command": "assertEval",
       "condition": {
-        "statement": "let pay = \"{{pay}}\"\n\nreturn pay === \"now\"",
-        "result": false
+        "statement": "let pay = \"{{pay}}\"\n\nreturn pay === \"now\""
       },
       "optional": false,
       "private": false,
       "sequence": 2,
       "target": "",
-      "value": "const logs = {{logs}}\nreturn logs[1].content.message[0].description === \"Transaction creation could not be completed because of transaction processing failure: DECLINE - Default BlueSnapTestProcessor [DECLINE] message\"",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.message[0].description === \"Transaction creation could not be completed because of transaction processing failure: DECLINE - Default BlueSnapTestProcessor [DECLINE] message\"\n||\nlogs[1].content.message[0].description === \"Transaction creation could not be completed because of transaction processing failure: GENERAL_PAYMENT_PROCESSING_ERROR - Default BlueSnapTestProcessor [GENERAL_PAYMENT_PROCESSING_ERROR] message\"",
       "variableName": ""
     },
     {
       "command": "assertEval",
       "condition": {
-        "statement": "let pay = \"{{pay}}\"\n\nreturn pay === \"later\"",
-        "result": false
+        "statement": "let pay = \"{{pay}}\"\n\nreturn pay === \"later\""
       },
       "optional": false,
       "private": false,
       "sequence": 3,
       "target": "",
-      "value": "const logs = {{logs}}\nreturn logs[1].content.message[0].description === \"Transaction failed  because of payment processing failure.: DECLINE - Default BlueSnapTestProcessor [DECLINE] message\"",
+      "value": "const logs = {{logs}}\nreturn logs[1].content.message[0].description === \"Transaction failed  because of payment processing failure.: DECLINE - Default BlueSnapTestProcessor [DECLINE] message\"\n||\nlogs[1].content.message[0].description === \"Transaction failed  because of payment processing failure.: GENERAL_PAYMENT_PROCESSING_ERROR - Default BlueSnapTestProcessor [GENERAL_PAYMENT_PROCESSING_ERROR] message\"",
       "variableName": ""
     }
   ],

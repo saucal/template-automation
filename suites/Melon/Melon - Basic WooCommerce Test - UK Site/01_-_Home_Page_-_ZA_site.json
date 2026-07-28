@@ -24,11 +24,22 @@
   "startUrl": "",
   "steps": [
     {
+      "command": "exit",
+      "condition": null,
+      "notes": "WIP - ZA site disabled",
+      "optional": false,
+      "private": false,
+      "sequence": 0,
+      "target": "",
+      "value": "passing",
+      "variableName": ""
+    },
+    {
       "command": "store",
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 0,
+      "sequence": 1,
       "target": "",
       "value": "ZA",
       "variableName": "country"
@@ -38,7 +49,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 1,
+      "sequence": 2,
       "target": "",
       "value": "R",
       "variableName": "Symbol"
@@ -48,7 +59,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 2,
+      "sequence": 3,
       "target": "",
       "value": "ZAR",
       "variableName": "currency"
@@ -58,7 +69,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 3,
+      "sequence": 4,
       "target": "",
       "value": "6022b6b2d2fb38677e5d8a9a",
       "variableName": ""
@@ -68,7 +79,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 4,
+      "sequence": 5,
       "target": "",
       "value": "6290d1fa4b7dbf9dc951f456",
       "variableName": ""
@@ -78,7 +89,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 5,
+      "sequence": 6,
       "target": "",
       "value": "let url = \"{{site}}\"\nreturn url.includes(\"{{url}}za/\")",
       "variableName": ""
@@ -88,7 +99,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 6,
+      "sequence": 7,
       "target": "",
       "value": "6324d91773b124ed89a041ce",
       "variableName": ""
@@ -98,7 +109,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 7,
+      "sequence": 8,
       "target": "",
       "value": "GBP",
       "variableName": "currency"
@@ -108,7 +119,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 8,
+      "sequence": 9,
       "target": "",
       "value": "£",
       "variableName": "Symbol"
@@ -118,7 +129,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 9,
+      "sequence": 10,
       "target": "",
       "value": "UK",
       "variableName": "country"

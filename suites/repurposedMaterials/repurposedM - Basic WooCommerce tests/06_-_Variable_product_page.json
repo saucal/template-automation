@@ -109,6 +109,9 @@
         },
         {
           "selector": ".product-summary > .price > span > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "div.product-overview > div.product-summary > p > span > span"
         }
       ],
       "value": "",

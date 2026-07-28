@@ -254,7 +254,7 @@
       "private": false,
       "sequence": 21,
       "target": "",
-      "value": "// Function to check for refund ID note in WooCommerce admin notes\nfunction hasRefundNote() {\n    // Select all note content paragraphs\n    const notes = document.querySelectorAll('li.note.system-note > .note_content > p');\n    \n    // Regular expression to match\n    const refundIdPattern = /Refund ID: re_[A-Za-z0-9]+ – Reason: Testing Refund/;\n    \n    // Check each note for the pattern\n    for (const note of notes) {\n        if (refundIdPattern.test(note.textContent.trim())) {\n            return true;\n        }\n    }\n    \n    return false;\n}\n\nreturn hasRefundNote()",
+      "value": "// Function to check for refund ID note in WooCommerce admin notes\nfunction hasRefundNote() {\n    // Select all note content paragraphs\n    const notes = document.querySelectorAll('li.note.system-note > .note_content p');\n    \n    // Regular expression to match\n    const refundIdPattern = /Refund ID: re_[A-Za-z0-9]+ – Reason: Testing Refund/;\n    \n    // Check each note for the pattern\n    for (const note of notes) {\n        if (refundIdPattern.test(note.textContent.trim())) {\n            return true;\n        }\n    }\n    \n    return false;\n}\n\nreturn hasRefundNote()",
       "variableName": ""
     }
   ],
