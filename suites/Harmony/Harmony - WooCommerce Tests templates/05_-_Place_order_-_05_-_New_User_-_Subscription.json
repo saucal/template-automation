@@ -240,18 +240,28 @@
       "optional": false,
       "private": false,
       "sequence": 17,
-      "target": "td.product-price > .subscription-details > .woocommerce-Price-amount.amount > bdi",
+      "target": ".woocommerce-subscriptions-product-details__signup-fee > .woocommerce-Price-amount.amount",
       "value": "{{signUpFee}}",
       "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 18,
+      "target": "tr.cart-subtotal > td > .woocommerce-Price-amount.amount > bdi",
+      "value": "",
+      "variableName": "subtotal"
     },
     {
       "command": "assertText",
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 18,
+      "sequence": 19,
       "target": ".subscription-price > .woocommerce-Price-amount.amount > bdi",
-      "value": "{{unitPrice}}",
+      "value": "{{subtotal}}",
       "variableName": ""
     },
     {
@@ -261,20 +271,17 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 19,
-      "target": ".subscription-price > .subscription-details > .woocommerce-Price-amount.amount > bdi",
+      "sequence": 20,
+      "target": [
+        {
+          "selector": ".subscription-price > .subscription-details > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": ".woocommerce-subscriptions-product-details__signup-fee > .woocommerce-Price-amount.amount"
+        }
+      ],
       "value": "{{signUpFee}}",
       "variableName": ""
-    },
-    {
-      "command": "extract",
-      "condition": null,
-      "optional": false,
-      "private": false,
-      "sequence": 20,
-      "target": "tr.cart-subtotal > td > .woocommerce-Price-amount.amount > bdi",
-      "value": "",
-      "variableName": "subtotal"
     },
     {
       "command": "assertEval",

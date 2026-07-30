@@ -257,10 +257,10 @@
       "sequence": 22,
       "target": [
         {
-          "selector": "#woocommerce-order-notes > div.inside > ul > li:nth-child(5) > div > p"
+          "selector": "#woocommerce-order-notes > div.inside > ul > li:nth-child(7) > div p"
         },
         {
-          "selector": "#woocommerce-order-notes > div.inside > ul > li:nth-child(3) > div > p"
+          "selector": "#woocommerce-order-notes > div.inside > ul > li:nth-child(5) > div p"
         }
       ],
       "value": "",
