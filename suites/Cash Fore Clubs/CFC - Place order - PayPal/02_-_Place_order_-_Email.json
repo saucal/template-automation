@@ -125,7 +125,7 @@
       "private": false,
       "sequence": 10,
       "target": "td:nth-of-type(1) > address.address",
-      "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{street2}}\n{{city}}\n{{county}}\n{{zipCode}}\n{{countryComplete}}\n{{phone}}\n{{payPalUser}}",
+      "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{street2}}\n{{city}}\n{{county}}\n{{zipCode}}\n{{countryComplete}}\n{{phone}}\n{{email}}",
       "variableName": ""
     },
     {
