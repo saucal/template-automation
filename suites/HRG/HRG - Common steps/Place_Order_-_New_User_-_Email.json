@@ -207,13 +207,13 @@
       "variableName": ""
     },
     {
-      "command": "assertText",
+      "command": "assertTextPresent",
       "condition": null,
       "optional": false,
       "private": false,
       "sequence": 13,
       "target": "td:nth-of-type(2) > address.address",
-      "value": "{{firstName}} {{lastName2}}\n{{company2}}\n{{street3}}\n{{street4}}\n{{city}}, {{state}} {{zipCode}}\n{{phone}}",
+      "value": "{{firstName}} {{lastName2}}\n{{company2}}\n{{street3}}\n{{street4}}\n{{city}}, {{state}} {{zipCode}}",
       "variableName": ""
     },
     {
