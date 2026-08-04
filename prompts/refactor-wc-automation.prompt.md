@@ -134,6 +134,11 @@ test('RM-PO-001 – place order', async ({ shopperPage, adminPage, emailPage }) 
 ```
 Without WC REST → drop `suiteVars` plumbing; spec becomes config → flow → assertions.
 
+<a id="one-order-one-test"></a>
+**[MUST] one-order-one-test — ONE order = ONE test, driving shopper + admin + email in the same body.** Don't split a single order across sibling tests ("place order" / "check backend" / "check email") — merge the admin and email assertions into the SAME test that placed the order, using all three fixtures (`shopperPage`, `adminPage`, `emailPage`) together. GI exported them separately because GI had no multi-context fixtures; keeping the split costs real money: the order number must be persisted through chain state ([serial-chains](#serial-chains)), a failure in test 1 leaves tests 2-3 asserting a stale order (or skipping silently), the same admin page loads three times, and the four surfaces of [parity-matrix](#parity-matrix) can no longer be compared against ONE captured value set. One test per order, all four surfaces inside it, one captured `OrderResult` shared by every assertion.
+
+Split into a `describe.serial` chain ONLY when a later step genuinely MUTATES the order — refund / void / renewal / status change. That is new state worth its own test, and it reuses the chain-state order number instead of placing a second order.
+
 <a id="serial-chains"></a>
 **[SHOULD] serial-chains** — `describe.serial` + `auth/chain-<project>-<id>.json` persistence + skip-guard so mid-chain tests run standalone. → **`templates/chain-state.ts`**.
 
@@ -160,6 +165,21 @@ Keep `evaluate()` only when locators genuinely can't express it (complex DOM tra
 - **Per-public-function JSDoc**: one-sentence summary + non-self-evident inputs/outputs (`returns undefined if X — callers treat as 'no value available'`) + side effects (`lands on /checkout/`) + numbered steps for orchestrators.
 - **Inline comments only for non-obvious WHY**: why a wait is needed, why `force: true` is justified, why a particular DOM shape is targeted, why a value is converted (`blocks state field expects ISO short code`). Cross-reference plugin/library when behaviour leaks (`see @woocommerce/e2e-utils-playwright/src/checkout.js`).
 - **Don't comment** restating well-named code, bare TODOs without owner/expiry, decorative banners with no info.
+
+<a id="step-logging"></a>
+**[MUST] step-logging — `console.log` every step as it COMPLETES, carrying the data captured there.** A four-minute order flow that prints nothing is unreviewable: when it fails at minute three the report shows one long opaque step and nobody can tell how far the customer journey actually got. Log at step boundaries, past tense, with the values:
+```typescript
+console.log(`[${config.testId}] product page: "${name}" @ ${price} (variation: ${variation ?? 'n/a'})`);
+console.log(`[${config.testId}] cart: added "${name}" × ${qty} — cart total ${cartTotal}`);
+console.log(`[${config.testId}] checkout totals: subtotal ${subtotal} · discount ${discount} · shipping ${shipping} · tax ${tax} · total ${total}`);
+console.log(`[${config.testId}] order ${orderNumber} placed (postId ${postId}) — asserting thank-you page`);
+console.log(`[${config.testId}] email "${subject}" opened in emailPage — asserting product + totals`);
+console.log(`[${config.testId}] admin order editor loaded — status "${status}", asserting parity`);
+```
+- **Prefix every line with the test id** (region/project too on multi-region suites) so interleaved workers stay readable.
+- **Include what you captured** — product name + price, every total row, order number + postId, email subject, admin status. The log doubles as the evidence trail when a later assertion disagrees, and it makes a missing tax/shipping row ([warn-tax-shipping](#warn-tax-shipping)) visible in context.
+- **Also wrap flow phases in `test.step()`** — that groups the trace and HTML report; `console.log` is what survives into CI stdout. Do both, not either.
+- Keep it to step boundaries: no logging inside loops, per locator call, or before an action (a line printed before a step that then hangs reads as a false success).
 
 <a id="package-json"></a>
 **[MUST] package-json — one `test:<area>` script per top-level spec folder you actually create.** Don't ship scripts pointing at folders that don't exist.
@@ -267,17 +287,25 @@ Blocks library quirks the helpers don't cover:
 <a id="parity-matrix"></a>
 **[MUST] parity-matrix — for EVERY place-order test.** Capture the core facts ONCE during the flow (order-received), then assert the SAME captured values on every surface that renders them — never hardcode, never assert only one surface:
 
-| Surface | Totals (subtotal · shipping · tax · total) | Billing address | Payment method | Gateway order note |
-|---|---|---|---|---|
-| Thank-you (order-received) | ✓ | ✓ | ✓ | — |
-| My Account (view-order) | ✓ | ✓ | ✓ | — |
-| Order email (Mailpit) | ✓ | ✓ | ✓ | — |
-| Admin order editor | ✓ | ✓ | ✓ (`Payment via <Method>` meta) | ✓ (scan-all + regex, [order-notes](#order-notes)) |
+| Surface | Product name + price / line total | Totals (subtotal · discount · shipping · tax · fees · total) | Full address (billing + shipping) | Payment method | Gateway order note |
+|---|---|---|---|---|---|
+| Thank-you (order-received) | ✓ | ✓ | ✓ | ✓ | — |
+| My Account (view-order) | ✓ | ✓ | ✓ | ✓ | — |
+| Order email (**opened** in `emailPage`) | ✓ | ✓ | ✓ | ✓ | — |
+| Admin order editor | ✓ | ✓ | ✓ | ✓ (`Payment via <Method>` meta) | ✓ (scan-all + regex, [order-notes](#order-notes)) |
 
-- **Totals** — share one `expectMoney` that SKIPS rows legitimately absent on a surface (AU inclusive-tax has no Tax row; free shipping has no amount) instead of asserting `$0`/`NaN`. Don't assert a row that doesn't exist on that surface.
-- **Address** — assert the stable parts only (name + street + city + postcode); skip state/country (long vs short form differs per surface). The thank-you assert is sync over the capture, so capture the order-received address block into the Result.
+- **Products** — name + unit price + per-line total on every surface that lists items, per [line-item-parity](#line-item-parity). The grand total masks two line errors that cancel.
+- **Totals** — assert EVERY row individually (subtotal · discount/coupon · shipping · tax · fees · total), not just the grand total, per [cart-checkout-totals](#cart-checkout-totals). Share one `expectMoney` that SKIPS rows legitimately absent on a surface (AU inclusive-tax has no Tax row; free shipping has no amount) instead of asserting `$0`/`NaN` — and warn on a missing/`$0` tax or shipping row rather than shrugging ([warn-tax-shipping](#warn-tax-shipping)). Don't assert a row that doesn't exist on that surface; don't silently drop one that should.
+- **Address** — the FULL block, billing AND shipping, normalized rather than partially skipped: see [full-address](#full-address). The thank-you assert is sync over the capture, so capture the order-received address block into the Result.
+- **Email** — the email is a first-class surface: OPEN it in `emailPage` and assert against the rendered DOM, never against an API extract alone ([email-open-in-page](#email-open-in-page)).
 - **Payment method** — the customer-facing label on thank-you / My Account / email; the `Payment via <Method>` meta line on admin (plus the gateway note, [order-notes](#order-notes) + [refund-void](#refund-void)).
 - A surface that genuinely doesn't render a fact (some themes omit payment method on view-order) is the ONLY reason to drop that cell — record it in the ledger, don't silently skip. Never weaken or × a value to paper over a real bug (see [dont-weaken](#dont-weaken)).
+
+<a id="full-address"></a>
+**[MUST] full-address — assert the WHOLE address block, billing AND shipping.** This SUPERSEDES the older "assert name + street + city + postcode, skip state/country" shortcut. A dropped or wrong state/country line is exactly the checkout regression these suites exist to catch (tax zone, shipping zone, and gateway AVS all key off it), and a partial assert also hides a swapped or silently-mirrored billing/shipping pair. Assert every line the surface renders: first + last name, company (when the flow fills it), `address_1` + `address_2`, city, state, postcode, country, plus phone and email where present.
+- **Normalize the form; never skip the field.** Surfaces disagree on long vs short form (`Florida` vs `FL`, `United States (US)` vs `US`) and on separators/line breaks. Keep both forms on `BillingDetails` (`state`/`shortState`, `country`/`shortCountry` — [classic-vs-blocks-branch](#classic-vs-blocks-branch)) and compare through one `normalizeAddress` that collapses whitespace/commas/`<br>` and accepts either form. Per-surface string drift is a normalization job, not a licence to drop the assertion ([dont-weaken](#dont-weaken)).
+- **Assert both blocks against what checkout SUBMITTED**, not against each other — and where the flow ships to a different address, assert they genuinely DIFFER (a shipping block mirroring billing is a real bug; see the no-pong billing+shipping parity work).
+- **Surfaces that genuinely omit a block** — the auto-logged-in purchaser's thank-you page renders no customer-details block ([blocks-wizard-hydration](#blocks-wizard-hydration)) — are best-effort there, but the block MUST still be asserted on My Account view-order + admin + the opened email. Ledger the omission; don't let a whole surface quietly lose its address check.
 
 <a id="subscriptions-recurring"></a>
 **[MUST] subscriptions-recurring — assert RECURRING totals too.** A subscription order has TWO totals: the FIRST payment (often includes a one-off sign-up fee) AND the per-renewal RECURRING total. Assert BOTH — the recurring total is the whole point of a subscription, so reviewing only the order total misses regressions in renewal pricing.
@@ -384,6 +412,13 @@ await page
 - Login/approve varies screen-to-screen, so drive it with a resilient LOOP (each tick: fill visible email/pass, click first of Next → Log In → the review Pay CTA).
 - The review SUBMIT is `#one-time-cta` (text "Pay"), NOT the "Pay in full" funding tile (`id-pay-in-full-action`, a checkbox that only selects funding).
 - Because it's this fragile, treat PayPal as **optional per region**: keep it on ONE reference region and DROP it from low-value regions (no-pong keeps PayPal on AU, dropped it from US) — pruning a high-maintenance flow is a valid migration decision, not a coverage gap.
+
+<a id="email-open-in-page"></a>
+**[MUST] email-open-in-page — always OPEN the email in `emailPage`; never assert on an API extract alone.** A Mailpit / Playgrounds REST fetch hands you a string; it does NOT prove the email renders. Navigate `emailPage` to the message's web view (Mailpit `/view/<id>`, the Playgrounds message URL) and run the assertions against the rendered DOM. Why it matters: a broken template — unparsed shortcode, missing totals table, empty `<del>`/`<ins>` refund pair, an address block that collapsed — passes a raw-body substring check but is visibly wrong in the page, and the trace/video/screenshot then carries the actual email the customer received.
+- Use the API ONLY to RESOLVE which message to open — poll by subject + recency + non-empty body per [email-mailpit](#email-mailpit) — then hand the id to `emailPage.goto`.
+- Assert the same facts you assert everywhere else in the opened page: product name + line total ([line-item-parity](#line-item-parity)), every total row ([cart-checkout-totals](#cart-checkout-totals)), the full billing + shipping block ([full-address](#full-address)), payment method. The email is a first-class parity surface, not a smoke check.
+- Leave the message open at the end of the flow so a failure screenshot shows it, and log the subject you opened ([step-logging](#step-logging)).
+- Emails run in the SAME test as the order that triggered them ([one-order-one-test](#one-order-one-test)).
 
 <a id="email-playgrounds"></a>
 **[SHOULD] email-playgrounds — email assertions via SAU/CAL Email Redirect To Playgrounds plugin.** Runs through `page.evaluate()` (WPEngine WAF blocks non-browser POSTs to `admin-ajax.php`). Plugin must be active per-subsite, admin user added to each subsite. Filter by site title for parallel safety. → **`templates/playgrounds-email.ts`**. After viewing `mail.playgrounds.saucal.io/...` navigate back to subsite root before next call (different host strips `ajax_object`). **ESP relays lag AND reorder.** When a site sends through a real ESP (SendGrid etc. — tracker-link rewriting, e.g. `url….com/ls/click`) instead of a local trap, delivery is delayed and out-of-order: widen the email poll window (no-pong needed 60s→120s) and never assume `messages[0]` is the one you just triggered — resolve by subject + recency (see [email-mailpit](#email-mailpit), Mailpit newest-first).
@@ -532,13 +567,26 @@ A pass over the WHOLE suite before ship, answering two questions for EVERY order
 <a id="membership-audit"></a>
 **[MUST] membership-audit — WooCommerce Memberships is its OWN coverage, not a subscription alias.** When a purchase grants a membership, assert three facts independently of any subscription: the **plan name**, the **membership status** (`Active`), and the **granted access** (a page / product that was restricted before is now reachable for the buyer). Surfaces: My Account **Memberships** tab, admin (the user's profile / the Memberships editor), and the membership email if the plan sends one. A membership can exist without a subscription and a subscription without a membership — never assert one and assume the other; renewal pricing still rides [subscriptions-recurring](#subscriptions-recurring).
 
+<a id="visual-coverage"></a>
+**[MUST] visual-coverage — the suite SHIPS visual comparisons, and the audit confirms it.** Every migrated suite needs at least one data-driven visual spec (`toHaveScreenshot`) covering the site's load-bearing templates — home, shop/archive, single product, cart, checkout, my-account — plus every page whose GI parent was a screenshot/nav test ([triage-tests](#triage-tests)). "This suite has no visual spec" is a coverage gap to fix or ledger, never a silent default. Confirm: baselines committed per PROJECT (filenames carry the project — [env-as-project](#env-as-project)); the lazy-load and width-flip stabilizers wired in ([visual-lazy-load](#visual-lazy-load), [visual-width-flip](#visual-width-flip)); consent banner pre-seeded so it never lands in a baseline ([cookie-consent](#cookie-consent)); dynamic money/date regions masked so a baseline tracks LAYOUT, not value drift.
+
 **Per-test tickbox** (run for every place-order / subscription / membership spec):
 - [ ] Every GI-parent assertion has a home or a ledgered reason ([gi-parity-audit](#gi-parity-audit)).
-- [ ] Product name + per-line total asserted on thank-you, My Account, email, admin ([line-item-parity](#line-item-parity)).
-- [ ] Every total ROW (subtotal · shipping · tax · discount · fees · total) asserted individually in **cart** AND **checkout**, not just the sum ([cart-checkout-totals](#cart-checkout-totals)).
-- [ ] Post-order totals / billing + shipping address / payment method captured once, asserted on all four surfaces ([parity-matrix](#parity-matrix)).
+- [ ] ONE test drives shopper + admin + email for that order — no split sibling tests ([one-order-one-test](#one-order-one-test)).
+- [ ] Product name + unit price + per-line total asserted on thank-you, My Account, opened email, admin ([line-item-parity](#line-item-parity)).
+- [ ] Every total ROW (subtotal · discount · shipping · tax · fees · total) asserted individually in **cart** AND **checkout** ([cart-checkout-totals](#cart-checkout-totals)) **and** on all four post-order surfaces ([parity-matrix](#parity-matrix)) — not just the sum.
+- [ ] Tax present, or a warn emitted when missing/`$0`; shipping present, or a warn when missing/`$0` (`Free` is fine) ([warn-tax-shipping](#warn-tax-shipping)).
+- [ ] FULL billing + shipping address asserted (every line, normalized) on every surface that renders it ([full-address](#full-address)).
+- [ ] Order email OPENED in `emailPage` and asserted against the rendered DOM, not an API extract ([email-open-in-page](#email-open-in-page)).
+- [ ] Payment method asserted customer-side + `Payment via <Method>` admin meta ([parity-matrix](#parity-matrix)).
 - [ ] Subscription: first + recurring totals and both addresses on every surface ([subscription-audit](#subscription-audit)).
 - [ ] Membership: plan + status + granted access on My Account / admin / email ([membership-audit](#membership-audit)).
+- [ ] Step-completion `console.log` lines cover the whole journey ([step-logging](#step-logging)).
+
+**Per-suite tickbox** (run once before handoff):
+- [ ] Visual specs exist for the load-bearing templates, baselines committed per project ([visual-coverage](#visual-coverage)).
+- [ ] Every `test.describe` carries `@plugin` tags ([coverage-tags](#coverage-tags)).
+- [ ] Every deliberate omission is written down in the ledger, with its reason.
 
 ---
 
@@ -556,8 +604,14 @@ Before emitting the suite, verify each — these are the lint gates the referenc
 - **`force: true` audited** — none on real buttons/links/inputs ([force-audit](#force-audit)).
 - **Every generated `expect()` is preserved** (reorganised, never removed).
 - **GI parity accounted** — every source GI assertion maps to a kept `expect()` or a ledgered omission ([gi-parity-audit](#gi-parity-audit)).
-- **Line items asserted** — product name + per-line total on every surface that lists them ([line-item-parity](#line-item-parity)).
+- **Line items asserted** — product name + unit price + per-line total on every surface that lists them ([line-item-parity](#line-item-parity)).
 - **Every total row asserted individually** in cart + checkout + post-order surfaces, not only the grand total ([cart-checkout-totals](#cart-checkout-totals)).
+- **Tax + shipping warned, not shrugged** — missing or `$0` emits `console.warn` (`Free` exempt) ([warn-tax-shipping](#warn-tax-shipping)).
+- **Full billing + shipping address asserted**, normalized, on every surface that renders it ([full-address](#full-address)).
+- **Order email OPENED in `emailPage`** — no assertion rides on an API extract alone ([email-open-in-page](#email-open-in-page)).
+- **One order = one test** driving shopper + admin + email; serial chains only for order-mutating steps ([one-order-one-test](#one-order-one-test)).
+- **Visual specs present** with per-project baselines committed ([visual-coverage](#visual-coverage)).
+- **Step-completion `console.log`** on every flow phase, carrying the captured values ([step-logging](#step-logging)).
 - **Subscription + membership coverage complete** — first/recurring totals + addresses ([subscription-audit](#subscription-audit)); plan/status/access ([membership-audit](#membership-audit)).
 - **`test:<area>` scripts point only at folders that exist** ([package-json](#package-json)).
 - **`npm run typecheck` (`tsc --noEmit`) passes.**
@@ -590,9 +644,20 @@ Do NOT generate the `README.md` here — it is a post-approval step (see [Handof
 
 `template-automation` is the BUILD home, not the final home. Once the user has APPROVED the working suite (specs reviewed / passing live), do these — each gated on explicit user approval, in order:
 
-1. **Write the suite `README.md`** (in the suite root) — only now, not during initial generation, so it documents the settled shape. Cover: the environments/projects and how to select them, setup (`npm install`, `setup:browsers`, the `.env` keys incl. the per-environment base URLs), run commands (per environment, per feature area, single spec, `--ui`, `show-report`, `typecheck`), the `specs/`/`helpers/` layout, and the site's load-bearing gotchas. Keep it practical and runnable.
+1. **Run the pre-handoff verification pass — VERIFY in the code, don't assume.** The suite being green is not evidence that it covers what it should; green with a missing assertion looks identical to green with it. For each item below, grep/read the actual specs + helpers and report per test: **asserted** / **missing** / **ledgered omission with reason**. Anything missing gets fixed (or ledgered with the user's agreement) BEFORE the README and the repo move.
+   - [ ] **Product name + price** asserted on all four surfaces — thank-you, My Account view-order, admin order editor, opened email ([line-item-parity](#line-item-parity)).
+   - [ ] **Subtotal, discount, shipping, tax, fees, total** each asserted individually on all four surfaces AND in cart + checkout ([cart-checkout-totals](#cart-checkout-totals), [parity-matrix](#parity-matrix)) — a grand-total-only check is a fail here.
+   - [ ] **Tax may legitimately be absent, but never silently** — missing or `$0` emits a `console.warn`; same for shipping, with `Free` exempt ([warn-tax-shipping](#warn-tax-shipping)).
+   - [ ] **Every order email is OPENED in `emailPage`** and asserted against the rendered DOM, not just extracted over the API ([email-open-in-page](#email-open-in-page)).
+   - [ ] **Full billing + shipping address**, every line, normalized ([full-address](#full-address)).
+   - [ ] **One order = one test** — admin and email assertions merged into the placing test, not split siblings ([one-order-one-test](#one-order-one-test)).
+   - [ ] **Visual comparisons exist** for the load-bearing templates, baselines committed per project ([visual-coverage](#visual-coverage)).
+   - [ ] **Step-completion `console.log`** lines trace the whole journey in CI stdout ([step-logging](#step-logging)).
+   - [ ] The [Coverage self-audit](#coverage-self-audit) tickboxes and the [Definition of done](#definition-of-done) lint gates both pass.
 
-2. **Move the executable suite into the project's OWN repo** (the site's codebase, e.g. `saucal/<project>`). **Ask the user for — or confirm — the project's main repo and local clone path** first. Then:
+2. **Write the suite `README.md`** (in the suite root) — only now, not during initial generation, so it documents the settled shape. Cover: the environments/projects and how to select them, setup (`npm install`, `setup:browsers`, the `.env` keys incl. the per-environment base URLs), run commands (per environment, per feature area, single spec, `--ui`, `show-report`, `typecheck`), the `specs/`/`helpers/` layout, and the site's load-bearing gotchas. Keep it practical and runnable.
+
+3. **Move the executable suite into the project's OWN repo** (the site's codebase, e.g. `saucal/<project>`). **Ask the user for — or confirm — the project's main repo and local clone path** first. Then:
    - Create a dedicated branch off the repo's mainline — **`main` or `production` (confirm which)** — e.g. `playwright` / `migration/playwright`.
    - Copy ONLY the runnable Playwright project into a **`tests/`** folder (or the repo's existing test dir): `specs/`, `helpers/`, `fixtures/`, `types/`, `playwright.config.ts`, `tsconfig.json`, `package.json` (+ lockfile), `README.md`, `.env.example`, the auth setup (`global-setup.ts` / `admin-login.ts`). Executables + config only.
    - **EXCLUDE everything not needed to run:** `node_modules/`, `generated/`, the raw GI JSON export folders, `auth/` / `reports/` / `test-results/`, the real `.env` (ship **`.env.example` only** — never secrets), visual `*-snapshots/` (re-seeded per machine), and **`docs/`** and any other non-executable build notes (site-exploration inventories stay in the `template-automation` build record, not the shipped suite). A clean copy: `rsync -a --exclude` the above.
@@ -612,3 +677,7 @@ Do NOT generate the `README.md` here — it is a post-approval step (see [Handof
 - Don't leave `Record<string, string>` vars bags.
 - Don't weaken assertions to hide a real bug ([dont-weaken](#dont-weaken)).
 - Don't `page.goto()` to cart/checkout ([nav-via-clicks](#nav-via-clicks)).
+- Don't assert an email from an API extract without opening it ([email-open-in-page](#email-open-in-page)).
+- Don't split one order across "place" / "backend" / "email" tests ([one-order-one-test](#one-order-one-test)).
+- Don't assert only the grand total, or only a partial address ([cart-checkout-totals](#cart-checkout-totals), [full-address](#full-address)).
+- Don't run a silent flow — every step logs on completion ([step-logging](#step-logging)).
