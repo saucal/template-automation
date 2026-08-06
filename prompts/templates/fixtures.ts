@@ -32,7 +32,13 @@ import fs from 'fs';
 import { ADMIN_STATE } from '../global-setup';
 import { registerAiTier } from '../helpers/resilient';
 
-const DEFAULT_VIEWPORT = { width: 1920, height: 1080 };
+/**
+ * Playwright's OWN default, mirrored — not a choice this file makes.
+ * It only applies when a project sets no viewport and spreads no device, and it
+ * exists because a Stagehand-launched browser would otherwise fall back to
+ * Stagehand's 1288x711 instead. Set the real viewport in the project's `use`.
+ */
+const PLAYWRIGHT_DEFAULT_VIEWPORT = { width: 1280, height: 720 };
 
 /**
  * Consent cookies, pre-seeded so the banner never renders.
@@ -71,9 +77,11 @@ const CONSENT_COOKIES = (url: string) => {
  * newContext was told, and page.viewportSize() still reports the value we asked
  * for, so the mismatch is INVISIBLE from the test side (it silently recorded a
  * whole suite of visual baselines at the wrong size). It has to be handed to
- * Stagehand's own launch options. Declare viewport ONCE, in the project's `use`
- * (after the devices spread, which carries its own 1280x720), and let the
- * browser launch, the context and the video size all derive from this read.
+ * Stagehand's own launch options. The viewport is declared in exactly ONE place
+ * — the project's `use`, normally just the `devices[...]` spread's own value —
+ * and the browser launch, every context and the video size all derive from this
+ * single read. To change it, add `viewport` to the project entry after the
+ * spread; never hardcode a size here or at a call site.
  */
 function launchSettings({ project }: WorkerInfo | TestInfo): {
   headless: boolean;
@@ -91,7 +99,7 @@ function launchSettings({ project }: WorkerInfo | TestInfo): {
     headless: headless !== false,
     slowMo,
     launch,
-    viewport: viewport ?? DEFAULT_VIEWPORT,
+    viewport: viewport ?? PLAYWRIGHT_DEFAULT_VIEWPORT,
   };
 }
 

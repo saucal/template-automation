@@ -36,14 +36,10 @@ export default defineConfig({
     ignoreHTTPSErrors: true,
   },
   globalSetup: './global-setup.ts',
-  // viewport is declared HERE, inside the project — a top-level `use.viewport`
-  // is clobbered by the devices spread, which carries its own 1280x720. The
-  // fixture reads this one value and feeds it to the browser launch, every
-  // context and the video size, so there is exactly one viewport in the suite.
-  projects: [
-    {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'], viewport: { width: 1920, height: 1080 } },
-    },
-  ],
+  // The viewport comes from the device (Desktop Chrome = 1280x720) and the
+  // fixture reads that one value for the browser launch, every context and the
+  // video size. To change it, add `viewport` to THIS project entry, after the
+  // spread — nowhere else. A top-level `use.viewport` does not work: the device
+  // spread lands in the project's own `use` and clobbers it.
+  projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
 });
