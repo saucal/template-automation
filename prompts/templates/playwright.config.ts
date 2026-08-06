@@ -19,18 +19,31 @@ export default defineConfig({
     baseURL: process.env.BASE_URL,
     actionTimeout: 15_000,
     trace: 'on',
-    screenshot: 'on',
+    // 'off' on purpose: the fixture owns the failure shot and names it per
+    // context. The runner instruments the shared browserType, so its built-in
+    // screenshot DOES fire on manually-created contexts and duplicates ours.
+    screenshot: 'off',
     video: {
       mode: 'on',
-      size: { width: 1280, height: 720 },
       show: {
         actions: { duration: 500, position: 'top-right', fontSize: 14 },
         test: { level: 'step', position: 'bottom', fontSize: 12 },
       },
     },
+    // slowMo lives here, not in a bespoke env var. On the Stagehand path the
+    // fixture moves it onto connectOverCDP, since Stagehand owns the launch.
     launchOptions: { slowMo: 250 },
     ignoreHTTPSErrors: true,
   },
   globalSetup: './global-setup.ts',
-  projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
+  // viewport is declared HERE, inside the project — a top-level `use.viewport`
+  // is clobbered by the devices spread, which carries its own 1280x720. The
+  // fixture reads this one value and feeds it to the browser launch, every
+  // context and the video size, so there is exactly one viewport in the suite.
+  projects: [
+    {
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'], viewport: { width: 1920, height: 1080 } },
+    },
+  ],
 });
