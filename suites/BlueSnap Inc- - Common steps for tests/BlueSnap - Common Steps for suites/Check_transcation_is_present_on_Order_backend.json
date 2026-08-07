@@ -171,7 +171,14 @@
       "optional": false,
       "private": false,
       "sequence": 12,
-      "target": "li.note.system-note:nth-of-type(2) > .note_content > p",
+      "target": [
+        {
+          "selector": "li.note.system-note:nth-of-type(4) > .note_content p"
+        },
+        {
+          "selector": "li.note.system-note:nth-of-type(2) > .note_content p"
+        }
+      ],
       "value": "Bluesnap transaction complete (Transaction ID: {{transaction_id}})",
       "variableName": ""
     },
@@ -195,7 +202,14 @@
       "optional": false,
       "private": false,
       "sequence": 14,
-      "target": "li.note.system-note:nth-of-type(2) > .note_content > p",
+      "target": [
+        {
+          "selector": "li.note.system-note:nth-of-type(4) > .note_content p"
+        },
+        {
+          "selector": "li.note.system-note:nth-of-type(2) > .note_content p"
+        }
+      ],
       "value": "Bluesnap transaction complete (Transaction ID: {{transaction_id}})",
       "variableName": ""
     },
@@ -207,7 +221,14 @@
       "optional": false,
       "private": false,
       "sequence": 15,
-      "target": "li.note.system-note:nth-of-type(5) > .note_content > p",
+      "target": [
+        {
+          "selector": "li.note.system-note:nth-of-type(7) > .note_content p"
+        },
+        {
+          "selector": "li.note.system-note:nth-of-type(5) > .note_content p"
+        }
+      ],
       "value": "Bluesnap transaction complete (Transaction ID: {{transaction_id}})",
       "variableName": ""
     },
