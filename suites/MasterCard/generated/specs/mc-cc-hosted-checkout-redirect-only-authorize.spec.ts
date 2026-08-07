@@ -163,7 +163,7 @@ test.describe('MC - CC - Hosted Checkout - Redirect - Only Authorize', () => {
     await getUsers(page, vars);
     await createOrderForUserByAPI(page, vars);
     await page.locator(`.woocommerce-MyAccount-navigation-link > a[href*="/my-account/orders/"]`).filter({ visible: true }).first().click({ force: true });
-    await page.locator(`a[href*="/checkout-2/order-pay/${vars.orderNumber ?? ''}/?pay_for_order=true&key"]`).or(page.locator(`a[href*="/checkout/order-pay/${vars.orderNumber ?? ''}/?pay_for_order=true&key"]`)).filter({ visible: true }).first().click({ force: true });
+    await page.locator(`a[href*="/checkout-2/order-pay/${vars.orderNumber ?? ''}/?pay_for_order=true&key"]`).or(page.locator(`a[href*="/checkout/order-pay/${vars.orderNumber ?? ''}/?pay_for_order=true&key"]`)).or(page.locator(`a[href*="/order-pay/${vars.orderNumber ?? ''}/?pay_for_order=true&key"]`)).filter({ visible: true }).first().click({ force: true });
     await extractDate(page, vars);
     vars.sessionDate = `${vars.payDate ?? ''}`;
     await placeOrder(page, vars);

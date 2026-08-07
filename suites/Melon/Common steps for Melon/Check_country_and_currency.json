@@ -29,7 +29,7 @@
       "command": "assertTextPresent",
       "condition": null,
       "notes": "not in use, UI changed",
-      "optional": false,
+      "optional": true,
       "private": false,
       "sequence": 0,
       "target": [
@@ -37,7 +37,7 @@
           "selector": "#.header-html2 > .header-html-inner > select[id=\"mo-country-dropdown\"]"
         },
         {
-          "selector": "select[id=\"mo-country-dropdown\"]:nth-of-type(1)"
+          "selector": ".kadence-desktop-menu-section select[id=\"mo-country-dropdown\"]:nth-of-type(1)"
         }
       ],
       "value": "{{country}}",

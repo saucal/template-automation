@@ -81,7 +81,7 @@ const unitPriceComplete = firstProductTop.textContent
 return unitPriceComplete }, vars);
     await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); const firstProductTop = Array.from<any>(document.querySelectorAll(
   "ul.products > li.product-type-subscription.instock, ul.products > li.product-type-variable-subscription.instock"
-))[2];
+))[3];
 
 const firstLink = firstProductTop.querySelector("a");
 
@@ -875,7 +875,7 @@ return shipping !== null }, vars)) {
     expect(await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); // Function to check for refund ID note in WooCommerce admin notes
 function hasRefundNote() {
     // Select all note content paragraphs
-    const notes = Array.from<any>(document.querySelectorAll('li.note.system-note > .note_content > p'));
+    const notes = Array.from<any>(document.querySelectorAll('li.note.system-note > .note_content p'));
     
     // Regular expression to match
     const refundIdPattern = /Refund ID: re_[A-Za-z0-9]+ – Reason: Testing Refund/;
@@ -897,7 +897,7 @@ return hasRefundNote() }, vars)).toBeTruthy();
     await page.goto(`/`);
     await page.waitForLoadState('load');
 
-    await page.waitForTimeout(60000);
+    await page.waitForTimeout(180000);
     vars.userEmailExtract = `${vars.userEmail1Extract ?? ''}`;
     await page.goto(`https://email.ghostinspector.com/${vars.userEmailExtract ?? ''}`);
     await page.waitForLoadState('load');

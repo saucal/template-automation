@@ -251,7 +251,7 @@ test.describe('Pur Crystal - Basic WooCommerce Tests - Guest', () => {
     await page.locator(`a[href="/crystals-minerals/"] > .jet-mega-menu-item__title > .jet-mega-menu-item__label`).filter({ visible: true }).first().click({ force: true });
     await page.waitForLoadState('load');
     // ↑ end 02 - Crystals Minerals page
-    await page.locator(`a[href*="/crystals-minerals/featured-in-minerals-crystals-for-times-of-stress-course/"] > img.entered.lazyloaded`).filter({ visible: true }).first().click({ force: true });
+    await page.locator(`a[href*="/crystals-minerals"] > img`).filter({ visible: true }).first().click({ force: true });
   });
 
 });

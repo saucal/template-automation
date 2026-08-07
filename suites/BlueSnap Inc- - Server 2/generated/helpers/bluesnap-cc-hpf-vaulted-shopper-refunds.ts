@@ -179,7 +179,7 @@ export async function bLU001003(page: Page, vars: Record<string, string> = {}): 
     if (await _lbl.count() > 0) { await _lbl.first().click(); }
     else { await page.locator(`xpath=//*[contains(text(), "Place order")]`).or(page.locator(`#place_order`)).or(page.locator(`xpath=//*[contains(text(), "Place Order")]`)).filter({ visible: true }).first().click({ force: true }); }
   }
-  await expect(page.locator(`.woocommerce-error`).or(page.locator(`div.wc-block-store-notice.wc-block-components-notice-banner.is-error.is-dismissible > div > div`)).first()).toContainText(`Please enter the CVV/CVC of your card`);
+  await expect(page.locator(`.woocommerce-error`).or(page.locator(`div.wc-block-store-notice.wc-block-components-notice-banner.is-error > div > div`)).first()).toContainText(`Please enter the CVV/CVC of your card`);
   await expect(page.locator(`iframe#bluesnap-hosted-iframe-cvv #cvv.invalid`)).not.toHaveCount(0);
   await expect(page.locator(`div#bluesnap-card-cvc.bluesnap-input-div.input-div-error`).or(page.locator(`div#bluesnap-card-cvc.input-div-error`))).not.toHaveCount(0);
 }
@@ -216,7 +216,7 @@ export async function bLU001004(page: Page, vars: Record<string, string> = {}): 
     if (await _lbl.count() > 0) { await _lbl.first().click(); }
     else { await page.locator(`xpath=//*[contains(text(), "Place order")]`).or(page.locator(`#place_order`)).or(page.locator(`xpath=//*[contains(text(), "Place Order")]`)).filter({ visible: true }).first().click({ force: true }); }
   }
-  await expect(page.locator(`.woocommerce-error`).or(page.locator(`div.wc-block-store-notice.wc-block-components-notice-banner.is-error.is-dismissible > div > div`)).first()).toContainText(`Please enter your credit card's expiration date`);
+  await expect(page.locator(`.woocommerce-error`).or(page.locator(`div.wc-block-store-notice.wc-block-components-notice-banner.is-error > div > div`)).first()).toContainText(`Please enter your credit card's expiration date`);
   await expect(page.locator(`div#bluesnap-card-expiry.bluesnap-input-div.input-div-error`).or(page.locator(`div#bluesnap-card-expiry.input-div-error`))).not.toHaveCount(0);
   await expect(page.locator(`iframe#bluesnap-hosted-iframe-exp #exp.invalid`)).not.toHaveCount(0);
 }
@@ -251,7 +251,7 @@ export async function bLU001005(page: Page, vars: Record<string, string> = {}): 
     if (await _lbl.count() > 0) { await _lbl.first().click(); }
     else { await page.locator(`xpath=//*[contains(text(), "Place order")]`).or(page.locator(`#place_order`)).or(page.locator(`xpath=//*[contains(text(), "Place Order")]`)).filter({ visible: true }).first().click({ force: true }); }
   }
-  await expect(page.locator(`.woocommerce-error`).or(page.locator(`div.wc-block-store-notice.wc-block-components-notice-banner.is-error.is-dismissible > div > div`)).first()).toContainText(`Please enter a valid credit card number`);
+  await expect(page.locator(`.woocommerce-error`).or(page.locator(`div.wc-block-store-notice.wc-block-components-notice-banner.is-error > div > div`)).first()).toContainText(`Please enter a valid credit card number`);
   await expect(page.locator(`div#bluesnap-card-number.bluesnap-input-div.input-div-error`).or(page.locator(`div#bluesnap-card-number.input-div-error`))).not.toHaveCount(0);
   await expect(page.locator(`iframe#bluesnap-hosted-iframe-ccn #ccn.invalid`)).not.toHaveCount(0);
 }
@@ -1310,6 +1310,8 @@ let element4 = document.querySelector("#woocommerce-bluesnap-gateway-general-css
 return element1 === null && element2 === null && element3 === null && element4 === null
  }, vars)).toBeTruthy();
   await page.locator(`a[href*="?add-to-cart="]`).or(page.locator(`xpath=//a[contains(text(),'Add to cart')]`)).filter({ visible: true }).first().click({ force: true });
+  await blockUI(page, vars);
+  await page.waitForLoadState('load');
   await page.locator(`a[href*="/cart"]`).or(page.locator(`xpath=//a[contains(text(),'View cart')]`)).or(page.locator(`xpath=//a[contains(text(),'Cart')]`)).filter({ visible: true }).first().click({ force: true });
   await clearCache(page, vars);
   await page.goto(`${vars.startUrl ?? ''}cart/?r=1`);
@@ -1388,6 +1390,8 @@ return element1 !== null && element2 === null && element3 === null && element4 !
  }, vars)).toBeTruthy();
   }
   await page.locator(`a[href*="?add-to-cart="]`).or(page.locator(`xpath=//a[contains(text(),'Add to cart')]`)).filter({ visible: true }).first().click({ force: true });
+  await blockUI(page, vars);
+  await page.waitForLoadState('load');
   await page.locator(`a[href*="/cart"]`).or(page.locator(`xpath=//a[contains(text(),'View cart')]`)).or(page.locator(`xpath=//a[contains(text(),'Cart')]`)).filter({ visible: true }).first().click({ force: true });
   await clearCache(page, vars);
   await page.goto(`${vars.startUrl ?? ''}cart/?r=2`);
@@ -1474,6 +1478,8 @@ return element1 === null && element2 !== null && element3 === null && element4 !
  }, vars)).toBeTruthy();
   }
   await page.locator(`a[href*="?add-to-cart="]`).or(page.locator(`xpath=//a[contains(text(),'Add to cart')]`)).filter({ visible: true }).first().click({ force: true });
+  await blockUI(page, vars);
+  await page.waitForLoadState('load');
   await page.locator(`a[href*="/cart"]`).or(page.locator(`xpath=//a[contains(text(),'View cart')]`)).or(page.locator(`xpath=//a[contains(text(),'Cart')]`)).filter({ visible: true }).first().click({ force: true });
   await clearCache(page, vars);
   await page.goto(`${vars.startUrl ?? ''}cart/?r=3`);
@@ -1588,6 +1594,8 @@ return element1 === null && element2 !== null && element3 === null && element4 !
  }, vars)).toBeTruthy();
   }
   await page.locator(`a[href*="?add-to-cart="]`).or(page.locator(`xpath=//a[contains(text(),'Add to cart')]`)).filter({ visible: true }).first().click({ force: true });
+  await blockUI(page, vars);
+  await page.waitForLoadState('load');
   await page.locator(`a[href*="/cart"]`).or(page.locator(`xpath=//a[contains(text(),'View cart')]`)).or(page.locator(`xpath=//a[contains(text(),'Cart')]`)).filter({ visible: true }).first().click({ force: true });
   await clearCache(page, vars);
   await page.goto(`${vars.startUrl ?? ''}cart/?r=4`);

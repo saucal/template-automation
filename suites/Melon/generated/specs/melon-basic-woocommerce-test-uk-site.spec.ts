@@ -139,6 +139,7 @@ return url === `${vars.url}us/` }, vars)).toBeTruthy();
     await page.goto(`/`);
     await page.waitForLoadState('load');
 
+    // TODO: command="exit" target="" value="passing"
     vars.country = `ZA`;
     vars.Symbol = `R`;
     vars.currency = `ZAR`;
@@ -1073,7 +1074,7 @@ total = Intl.NumberFormat('en-IN', { style: 'currency', currency: `${vars.curren
 return total; }, vars);
     await expect(page.locator(`#wfacp_mini_cart_reviews_64378bb3 > tbody > tr.order-total > td > strong > span`).first()).toHaveText(`${vars.Total ?? ''}`);
     if (false) {
-      vars.taxPriceSmall = ((await page.locator(`.wfacp_mini_cart_reviews > tbody > tr.order-total > td > small > span`).textContent()) ?? '').trim();
+      vars.taxPriceSmall = ((await page.locator(`.wfacp_mini_cart_reviews > tbody > tr.order-total > td > small > span`).or(page.locator(`.wfacp_mini_cart_reviews > tfoot > tr.order-total > td > small > span`)).textContent()) ?? '').trim();
     }
   });
 
@@ -1419,7 +1420,7 @@ total = Intl.NumberFormat('en-IN', { style: 'currency', currency: `${vars.curren
 return total; }, vars);
     await expect(page.locator(`#wfacp_mini_cart_reviews_64378bb3 > tbody > tr.order-total > td > strong > span`).first()).toHaveText(`${vars.Total ?? ''}`);
     if (false) {
-      vars.taxPriceSmall = ((await page.locator(`.wfacp_mini_cart_reviews > tbody > tr.order-total > td > small > span`).textContent()) ?? '').trim();
+      vars.taxPriceSmall = ((await page.locator(`.wfacp_mini_cart_reviews > tbody > tr.order-total > td > small > span`).or(page.locator(`.wfacp_mini_cart_reviews > tfoot > tr.order-total > td > small > span`)).textContent()) ?? '').trim();
     }
     // ↑ end 05 - Checkout page
     try { await page.locator(`iframe[src*="js.stripe.com"]`).first().contentFrame().locator(`input[name="number"]`).first().fill(`4242 4242 4242 4242`); } catch { await page.locator(`iframe[src*="js.stripe.com"]`).first().contentFrame().locator(`input[name="number"]`).first().selectOption(`4242 4242 4242 4242`); }
@@ -2116,7 +2117,7 @@ total = Intl.NumberFormat('en-IN', { style: 'currency', currency: `${vars.curren
 return total; }, vars);
     await expect(page.locator(`#wfacp_mini_cart_reviews_64378bb3 > tbody > tr.order-total > td > strong > span`).first()).toHaveText(`${vars.Total ?? ''}`);
     if (false) {
-      vars.taxPriceSmall = ((await page.locator(`.wfacp_mini_cart_reviews > tbody > tr.order-total > td > small > span`).textContent()) ?? '').trim();
+      vars.taxPriceSmall = ((await page.locator(`.wfacp_mini_cart_reviews > tbody > tr.order-total > td > small > span`).or(page.locator(`.wfacp_mini_cart_reviews > tfoot > tr.order-total > td > small > span`)).textContent()) ?? '').trim();
     }
     // ↑ end 05 - Checkout page
     await wooCommerceCheckoutTemplate(page, vars);
@@ -2723,7 +2724,7 @@ total = Intl.NumberFormat('en-IN', { style: 'currency', currency: `${vars.curren
 return total; }, vars);
     await expect(page.locator(`#wfacp_mini_cart_reviews_64378bb3 > tbody > tr.order-total > td > strong > span`).first()).toHaveText(`${vars.Total ?? ''}`);
     if (false) {
-      vars.taxPriceSmall = ((await page.locator(`.wfacp_mini_cart_reviews > tbody > tr.order-total > td > small > span`).textContent()) ?? '').trim();
+      vars.taxPriceSmall = ((await page.locator(`.wfacp_mini_cart_reviews > tbody > tr.order-total > td > small > span`).or(page.locator(`.wfacp_mini_cart_reviews > tfoot > tr.order-total > td > small > span`)).textContent()) ?? '').trim();
     }
     // ↑ end 05 - Checkout page
     try {

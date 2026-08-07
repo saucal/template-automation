@@ -94,6 +94,15 @@ export async function bLU002036Step2AdminCompletePreorder(page: Page, vars: Reco
   await loginAdmin(page, vars);
   await completePreOrderWithAdmin(page, vars);
   await page.locator(`a[href="edit.php?post_type=shop_order"]`).or(page.locator(`a[href="admin.php?page=wc-orders"]`)).filter({ visible: true }).first().click({ force: true });
+  await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); const selector = 'a[href="edit.php?post_type=shop_order"], a[href="admin.php?page=wc-orders"]';
+  const el = document.querySelector(selector);
+  
+  if (el) {
+    el.click();
+    console.log('✅ Clicked:', el.href);
+  } else {
+    console.warn('⚠️ Element not found:', selector);
+  } }, vars);
   vars.status = `Pending payment`;
   await expect(page.locator(`tr#post-${vars.orderNumber ?? ''} mark.order-status > span`).or(page.locator(`tr#order-${vars.orderNumber ?? ''} mark.order-status > span`)).first()).toContainText(`${vars.status ?? ''}`);
 }
@@ -208,6 +217,15 @@ export async function bLU002040Step2AdminCompletePreorder(page: Page, vars: Reco
   await loginAdmin(page, vars);
   await completePreOrderWithAdmin(page, vars);
   await page.locator(`a[href="edit.php?post_type=shop_order"]`).or(page.locator(`a[href="admin.php?page=wc-orders"]`)).filter({ visible: true }).first().click({ force: true });
+  await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); const selector = 'a[href="admin.php?page=wc-orders"], a[href="edit.php?post_type=shop_order"]';
+const el = document.querySelector(selector);
+
+if (el) {
+el.click();
+console.log('✅ Clicked:', el.href);
+} else {
+console.warn('⚠️ Element not found:', selector);
+} }, vars);
   vars.status = `Pending payment`;
   await expect(page.locator(`tr#post-${vars.orderNumber ?? ''} mark.order-status.status-pending > span`).or(page.locator(`tr#order-${vars.orderNumber ?? ''} mark.order-status.status-pending > span`)).first()).toContainText(`${vars.status ?? ''}`);
 }

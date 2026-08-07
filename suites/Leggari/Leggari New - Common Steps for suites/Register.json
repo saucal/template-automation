@@ -208,13 +208,33 @@
       "value": "Your account was created successfully and a password has been sent to your email address."
     },
     {
-      "command": "execute",
+      "command": "pause",
       "condition": null,
       "optional": false,
       "private": false,
       "sequence": 15,
       "target": "",
+      "value": "30000",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "",
       "value": "603d1f20494ea848981cef9b",
+      "variableName": ""
+    },
+    {
+      "command": "pause",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 17,
+      "target": "",
+      "value": "45000",
       "variableName": ""
     },
     {
@@ -222,7 +242,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 16,
+      "sequence": 18,
       "target": "xpath=//a[contains(text(), \"Your Leggari Products account has been created!\")]",
       "value": ""
     },
@@ -232,7 +252,7 @@
       "notes": "adding this step because the test is failing when assigning the password value to the field",
       "optional": false,
       "private": false,
-      "sequence": 17,
+      "sequence": 19,
       "target": "",
       "value": "let link = document.querySelector('#body_content_inner > p:nth-child(3) > a').getAttribute('href');\nreturn link",
       "variableName": "link"
@@ -242,7 +262,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 18,
+      "sequence": 20,
       "target": "",
       "value": "window.location.href = document.querySelector('#body_content_inner > p:nth-child(3) > a').getAttribute('href');",
       "variableName": ""
@@ -252,7 +272,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 19,
+      "sequence": 21,
       "target": "",
       "value": "return new Promise((resolve, reject) => {\n    (document.readyState) || reject(\"Can't resolve document readystate\");\n    let listener;\n    (/^c/).test(document.readyState) ? resolve(true) : document.addEventListener(\"load\", listener = event => {\n      document.removeEventListener(\"load\", listener);\n      resolve(true);\n    });\n})",
       "variableName": ""
@@ -262,7 +282,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 20,
+      "sequence": 22,
       "target": "#password_1",
       "value": "{{password}}",
       "variableName": ""
@@ -272,7 +292,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 21,
+      "sequence": 23,
       "target": "#password_2",
       "value": "{{password}}",
       "variableName": ""
@@ -282,7 +302,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 22,
+      "sequence": 24,
       "target": [
         {
           "selector": "xpath=//button[contains(text(), \"Save\")]"
@@ -301,7 +321,7 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 23,
+      "sequence": 25,
       "target": ".woocommerce-MyAccount-navigation-link.woocommerce-MyAccount-navigation-link--customer-logout > a",
       "value": ""
     },
@@ -312,7 +332,7 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 24,
+      "sequence": 26,
       "target": ".woocommerce-message",
       "value": "Your password has been reset successfully."
     }

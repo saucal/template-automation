@@ -248,10 +248,12 @@ test.describe('The Sewing M.S. - Basic WooCommerce Tests', () => {
     await expect(page.locator(`.woocommerce-message`).first()).toContainText(`${vars.prod_desc ?? ''}`);
     await page.locator(`xpath=//a[contains(text(),'View cart')]`).or(page.locator(`#fl-main-content > div > div > div > div.woocommerce-notices-wrapper > div > a`)).filter({ visible: true }).first().click({ force: true });
     if (vars.product === 'simple' || vars.product === '') {
-      await expect(page.locator(`td.product-name > a[href*="/product/"]`).first()).toHaveText(`${vars.prod_desc ?? ''}`);
+      expect(await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); const n = s => s.replace(/[\u2033\u201C\u201D]/g,'"').replace(/[\u2032\u2018\u2019]/g,"'").replace(/\s+/g,' ').trim();
+return n(document.querySelector<HTMLAnchorElement>('td.product-name > a[href*="/product/"]').innerText) === n(`${vars.prod_desc}`); }, vars)).toBeTruthy();
     }
     if (vars.product === 'variable') {
-      await expect(page.locator(`td.product-name > a[href*="/product/"]`).first()).toHaveText(`${vars.prod_desc ?? ''} - ${vars.color ?? ''}`);
+      expect(await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); const n = s => s.replace(/[\u2033\u201C\u201D]/g,'"').replace(/[\u2032\u2018\u2019]/g,"'").replace(/\s+/g,' ').trim();
+return n(document.querySelector<HTMLAnchorElement>('td.product-name > a[href*="/product/"]').innerText) === n(`${vars.prod_desc} - ${vars.color}`); }, vars)).toBeTruthy();
     }
     await expect(page.locator(`td.product-price > .woocommerce-Price-amount.amount > bdi`).first()).toHaveText(`${vars.unitPrice ?? ''}`);
     await expect(page.locator(`td.product-subtotal > .woocommerce-Price-amount.amount > bdi`).first()).toHaveText(`${vars.unitPrice ?? ''}`);
@@ -310,10 +312,12 @@ test.describe('The Sewing M.S. - Basic WooCommerce Tests', () => {
     await expect(page.locator(`.woocommerce-message`).first()).toContainText(`${vars.prod_desc ?? ''}`);
     await page.locator(`xpath=//a[contains(text(),'View cart')]`).or(page.locator(`#fl-main-content > div > div > div > div.woocommerce-notices-wrapper > div > a`)).filter({ visible: true }).first().click({ force: true });
     if (vars.product === 'simple' || vars.product === '') {
-      await expect(page.locator(`td.product-name > a[href*="/product/"]`).first()).toHaveText(`${vars.prod_desc ?? ''}`);
+      expect(await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); const n = s => s.replace(/[\u2033\u201C\u201D]/g,'"').replace(/[\u2032\u2018\u2019]/g,"'").replace(/\s+/g,' ').trim();
+return n(document.querySelector<HTMLAnchorElement>('td.product-name > a[href*="/product/"]').innerText) === n(`${vars.prod_desc}`); }, vars)).toBeTruthy();
     }
     if (vars.product === 'variable') {
-      await expect(page.locator(`td.product-name > a[href*="/product/"]`).first()).toHaveText(`${vars.prod_desc ?? ''} - ${vars.color ?? ''}`);
+      expect(await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); const n = s => s.replace(/[\u2033\u201C\u201D]/g,'"').replace(/[\u2032\u2018\u2019]/g,"'").replace(/\s+/g,' ').trim();
+return n(document.querySelector<HTMLAnchorElement>('td.product-name > a[href*="/product/"]').innerText) === n(`${vars.prod_desc} - ${vars.color}`); }, vars)).toBeTruthy();
     }
     await expect(page.locator(`td.product-price > .woocommerce-Price-amount.amount > bdi`).first()).toHaveText(`${vars.unitPrice ?? ''}`);
     await expect(page.locator(`td.product-subtotal > .woocommerce-Price-amount.amount > bdi`).first()).toHaveText(`${vars.unitPrice ?? ''}`);
@@ -325,10 +329,14 @@ test.describe('The Sewing M.S. - Basic WooCommerce Tests', () => {
     // ↑ end 11 - Cart page
     await page.locator(`xpath=//a[contains(text(), "Proceed to checkout")]`).or(page.locator(`a[href*="/checkout/"].checkout-button`)).filter({ visible: true }).first().click({ force: true });
     if (vars.product === 'simple' || vars.product === '') {
-      await expect(page.locator(`td.product-name`).first()).toContainText(`${vars.prod_desc ?? ''}`);
+      expect(await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); const n = s => s.replace(/[\u2033\u201C\u201D]/g,'"').replace(/[\u2032\u2018\u2019]/g,"'").replace(/\s+/g,' ').trim();
+const el = document.querySelector<HTMLTableCellElement>('td.product-name');
+return !!el && n(el.innerText).includes(n(`${vars.prod_desc}`)); }, vars)).toBeTruthy();
     }
     if (vars.product === 'variable') {
-      await expect(page.locator(`td.product-name`).first()).toContainText(`${vars.prod_desc ?? ''} - ${vars.color ?? ''}`);
+      expect(await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); const n = s => s.replace(/[\u2033\u201C\u201D]/g,'"').replace(/[\u2032\u2018\u2019]/g,"'").replace(/\s+/g,' ').trim();
+const el = document.querySelector<HTMLTableCellElement>('td.product-name');
+return !!el && n(el.innerText).includes(n(`${vars.prod_desc} - ${vars.color}`)); }, vars)).toBeTruthy();
     }
     await expect(page.locator(`td.product-total > .woocommerce-Price-amount.amount > bdi`).first()).toHaveText(`${vars.unitPrice ?? ''}`);
     await expect(page.locator(`tr.cart-subtotal > td > .woocommerce-Price-amount.amount > bdi`).first()).toHaveText(`${vars.subtotal ?? ''}`);

@@ -209,7 +209,7 @@ if (siteTitle != "Cart • No Pong"){
       await page.locator(`#masthead > div > div > ul > li > a`).or(page.locator(`#masthead div > ul > li > a.cart-contents`)).filter({ visible: true }).first().click({ force: true });
     }
     await expect(page.locator(`td.product-price > .woocommerce-Price-amount.amount > bdi`).first()).toHaveText(`${vars.unitPrice ?? ''}`);
-    vars.qty = `2`;
+    vars.qty = `1`;
     try { await page.locator(`input[title="Qty"]`).or(page.locator(`input.input-text.qty.text`)).first().fill(`${vars.qty ?? ''}`); } catch { await page.locator(`input[title="Qty"]`).or(page.locator(`input.input-text.qty.text`)).first().selectOption(`${vars.qty ?? ''}`); }
     await page.locator(`td.product-subtotal > .woocommerce-Price-amount.amount > bdi`).filter({ visible: true }).first().click({ force: true });
     await blockUI(page, vars);
@@ -309,7 +309,7 @@ if (siteTitle != "Cart • No Pong"){
       await page.locator(`#masthead > div > div > ul > li > a`).or(page.locator(`#masthead div > ul > li > a.cart-contents`)).filter({ visible: true }).first().click({ force: true });
     }
     await expect(page.locator(`td.product-price > .woocommerce-Price-amount.amount > bdi`).first()).toHaveText(`${vars.unitPrice ?? ''}`);
-    vars.qty = `2`;
+    vars.qty = `1`;
     try { await page.locator(`input[title="Qty"]`).or(page.locator(`input.input-text.qty.text`)).first().fill(`${vars.qty ?? ''}`); } catch { await page.locator(`input[title="Qty"]`).or(page.locator(`input.input-text.qty.text`)).first().selectOption(`${vars.qty ?? ''}`); }
     await page.locator(`td.product-subtotal > .woocommerce-Price-amount.amount > bdi`).filter({ visible: true }).first().click({ force: true });
     await blockUI(page, vars);
@@ -436,10 +436,10 @@ if (siteTitle != "Cart • No Pong"){
 } }, vars)) {
       await page.locator(`#masthead > div ul > li > a.cart-contents`).filter({ visible: true }).first().click({ force: true });
     }
-    await expect(page.locator(`h1.entry-title > em`).first()).toContainText(`Cart`);
+    await expect(page.locator(`h1.entry-title > em`).or(page.locator(`#h-cart`)).first()).toContainText(`Cart`);
     vars.qty = `2`;
     try { await page.locator(`input[aria-label="Product quantity"]`).first().fill(`${vars.qty ?? ''}`); } catch { await page.locator(`input[aria-label="Product quantity"]`).first().selectOption(`${vars.qty ?? ''}`); }
-    await page.locator(`.subscription-price > .subscription-details`).filter({ visible: true }).first().click({ force: true });
+    await page.locator(`.subscription-price > .subscription-details`).or(page.locator(`.product-price > .subscription-details`)).filter({ visible: true }).first().click({ force: true });
     await blockUI(page, vars);
     await page.reload();
     await page.waitForLoadState('load');
@@ -579,6 +579,7 @@ return subProdPrice === subProdPrice2
     vars.username = `${vars.emailForgot ?? ''}`;
     vars.pass = `${vars.password ?? ''}`;
     await register(page, vars);
+    await page.waitForTimeout(45000);
     await page.locator(`xpath=//a[contains(text(), "Logout")]`).or(page.locator(`li.woocommerce-MyAccount-navigation-link.woocommerce-MyAccount-navigation-link--customer-logout > a`)).filter({ visible: true }).first().click({ force: true });
     await page.locator(`li > a[href*="/my-account/"]`).filter({ visible: true }).first().click({ force: true });
     await expect(page.locator(`form.woocommerce-form.woocommerce-form-login.login`)).not.toHaveCount(0);
@@ -806,7 +807,7 @@ if (siteTitle != "Cart • No Pong"){
     await page.waitForLoadState('load');
 
     await page.locator(`ul > li.menu-item.menu-item-type-post_type.menu-item-object-page > a[href*="/products/"]`).filter({ visible: true }).first().click({ force: true });
-    await page.locator(`a[href*="?add-to-cart=616"]`).filter({ visible: true }).first().click({ force: true });
+    await page.locator(`a[href*="?add-to-cart=692678"]`).filter({ visible: true }).first().click({ force: true });
     if (await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); const siteTitle = document.title;
 if (siteTitle != "Cart • No Pong"){
     return true;

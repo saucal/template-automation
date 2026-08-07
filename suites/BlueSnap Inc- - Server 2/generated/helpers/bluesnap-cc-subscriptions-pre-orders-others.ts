@@ -1329,6 +1329,11 @@ export async function bLU001080(page: Page, vars: Record<string, string> = {}): 
   await getBlueSnapVersion(page, vars);
   vars.payment = `cc`;
   await addSimpleProductToCart(page, vars);
+  {
+    const _lbl = page.locator(`label[for="payment_method_bluesnap"]`).filter({ visible: true });
+    if (await _lbl.count() > 0) { await _lbl.first().click(); }
+    else { await page.locator(`#payment_method_bluesnap`).or(page.locator(`#radio-control-wc-payment-method-options-bluesnap__label > span`)).filter({ visible: true }).first().click({ force: true }); }
+  }
   if ((() => { let _3dsSetting = vars['3dsSetting'];
 let BlueSnapVs = vars.BlueSnapVs;
 BlueSnapVs = BlueSnapVs.split('.');
@@ -1481,6 +1486,9 @@ export async function bLU001082ASCART1056(page: Page, vars: Record<string, strin
 
 // GI: "BLU-001-082 B - SCART-1056 Admin side" (69049f8f1a085ce44e20034f)
 export async function bLU001082BSCART1056AdminSide(page: Page, vars: Record<string, string> = {}): Promise<void> {
+  if (vars.block) {
+    // TODO: command="exit" target="" value="passing"
+  }
   await loginAdmin(page, vars);
   await page.goto(`${vars.adminUrl ?? ''}`);
   await page.waitForLoadState('load');

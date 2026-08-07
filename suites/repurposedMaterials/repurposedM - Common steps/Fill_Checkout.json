@@ -349,11 +349,23 @@
       "variableName": ""
     },
     {
+      "command": "assign",
+      "condition": {
+        "statement": "return '{{logged}}' !== 'yes'"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 27,
+      "target": "#shipping_phone",
+      "value": "{{phone}}",
+      "variableName": ""
+    },
+    {
       "command": "execute",
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 27,
+      "sequence": 28,
       "target": "",
       "value": "6022b74a262f437a9af8d9a3",
       "variableName": ""
@@ -363,7 +375,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 28,
+      "sequence": 29,
       "target": "#order_comments",
       "value": "Order Note for Testing this field",
       "variableName": ""
@@ -373,7 +385,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 29,
+      "sequence": 30,
       "target": "#purchase_repurposing",
       "value": "Test using"
     },
@@ -382,7 +394,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 30,
+      "sequence": 31,
       "target": "#select2-how_did_you_hear_about_us-container"
     },
     {
@@ -390,7 +402,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 31,
+      "sequence": 32,
       "target": "//li[contains(text(), \"Google\")]"
     },
     {
@@ -398,7 +410,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 32,
+      "sequence": 33,
       "target": "td.product-name",
       "value": "{{prod_desc}}",
       "variableName": ""
@@ -410,7 +422,7 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 33,
+      "sequence": 34,
       "target": "",
       "value": "6982043cf70f37399aea80e3",
       "variableName": ""
@@ -420,7 +432,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 34,
+      "sequence": 35,
       "target": "td.product-total > span.woocommerce-Price-amount.amount > bdi",
       "value": "{{subtotal}}",
       "variableName": ""
@@ -431,7 +443,7 @@
       "notes": "",
       "optional": false,
       "private": false,
-      "sequence": 35,
+      "sequence": 36,
       "target": [
         {
           "selector": "tr.cart-subtotal > td > .woocommerce-Price-amount.amount > bdi"
@@ -448,7 +460,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 36,
+      "sequence": 37,
       "target": "#shipping_method_0_local_pickup14",
       "value": "",
       "variableName": ""
@@ -458,7 +470,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 37,
+      "sequence": 38,
       "target": "",
       "value": "const label = document.querySelector('#shipping_method > li:last-child > label');\nconst div = label.querySelector('div');\ndiv.remove();\nconst text = label.textContent.trim();\n\nreturn text",
       "variableName": "shippingPrice"
@@ -468,7 +480,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 38,
+      "sequence": 39,
       "target": "tr.fee > td > .woocommerce-Price-amount.amount > bdi",
       "value": "",
       "variableName": "fee"
@@ -478,7 +490,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 39,
+      "sequence": 40,
       "target": "tr.tax-total > td > .woocommerce-Price-amount.amount > bdi",
       "value": "",
       "variableName": "taxPrice"
@@ -488,7 +500,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 40,
+      "sequence": 41,
       "target": "strong > .woocommerce-Price-amount.amount > bdi",
       "value": "",
       "variableName": "total"
@@ -498,7 +510,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 41,
+      "sequence": 42,
       "target": "",
       "value": "6981fdcef70f37399ae928da",
       "variableName": ""
@@ -511,7 +523,7 @@
       "notes": "",
       "optional": false,
       "private": false,
-      "sequence": 42,
+      "sequence": 43,
       "target": [
         {
           "selector": "#terms"

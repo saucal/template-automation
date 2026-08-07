@@ -1,11 +1,9 @@
 {
   "autoRetry": null,
   "browser": null,
-  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
   "dataSource": null,
   "disableVisuals": null,
   "disallowInsecureCertificates": null,
-  "extensionVersion": "7.0.3",
   "failOnJavaScriptError": null,
   "filters": [],
   "finalDelay": null,
@@ -17,7 +15,7 @@
   "maxAjaxDelay": null,
   "maxConcurrentDataRows": null,
   "maxWaitDelay": null,
-  "name": "17 - Course Page",
+  "name": "04 - Home Page",
   "notifications": null,
   "publicStatusEnabled": false,
   "region": null,
@@ -46,12 +44,14 @@
       "variableName": ""
     },
     {
-      "command": "click",
+      "command": "assertEval",
       "condition": null,
       "optional": false,
       "private": false,
       "sequence": 2,
-      "target": "#os-open-menu"
+      "target": "",
+      "value": "return window.location.href === \"{{startUrl}}dashboard/\"",
+      "variableName": ""
     },
     {
       "command": "open",
@@ -60,40 +60,17 @@
       "private": false,
       "sequence": 3,
       "target": "",
-      "value": "{{startUrl}}courses",
+      "value": "{{startUrl}}",
       "variableName": ""
     },
     {
-      "command": "click",
+      "command": "assertEval",
       "condition": null,
       "optional": false,
       "private": false,
       "sequence": 4,
-      "target": "a[href*=\"/piano/\"].os-instruments-grid__instrument"
-    },
-    {
-      "command": "click",
-      "condition": null,
-      "optional": false,
-      "private": false,
-      "sequence": 5,
-      "target": [
-        {
-          "selector": "a[href*=\"/courses/jazz-piano-jump-start/\"] > img.attachment-woocommerce_single.size-woocommerce_single"
-        },
-        {
-          "selector": "#post-1233989 > h3 > a"
-        }
-      ]
-    },
-    {
-      "command": "assertElementNotPresent",
-      "condition": null,
-      "optional": false,
-      "private": false,
-      "sequence": 6,
-      "target": "a[href*=\"/join/\"]",
-      "value": "",
+      "target": "",
+      "value": "return window.location.href === \"{{startUrl}}dashboard/\"",
       "variableName": ""
     }
   ],
@@ -101,8 +78,8 @@
   "testFrequencyAdvanced": [],
   "viewportSize": null,
   "_gi": {
-    "testId": "663cbc7289e87fd839fddf04",
+    "testId": "663cbc7289e87fd839fddef6",
     "suiteId": "663a65cd1aac3ea14fc69327",
-    "suiteName": "Open Studio - Basic WooCommerce Tests - Member"
+    "suiteName": "Open Studio - Basic WooCommerce Tests - Member - don't use"
   }
 }

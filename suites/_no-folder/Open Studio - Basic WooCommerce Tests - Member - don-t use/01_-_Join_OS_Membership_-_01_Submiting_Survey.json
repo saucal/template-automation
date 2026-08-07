@@ -174,7 +174,41 @@
           "selector": "#order_summary_field > div > table > tfoot > tr.order-total.recurring-total > td"
         }
       ],
-      "value": "{{totalPrice}}\n/ year\nNext renewal:{{nextPayment}}",
+      "value": "{{totalPrice}}",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": [
+        {
+          "selector": "#order_review > div.os-checkout-order-review > table > tfoot > tr.order-total.recurring-total > td"
+        },
+        {
+          "selector": "#order_summary_field > div > table > tfoot > tr.order-total.recurring-total > td"
+        }
+      ],
+      "value": "/ year",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": [
+        {
+          "selector": "#order_review > div.os-checkout-order-review > table > tfoot > tr.order-total.recurring-total > td"
+        },
+        {
+          "selector": "#order_summary_field > div > table > tfoot > tr.order-total.recurring-total > td"
+        }
+      ],
+      "value": "Next renewal:{{nextPayment}}",
       "variableName": ""
     },
     {
@@ -182,7 +216,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 13,
+      "sequence": 15,
       "target": "input[checked='checked']#os-sub-variant-17",
       "value": "",
       "variableName": ""
@@ -192,7 +226,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 14,
+      "sequence": 16,
       "target": "input#os-sub-variant-16[checked=\"checked\"]",
       "value": "",
       "variableName": ""
@@ -202,7 +236,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 15,
+      "sequence": 17,
       "target": "",
       "value": "693057d7638b729792060e14",
       "variableName": ""
@@ -212,7 +246,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 16,
+      "sequence": 18,
       "target": "#billing_email",
       "value": "{{email}}",
       "variableName": ""
@@ -222,7 +256,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 17,
+      "sequence": 19,
       "target": "#account_password",
       "value": "fric",
       "variableName": ""
@@ -232,7 +266,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 18,
+      "sequence": 20,
       "target": "small.woocommerce-password-hint",
       "value": "",
       "variableName": ""
@@ -242,7 +276,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 19,
+      "sequence": 21,
       "target": "#account_password",
       "value": "",
       "variableName": ""
@@ -252,7 +286,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 20,
+      "sequence": 22,
       "target": "#account_password",
       "value": "{{password}}",
       "variableName": ""
@@ -262,7 +296,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 21,
+      "sequence": 23,
       "target": "small.woocommerce-password-hint",
       "value": "",
       "variableName": ""
@@ -272,28 +306,8 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 22,
-      "target": "#account_password_confirm",
-      "value": "",
-      "variableName": ""
-    },
-    {
-      "command": "click",
-      "condition": null,
-      "optional": false,
-      "private": false,
-      "sequence": 23,
-      "target": "#account_password_field > span button.show-password-input",
-      "value": "",
-      "variableName": ""
-    },
-    {
-      "command": "assertElementPresent",
-      "condition": null,
-      "optional": false,
-      "private": false,
       "sequence": 24,
-      "target": "#account_password_field > span button.show-password-input.display-password",
+      "target": "#account_password_confirm",
       "value": "",
       "variableName": ""
     },
@@ -308,7 +322,7 @@
       "variableName": ""
     },
     {
-      "command": "assertElementNotPresent",
+      "command": "assertElementPresent",
       "condition": null,
       "optional": false,
       "private": false,
@@ -318,11 +332,31 @@
       "variableName": ""
     },
     {
-      "command": "assign",
+      "command": "click",
       "condition": null,
       "optional": false,
       "private": false,
       "sequence": 27,
+      "target": "#account_password_field > span button.show-password-input",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assertElementNotPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 28,
+      "target": "#account_password_field > span button.show-password-input.display-password",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 29,
       "target": "#billing_first_name",
       "value": "{{firstName}}",
       "variableName": ""
@@ -332,7 +366,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 28,
+      "sequence": 30,
       "target": "#billing_last_name",
       "value": "{{lastName}}",
       "variableName": ""
@@ -342,7 +376,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 29,
+      "sequence": 31,
       "target": "",
       "value": "62753765c5f501e7105625b8",
       "variableName": ""
@@ -352,27 +386,27 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 30,
-      "target": "",
-      "value": "6022b74a262f437a9af8d9a3",
-      "variableName": ""
-    },
-    {
-      "command": "execute",
-      "condition": null,
-      "optional": false,
-      "private": false,
-      "sequence": 31,
-      "target": "",
-      "value": "6022b74a262f437a9af8d9a3",
-      "variableName": ""
-    },
-    {
-      "command": "execute",
-      "condition": null,
-      "optional": false,
-      "private": false,
       "sequence": 32,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 33,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 34,
       "target": "",
       "value": "6022b6b2d2fb38677e5d8a9a",
       "variableName": ""
@@ -382,9 +416,26 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 33,
-      "target": ".order > strong",
+      "sequence": 35,
+      "target": [
+        {
+          "selector": ".order > strong"
+        },
+        {
+          "selector": "article > div > div > div > div > div > div > p:nth-of-type(1)"
+        }
+      ],
       "value": "",
+      "variableName": "orderNumber"
+    },
+    {
+      "command": "extractEval",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 36,
+      "target": "",
+      "value": "let orderNumber = \"{{orderNumber}}\"\norderNumber = orderNumber.match(/[0-9]+/g)\nreturn orderNumber[0]",
       "variableName": "orderNumber"
     },
     {
@@ -392,17 +443,26 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 34,
-      "target": ".email > strong",
+      "sequence": 37,
+      "target": [
+        {
+          "selector": ".email > strong"
+        },
+        {
+          "selector": "article > div > div > div > div > div > div > p > strong"
+        }
+      ],
       "value": "{{email}}",
       "variableName": ""
     },
     {
       "command": "assertText",
-      "condition": null,
+      "condition": {
+        "statement": "return false"
+      },
       "optional": false,
       "private": false,
-      "sequence": 35,
+      "sequence": 38,
       "target": "strong > .woocommerce-Price-amount.amount > bdi",
       "value": "$0.00",
       "variableName": ""
@@ -412,7 +472,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 36,
+      "sequence": 39,
       "target": "",
       "value": "663cb98d1aac3ea14f22a85d",
       "variableName": ""
@@ -423,8 +483,15 @@
       "notes": "Open Studio - {{freq}}ly",
       "optional": false,
       "private": false,
-      "sequence": 37,
-      "target": "a[href*=\"/product/open-studio/?attribute_frequency=Annually\"]",
+      "sequence": 40,
+      "target": [
+        {
+          "selector": "div.wfty_p_name > a[href*=\"/product/open-studio/?attribute_frequency=Annually\"]"
+        },
+        {
+          "selector": "a[href*=\"/product/open-studio/?attribute_frequency=Annually\"]"
+        }
+      ],
       "value": "Open Studio - Annually"
     },
     {
@@ -435,7 +502,7 @@
       "notes": "{{freq}}ly",
       "optional": false,
       "private": false,
-      "sequence": 38,
+      "sequence": 41,
       "target": "li > p",
       "value": "Annually"
     },
@@ -444,8 +511,15 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 39,
-      "target": "td.woocommerce-table__product-total > .woocommerce-Price-amount.amount > bdi",
+      "sequence": 42,
+      "target": [
+        {
+          "selector": "td.woocommerce-table__product-total > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "div.wfty_order_details > div > div > div > span.woocommerce-Price-amount.amount"
+        }
+      ],
       "value": "$0.00",
       "variableName": ""
     },
@@ -454,7 +528,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 40,
+      "sequence": 43,
       "target": "tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount",
       "value": "$0.00",
       "variableName": ""
@@ -464,7 +538,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 41,
+      "sequence": 44,
       "target": "tr:nth-of-type(2) > td > .woocommerce-Price-amount.amount",
       "value": "$0.00",
       "variableName": ""
@@ -474,7 +548,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 42,
+      "sequence": 45,
       "target": "td.subscription-id > a[href*=\"/my-account/view-subscription/\"]",
       "value": "",
       "variableName": "subID"
@@ -484,7 +558,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 43,
+      "sequence": 46,
       "target": "",
       "value": "let subID = \"{{subID}}\"\nsubID = subID.match(/[0-9]+/g)\nreturn subID[0]",
       "variableName": "subID"
@@ -494,8 +568,15 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 44,
-      "target": "td.subscription-status",
+      "sequence": 47,
+      "target": [
+        {
+          "selector": "td.subscription-status"
+        },
+        {
+          "selector": "td.subscription-id > small"
+        }
+      ],
       "value": "Active"
     },
     {
@@ -503,7 +584,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 45,
+      "sequence": 48,
       "target": "td.subscription-next-payment",
       "value": "{{nextPayment}}"
     },
@@ -512,17 +593,19 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 46,
+      "sequence": 49,
       "target": "td.subscription-total",
       "value": "{{totalPrice}} / year",
       "variableName": ""
     },
     {
       "command": "assertText",
-      "condition": null,
+      "condition": {
+        "statement": "return false"
+      },
       "optional": false,
       "private": false,
-      "sequence": 47,
+      "sequence": 50,
       "target": ".woocommerce-customer-details > address",
       "value": "{{firstName}} {{lastName}}\n\n{{email}}",
       "variableName": ""
@@ -532,7 +615,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 48,
+      "sequence": 51,
       "target": "input[type=\"submit\"].button"
     },
     {
@@ -540,7 +623,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 49,
+      "sequence": 52,
       "target": "",
       "value": "6022b6b2d2fb38677e5d8a9a",
       "variableName": ""
@@ -550,7 +633,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 50,
+      "sequence": 53,
       "target": "",
       "value": "return window.location.href === \"{{startUrl}}welcome-to-open-studio/\"",
       "variableName": ""
@@ -560,7 +643,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 51,
+      "sequence": 54,
       "target": "",
       "value": "let courses = document.querySelectorAll('div.os-course')\nlet i = 0\nlet i2 = 0\n\nfor (let course of courses) {\n    let levels = course.querySelectorAll('div.os-course__meta > div > a.os-term-skill.os-term__all-levels, div.os-course__meta > div > a.os-term-skill');\n    for (let level of levels) {\n        if (level.innerText ===  \"All levels\" || level.innerText === \"{{level}}\") {\n            i++\n        } \n    }\n}\n    \n\nfor (let course of courses) {\n    let instruments = course.querySelectorAll('div.os-course__meta > div > a.os-term-instrument');\n    for (let instrument of instruments) {\n        if (instrument.innerText === \"{{instrument}}\") {\n            i2++\n        } \n    }\n}\n\nreturn courses.length === i && courses.length === i2\n    ",
       "variableName": ""
@@ -570,7 +653,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 52,
+      "sequence": 55,
       "target": "a[href*=\"/dashboard/\"].button"
     },
     {
@@ -578,7 +661,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 53,
+      "sequence": 56,
       "target": "",
       "value": "6022b6b2d2fb38677e5d8a9a",
       "variableName": ""
@@ -588,7 +671,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 54,
+      "sequence": 57,
       "target": "",
       "value": "return window.location.href === \"{{startUrl}}dashboard/\"",
       "variableName": ""
@@ -600,7 +683,7 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 55,
+      "sequence": 58,
       "target": ".nav-drop-title-wrap > .kadence-svg-iconset > svg",
       "value": "",
       "variableName": ""
@@ -611,7 +694,7 @@
       "notes": "menu-item menu-account-item menu-item-has-children menu-item--has-toggle\nli.menu-item.menu-item-type-custom.menu-item-object-custom:nth-of-type(1) > a[href*=\"/my-account/\"]",
       "optional": false,
       "private": false,
-      "sequence": 56,
+      "sequence": 59,
       "target": [
         {
           "selector": ".header-navigation .header-menu-container ul ul li.menu-item:nth-of-type(5) > a[href*=\"/my-account/\"]"
@@ -626,7 +709,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 57,
+      "sequence": 60,
       "target": "",
       "value": "6022b6b2d2fb38677e5d8a9a",
       "variableName": ""
@@ -636,7 +719,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 58,
+      "sequence": 61,
       "target": "",
       "value": "var today = new Date();\n\n// Add 14 days to today's date\nvar futureDate = new Date(today);\nfutureDate.setDate(futureDate.getDate() + {{trial}});\n\n// Define month names array\nvar monthNames = [\"January\", \"February\", \"March\", \"April\", \"May\", \"June\",\n  \"July\", \"August\", \"September\", \"October\", \"November\", \"December\"];\n\n// Format the date as \"Month Day, Year\"\nvar formattedDate = monthNames[futureDate.getMonth()] + \" \" + futureDate.getDate() + \" \" + futureDate.getFullYear();\n\n\nreturn formattedDate",
       "variableName": "nextPayment1"
@@ -646,7 +729,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 59,
+      "sequence": 62,
       "target": ".os-my-dashboard__next > span",
       "value": "{{nextPayment1}}"
     },
@@ -655,7 +738,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 60,
+      "sequence": 63,
       "target": ".woocommerce-Price-amount",
       "value": "{{totalPrice}}",
       "variableName": ""
@@ -665,7 +748,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 61,
+      "sequence": 64,
       "target": ".os-my-dashboard__frequency > span",
       "value": "Yearly subscription"
     },
@@ -674,7 +757,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 62,
+      "sequence": 65,
       "target": "a[href*=\"switch-subscription=\"]",
       "value": "Change subscription"
     },
@@ -683,7 +766,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 63,
+      "sequence": 66,
       "target": "a[href*=\"/my-account/view-subscription/{{subID}}/\"].button",
       "value": "Manage subscription"
     },
@@ -692,7 +775,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 64,
+      "sequence": 67,
       "target": ".os-account-membership",
       "value": "YOUR CURRENT PLAN\nOPEN STUDIO",
       "variableName": ""
@@ -702,7 +785,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 65,
+      "sequence": 68,
       "target": "a[href*=\"/my-account/my-profile/\"]"
     },
     {
@@ -710,7 +793,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 66,
+      "sequence": 69,
       "target": "",
       "value": "6022b6b2d2fb38677e5d8a9a",
       "variableName": ""
@@ -720,7 +803,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 67,
+      "sequence": 70,
       "target": "",
       "value": "/*let options = document.querySelectorAll('select#os-survey-instrument > option[selected]');\nlet instrument;\noptions.forEach(option => {\n    if (!option.disabled) {\n        instrument = option.innerText\n    }\n});*/\n\nconst option = document.querySelector('input[name=\"os-survey-instrument\"][checked]').getAttribute('id');\n\nconst instrument = document.querySelector('label[for=\"'+option+'\"]').innerText\n\nreturn instrument === \"{{instrument}}\"",
       "variableName": ""
@@ -730,7 +813,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 68,
+      "sequence": 71,
       "target": "",
       "value": "/*let options = document.querySelectorAll('select#os-survey-skill-level > option[selected]');\nlet level;\noptions.forEach(option => {\n    if (!option.disabled) {\n        level = option.innerText\n    }\n});*/\n\nconst option = document.querySelector('input[name=\"os-survey-skill-level\"][checked]').getAttribute('id');\n\nconst level = document.querySelector('label[for=\"'+option+'\"]').innerText\n\n\nreturn level === \"{{level}}\"",
       "variableName": ""
@@ -740,7 +823,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 69,
+      "sequence": 72,
       "target": [
         {
           "selector": "//a[contains(text(), \"Orders\")]"
@@ -755,7 +838,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 70,
+      "sequence": 73,
       "target": "th.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-number > a[href*=\"/my-account/view-order/{{orderNumber}}/\"]",
       "value": "#{{orderNumber}}"
     },
@@ -764,7 +847,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 71,
+      "sequence": 74,
       "target": "td.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-status",
       "value": "Completed"
     },
@@ -773,7 +856,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 72,
+      "sequence": 75,
       "target": ".woocommerce-Price-amount",
       "value": "$0.00",
       "variableName": ""
@@ -783,7 +866,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 73,
+      "sequence": 76,
       "target": [
         {
           "selector": "//a[contains(text(), \"View\")]"
@@ -798,7 +881,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 74,
+      "sequence": 77,
       "target": "mark.order-number",
       "value": "{{orderNumber}}",
       "variableName": ""
@@ -808,7 +891,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 75,
+      "sequence": 78,
       "target": "mark.order-status",
       "value": "Completed"
     },
@@ -817,7 +900,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 76,
+      "sequence": 79,
       "target": "a[href*=\"/product/open-studio/?attribute_frequency=Annually\"]",
       "value": "Open Studio - Annually"
     },
@@ -829,7 +912,7 @@
       "notes": "{{freq}}ly",
       "optional": false,
       "private": false,
-      "sequence": 77,
+      "sequence": 80,
       "target": "li > p",
       "value": "Annually"
     },
@@ -838,7 +921,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 78,
+      "sequence": 81,
       "target": ".woocommerce-Price-amount > bdi",
       "value": "$0.00",
       "variableName": ""
@@ -848,7 +931,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 79,
+      "sequence": 82,
       "target": "tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount",
       "value": "$0.00",
       "variableName": ""
@@ -858,7 +941,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 80,
+      "sequence": 83,
       "target": "tr:nth-of-type(2) > td > .woocommerce-Price-amount.amount",
       "value": "$0.00",
       "variableName": ""
@@ -868,7 +951,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 81,
+      "sequence": 84,
       "target": "td.subscription-id > a[href*=\"/my-account/view-subscription/{{subID}}/\"]",
       "value": "#{{subID}}"
     },
@@ -877,7 +960,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 82,
+      "sequence": 85,
       "target": "td.subscription-status",
       "value": "Active"
     },
@@ -886,7 +969,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 83,
+      "sequence": 86,
       "target": "td.subscription-next-payment",
       "value": "{{nextPayment}}"
     },
@@ -895,7 +978,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 84,
+      "sequence": 87,
       "target": "td.subscription-total",
       "value": "{{totalPrice}} / year",
       "variableName": ""
@@ -905,7 +988,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 85,
+      "sequence": 88,
       "target": ".woocommerce-customer-details > address",
       "value": "{{firstName}} {{lastName}}\n\n{{email}}",
       "variableName": ""
@@ -915,7 +998,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 86,
+      "sequence": 89,
       "target": [
         {
           "selector": "//a[contains(text(), \"My Subscription\")]"
@@ -930,7 +1013,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 87,
+      "sequence": 90,
       "target": "table.shop_table.subscription_details > tbody > tr:nth-of-type(1) > td:nth-of-type(2)",
       "value": "Active"
     },
@@ -939,7 +1022,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 88,
+      "sequence": 91,
       "target": "tr:nth-of-type(4) > td:nth-of-type(2)",
       "value": "{{nextPayment}}",
       "variableName": ""
@@ -949,7 +1032,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 89,
+      "sequence": 92,
       "target": "tr:nth-of-type(5) > td:nth-of-type(2)",
       "value": "{{nextPayment}}",
       "variableName": ""
@@ -960,7 +1043,7 @@
       "notes": "Open Studio - {{freq}}ly",
       "optional": false,
       "private": false,
-      "sequence": 90,
+      "sequence": 93,
       "target": "a[href*=\"/product/open-studio/\"]",
       "value": "Open Studio - Annually"
     },
@@ -972,7 +1055,7 @@
       "notes": "{{freq}}ly",
       "optional": false,
       "private": false,
-      "sequence": 91,
+      "sequence": 94,
       "target": "li > p",
       "value": "Annually"
     },
@@ -981,7 +1064,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 92,
+      "sequence": 95,
       "target": "td.product-total",
       "value": "{{totalPrice}} / year",
       "variableName": ""
@@ -991,7 +1074,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 93,
+      "sequence": 96,
       "target": "tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount",
       "value": "{{totalPrice}}",
       "variableName": ""
@@ -1001,7 +1084,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 94,
+      "sequence": 97,
       "target": "tfoot > tr:nth-of-type(2) > td",
       "value": "{{totalPrice}} / year",
       "variableName": ""
@@ -1011,7 +1094,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 95,
+      "sequence": 98,
       "target": ".woocommerce-customer-details > address",
       "value": "{{firstName}} {{lastName}}\n\n{{email}}",
       "variableName": ""
@@ -1023,6 +1106,6 @@
   "_gi": {
     "testId": "663a65f21aac3ea14fc6a02c",
     "suiteId": "663a65cd1aac3ea14fc69327",
-    "suiteName": "Open Studio - Basic WooCommerce Tests - Member"
+    "suiteName": "Open Studio - Basic WooCommerce Tests - Member - don't use"
   }
 }

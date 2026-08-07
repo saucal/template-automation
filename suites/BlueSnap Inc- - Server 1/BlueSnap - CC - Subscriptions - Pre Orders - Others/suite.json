@@ -4,7 +4,7 @@
     "_id": "65b28481edd04af7687ba316",
     "abortOnTestFailure": false,
     "autoRetry": false,
-    "browser": "chrome-139",
+    "browser": "firefox-144",
     "dataSource": null,
     "dateCreated": "2024-01-25T15:55:45.604Z",
     "disableVisuals": false,

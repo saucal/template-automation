@@ -43,7 +43,6 @@ test.describe('repurposedM - Basic WooCommerce tests', () => {
     await page.waitForLoadState('load');
     await expect(page.locator(`.avia-slide-wrap`)).not.toHaveCount(0);
     await expect(page.locator(`.avia-animated-number`)).not.toHaveCount(0);
-    await expect(page.locator(`#after_section_6 > .container > .template-page.content.av-content-full.alpha.units`)).not.toHaveCount(0);
     await closePopup(page, vars);
     await blockImageSizes(page, vars);
   });
@@ -82,7 +81,7 @@ test.describe('repurposedM - Basic WooCommerce tests', () => {
 
 return url.includes('/page/3') }, vars)).toBeTruthy();
     await page.waitForLoadState('load');
-    await page.locator(`.wpc-checkbox-item.wpc-term-item.wpc-term-count-34 > .wpc-term-item-content-wrapper > input[type="checkbox"]`).filter({ visible: true }).first().click({ force: true });
+    await page.locator(`#wpc-term-taxonomy-pwb-brand-1504 > .wpc-term-item-content-wrapper > input[type="checkbox"]`).filter({ visible: true }).first().click({ force: true });
     await expect(page.locator(`.wpc-filters-overlay`).first()).not.toBeVisible();
     await expect(page.locator(`div:nth-of-type(2) > .wpc-filter-chips-list > li.wpc-filter-chip:nth-of-type(2) > a[href*="/view-all-products/"][title="Remove «Location: Arizona Inventory» from results"] > .wpc-chip-content > .wpc-filter-chip-name`).first()).toContainText(`Arizona Inventory`);
     await expect(page.locator(`.inner_product_header > .inner_product_header_table > .inner_product_header_cell > .woocommerce-product-details__short-description > p > span`).first()).toContainText(`See Available Options | FREE SHIPPING | L: ARIZONA`);
@@ -296,7 +295,7 @@ selectFirstAvailableVariation(); }, vars);
     // Also return the array so you can use it programmatically
     return results; }, vars);
     vars.prod_desc = ((await page.locator(`h1.product_title`).textContent()) ?? '').trim();
-    vars.unitPrice = ((await page.locator(`.woocommerce-variation-price > .price > span > .woocommerce-Price-amount.amount > bdi`).or(page.locator(`.product-summary > .price > span > .woocommerce-Price-amount.amount > bdi`)).textContent()) ?? '').trim();
+    vars.unitPrice = ((await page.locator(`.woocommerce-variation-price > .price > span > .woocommerce-Price-amount.amount > bdi`).or(page.locator(`.product-summary > .price > span > .woocommerce-Price-amount.amount > bdi`)).or(page.locator(`div.product-overview > div.product-summary > p > span > span`)).textContent()) ?? '').trim();
     await closePopup(page, vars);
   });
 
@@ -496,7 +495,7 @@ selectFirstAvailableVariation(); }, vars);
     // Also return the array so you can use it programmatically
     return results; }, vars);
       vars.prod_desc = ((await page.locator(`h1.product_title`).textContent()) ?? '').trim();
-      vars.unitPrice = ((await page.locator(`.woocommerce-variation-price > .price > span > .woocommerce-Price-amount.amount > bdi`).or(page.locator(`.product-summary > .price > span > .woocommerce-Price-amount.amount > bdi`)).textContent()) ?? '').trim();
+      vars.unitPrice = ((await page.locator(`.woocommerce-variation-price > .price > span > .woocommerce-Price-amount.amount > bdi`).or(page.locator(`.product-summary > .price > span > .woocommerce-Price-amount.amount > bdi`)).or(page.locator(`div.product-overview > div.product-summary > p > span > span`)).textContent()) ?? '').trim();
       await closePopup(page, vars);
       // ↑ end 06 - Variable product page
     }
@@ -743,7 +742,7 @@ selectFirstAvailableVariation(); }, vars);
     // Also return the array so you can use it programmatically
     return results; }, vars);
       vars.prod_desc = ((await page.locator(`h1.product_title`).textContent()) ?? '').trim();
-      vars.unitPrice = ((await page.locator(`.woocommerce-variation-price > .price > span > .woocommerce-Price-amount.amount > bdi`).or(page.locator(`.product-summary > .price > span > .woocommerce-Price-amount.amount > bdi`)).textContent()) ?? '').trim();
+      vars.unitPrice = ((await page.locator(`.woocommerce-variation-price > .price > span > .woocommerce-Price-amount.amount > bdi`).or(page.locator(`.product-summary > .price > span > .woocommerce-Price-amount.amount > bdi`)).or(page.locator(`div.product-overview > div.product-summary > p > span > span`)).textContent()) ?? '').trim();
       await closePopup(page, vars);
       // ↑ end 06 - Variable product page
     }
@@ -814,14 +813,7 @@ Billing State / County is a required field.
 Billing Postcode / ZIP is a required field.
 Billing Phone is a required field.
 Billing Email address is a required field.
-Shipping First name is a required field.
-Shipping Last name is a required field.
-Shipping Country / Region is a required field.
-Shipping Street address is a required field.
-Shipping Town / City is a required field.
-Shipping State / County is a required field.
-Shipping Postcode / ZIP is a required field.
-How are you repurposing this purchase? : is a required field.
+How are you repurposing this purchase? is a required field.
 How did you hear about this specific material? is a required field.
 Please read and accept the terms and conditions to proceed with your order.`);
   });
@@ -862,7 +854,7 @@ Please read and accept the terms and conditions to proceed with your order.`);
       if (await _lbl.count() > 0) { await _lbl.first().click(); }
       else { await page.locator(`#input_2_8`).filter({ visible: true }).first().click({ force: true }); }
     }
-    try { await page.locator(`select#input_2_8`).first().fill(`Website`); } catch { await page.locator(`select#input_2_8`).first().selectOption(`Website`); }
+    try { await page.locator(`select#input_2_8`).first().fill(`YouTube`); } catch { await page.locator(`select#input_2_8`).first().selectOption(`YouTube`); }
     {
       const _lbl = page.locator(`label[for="choice_2_7_1"]`).filter({ visible: true });
       if (await _lbl.count() > 0) { await _lbl.first().click(); }

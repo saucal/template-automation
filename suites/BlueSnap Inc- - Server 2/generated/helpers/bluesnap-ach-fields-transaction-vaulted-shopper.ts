@@ -827,6 +827,7 @@ export async function bLU002013(page: Page, vars: Record<string, string> = {}): 
   vars.test = `002-013`;
   vars.trans = `accepted`;
   vars.payment = `ach`;
+  vars.company = ``;
   vars.accountNumber = `${vars.accountNumberA ?? ''}`;
   vars.routingNumber = `${vars.routingNumberA ?? ''}`;
   vars.status = `On hold`;
@@ -843,6 +844,10 @@ return  element !== null && element !== undefined }, vars)) {
     }
   }
   await checkACHCCSavedOnCheckout(page, vars);
+  if (await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); const element = document.querySelector<HTMLFormElement>('form.checkout.woocommerce-checkout')
+return  !element  }, vars)) {
+    await fillCheckoutDataNotCreatingAccount(page, vars);
+  }
   await placeOrder(page, vars);
   await checkCartIsEmpty(page, vars);
   await getWooOrderDetails(page, vars);
@@ -890,6 +895,7 @@ export async function bLU002013AdminSide(page: Page, vars: Record<string, string
 // GI: "BLU-002-014" (6841997ec637c9246eb7ed8c)
 export async function bLU002014(page: Page, vars: Record<string, string> = {}): Promise<void> {
   await logIn(page, vars);
+  vars.company = `Saucal Inc.`;
   await page.locator(`xpath=//a[contains(text(), "Payment methods")]`).or(page.locator(`a[href*="/my-account/payment-methods/"]`)).filter({ visible: true }).first().click({ force: true });
   await page.locator(`xpath=//a[contains(text(), "Add payment method")]`).or(page.locator(`a[href*="/my-account/add-payment-method/"]`)).filter({ visible: true }).first().click({ force: true });
   await page.waitForTimeout(5000);

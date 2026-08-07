@@ -140,7 +140,7 @@ refundInputs.forEach((input, index) => {
 }
 
 // Select all <p> elements within ul.order_notes > li > div > p
-const notes = Array.from<any>(document.querySelectorAll('ul.order_notes > li > div > p'));
+const notes = Array.from<any>(document.querySelectorAll('ul.order_notes > li > div p'));
 
 // Check if any note matches the pattern
 return Array.from<any>(notes).some(note => checkRefundNote(note.textContent)); }, vars)).toBeTruthy();

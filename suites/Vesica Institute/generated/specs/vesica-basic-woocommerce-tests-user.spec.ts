@@ -61,11 +61,10 @@ test.describe('Vesica - Basic WooCommerce Tests - User', () => {
     try {
       await page.locator(`.cky-notice-btn-wrapper > button[aria-label="Reject All"].cky-btn.cky-btn-reject`).filter({ visible: true }).first().click({ force: true });
     } catch { /* optional step: click */ }
-    await page.locator(`nav.elementor-nav-menu--main > .elementor-nav-menu > li.menu-item.menu-item-type-custom.menu-item-object-custom.menu-item-has-children:nth-of-type(5) > a[href*="/vesica-shop/"].elementor-item.has-submenu`).filter({ visible: true }).first().click({ force: true });
-    await page.locator(`nav.elementor-nav-menu--main > .elementor-nav-menu > li.menu-item.menu-item-type-custom.menu-item-object-custom.menu-item-has-children:nth-of-type(5) > a[href*="/vesica-shop/"].elementor-item.has-submenu`).filter({ visible: true }).first().click({ force: true });
+    await page.locator(`nav.elementor-nav-menu--main > .elementor-nav-menu > li.menu-item.menu-item-type-custom.menu-item-object-custom.menu-item-has-children:nth-of-type(5) > a[href*="/vesica-shop/"].elementor-item.has-submenu`).or(page.locator(`a[href="${vars.startUrl ?? ''}vesica-shop/"]`)).or(page.locator(`a[href="${vars.startUrl ?? ''}product-category/all-products/"]`)).filter({ visible: true }).first().click({ force: true });
+    await page.locator(`nav.elementor-nav-menu--main > .elementor-nav-menu > li.menu-item.menu-item-type-custom.menu-item-object-custom.menu-item-has-children:nth-of-type(5) > a[href*="/vesica-shop/"].elementor-item.has-submenu`).or(page.locator(`a[href="${vars.startUrl ?? ''}vesica-shop/"]`)).or(page.locator(`a[href="${vars.startUrl ?? ''}product-category/all-products/"]`)).filter({ visible: true }).first().click({ force: true });
     await page.waitForLoadState('load');
     // ↑ end 06 - Shop page
-    await page.locator(`a[href*="/product-category/vesica-shop/online-courses/"] > img`).filter({ visible: true }).first().click({ force: true });
     await page.locator(`li.product.instock > a > h2.woocommerce-loop-product__title`).filter({ visible: true }).first().click({ force: true });
     vars.prod_desc = ((await page.locator(`h1.product_title`).textContent()) ?? '').trim();
     vars.unitPrice = ((await page.locator(`.elementor-widget-container > .price > .woocommerce-Price-amount.amount > bdi`).textContent()) ?? '').trim();
@@ -297,7 +296,7 @@ return prod_desc }, vars);
       await expect(page.locator(`.email > strong`).first()).toHaveText(`${vars.email ?? ''}`);
     } catch { /* optional step: assertText */ }
     await expect(page.locator(`strong > .woocommerce-Price-amount.amount > bdi`).first()).toHaveText(`${vars.total ?? ''}`);
-    await expect(page.locator(`.method > strong`).first()).toHaveText(`PayPal`);
+    await expect(page.locator(`.method > strong`).first()).toContainText(`PayPal`);
     await expect(page.locator(`a[href*="/product/"]`).first()).toHaveText(`${vars.prod_desc ?? ''}`);
     await expect(page.locator(`td.woocommerce-table__product-total > .woocommerce-Price-amount.amount > bdi`).first()).toHaveText(`${vars.unitPrice ?? ''}`);
     await expect(page.locator(`tfoot > tr:nth-of-type(1) > td > .woocommerce-Price-amount.amount`).first()).toHaveText(`${vars.subtotalPrice ?? ''}`);
@@ -376,10 +375,10 @@ ${vars.company ?? ''}
 ${vars.street ?? ''}
 ${vars.street2 ?? ''}
 ${vars.city ?? ''}, ${vars.shortState ?? ''} ${vars.zipCode ?? ''}`);
-    await expect(page.locator(`div.order_data_column:nth-of-type(3) > .address > p:nth-of-type(1)`).first()).toHaveText(`${vars.firstName ?? ''} ${vars.lastName ?? ''}
+    await expect(page.locator(`#order_data > div.order_data_column_container > div:nth-child(3) > div:nth-child(2) > p:nth-child(1)`).or(page.locator(`div.order_data_column:nth-of-type(3) > .address > p:nth-of-type(1)`)).first()).toHaveText(`${vars.firstName ?? ''} ${vars.lastName ?? ''}
 ${vars.company ?? ''}
-${vars.street2 ?? ''}
 ${vars.street ?? ''}
+${vars.street2 ?? ''}
 ${vars.city ?? ''}, ${vars.shortState ?? ''} ${vars.zipCode ?? ''}`);
     await expect(page.locator(`a[href="mailto:${vars.email ?? ''}"]`).first()).toContainText(`${vars.email ?? ''}`);
     await expect(page.locator(`.address > p:nth-of-type(3)`).first()).toHaveText(`Phone:

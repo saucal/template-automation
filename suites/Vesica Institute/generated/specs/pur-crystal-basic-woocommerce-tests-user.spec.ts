@@ -133,6 +133,9 @@ No shipping method has been selected. Please double check your address, or conta
     try { await page.locator(`span > span:nth-of-type(1) > input[type="text"]`).first().fill(`${vars.stateComplete ?? ''}`); } catch { await page.locator(`span > span:nth-of-type(1) > input[type="text"]`).first().selectOption(`${vars.stateComplete ?? ''}`); }
     await page.locator(`xpath=//li[contains(text(), "${vars.stateComplete ?? ''}")]`).filter({ visible: true }).first().click({ force: true });
     try { await page.locator(`#shipping_postcode`).first().fill(`${vars.zipCode ?? ''}`); } catch { await page.locator(`#shipping_postcode`).first().selectOption(`${vars.zipCode ?? ''}`); }
+    if (await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); return !!document.querySelector('#shipping_phone') }, vars)) {
+      try { await page.locator(`#shipping_phone`).first().fill(`${vars.phone ?? ''}`); } catch { await page.locator(`#shipping_phone`).first().selectOption(`${vars.phone ?? ''}`); }
+    }
     await blockUI(page, vars);
     vars.shippingPrice = ((await page.locator(`li:nth-of-type(1) > label > .woocommerce-Price-amount.amount > bdi`).textContent()) ?? '').trim();
     vars.taxPrice = ((await page.locator(`tr.tax-total > td > .woocommerce-Price-amount.amount > bdi`).textContent()) ?? '').trim();
@@ -179,7 +182,9 @@ ${vars.email ?? ''}`);
 ${vars.company2 ?? ''}
 ${vars.street ?? ''}
 ${vars.street3 ?? ''}
-${vars.city ?? ''}, ${vars.state ?? ''} ${vars.zipCode ?? ''}`);
+${vars.city ?? ''}, ${vars.state ?? ''} ${vars.zipCode ?? ''}
+
+${vars.phone ?? ''}`);
     await page.locator(`.elementor-column.elementor-top-column.elementor-element.elementor-element-3cbde5e > .elementor-widget-wrap.elementor-element-populated > .elementor-element.elementor-widget__width-auto.elementor-widget.elementor-widget-account_links > .elementor-widget-container > .account-links > a[href="/my-account/"]`).filter({ visible: true }).first().click({ force: true });
     await page.locator(`xpath=//a[contains(text(), "Orders")]`).or(page.locator(`.woocommerce-MyAccount-navigation-link > a[href*="/my-account/orders/"]`)).filter({ visible: true }).first().click({ force: true });
     await expect(page.locator(`td.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-status`).first()).toContainText(`Processing`);
@@ -205,7 +210,9 @@ ${vars.email ?? ''}`);
 ${vars.company2 ?? ''}
 ${vars.street ?? ''}
 ${vars.street3 ?? ''}
-${vars.city ?? ''}, ${vars.state ?? ''} ${vars.zipCode ?? ''}`);
+${vars.city ?? ''}, ${vars.state ?? ''} ${vars.zipCode ?? ''}
+
+${vars.phone ?? ''}`);
   });
 
   test('02 - Place order - New User - CC - backend', async ({ page }) => {
@@ -239,6 +246,8 @@ ${vars.company2 ?? ''}
 ${vars.street ?? ''}
 ${vars.street3 ?? ''}
 ${vars.city ?? ''}, ${vars.state ?? ''} ${vars.zipCode ?? ''}`);
+    await expect(page.locator(`div:nth-child(3) > div.address > p:nth-child(2)`).first()).toHaveText(`Phone:
+${vars.phone ?? ''}`);
     await expect(page.locator(`#order_line_items tr > td.name > a`).first()).toContainText(`${vars.prod_desc ?? ''}`);
     await expect(page.locator(`#order_line_items td.item_cost > .view > .woocommerce-Price-amount.amount > bdi`).first()).toHaveText(`${vars.unitPrice ?? ''}`);
     await expect(page.locator(`#order_line_items td.quantity > .view`).first()).toHaveText(`× ${vars.qty ?? ''}`);

@@ -457,7 +457,9 @@ return role === 'contractor' })()) {
 return role === 'contractor' })()) {
     await expect(page.locator(`.woocommerce-message`).first()).toContainText(`Your account was created successfully and a password has been sent to your email address.`);
   }
+  await page.waitForTimeout(30000);
   await extractUserFromEmail(page, vars);
+  await page.waitForTimeout(45000);
   await page.locator(`xpath=//a[contains(text(), "Your Leggari Products account has been created!")]`).filter({ visible: true }).first().click({ force: true });
   vars.link = await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); let link = document.querySelector<HTMLAnchorElement>('#body_content_inner > p:nth-child(3) > a').getAttribute('href');
 return link }, vars);

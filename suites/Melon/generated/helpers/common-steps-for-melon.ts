@@ -19,7 +19,9 @@ async function _giEval(page: any, fn: any, vars: any): Promise<any> {
 
 // GI: "Check country and currency" (6324d91773b124ed89a041ce)
 export async function checkCountryAndCurrency(page: Page, vars: Record<string, string> = {}): Promise<void> {
-  await expect(page.locator(`#.header-html2 > .header-html-inner > select[id="mo-country-dropdown"]`).or(page.locator(`select[id="mo-country-dropdown"]:nth-of-type(1)`)).first()).toContainText(`${vars.country ?? ''}`);
+  try {
+    await expect(page.locator(`#.header-html2 > .header-html-inner > select[id="mo-country-dropdown"]`).or(page.locator(`.kadence-desktop-menu-section select[id="mo-country-dropdown"]:nth-of-type(1)`)).first()).toContainText(`${vars.country ?? ''}`);
+  } catch { /* optional step: assertTextPresent */ }
   try {
     await expect(page.locator(`div.site-container .header-html-inner > form[id="currency_converter"] > div > select[id="currency_switcher"].currency_switcher`).first()).toHaveText(`${vars.currency ?? ''}`);
   } catch { /* optional step: assertText */ }
@@ -121,22 +123,22 @@ return element.length !== 0 && `${vars.accept}` === "yes" }, vars)) {
   }
   if (await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); let element = Array.from<any>(document.querySelectorAll<HTMLAnchorElement>('div.wfocu-skip-offer-wrap > a, div > div > div > div.bwf-inner-col > div.bwf-btn-wrap.wfocu-link.wfocu-reject.wp-block-wrap > a > span'))
 return `${vars.accept}` === "no" && element.length !== 0 }, vars)) {
-    await page.locator(`div.wfocu-skip-offer-wrap > a`).or(page.locator(`div > div > div > div.bwf-inner-col > div.bwf-btn-wrap.wfocu-link.wfocu-reject.wp-block-wrap > a > span`)).filter({ visible: true }).first().click({ force: true });
+    await page.locator(`div.wfocu-skip-offer-wrap > a`).or(page.locator(`div > div > div > div.bwf-inner-col > div.bwf-btn-wrap.wfocu-link.wfocu-reject.wp-block-wrap > a > span`)).or(page.locator(`.wfocu-reject a.wfocu_skip_offer`)).filter({ visible: true }).first().click({ force: true });
   }
   if (vars.accept === "no") {
-    await page.waitForTimeout(3000);
+    await page.waitForTimeout(4000);
   }
   if (await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); let element = Array.from<any>(document.querySelectorAll<HTMLAnchorElement>('div.wfocu-skip-offer-wrap > a, div > div > div > div.bwf-inner-col > div.bwf-btn-wrap.wfocu-link.wfocu-reject.wp-block-wrap > a > span'))
 return `${vars.accept}` === "no" && element.length !== 0 }, vars)) {
-    await page.locator(`div.wfocu-skip-offer-wrap > a`).or(page.locator(`div > div > div > div.bwf-inner-col > div.bwf-btn-wrap.wfocu-link.wfocu-reject.wp-block-wrap > a > span`)).filter({ visible: true }).first().click({ force: true });
+    await page.locator(`div.wfocu-skip-offer-wrap > a`).or(page.locator(`div > div > div > div.bwf-inner-col > div.bwf-btn-wrap.wfocu-link.wfocu-reject.wp-block-wrap > a > span`)).or(page.locator(`.wfocu-reject a.wfocu_skip_offer`)).filter({ visible: true }).first().click({ force: true });
   }
   if (vars.accept === "no") {
-    await page.waitForTimeout(3000);
+    await page.waitForTimeout(4000);
   }
   try {
     if (await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); let element = Array.from<any>(document.querySelectorAll<HTMLAnchorElement>('div.wfocu-skip-offer-wrap > a, div > div > div > div.bwf-inner-col > div.bwf-btn-wrap.wfocu-link.wfocu-reject.wp-block-wrap > a > span'))
 return element.length !== 0 }, vars)) {
-      await page.locator(`div.wfocu-skip-offer-wrap > a`).or(page.locator(`div > div > div > div.bwf-inner-col > div.bwf-btn-wrap.wfocu-link.wfocu-reject.wp-block-wrap > a > span`)).filter({ visible: true }).first().click({ force: true });
+      await page.locator(`div.wfocu-skip-offer-wrap > a`).or(page.locator(`div > div > div > div.bwf-inner-col > div.bwf-btn-wrap.wfocu-link.wfocu-reject.wp-block-wrap > a > span`)).or(page.locator(`.wfocu-reject a.wfocu_skip_offer`)).filter({ visible: true }).first().click({ force: true });
     }
   } catch { /* optional step: click */ }
   try {

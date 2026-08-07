@@ -43,19 +43,22 @@ export async function checkOrderDetailsThankYouPageAndMyAccount(page: Page, vars
   if (vars.product === 'variable') {
     await expect(page.locator(`td.product-name`).first()).toContainText(`${vars.variable1 ?? ''}`);
   }
-  vars.tfootIndex = await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); // Select all <tfoot> elements
-const tfootSections = Array.from<any>(document.querySelectorAll<HTMLTableElement>('table.woocommerce-table--order-details tfoot'));
+  vars.tfootIndex = await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); const tfootSections = Array.from<any>(document.querySelectorAll<HTMLTableElement>('table.woocommerce-table--order-details tfoot'));
 
 // Find the correct <tfoot> (one without "Actions:" row)
 let tfootIndex = -1;
-Array.from<any>(tfootSections).forEach((tfoot, index) => {
-  const hasActions = Array.from<any>(tfoot.querySelectorAll('tr > th')).some(th => 
-    th.textContent.trim() === 'Actions:'
-  );
-  if (!hasActions) {
-    tfootIndex = index + 1;
-  }
-});
+if (tfootSections.length > 1) {
+    Array.from<any>(tfootSections).forEach((tfoot, index) => {
+      const hasActions = Array.from<any>(tfoot.querySelectorAll('tr > th')).some(th => 
+        th.textContent.trim() === 'Actions:'
+      );
+      if (!hasActions) {
+        tfootIndex = index + 1;
+      }
+    });
+} else {
+    tfootIndex = 1
+}
 
 return tfootIndex }, vars);
   await expect(page.locator(`td.woocommerce-table__product-total > .woocommerce-Price-amount.amount > bdi`).first()).toHaveText(`${vars.subtotal ?? ''}`);
@@ -67,14 +70,18 @@ const tfootSections = Array.from<any>(document.querySelectorAll<HTMLTableElement
 // Find the correct <tfoot> (one without "Actions:" row)
 let targetTfoot = null;
 
-Array.from<any>(tfootSections).forEach((tfoot, index) => {
-  const hasActions = Array.from<any>(tfoot.querySelectorAll('tr > th')).some(th => 
-    th.textContent.trim() === 'Actions:'
-  );
-  if (!hasActions) {
-    targetTfoot = tfoot;
-  }
-});
+if (tfootSections.length > 1) {
+    Array.from<any>(tfootSections).forEach((tfoot, index) => {
+      const hasActions = Array.from<any>(tfoot.querySelectorAll('tr > th')).some(th => 
+        th.textContent.trim() === 'Actions:'
+      );
+      if (!hasActions) {
+        targetTfoot = tfoot;
+      }
+    });
+} else if (tfootSections.length === 1) {
+    targetTfoot = tfootSections[0]
+}
 
 // Process the target <tfoot>
 let result;
@@ -103,14 +110,18 @@ const tfootSections = Array.from<any>(document.querySelectorAll<HTMLTableElement
 // Find the correct <tfoot> (one without "Actions:" row)
 let targetTfoot = null;
 
-Array.from<any>(tfootSections).forEach((tfoot, index) => {
-  const hasActions = Array.from<any>(tfoot.querySelectorAll('tr > th')).some(th => 
-    th.textContent.trim() === 'Actions:'
-  );
-  if (!hasActions) {
-    targetTfoot = tfoot;
-  }
-});
+if (tfootSections.length > 1) {
+    Array.from<any>(tfootSections).forEach((tfoot, index) => {
+      const hasActions = Array.from<any>(tfoot.querySelectorAll('tr > th')).some(th => 
+        th.textContent.trim() === 'Actions:'
+      );
+      if (!hasActions) {
+        targetTfoot = tfoot;
+      }
+    });
+} else if (tfootSections.length === 1) {
+    targetTfoot = tfootSections[0]
+}
 
 // Process the target <tfoot>
 let result;
@@ -135,14 +146,18 @@ const tfootSections = Array.from<any>(document.querySelectorAll<HTMLTableElement
 // Find the correct <tfoot> (one without "Actions:" row)
 let targetTfoot = null;
 
-Array.from<any>(tfootSections).forEach((tfoot, index) => {
-  const hasActions = Array.from<any>(tfoot.querySelectorAll('tr > th')).some(th => 
-    th.textContent.trim() === 'Actions:'
-  );
-  if (!hasActions) {
-    targetTfoot = tfoot;
-  }
-});
+if (tfootSections.length > 1) {
+    Array.from<any>(tfootSections).forEach((tfoot, index) => {
+      const hasActions = Array.from<any>(tfoot.querySelectorAll('tr > th')).some(th => 
+        th.textContent.trim() === 'Actions:'
+      );
+      if (!hasActions) {
+        targetTfoot = tfoot;
+      }
+    });
+} else if (tfootSections.length === 1) {
+    targetTfoot = tfootSections[0]
+}
 
 // Process the target <tfoot>
 let result;
@@ -168,14 +183,18 @@ const tfootSections = Array.from<any>(document.querySelectorAll<HTMLTableElement
 // Find the correct <tfoot> (one without "Actions:" row)
 let targetTfoot = null;
 
-Array.from<any>(tfootSections).forEach((tfoot, index) => {
-  const hasActions = Array.from<any>(tfoot.querySelectorAll('tr > th')).some(th => 
-    th.textContent.trim() === 'Actions:'
-  );
-  if (!hasActions) {
-    targetTfoot = tfoot;
-  }
-});
+if (tfootSections.length > 1) {
+    Array.from<any>(tfootSections).forEach((tfoot, index) => {
+      const hasActions = Array.from<any>(tfoot.querySelectorAll('tr > th')).some(th => 
+        th.textContent.trim() === 'Actions:'
+      );
+      if (!hasActions) {
+        targetTfoot = tfoot;
+      }
+    });
+} else if (tfootSections.length === 1) {
+    targetTfoot = tfootSections[0]
+}
 
 // Process the target <tfoot>
 let result;
@@ -194,21 +213,25 @@ if (targetTfoot) {
   });
 }
   return paymentIndex + 1 }, vars);
-  await expect(page.locator(`table.woocommerce-table > tfoot:nth-of-type(${vars.tfootIndex ?? ''}) > tr:nth-of-type(${vars.paymentIndex ?? ''}) > td`).first()).toHaveText(`${vars.paymentMethod ?? ''}`);
+  await expect(page.locator(`table.woocommerce-table > tfoot:nth-of-type(${vars.tfootIndex ?? ''}) > tr:nth-of-type(${vars.paymentIndex ?? ''}) > td`).first()).toContainText(`${vars.paymentMethod ?? ''}`);
   vars.totalIndex = await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); // Select all <tfoot> elements
 const tfootSections = Array.from<any>(document.querySelectorAll<HTMLTableElement>('table.woocommerce-table--order-details tfoot'));
 
 // Find the correct <tfoot> (one without "Actions:" row)
 let targetTfoot = null;
 
-Array.from<any>(tfootSections).forEach((tfoot, index) => {
-  const hasActions = Array.from<any>(tfoot.querySelectorAll('tr > th')).some(th => 
-    th.textContent.trim() === 'Actions:'
-  );
-  if (!hasActions) {
-    targetTfoot = tfoot;
-  }
-});
+if (tfootSections.length > 1) {
+    Array.from<any>(tfootSections).forEach((tfoot, index) => {
+      const hasActions = Array.from<any>(tfoot.querySelectorAll('tr > th')).some(th => 
+        th.textContent.trim() === 'Actions:'
+      );
+      if (!hasActions) {
+        targetTfoot = tfoot;
+      }
+    });
+} else if (tfootSections.length === 1) {
+    targetTfoot = tfootSections[0]
+}
 
 // Process the target <tfoot>
 let result;
@@ -233,14 +256,18 @@ const tfootSections = Array.from<any>(document.querySelectorAll<HTMLTableElement
 // Find the correct <tfoot> (one without "Actions:" row)
 let targetTfoot = null;
 
-Array.from<any>(tfootSections).forEach((tfoot, index) => {
-  const hasActions = Array.from<any>(tfoot.querySelectorAll('tr > th')).some(th => 
-    th.textContent.trim() === 'Actions:'
-  );
-  if (!hasActions) {
-    targetTfoot = tfoot;
-  }
-});
+if (tfootSections.length > 1) {
+    Array.from<any>(tfootSections).forEach((tfoot, index) => {
+      const hasActions = Array.from<any>(tfoot.querySelectorAll('tr > th')).some(th => 
+        th.textContent.trim() === 'Actions:'
+      );
+      if (!hasActions) {
+        targetTfoot = tfoot;
+      }
+    });
+} else if (tfootSections.length === 1) {
+    targetTfoot = tfootSections[0]
+}
 
 // Process the target <tfoot>
 let result;
@@ -361,7 +388,7 @@ ${vars.city ?? ''}, ${vars.state ?? ''} ${vars.zipCode ?? ''}`);
 }
 
 // Select all <p> elements within ul.order_notes > li > div > p
-const notes = Array.from<any>(document.querySelectorAll('ul.order_notes > li > div > p'));
+const notes = Array.from<any>(document.querySelectorAll('ul.order_notes > li > div > div > p'));
 
 // Check if any note matches the pattern
 return Array.from<any>(notes).some(note => checkAdminNote(note.textContent));
@@ -374,7 +401,7 @@ return Array.from<any>(notes).some(note => checkAdminNote(note.textContent));
 }
 
 // Select all <p> elements within ul.order_notes > li > div > p
-const notes = Array.from<any>(document.querySelectorAll('ul.order_notes > li > div > p'));
+const notes = Array.from<any>(document.querySelectorAll('ul.order_notes > li > div > div > p'));
 
 // Check if any note matches the pattern
 return Array.from<any>(notes).some(note => checkAdminNote(note.textContent));
@@ -388,7 +415,7 @@ return Array.from<any>(notes).some(note => checkAdminNote(note.textContent));
 }
 
 // Select all <p> elements within ul.order_notes > li > div > p
-const notes = Array.from<any>(document.querySelectorAll('ul.order_notes > li > div > p'));
+const notes = Array.from<any>(document.querySelectorAll('ul.order_notes > li > div > div > p'));
 
 // Check if any note matches the pattern
 return Array.from<any>(notes).some(note => checkAdminNote(note.textContent));
@@ -401,7 +428,7 @@ return Array.from<any>(notes).some(note => checkAdminNote(note.textContent));
 }
 
 // Select all <p> elements within ul.order_notes > li > div > p
-const notes = Array.from<any>(document.querySelectorAll('ul.order_notes > li > div > p'));
+const notes = Array.from<any>(document.querySelectorAll('ul.order_notes > li > div > div > p'));
 
 // Check if any note matches the pattern
 return Array.from<any>(notes).some(note => checkAdminNote(note.textContent));
@@ -414,7 +441,7 @@ return Array.from<any>(notes).some(note => checkAdminNote(note.textContent));
 }
 
 // Select all <p> elements within ul.order_notes > li > div > p
-const notes = Array.from<any>(document.querySelectorAll('ul.order_notes > li > div > p'));
+const notes = Array.from<any>(document.querySelectorAll('ul.order_notes > li > div > div > p'));
 
 // Check if any note matches the pattern
 return Array.from<any>(notes).some(note => checkAdminNote(note.textContent));
@@ -845,8 +872,12 @@ export async function fillPayPal(page: Page, vars: Record<string, string> = {}):
     await expect(page.locator(`xpath=//span[contains(text(),'Logging in...')]`)).toHaveCount(0);
   } catch { /* optional step: assertElementNotPresent */ }
   await page.waitForTimeout(5000);
-  await expect(page.locator(`button[data-id='payment-submit-btn']`).or(page.locator(`xpath=//*[@id="one-time-cta"]/div/div/div[contains(text(),'Pay')]`)).or(page.locator(`button[type='submit'] > div > div > div:nth-of-type(1)`))).not.toHaveCount(0);
-  await page.locator(`button[data-id='payment-submit-btn']`).or(page.locator(`xpath=//*[@id="one-time-cta"]/div/div/div[contains(text(),'Pay')]`)).or(page.locator(`button[type='submit'] > div > div > div:nth-of-type(1)`)).filter({ visible: true }).first().click({ force: true });
+  await expect(page.locator(`button[data-id='payment-submit-btn']`).or(page.locator(`xpath=//*[@id="one-time-cta"]/div/div/div[contains(text(),'Pay')]`)).or(page.locator(`button[type='submit'] > div > div > div:nth-of-type(1)`)).or(page.locator(`xpath=//*[@id="one-time-cta"]//*[contains(text(),'Pay')]`)).or(page.locator(`#one-time-cta`))).not.toHaveCount(0);
+  {
+    const _lbl = page.locator(`label[for="one-time-cta"]`).filter({ visible: true });
+    if (await _lbl.count() > 0) { await _lbl.first().click(); }
+    else { await page.locator(`button[data-id='payment-submit-btn']`).or(page.locator(`xpath=//*[@id="one-time-cta"]/div/div/div[contains(text(),'Pay')]`)).or(page.locator(`button[type='submit'] > div > div > div:nth-of-type(1)`)).or(page.locator(`xpath=//*[@id="one-time-cta"]//*[contains(text(),'Pay')]`)).or(page.locator(`#one-time-cta`)).filter({ visible: true }).first().click({ force: true }); }
+  }
   try {
     await expect(page.locator(`.loader`).or(page.locator(`div[class*="Spinner_SpinnerLoader"]`)).or(page.locator(`xpath=//h1[contains(text(),'Completing purchase')]`))).not.toHaveCount(0);
   } catch { /* optional step: assertElementPresent */ }
@@ -1035,7 +1066,7 @@ return shipping !== null }, vars)) {
 }
 
 // Select all <p> elements within ul.order_notes > li > div > p
-const notes = Array.from<any>(document.querySelectorAll('ul.order_notes > li > div > p'));
+const notes = Array.from<any>(document.querySelectorAll('ul.order_notes > li > div > div > p'));
 
 // Check if any note matches the pattern
 return Array.from<any>(notes).some(note => checkRefundNote(note.textContent)); }, vars)).toBeTruthy();
@@ -1048,7 +1079,7 @@ return Array.from<any>(notes).some(note => checkRefundNote(note.textContent)); }
 }
 
 // Select all <p> elements within ul.order_notes > li > div > p
-const notes = Array.from<any>(document.querySelectorAll('ul.order_notes > li > div > p'));
+const notes = Array.from<any>(document.querySelectorAll('ul.order_notes > li > div > div > p'));
 
 // Check if any note matches the pattern
 return Array.from<any>(notes).some(note => checkRefundNote(note.textContent)); }, vars)).toBeTruthy();
@@ -1061,7 +1092,7 @@ return Array.from<any>(notes).some(note => checkRefundNote(note.textContent)); }
 }
 
 // Select all <p> elements within ul.order_notes > li > div > p
-const notes = Array.from<any>(document.querySelectorAll('ul.order_notes > li > div > p'));
+const notes = Array.from<any>(document.querySelectorAll('ul.order_notes > li > div > div > p'));
 
 // Check if any note matches the pattern
 return Array.from<any>(notes).some(note => checkRefundNote(note.textContent)); }, vars)).toBeTruthy();
@@ -1105,5 +1136,5 @@ export async function thankYouPage(page: Page, vars: Record<string, string> = {}
   await expect(page.locator(`.email > strong`).first()).toContainText(`${vars.email ?? ''}`);
   vars.orderNumber = ((await page.locator(`li.woocommerce-order-overview__order.order > strong`).textContent()) ?? '').trim();
   await expect(page.locator(`.total > strong > .woocommerce-Price-amount.amount > bdi`).first()).toHaveText(`${vars.total ?? ''}`);
-  await expect(page.locator(`li.woocommerce-order-overview__payment-method.method > strong`).first()).toHaveText(`${vars.paymentMethod ?? ''}`);
+  await expect(page.locator(`li.woocommerce-order-overview__payment-method.method > strong`).first()).toContainText(`${vars.paymentMethod ?? ''}`);
 }

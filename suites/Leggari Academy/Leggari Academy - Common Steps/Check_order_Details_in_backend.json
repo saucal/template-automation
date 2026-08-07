@@ -75,7 +75,14 @@
       "optional": false,
       "private": false,
       "sequence": 4,
-      "target": "a[href*=\"tel:\"]:nth-of-type(1)",
+      "target": [
+        {
+          "selector": ".order_data_column:nth-of-type(2) a[href*=\"tel:\"]:nth-of-type(1)"
+        },
+        {
+          "selector": "a[href*=\"tel:\"]:nth-of-type(1)"
+        }
+      ],
       "value": "{{phone}}",
       "variableName": ""
     },
@@ -85,7 +92,7 @@
       "optional": false,
       "private": false,
       "sequence": 5,
-      "target": "div.order_data_column:nth-child(3) > div.address > p",
+      "target": "div.order_data_column:nth-child(3) > div.address > p:nth-of-type(1)",
       "value": "{{street3}}\n{{city}}, {{state}} {{zipCode}}",
       "variableName": ""
     },

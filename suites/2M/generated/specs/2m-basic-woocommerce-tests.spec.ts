@@ -31,12 +31,6 @@ test.describe('2M - Basic WooCommerce Tests', () => {
     "adminPass": process.env.ADMIN_PASS ?? '',
     "username": "qa+gi_staging_user@saucal.com",
     "password2": process.env.PASSWORD2 ?? '',
-    "PONumber": "000-647657",
-    "countryComplete": "United States (US)",
-    "project": "2m",
-    "Symbol": "$",
-    "password": process.env.PASSWORD ?? '',
-    "street": "123 False Street",
     "city": "Miami",
     "state": "FL",
     "aim": "6ca64cf55317426785ba330a8e6b71b456655",
@@ -48,6 +42,12 @@ test.describe('2M - Basic WooCommerce Tests', () => {
     "zipCode": "33126",
     "emailCC": "qa+gi_ccemail@saucal.com",
     "phone": "3050698796",
+    "PONumber": "000-647657",
+    "countryComplete": "United States (US)",
+    "project": "2m",
+    "Symbol": "$",
+    "password": process.env.PASSWORD ?? '',
+    "street": "123 False Street",
   }, { get: (o: Record<string, string>, k: string) => (k in o ? o[k] : '') });
 
   test('“Forgot password?” flow', async ({ page }) => {

@@ -202,7 +202,7 @@ return `${vars.Symbol}`+discount.toFixed(2)
     await expect(page.locator(`dd.component_value > p`).first()).toContainText(`${vars.square ?? ''} ft²`);
     await expect(page.locator(`dd.variation-UrethaneTopCoat`).first()).toContainText(`${vars.coat ?? ''} × 1`);
     await expect(page.locator(`dd.variation-GritAdditive`).first()).toContainText(`${vars.additive ?? ''} × 1`);
-    await expect(page.locator(`dd.variation-VaporBarrier`).first()).toContainText(`${vars.vapor ?? ''}`);
+    await expect(page.locator(`dd.variation-VaporBarrier`).or(page.locator(`dd.variation-VaporBarrier3gal`)).or(page.locator(`dd.variation-VaporBarrier15gal`)).first()).toContainText(`${vars.vapor ?? ''}`);
     if (vars.role !== 'contractor') {
       await expect(page.locator(`.woocommerce-mini-cart__total > .woocommerce-Price-amount.amount > bdi`).first()).toHaveText(`${vars.unitPrice ?? ''}`);
     }

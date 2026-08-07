@@ -95,7 +95,7 @@ if (siteTitle != "Cart • No Pong"){
       await page.locator(`#masthead > div > div > ul > li > a`).or(page.locator(`#masthead div > ul > li > a.cart-contents`)).filter({ visible: true }).first().click({ force: true });
     }
     await expect(page.locator(`td.product-price > .woocommerce-Price-amount.amount > bdi`).first()).toHaveText(`${vars.unitPrice ?? ''}`);
-    vars.qty = `2`;
+    vars.qty = `1`;
     try { await page.locator(`input[title="Qty"]`).or(page.locator(`input.input-text.qty.text`)).first().fill(`${vars.qty ?? ''}`); } catch { await page.locator(`input[title="Qty"]`).or(page.locator(`input.input-text.qty.text`)).first().selectOption(`${vars.qty ?? ''}`); }
     await page.locator(`td.product-subtotal > .woocommerce-Price-amount.amount > bdi`).filter({ visible: true }).first().click({ force: true });
     await blockUI(page, vars);
@@ -201,7 +201,7 @@ if (siteTitle != "Cart • No Pong"){
       await page.locator(`#masthead > div > div > ul > li > a`).or(page.locator(`#masthead div > ul > li > a.cart-contents`)).filter({ visible: true }).first().click({ force: true });
     }
     await expect(page.locator(`td.product-price > .woocommerce-Price-amount.amount > bdi`).first()).toHaveText(`${vars.unitPrice ?? ''}`);
-    vars.qty = `2`;
+    vars.qty = `1`;
     try { await page.locator(`input[title="Qty"]`).or(page.locator(`input.input-text.qty.text`)).first().fill(`${vars.qty ?? ''}`); } catch { await page.locator(`input[title="Qty"]`).or(page.locator(`input.input-text.qty.text`)).first().selectOption(`${vars.qty ?? ''}`); }
     await page.locator(`td.product-subtotal > .woocommerce-Price-amount.amount > bdi`).filter({ visible: true }).first().click({ force: true });
     await blockUI(page, vars);

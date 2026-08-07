@@ -92,7 +92,14 @@
       "optional": false,
       "private": false,
       "sequence": 6,
-      "target": "h1.entry-title > em",
+      "target": [
+        {
+          "selector": "h1.entry-title > em"
+        },
+        {
+          "selector": "#h-cart"
+        }
+      ],
       "value": "Cart",
       "variableName": ""
     },
@@ -121,7 +128,14 @@
       "optional": false,
       "private": false,
       "sequence": 9,
-      "target": ".subscription-price > .subscription-details"
+      "target": [
+        {
+          "selector": ".subscription-price > .subscription-details"
+        },
+        {
+          "selector": ".product-price > .subscription-details"
+        }
+      ]
     },
     {
       "command": "execute",

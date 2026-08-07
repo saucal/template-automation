@@ -58,6 +58,7 @@ test.describe('US - Basic WooCommerce Test', () => {
     vars.username = `${vars.emailForgot ?? ''}`;
     vars.pass = `${vars.password ?? ''}`;
     await register(page, vars);
+    await page.waitForTimeout(45000);
     await page.locator(`xpath=//a[contains(text(), "Log out")]`).filter({ visible: true }).first().click({ force: true });
     await page.locator(`li > a[href*="/my-account/"]`).filter({ visible: true }).first().click({ force: true });
     await expect(page.locator(`form.woocommerce-form.woocommerce-form-login.login`)).not.toHaveCount(0);

@@ -232,6 +232,9 @@
         },
         {
           "selector": "div > div > div > div.bwf-inner-col > div.bwf-btn-wrap.wfocu-link.wfocu-reject.wp-block-wrap > a > span"
+        },
+        {
+          "selector": ".wfocu-reject a.wfocu_skip_offer"
         }
       ],
       "value": "",
@@ -246,7 +249,7 @@
       "private": false,
       "sequence": 13,
       "target": "",
-      "value": "3000",
+      "value": "4000",
       "variableName": ""
     },
     {
@@ -263,6 +266,9 @@
         },
         {
           "selector": "div > div > div > div.bwf-inner-col > div.bwf-btn-wrap.wfocu-link.wfocu-reject.wp-block-wrap > a > span"
+        },
+        {
+          "selector": ".wfocu-reject a.wfocu_skip_offer"
         }
       ],
       "value": "",
@@ -277,7 +283,7 @@
       "private": false,
       "sequence": 15,
       "target": "",
-      "value": "3000",
+      "value": "4000",
       "variableName": ""
     },
     {
@@ -294,6 +300,9 @@
         },
         {
           "selector": "div > div > div > div.bwf-inner-col > div.bwf-btn-wrap.wfocu-link.wfocu-reject.wp-block-wrap > a > span"
+        },
+        {
+          "selector": ".wfocu-reject a.wfocu_skip_offer"
         }
       ],
       "value": "",

@@ -76,12 +76,30 @@ export async function bLU002018AdminSide(page: Page, vars: Record<string, string
   await page.locator(`a[href="edit.php?post_type=shop_order"]`).or(page.locator(`a[href="admin.php?page=wc-orders"]`)).filter({ visible: true }).first().click({ force: true });
   await page.locator(`a[href*="/wp-admin/post.php?post=${vars.orderNumber ?? ''}&action=edit"] > strong`).or(page.locator(`a[href*="/wp-admin/admin.php?page=wc-orders&action=edit&id=${vars.orderNumber ?? ''}"] > strong`)).filter({ visible: true }).first().click({ force: true });
   await checkTranscationIsPresentOnOrderBackend(page, vars);
-  await page.locator(`a[href="edit.php?post_type=shop_subscription"]`).or(page.locator(`a[href="admin.php?page=wc-orders--shop_subscription"]`)).filter({ visible: true }).first().click({ force: true });
+  await page.locator(`xpath=//a[contains(text(),'Subscriptions')]`).or(page.locator(`a[href="admin.php?page=wc-orders--shop_subscription"]`)).or(page.locator(`a[href="edit.php?post_type=shop_subscription"]`)).filter({ visible: true }).first().click({ force: true });
+  await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') });   const selector = 'a[href="admin.php?page=wc-orders--shop_subscription"], a[href="edit.php?post_type=shop_subscription"]';
+  const el = document.querySelector(selector);
+  
+  if (el) {
+    el.click();
+    console.log('✅ Clicked:', el.href);
+  } else {
+    console.warn('⚠️ Element not found:', selector);
+  } }, vars);
   try {
     await expect(page.locator(`tr.iedit.author-other.level-1.type-shop_subscription.hentry:nth-of-type(1) > td.status.column-status > mark.subscription-status.order-status.tips > span`).or(page.locator(`tr.type-shop_subscription:nth-of-type(1) > td.status.column-status > mark.subscription-status.order-status.tips > span`)).first()).toHaveText(`${vars.subStatus ?? ''}`);
   } catch { /* optional step: assertText */ }
   await expect(page.locator(`tr.iedit.level-1.type-shop_subscription.hentry:nth-of-type(1) > td.recurring_total.column-recurring_total > small.meta`).or(page.locator(`tr.type-shop_subscription:nth-of-type(1) > td.recurring_total.column-recurring_total > small.meta`)).first()).toContainText(`Via ${vars.paymentMethodTitle ?? ''}`);
   await page.locator(`a[href*="/wp-admin/post.php?post=${vars.subscriptionID ?? ''}&action=edit"]`).or(page.locator(`a[href*="/wp-admin/admin.php?page=wc-orders--shop_subscription&action=edit&id=${vars.subscriptionID ?? ''}"]`)).filter({ visible: true }).first().click({ force: true });
+  await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') });   const selector = `a[href*="/wp-admin/post.php?post=${vars.subscriptionID}&action=edit"], a[href*="/wp-admin/admin.php?page=wc-orders--shop_subscription&action=edit&id=${vars.subscriptionID}"]`;
+  const el = document.querySelector(selector);
+  
+  if (el) {
+    el.click();
+    console.log('✅ Clicked:', el.href);
+  } else {
+    console.warn('⚠️ Element not found:', selector);
+  } }, vars);
   if (await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); let element = document.getElementsByClassName("order-status")
 let n = element.length
 let text = element[n-1].innerText
@@ -437,11 +455,29 @@ export async function bLU002019AdminSide(page: Page, vars: Record<string, string
   await page.locator(`a[href*="/wp-admin/post.php?post=${vars.orderNumber ?? ''}&action=edit"] > strong`).or(page.locator(`a[href*="/wp-admin/admin.php?page=wc-orders&action=edit&id=${vars.orderNumber ?? ''}"] > strong`)).filter({ visible: true }).first().click({ force: true });
   await checkTranscationIsPresentOnOrderBackend(page, vars);
   await page.locator(`a[href="edit.php?post_type=shop_subscription"]`).or(page.locator(`a[href="admin.php?page=wc-orders--shop_subscription"]`)).filter({ visible: true }).first().click({ force: true });
+  await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') });   const selector = 'a[href="admin.php?page=wc-orders--shop_subscription"], a[href="edit.php?post_type=shop_subscription"]';
+  const el = document.querySelector(selector);
+  
+  if (el) {
+    el.click();
+    console.log('✅ Clicked:', el.href);
+  } else {
+    console.warn('⚠️ Element not found:', selector);
+  } }, vars);
   try {
     await expect(page.locator(`tr.iedit.level-1.type-shop_subscription.hentry:nth-of-type(1) > td.status.column-status > mark.subscription-status.order-status.tips > span`).or(page.locator(`tr.type-shop_subscription:nth-of-type(1) > td.status.column-status > mark.subscription-status.order-status.tips > span`)).first()).toHaveText(`${vars.subStatus ?? ''}`);
   } catch { /* optional step: assertText */ }
   await expect(page.locator(`tr.iedit.level-1.type-shop_subscription.hentry:nth-of-type(1) > td.recurring_total.column-recurring_total > small.meta`).or(page.locator(`tr.type-shop_subscription:nth-of-type(1) > td.recurring_total.column-recurring_total > small.meta`)).first()).toContainText(`Via ${vars.paymentMethodTitle ?? ''}`);
   await page.locator(`a[href*="/wp-admin/post.php?post=${vars.subscriptionID ?? ''}&action=edit"]`).or(page.locator(`a[href*="/wp-admin/admin.php?page=wc-orders--shop_subscription&action=edit&id=${vars.subscriptionID ?? ''}"]`)).filter({ visible: true }).first().click({ force: true });
+  await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') });   const selector = `a[href*="/wp-admin/post.php?post=${vars.subscriptionID}&action=edit"], a[href*="/wp-admin/admin.php?page=wc-orders--shop_subscription&action=edit&id=${vars.subscriptionID}"]`;
+  const el = document.querySelector(selector);
+  
+  if (el) {
+    el.click();
+    console.log('✅ Clicked:', el.href);
+  } else {
+    console.warn('⚠️ Element not found:', selector);
+  } }, vars);
   if (await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); let element = document.getElementsByClassName("order-status")
 let n = element.length
 let text = element[n-1].innerText

@@ -148,7 +148,7 @@ test.describe('Open Studio - Basic WooCommerce Tests - Guest', () => {
     await expect(page.locator(`#primary-menu > .menu-item.menu-item-type-post_type_archive.menu-item-object-artist > a[href*="/instructors/"]`).first()).toHaveText(`Instructors`);
     await expect(page.locator(`#primary-menu > .menu-item.menu-item-type-custom.menu-item-object-custom > a[href*="/courses"]`).first()).toHaveText(`Courses & Lessons`);
     await expect(page.locator(`#primary-menu > li.menu-item.menu-item-type-post_type.menu-item-object-page:nth-of-type(3) > a[href*="/events/"]`).first()).toHaveText(`Live Schedule`);
-    await expect(page.locator(`li#menu-item-1123032 > a[href*="/mentor-sessions/"]`).first()).toHaveText(`Mentor Sessions`);
+    await expect(page.locator(`li#menu-item-1123032 > a[href*="/mentor-sessions/"]`).or(page.locator(`li#menu-item-1123032 > a[href*="/?page_id=1122600"]`)).first()).toHaveText(`Mentor Sessions`);
     await expect(page.locator(`a[href*="/gps/"]`).first()).toContainText(`Guided Practice Sessions`);
     await blockImageSizes(page, vars);
   });

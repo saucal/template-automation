@@ -50,6 +50,14 @@ baselines. Maintenance-cycle workflow:
 
 When a check goes red, classify before "fixing":
 
+0. **MANDATORY first step — read the GI source test.** Before classifying anything,
+   open the original GI test JSON for the failing step (`suites/<suite>/<test>.json`,
+   plus any `execute`-referenced common step). The GI `command`/`target`/`value` is
+   ground truth for the step's intent — exact selector, literal asserted value, nav
+   path, step order. Diff the migrated selector/assertion against GI: a "failure" is
+   often a migration-time simplification or a dropped step, not site drift. Only once
+   GI confirms the migrated intent is faithful do you classify into 1–5 below. Never
+   edit a failing assertion without having read its GI origin.
 1. **Copy reword** — error/label text changed, meaning didn't ("Country" →
    "Country / Region"). NOT a bug. Assert on field-token + intent regex, never exact
    copy (rule 26). Update the regex, move on.

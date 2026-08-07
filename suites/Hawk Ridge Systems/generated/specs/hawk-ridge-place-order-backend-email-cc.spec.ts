@@ -330,7 +330,7 @@ return shipping !== null }, vars)) {
     await expect(page.locator(`tr.refund > td.name`)).not.toHaveCount(0);
     await expect(page.locator(`tr.refund > td.line_cost > .view > .woocommerce-Price-amount.amount`).first()).toHaveText(`-${vars.total ?? ''}`);
     await expect(page.locator(`tr:nth-of-type(1) > td.total.refunded-total > .woocommerce-Price-amount.amount > bdi`).first()).toHaveText(`${vars.total ?? ''}`);
-    if (vars.paymentMethod !== 'Purchase Order') {
+    if (vars.paymentMethod !== 'Credit / Debit Card') {
       expect(await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); function checkRefundNote(note) {
     const total = `${vars.total}`.replace(/\$/g, '\\$');
     const pattern = new RegExp(`Refunded ${total} – Refund ID: re_[a-zA-Z0-9]+ – Reason: Testing Refund`);

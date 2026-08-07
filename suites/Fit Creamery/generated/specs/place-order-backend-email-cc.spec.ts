@@ -287,16 +287,16 @@ const total2 = parseFloat((refund1 + refund2).toFixed(2))
 return total === total2
  }, vars)).toBeTruthy();
     await expect(page.locator(`tr:nth-of-type(1) > td.total.refunded-total > .woocommerce-Price-amount.amount > bdi`).first()).toHaveText(`${vars.total ?? ''}`);
-    await expect(page.locator(`li.note.system-note:nth-of-type(4) > .note_content > p`)).not.toHaveCount(0);
+    await expect(page.locator(`ul.order_notes > li > div > div > p`)).not.toHaveCount(0);
     if (vars.upsellPrice !== '') {
       expect(await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); function checkRefundNote(note) {
-    const pattern = new RegExp(`CartFlows Offer Refund & Refund ID : re_[a-zA-Z0-9]+`);
+    const pattern = new RegExp(`CartFlows Offer Refund.*Refund ID : re_[a-zA-Z0-9]+`);
     return pattern.test(note);
 }
 
 
 // Select all <p> elements within ul.order_notes > li > div > p
-const notes = Array.from<any>(document.querySelectorAll('ul.order_notes > li > div > p'));
+const notes = Array.from<any>(document.querySelectorAll('ul.order_notes > li > div > div > p'));
 
 // Check if any note matches the pattern
 return Array.from<any>(notes).some(note => checkRefundNote(note.textContent)); }, vars)).toBeTruthy();
@@ -308,7 +308,7 @@ return Array.from<any>(notes).some(note => checkRefundNote(note.textContent)); }
 
 
 // Select all <p> elements within ul.order_notes > li > div > p
-const notes = Array.from<any>(document.querySelectorAll('ul.order_notes > li > div > p'));
+const notes = Array.from<any>(document.querySelectorAll('ul.order_notes > li > div > div > p'));
 
 // Check if any note matches the pattern
 return Array.from<any>(notes).some(note => checkRefundNote(note.textContent)); }, vars)).toBeTruthy();
@@ -318,6 +318,7 @@ return Array.from<any>(notes).some(note => checkRefundNote(note.textContent)); }
     await page.goto(`/`);
     await page.waitForLoadState('load');
 
+    await page.waitForTimeout(60000);
     await page.goto(`https://email.ghostinspector.com/${vars.userEmailExtract ?? ''}`);
     await page.waitForLoadState('load');
     await page.locator(`xpath=//a[contains(text(), "has been refunded")]`).filter({ visible: true }).first().click({ force: true });
@@ -328,7 +329,7 @@ return Array.from<any>(notes).some(note => checkRefundNote(note.textContent)); }
       await expect(page.locator(`tr:nth-of-type(3) > td.td > .woocommerce-Price-amount.amount`).first()).toHaveText(`-${vars.total ?? ''}`);
     }
     await expect(page.locator(`tfoot > tr > td.td > del`).first()).toHaveText(`${vars.total ?? ''}`);
-    await expect(page.locator(`tfoot > tr > td.td > ins > .woocommerce-Price-amount.amount`).first()).toHaveText(`${vars.Symbol ?? ''}0.00`);
+    await expect(page.locator(`tfoot > tr > td.td > ins > .woocommerce-Price-amount.amount`).first()).toHaveText(`-${vars.Symbol ?? ''}0.00`);
   });
 
 });

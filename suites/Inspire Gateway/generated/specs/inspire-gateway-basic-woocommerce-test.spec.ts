@@ -126,14 +126,14 @@ test.describe('Inspire Gateway - Basic WooCommerce Test', () => {
     await page.locator(`a[href="edit.php?post_type=shop_order"]`).filter({ visible: true }).first().click({ force: true });
     await page.locator(`a[href*="/wp-admin/post.php?post=${vars.orderNumber ?? ''}&action=edit"] > strong`).filter({ visible: true }).first().click({ force: true });
     await expect(page.locator(`.woocommerce-order-data__meta`).first()).toContainText(`Payment via Credit Card (Inspire Commerce).`);
-    vars.transactionNote = ((await page.locator(`li.note.system-note:nth-of-type(2) > .note_content > p`).textContent()) ?? '').trim();
+    vars.transactionNote = ((await page.locator(`li.note.system-note:nth-of-type(4) .note_content p`).textContent()) ?? '').trim();
     vars.transactionID = await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); let str = `${vars.transactionNote}`;
 let regex = /([0-9])\w+/g;
 let m;
 
 m = regex.exec(str);
 return m[0] }, vars);
-    await expect(page.locator(`li.note.system-note:nth-of-type(2) > .note_content > p`).first()).toContainText(`Inspire Commerce payment completed. Transaction ID:`);
+    await expect(page.locator(`li.note.system-note:nth-of-type(4) .note_content p`).first()).toContainText(`Inspire Commerce payment completed. Transaction ID:`);
     await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); window.open(`https://secure.inspiregateway.net/api/query.php/?security_key=G878BrDH5enF89F46tem2Fssa93DV3Ta&transaction_id=${vars.transactionID}`)
  }, vars);
     await expect(page.locator(`transaction > transaction_id`).first()).toHaveText(`${vars.transactionID ?? ''}`);
@@ -202,14 +202,14 @@ return total }, vars);
     await page.locator(`a[href="edit.php?post_type=shop_order"]`).filter({ visible: true }).first().click({ force: true });
     await page.locator(`a[href*="/wp-admin/post.php?post=${vars.orderNumber ?? ''}&action=edit"]`).filter({ visible: true }).first().click({ force: true });
     await expect(page.locator(`.woocommerce-order-data__meta`).first()).toContainText(`Payment via Credit Card (Inspire Commerce).`);
-    vars.transactionNote = ((await page.locator(`li.note.system-note:nth-of-type(2) > .note_content > p`).textContent()) ?? '').trim();
+    vars.transactionNote = ((await page.locator(`li.note.system-note:nth-of-type(4) .note_content p`).textContent()) ?? '').trim();
     vars.transactionID = await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); let str = `${vars.transactionNote}`;
 let regex = /([0-9])\w+/g;
 let m;
 
 m = regex.exec(str);
 return m[0] }, vars);
-    await expect(page.locator(`li.note.system-note:nth-of-type(2) > .note_content > p`).first()).toContainText(`Inspire Commerce payment completed. Transaction ID:`);
+    await expect(page.locator(`li.note.system-note:nth-of-type(4) .note_content p`).first()).toContainText(`Inspire Commerce payment completed. Transaction ID:`);
     await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); window.open(`https://secure.inspiregateway.net/api/query.php/?security_key=G878BrDH5enF89F46tem2Fssa93DV3Ta&transaction_id=${vars.transactionID}`)
  }, vars);
     await expect(page.locator(`transaction > transaction_id`).first()).toHaveText(`${vars.transactionID ?? ''}`);

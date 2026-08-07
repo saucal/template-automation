@@ -1,9 +1,11 @@
 {
   "autoRetry": null,
   "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
   "dataSource": null,
   "disableVisuals": null,
   "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
   "failOnJavaScriptError": null,
   "filters": [],
   "finalDelay": null,
@@ -15,23 +17,22 @@
   "maxAjaxDelay": null,
   "maxConcurrentDataRows": null,
   "maxWaitDelay": null,
-  "name": "02 - Header",
+  "name": "17 - Course Page",
   "notifications": null,
   "publicStatusEnabled": false,
   "region": null,
   "screenshotCompareEnabled": null,
-  "screenshotTarget": "header",
   "screenshotCompareThreshold": 0.1,
   "startUrl": "",
   "steps": [
     {
-      "command": "mouseOver",
+      "command": "execute",
       "condition": null,
       "optional": false,
       "private": false,
       "sequence": 0,
-      "target": "#menu-item-16307",
-      "value": "",
+      "target": "",
+      "value": "68caa38a189a381f8efcb5b3",
       "variableName": ""
     },
     {
@@ -41,57 +42,58 @@
       "private": false,
       "sequence": 1,
       "target": "",
-      "value": "6981e67476f083a56521e0ab",
+      "value": "6022b6b2d2fb38677e5d8a9a",
       "variableName": ""
     },
     {
-      "command": "mouseOver",
+      "command": "click",
       "condition": null,
       "optional": false,
       "private": false,
       "sequence": 2,
-      "target": "#menu-item-16307",
-      "value": "",
-      "variableName": ""
+      "target": "#os-open-menu"
     },
     {
-      "command": "assertElementVisible",
+      "command": "open",
       "condition": null,
       "optional": false,
       "private": false,
       "sequence": 3,
-      "target": "#menu-item-16307 > ul",
-      "value": "",
+      "target": "",
+      "value": "{{startUrl}}courses",
       "variableName": ""
     },
     {
-      "command": "mouseOver",
+      "command": "click",
       "condition": null,
       "optional": false,
       "private": false,
       "sequence": 4,
-      "target": "#menu-item-56846",
-      "value": "",
-      "variableName": ""
+      "target": "a[href*=\"/piano/\"].os-instruments-grid__instrument"
     },
     {
-      "command": "assertElementNotVisible",
+      "command": "click",
       "condition": null,
       "optional": false,
       "private": false,
       "sequence": 5,
-      "target": "#menu-item-16307 > ul",
-      "value": "",
-      "variableName": ""
+      "target": [
+        {
+          "selector": "a[href*=\"/courses/jazz-piano-jump-start/\"] > img.attachment-woocommerce_single.size-woocommerce_single"
+        },
+        {
+          "selector": "#post-1233989 > h3 > a"
+        }
+      ]
     },
     {
-      "command": "execute",
+      "command": "assertElementNotPresent",
       "condition": null,
       "optional": false,
       "private": false,
       "sequence": 6,
-      "target": "",
-      "value": "6981e67476f083a56521e0ab",
+      "target": "a[href*=\"/join/\"]",
+      "value": "",
       "variableName": ""
     }
   ],
@@ -99,8 +101,8 @@
   "testFrequencyAdvanced": [],
   "viewportSize": null,
   "_gi": {
-    "testId": "6a26cfca0f1aedc97da54e9f",
-    "suiteId": "6a26cfca0f1aedc97da54e97",
-    "suiteName": "repurposedM - Basic WooCommerce tests (Copy)"
+    "testId": "663cbc7289e87fd839fddf04",
+    "suiteId": "663a65cd1aac3ea14fc69327",
+    "suiteName": "Open Studio - Basic WooCommerce Tests - Member - don't use"
   }
 }

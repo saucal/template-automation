@@ -214,7 +214,7 @@ return width > 767 }, vars)) {
     await creditsVariables(page, vars);
     vars.n = await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); const elements = Array.from<any>(document.querySelectorAll<HTMLAnchorElement>('ul.wc-block-grid__products > li a[href*="?add-to-cart="]'))
 const length = elements.length;
-const randomNumber = Math.floor(Math.random() * length) + 1;
+const randomNumber = Math.floor(Math.random() * length) + 2;
 
 return randomNumber }, vars);
     vars.prod_desc = ((await page.locator(`div.wc-block-grid.wp-block-handpicked-products.wc-block-handpicked-products > ul > li:nth-child(${vars.n ?? ''}) > a > div.wc-block-grid__product-title`).textContent()) ?? '').trim();
@@ -306,7 +306,7 @@ return width > 767 }, vars)) {
     await creditsVariables(page, vars);
     vars.n = await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); const elements = Array.from<any>(document.querySelectorAll<HTMLAnchorElement>('ul.wc-block-grid__products > li a[href*="?add-to-cart="]'))
 const length = elements.length;
-const randomNumber = Math.floor(Math.random() * length) + 1;
+const randomNumber = Math.floor(Math.random() * length) + 2;
 
 return randomNumber }, vars);
     vars.prod_desc = ((await page.locator(`div.wc-block-grid.wp-block-handpicked-products.wc-block-handpicked-products > ul > li:nth-child(${vars.n ?? ''}) > a > div.wc-block-grid__product-title`).textContent()) ?? '').trim();

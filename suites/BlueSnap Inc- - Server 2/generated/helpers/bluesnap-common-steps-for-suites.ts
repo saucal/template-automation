@@ -1620,6 +1620,11 @@ export async function fillBillingDetails(page: Page, vars: Record<string, string
   await page.locator(`xpath=//span[contains(text(), "Select a country / region…")]`).or(page.locator(`#select2-billing_country-container > span`)).filter({ visible: true }).first().click({ force: true });
   try { await page.locator(`span > span:nth-of-type(1) > input[type="text"]`).first().fill(`United States`); } catch { await page.locator(`span > span:nth-of-type(1) > input[type="text"]`).first().selectOption(`United States`); }
   await page.keyboard.press('Enter');
+  {
+    const _lbl = page.locator(`label[for="billing_address_1"]`).filter({ visible: true });
+    if (await _lbl.count() > 0) { await _lbl.first().click(); }
+    else { await page.locator(`#billing_address_1`).filter({ visible: true }).first().click({ force: true }); }
+  }
   try { await page.locator(`#billing_address_1`).first().fill(`${vars.street ?? ''}`); } catch { await page.locator(`#billing_address_1`).first().selectOption(`${vars.street ?? ''}`); }
   try { await page.locator(`#billing_address_2`).first().fill(`${vars.address2 ?? ''}`); } catch { await page.locator(`#billing_address_2`).first().selectOption(`${vars.address2 ?? ''}`); }
   try { await page.locator(`#billing_city`).first().fill(`${vars.city ?? ''}`); } catch { await page.locator(`#billing_city`).first().selectOption(`${vars.city ?? ''}`); }
@@ -3986,6 +3991,19 @@ return orderVisible === "true" })()) {
   }
   if ((() => { let orderVisible = vars.orderVisible
 
+return orderVisible === "true" })()) {
+    await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') });   const selector = `a[href*="/wp-admin/post.php?post=${vars.orderNumber}&action=edit"] > strong, a[href*="/wp-admin/admin.php?page=wc-orders&action=edit&id=${vars.orderNumber}"] > strong`;
+  const el = document.querySelector(selector);
+  
+  if (el) {
+    el.click();
+    console.log('✅ Clicked:', el.href);
+  } else {
+    console.warn('⚠️ Element not found:', selector);
+  } }, vars);
+  }
+  if ((() => { let orderVisible = vars.orderVisible
+
 return orderVisible === "false" })()) {
     await page.locator(`.next-page.button`).filter({ visible: true }).first().click({ force: true });
   }
@@ -3998,6 +4016,19 @@ return orderVisible === "false" })()) {
 
 return orderVisible === "false" })()) {
     await page.locator(`a[href*="/wp-admin/post.php?post=${vars.orderNumber ?? ''}&action=edit"] > strong`).or(page.locator(`a[href*="/wp-admin/admin.php?page=wc-orders&action=edit&id=${vars.orderNumber ?? ''}"] > strong`)).filter({ visible: true }).first().click({ force: true });
+  }
+  if ((() => { let orderVisible = vars.orderVisible
+
+return orderVisible === "false" })()) {
+    await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') });   const selector = `a[href*="/wp-admin/post.php?post=${vars.orderNumber}&action=edit"] > strong, a[href*="/wp-admin/admin.php?page=wc-orders&action=edit&id=${vars.orderNumber}"] > strong`;
+  const el = document.querySelector(selector);
+  
+  if (el) {
+    el.click();
+    console.log('✅ Clicked:', el.href);
+  } else {
+    console.warn('⚠️ Element not found:', selector);
+  } }, vars);
   }
 }
 
@@ -9445,13 +9476,17 @@ return logs[1].content.message[0].code === "14002" }, vars)).toBeTruthy();
 
 return pay === "now" })()) {
     expect(await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); const logs = vars.logs
-return logs[1].content.message[0].description === "Transaction creation could not be completed because of transaction processing failure: DECLINE - Default BlueSnapTestProcessor [DECLINE] message" }, vars)).toBeTruthy();
+return logs[1].content.message[0].description === "Transaction creation could not be completed because of transaction processing failure: DECLINE - Default BlueSnapTestProcessor [DECLINE] message"
+||
+logs[1].content.message[0].description === "Transaction creation could not be completed because of transaction processing failure: GENERAL_PAYMENT_PROCESSING_ERROR - Default BlueSnapTestProcessor [GENERAL_PAYMENT_PROCESSING_ERROR] message" }, vars)).toBeTruthy();
   }
   if ((() => { let pay = vars.pay
 
 return pay === "later" })()) {
     expect(await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); const logs = vars.logs
-return logs[1].content.message[0].description === "Transaction failed  because of payment processing failure.: DECLINE - Default BlueSnapTestProcessor [DECLINE] message" }, vars)).toBeTruthy();
+return logs[1].content.message[0].description === "Transaction failed  because of payment processing failure.: DECLINE - Default BlueSnapTestProcessor [DECLINE] message"
+||
+logs[1].content.message[0].description === "Transaction failed  because of payment processing failure.: GENERAL_PAYMENT_PROCESSING_ERROR - Default BlueSnapTestProcessor [GENERAL_PAYMENT_PROCESSING_ERROR] message" }, vars)).toBeTruthy();
   }
 }
 

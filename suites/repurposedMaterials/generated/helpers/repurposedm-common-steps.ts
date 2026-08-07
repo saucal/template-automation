@@ -348,7 +348,9 @@ Tax ID:`);
 ${vars.company2 ?? ''}
 ${vars.street3 ?? ''}
 ${vars.street4 ?? ''}
-${vars.city ?? ''}, ${vars.state ?? ''} ${vars.zipCode ?? ''}`);
+${vars.city ?? ''}, ${vars.state ?? ''} ${vars.zipCode ?? ''}
+
+${vars.phone ?? ''}`);
   }
 }
 
@@ -362,12 +364,21 @@ ${vars.street ?? ''}
 ${vars.street2 ?? ''}
 ${vars.city ?? ''}, ${vars.state ?? ''} ${vars.zipCode ?? ''}`);
   await expect(page.locator(`a[href*="mailto:qa+gi_"]`).first()).toContainText(`${vars.email ?? ''}`);
-  await expect(page.locator(`a[href*="tel:"]`).first()).toHaveText(`${vars.phone ?? ''}`);
-  await expect(page.locator(`div.order_data_column:nth-of-type(3) > .address > p:nth-of-type(1)`).first()).toContainText(`${vars.firstName ?? ''} ${vars.lastName2 ?? ''}
+  await expect(page.locator(`a[href*="tel:"]`).first()).toHaveText(`${vars.phone ?? ''}${vars.phone ?? ''}`);
+  if (vars.logged === 'yes') {
+    await expect(page.locator(`div.order_data_column:nth-of-type(3) > .address > p:nth-of-type(1)`).first()).toContainText(`${vars.firstName ?? ''} ${vars.lastName ?? ''}
+${vars.company ?? ''}
+${vars.street ?? ''}
+${vars.street2 ?? ''}
+${vars.city ?? ''}, ${vars.state ?? ''} ${vars.zipCode ?? ''}`);
+  }
+  if (vars.logged !== 'yes') {
+    await expect(page.locator(`div.order_data_column:nth-of-type(3) > .address > p:nth-of-type(1)`).first()).toContainText(`${vars.firstName ?? ''} ${vars.lastName2 ?? ''}
 ${vars.company2 ?? ''}
 ${vars.street3 ?? ''}
 ${vars.street4 ?? ''}
 ${vars.city ?? ''}, ${vars.state ?? ''} ${vars.zipCode ?? ''}`);
+  }
   await expect(page.locator(`.order_note`).first()).toContainText(`Order Note for Testing this field`);
   await expect(page.locator(`td.name a[href*="/wp-admin/post.php?post="]`).first()).toContainText(`${vars.prod_desc ?? ''}`);
   if (vars.product === 'variable') {
@@ -399,7 +410,7 @@ ${vars.city ?? ''}, ${vars.state ?? ''} ${vars.zipCode ?? ''}`);
 }
 
 // Select all <p> elements within ul.order_notes > li > div > p
-const notes = Array.from<any>(document.querySelectorAll('ul.order_notes > li > div > p'));
+const notes = Array.from<any>(document.querySelectorAll('ul.order_notes > li > div p'));
 
 // Check if any note matches the pattern
 return Array.from<any>(notes).some(note => checkAdminNote(note.textContent));
@@ -411,7 +422,7 @@ return Array.from<any>(notes).some(note => checkAdminNote(note.textContent));
 }
 
 // Select all <p> elements within ul.order_notes > li > div > p
-const notes = Array.from<any>(document.querySelectorAll('ul.order_notes > li > div > p'));
+const notes = Array.from<any>(document.querySelectorAll('ul.order_notes > li > div p'));
 
 // Check if any note matches the pattern
 return Array.from<any>(notes).some(note => checkRefundNote(note.textContent)); }, vars)).toBeTruthy();
@@ -609,6 +620,9 @@ return (element as HTMLInputElement).checked }, vars)) {
   if (vars.logged !== 'yes') {
     try { await page.locator(`#shipping_postcode`).first().fill(`${vars.zipCode ?? ''}`); } catch { await page.locator(`#shipping_postcode`).first().selectOption(`${vars.zipCode ?? ''}`); }
   }
+  if (vars.logged !== 'yes') {
+    try { await page.locator(`#shipping_phone`).first().fill(`${vars.phone ?? ''}`); } catch { await page.locator(`#shipping_phone`).first().selectOption(`${vars.phone ?? ''}`); }
+  }
   await blockUI(page, vars);
   try { await page.locator(`#order_comments`).first().fill(`Order Note for Testing this field`); } catch { await page.locator(`#order_comments`).first().selectOption(`Order Note for Testing this field`); }
   try { await page.locator(`#purchase_repurposing`).first().fill(`Test using`); } catch { await page.locator(`#purchase_repurposing`).first().selectOption(`Test using`); }
@@ -728,7 +742,9 @@ ${vars.email ?? ''}`);
 ${vars.company2 ?? ''}
 ${vars.street3 ?? ''}
 ${vars.street4 ?? ''}
-${vars.city ?? ''}, ${vars.state ?? ''} ${vars.zipCode ?? ''}`);
+${vars.city ?? ''}, ${vars.state ?? ''} ${vars.zipCode ?? ''}
+${vars.countryComplete ?? ''}
+${vars.phone ?? ''}`);
   }
 }
 
@@ -847,7 +863,7 @@ return !!shipping  }, vars)) {
 }
 
 // Select all <p> elements within ul.order_notes > li > div > p
-const notes = Array.from<any>(document.querySelectorAll('ul.order_notes > li > div > p'));
+const notes = Array.from<any>(document.querySelectorAll('ul.order_notes > li > div p'));
 
 // Check if any note matches the pattern
 return Array.from<any>(notes).some(note => checkRefundNote(note.textContent)); }, vars)).toBeTruthy();
@@ -858,7 +874,7 @@ return Array.from<any>(notes).some(note => checkRefundNote(note.textContent)); }
 }
 
 // Select all <p> elements within ul.order_notes > li > div > p
-const notes = Array.from<any>(document.querySelectorAll('ul.order_notes > li > div > p'));
+const notes = Array.from<any>(document.querySelectorAll('ul.order_notes > li > div p'));
 
 // Check if any note matches the pattern
 return Array.from<any>(notes).some(note => checkRefundNote(note.textContent)); }, vars)).toBeTruthy();

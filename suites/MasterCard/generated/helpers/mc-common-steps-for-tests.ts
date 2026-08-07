@@ -3518,7 +3518,7 @@ return logs[0].content.length === 0 }, vars)).toBeTruthy();
 return refund !== 'exceed' })()) {
     vars.log = await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); const logs = vars.logs
 
-return logs[0].content[1] }, vars);
+return logs[0].content[logs[0].content.length - 1] }, vars);
   }
   if ((() => { const refund = vars.refund
 

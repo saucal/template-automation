@@ -256,7 +256,7 @@ selectFirstAvailableVariation(); }, vars);
     // Also return the array so you can use it programmatically
     return results; }, vars);
       vars.prod_desc = ((await page.locator(`h1.product_title`).textContent()) ?? '').trim();
-      vars.unitPrice = ((await page.locator(`.woocommerce-variation-price > .price > span > .woocommerce-Price-amount.amount > bdi`).or(page.locator(`.product-summary > .price > span > .woocommerce-Price-amount.amount > bdi`)).textContent()) ?? '').trim();
+      vars.unitPrice = ((await page.locator(`.woocommerce-variation-price > .price > span > .woocommerce-Price-amount.amount > bdi`).or(page.locator(`.product-summary > .price > span > .woocommerce-Price-amount.amount > bdi`)).or(page.locator(`div.product-overview > div.product-summary > p > span > span`)).textContent()) ?? '').trim();
       await closePopup(page, vars);
       // ↑ end 06 - Variable product page
     }
@@ -557,7 +557,7 @@ selectFirstAvailableVariation(); }, vars);
     // Also return the array so you can use it programmatically
     return results; }, vars);
       vars.prod_desc = ((await page.locator(`h1.product_title`).textContent()) ?? '').trim();
-      vars.unitPrice = ((await page.locator(`.woocommerce-variation-price > .price > span > .woocommerce-Price-amount.amount > bdi`).or(page.locator(`.product-summary > .price > span > .woocommerce-Price-amount.amount > bdi`)).textContent()) ?? '').trim();
+      vars.unitPrice = ((await page.locator(`.woocommerce-variation-price > .price > span > .woocommerce-Price-amount.amount > bdi`).or(page.locator(`.product-summary > .price > span > .woocommerce-Price-amount.amount > bdi`)).or(page.locator(`div.product-overview > div.product-summary > p > span > span`)).textContent()) ?? '').trim();
       await closePopup(page, vars);
       // ↑ end 06 - Variable product page
     }

@@ -1128,7 +1128,7 @@ ${vars.city ?? ''} ${vars.state ?? ''} ${vars.zipCode ?? ''}
 ${vars.phone ?? ''}
 ${vars.email ?? ''}`);
   }
-  if (vars.project == "purCrystal") {
+  if (vars.project === "purCrystal") {
     await expect(page.locator(`td:nth-of-type(1) > address.address`).first()).toHaveText(`${vars.firstName ?? ''} ${vars.lastName ?? ''}
 ${vars.company ?? ''}
 ${vars.street ?? ''}
@@ -1162,7 +1162,8 @@ ${vars.company2 ?? ''}
 ${vars.street ?? ''}
 ${vars.street3 ?? ''}
 ${vars.city ?? ''}, ${vars.state ?? ''} ${vars.zipCode ?? ''}
-${vars.countryComplete ?? ''}`);
+${vars.countryComplete ?? ''}
+${vars.phone ?? ''}`);
   }
   if (vars.project == "leggari") {
     await expect(page.locator(`td:nth-of-type(2) > address.address`).first()).toHaveText(`${vars.firstName ?? ''} ${vars.lastName ?? ''}
@@ -2076,12 +2077,16 @@ return project === "mavenfair" && vendor === "yes" })()) {
   if ((() => { let project = vars.project
 let vendor = vars.vendor
 return (project === "mavenfair" && vendor != "yes") || project != "mavenfair" })()) {
-    await expect(page.locator(`button[data-id='payment-submit-btn']`).or(page.locator(`xpath=//*[@id="one-time-cta"]/div/div/div[contains(text(),'Pay')]`)).or(page.locator(`button[type='submit'] > div > div > div:nth-of-type(1)`))).not.toHaveCount(0);
+    await expect(page.locator(`button[data-id='payment-submit-btn']`).or(page.locator(`xpath=//*[@id="one-time-cta"]/div/div/div[contains(text(),'Pay')]`)).or(page.locator(`button[type='submit'] > div > div > div:nth-of-type(1)`)).or(page.locator(`xpath=//*[@id="one-time-cta"]//*[contains(text(),'Pay')]`)).or(page.locator(`#one-time-cta`))).not.toHaveCount(0);
   }
   if ((() => { let project = vars.project
 let vendor = vars.vendor
 return (project === "mavenfair" && vendor != "yes") || project != "mavenfair" })()) {
-    await page.locator(`button[data-id='payment-submit-btn']`).or(page.locator(`xpath=//*[@id="one-time-cta"]/div/div/div[contains(text(),'Pay')]`)).or(page.locator(`button[type='submit'] > div > div > div:nth-of-type(1)`)).filter({ visible: true }).first().click({ force: true });
+    {
+      const _lbl = page.locator(`label[for="one-time-cta"]`).filter({ visible: true });
+      if (await _lbl.count() > 0) { await _lbl.first().click(); }
+      else { await page.locator(`button[data-id='payment-submit-btn']`).or(page.locator(`xpath=//*[@id="one-time-cta"]/div/div/div[contains(text(),'Pay')]`)).or(page.locator(`button[type='submit'] > div > div > div:nth-of-type(1)`)).or(page.locator(`xpath=//*[@id="one-time-cta"]//*[contains(text(),'Pay')]`)).or(page.locator(`#one-time-cta`)).filter({ visible: true }).first().click({ force: true }); }
+    }
   }
   if ((() => { let project = vars.project
 let vendor = vars.vendor
@@ -2948,7 +2953,7 @@ return project === "Deans" || project === "hunchie"
   await blockUI(page, vars);
   if ((() => { let project = vars.project
 return project === "Deans" || project === "talkbox"
-|| project === "mood" })()) {
+|| project === "mood" || project === "nopong" })()) {
     try { await page.locator(`#shipping_phone`).first().fill(`${vars.phone ?? ''}`); } catch { await page.locator(`#shipping_phone`).first().selectOption(`${vars.phone ?? ''}`); }
   }
   if ((() => { let project = vars.project

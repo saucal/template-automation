@@ -77,7 +77,7 @@ const unitPriceComplete = firstProductTop.textContent
 return unitPriceComplete }, vars);
     await _giEval(page, (vars: any) => { vars = new Proxy(vars, { get: (o, k) => (k in o ? o[k] : '') }); const firstProductTop = Array.from<any>(document.querySelectorAll(
   "ul.products > li.product-type-subscription.instock, ul.products > li.product-type-variable-subscription.instock"
-))[2];
+))[3];
 
 const firstLink = firstProductTop.querySelector("a");
 

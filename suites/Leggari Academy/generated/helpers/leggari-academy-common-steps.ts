@@ -267,8 +267,8 @@ export async function checkOrderDetailsInBackend(page: Page, vars: Record<string
 ${vars.street ?? ''}
 ${vars.city ?? ''}, ${vars.state ?? ''} ${vars.zipCode ?? ''}`);
   await expect(page.locator(`a[href*="mailto:qa+gi_order_"]`).or(page.locator(`a[href*="mailto:qa+gi_subs_"]`)).first()).toHaveText(`${vars.email ?? ''}`);
-  await expect(page.locator(`a[href*="tel:"]:nth-of-type(1)`).first()).toHaveText(`${vars.phone ?? ''}`);
-  await expect(page.locator(`div.order_data_column:nth-child(3) > div.address > p`).first()).toHaveText(`${vars.street3 ?? ''}
+  await expect(page.locator(`.order_data_column:nth-of-type(2) a[href*="tel:"]:nth-of-type(1)`).or(page.locator(`a[href*="tel:"]:nth-of-type(1)`)).first()).toHaveText(`${vars.phone ?? ''}`);
+  await expect(page.locator(`div.order_data_column:nth-child(3) > div.address > p:nth-of-type(1)`).first()).toHaveText(`${vars.street3 ?? ''}
 ${vars.city ?? ''}, ${vars.state ?? ''} ${vars.zipCode ?? ''}`);
   await expect(page.locator(`a[href*="/wp-admin/post.php?post="]`).or(page.locator(`#order_line_items > tr > td.name > a`)).first()).toContainText(`Leggari Academy Membership`);
   await expect(page.locator(`#order_line_items > tr > td.name > div.view > table > tbody > tr > td > p`).first()).toContainText(`Spanish`);
@@ -399,9 +399,6 @@ export async function fillCheckout(page: Page, vars: Record<string, string> = {}
     try { await page.locator(`#billing_email`).first().fill(`${vars.email ?? ''}`); } catch { await page.locator(`#billing_email`).first().selectOption(`${vars.email ?? ''}`); }
   }
   if (vars.logged !== 'yes') {
-    try { await page.locator(`#account_password`).first().fill(`${vars.password ?? ''}`); } catch { await page.locator(`#account_password`).first().selectOption(`${vars.password ?? ''}`); }
-  }
-  if (vars.logged !== 'yes') {
     try { await page.locator(`#billing_first_name`).first().fill(`${vars.firstName ?? ''}`); } catch { await page.locator(`#billing_first_name`).first().selectOption(`${vars.firstName ?? ''}`); }
   }
   if (vars.logged !== 'yes') {
@@ -410,6 +407,23 @@ export async function fillCheckout(page: Page, vars: Record<string, string> = {}
   if (vars.logged !== 'yes') {
     try { await page.locator(`#billing_phone`).first().fill(`${vars.phone ?? ''}`); } catch { await page.locator(`#billing_phone`).first().selectOption(`${vars.phone ?? ''}`); }
   }
+  {
+    const _lbl = page.locator(`label[for="leggari-btn-continue"]`).filter({ visible: true });
+    if (await _lbl.count() > 0) { await _lbl.first().click(); }
+    else { await page.locator(`#leggari-btn-continue`).filter({ visible: true }).first().click({ force: true }); }
+  }
+  await expect(page.locator(`li.product-item:nth-of-type(1) > .product-item-wrapper`).first()).toHaveText(`One-time payment
+
+($1799)`);
+  await expect(page.locator(`li.product-item:nth-of-type(2) > .product-item-wrapper`).first()).toHaveText(`$999 + split-pay
+
+(3 x $399)`);
+  await expect(page.locator(`li.product-item:nth-of-type(3) > .product-item-wrapper`).first()).toHaveText(`Split-pay
+
+(2 x $999)`);
+  await expect(page.locator(`li.product-item:nth-of-type(4) > .product-item-wrapper`).first()).toHaveText(`$199 + split-pay
+
+(11 x $199)`);
   if (vars.logged !== 'yes') {
     {
       const _lbl = page.locator(`label[for="billing_language"]`).filter({ visible: true });
@@ -419,13 +433,6 @@ export async function fillCheckout(page: Page, vars: Record<string, string> = {}
   }
   if (vars.logged !== 'yes') {
     try { await page.locator(`#billing_language`).first().fill(`spanish`); } catch { await page.locator(`#billing_language`).first().selectOption(`spanish`); }
-  }
-  if (vars.logged !== 'yes') {
-    {
-      const _lbl = page.locator(`label[for="leggari-btn-continue"]`).filter({ visible: true });
-      if (await _lbl.count() > 0) { await _lbl.first().click(); }
-      else { await page.locator(`#leggari-btn-continue`).filter({ visible: true }).first().click({ force: true }); }
-    }
   }
   if (vars.logged !== 'yes') {
     try { await page.locator(`#shipping_address_1`).first().fill(`${vars.street3 ?? ''}`); } catch { await page.locator(`#shipping_address_1`).first().selectOption(`${vars.street3 ?? ''}`); }

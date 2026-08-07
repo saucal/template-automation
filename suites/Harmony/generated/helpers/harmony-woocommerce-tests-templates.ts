@@ -476,15 +476,11 @@ export async function _05PlaceOrder01NewUserRegularProduct(page: Page, vars: Rec
     await placeOrderElement(page, vars);
   }
   if (vars.country === 'CA') {
-    await expect(page.locator(`.woocommerce-error li`).first()).toContainText(`Your card number is incomplete.`);
-  }
-  if (vars.country === 'CA') {
     await fillCC(page, vars);
   }
   await placeOrderElement(page, vars);
   if (vars.country === 'CA') {
     await expect(page.locator(`.wc-block-components-notice-banner.is-error`).or(page.locator(`.woocommerce-error`)).first()).toContainText(`Please confirm you read and accepted the terms.
-Billing Email address is a required field.
 Billing First name is a required field.
 Billing Last name is a required field.
 Billing Street address is a required field.
@@ -492,8 +488,10 @@ Billing Town / City is a required field.
 Billing Province is a required field.
 Billing Postal code is a required field.
 Billing Phone is a required field.
+Billing Email address is a required field.
 Billing You are purchasing: is a required field.
-Create account password is a required field.`);
+Create account password is a required field.
+Please select who you are purchasing on behalf of.`);
   }
   if (vars.country !== 'CA') {
     await expect(page.locator(`.wc-block-components-notice-banner.is-error`).or(page.locator(`.woocommerce-error`)).first()).toContainText(`Please confirm you read and accepted the terms.

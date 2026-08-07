@@ -341,7 +341,7 @@ return level
 
 // GI: "FunnelKit path" (69e767f4fde844e9f2facd66)
 export async function funnelKitPath(page: Page, vars: Record<string, string> = {}): Promise<void> {
-  await expect(page.locator(`.bwf-inner-col > h2.bwf-adv-heading.bwf-width-default:nth-of-type(2)`).first()).toBeVisible();
+  await expect(page.locator(`.bwf-inner-col > h2.bwf-adv-heading.bwf-width-default:nth-of-type(2)`).or(page.locator(`.woofunnels-container > div > section > div > h1`)).first()).toBeVisible();
   if (vars.upsell === 'yes') {
     await page.locator(`.bwf-7b44ef41 > .wfocu-product-attr-wrapper > form > div > table.variations > tbody > tr > td.value > select[id="frequency"][name="attribute_frequency"]`).filter({ visible: true }).first().click({ force: true });
   }
@@ -372,7 +372,7 @@ return days[0] }, vars);
     await page.locator(`a.bwf-btn.solid.wfocu_upsell > .bwf-btn-inner-text`).filter({ visible: true }).first().click({ force: true });
   }
   if (vars.upsell === 'no' || vars.upsell === '') {
-    await page.locator(`a.bwf-btn.solid.wfocu_skip_offer > .bwf-btn-inner-text`).filter({ visible: true }).first().click({ force: true });
+    await page.locator(`a.bwf-btn.solid.wfocu_skip_offer > .bwf-btn-inner-text`).or(page.locator(`a.wfocu_skip_offer`)).filter({ visible: true }).first().click({ force: true });
   }
   try {
     await expect(page.locator(`#wfocuswal-content > img`)).not.toHaveCount(0);

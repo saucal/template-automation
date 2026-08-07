@@ -17,7 +17,7 @@
   "maxAjaxDelay": null,
   "maxConcurrentDataRows": null,
   "maxWaitDelay": null,
-  "name": "24 - Bookmark usage",
+  "name": "06 - Menu desktop",
   "notifications": null,
   "publicStatusEnabled": false,
   "region": null,
@@ -46,21 +46,21 @@
       "variableName": ""
     },
     {
-      "command": "assertElementPresent",
-      "condition": null,
-      "optional": false,
-      "private": false,
-      "sequence": 2,
-      "target": "a[href*=\"/mybookmarks/\"] > .social-icon-custom-svg > svg > path",
-      "value": ""
-    },
-    {
       "command": "click",
       "condition": null,
       "optional": false,
       "private": false,
+      "sequence": 2,
+      "target": "#os-open-menu"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
       "sequence": 3,
-      "target": "li:nth-of-type(2) > .cbxwpbkmarkwrap.cbxwpbkmarkwrap_loggedin.cbxwpbkmarkwrap_user_cat.cbxwpbkmarkwrap-sfwd-courses.os-courses-archive-bookmark > a[href=\"#\"][title=\"Bookmark This\"].cbxwpbkmarktrig.cbxwpbkmarktrig-button-addto"
+      "target": "#primary-menu > .menu-item.menu-item-type-post_type_archive.menu-item-object-artist > a[href*=\"/instructors/\"]",
+      "value": "Instructors"
     },
     {
       "command": "assertTextPresent",
@@ -68,8 +68,8 @@
       "optional": false,
       "private": false,
       "sequence": 4,
-      "target": ".cbxwpbkmark_cat_book_list > .cbxlbjs.cbxwpbkmark-lbjs > .cbxwpbookmark-list-generic.cbxlbjs-list.cbxwpbkmarklist > li.cbxlbjs-item:nth-of-type(1) > [title=\"My Favorite Courses\"].cbxlbjs-item-name",
-      "value": "My Favorite Courses"
+      "target": "#primary-menu > li.menu-item.menu-item-type-custom.menu-item-object-custom:nth-of-type(2) > a[href*=\"/courses/\"]",
+      "value": "Courses & Lessons"
     },
     {
       "command": "assertTextPresent",
@@ -77,42 +77,44 @@
       "optional": false,
       "private": false,
       "sequence": 5,
-      "target": ".cbxwpbkmark_cat_book_list > .cbxlbjs.cbxwpbkmark-lbjs > .cbxwpbookmark-list-generic.cbxlbjs-list.cbxwpbkmarklist > li.cbxlbjs-item:nth-of-type(2) > [title=\"My Favorite Lessons\"].cbxlbjs-item-name",
-      "value": "My Favorite Lessons"
+      "target": "#primary-menu > li.menu-item.menu-item-type-post_type.menu-item-object-page:nth-of-type(3) > a[href*=\"/events/\"]",
+      "value": "Live Schedule"
     },
     {
-      "command": "click",
+      "command": "assertTextPresent",
       "condition": null,
       "optional": false,
       "private": false,
       "sequence": 6,
-      "target": ".cbxwpbkmark_cat_book_list > .cbxlbjs.cbxwpbkmark-lbjs > .cbxwpbookmark-list-generic.cbxlbjs-list.cbxwpbkmarklist > li.cbxlbjs-item:nth-of-type(1) > [title=\"My Favorite Courses\"].cbxlbjs-item-name"
+      "target": "li#menu-item-1123032 > a[href*=\"/mentor-sessions/\"]",
+      "value": "Mentor Sessions"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "li#menu-item-1123034 > a[href*=\"/gps/\"]",
+      "value": "Guided Practice Sessions"
     },
     {
       "command": "assertElementPresent",
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 7,
-      "target": "div.cbxwpbkmark_cat_book_list > div > ul > li[data-incat=\"1\"]",
-      "value": "",
-      "variableName": ""
-    },
-    {
-      "command": "click",
-      "condition": null,
-      "optional": false,
-      "private": false,
       "sequence": 8,
-      "target": "li:nth-of-type(2) > .cbxwpbkmarkwrap.cbxwpbkmarkwrap_loggedin.cbxwpbkmarkwrap_user_cat.cbxwpbkmarkwrap-sfwd-courses.os-courses-archive-bookmark > .cbxwpbkmarklistwrap > .addto-head > [title=\"Click to close bookmark panel/modal\"].cbxwpbkmarktrig_close > i.cbx-icon > svg"
+      "target": "div.site-header-item:nth-of-type(2) > .site-branding.site-brand-logo-only > a[href*=\"/dashboard/\"].brand.has-logo-image > img.custom-logo",
+      "value": ""
     },
     {
-      "command": "click",
+      "command": "assertElementPresent",
       "condition": null,
       "optional": false,
       "private": false,
       "sequence": 9,
-      "target": "a[href*=\"/mybookmarks/\"] > .social-icon-custom-svg > svg"
+      "target": ".header-loggedin-menu > li:nth-of-type(1) > a[href*=\"/courses/\"]",
+      "value": ""
     },
     {
       "command": "assertElementPresent",
@@ -120,35 +122,35 @@
       "optional": false,
       "private": false,
       "sequence": 10,
-      "target": ".os-bookmark-item",
+      "target": "li:nth-of-type(2) > a[href*=\"/events/\"]",
       "value": ""
     },
     {
-      "command": "assertTextPresent",
+      "command": "assertElementPresent",
       "condition": null,
       "optional": false,
       "private": false,
       "sequence": 11,
-      "target": "button.os-bookmark-item__remove",
-      "value": "Remove"
+      "target": ".header-loggedin-menu > li:nth-of-type(3) > a[href*=\"/community/\"]",
+      "value": ""
     },
     {
-      "command": "click",
+      "command": "assertElementPresent",
       "condition": null,
       "optional": false,
       "private": false,
       "sequence": 12,
-      "target": "button.os-bookmark-item__remove",
-      "value": "",
-      "variableName": ""
+      "target": "div.site-header-item:nth-of-type(2) > div > button[aria-label=\"View Search Form\"].drawer-toggle.search-toggle-style-default > .search-toggle-icon > svg.kadence-svg-icon.kadence-search-svg > path",
+      "value": ""
     },
     {
-      "command": "click",
+      "command": "assertElementPresent",
       "condition": null,
       "optional": false,
       "private": false,
       "sequence": 13,
-      "target": ".awn-popup-body > .os-bookmark-popup__actions > button.os-folder-submit"
+      "target": ".social-icon-custom-svg > svg > path",
+      "value": ""
     },
     {
       "command": "assertElementPresent",
@@ -156,35 +158,16 @@
       "optional": false,
       "private": false,
       "sequence": 14,
-      "target": ".awn-popup-body",
+      "target": "a[href*=\"/my-account/\"] > .kadence-svg-iconset > svg > path:nth-of-type(2)",
       "value": ""
-    },
-    {
-      "command": "assertElementNotPresent",
-      "condition": null,
-      "optional": false,
-      "private": false,
-      "sequence": 15,
-      "target": "#awn-popup-wrapper",
-      "value": "",
-      "variableName": ""
-    },
-    {
-      "command": "assertTextPresent",
-      "condition": null,
-      "optional": false,
-      "private": false,
-      "sequence": 16,
-      "target": ".os-bookmarks__count > strong",
-      "value": "0"
     }
   ],
   "testFrequency": 0,
   "testFrequencyAdvanced": [],
   "viewportSize": null,
   "_gi": {
-    "testId": "68e59b3da2ca9569f1c93218",
+    "testId": "663cbc7289e87fd839fddf02",
     "suiteId": "663a65cd1aac3ea14fc69327",
-    "suiteName": "Open Studio - Basic WooCommerce Tests - Member"
+    "suiteName": "Open Studio - Basic WooCommerce Tests - Member - don't use"
   }
 }

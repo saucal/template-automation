@@ -130,7 +130,9 @@ ${vars.email ?? ''}`);
 ${vars.company2 ?? ''}
 ${vars.street3 ?? ''}
 ${vars.city ?? ''}, ${vars.state ?? ''} ${vars.zipCode ?? ''}
-${vars.countryComplete ?? ''}`);
+${vars.countryComplete ?? ''}
+
+${vars.phone ?? ''}`);
     await page.locator(`a[href*="/my-account/"]`).filter({ visible: true }).first().click({ force: true });
     await page.locator(`.woocommerce-MyAccount-navigation-link > a[href*="/my-account/orders/"]`).filter({ visible: true }).first().click({ force: true });
     await expect(page.locator(`td.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-status`).first()).toContainText(`Processing`);
@@ -154,7 +156,9 @@ ${vars.email ?? ''}`);
 ${vars.company2 ?? ''}
 ${vars.street3 ?? ''}
 ${vars.city ?? ''}, ${vars.state ?? ''} ${vars.zipCode ?? ''}
-${vars.countryComplete ?? ''}`);
+${vars.countryComplete ?? ''}
+
+${vars.phone ?? ''}`);
   });
 
   test('02 - US - Place Order - New User - Email', async ({ page }) => {
@@ -181,7 +185,8 @@ ${vars.email ?? ''}`);
 ${vars.company2 ?? ''}
 ${vars.street3 ?? ''}
 ${vars.city ?? ''}, ${vars.state ?? ''} ${vars.zipCode ?? ''}
-${vars.countryComplete ?? ''}`);
+${vars.countryComplete ?? ''}
+${vars.phone ?? ''}`);
   });
 
   test('03 - US - Place Order - New User - Backend', async ({ page }) => {
@@ -203,7 +208,7 @@ ${vars.street ?? ''}
 ${vars.city ?? ''}, ${vars.state ?? ''} ${vars.zipCode ?? ''}
 ${vars.countryComplete ?? ''}`);
     await expect(page.locator(`a[href*="mailto:qa+gi_order_"]`).first()).toHaveText(`${vars.email ?? ''}`);
-    await expect(page.locator(`a[href*="tel:"]`).first()).toHaveText(`${vars.phone ?? ''}`);
+    await expect(page.locator(`div.order_data_column:nth-of-type(2) > .address a[href*="tel:"]`).first()).toHaveText(`${vars.phone ?? ''}`);
     await expect(page.locator(`div.order_data_column:nth-of-type(3) > .address > p:nth-of-type(1)`).first()).toHaveText(`${vars.firstName ?? ''} ${vars.lastName2 ?? ''}
 ${vars.company2 ?? ''}
 ${vars.street3 ?? ''}

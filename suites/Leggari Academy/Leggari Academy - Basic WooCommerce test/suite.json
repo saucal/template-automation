@@ -30,7 +30,7 @@
     "screenshotCompareEnabled": true,
     "screenshotCompareThreshold": 0.1,
     "startUrl": "https://stg-schoolofepoxy-staging.kinsta.cloud/",
-    "testCount": 10,
+    "testCount": 9,
     "testFrequency": 0,
     "viewportSize": {
       "width": 1280,

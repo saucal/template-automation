@@ -12,14 +12,14 @@
     "disallowInsecureCertificates": false,
     "failOnJavaScriptError": false,
     "finalDelay": 5000,
-    "folder": "663a2ef91aac3ea14fbb709b",
+    "folder": null,
     "globalStepDelay": 250,
     "language": null,
     "maxAjaxDelay": 10000,
     "maxConcurrentDataRows": 50,
     "maxConcurrentTests": 1,
     "maxWaitDelay": 15000,
-    "name": "Open Studio - Basic WooCommerce Tests - Member",
+    "name": "Open Studio - Basic WooCommerce Tests - Member - don't use",
     "organization": {
       "_id": "5f9c0e491f815b1b8c62867e",
       "name": "Saucal Inc."

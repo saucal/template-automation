@@ -1,9 +1,11 @@
 {
   "autoRetry": null,
   "browser": null,
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
   "dataSource": null,
   "disableVisuals": null,
   "disallowInsecureCertificates": null,
+  "extensionVersion": "7.0.3",
   "failOnJavaScriptError": null,
   "filters": [],
   "finalDelay": null,
@@ -15,7 +17,7 @@
   "maxAjaxDelay": null,
   "maxConcurrentDataRows": null,
   "maxWaitDelay": null,
-  "name": "01 - Home page",
+  "name": "20 - Community page",
   "notifications": null,
   "publicStatusEnabled": false,
   "region": null,
@@ -30,46 +32,35 @@
       "private": false,
       "sequence": 0,
       "target": "",
-      "value": "6022b6b2d2fb38677e5d8a9a",
+      "value": "68caa38a189a381f8efcb5b3",
       "variableName": ""
     },
     {
-      "command": "assertElementPresent",
+      "command": "click",
       "condition": null,
       "optional": false,
       "private": false,
       "sequence": 1,
-      "target": ".avia-slide-wrap",
-      "value": ""
+      "target": ".header-loggedin-menu > li:nth-of-type(3) > a[href*=\"/community/\"]"
     },
     {
-      "command": "assertElementPresent",
+      "command": "execute",
       "condition": null,
       "optional": false,
       "private": false,
       "sequence": 2,
-      "target": ".avia-animated-number",
-      "value": "",
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
       "variableName": ""
     },
     {
-      "command": "execute",
+      "command": "assertEval",
       "condition": null,
       "optional": false,
       "private": false,
       "sequence": 3,
       "target": "",
-      "value": "6981e67476f083a56521e0ab",
-      "variableName": ""
-    },
-    {
-      "command": "execute",
-      "condition": null,
-      "optional": false,
-      "private": false,
-      "sequence": 4,
-      "target": "",
-      "value": "62974e21a0299821fcec4a32",
+      "value": "return window.location.href === \"{{startUrl}}community/\"",
       "variableName": ""
     }
   ],
@@ -77,8 +68,8 @@
   "testFrequencyAdvanced": [],
   "viewportSize": null,
   "_gi": {
-    "testId": "6a26cfca0f1aedc97da54e9e",
-    "suiteId": "6a26cfca0f1aedc97da54e97",
-    "suiteName": "repurposedM - Basic WooCommerce tests (Copy)"
+    "testId": "663cd9d689e87fd839059e6e",
+    "suiteId": "663a65cd1aac3ea14fc69327",
+    "suiteName": "Open Studio - Basic WooCommerce Tests - Member - don't use"
   }
 }
