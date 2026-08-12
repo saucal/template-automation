@@ -183,7 +183,7 @@
       "private": false,
       "sequence": 15,
       "target": "",
-      "value": "function checkRefundNote(note) {\n    const total = '{{total}}'.replace(/\\$/g, '\\\\$');\n    const pattern = new RegExp(`Refunded ${total} – Refund ID: re_[a-zA-Z0-9]+ – Reason: Testing Refund`);\n    return pattern.test(note);\n}\n\n\nlet note = document.querySelector('ul.order_notes > li:nth-of-type(2) > div > p').textContent\n\nreturn checkRefundNote(note)",
+      "value": "function checkRefundNote(note) {\n    const total = '{{total}}'.replace(/\\$/g, '\\\\$');\n    const pattern = new RegExp(`Refunded ${total} – Refund ID: re_[a-zA-Z0-9]+ – Reason: Testing Refund`);\n    return pattern.test(note);\n}\n\n\nlet note = document.querySelector('ul.order_notes > li:nth-of-type(3) > div p').textContent\n\nreturn checkRefundNote(note)",
       "variableName": ""
     }
   ],
