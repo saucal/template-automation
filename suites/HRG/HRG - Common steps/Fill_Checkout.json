@@ -363,7 +363,7 @@
     {
       "command": "assign",
       "condition": {
-        "statement": "return '{{logged}}' !== 'yes'"
+        "statement": "return !!document.querySelector('#shipping_phone')"
       },
       "optional": false,
       "private": false,
