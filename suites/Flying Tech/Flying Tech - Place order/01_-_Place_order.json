@@ -758,7 +758,14 @@
       "optional": false,
       "private": false,
       "sequence": 67,
-      "target": "#payment_method_ppcp-credit-card-gateway",
+      "target": [
+        {
+          "selector": "#payment_method_ppcp-credit-card-gateway"
+        },
+        {
+          "selector": "#payment_method_ppcp-card-button-gateway"
+        }
+      ],
       "value": "",
       "variableName": ""
     },

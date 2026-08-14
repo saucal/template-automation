@@ -72,7 +72,7 @@
       "private": false,
       "sequence": 4,
       "target": "",
-      "value": "let ref1 = document.querySelector(\"a[href*='{{refOrder1}}']\")\n\n\nref1 = ref1.parentElement\nref1 = ref1.previousElementSibling\nref1 = ref1.previousElementSibling\n\n\nreturn ref1.innerText === \"$\"+\"{{referral1USD}}\" \n",
+      "value": "let ref1 = document.querySelector(\"a[href*='{{refOrder1}}']\")\n\n\nref1 = ref1.parentElement\nref1 = ref1.parentElement\nref1 = ref1.querySelector('.amount.column-amount > span')\n\n\nreturn ref1.innerText === \"$\"+\"{{referral1USD}}\" \n",
       "variableName": ""
     },
     {
@@ -84,7 +84,7 @@
       "private": false,
       "sequence": 5,
       "target": "",
-      "value": "let ref1 = document.querySelector(\"a[href*='{{refOrder1}}']\")\n\n\nref1 = ref1.parentElement\nref1 = ref1.previousElementSibling\nref1 = ref1.previousElementSibling\n\n\n\nreturn ref1.innerText === \"$\"+\"{{referral1USD}}\" \n",
+      "value": "let ref1 = document.querySelector(\"a[href*='{{refOrder1}}']\")\n\n\nref1 = ref1.parentElement\nref1 = ref1.parentElement\nref1 = ref1.querySelector('.amount.column-amount > span')\n\n\n\nreturn ref1.innerText === \"$\"+\"{{referral1USD}}\" \n",
       "variableName": ""
     }
   ],
