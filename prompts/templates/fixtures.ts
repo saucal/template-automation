@@ -267,12 +267,19 @@ async function openContext(
   });
   // Honour the config's `trace`. The runner's artifacts instrumentation has
   // ALREADY started tracing on this context (measured: our own start() fails with
-  // "Tracing has been already started" on both browser paths), but it never saves
-  // the zip — its teardown only runs for contexts IT created, and every context
-  // here is ours, so the recording was silently discarded on close and `trace:
-  // 'on'` produced no trace, ever. So don't start: mark it, and stop it into a
-  // file in finishContext. Modes collapse to on/off deliberately — the
+  // "Tracing has been already started" on both browser paths). On PW <= 1.59 it
+  // never SAVED the zip — its teardown only ran for contexts IT created, and
+  // every context here is ours, so the recording was discarded on close and
+  // `trace: 'on'` produced no trace, ever. Hence: don't start, mark it, and stop
+  // it into a file in finishContext. Modes collapse to on/off deliberately — the
   // retain-on-* variants need a failure verdict that isn't known until then.
+  //
+  // ON PW >= 1.62 THE RUNNER SAVES IT ITSELF — delete this block AND the one in
+  // finishContext, and let `use.trace` work as documented (all modes, and the
+  // attachment is named `trace`, the only name the HTML report opens in its
+  // inline viewer; the harvest below re-attaches it as a plain zip instead).
+  // Verify before deciding: throwaway spec + `ls reports/data/*.zip` — see
+  // [fixture-artifacts] in the prompt.
   if ((testInfo.project.use as { trace?: unknown }).trace !== 'off') {
     traced.add(ctx);
     // Fallback for the case where nothing started it; harmless if it throws

@@ -18,6 +18,10 @@ export default defineConfig({
   use: {
     baseURL: process.env.BASE_URL,
     actionTimeout: 15_000,
+    // 'on' because the fixture harvests the trace itself and can't know the
+    // verdict at start time. If the runner saves traces on your Playwright
+    // (>= 1.62 — verify, see [fixture-artifacts]) and you deleted the harvest,
+    // every mode works here, `retain-on-failure` included.
     trace: 'on',
     // 'off' on purpose: the fixture owns the failure shot and names it per
     // context. The runner instruments the shared browserType, so its built-in
