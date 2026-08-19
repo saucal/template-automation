@@ -335,6 +335,27 @@ Blocks library quirks the helpers don't cover:
 - **Email** — the email is a first-class surface: OPEN it in `emailPage` and assert against the rendered DOM, never against an API extract alone ([email-open-in-page](#email-open-in-page)).
 - **Payment method** — the customer-facing label on thank-you / My Account / email; the `Payment via <Method>` meta line on admin (plus the gateway note, [order-notes](#order-notes) + [refund-void](#refund-void)).
 - A surface that genuinely doesn't render a fact (some themes omit payment method on view-order) is the ONLY reason to drop that cell — record it in the ledger, don't silently skip. Never weaken or × a value to paper over a real bug (see [dont-weaken](#dont-weaken)).
+- **Tax is not ONE row on every surface** — the admin panel itemizes it per rate. SUM the tax rows before comparing: [itemized-tax](#itemized-tax).
+
+<a id="itemized-tax"></a>
+**[MUST] itemized-tax — SUM every tax row; the admin panel itemizes tax per RATE while the customer-facing surfaces show one aggregate.** WooCommerce renders `get_order_item_totals()` on thank-you / view-order / email — one combined `Tax:` row — but the admin order editor's totals panel always lists one row PER RATE, and a tax-service plugin routinely produces several. Measured on Pur Crystal (Avalara AvaTax, FL address): admin showed `State Sales Tax: $22.26` + `County Sales Tax: $3.71` against the customer's single `Tax: $25.97`. A reader written as `if (/tax/.test(label)) out.tax = amount` keeps the LAST match, so the parity assertion compared `$3.71` to `$25.97` and read as a tax regression — it was a reader bug, and the same last-row-wins shape would silently assert ONE rate on any multi-rate store (US state+county+city, CA GST+PST, EU multi-VAT).
+
+- **Accumulate, don't overwrite.** Count the tax rows as you scan; on more than one, emit the SUM re-rendered with the row's own currency symbol. Keep the single row's RAW text when there is exactly one, so a one-rate store's display string is never reformatted by the test.
+```typescript
+let taxSum = 0, taxRows = 0, symbol = '$';
+// …per row…
+if (/\b(?:gst|hst|pst|qst|vat|tax)\b/.test(label)) {
+  const n = parseFloat(amount.replace(/[^0-9.-]/g, ''));
+  if (!Number.isNaN(n)) { taxSum += n; taxRows += 1; symbol = (amount.match(/[^\d.,\s-]/) ?? ['$'])[0]; }
+  if (taxRows === 1) out.tax = amount;      // single row → keep it verbatim
+}
+// …after the scan…
+if (taxRows > 1) out.tax = `${symbol}${taxSum.toFixed(2)}`;
+```
+- **Apply it in EVERY totals reader** — front-end order-details/checkout-review, the admin panel, and the opened email. A store can be flipped to itemized tax display (`woocommerce_tax_total_display`) at any time, which turns the customer-facing surfaces multi-row too; a reader that sums is correct either way, one that overwrites breaks on a settings change nobody logged.
+- **Match the label by INTENT, never the copy.** Rate labels are store-configured strings (`State Sales Tax`, `County Sales Tax`, `TVA`, `GST/HST`) — key off the tax token per [validation-token-intent](#validation-token-intent), not an exact label.
+- **The items table itemizes too** — one tax COLUMN per rate (`State Sales Tax` / `County Sales Tax` on both the line item and the shipping row). Two consequences: a refund must copy EVERY `td.line_tax` cell, not the first ([refund-void](#refund-void)); and a tax RATE derived from the order must sum the columns before dividing ([warn-tax-shipping](#warn-tax-shipping)).
+- **This does NOT weaken the row-level discipline** ([cart-checkout-totals](#cart-checkout-totals)): the aggregate is what the surfaces have in common, so it is what parity compares. If a specific rate matters to the suite, assert that rate's own row on the admin panel as an ADDITIONAL check — don't drop the aggregate.
 
 <a id="full-address"></a>
 **[MUST] full-address — assert the WHOLE address block, billing AND shipping.** This SUPERSEDES the older "assert name + street + city + postcode, skip state/country" shortcut. A dropped or wrong state/country line is exactly the checkout regression these suites exist to catch (tax zone, shipping zone, and gateway AVS all key off it), and a partial assert also hides a swapped or silently-mirrored billing/shipping pair. Assert every line the surface renders: first + last name, company (when the flow fills it), `address_1` + `address_2`, city, state, postcode, country, plus phone and email where present.
@@ -598,7 +619,7 @@ expect(
 ).toBeGreaterThan(0);
 ```
 
-Tax-rate-dependent calculations (partial refund splits, line-tax assertions) must derive the rate from the order itself (`order.shipping_tax / order.shipping_total`, or `line.total_tax / line.total`) rather than hard-coding a percentage — sites under maintenance can have any rate from 0% upwards, including changes between runs.
+Tax-rate-dependent calculations (partial refund splits, line-tax assertions) must derive the rate from the order itself (`order.shipping_tax / order.shipping_total`, or `line.total_tax / line.total`) — SUMMING every tax row/column first ([itemized-tax](#itemized-tax)) — rather than hard-coding a percentage — sites under maintenance can have any rate from 0% upwards, including changes between runs.
 
 <a id="ci-record-compare"></a>
 **[MUST] ci-record-compare — CI records baselines on content sync and compares on deploy; never runs on push.** → `templates/playwright.yml`
@@ -638,6 +659,7 @@ Check these FIRST when a test fails for no obvious reason.
 - **`$0` / "price on request" products** pass a naive `<= max` price picker and break price parity — require `p > 0` in the picker.
 - **Visual "two stable screenshots" failing with a CHANGING WIDTH** → a widget is overflowing and relaying-out during capture (see [visual-width-flip](#visual-width-flip)). Eval-walk for `getBoundingClientRect().right > innerWidth` to name it; do NOT blame the cookie banner.
 - **An admin button "clicks" but nothing happens** → it's behind a native `window.confirm` and Playwright **auto-dismissed** it (GI auto-accepted, so the ported step has no handler). Register `page.on('dialog', (d) => d.accept())` before the click (see [refund-void](#refund-void)).
+- **A tax assertion fails with a value that is a FRACTION of the expected one** → the admin panel itemizes tax per rate (`State Sales Tax` + `County Sales Tax`) while the customer sees one aggregate, and the reader kept the last row instead of summing ([itemized-tax](#itemized-tax)). Reads as a tax regression; it is a reader bug.
 - **A note/text assertion fails with the note plainly present in the dump** → the pattern pins a literal amount that no longer matches the spec's product, or pins punctuation between fields (WC uses an **en dash**). Derive amounts from captured values; use `.*` between fields.
 - **Read the trace's `error-context.md` FIRST.** Its ARIA page snapshot shows the actual rendered state at failure (banner still visible, wrong heading text, "Invalid order." notice) and usually reframes the whole investigation before you touch code.
 - **`dismissCookieBanner` doing nothing** → wrong plugin selectors (`cli-*` vs `cky-*`) or the banner slides in after the click; pre-seed consent cookies (see [cookie-consent](#cookie-consent)).
@@ -665,7 +687,7 @@ A pass over the WHOLE suite before ship, answering two questions for EVERY order
 **[MUST] line-item-parity — assert the PRODUCTS, not only the money.** [parity-matrix](#parity-matrix) covers totals / address / payment but omits two columns that belong on every surface listing items — **product name** and **per-line product total**. Capture both once at order-received and assert them on thank-you, My Account view-order, order email, and the admin editor. `normalizeProductName` for cross-surface wording drift (see AU parity). A missing line, a renamed product, or a wrong line total is a real regression the grand-total assertion masks when two line errors cancel — assert each line, don't trust the sum.
 
 <a id="cart-checkout-totals"></a>
-**[MUST] cart-checkout-totals — assert EVERY total ROW individually, even when the sum is correct.** Extends the parity discipline BACK to the pre-order **cart** and **checkout review** pages, not just post-order surfaces. Assert each row as its own `expect()` — subtotal, shipping, tax, discount / coupon, fees, grand total — never only the total. A correct grand total built from a wrong subtotal + a compensating shipping error is a bug the sum hides. Use the shared `expectMoney` that SKIPS legitimately-absent rows per [parity-matrix](#parity-matrix) (don't assert `$0` for a row a surface omits), read money from the DOM per [money-dom](#money-dom), and NEVER weaken a row to make the page pass ([dont-weaken](#dont-weaken)).
+**[MUST] cart-checkout-totals — assert EVERY total ROW individually, even when the sum is correct.** (Tax may be several rows on one surface and one on another — sum them first, [itemized-tax](#itemized-tax).) Extends the parity discipline BACK to the pre-order **cart** and **checkout review** pages, not just post-order surfaces. Assert each row as its own `expect()` — subtotal, shipping, tax, discount / coupon, fees, grand total — never only the total. A correct grand total built from a wrong subtotal + a compensating shipping error is a bug the sum hides. Use the shared `expectMoney` that SKIPS legitimately-absent rows per [parity-matrix](#parity-matrix) (don't assert `$0` for a row a surface omits), read money from the DOM per [money-dom](#money-dom), and NEVER weaken a row to make the page pass ([dont-weaken](#dont-weaken)).
 
 <a id="subscription-audit"></a>
 **[MUST] subscription-audit — first + recurring totals AND addresses, everywhere.** For every subscription test confirm the audit covers BOTH the first-payment total and the per-renewal recurring total per [subscriptions-recurring](#subscriptions-recurring), and BOTH billing and shipping address blocks (parity-matrix asserts billing — add shipping wherever the flow ships a physical product). Assert recurring on thank-you / My Account view-subscription / email / admin subscription editor unconditionally; compare admin recurring against the captured *recurring* total, not the first payment.
@@ -716,6 +738,7 @@ Before emitting the suite, verify each — these are the lint gates the referenc
 - **Line items asserted** — product name + unit price + per-line total on every surface that lists them ([line-item-parity](#line-item-parity)).
 - **Every total row asserted individually** in cart + checkout + post-order surfaces, not only the grand total ([cart-checkout-totals](#cart-checkout-totals)).
 - **Tax + shipping warned, not shrugged** — missing or `$0` emits `console.warn` (`Free` exempt) ([warn-tax-shipping](#warn-tax-shipping)).
+- **Tax rows summed, not last-one-wins**, in every totals reader ([itemized-tax](#itemized-tax)).
 - **Full billing + shipping address asserted**, normalized, on every surface that renders it ([full-address](#full-address)).
 - **Order email OPENED in `emailPage`** — no assertion rides on an API extract alone ([email-open-in-page](#email-open-in-page)).
 - **One order = one test** driving shopper + admin + email; serial chains only for order-mutating steps ([one-order-one-test](#one-order-one-test)).
@@ -757,6 +780,7 @@ Do NOT generate the `README.md` here — it is a post-approval step (see [Handof
    - [ ] **Product name + price** asserted on all four surfaces — thank-you, My Account view-order, admin order editor, opened email ([line-item-parity](#line-item-parity)).
    - [ ] **Subtotal, discount, shipping, tax, fees, total** each asserted individually on all four surfaces AND in cart + checkout ([cart-checkout-totals](#cart-checkout-totals), [parity-matrix](#parity-matrix)) — a grand-total-only check is a fail here.
    - [ ] **Tax may legitimately be absent, but never silently** — missing or `$0` emits a `console.warn`; same for shipping, with `Free` exempt ([warn-tax-shipping](#warn-tax-shipping)).
+   - [ ] **Every totals reader SUMS the tax rows** — the admin panel itemizes per rate ([itemized-tax](#itemized-tax)); a reader that keeps the last match asserts one rate against the whole tax figure.
    - [ ] **Every order email is OPENED in `emailPage`** and asserted against the rendered DOM, not just extracted over the API ([email-open-in-page](#email-open-in-page)).
    - [ ] **Full billing + shipping address**, every line, normalized ([full-address](#full-address)).
    - [ ] **One order = one test** — admin and email assertions merged into the placing test, not split siblings ([one-order-one-test](#one-order-one-test)).
