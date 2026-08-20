@@ -71,7 +71,7 @@
       "optional": false,
       "private": false,
       "sequence": 4,
-      "target": "li.note:nth-of-type(1) > .note_content > p",
+      "target": "li.note:nth-of-type(1) > .note_content p",
       "value": "Testing Private note",
       "variableName": ""
     }
