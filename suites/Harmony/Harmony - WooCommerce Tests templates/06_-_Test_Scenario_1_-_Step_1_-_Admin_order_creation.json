@@ -545,7 +545,7 @@
       "optional": false,
       "private": false,
       "sequence": 47,
-      "target": "li.note:nth-of-type(1) > .note_content > p",
+      "target": "li.note:nth-of-type(1) > .note_content p",
       "value": "Order details manually sent to customer.",
       "variableName": ""
     },
