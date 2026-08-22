@@ -273,19 +273,16 @@
       "sequence": 17,
       "target": [
         {
-          "selector": "[data-testid=\"submit-button-initial\"]"
-        },
-        {
-          "selector": "xpath=//button[contains(text(), \"Complete Purchase\")]"
-        },
-        {
-          "selector": "#payment-submit-btn"
-        },
-        {
           "selector": "#one-time-cta > div > div > div.pe-2"
         },
         {
           "selector": "xpath=//button[@id='one-time-cta']/div/div/div[contains(text(), \"Pay\")]"
+        },
+        {
+          "selector": "#one-time-cta > div > span"
+        },
+        {
+          "selector": "xpath=//button[@id='one-time-cta']/div/span[contains(text(), \"Pay\")]"
         }
       ],
       "value": "",

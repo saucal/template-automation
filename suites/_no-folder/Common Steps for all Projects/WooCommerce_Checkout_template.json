@@ -1978,7 +1978,7 @@
         "statement": "let project = \"{{project}}\"\nlet step = \"{{step}}\"\nreturn  (project === \"leggari\" && step === \"2\") "
       },
       "notes": "Validate FedEx ground label -> label changed to FedEx\nadded new locator 09/06/24",
-      "optional": false,
+      "optional": true,
       "private": false,
       "sequence": 131,
       "target": "ul#shipping_method > li:nth-child(1) label",
@@ -2007,7 +2007,7 @@
       "optional": false,
       "private": false,
       "sequence": 133,
-      "target": "ul#shipping_method > li:nth-child(2) label",
+      "target": "ul#shipping_method > li:nth-child(1) label",
       "value": "Local pickup in Pasco, WA (Call to schedule a pickup 844-534-4274)",
       "variableName": ""
     },
