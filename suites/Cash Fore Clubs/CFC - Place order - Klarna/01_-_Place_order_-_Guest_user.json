@@ -108,7 +108,9 @@
     },
     {
       "command": "click",
-      "condition": null,
+      "condition": {
+        "statement": "return false"
+      },
       "optional": false,
       "private": false,
       "sequence": 8,
