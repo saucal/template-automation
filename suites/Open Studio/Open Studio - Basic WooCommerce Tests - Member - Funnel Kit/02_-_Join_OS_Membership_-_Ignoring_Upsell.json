@@ -96,7 +96,14 @@
       "optional": false,
       "private": false,
       "sequence": 7,
-      "target": "a[href*=\"/checkout/?add-to-cart=16&quantity=1\"]"
+      "target": [
+        {
+          "selector": "a[href*=\"/checkout/?add-to-cart=16&quantity=1\"]"
+        },
+        {
+          "selector": "a[href*=\"/checkout/?add-to-cart=1607913&quantity=1\"]"
+        }
+      ]
     },
     {
       "command": "execute",
@@ -202,7 +209,14 @@
       "optional": false,
       "private": false,
       "sequence": 17,
-      "target": "input[checked='checked']#os-sub-variant-16",
+      "target": [
+        {
+          "selector": "input[checked='checked']#os-sub-variant-16"
+        },
+        {
+          "selector": "input[checked='checked']#os-sub-variant-1607913"
+        }
+      ],
       "value": "",
       "variableName": ""
     },
@@ -212,7 +226,14 @@
       "optional": false,
       "private": false,
       "sequence": 18,
-      "target": "input#os-sub-variant-17[checked=\"checked\"]",
+      "target": [
+        {
+          "selector": "input#os-sub-variant-17[checked=\"checked\"]"
+        },
+        {
+          "selector": "input#os-sub-variant-1607914[checked=\"checked\"]"
+        }
+      ],
       "value": "",
       "variableName": ""
     },
@@ -313,7 +334,7 @@
       "private": false,
       "sequence": 28,
       "target": "",
-      "value": "return new Promise(function(resolve, reject) {\n  var selector = '.bwf-inner-col > h2.bwf-adv-heading.bwf-width-default, .woofunnels-container';\n  var timeout = 30000;\n\n  if (document.querySelector(selector)) {\n    resolve(true);\n    return;\n  }\n\n  var timer = setTimeout(function() {\n    observer.disconnect();\n    resolve(false);\n  }, timeout);\n\n  var observer = new MutationObserver(function() {\n    if (document.querySelector(selector)) {\n      clearTimeout(timer);\n      observer.disconnect();\n      resolve(true);\n    }\n  });\n\n  var target = document.body || document.documentElement;\n  observer.observe(target, {\n    childList: true,\n    subtree: true,\n    attributes: true\n  });\n})",
+      "value": "return new Promise(function(resolve, reject) {\n  var selector = '.bwf-inner-col > h2.bwf-adv-heading.bwf-width-default, .woofunnels-container';\n  var timeout = 20000;\n\n  if (document.querySelector(selector)) {\n    resolve(true);\n    return;\n  }\n\n  var timer = setTimeout(function() {\n    observer.disconnect();\n    resolve(false);\n  }, timeout);\n\n  var observer = new MutationObserver(function() {\n    if (document.querySelector(selector)) {\n      clearTimeout(timer);\n      observer.disconnect();\n      resolve(true);\n    }\n  });\n\n  var target = document.body || document.documentElement;\n  observer.observe(target, {\n    childList: true,\n    subtree: true,\n    attributes: true\n  });\n})",
       "variableName": "upsellFlow"
     },
     {

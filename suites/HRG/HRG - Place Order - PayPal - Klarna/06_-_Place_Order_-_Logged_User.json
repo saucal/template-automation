@@ -105,11 +105,21 @@
       "variableName": ""
     },
     {
-      "command": "click",
+      "command": "pause",
       "condition": null,
       "optional": false,
       "private": false,
       "sequence": 8,
+      "target": "",
+      "value": "120000",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
       "target": [
         {
           "selector": "//a[contains(text(), \"Checkout\")]"
@@ -125,7 +135,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 9,
+      "sequence": 10,
       "target": "",
       "value": "6022b6b2d2fb38677e5d8a9a",
       "variableName": ""
@@ -135,19 +145,9 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 10,
-      "target": "",
-      "value": "6022b74a262f437a9af8d9a3",
-      "variableName": ""
-    },
-    {
-      "command": "execute",
-      "condition": null,
-      "optional": false,
-      "private": false,
       "sequence": 11,
       "target": "",
-      "value": "6920605828d2a810e8ddaa6a",
+      "value": "6022b74a262f437a9af8d9a3",
       "variableName": ""
     },
     {
@@ -157,7 +157,7 @@
       "private": false,
       "sequence": 12,
       "target": "",
-      "value": "693c6ebf2ab7b3e70ac5f903",
+      "value": "6920605828d2a810e8ddaa6a",
       "variableName": ""
     },
     {
@@ -167,6 +167,16 @@
       "private": false,
       "sequence": 13,
       "target": "",
+      "value": "693c6ebf2ab7b3e70ac5f903",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
+      "target": "",
       "value": "6022b74a262f437a9af8d9a3",
       "variableName": ""
     },
@@ -175,7 +185,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 14,
+      "sequence": 15,
       "target": "",
       "value": "{{payPalUser}}",
       "variableName": "email"
@@ -185,7 +195,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 15,
+      "sequence": 16,
       "target": "",
       "value": "6920605d638b72979291d554",
       "variableName": ""
@@ -195,7 +205,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 16,
+      "sequence": 17,
       "target": "",
       "value": "6920605f638b72979291d653",
       "variableName": ""
@@ -205,7 +215,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 17,
+      "sequence": 18,
       "target": "",
       "value": "69206062638b72979291d6c3",
       "variableName": ""
