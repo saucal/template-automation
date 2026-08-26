@@ -363,9 +363,9 @@
     {
       "command": "assign",
       "condition": {
-        "statement": "return '{{logged}}' !== 'yes'"
+        "statement": "return !!document.querySelector('#shipping_phone')"
       },
-      "optional": false,
+      "optional": true,
       "private": false,
       "sequence": 28,
       "target": "#shipping_phone",
