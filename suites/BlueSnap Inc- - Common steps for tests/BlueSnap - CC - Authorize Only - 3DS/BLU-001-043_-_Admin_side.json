@@ -113,7 +113,7 @@
       "optional": false,
       "private": false,
       "sequence": 7,
-      "target": "li.note.system-note > .note_content > p",
+      "target": "li.note.system-note > .note_content p",
       "value": "Bluesnap charge authorized (Charge ID: {{transaction_id}}). Process order to take payment, or cancel to remove the pre-authorization. Order status changed from Pending payment to On hold.",
       "variableName": ""
     }

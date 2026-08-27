@@ -24,11 +24,21 @@
   "startUrl": "",
   "steps": [
     {
-      "command": "execute",
+      "command": "exit",
       "condition": null,
       "optional": false,
       "private": false,
       "sequence": 0,
+      "target": "",
+      "value": "passing",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 1,
       "target": "",
       "value": "6022b6b2d2fb38677e5d8a9a",
       "variableName": ""
@@ -38,7 +48,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 1,
+      "sequence": 2,
       "target": "#os-open-menu",
       "value": ""
     },
@@ -47,7 +57,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 2,
+      "sequence": 3,
       "target": "li#menu-item-1123032 > a[href*=\"/mentor-sessions/\"]",
       "value": ""
     },
@@ -56,7 +66,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 3,
+      "sequence": 4,
       "target": "",
       "value": "6022b6b2d2fb38677e5d8a9a",
       "variableName": ""

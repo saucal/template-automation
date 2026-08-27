@@ -91,7 +91,7 @@
       "private": false,
       "sequence": 4,
       "target": ".woocommerce-info",
-      "value": "Your account with The Sewing Machine Shop is using a temporary password. We emailed you a link to change your password."
+      "value": "Your account is using a temporary password. We emailed you a link to change your password."
     }
   ],
   "testFrequency": 0,
