@@ -44,10 +44,10 @@
       "sequence": 1,
       "target": [
         {
-          "selector": "a[href*=\"/product/\"]:not(a[href*=\"custom\"]) > div:nth-of-type(1) > img.attachment-woocommerce_thumbnail.size-woocommerce_thumbnail"
+          "selector": "a[href*=\"/product/\"]:not(a[href*=\"custom\"]) > div:nth-of-type(1) > img"
         },
         {
-          "selector": "a[href*=\"/product/\"]:not(a[href*=\"custom\"]) > img.attachment-woocommerce_thumbnail.size-woocommerce_thumbnail"
+          "selector": "a[href*=\"/product/\"]:not(a[href*=\"custom\"]) > img"
         }
       ],
       "value": "",
