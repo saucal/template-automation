@@ -149,7 +149,7 @@
       "optional": false,
       "private": false,
       "sequence": 12,
-      "target": "li.note.system-note:nth-of-type(2) > .note_content > p",
+      "target": "li.note.system-note:nth-of-type(5) > .note_content p",
       "value": "Pre-Authorization Released",
       "variableName": ""
     },

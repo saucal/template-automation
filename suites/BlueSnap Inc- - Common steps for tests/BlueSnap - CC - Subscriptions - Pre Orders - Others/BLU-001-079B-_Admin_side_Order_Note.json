@@ -100,10 +100,10 @@
       "sequence": 5,
       "target": [
         {
-          "selector": "div.note_content > p"
+          "selector": "div.note_content p"
         },
         {
-          "selector": "ul.order_notes > li > div.note_content > p"
+          "selector": "ul.order_notes > li > div.note_content p"
         }
       ],
       "value": "This is the new error message for 14002|INCORRECT_INFORMATION",

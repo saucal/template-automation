@@ -136,7 +136,7 @@
       "private": false,
       "sequence": 11,
       "target": "h2.woocommerce-order-data__heading",
-      "value": "Order #{{orderNumber}} details"
+      "value": "Order #{{orderNumber}}"
     },
     {
       "command": "assertTextPresent",
