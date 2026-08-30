@@ -114,7 +114,7 @@
       "optional": false,
       "private": false,
       "sequence": 7,
-      "target": "li.note.system-note:nth-of-type(2) > .note_content > p",
+      "target": "li.note.system-note:nth-of-type(4) > .note_content p",
       "value": "Bluesnap transaction complete (Transaction ID: {{transaction_id}})",
       "variableName": ""
     },

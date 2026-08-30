@@ -203,13 +203,22 @@
       "optional": false,
       "private": false,
       "sequence": 17,
-      "target": ".woocommerce-column.woocommerce-column--1 > address",
+      "target": [
+        {
+          "selector": ".woocommerce-column.woocommerce-column--1 > address"
+        },
+        {
+          "selector": ".woocommerce-customer-details > address"
+        }
+      ],
       "value": "{{firstName}} {{lastName}}\n{{street3}}\n{{street4}}\n{{city}}, {{state}} {{zipCode}}\n\n{{phone}}\n\n{{email}}",
       "variableName": ""
     },
     {
       "command": "assertText",
-      "condition": null,
+      "condition": {
+        "statement": "return !'{{shippingDesc}}'.includes('pickup')"
+      },
       "notes": "Added phone to expected value",
       "optional": false,
       "private": false,
@@ -355,13 +364,22 @@
       "optional": false,
       "private": false,
       "sequence": 30,
-      "target": ".woocommerce-column.woocommerce-column--1 > address",
+      "target": [
+        {
+          "selector": ".woocommerce-column.woocommerce-column--1 > address"
+        },
+        {
+          "selector": ".woocommerce-customer-details > address"
+        }
+      ],
       "value": "{{firstName}} {{lastName}}\n{{street3}}\n{{street4}}\n{{city}}, {{state}} {{zipCode}}\n\n{{phone}}\n\n{{email}}",
       "variableName": ""
     },
     {
       "command": "assertText",
-      "condition": null,
+      "condition": {
+        "statement": "return !'{{shippingDesc}}'.includes('pickup')"
+      },
       "optional": false,
       "private": false,
       "sequence": 31,

@@ -45,7 +45,14 @@
       "optional": false,
       "private": false,
       "sequence": 1,
-      "target": "a[href*=\"/checkout/?add-to-cart=17&quantity=1\"]",
+      "target": [
+        {
+          "selector": "a[href*=\"/checkout/?add-to-cart=17&quantity=1\"]"
+        },
+        {
+          "selector": "a[href*=\"/checkout/?add-to-cart=1607914&quantity=1\"]"
+        }
+      ],
       "value": "Start Free Trial"
     },
     {
@@ -54,7 +61,7 @@
       "optional": false,
       "private": false,
       "sequence": 2,
-      "target": "a[href*=\"/checkout/?add-to-cart=17&quantity=1\"]"
+      "target": "a[href*=\"/checkout/?add-to-cart=1607914&quantity=1\"]"
     }
   ],
   "testFrequency": 0,

@@ -66,12 +66,22 @@
       "variableName": ""
     },
     {
-      "command": "assertTextPresent",
+      "command": "execute",
       "condition": null,
       "optional": false,
       "private": false,
       "sequence": 4,
-      "target": "li.note:nth-of-type(1) > .note_content > p",
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 5,
+      "target": "li.note:nth-of-type(1) > .note_content p",
       "value": "Testing Private note",
       "variableName": ""
     }

@@ -65,7 +65,9 @@
     },
     {
       "command": "assertText",
-      "condition": null,
+      "condition": {
+        "statement": "return false"
+      },
       "optional": false,
       "private": false,
       "sequence": 4,

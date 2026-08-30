@@ -214,7 +214,17 @@
       "private": false,
       "sequence": 15,
       "target": "",
-      "value": "30000",
+      "value": "60000",
+      "variableName": ""
+    },
+    {
+      "command": "open",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 16,
+      "target": "",
+      "value": "{{startUrl}}/wp-cron.php",
       "variableName": ""
     },
     {
@@ -222,19 +232,9 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 16,
-      "target": "",
-      "value": "603d1f20494ea848981cef9b",
-      "variableName": ""
-    },
-    {
-      "command": "pause",
-      "condition": null,
-      "optional": false,
-      "private": false,
       "sequence": 17,
       "target": "",
-      "value": "45000",
+      "value": "603d1f20494ea848981cef9b",
       "variableName": ""
     },
     {
