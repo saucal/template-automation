@@ -25,13 +25,13 @@
   "startUrl": "",
   "steps": [
     {
-      "command": "execute",
+      "command": "exit",
       "condition": null,
       "optional": false,
       "private": false,
       "sequence": 0,
       "target": "",
-      "value": "64f5cbcbe0dfa97aa9f14eb0",
+      "value": "passing",
       "variableName": ""
     },
     {
@@ -41,7 +41,7 @@
       "private": false,
       "sequence": 1,
       "target": "",
-      "value": "649ed48182bf299ccbe741ed",
+      "value": "64f5cbcbe0dfa97aa9f14eb0",
       "variableName": ""
     },
     {
@@ -51,6 +51,16 @@
       "private": false,
       "sequence": 2,
       "target": "",
+      "value": "649ed48182bf299ccbe741ed",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 3,
+      "target": "",
       "value": "61d5b5207e5be41b1d21e1ed",
       "variableName": ""
     },
@@ -59,7 +69,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 3,
+      "sequence": 4,
       "target": ".notice > p > strong",
       "value": "",
       "variableName": ""
@@ -69,7 +79,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 4,
+      "sequence": 5,
       "target": ".notice > p > strong",
       "value": "WooCommerce Bluesnap Gateway is inactive because WooCommerce is not installed and active.",
       "variableName": ""
@@ -79,7 +89,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 5,
+      "sequence": 6,
       "target": "a[href=\"plugins.php\"] > .wp-menu-name",
       "value": "",
       "variableName": ""
@@ -89,7 +99,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 6,
+      "sequence": 7,
       "target": "#activate-woocommerce",
       "value": "",
       "variableName": ""
@@ -99,7 +109,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 7,
+      "sequence": 8,
       "target": "#message > p",
       "value": "Plugin activated.",
       "variableName": ""
@@ -109,7 +119,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 8,
+      "sequence": 9,
       "target": ".notice > p > strong",
       "value": "",
       "variableName": ""

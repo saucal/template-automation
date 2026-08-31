@@ -98,7 +98,9 @@
     },
     {
       "command": "click",
-      "condition": null,
+      "condition": {
+        "statement": "return false"
+      },
       "optional": false,
       "private": false,
       "sequence": 7,
@@ -449,7 +451,7 @@
       "private": false,
       "sequence": 42,
       "target": ".email > strong",
-      "value": "{{payPalUser}}"
+      "value": "{{email}}"
     },
     {
       "command": "assertText",
@@ -545,7 +547,7 @@
       "private": false,
       "sequence": 52,
       "target": ".woocommerce-column.woocommerce-column--1 > address",
-      "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{street2}}\n{{city}}\n{{county}}\n{{zipCode}}\n\n{{phone}}\n\n{{payPalUser}}",
+      "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{street2}}\n{{city}}\n{{county}}\n{{zipCode}}\n\n{{phone}}\n\n{{email}}",
       "variableName": ""
     },
     {
@@ -700,7 +702,7 @@
       "private": false,
       "sequence": 67,
       "target": ".woocommerce-column.woocommerce-column--1 > address",
-      "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{street2}}\n{{city}}\n{{county}}\n{{zipCode}}\n\n{{phone}}\n\n{{payPalUser}}",
+      "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{street2}}\n{{city}}\n{{county}}\n{{zipCode}}\n\n{{phone}}\n\n{{email}}",
       "variableName": ""
     },
     {

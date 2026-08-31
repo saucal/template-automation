@@ -108,7 +108,7 @@
       "optional": false,
       "private": false,
       "sequence": 6,
-      "target": "li:nth-of-type(2) div.note_content > p",
+      "target": "li div.note_content p",
       "value": "This is the new error message for 14002|INCORRECT_INFORMATION",
       "variableName": ""
     },

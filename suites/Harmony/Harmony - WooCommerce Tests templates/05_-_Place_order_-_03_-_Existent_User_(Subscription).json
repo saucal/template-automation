@@ -131,7 +131,14 @@
       "optional": false,
       "private": false,
       "sequence": 9,
-      "target": ".subscription-price > .woocommerce-Price-amount.amount > bdi",
+      "target": [
+        {
+          "selector": ".subscription-price > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": ".product-subtotal > .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
       "value": "{{unitPrice}}",
       "variableName": ""
     },
@@ -330,7 +337,14 @@
       "optional": false,
       "private": false,
       "sequence": 25,
-      "target": ".subscription-price > .woocommerce-Price-amount.amount > bdi",
+      "target": [
+        {
+          "selector": ".subscription-price > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": ".product-total > .woocommerce-Price-amount.amount > bdi"
+        }
+      ],
       "value": "{{unitPrice}}",
       "variableName": ""
     },

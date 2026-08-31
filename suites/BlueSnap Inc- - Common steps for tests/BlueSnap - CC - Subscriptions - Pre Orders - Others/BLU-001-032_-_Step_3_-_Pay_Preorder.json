@@ -21,7 +21,7 @@
   "region": null,
   "screenshotCompareEnabled": null,
   "screenshotCompareThreshold": 0.1,
-  "startUrl": null,
+  "startUrl": "",
   "steps": [
     {
       "command": "store",
@@ -154,13 +154,13 @@
       "variableName": ""
     },
     {
-      "command": "refresh",
+      "command": "execute",
       "condition": null,
       "optional": false,
       "private": false,
       "sequence": 13,
       "target": "",
-      "value": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
       "variableName": ""
     },
     {

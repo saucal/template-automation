@@ -21,7 +21,7 @@
   "region": null,
   "screenshotCompareEnabled": null,
   "screenshotCompareThreshold": 0.1,
-  "startUrl": null,
+  "startUrl": "",
   "steps": [
     {
       "command": "store",
@@ -139,7 +139,7 @@
       "optional": false,
       "private": false,
       "sequence": 11,
-      "target": "li.note.system-note:nth-of-type(1) > .note_content > p",
+      "target": "li.note.system-note:nth-of-type(2) > .note_content p",
       "value": "Bluesnap charge complete (Charge ID: {{transaction_id}})",
       "variableName": ""
     },
