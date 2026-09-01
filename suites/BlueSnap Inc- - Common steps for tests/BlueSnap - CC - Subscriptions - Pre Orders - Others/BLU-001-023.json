@@ -51,7 +51,7 @@
       "private": true,
       "sequence": 2,
       "target": "#user_pass",
-      "value": "demopass",
+      "value": "YWpLs_76f!ePqyhv9P!.",
       "variableName": ""
     },
     {
@@ -144,7 +144,7 @@
       "optional": false,
       "private": false,
       "sequence": 10,
-      "target": "li.note.system-note:nth-of-type(2) > .note_content > p",
+      "target": "li.note.system-note > .note_content p",
       "value": "Bluesnap transaction complete (Transaction ID: {{transaction_id}})",
       "variableName": ""
     },

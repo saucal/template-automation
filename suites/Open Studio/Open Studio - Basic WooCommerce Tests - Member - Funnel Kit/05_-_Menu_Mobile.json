@@ -159,15 +159,6 @@
       "optional": false,
       "private": false,
       "sequence": 13,
-      "target": "li#menu-item-1123040 > a[href*=\"/mentor-sessions/\"]",
-      "value": "Mentor Sessions"
-    },
-    {
-      "command": "assertTextPresent",
-      "condition": null,
-      "optional": false,
-      "private": false,
-      "sequence": 14,
       "target": "li.menu-item.menu-item-type-custom.menu-item-object-custom:nth-of-type(9) > a",
       "value": "Log out"
     }

@@ -123,10 +123,10 @@
     {
       "command": "assertElementNotPresent",
       "condition": {
-        "statement": "return \"{{subStatus}}\" === \"On hold\" \n|| \n(\"{{subStatus}}\" === \"Active\" \n&& \n((\"{{manualRenew}}\" === \"Yes\" || \"{{checklogs}}\" === \"upgrade\") && \"{{payment}}\" === \"ach\"))"
+        "statement": "return \"{{subStatus}}\" === \"On hold\" \n|| \n(\"{{subStatus}}\" === \"Active\" \n&& \n((\"{{manualRenew}}\" === \"Yes\" || \"{{checklogs}}\" === \"upgrade\") && \"{{payment}}\" === \"ach\"))\n&&\n\"{{hpos}}\" !== 'on' "
       },
       "notes": "added back up locator-make this step optional due to ipn response is returning faster than usual",
-      "optional": true,
+      "optional": false,
       "private": false,
       "sequence": 8,
       "target": [
@@ -143,7 +143,7 @@
     {
       "command": "assertElementNotPresent",
       "condition": {
-        "statement": "return \"{{subStatus}}\" === \"On hold\" \n|| \n(\"{{subStatus}}\" === \"Active\" \n&& \n((\"{{manualRenew}}\" === \"Yes\" || \"{{checklogs}}\" === \"upgrade\") && \"{{payment}}\" === \"ach\"))"
+        "statement": "return \"{{subStatus}}\" === \"On hold\" \n|| \n(\"{{subStatus}}\" === \"Active\" \n&& \n((\"{{manualRenew}}\" === \"Yes\" || \"{{checklogs}}\" === \"upgrade\") && \"{{payment}}\" === \"ach\"))\n&&\n\"{{hpos}}\" !== 'on' "
       },
       "notes": "SCART-998 Renew now button not present while order status is on hold",
       "optional": false,

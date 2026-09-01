@@ -73,27 +73,7 @@
       "optional": false,
       "private": false,
       "sequence": 4,
-      "target": "ul.order_notes > li:nth-child(1) > div > p",
-      "value": "Error during subscription status transition",
-      "variableName": ""
-    },
-    {
-      "command": "assertTextNotPresent",
-      "condition": null,
-      "optional": false,
-      "private": false,
-      "sequence": 5,
-      "target": "ul.order_notes > li:nth-child(2) > div > p",
-      "value": "Error during subscription status transition",
-      "variableName": ""
-    },
-    {
-      "command": "assertTextNotPresent",
-      "condition": null,
-      "optional": false,
-      "private": false,
-      "sequence": 6,
-      "target": "ul.order_notes > li:nth-child(3) > div > p",
+      "target": "ul.order_notes > li > div p",
       "value": "Error during subscription status transition",
       "variableName": ""
     },
@@ -102,7 +82,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 7,
+      "sequence": 5,
       "target": ".order-status > span:nth-child(1)",
       "value": "",
       "variableName": "orderStatus"
@@ -114,7 +94,7 @@
       },
       "optional": false,
       "private": false,
-      "sequence": 8,
+      "sequence": 6,
       "target": "",
       "value": "650e061f043e569e6bd78f4a",
       "variableName": ""
@@ -124,7 +104,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 9,
+      "sequence": 7,
       "target": "p.form-field-wide > span > span > span > #select2-order_status-container",
       "value": "Pending Cancellation",
       "variableName": ""
@@ -134,7 +114,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 10,
+      "sequence": 8,
       "target": [
         {
           "selector": "//span[contains(text(), \"Active\")]"
@@ -149,7 +129,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 11,
+      "sequence": 9,
       "target": [
         {
           "selector": "//li[contains(text(), \"Cancelled\")]"
@@ -164,7 +144,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 12,
+      "sequence": 10,
       "target": [
         {
           "selector": "//button[contains(text(), \"Update\")]"
@@ -179,7 +159,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 13,
+      "sequence": 11,
       "target": "",
       "value": "5000",
       "variableName": ""
@@ -189,7 +169,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 14,
+      "sequence": 12,
       "target": "#select2-order_status-container",
       "value": "Cancelled",
       "variableName": ""
@@ -199,7 +179,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 15,
+      "sequence": 13,
       "target": "li.note:nth-of-type(1) > .note_content",
       "value": "Error during subscription status transition",
       "variableName": ""
@@ -209,7 +189,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 16,
+      "sequence": 14,
       "target": "li.note.system-note:nth-of-type(2) > .note_content",
       "value": "Error during subscription status transition",
       "variableName": ""
@@ -219,7 +199,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 17,
+      "sequence": 15,
       "target": "li.note.system-note:nth-of-type(3) > .note_content",
       "value": "Error during subscription status transition",
       "variableName": ""
