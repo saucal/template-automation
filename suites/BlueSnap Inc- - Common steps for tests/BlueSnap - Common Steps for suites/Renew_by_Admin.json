@@ -256,7 +256,14 @@
       "optional": false,
       "private": false,
       "sequence": 18,
-      "target": "li.note.system-note:nth-of-type(2) > .note_content > p",
+      "target": [
+        {
+          "selector": "li.note.system-note:nth-of-type(4) > .note_content p"
+        },
+        {
+          "selector": "li.note.system-note:nth-of-type(2) > .note_content p"
+        }
+      ],
       "value": "Bluesnap transaction complete (Transaction ID: {{transaction_id}})",
       "variableName": ""
     },
@@ -268,7 +275,7 @@
       "optional": false,
       "private": false,
       "sequence": 19,
-      "target": "li.note.system-note:nth-of-type(1) > .note_content > p",
+      "target": "li.note.system-note:nth-of-type(3) > .note_content p",
       "value": "Charge pending confirmation from BlueSnap (Charge ID: {{transaction_id}}). Order status changed from Pending payment to On hold.",
       "variableName": ""
     }

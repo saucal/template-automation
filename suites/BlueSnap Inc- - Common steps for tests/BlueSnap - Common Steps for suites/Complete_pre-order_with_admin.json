@@ -134,7 +134,17 @@
       "optional": false,
       "private": false,
       "sequence": 8,
-      "target": "tr:nth-of-type({{nth}}) > th.check-column > input[name=\"order_id[]\"][type=\"checkbox\"]"
+      "target": [
+        {
+          "selector": "input[name=\"order_id[]\"][type=\"checkbox\"][value=\"{{orderNumber}}\"]"
+        },
+        {
+          "selector": "tr:nth-of-type({{nth}}) > .check-column > input[name=\"order_id[]\"][type=\"checkbox\"]"
+        },
+        {
+          "selector": "tr:nth-of-type({{nth}}) > th.check-column > input[name=\"order_id[]\"][type=\"checkbox\"]"
+        }
+      ]
     },
     {
       "command": "click",

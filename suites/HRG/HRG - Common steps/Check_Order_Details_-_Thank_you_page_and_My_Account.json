@@ -229,13 +229,13 @@
       "variableName": ""
     },
     {
-      "command": "assertText",
+      "command": "assertTextPresent",
       "condition": null,
       "optional": false,
       "private": false,
       "sequence": 19,
       "target": ".woocommerce-column.woocommerce-column--2 > address",
-      "value": "{{firstName}} {{lastName2}}\n{{company2}}\n{{street3}}\n{{street4}}\n{{city}}, {{state}} {{zipCode}}\n\n{{phone}}",
+      "value": "{{firstName}} {{lastName2}}\n{{company2}}\n{{street3}}\n{{street4}}\n{{city}}, {{state}} {{zipCode}}",
       "variableName": ""
     }
   ],

@@ -32,6 +32,15 @@
       "target": "",
       "value": "6920623928d2a810e8ddf4e1",
       "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": true,
+      "private": false,
+      "sequence": 1,
+      "target": "#wp-admin-bar-logout > a",
+      "value": ""
     }
   ],
   "testFrequency": 0,
