@@ -61,37 +61,31 @@ first-try wins.
    cycles; one model covers cart→checkout→thank-you→my-account→admin→email.
 8. **One test, three contexts.** Merge GI's split shopper/backend/email tests into
    a single atomic test with `shopperPage` (eager) + `adminPage`/`emailPage` (lazy).
-9. **Resilient locator wrapper** (rule 23) — ARIA → text/CSS → Stagehand, observe-gated,
-   AI last-resort + flagged. Drift insurance without slowing the pure-Playwright happy path.
-10. **Email via Mailpit REST**, not in-page `ajax_object`: search by recipient on the
-    catch domain (`@playgrounds.saucal.io`), subject-filter to disambiguate multiple
-    emails, poll ~60s (order mail lags). **Unique per-run data** (a module-level
+9. **Resilient locators = lokinator** (via woolverine): primary → alt → cached fix → LLM.
+   Drift insurance without slowing the pure-Playwright happy path. See
+   `locator-fallback-strategy.md`.
+10. **Email via woolverine `waitForMessage` / `openEmail`** (Mailpit REST on the catch domain
+    `@playgrounds.saucal.io`): subject + `contains` token to disambiguate, body-race safe,
+    poll ~120s (ESP relays lag and reorder). **Unique per-run data** (a module-level
     `RUN_ID` in the email) to avoid "account already exists" / stale-state collisions.
     Mailpit search is **newest-first**: when two same-subject emails hit one inbox
     (order 1 + order 2 on a reused account), `messages[0]` is the latest — order your
     assertions so each resolves the right one.
 
-## Fixture gotchas (manual contexts)
+## Fixtures
 
-11. Creating contexts manually (needed for the 3-context + Stagehand-CDP model)
-    bypasses Playwright's auto trace/screenshot/video — honor the config yourself:
-    - allow-list valid `BrowserContext` options (don't spread all of `project.use`)
-    - apply `actionTimeout`/`navigationTimeout` via `page.setDefault*Timeout`
-    - capture trace/screenshot/video in fixture teardown per config mode
-    - bridge `--headed` into both Stagehand (`localBrowserLaunchOptions.headless`)
-      and any manual `chromium.launch`
-    - don't depend on the built-in `browser` fixture if Stagehand owns the browser
-      (it launches a second, unused one); close Stagehand's stray `about:blank`
-    - silence the AI-SDK system-message warning (`AI_SDK_LOG_WARNINGS = false`)
+11. **woolverine `createTest` owns the contexts** (shopper / mobile / admin / email, all lazy),
+    the artifacts, the 429 backoff and the wp-admin view-transition freeze fix. Do not create
+    contexts by hand; extend the returned `test` for project fixtures (`makeLazyPage` +
+    `openContext` for an extra logged-in member context).
 
 ## Refund / void / account parity
 
-12. **`do-api-refund` no-ops at $0.** Clicking the gateway refund button does nothing
-    unless the refund form is filled first: copy each line item's ordered qty →
-    `input.refund_order_item_qty` (WC auto-fills line totals on `change`), and copy
-    fee/shipping `.view` amounts → `tr.fee`/`tr.shipping … input.refund_line_total`/`refund_line_tax`.
-    **Poll the computed amount > 0 before submitting** — else a silent $0 refund leaves
-    no gateway note and the assertion fails on a missing note.
+12. **Refunds go through woolverine `runGatewayRefund`** — it fills every line qty +
+    shipping/fee cells, polls the computed amount > 0, accepts the native confirm, surfaces a
+    gateway alert as the failure (never a manual fallback) and waits for `tr.refund`. Assert
+    with `readRefundLineTotal` (negative) and `readRefundedTotal` (magnitude — the sign flips
+    across Woo versions).
 13. **Refund parity is gateway-specific — same GI step, different note + status.**
     Accept.Blue → `accept.blue Gateway v2 Refund …`, status **Refunded**. Authorize.Net
     VOIDS the same-day auth → `Authorize.Net Credit Card Void in the amount of … approved`,
@@ -106,19 +100,20 @@ first-try wins.
     can be passwordless — the form is email-only ("a link to set a new password will be
     sent"). Register → fetch the "account has been created" email → follow the
     "set your new password" link → set `#password_1/#password_2` (this verifies the email
-    and logs the user in). Same set-password page as forgot-password — share one helper.
-    Watch for **reCAPTCHA** on the standalone register form (a raw submit may be blocked).
+    and logs the user in) — woolverine `registerCustomer` (no `password`) + `setPasswordFromEmail`;
+    `forgotPassword` shares the same set-password page. Watch for **reCAPTCHA** on the standalone
+    register form (a bot-gate `prepare` hook).
 16. **GI is the source of truth — dump the test JSON, don't guess.** Every fix above
     came from reading the actual GI step list (refund qty-fill, `selectFirstAvailableVariation`,
     the set-password flow), not from inferring selectors/flow. Pair it with **live
     `playwright-cli` exploration** to confirm current DOM (it caught the no-`bdi` markup,
     the pickup-label-not-price, reCAPTCHA, real product prices).
-17. **Silent failures to check first:** wrong credential env key (login used `PASSWORD`
-    vs the working `ADMIN_PASS` — check what global-setup uses); and editing a spec title
-    in Playwright **UI mode** mid-run orphans the test (0.0ms spinner) — run from CLI.
+17. **Silent failures to check first:** wrong credential env key (`ensureAdminState` reads
+    `WP_ADMIN_USER` / `ADMIN_PASS`); a heal error without `| AI suggested:` (AI tier dead);
+    editing a spec title in Playwright **UI mode** mid-run orphans the test — run from CLI.
+    The full list lives in the prompt's [Live triage] section.
 
 ## Scope
 
-Maintenance WC sites (leggari, no-pong, repurposed) share this approach. Payment-
-gateway plugin suites (mastercard, bluesnap) have a different architecture — don't
-force this model onto them.
+Maintenance WC sites (the 11 woolverine pilots) share this approach. Payment-gateway plugin
+suites (mastercard, bluesnap) have a different architecture — don't force this model onto them.

@@ -18,10 +18,10 @@ plugin suites (mastercard, bluesnap) run differently — don't force this loop o
 
 ## Run order
 
-1. **Pre-flight.** `.env` present + correct (`BASE_URL`, `WP_ADMIN_USER`, `ADMIN_PASS`
-   — confirm the key global-setup actually reads; wrong creds key is a classic silent
-   failure). `ANTHROPIC_API_KEY` set only if you want the Stagehand drift-insurance
-   tier live; the happy path is pure Playwright without it.
+1. **Pre-flight.** `tests/.env` present + correct (`BASE_URL_<ENV>`, `WP_ADMIN_USER`, `ADMIN_PASS`
+   — the keys woolverine's `ensureAdminState` reads). `OPENAI_API_KEY` set if you want lokinator's
+   AI repair tier live; the happy path is pure Playwright without it. `npm install` after pulling
+   (the woolverine pin may have moved) and check the pinned tag matches `node_modules/woolverine`.
 2. **Functional specs first** (orders / account / checkout / klaviyo). Run from CLI,
    not UI mode (editing a title mid-run orphans the test). Headless by default;
    `--headed` only to debug.
@@ -61,11 +61,10 @@ When a check goes red, classify before "fixing":
 1. **Copy reword** — error/label text changed, meaning didn't ("Country" →
    "Country / Region"). NOT a bug. Assert on field-token + intent regex, never exact
    copy (rule 26). Update the regex, move on.
-2. **Selector drift** — element moved/renamed, behavior intact. The resilient wrapper
-   (rule 23) may have already healed it via the Stagehand tier — check the report for
-   the `[resilient] locators failed → using Stagehand` warning. That warning means
-   **fix the primary selector** (don't leave the suite leaning on AI). Update the
-   `primary`/`alt` locator in the helper.
+2. **Selector drift** — element moved/renamed, behavior intact. lokinator may have already
+   healed it — the diff of the committed `.lokinator-cache.json` is the drift report. A new
+   entry means **fix the primary selector** in the helper (keep the cache entry as the record);
+   don't leave the suite leaning on AI.
 3. **Layout change (visual)** — intentional design/content change → re-baseline
    (`--update-snapshots`) and note it. Unintended shift → real bug, report it.
 4. **Real regression** — flow broke, total/tax/shipping wrong, an expected element
@@ -96,13 +95,11 @@ maintenance `coverage-check` step can't map an updated plugin to its tests.
 Filter a maintenance run to only the updated plugins' specs:
 `npx playwright test --grep "@plugin:woocommerce|@plugin:kadence"`.
 
-## Where Stagehand fits
+## Where lokinator's AI tier fits
 
-Last resort only. Pure Playwright is the driver every cycle (fast, free,
-deterministic). Stagehand is drift insurance: it keeps a cycle green when a selector
-breaks, while the warning tells you to repair the selector before next cycle. A
-cycle that leans on Stagehand for many steps is a cycle of deferred maintenance —
-clear the warnings.
+Last resort only. Pure Playwright is the driver every cycle (fast, free, deterministic); the
+AI tier keeps a cycle green when a selector breaks and caches the fix. A cache diff with many
+new entries is deferred maintenance — repair the primaries before the next cycle.
 
 ## Failure artifacts
 

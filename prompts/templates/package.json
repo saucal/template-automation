@@ -1,0 +1,23 @@
+{
+  "name": "ADAPT-<site>-playwright",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "playwright test",
+    "test:basic": "playwright test specs/basic",
+    "test:orders": "playwright test specs/orders",
+    "report": "playwright show-report reports",
+    "setup:browsers": "playwright install chromium",
+    "typecheck": "tsc --noEmit",
+    "lint": "woolverine-lint specs && npm run typecheck"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "woolverine": "github:saucal/woolverine-automation#vADAPT-EXACT-TAG"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^20.14.0",
+    "typescript": "^5.5.0"
+  }
+}

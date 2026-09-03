@@ -1,0 +1,7 @@
+node_modules/
+auth/
+reports/
+test-results/
+.env
+# Visual baselines carry a platform suffix and are re-seeded per machine (or cached by CI)
+**/*-snapshots/
