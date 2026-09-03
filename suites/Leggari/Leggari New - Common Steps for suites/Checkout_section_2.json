@@ -40,7 +40,7 @@
       "private": false,
       "sequence": 1,
       "target": "ul#shipping_method > li:nth-child(1) label",
-      "value": "FedEx",
+      "value": "Local pickup in Pasco, WA (Call to schedule a pickup 844-534-4274)",
       "variableName": ""
     },
     {
@@ -50,7 +50,7 @@
       "private": false,
       "sequence": 2,
       "target": "ul#shipping_method > li:nth-child(2) label",
-      "value": "Local pickup in Pasco, WA (Call to schedule a pickup 844-534-4274)",
+      "value": "Free Shipping",
       "variableName": ""
     },
     {
@@ -59,14 +59,21 @@
       "optional": false,
       "private": false,
       "sequence": 3,
-      "target": "#shipping_method > li:nth-child(1) div > span.woocommerce-Price-amount.amount > bdi",
+      "target": [
+        {
+          "selector": "#shipping_method > li:nth-child(1) div > span.woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "#shipping_method > li:nth-child(1) div.wfacp_shipping_price"
+        }
+      ],
       "value": "",
       "variableName": "shippingPrice"
     },
     {
       "command": "extractEval",
       "condition": {
-        "statement": "return '{{role}}' === 'contractor'"
+        "statement": "return '{{role}}' === 'contractor' && '{{shippingPrice}}' !== 'Free'"
       },
       "optional": false,
       "private": false,
@@ -161,14 +168,21 @@
       "optional": false,
       "private": false,
       "sequence": 12,
-      "target": "span > .woocommerce-Price-amount.amount > bdi",
+      "target": [
+        {
+          "selector": "tr.shipping_total_fee span > .woocommerce-Price-amount.amount > bdi"
+        },
+        {
+          "selector": "tr.shipping_total_fee > td:nth-child(2) > span "
+        }
+      ],
       "value": "{{shippingPrice}}",
       "variableName": ""
     },
     {
       "command": "assertText",
       "condition": {
-        "statement": "return '{{role}}' === 'contractor'"
+        "statement": "return '{{role}}' === 'contractor' && '{{shippingPrice}}' !== 'Free'"
       },
       "optional": false,
       "private": false,

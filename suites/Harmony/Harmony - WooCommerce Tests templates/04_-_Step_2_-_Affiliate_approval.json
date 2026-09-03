@@ -64,12 +64,12 @@
       "variableName": ""
     },
     {
-      "command": "mouseOver",
+      "command": "click",
       "condition": null,
       "optional": false,
       "private": false,
       "sequence": 4,
-      "target": "table.affiliates > tbody > tr:nth-of-type(1) > td",
+      "target": "xpath=//span[contains(text(),'{{user}}')]",
       "value": "",
       "variableName": ""
     },
@@ -79,19 +79,42 @@
       "optional": false,
       "private": false,
       "sequence": 5,
-      "target": "table.affiliates > tbody > tr:nth-of-type(1) > td a[href*=\"action=accept\"]",
-      "value": "",
-      "variableName": ""
+      "target": "#status"
+    },
+    {
+      "command": "assign",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 6,
+      "target": "#status",
+      "value": "active"
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 7,
+      "target": "#submit"
     },
     {
       "command": "assertTextPresent",
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 6,
-      "target": "tr:nth-of-type(1) > td.status.column-status",
-      "value": "Active",
-      "variableName": ""
+      "sequence": 8,
+      "target": ".updated > p:nth-of-type(1)",
+      "value": "Affiliate updated successfully"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "#status",
+      "value": "active"
     }
   ],
   "testFrequency": 0,

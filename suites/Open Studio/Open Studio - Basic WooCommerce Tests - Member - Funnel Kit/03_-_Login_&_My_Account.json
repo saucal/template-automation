@@ -298,7 +298,7 @@
       "optional": false,
       "private": false,
       "sequence": 26,
-      "target": "a[href*=\"/product/open-studio/?attribute_frequency={{freq}}\"]",
+      "target": "a[href*=\"?attribute_frequency={{freq}}\"]",
       "value": "Open Studio - {{freq}}"
     },
     {
@@ -437,7 +437,7 @@
       "optional": false,
       "private": false,
       "sequence": 40,
-      "target": "a[href*=\"/product/open-studio/\"]",
+      "target": "a[href*=\"/product/\"]",
       "value": "Open Studio - {{freq}}"
     },
     {
