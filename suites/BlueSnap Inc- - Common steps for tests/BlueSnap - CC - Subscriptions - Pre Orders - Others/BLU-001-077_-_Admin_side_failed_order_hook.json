@@ -99,7 +99,14 @@
       "optional": false,
       "private": false,
       "sequence": 6,
-      "target": "tr:last-of-type > td.hook ",
+      "target": [
+        {
+          "selector": "tr:last-of-type > td.hook "
+        },
+        {
+          "selector": "tr:last-of-type > th.hook"
+        }
+      ],
       "value": "",
       "variableName": ""
     },
@@ -109,7 +116,14 @@
       "optional": false,
       "private": false,
       "sequence": 7,
-      "target": "tr:last-of-type > td.hook > div > span.run > a",
+      "target": [
+        {
+          "selector": "tr:last-of-type > td.hook > div > span.run > a"
+        },
+        {
+          "selector": "tr:last-of-type > th.hook > div > span.run > a"
+        }
+      ],
       "value": "",
       "variableName": ""
     },

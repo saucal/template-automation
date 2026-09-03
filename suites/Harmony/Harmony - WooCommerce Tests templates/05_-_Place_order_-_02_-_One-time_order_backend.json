@@ -71,7 +71,14 @@
       "optional": false,
       "private": false,
       "sequence": 4,
-      "target": ".wp-list-table tr#post-{{orderNumber}} td.order_number a.order-view",
+      "target": [
+        {
+          "selector": ".wp-list-table tr#post-{{orderNumber}} td.order_number a.order-view"
+        },
+        {
+          "selector": ".wp-list-table tr#post-{{orderNumber}} th.order_number a.order-view"
+        }
+      ],
       "value": "",
       "variableName": ""
     },
@@ -257,10 +264,10 @@
       "sequence": 22,
       "target": [
         {
-          "selector": "#woocommerce-order-notes > div.inside > ul > li:nth-child(5) > div > p"
+          "selector": "#woocommerce-order-notes > div.inside > ul > li:nth-child(7) > div p"
         },
         {
-          "selector": "#woocommerce-order-notes > div.inside > ul > li:nth-child(3) > div > p"
+          "selector": "#woocommerce-order-notes > div.inside > ul > li:nth-child(3) > div p"
         }
       ],
       "value": "",
@@ -275,7 +282,7 @@
       "private": false,
       "sequence": 23,
       "target": "",
-      "value": "let note = \"{{noteReferral}}\";\nlet array = note.match(/([0-9]+\\.[0-9]+)/g);\nlet referral = Number(\"{{referral1}}\")\nlet rate = Number(array[2])\nlet referralUSD = Math.round(rate*referral*100)/100;\n\n\nreturn Number(array[0]) === referral && referralUSD === Number(array[1])\n",
+      "value": "let note = \"{{noteReferral}}\";\n\nconst nums = note.match(/([0-9]+\\.[0-9]+)/g).map(Number);\nlet referral1 = Number(\"{{referral1}}\")\n\nconst [referral, reportedUSD, rate] = nums;\n\nconst calculated = referral * rate;               // 419.895125\nconst diff = Math.abs(calculated - reportedUSD);  // 0.005125\n\nconst ok = Math.abs(referral1 - referral) < 1e-9   // exact match of the CAD amount\n        && diff < 0.01;                 // allow < 0.01 cent\n\nreturn ok;\n",
       "variableName": ""
     },
     {
@@ -287,7 +294,7 @@
       "private": false,
       "sequence": 24,
       "target": "",
-      "value": "let note = \"{{noteReferral}}\";\nlet array = note.match(/([0-9]+\\.[0-9]+)/g);\nlet referral = Number(\"{{referral1}}\")\n\nreturn Number(array[0]) === referral\n",
+      "value": "let note = \"{{noteReferral}}\";\n\nconst nums = note.match(/([0-9]+\\.[0-9]+)/g).map(Number);\nlet referral1 = Number(\"{{referral1}}\")\n\nconst [referral] = nums;\n\nreturn referral1 === referral\n\n",
       "variableName": ""
     },
     {

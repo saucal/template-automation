@@ -168,7 +168,7 @@
       "optional": false,
       "private": false,
       "sequence": 13,
-      "target": "li.note.system-note:nth-of-type(1) > .note_content > p",
+      "target": "li.note.system-note:nth-of-type(2) > .note_content p",
       "value": "BlueSnap ACH Declined {{labeIPN}} request received. A chargeback has been created for this transaction. Reason: null – null. Order status changed from On hold to Failed.",
       "variableName": ""
     },
