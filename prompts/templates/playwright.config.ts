@@ -3,7 +3,7 @@
 import { defineConfig } from '@playwright/test';
 import dotenv from 'dotenv';
 import path from 'path';
-import { defineProjects } from 'woolverine';
+import { defineProjects, SNAPSHOT_PATH_TEMPLATE } from 'woolverine';
 
 dotenv.config({ path: path.join(__dirname, '.env') });
 // lokinator's heal cache is cwd-relative by default — anchor it next to the suite (it is committed).
@@ -11,6 +11,8 @@ process.env.LOKINATOR_CACHE ||= path.join(__dirname, '.lokinator-cache.json');
 
 export default defineConfig({
   testDir: 'specs',
+  // Every suite's baselines in specs/visual-baselines/ — never next to the spec.
+  snapshotPathTemplate: SNAPSHOT_PATH_TEMPLATE,
   timeout: 240_000,
   expect: { timeout: 15_000, toHaveScreenshot: { maxDiffPixelRatio: 0.1 } },
   fullyParallel: false,

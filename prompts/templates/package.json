@@ -6,6 +6,7 @@
     "test": "playwright test",
     "test:basic": "playwright test specs/basic",
     "test:orders": "playwright test specs/orders",
+    "baseline": "playwright test --grep @visual --update-snapshots",
     "report": "playwright show-report reports",
     "setup:browsers": "playwright install chromium",
     "typecheck": "tsc --noEmit",

@@ -155,8 +155,9 @@ Proven order. Each step is a commit.
    be running. Suite root is `tests/`.
 2. **Scaffold from templates.** `package.json` (pin the EXACT tag: `"woolverine": "github:saucal/woolverine-automation#vX.Y.Z"`
    — never `#semver:`, never a floating branch), `tsconfig.json`, `.env.example`, `.gitignore`,
-   `playwright.config.ts` (`defineProjects`, `LOKINATOR_CACHE ||= <tests>/.lokinator-cache.json`,
-   `screenshot: 'off'`, `trace: 'retain-on-failure'`), `fixtures/index.ts` (`createTest`). `npm install`.
+   `playwright.config.ts` (`defineProjects`, `snapshotPathTemplate: SNAPSHOT_PATH_TEMPLATE` —
+   woolverine >= v1.1.3, `LOKINATOR_CACHE ||= <tests>/.lokinator-cache.json`, `screenshot: 'off'`,
+   `trace: 'retain-on-failure'`), `fixtures/index.ts` (`createTest`). `npm install`.
 3. **Recon** ([Recon](#recon)): dump every GI JSON, live-explore every surface with `playwright-cli`,
    write the triage table (GI test → spec / merged / dropped-with-reason).
 4. **Types + site helper.** `types/test-config.ts` (OrderConfig, Result). `helpers/<site>.ts`: ONLY
@@ -435,8 +436,14 @@ handles `#terms`).
 ## Resilience & visuals
 
 <a id="visual-spec"></a>
-**[MUST] visual-spec — one data-driven visual spec on the load-bearing templates (home, shop,
-product, cart, checkout, my-account + every GI screenshot test), through `assertScreenshot`.**
+**[MUST] visual-spec — one data-driven visual spec at `specs/visual.spec.ts`, tagged `@visual`, on
+the load-bearing templates (home, shop, product, cart, checkout, my-account + every GI screenshot
+test), through `assertScreenshot`.** EVERY suite ships one: a GI suite with no screenshot tests is
+not an exemption, the load-bearing templates still get baselines (fitcreamery shipped without any).
+Not `specs/basic/`, not `specs/pages/` — that path IS the standard (icgbullion and bartenbach each
+invented their own). Baselines land in `specs/visual-baselines/` via `snapshotPathTemplate:
+SNAPSHOT_PATH_TEMPLATE` in the config, and `npm run baseline` re-records them — the same command in
+every repo, never a hand-typed `playwright test <some/spec/path> --update-snapshots`.
 `stabilizeForScreenshot` forces lazy media (`loading=lazy`, `data-src` libraries), step-scrolls,
 polls until no image is loading (bounded), scrolls back. Site extras are OPT-INS: `hide`
 (off-canvas drawers that inflate `scrollWidth`), `hideOverflowRight` (mega-menu panels / carousel
@@ -587,7 +594,8 @@ Per place-order / subscription / membership test:
 - [ ] Step logs cover the journey.
 
 Per suite:
-- [ ] Visual spec present (`assertScreenshot`), baselines per project.
+- [ ] `specs/visual.spec.ts` present and `@visual`-tagged; `npm run baseline` recorded them into
+  `specs/visual-baselines/` (per project); the folder is committed and non-empty.
 - [ ] `@plugin` tags everywhere.
 - [ ] Every deliberate omission and every known site issue written in the ledger.
 - [ ] Every site-side helper has its "why it stays" line, or was deleted in the slimming pass.
@@ -601,6 +609,8 @@ Per suite:
 - `package.json` pins an EXACT woolverine tag; `node_modules/woolverine/dist` carries a marker of
   that version (a stale lock silently keeps the old resolution).
 - No `expect()` in specs but `toHaveScreenshot`; every `expect` has a message.
+- `specs/visual-baselines/` exists and holds a `.png` per project — an empty or missing folder
+  means the visual slice never ran, not that the site has no visuals.
 - No `goto` to cart/checkout; no raw locator actions outside lokinator wrappers (allowed: waits,
   `setInputFiles`, `dispatchEvent` for 0-height triggers, popup pages).
 - No helper that duplicates a woolverine export; no shims.
