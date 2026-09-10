@@ -496,14 +496,30 @@ handles `#terms`).
 ## Resilience & visuals
 
 <a id="visual-spec"></a>
-**[MUST] visual-spec — one data-driven visual spec at `specs/visual.spec.ts`, tagged `@visual`, on
-the load-bearing templates (home, shop, product, cart, checkout, my-account + every GI screenshot
-test), through `assertScreenshot`.** EVERY suite ships one: a GI suite with no screenshot tests is
-not an exemption, the load-bearing templates still get baselines (fitcreamery shipped without any).
-Not `specs/basic/`, not `specs/pages/` — that path IS the standard (icgbullion and bartenbach each
-invented their own). Baselines land in `specs/visual-baselines/` via `snapshotPathTemplate:
-SNAPSHOT_PATH_TEMPLATE` in the config, and `npm run baseline` re-records them — the same command in
-every repo, never a hand-typed `playwright test <some/spec/path> --update-snapshots`.
+**[MUST] visual-spec — one `@visual`-tagged slice over the load-bearing templates (home, shop,
+product, cart, checkout, my-account + every GI screenshot test), through `assertScreenshot`.**
+EVERY suite ships one: a GI suite with no screenshot tests is not an exemption, the load-bearing
+templates still get baselines (fitcreamery shipped without any). What is standard is the SLICE,
+not the file: `@visual` is the tag, `specs/visual-baselines/` is the one folder (via
+`snapshotPathTemplate: SNAPSHOT_PATH_TEMPLATE` in the config), and `npm run baseline` is the one
+command that re-records — the same three in every repo, never a hand-typed `playwright test
+<some/spec/path> --update-snapshots` and never a second baseline folder (icgbullion parked them
+under `specs/basic/`, bartenbach under `specs/pages/`).
+
+Two shapes are allowed, and the choice is per suite:
+- **Standalone** — `specs/visual.spec.ts`, data-driven over a page table. The default: pick it
+  whenever the shots do not need a journey to reach the page.
+- **Woven** — the shot rides along with the functional test that already navigated there, and the
+  tag goes on those tests (or their describe). Pick it when a surface is only reachable through a
+  click path the functional spec already walks (cart, checkout, an order confirmation), so a
+  standalone spec would re-drive the same journey purely to photograph it. repurposedMATERIALS
+  runs this shape: navigation + contact own all ten baselines, each page visited once.
+
+Woven has one trap: `npm run baseline` runs every `@visual` test, side effects included. A tagged
+test that WRITES to the site (a real form submission, a placed order) means re-recording writes
+too. That is allowed on staging, but say so in the spec header and in the README — never discover
+it from a record run.
+
 `stabilizeForScreenshot` forces lazy media (`loading=lazy`, `data-src` libraries), step-scrolls,
 polls until no image is loading (bounded), scrolls back. Site extras are OPT-INS: `hide`
 (off-canvas drawers that inflate `scrollWidth`), `hideOverflowRight` (mega-menu panels / carousel
@@ -654,8 +670,9 @@ Per place-order / subscription / membership test:
 - [ ] Step logs cover the journey.
 
 Per suite:
-- [ ] `specs/visual.spec.ts` present and `@visual`-tagged; `npm run baseline` recorded them into
-  `specs/visual-baselines/` (per project); the folder is committed and non-empty.
+- [ ] A `@visual` slice exists (standalone or woven) and `npm run baseline` recorded it into
+  `specs/visual-baselines/` (per project); the folder is committed and non-empty. Any write side
+  effect a tagged test carries is named in the spec header and the README.
 - [ ] `@plugin` tags everywhere.
 - [ ] Every deliberate omission and every known site issue written in the ledger.
 - [ ] Every site-side helper has its "why it stays" line, or was deleted in the slimming pass.

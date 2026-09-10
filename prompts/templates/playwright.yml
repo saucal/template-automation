@@ -4,7 +4,7 @@
 # one maintenance cycle, so a deploy can be judged on screenshots without
 # committing visual baselines to git.
 #
-#   content sync finishes  →  RECORD: visual specs only, --update-snapshots.
+#   content sync finishes  →  RECORD: the @visual slice only, --update-snapshots.
 #                             Content has just been replaced from production, so
 #                             every prior baseline is stale by definition.
 #   maintenance PR merged  →  COMPARE: full suite, no --update-snapshots. The
@@ -273,22 +273,31 @@ jobs:
           MATCHED: ${{ steps.baselines.outputs.cache-matched-key }}
         run: |
           args=( --project="${{ matrix.project }}" )
-          [ "$SUITE" != all ] && args+=( "specs/$SUITE" )
-          [ -n "$GREP" ] && args+=( --grep "$GREP" )
+          # `visual` is a TAG, not a folder: the slice may be a standalone
+          # specs/visual.spec.ts or woven into the functional specs, and @visual
+          # is what `npm run baseline` greps for either way (see visual-spec).
+          tag=''
+          if [ "$SUITE" = visual ]; then tag='@visual'
+          elif [ "$SUITE" != all ]; then args+=( "tests/specs/$SUITE" )
+          fi
+          # ONE --grep: Playwright keeps only the last one it is given, so a
+          # dispatch that filters the visual slice has to combine the two.
+          if [ -n "$tag" ] && [ -n "$GREP" ]; then args+=( --grep "(?=.*$tag)(?=.*$GREP)" )
+          elif [ -n "$tag" ];  then args+=( --grep "$tag" )
+          elif [ -n "$GREP" ]; then args+=( --grep "$GREP" )
+          fi
           if [ "$UPDATE" = true ]; then
             args+=( --update-snapshots )
           elif [ -z "$MATCHED" ]; then
             # Comparing with no baseline would just rewrite it and fail every
             # visual test — a confusing red that says nothing about the deploy.
-            # ADAPT: visual title prefix — must match how visual tests are
-            # titled, so --grep-invert excludes them and nothing else.
             if [ "$SUITE" = visual ]; then
               # Nothing left to run; say why instead of Playwright's "No tests found".
               echo "::error::No cached visual baselines for ${{ matrix.project }}. Run the content sync, or dispatch this workflow with update_snapshots=true."
               exit 1
             fi
-            echo "::warning::No cached visual baselines for ${{ matrix.project }} — skipping visual specs. Re-run the content sync to record them."
-            args+=( --grep-invert "visual:" )
+            echo "::warning::No cached visual baselines for ${{ matrix.project }} — skipping the visual slice. Re-run the content sync to record them."
+            args+=( --grep-invert "@visual" )
           fi
           echo "npx playwright test ${args[*]}"
           npx playwright test "${args[@]}"
