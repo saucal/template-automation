@@ -27,6 +27,26 @@ architecture](#reference-architecture) · 4. [Woolverine surface map](#woolverin
 done](#definition-of-done) · 17. [Contributing to woolverine](#contributing-to-woolverine) ·
 18. [Handoff](#handoff) · 19. [What NOT to do](#what-not-to-do)
 
+<a id="settled-decisions"></a>
+**[MUST] settled-decisions — the choices written here were already argued with the team. Implement
+them; do not re-derive them.** Node 22 in `.nvmrc` with the workflow reading it, npm over pnpm,
+`allow-git=all`, tooling at the repo root with the suite in `tests/`: each one is the OUTCOME of a
+review (cash-fore-clubs #115, Sept 2026), written as the answer, not as an open question.
+
+- **Copy the reference pilot's shape; don't design a new one.** cash-fore-clubs is the layout
+  reference — `diff` the repo you are migrating against it instead of reasoning from first
+  principles. A structure you derived yourself is wrong even when it is defensible.
+- **Stay inside the repo you were asked to change.** Not the shared deploy actions
+  (`saucal/action-*`), not repo or org CI variables, not the other pilots, not this prompt.
+- **A hazard you verified is a paragraph, not a mandate.** Report it and stop: e.g. the deploy
+  build runs `npm ci` + `npm run --if-present build` + `npm run --if-present test` in the repo
+  ROOT, so a root `test` script meaning `playwright test` fires the suite on every deploy (no
+  browsers on that runner → red deploy). Saying that is right. Fixing the deploy pipeline,
+  mirroring CI variables across repos or rewriting a rule to suit the finding is not yours to do —
+  the user scopes it, you execute.
+- **Never edit this doc to match your own conclusion.** It is the record of what was decided; a
+  rule you rewrote mid-task hides the decision it replaced. Raise it, wait, then edit.
+
 ---
 
 ## Before you start
@@ -713,6 +733,8 @@ in `github:saucal/lokinator-automation`, tagged the same way and pinned inside w
 - Don't pin a floating dependency (`#semver:`, a branch) — exact tags only.
 - Don't nest `package.json` under `tests/`, don't switch to pnpm, don't hardcode a Node version in
   the workflow — `.nvmrc` + `.npmrc` at the root ([repo-root-tooling](#repo-root-tooling)).
+- Don't relitigate a settled decision, wander into the deploy actions or CI variables, or edit this
+  doc to fit what you concluded ([settled-decisions](#settled-decisions)).
 - Don't run the live suite yourself; don't touch a checkout the user may be running.
 - Don't leave a site helper without its one-line "why it stays".
 - Don't write prose comments, one-caller abstractions or "for later" scaffolding; don't run a silent flow.
