@@ -357,6 +357,10 @@ playwright-core, e2e-utils).
 **[MUST] repo-root-tooling — npm, Node pinned, git deps allowed, nothing test-related deployed.**
 - `package.json`, lockfile, `tsconfig.json`, `playwright.config.ts`, `.env(.example)`, `.nvmrc`,
   `.npmrc` at the repo ROOT; never a nested `package.json` under `e2e/`.
+- **An allowlist-style `.gitignore` has to allowlist the suite too.** A repo that ignores `/*`
+  and re-adds paths with `!` (harmony) keeps tracked files working after a rename — nothing gets
+  untracked — while silently ignoring the folder: `git add e2e/<new spec>` is refused and a spec
+  added later never lands. Point the `!` exception at `e2e/`.
 - **`.nvmrc` = `22`** (current LTS the pilots run on); the workflow reads it via `node-version-file`.
 - **`.npmrc` = `allow-git=all`.** npm 11+/12 (bundled with Node 24) defaults `allow-git` to `none`
   and refuses `npm install` with `EALLOWGIT`. It must be `all`, not `root`: `root` only permits git
