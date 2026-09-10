@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "test": "playwright test",
-    "test:basic": "playwright test tests/specs/basic",
-    "test:orders": "playwright test tests/specs/orders",
+    "e2e": "playwright test",
+    "e2e:basic": "playwright test e2e/specs/basic",
+    "e2e:orders": "playwright test e2e/specs/orders",
     "baseline": "playwright test --grep @visual --update-snapshots",
-    "report": "playwright show-report tests/reports",
+    "report": "playwright show-report e2e/reports",
     "setup:browsers": "playwright install chromium",
     "typecheck": "tsc --noEmit",
-    "lint": "woolverine-lint tests/specs && npm run typecheck"
+    "lint": "woolverine-lint e2e/specs && npm run typecheck"
   },
   "dependencies": {
     "dotenv": "^16.4.5",

@@ -30,7 +30,7 @@ done](#definition-of-done) · 17. [Contributing to woolverine](#contributing-to-
 <a id="settled-decisions"></a>
 **[MUST] settled-decisions — the choices written here were already argued with the team. Implement
 them; do not re-derive them.** Node 22 in `.nvmrc` with the workflow reading it, npm over pnpm,
-`allow-git=all`, tooling at the repo root with the suite in `tests/`: each one is the OUTCOME of a
+`allow-git=all`, tooling at the repo root with the suite in `e2e/`: each one is the OUTCOME of a
 review (cash-fore-clubs #115, Sept 2026), written as the answer, not as an open question.
 
 - **Copy the reference pilot's shape; don't design a new one.** cash-fore-clubs is the layout
@@ -60,10 +60,10 @@ Read, in this order:
   `ctxFor`, `.lokinator-cache.json`).
 - **`docs/migration-playbook.md`** — the hard-won WooCommerce lessons (real events, AJAX races, money DOM).
 - **`docs/maintenance-cycle.md`** — the steady-state loop after migration.
-- **One reference pilot** shaped like your site (table below): its `tests/` plus the root tooling
+- **One reference pilot** shaped like your site (table below): its `e2e/` plus the root tooling
   files is a copy-paste-ready starting point and shows exactly where the site/framework line falls.
 
-| Site shape | Reference pilot (`saucal/<repo>`, branch `feat/woo-qa-migration`, dir `tests/`) |
+| Site shape | Reference pilot (`saucal/<repo>`, branch `feat/woo-qa-migration`, dir `e2e/`) |
 |---|---|
 | Classic checkout, Klarna + PayPal (PPCP + Fastlane), quote/marketplace plugin, Elementor — also the layout reference (root tooling, `.nvmrc`, `.npmrc`, `.deployignore`) | `cash-fore-clubs` |
 | Blocks checkout, multi-region × multi-env (VIP), WCS subscriptions, wholesale, Kadence drawer | `nopong-limited` |
@@ -101,23 +101,24 @@ The essentials (each expanded later):
 
 ## Reference architecture
 
-The Node project lives at the site repo's ROOT; the suite itself lives under `tests/`. Every
-command (`npm install`, `npm test`, `npx playwright test …`) runs from the root — no `cd tests`.
-(Decided on the cash-fore-clubs review, Sept 2026: tests in `tests/` is common practice, a
-nested `package.json` that forces a directory switch is not.)
+The Node project lives at the site repo's ROOT; the suite itself lives under `e2e/`. Every
+command (`npm install`, `npm run e2e`, `npx playwright test …`) runs from the root — no `cd e2e`.
+(Decided on the cash-fore-clubs review, Sept 2026: the suite in its own folder is common
+practice, a nested `package.json` that forces a directory switch is not. The folder is `e2e`,
+not `tests`, and the script is `e2e`, not `test` — see [script-not-test](#script-not-test).)
 
 ```
 <repo root>
 ├── package.json / package-lock.json      # → templates/package.json (deps: woolverine + dotenv; playwright + typescript dev)
-├── tsconfig.json                         # → templates/tsconfig.json (include: tests/**/*.ts + the config)
-├── playwright.config.ts                  # → templates/playwright.config.ts (testDir tests/specs, outputs under tests/)
+├── tsconfig.json                         # → templates/tsconfig.json (include: e2e/**/*.ts + the config)
+├── playwright.config.ts                  # → templates/playwright.config.ts (testDir e2e/specs, outputs under e2e/)
 ├── .env / .env.example                   # → templates/.env.example; .env gitignored at the root
 ├── .nvmrc                                # → templates/nvmrc (Node 22)
 ├── .npmrc                                # → templates/npmrc (allow-git=all — woolverine and lokinator are git-hosted)
 ├── .gitignore                            # the site's own; make sure it has `node_modules` and `.env`
 ├── .deployignore                         # the site's own; append templates/deployignore-snippet
 ├── .github/workflows/playwright.yml      # → templates/playwright.yml
-└── tests/
+└── e2e/
     ├── .gitignore                        # → templates/gitignore (auth/, reports/, test-results/, *-snapshots/)
     ├── .lokinator-cache.json             # COMMITTED — its diff is the selector-drift report
     ├── auth/                             # gitignored: admin-<project>.json, chain-<site>-*.json, member state
@@ -131,9 +132,9 @@ nested `package.json` that forces a directory switch is not.)
     └── specs/<area>/*.spec.ts            # thin: config → flow → assert*; @plugin tags
 ```
 
-Paths in this doc that start with `specs/`, `helpers/`, `fixtures/` are relative to `tests/`.
+Paths in this doc that start with `specs/`, `helpers/`, `fixtures/` are relative to `e2e/`.
 Playwright matches CLI file arguments against the path, so `npx playwright test specs/basic`
-still selects `tests/specs/basic`; `woolverine-lint` takes the real path (`tests/specs`).
+still selects `e2e/specs/basic`; `woolverine-lint` takes the real path (`e2e/specs`).
 
 | Layer | Owns | Never |
 |---|---|---|
@@ -175,7 +176,7 @@ Check this BEFORE writing a helper. Names are exports; read the source for optio
 | `assertions.ts`: `assertTotalsParity`, `warnIfNoTaxOrShipping`, `isZeroAmount` | parity primitives. |
 | `testdata.ts`: `testAddress('US'|'CA'|'AU'|'GB'|'ES'|'DE')`, `testCustomer`, `runEmail`, `uniqueRef`, `uniquePassword` | addresses in Woo's own label forms. |
 | `auth.ts`: `ensureAdminState({ baseURL, statePath, prepare, loginPath })` | validates cached state before re-login (12h, cross-worker lock, throttle-safe, bot-gate `prepare`, wps-hide-login `loginPath`). |
-| `woolverine-lint tests/specs` | policy: expect-home, plugin-tags, nav-clicks. `// lint-ok` opt-out with a reason. |
+| `woolverine-lint e2e/specs` | policy: expect-home, plugin-tags, nav-clicks. `// lint-ok` opt-out with a reason. |
 
 If your site needs something generic that is not here, see [Contributing to woolverine](#contributing-to-woolverine).
 
@@ -187,14 +188,14 @@ Proven order. Each step is a commit.
 
 1. **Branch + worktree.** In the site repo: `git worktree add ../<site>-playwright -b playwright <mainline>`
    (or the repo's existing test branch). Work in the worktree — never in a checkout the user may
-   be running. Tooling at the repo root, suite under `tests/` ([Reference architecture](#reference-architecture)).
+   be running. Tooling at the repo root, suite under `e2e/` ([Reference architecture](#reference-architecture)).
 2. **Scaffold from templates** ([repo-root-tooling](#repo-root-tooling)). At the root: `package.json`
    (pin the EXACT tag: `"woolverine": "github:saucal/woolverine-automation#vX.Y.Z"` — never
    `#semver:`, never a floating branch), `tsconfig.json`, `.env.example`, `.nvmrc`, `.npmrc`,
    `playwright.config.ts` (`defineProjects`, `snapshotPathTemplate: SNAPSHOT_PATH_TEMPLATE` —
-   woolverine >= v1.1.3, `LOKINATOR_CACHE ||= <root>/tests/.lokinator-cache.json`, `screenshot: 'off'`,
+   woolverine >= v1.1.3, `LOKINATOR_CACHE ||= <root>/e2e/.lokinator-cache.json`, `screenshot: 'off'`,
    `trace: 'retain-on-failure'`); check the site's `.gitignore` has `node_modules` + `.env` and
-   append `templates/deployignore-snippet` to its `.deployignore`. Under `tests/`: `.gitignore`,
+   append `templates/deployignore-snippet` to its `.deployignore`. Under `e2e/`: `.gitignore`,
    `fixtures/index.ts` (`createTest`). `npm install` from the root.
 3. **Recon** ([Recon](#recon)): dump every GI JSON, live-explore every surface with `playwright-cli`,
    write the triage table (GI test → spec / merged / dropped-with-reason).
@@ -208,7 +209,7 @@ Proven order. Each step is a commit.
 6. **Diff against GI.** For every GI assertion: a kept `expect()` or a ledgered reason. Also diff any
    helper you rewrote against the LAST GI-era version: two of four leggari failures were code silently
    LOST in migration (a staging branch of a selector, a commented-out field list).
-7. **Gates.** `npx tsc --noEmit` · `npx woolverine-lint tests/specs` · `npx playwright test --list`
+7. **Gates.** `npx tsc --noEmit` · `npx woolverine-lint e2e/specs` · `npx playwright test --list`
    (count matches the triage table). All from the root. Commit.
 8. **Live run — the USER's.** Hand over the exact commands per project / per area. Triage their
    report from the trace (`error-context.md` first, then network doc requests, then `frame-snapshots`).
@@ -286,7 +287,7 @@ panel, not Woo's form). Everything else that is "Woo behaviour" goes to the fram
 - `{ primary, alt?, ai }`: `ai` is a noun phrase naming the element; `alt` is a DIFFERENT strategy
   (role ↔ css), omit it for stable ids. Framework helpers already carry the other checkout
   variant's selector as `alt`.
-- `LOKINATOR_CACHE` anchored to `tests/.lokinator-cache.json` in `playwright.config.ts` (default is
+- `LOKINATOR_CACHE` anchored to `e2e/.lokinator-cache.json` in `playwright.config.ts` (default is
   cwd-relative — a run from another directory would write a second cache). Commit it; when a heal
   lands, fix the primary in code and keep the cache entry as the drift record.
 - A heal error WITHOUT `| AI suggested:` means the AI tier never answered — check the key/model
@@ -322,7 +323,7 @@ flow that prints nothing is unreviewable. No logging inside loops or before an a
 need to exist? does woolverine have it? can it be one hook argument? one line? Delete over add;
 boring over clever; no abstraction with one caller, no config for a value that never changes, no
 scaffolding "for later". A helper called once is inlined. A migration is done when the site's
-`tests/` holds ONLY what is the site's — the pilots landed at 25–50% of their GI-era size.
+`e2e/` holds ONLY what is the site's — the pilots landed at 25–50% of their GI-era size.
 
 <a id="comments"></a>
 **[MUST] comments — constraint notes, not narration.** One short line saying WHY (the measured
@@ -332,9 +333,22 @@ long comments burn tokens every session. Mark deliberate shortcuts `// ponytail:
 <a id="credentials-env"></a>
 **[MUST] credentials-env** — all creds/URLs via the repo-root `.env`; ship `.env.example` only.
 
+<a id="script-not-test"></a>
+**[MUST] script-not-test — the suite's npm script is `e2e`, NEVER `test`, and its folder is `e2e/`,
+never `e2e/`.** The platform deploy runs, in the repo ROOT, `npm ci` -> `npm run --if-present
+build` -> `npm run --if-present test` (`saucal/action-maintenance` -> `action-build` ->
+`build-for-deployment.sh`, in that script since 2022). A root `test` script that means `playwright
+test` therefore fires on every deploy: that runner has no browsers and no `.env`, so the config
+throws and the DEPLOY goes red for unrelated changes — and if those vars were ever set it would
+place real orders instead. `--if-present` only skips a script that does not exist; it does not
+ignore failures. That slot belongs to the repo's own unit tests (leggari: three `wp-scripts
+test-unit-js` suites, reachable as `lerna run test`), which is the other reason the folder leaves
+`e2e/` free. Measured on harmony, cash-fore-clubs, repurposedmaterials and leggari, Sept 2026 —
+none had merged, so it had never fired.
+
 <a id="package-json"></a>
-**[MUST] package-json** — `test`, `test:<area>` per existing folder, `baseline`, `typecheck`, `lint`
-(`woolverine-lint tests/specs && tsc --noEmit`), `report` (`tests/reports`), `setup:browsers`.
+**[MUST] package-json** — `e2e`, `e2e:<area>` per existing folder, `baseline`, `typecheck`, `lint`
+(`woolverine-lint e2e/specs && tsc --noEmit`), `report` (`e2e/reports`), `setup:browsers`.
 Deps: `woolverine` (exact tag) + `dotenv`; dev: `@playwright/test`, `typescript`, `@types/node`
 (major matching `.nvmrc`). Nothing else unless the site truly needs it (no Stagehand, zod,
 playwright-core, e2e-utils).
@@ -342,7 +356,7 @@ playwright-core, e2e-utils).
 <a id="repo-root-tooling"></a>
 **[MUST] repo-root-tooling — npm, Node pinned, git deps allowed, nothing test-related deployed.**
 - `package.json`, lockfile, `tsconfig.json`, `playwright.config.ts`, `.env(.example)`, `.nvmrc`,
-  `.npmrc` at the repo ROOT; never a nested `package.json` under `tests/`.
+  `.npmrc` at the repo ROOT; never a nested `package.json` under `e2e/`.
 - **`.nvmrc` = `22`** (current LTS the pilots run on); the workflow reads it via `node-version-file`.
 - **`.npmrc` = `allow-git=all`.** npm 11+/12 (bundled with Node 24) defaults `allow-git` to `none`
   and refuses `npm install` with `EALLOWGIT`. It must be `all`, not `root`: `root` only permits git
@@ -357,8 +371,8 @@ playwright-core, e2e-utils).
   `tsconfig.json`, `.npmrc`, `.env.example` (`node_modules`, `package.json`, `.nvmrc` usually are
   already) — the suite never ships to the host.
 - **Local-only clutter (a GI export folder, prompt drafts, `.qa/`) goes in `.git/info/exclude`**, not
-  the repo's `.gitignore`. Only what every clone produces (`node_modules`, `.env`, `tests/auth/`,
-  `tests/reports/`, `tests/test-results/`, `*-snapshots/`) belongs in a committed ignore file.
+  the repo's `.gitignore`. Only what every clone produces (`node_modules`, `.env`, `e2e/auth/`,
+  `e2e/reports/`, `e2e/test-results/`, `*-snapshots/`) belongs in a committed ignore file.
 
 ---
 
@@ -681,7 +695,7 @@ Per suite:
 
 ## Definition of done
 
-- `npx tsc --noEmit` clean · `npx woolverine-lint tests/specs` clean · `npx playwright test --list`
+- `npx tsc --noEmit` clean · `npx woolverine-lint e2e/specs` clean · `npx playwright test --list`
   count matches the triage table — all from the repo root.
 - `package.json` pins an EXACT woolverine tag; `node_modules/woolverine/dist` carries a marker of
   that version (a stale lock silently keeps the old resolution).
@@ -729,11 +743,11 @@ in `github:saucal/lokinator-automation`, tagged the same way and pinned inside w
 
 1. **Pre-handoff verification pass** — grep/read the actual code, report per test asserted /
    missing / ledgered ([Coverage self-audit](#coverage-self-audit), [Definition of done](#definition-of-done)).
-2. **`tests/README.md`** — projects and how to select them, setup (`nvm use`, `npm install`, `.env` keys — all from the root),
+2. **`e2e/README.md`** — projects and how to select them, setup (`nvm use`, `npm install`, `.env` keys — all from the root),
    run commands (per project / area / spec, `--ui`, `show-report`, `typecheck`, `lint`), layout,
    the site's load-bearing gotchas, known site issues. Practical and runnable.
 3. **Branch** — the suite already lives in the site repo (tooling at the root, suite under
-   `tests/`) on the `playwright` (or agreed) branch. Commit; pushing and merging are the USER's call unless told otherwise.
+   `e2e/`) on the `playwright` (or agreed) branch. Commit; pushing and merging are the USER's call unless told otherwise.
 4. **Framework changes** — released and pushed per [release](#release); the site pinned to the tag.
 5. **State left on staging** — list every real order / account / upload the migration created.
 6. **Ledger** — GI assertions not kept (with reason), known site issues, slices not live-run.
@@ -748,8 +762,9 @@ in `github:saucal/lokinator-automation`, tagged the same way and pinned inside w
 - Don't `goto()` cart/checkout; don't `page.evaluate()` where a locator works; don't eval-set values.
 - Don't hardcode credentials, URLs, entity IDs across regions, or totals in note regexes.
 - Don't pin a floating dependency (`#semver:`, a branch) — exact tags only.
-- Don't nest `package.json` under `tests/`, don't switch to pnpm, don't hardcode a Node version in
-  the workflow — `.nvmrc` + `.npmrc` at the root ([repo-root-tooling](#repo-root-tooling)).
+- Don't nest `package.json` under `e2e/`, don't name the suite's script `test` or its folder
+  `tests` ([script-not-test](#script-not-test)), don't switch to pnpm, don't hardcode a Node
+  version in the workflow — `.nvmrc` + `.npmrc` at the root ([repo-root-tooling](#repo-root-tooling)).
 - Don't relitigate a settled decision, wander into the deploy actions or CI variables, or edit this
   doc to fit what you concluded ([settled-decisions](#settled-decisions)).
 - Don't run the live suite yourself; don't touch a checkout the user may be running.

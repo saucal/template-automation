@@ -1,4 +1,4 @@
-# tests/.gitignore — node_modules and .env are root-level: add both to the site repo's own .gitignore.
+# e2e/.gitignore — node_modules and .env are root-level: add both to the site repo's own .gitignore.
 auth/
 reports/
 test-results/

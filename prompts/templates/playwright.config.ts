@@ -1,4 +1,4 @@
-// playwright.config.ts — at the REPO ROOT with package.json; the suite itself lives under tests/.
+// playwright.config.ts — at the REPO ROOT with package.json; the suite itself lives under e2e/.
 // woolverine defineProjects builds one project per environment (× region). baseURL comes from
 // the root .env: BASE_URL_<REGION>_<ENV> / BASE_URL_<ENV> / BASE_URL.
 import { defineConfig } from '@playwright/test';
@@ -11,16 +11,16 @@ dotenv.config({ path: path.join(__dirname, '.env') });
 process.env.LOKINATOR_CACHE ||= path.join(__dirname, 'tests', '.lokinator-cache.json');
 
 export default defineConfig({
-  testDir: 'tests/specs',
-  outputDir: 'tests/test-results',
-  // Every suite's baselines in tests/specs/visual-baselines/ — never next to the spec.
+  testDir: 'e2e/specs',
+  outputDir: 'e2e/test-results',
+  // Every suite's baselines in e2e/specs/visual-baselines/ — never next to the spec.
   snapshotPathTemplate: SNAPSHOT_PATH_TEMPLATE,
   timeout: 240_000,
   expect: { timeout: 15_000, toHaveScreenshot: { maxDiffPixelRatio: 0.1 } },
   fullyParallel: false,
   workers: 2,
   retries: process.env.CI ? 1 : 0,
-  reporter: [['html', { outputFolder: 'tests/reports', open: 'never' }], ['list']],
+  reporter: [['html', { outputFolder: 'e2e/reports', open: 'never' }], ['list']],
   use: {
     actionTimeout: 15_000,
     navigationTimeout: 60_000, // slow stagings (Kinsta/VIP) regularly take >15s to fire 'load'

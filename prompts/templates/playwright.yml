@@ -16,7 +16,7 @@
 # EVERY project-specific knob is marked `ADAPT:` — `grep -n 'ADAPT:' ` this file
 # after copying and work through the list. Paths follow the reference
 # architecture: package.json, the lockfile, .nvmrc and playwright.config.ts at
-# the REPO ROOT, the suite itself (specs, reports, test-results) under tests/.
+# the REPO ROOT, the suite itself (specs, reports, test-results) under e2e/.
 name: Playwright Tests
 run-name: "E2E: ${{ inputs.suite || (github.event_name == 'workflow_run' && 'visual (record baselines)') || 'all' }} on ${{ inputs.environment || github.event.pull_request.base.ref || github.event.workflow_run.head_branch }}${{ inputs.grep && format(' ({0})', inputs.grep) }}"
 
@@ -250,7 +250,7 @@ jobs:
         id: baselines
         uses: actions/cache/restore@v4
         with:
-          path: tests/specs/**/*-snapshots/
+          path: e2e/specs/**/*-snapshots/
           key: pw-snaps-${{ matrix.project }}-${{ github.run_id }}
           restore-keys: pw-snaps-${{ matrix.project }}-
 
@@ -278,7 +278,7 @@ jobs:
           # is what `npm run baseline` greps for either way (see visual-spec).
           tag=''
           if [ "$SUITE" = visual ]; then tag='@visual'
-          elif [ "$SUITE" != all ]; then args+=( "tests/specs/$SUITE" )
+          elif [ "$SUITE" != all ]; then args+=( "e2e/specs/$SUITE" )
           fi
           # ONE --grep: Playwright keeps only the last one it is given, so a
           # dispatch that filters the visual slice has to combine the two.
@@ -308,7 +308,7 @@ jobs:
         if: ${{ needs.setup.outputs.update == 'true' && !cancelled() }}
         uses: actions/cache/save@v4
         with:
-          path: tests/specs/**/*-snapshots/
+          path: e2e/specs/**/*-snapshots/
           key: pw-snaps-${{ matrix.project }}-${{ github.run_id }}
 
       - name: Upload HTML report
@@ -316,7 +316,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: report-${{ matrix.project }}-${{ needs.setup.outputs.suite }}
-          path: tests/reports/
+          path: e2e/reports/
           retention-days: 30
 
       # Traces + videos are recorded on every test but kept only for failures
@@ -327,7 +327,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: traces-${{ matrix.project }}-${{ needs.setup.outputs.suite }}
-          path: tests/test-results/
+          path: e2e/test-results/
           retention-days: 14
 
       # Also surfaced as an artifact on record runs, so a baseline change can be
@@ -337,5 +337,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: snapshots-${{ matrix.project }}
-          path: tests/specs/**/*-snapshots/
+          path: e2e/specs/**/*-snapshots/
           retention-days: 30

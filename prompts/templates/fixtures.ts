@@ -1,4 +1,4 @@
-// tests/fixtures/index.ts — woolverine provides shopperPage / mobileShopperPage / adminPage /
+// e2e/fixtures/index.ts — woolverine provides shopperPage / mobileShopperPage / adminPage /
 // emailPage (all lazy), artifacts and the lokinator stack. Only site specifics live here.
 import path from 'path';
 import { createTest, ensureAdminState, preseedCookieConsent } from 'woolverine';
