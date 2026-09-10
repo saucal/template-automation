@@ -1,0 +1,8 @@
+# Append to the site repo's .deployignore — the Playwright tooling never ships to the host.
+# (`node_modules`, `package.json` and `.nvmrc` are usually there already; check before adding.)
+tests
+package-lock.json
+playwright.config.ts
+tsconfig.json
+.npmrc
+.env.example

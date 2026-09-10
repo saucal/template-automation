@@ -1,0 +1,4 @@
+# npm 11+/12 (bundled with Node 24) defaults allow-git to none; woolverine and its lokinator
+# dependency are git-hosted. `all`, not `root`: root only permits git deps declared in THIS
+# package.json and lokinator is transitive (woolverine → lokinator).
+allow-git=all

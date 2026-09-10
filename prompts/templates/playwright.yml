@@ -14,9 +14,9 @@
 # Baselines travel between the two through the Actions cache (see the test job).
 #
 # EVERY project-specific knob is marked `ADAPT:` — `grep -n 'ADAPT:' ` this file
-# after copying and work through the list. Paths assume the suite sits at the
-# REPO ROOT (the reference architecture). If it lives in a subdirectory, see the
-# `ADAPT: suite root` markers.
+# after copying and work through the list. Paths follow the reference
+# architecture: package.json, the lockfile, .nvmrc and playwright.config.ts at
+# the REPO ROOT, the suite itself (specs, reports, test-results) under tests/.
 name: Playwright Tests
 run-name: "E2E: ${{ inputs.suite || (github.event_name == 'workflow_run' && 'visual (record baselines)') || 'all' }} on ${{ inputs.environment || github.event.pull_request.base.ref || github.event.workflow_run.head_branch }}${{ inputs.grep && format(' ({0})', inputs.grep) }}"
 
@@ -137,8 +137,6 @@ jobs:
           ref: ${{ github.event.pull_request.merge_commit_sha || github.event.workflow_run.head_branch || github.ref }}
 
       - id: pw
-        # ADAPT: suite root — prefix with the subdirectory if the suite is not
-        # at the repo root, e.g. `require('./tests/package-lock.json')`.
         run: |
           v=$(node -p "require('./package-lock.json').packages['node_modules/@playwright/test'].version")
           echo "version=$v" >> "$GITHUB_OUTPUT"
@@ -224,10 +222,6 @@ jobs:
       fail-fast: false
       matrix:
         project: ${{ fromJSON(needs.setup.outputs.projects) }}
-    # ADAPT: suite root — uncomment if the suite is not at the repo root.
-    # defaults:
-    #   run:
-    #     working-directory: tests
     env:
       # ADAPT: env — repo Variables (non-sensitive) + Secrets (sensitive) → the
       # env the suite reads via process.env. One BASE_URL_<ENV> per Playwright
@@ -252,22 +246,20 @@ jobs:
       # entry; restore-keys picks the most recent one, i.e. the last sync.
       # Caches created on a branch are readable from PRs targeting that branch,
       # which is exactly the record → compare hop.
-      #
-      # ADAPT: suite root — prefix the two `path:` values if not at repo root.
       - name: Restore visual baselines
         id: baselines
         uses: actions/cache/restore@v4
         with:
-          path: specs/**/*-snapshots/
+          path: tests/specs/**/*-snapshots/
           key: pw-snaps-${{ matrix.project }}-${{ github.run_id }}
           restore-keys: pw-snaps-${{ matrix.project }}-
 
+      # Node version from .nvmrc, so CI and laptops run the same major. `.npmrc`
+      # (allow-git=all) is picked up from the checkout: woolverine is git-hosted.
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version-file: .nvmrc
           cache: npm
-          # ADAPT: suite root
-          cache-dependency-path: package-lock.json
 
       - run: npm ci
 
@@ -307,7 +299,7 @@ jobs:
         if: ${{ needs.setup.outputs.update == 'true' && !cancelled() }}
         uses: actions/cache/save@v4
         with:
-          path: specs/**/*-snapshots/
+          path: tests/specs/**/*-snapshots/
           key: pw-snaps-${{ matrix.project }}-${{ github.run_id }}
 
       - name: Upload HTML report
@@ -315,8 +307,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: report-${{ matrix.project }}-${{ needs.setup.outputs.suite }}
-          # ADAPT: suite root — matches the html reporter's outputFolder.
-          path: reports/
+          path: tests/reports/
           retention-days: 30
 
       # Traces + videos are recorded on every test but kept only for failures
@@ -327,7 +318,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: traces-${{ matrix.project }}-${{ needs.setup.outputs.suite }}
-          path: test-results/
+          path: tests/test-results/
           retention-days: 14
 
       # Also surfaced as an artifact on record runs, so a baseline change can be
@@ -337,5 +328,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: snapshots-${{ matrix.project }}
-          path: specs/**/*-snapshots/
+          path: tests/specs/**/*-snapshots/
           retention-days: 30

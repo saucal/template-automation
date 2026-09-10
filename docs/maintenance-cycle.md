@@ -18,9 +18,9 @@ plugin suites (mastercard, bluesnap) run differently — don't force this loop o
 
 ## Run order
 
-1. **Pre-flight.** `tests/.env` present + correct (`BASE_URL_<ENV>`, `WP_ADMIN_USER`, `ADMIN_PASS`
+1. **Pre-flight.** Root `.env` present + correct (`BASE_URL_<ENV>`, `WP_ADMIN_USER`, `ADMIN_PASS`
    — the keys woolverine's `ensureAdminState` reads). `OPENAI_API_KEY` set if you want lokinator's
-   AI repair tier live; the happy path is pure Playwright without it. `npm install` after pulling
+   AI repair tier live; the happy path is pure Playwright without it. `nvm use` + `npm install` (repo root) after pulling
    (the woolverine pin may have moved) and check the pinned tag matches `node_modules/woolverine`.
 2. **Functional specs first** (orders / account / checkout / klaviyo). Run from CLI,
    not UI mode (editing a title mid-run orphans the test). Headless by default;
