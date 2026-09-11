@@ -335,7 +335,7 @@ long comments burn tokens every session. Mark deliberate shortcuts `// ponytail:
 
 <a id="script-not-test"></a>
 **[MUST] script-not-test — the suite's npm script is `e2e`, NEVER `test`, and its folder is `e2e/`,
-never `e2e/`.** The platform deploy runs, in the repo ROOT, `npm ci` -> `npm run --if-present
+never `tests/`.** The platform deploy runs, in the repo ROOT, `npm ci` -> `npm run --if-present
 build` -> `npm run --if-present test` (`saucal/action-maintenance` -> `action-build` ->
 `build-for-deployment.sh`, in that script since 2022). A root `test` script that means `playwright
 test` therefore fires on every deploy: that runner has no browsers and no `.env`, so the config
@@ -371,9 +371,13 @@ playwright-core, e2e-utils).
   for woolverine AND lokinator (two hash edits per bump), and lokinator's `prepare` build emitted
   only `dist/index.js` → `Cannot find module './heal'`. Revisit once woolverine/lokinator ship a
   prebuilt `dist` or are published to GitHub Packages.
-- **`.deployignore`** must exclude `tests`, `package-lock.json`, `playwright.config.ts`,
+- **`.deployignore`** must exclude `e2e`, `package-lock.json`, `playwright.config.ts`,
   `tsconfig.json`, `.npmrc`, `.env.example` (`node_modules`, `package.json`, `.nvmrc` usually are
-  already) — the suite never ships to the host.
+  already) — the suite never ships to the host. **A repo with NO `.deployignore` still needs one:**
+  `action-build-to-git` copies its own default in and then empties every `.gitignore` in the
+  bundle, so the whole suite — `.env.example` included — reaches the webroot. The new file has to
+  REPEAT the platform default verbatim (anything dropped from it starts being deployed) and add
+  the suite; measured on elka, leggariacademy and nopong-limited, Sept 2026.
 - **Local-only clutter (a GI export folder, prompt drafts, `.qa/`) goes in `.git/info/exclude`**, not
   the repo's `.gitignore`. Only what every clone produces (`node_modules`, `.env`, `e2e/auth/`,
   `e2e/reports/`, `e2e/test-results/`, `*-snapshots/`) belongs in a committed ignore file.
