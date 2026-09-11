@@ -29,9 +29,10 @@ done](#definition-of-done) · 17. [Contributing to woolverine](#contributing-to-
 
 <a id="settled-decisions"></a>
 **[MUST] settled-decisions — the choices written here were already argued with the team. Implement
-them; do not re-derive them.** Node 22 in `.nvmrc` with the workflow reading it, npm over pnpm,
-`allow-git=all`, tooling at the repo root with the suite in `e2e/`: each one is the OUTCOME of a
-review (cash-fore-clubs #115, Sept 2026), written as the answer, not as an open question.
+them; do not re-derive them.** Node 22 in `.nvmrc` with the workflow reading it, the framework
+consumed from GitHub Packages as `@saucal/woolverine`, tooling at the repo root with the suite in
+`e2e/`: each one is the OUTCOME of a review (cash-fore-clubs #115, Sept 2026), written as the
+answer, not as an open question.
 
 - **Copy the reference pilot's shape; don't design a new one.** cash-fore-clubs is the layout
   reference — `diff` the repo you are migrating against it instead of reasoning from first
@@ -114,7 +115,7 @@ not `tests`, and the script is `e2e`, not `test` — see [script-not-test](#scri
 ├── playwright.config.ts                  # → templates/playwright.config.ts (testDir e2e/specs, outputs under e2e/)
 ├── .env / .env.example                   # → templates/.env.example; .env gitignored at the root
 ├── .nvmrc                                # → templates/nvmrc (Node 22)
-├── .npmrc                                # → templates/npmrc (allow-git=all — woolverine and lokinator are git-hosted)
+├── .npmrc                                # → templates/npmrc (@saucal → npm.pkg.github.com; reads NODE_AUTH_TOKEN)
 ├── .gitignore                            # the site's own; make sure it has `node_modules` and `.env`
 ├── .deployignore                         # the site's own; append templates/deployignore-snippet
 ├── .github/workflows/playwright.yml      # → templates/playwright.yml
@@ -190,8 +191,8 @@ Proven order. Each step is a commit.
    (or the repo's existing test branch). Work in the worktree — never in a checkout the user may
    be running. Tooling at the repo root, suite under `e2e/` ([Reference architecture](#reference-architecture)).
 2. **Scaffold from templates** ([repo-root-tooling](#repo-root-tooling)). At the root: `package.json`
-   (pin the EXACT tag: `"woolverine": "github:saucal/woolverine-automation#vX.Y.Z"` — never
-   `#semver:`, never a floating branch), `tsconfig.json`, `.env.example`, `.nvmrc`, `.npmrc`,
+   (`"@saucal/woolverine": "^X.Y.Z"` — a normal semver range from GitHub Packages; the lockfile
+   pins the resolution), `tsconfig.json`, `.env.example`, `.nvmrc`, `.npmrc`,
    `playwright.config.ts` (`defineProjects`, `snapshotPathTemplate: SNAPSHOT_PATH_TEMPLATE` —
    woolverine >= v1.1.3, `LOKINATOR_CACHE ||= <root>/e2e/.lokinator-cache.json`, `screenshot: 'off'`,
    `trace: 'retain-on-failure'`); check the site's `.gitignore` has `node_modules` + `.env` and
@@ -262,7 +263,7 @@ for site tiles), not in the site.
 <a id="import-dont-write"></a>
 **[MUST] import-dont-write.** Before any helper: `grep -n "^export" ~/helper/woolverine/src/*.ts`.
 A site helper that reimplements a woolverine function is a bug. Point imports straight at
-`'woolverine'` — no `helpers/resilient.ts`, no re-export shims, no wrapper that only renames.
+`'@saucal/woolverine'` — no `helpers/resilient.ts`, no re-export shims, no wrapper that only renames.
 
 <a id="hooks-not-forks"></a>
 **[MUST] hooks-not-forks — a site quirk is a hook argument, not a copy of the framework function.**
@@ -362,15 +363,19 @@ playwright-core, e2e-utils).
   untracked — while silently ignoring the folder: `git add e2e/<new spec>` is refused and a spec
   added later never lands. Point the `!` exception at `e2e/`.
 - **`.nvmrc` = `22`** (current LTS the pilots run on); the workflow reads it via `node-version-file`.
-- **`.npmrc` = `allow-git=all`.** npm 11+/12 (bundled with Node 24) defaults `allow-git` to `none`
-  and refuses `npm install` with `EALLOWGIT`. It must be `all`, not `root`: `root` only permits git
-  deps declared in the project's own `package.json`, and lokinator is a transitive git dep of
-  woolverine — `root` still fails on it.
-- **npm, not pnpm** (measured 2026-09, pnpm 12.3): pnpm blocks git-hosted transitive deps
-  (`blockExoticSubdeps`), wants `allowBuilds` entries keyed by the EXACT `name@git+https://…#<sha>`
-  for woolverine AND lokinator (two hash edits per bump), and lokinator's `prepare` build emitted
-  only `dist/index.js` → `Cannot find module './heal'`. Revisit once woolverine/lokinator ship a
-  prebuilt `dist` or are published to GitHub Packages.
+- **`.npmrc` maps the scope to GitHub Packages**, nothing else:
+  `@saucal:registry=https://npm.pkg.github.com` +
+  `//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}`. No `allow-git` — there are no git
+  dependencies left ([private-packages](#private-packages)).
+- **npm or pnpm, both work** (measured 2026-09-11, pnpm 12.4): install, typecheck, lint and
+  `--list` are identical under either, with no pnpm-specific config. Until Sept 2026 the framework
+  was a git dependency and pnpm refused it outright — `blockExoticSubdeps` on the transitive
+  lokinator, then `allowBuilds` keyed by the EXACT resolved commit sha of both packages (the tag
+  form, bare names and wildcards are all rejected: "Use exact versions only"), rewritten in every
+  consumer on every release. The registry removed all of it. npm stays the default because the
+  pilots and CI run it; a repo that moves must move whole (`pnpm import`, drop
+  `package-lock.json`, swap `npm ci` for `pnpm install --frozen-lockfile` in the workflow) — and
+  note pnpm FAILS on an import the `package.json` does not declare, which npm's hoisting hides.
 - **`.deployignore`** must exclude `e2e`, `package-lock.json`, `playwright.config.ts`,
   `tsconfig.json`, `.npmrc`, `.env.example` (`node_modules`, `package.json`, `.nvmrc` usually are
   already) — the suite never ships to the host. **A repo with NO `.deployignore` still needs one:**
@@ -378,6 +383,26 @@ playwright-core, e2e-utils).
   bundle, so the whole suite — `.env.example` included — reaches the webroot. The new file has to
   REPEAT the platform default verbatim (anything dropped from it starts being deployed) and add
   the suite; measured on elka, leggariacademy and nopong-limited, Sept 2026.
+<a id="private-packages"></a>
+**[MUST] private-packages — the framework is a PRIVATE package; every install needs a token.**
+`@saucal/woolverine` and its `@saucal/lokinator` dependency live in GitHub Packages, private like
+their repos, so `npm install` without credentials dies on `401 Unauthorized` and neither error
+says a token is missing.
+- **Locally:** `export NODE_AUTH_TOKEN=$(gh auth token)` in the shell profile, once the `gh` login
+  carries `read:packages` (`gh auth refresh -h github.com -s read:packages`). A dev without `gh`
+  puts a classic PAT with that scope in their OWN `~/.npmrc`, never in the repo's.
+- **In CI:** a workflow's `GITHUB_TOKEN` does NOT reach a package linked to another repo — it
+  fails with `403 permission_denied: read_package`. The suite workflow therefore passes
+  `NODE_AUTH_TOKEN: ${{ secrets.PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}` to its install step and
+  declares `permissions: packages: read`. The org either sets a `PACKAGES_TOKEN` secret
+  (`read:packages`, from the bot account, visibility all) or grants each repo read access per
+  package (Packages → package settings → Manage Actions access). Package `internal` visibility,
+  which would need neither, requires an Enterprise plan — saucal is on Team.
+- **[WARN] the platform deploy runs `npm ci` in the repo ROOT** ([script-not-test](#script-not-test)),
+  and the root `package.json` now declares a private package. On the first merge to a deploying
+  branch that install needs a registry token ON THE DEPLOY RUNNER, which is outside these repos.
+  Raise it before the merge; do not go fix the deploy actions.
+
 - **Local-only clutter (a GI export folder, prompt drafts, `.qa/`) goes in `.git/info/exclude`**, not
   the repo's `.gitignore`. Only what every clone produces (`node_modules`, `.env`, `e2e/auth/`,
   `e2e/reports/`, `e2e/test-results/`, `*-snapshots/`) belongs in a committed ignore file.
@@ -710,10 +735,11 @@ Per suite:
 
 - `npx tsc --noEmit` clean · `npx woolverine-lint e2e/specs` clean · `npx playwright test --list`
   count matches the triage table — all from the repo root.
-- `package.json` pins an EXACT woolverine tag; `node_modules/woolverine/dist` carries a marker of
-  that version (a stale lock silently keeps the old resolution).
-- Root tooling complete: `.nvmrc` (22), `.npmrc` (`allow-git=all`), `.deployignore` excludes the
-  suite, `.gitignore` covers `node_modules` + `.env`; a fresh `npm install` on Node 24 succeeds.
+- `package.json` takes `@saucal/woolverine` as a semver range and the lockfile resolves it from
+  `npm.pkg.github.com` — a `github:` URL anywhere in the lockfile means the migration is half done.
+- Root tooling complete: `.nvmrc` (22), `.npmrc` (the `@saucal` registry + `NODE_AUTH_TOKEN`),
+  `.deployignore` excludes the suite, `.gitignore` covers `node_modules` + `.env`; a fresh
+  `npm install` on Node 24 succeeds with the token exported ([private-packages](#private-packages)).
 - No `expect()` in specs but `toHaveScreenshot`; every `expect` has a message.
 - `specs/visual-baselines/` exists and holds a `.png` per project — an empty or missing folder
   means the visual slice never ran, not that the site has no visuals.
@@ -739,10 +765,15 @@ driver) may graduate at once.
 **[MUST] release — tags, exact pins, verified bumps.**
 - `npm run check` + `npx playwright test test/` green → commit → `npm version patch|minor|major -m "woolverine v%s — <what>"`
   (patch = fix, minor = compatible behaviour/API addition, major = break) → `git push --follow-tags`.
-  `files: ["dist"]` — consumers never receive `src`/`test`.
-- Bump a consumer with `npm install woolverine@github:saucal/woolverine-automation#vX.Y.Z` (editing
-  the spec in `package.json` then `npm install` says "up to date" and keeps the OLD resolution),
-  then `grep` a marker in `node_modules/woolverine/dist/`. Never `#semver:` — it floats.
+  The tag fires `.github/workflows/publish.yml`, which publishes to GitHub Packages;
+  `files: ["dist"]` — consumers never receive `src`/`test`. A laptop can publish the same thing
+  with `NODE_AUTH_TOKEN=$(gh auth token) npm publish` when CI cannot.
+- Bump a consumer with `npm update @saucal/woolverine` (inside the range) or
+  `npm i @saucal/woolverine@^X.Y.Z` (outside it), then check `npm ls @saucal/woolverine`. The
+  transitive `@saucal/lokinator` now follows semver on its own — as a git dep it did NOT, and
+  thirteen lockfiles sat on lokinator v1.0.0 under a v1.3.x woolverine until someone ran
+  `npm update lokinator` by hand. A lokinator release needs a woolverine release behind it to
+  reach the sites.
 - A behaviour delta for other pilots is listed in the release message; additive changes need no
   regression round, deltas get validated by each site's next routine run.
 
@@ -774,10 +805,11 @@ in `github:saucal/lokinator-automation`, tagged the same way and pinned inside w
 - Don't weaken assertions, widen `maxDiffPixelRatio`, or `stylePath` a flaky page.
 - Don't `goto()` cart/checkout; don't `page.evaluate()` where a locator works; don't eval-set values.
 - Don't hardcode credentials, URLs, entity IDs across regions, or totals in note regexes.
-- Don't pin a floating dependency (`#semver:`, a branch) — exact tags only.
+- Don't put a token in the repo's `.npmrc` — it reads `${NODE_AUTH_TOKEN}`
+  ([private-packages](#private-packages)).
 - Don't nest `package.json` under `e2e/`, don't name the suite's script `test` or its folder
-  `tests` ([script-not-test](#script-not-test)), don't switch to pnpm, don't hardcode a Node
-  version in the workflow — `.nvmrc` + `.npmrc` at the root ([repo-root-tooling](#repo-root-tooling)).
+  `tests` ([script-not-test](#script-not-test)), don't hardcode a Node version in the workflow —
+  `.nvmrc` + `.npmrc` at the root ([repo-root-tooling](#repo-root-tooling)).
 - Don't relitigate a settled decision, wander into the deploy actions or CI variables, or edit this
   doc to fit what you concluded ([settled-decisions](#settled-decisions)).
 - Don't run the live suite yourself; don't touch a checkout the user may be running.

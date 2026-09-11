@@ -13,8 +13,8 @@
     "lint": "woolverine-lint e2e/specs && npm run typecheck"
   },
   "dependencies": {
-    "dotenv": "^16.4.5",
-    "woolverine": "github:saucal/woolverine-automation#vADAPT-EXACT-TAG"
+    "@saucal/woolverine": "^ADAPT-LATEST-MINOR",
+    "dotenv": "^16.4.5"
   },
   "devDependencies": {
     "@playwright/test": "^1.62.1",

@@ -1,4 +1,6 @@
-# npm 11+/12 (bundled with Node 24) defaults allow-git to none; woolverine and its lokinator
-# dependency are git-hosted. `all`, not `root`: root only permits git deps declared in THIS
-# package.json and lokinator is transitive (woolverine → lokinator).
-allow-git=all
+# @saucal/woolverine and its @saucal/lokinator dependency live in GitHub Packages, private like
+# their repos. NODE_AUTH_TOKEN needs read:packages — locally
+# `export NODE_AUTH_TOKEN=$(gh auth token)` once the gh login carries the scope; in CI the
+# workflow passes secrets.PACKAGES_TOKEN. Never write a token into this file.
+@saucal:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}

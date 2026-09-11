@@ -1,7 +1,7 @@
 // e2e/fixtures/index.ts — woolverine provides shopperPage / mobileShopperPage / adminPage /
 // emailPage (all lazy), artifacts and the lokinator stack. Only site specifics live here.
 import path from 'path';
-import { createTest, ensureAdminState, preseedCookieConsent } from 'woolverine';
+import { createTest, ensureAdminState, preseedCookieConsent } from '@saucal/woolverine';
 
 export const { test, config } = createTest({
   checkout: 'classic', // ADAPT: 'blocks' — the live DOM outranks this, the other variant is the alt tier
@@ -14,4 +14,4 @@ export const { test, config } = createTest({
     ensureAdminState({ baseURL, statePath: path.join(__dirname, '..', 'auth', `admin-${project}.json`) }),
 }, path.join(__dirname, '..'));
 
-export { expect } from 'woolverine';
+export { expect } from '@saucal/woolverine';

@@ -66,6 +66,7 @@ concurrency:
 permissions:
   contents: read
   actions: read
+  packages: read
 
 jobs:
   # Resolves everything the test job cannot work out for itself:
@@ -234,7 +235,15 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
 
+      # ADAPT: nothing — but the install MUST carry a token. @saucal/woolverine and
+      # @saucal/lokinator are private packages in GitHub Packages, and this repo's own
+      # GITHUB_TOKEN does not reach a package linked to another repo (403
+      # permission_denied: read_package). Either the org sets a PACKAGES_TOKEN secret with
+      # read:packages, or each package grants this repo read access (Packages → package
+      # settings → Manage Actions access). The expression takes the secret when it exists.
       - run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
 
       - name: Run Playwright tests
         env:

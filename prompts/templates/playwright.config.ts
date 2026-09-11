@@ -4,7 +4,7 @@
 import { defineConfig } from '@playwright/test';
 import dotenv from 'dotenv';
 import path from 'path';
-import { defineProjects, SNAPSHOT_PATH_TEMPLATE } from 'woolverine';
+import { defineProjects, SNAPSHOT_PATH_TEMPLATE } from '@saucal/woolverine';
 
 dotenv.config({ path: path.join(__dirname, '.env') });
 // lokinator's heal cache is cwd-relative by default — anchor it inside the suite (it is committed).
