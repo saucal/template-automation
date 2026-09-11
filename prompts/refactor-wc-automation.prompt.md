@@ -644,9 +644,14 @@ literal `$0` warns. Promote to a hard `expect` only where the test depends on it
 **[MUST] coverage-tags** — every `test.describe` carries `@plugin:<wp-plugin-slug>` tags
 (`woolverine-lint` fails otherwise); a maintenance run filters by changed plugins.
 
-<a id="ci-record-compare"></a>
-**[MUST] ci-record-compare** — CI records baselines after the content sync and compares after a
-deploy goes green; never `on: push`. → `templates/playwright.yml` (`grep -n 'ADAPT:'`).
+<a id="ci-manual-dispatch"></a>
+**[MUST] ci-manual-dispatch** — `workflow_dispatch` is the workflow's ONLY trigger: these suites
+place real orders on real sites, so a person starts every run. The record/compare cycle stays, as
+two dispatches — after a content sync, the `@visual` slice with `update_snapshots=true`; after a
+deploy, the suite with the flag off — and the baselines travel between them through the Actions
+cache, never git. Ship the `pull_request` / `workflow_run` job logic but NOT the triggers; a
+project that has earned automatic runs turns them on by adding the two blocks back. Never
+`on: push`. → `templates/playwright.yml` (`grep -n 'ADAPT:'`).
 
 ---
 

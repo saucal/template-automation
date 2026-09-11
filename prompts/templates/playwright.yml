@@ -1,17 +1,23 @@
 # Template for .github/workflows/playwright.yml — copy into the project and adapt.
 #
-# Implements [ci-record-compare]: two automatic triggers that are two halves of
-# one maintenance cycle, so a deploy can be judged on screenshots without
-# committing visual baselines to git.
+# MANUAL ONLY ([ci-manual-dispatch]): `workflow_dispatch` is the single trigger.
+# These suites drive REAL sites — they place orders, register accounts and hit
+# payment sandboxes — so nothing starts one but a person.
 #
-#   content sync finishes  →  RECORD: the @visual slice only, --update-snapshots.
-#                             Content has just been replaced from production, so
-#                             every prior baseline is stale by definition.
-#   maintenance PR merged  →  COMPARE: full suite, no --update-snapshots. The
-#   + its deploy is green     screenshot diff is now purely the code change,
-#                             because content was frozen at the sync.
+# The record/compare cycle still exists, as two dispatches instead of two events:
+#
+#   after a content sync   →  RECORD: dispatch the @visual slice with
+#                             update_snapshots=true. Content has just been
+#                             replaced from production, so every prior baseline
+#                             is stale by definition.
+#   after a deploy         →  COMPARE: dispatch the suite with the flag off. The
+#                             screenshot diff is purely the code change, because
+#                             content was frozen at the sync.
 #
 # Baselines travel between the two through the Actions cache (see the test job).
+# The job logic for `pull_request` and `workflow_run` is deliberately left in
+# place below, so a project that has earned automatic runs turns them on by
+# adding the two trigger blocks back — nothing else.
 #
 # EVERY project-specific knob is marked `ADAPT:` — `grep -n 'ADAPT:' ` this file
 # after copying and work through the list. Paths follow the reference
@@ -52,39 +58,6 @@ on:
         type: boolean
         default: false
 
-  # COMPARE. Maintenance PRs merged into a non-production branch run the full
-  # suite against the site that branch deploys to. Production is absent on
-  # purpose — this suite places real orders. `pull_request: closed` fires on
-  # every close, merged or not, so the merged-and-is-maintenance check lives on
-  # the `setup` job's `if`.
-  pull_request:
-    types: [ closed ]
-    # ADAPT: deploy branches — the non-production branches that auto-deploy.
-    # One entry is fine for a single-tier project.
-    branches: [ preprod, develop ]
-
-  # RECORD. Fires when the content-sync job finishes. On the Saucal platform
-  # that is the `Maintenance Handler` workflow running its `staging-sync`
-  # action; `setup`'s `if` narrows the fan-out down by run title.
-  #
-  # ADAPT: sync workflow — the `name:` of the workflow that refreshes content
-  # from production, and (in `setup.if` below) how to recognise the right run.
-  # NOTE the coupling: matching on `display_title` depends on that workflow's
-  # `run-name:`. If it changes, this trigger goes silent rather than failing.
-  #
-  # No content-sync automation in this project? Delete this trigger and record
-  # baselines by dispatching manually with update_snapshots=true after each
-  # content refresh. Do NOT fall back to recording on the compare run — that
-  # rewrites the baseline it was supposed to check and every visual test passes
-  # forever.
-  workflow_run:
-    workflows: [ "Maintenance Handler" ]
-    types: [ completed ]
-
-# One run per event+site; a second trigger cancels the first rather than
-# doubling the load on a single site. `github.event_name` is in the key so a
-# record run can never cancel a compare run (or vice versa), and PR runs get
-# their own group per PR ref.
 concurrency:
   group: playwright-${{ github.ref }}-${{ github.event_name }}-${{ inputs.environment || github.event.pull_request.base.ref || github.event.workflow_run.head_branch }}
   cancel-in-progress: true
