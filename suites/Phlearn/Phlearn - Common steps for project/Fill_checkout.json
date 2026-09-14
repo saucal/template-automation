@@ -61,7 +61,14 @@
       "optional": false,
       "private": false,
       "sequence": 2,
-      "target": "iframe[src=\"{{startUrl}}checkout/?iframe_checkout=1\"] #billing-description > .billing_subtitle > .subscription-price > .woocommerce-Price-amount.amount",
+      "target": [
+        {
+          "selector": "iframe[src=\"{{startUrl}}checkout/?iframe_checkout=1\"] #billing-description > .billing_subtitle > .subscription-price > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "iframe[src=\"{{startUrl}}checkout/?iframe_checkout=1\"] #billing-description > .billing_subtitle > .woocommerce-Price-amount.amount"
+        }
+      ],
       "value": "",
       "variableName": "total"
     },
