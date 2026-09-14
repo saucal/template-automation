@@ -23,9 +23,10 @@ architecture](#reference-architecture) · 4. [Woolverine surface map](#woolverin
 8. [Checkout mechanics](#checkout-mechanics) · 9. [Assertions & parity](#assertions--parity) ·
 10. [Resilience & visuals](#resilience--visuals) · 11. [Integrations](#integrations) · 12. [Multi-region
 / multi-env](#multi-region--multi-env) · 13. [Maintenance specifics](#maintenance-specifics) ·
-14. [Live triage](#live-triage) · 15. [Coverage self-audit](#coverage-self-audit) · 16. [Definition of
-done](#definition-of-done) · 17. [Contributing to woolverine](#contributing-to-woolverine) ·
-18. [Handoff](#handoff) · 19. [What NOT to do](#what-not-to-do)
+14. [Live triage](#live-triage) · 15. [False passes](#false-passes) · 16. [Coverage
+self-audit](#coverage-self-audit) · 17. [Definition of done](#definition-of-done) ·
+18. [Contributing to woolverine](#contributing-to-woolverine) · 19. [Handoff](#handoff) ·
+20. [What NOT to do](#what-not-to-do)
 
 <a id="settled-decisions"></a>
 **[MUST] settled-decisions — the choices written here were already argued with the team. Implement
@@ -82,6 +83,10 @@ The essentials (each expanded later):
   (annotated with `_gi`) is what the client approved. The old generated TS is a lossy derivative.
 - **Live-explore the real site first** (`playwright-cli`) — GI selectors have drifted.
 - **Triage GI tests, don't 1:1 port** — nav/screenshot → one data-driven visual spec; duplicates → skip.
+- **Start from the baseline, then add what the explore found.** `templates/baseline-suite.md` is
+  the floor every WooCommerce site gets whether or not the GI export or the client mentioned it;
+  the explore ADDS to that list, it does not replace it. A site missing a baseline row has a gap to
+  ledger, not a shorter suite.
 - **Import, don't write.** If woolverine has it, use it. If two sites need it, graduate it.
 - **Real events, never eval. Capture once, assert everywhere. Every step logs.**
 - **You do not run the live suite unless the user asks** — you write, typecheck, lint, list,
@@ -490,6 +495,30 @@ a money assert is the trigger to move it, not to fork it again (measured across 
   `Fees: $82.42` and NO tax line while the storefront read that row as tax. Sum tax + fees on both
   sides before asserting (harmony US; on CA the same order is real Woo tax on both sides).
 
+<a id="surface-matrix"></a>
+**[MUST] surface-matrix — fill the matrix explicitly; an empty cell is a gap you ledger, not a cell
+you skip.** Before calling a place-order test done, write the table out and put the assertion's
+name in every cell:
+
+| | cart | checkout | thank-you | admin | email |
+|---|---|---|---|---|---|
+| product name | | | | | |
+| line total | | | | | |
+| every totals row | | | | | |
+| full address (billing AND shipping) | | | | | |
+| payment method + transaction id | | | | | |
+| order note the gateway wrote | | | | | |
+
+The customer's three surfaces get asserted because that is where the flow walks; the MERCHANT's
+copy is what gets forgotten. On raven-rocks the suite had product, line total and totals parity
+across cart → checkout → thank-you, the payment meta and the gateway note in the admin, and the
+product + total + order number in the e-mail — and still asserted NOTHING about the admin's totals
+rows, the admin's line item, or ANY address on any surface (measured 2026-09-14, after the suite
+was already green). That checkout ticks "Ship to a different address?" by default, so a dropped
+shipping block is a parcel that never arrives and every other assertion still passes. Capture the
+address the flow FILLED into the capture object and compare the admin against it — rebuilding a
+fresh `testAddress()` at assert time asserts your generator, not the order.
+
 <a id="gi-negative-controls"></a>
 **[MUST] gi-negative-controls — a GI assertion that something did NOT happen is usually an artifact
 of GI's own setup.** GI's "this order earns no commission" held only because that step paid with
@@ -765,9 +794,82 @@ The user runs; you read. Check these FIRST:
 
 ---
 
+## False passes
+
+A green test that proves nothing is worse than a red one: it spends the run and buys no
+information. Every pattern below was a test that PASSED on raven-rocks (Sept 2026) before someone
+looked at what it had actually observed.
+
+<a id="answer-not-prompt"></a>
+**[MUST] answer-not-prompt — assert the site's ANSWER, never wording the page already carried.**
+A restock signup asserted `/thank|notif|sign/i` against the form's own container — which reads
+"Want to be notified when this product is back in stock?" before anything is submitted. It passed
+without signing anyone up. Read the element the site ADDS on success (a `.woocommerce-message`, a
+redirect), and write the regex against words that only exist afterwards ("successfully signed up").
+
+<a id="prove-the-session"></a>
+**[MUST] prove-the-session — a permission test must prove WHOSE session it ran as.** A case
+asserting "a Customer cannot reach this endpoint" logged in, silently failed to, and asserted that
+an ANONYMOUS request was refused — a fact about logged-out visitors, not about the capability
+check. Assert `isLoggedIn` (or the role's own marker) before probing, and let the refusal message
+name which gate fired: a nonce failure and a capability failure are different findings.
+
+<a id="wait-for-change"></a>
+**[MUST] wait-for-change — wait for the page to CHANGE, not for a pattern that matches where you
+already are.** `waitForURL(/thank-you|contact/)` on `/contact-us/` resolves instantly against the
+document already loaded, and the helper returns the pre-submit page as the outcome: a form that was
+never sent reads exactly like one that was. Capture the path first and wait for a different one.
+
+<a id="assert-from-a-fresh-state"></a>
+**[MUST] assert-from-a-fresh-state — when a flow's last step grants what you are testing, re-prove
+it from outside.** WooCommerce's password reset signs the customer in as it finishes, so "the flow
+completed" says nothing about the password. Log OUT and log in again with the new one. Same shape
+for anything self-confirming: a registration that auto-logins, a coupon the cart applied for you.
+
+<a id="cache-can-answer"></a>
+**[SHOULD] cache-can-answer — a page cache can serve HTML older than the change you are testing.**
+A settings change (new reCAPTCHA keys) was invisible for minutes behind WP Rocket, and a `?nocache=`
+bust was what proved it had actually landed. When a test disagrees with the admin screen, suspect
+the cache before the code — and remember the browser gets the same cached page a `curl` does.
+
+<a id="duplicated-widgets"></a>
+**[MUST] duplicated-widgets — `.first()` hides a twin.** Elementor renders desktop and mobile
+containers with the SAME ids, so an out-of-stock PDP printed its restock form twice and a click
+landed on the hidden one. Filter by `{ visible: true }` and scope the fields to that container. The
+same shape is worth ASSERTING where a duplicate would be a bug: a panel that must render exactly
+once (a theme copy and a plugin copy of the same feature both hooked) is `toHaveCount(1)`, not
+`.first()`.
+
+<a id="dont-eat-your-fixture"></a>
+**[MUST] dont-eat-your-fixture — never pin a product a purchase test consumes.** A pinned variable
+product was bought out by its own spec; the next run found stock 0, the add-to-cart disabled, and
+the resilient click fell through to a related tile's "Add to cart" — buying a DIFFERENT product
+while asserting the pinned one. Pin for visuals and readers; let the catalogue choose for
+purchases (`pickFirstProduct`, first available option per axis).
+
+<a id="shared-context"></a>
+**[MUST] shared-context — one test's leftover state is the next test's starting state.** The
+shopper context is reused across tests in a worker, and a declined-card case keeps its cart ON
+PURPOSE, so the next purchase asserted against a line it never added. Start every purchase flow
+from `emptyCart`; never assume a fixture is fresh because the test is.
+
+<a id="captcha-policy"></a>
+**[MUST] captcha-policy — read the site key before deciding a form is testable.** With Google's
+public TEST pair (`6LeIxAcT…`) the widget validates anything and the form submits for real; with a
+production key, do NOT try — assert the form's contract instead (every field still collected, the
+guard still present, an empty submit still refused) and say in the handoff that the submission is
+not automatable. `readRecaptchaSiteKey` answers this in one call. A suite that starts failing at a
+checkbox is telling you the key changed, not that the test is flaky.
+
+---
+
 ## Coverage self-audit
 
 Per place-order / subscription / membership test:
+- [ ] The [surface matrix](#surface-matrix) is filled in, with the MERCHANT's cells named — admin
+      totals rows, admin line item, both address blocks — or each empty cell ledgered.
+- [ ] Every assertion re-read against [False passes](#false-passes): does it observe something the
+      page did NOT already say, from a session it proved, after a state it did not itself grant?
 - [ ] Every GI-parent assertion has a home or a ledgered reason (audit TWICE — silent coverage loss
   hides in bare reads with no `expect()`: `grep -nE "await (resilientText|readTotals|read\w+)\(" specs helpers | grep -v expect`).
 - [ ] ONE test drives shopper + admin + email; serial links only for mutations.
