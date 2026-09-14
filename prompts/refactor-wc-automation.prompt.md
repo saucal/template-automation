@@ -429,6 +429,13 @@ POSITIVE signal (the recalculated total landed, `waitForStableTotals`), not "ove
 overlay not yet raised is already hidden. Blocks summaries lazy-paint: read them through
 `readBlocksSettled` (retries until subtotal + total hold). Two equal early reads are NOT settled —
 the AJAX starts a beat after the interaction (`waitUntilSettled`).
+**Place order can fire while an `update_checkout` is still in flight.** Woo debounces it ~1s and a
+tax round-trip behind it can land AFTER the order exists; an integration that empties the cart on
+creation then answers that late `update_order_review` with "Sorry, your session has expired",
+reloads, and bounces to `/cart/` MID-PAYMENT. `clickPlaceOrder` waits for a QUIET checkout (no
+`update_checkout`/`updated_checkout` for 2.5s, no overlay). Measured on harmony/FastSpring, Sept
+2026 — a real customer whose round-trip lands late hits the same bounce, so it is a FINDING for the
+client, not only a test fix.
 
 <a id="money-dom"></a>
 **[MUST] money-dom.** Use woolverine readers (label-based, tax-summed, `<ins>` over `<del>`,
@@ -464,6 +471,16 @@ Button — a wait for `#place_order` after choosing PayPal waits forever.
 **[MUST] dont-weaken — never loosen an assertion to pass over a real bug.** A cross-surface
 mismatch is a FINDING (ledger it, report it), not a test defect. Add a settle/poll, split into
 fast + eventual, but keep the strict check.
+
+<a id="gi-negative-controls"></a>
+**[MUST] gi-negative-controls — a GI assertion that something did NOT happen is usually an artifact
+of GI's own setup.** GI's "this order earns no commission" held only because that step paid with
+`#payment_method_bacs`: Bank Transfer parks the order On hold, the referral stays `pending`, and
+"Unpaid Referrals" never counts it. Paid through the site's real gateway — and with `AffiliateWP
+Lifetime Commissions` active, which credits the affiliate for EVERY later order by a referred
+customer — the same order earns its 5%. Verify the MECHANISM before copying a negative control;
+where the site really does credit it, assert that positively (the derived amount, the note, the
+row) and ledger the GI assertion as not-kept (harmony 05/07, Sept 2026).
 
 <a id="parity-matrix"></a>
 **[MUST] parity-matrix — capture ONCE at order-received, assert the SAME values on every surface.**
@@ -618,7 +635,12 @@ own the submit, `payWithPaypalSandbox`, `payWithKlarna`, `payWithAuthnet`, `payW
 `/order-received/` proves payment. Sandbox creds from `.env` (PayPal buyer MUST be a
 `@playgrounds.saucal.io` address when PPCP stamps the payer email onto the order — otherwise the
 order mail is unreadable). Missing creds throw, they don't no-op. A site tile around a gateway is a
-`select` hook.
+`select` hook. **A chained suite pays as a RETURNING customer:** a subscription purchase forces the
+card to be saved, so that customer's NEXT Stripe checkout is offered the token and
+`#wc-stripe-upe-form` is hidden — there is no card field to fill. Branch on the live DOM
+(`input[name*="payment-token"]:not([value="new"])` → `payWithStripe(page, { useSavedCard: true })`)
+and pay with what the customer would; don't force the new-card form back open (harmony 05 after 03,
+CA, Sept 2026).
 
 <a id="email"></a>
 **[MUST] email — `waitForMessage({ to, subject, contains: <this order's token> })`, then OPEN it in
@@ -643,7 +665,13 @@ click through the wp-admin menu** (submenus are parked off-screen; slow dashboar
 after `load`). Admin auth is the `adminAuth` hook → `ensureAdminState({ baseURL, statePath:
 auth/admin-<project>.json, prepare })` — lazy per project, cached, validated before re-login
 (Defender/Malcare throttle repeated logins). Admin actions behind a native `confirm` are handled
-inside the framework (`runGatewayRefund`, `runOrderAction`, `cancelSubscriptionAsCustomer`).
+inside the framework (`runGatewayRefund`, `runOrderAction`, `cancelSubscriptionAsCustomer`) — **a
+SITE helper that saves an editor has to do it itself.** Playwright DISMISSES dialogs by default,
+dismissing a leave-confirmation means "stay", and the failure surfaces one step LATER as the next
+`goto` timing out with no document request in the trace. Bind `page.on('dialog', d => d.accept())`
+AFTER the `goto` that opened the editor — on a lazy page an earlier bind attaches to the wrong
+instance. Harmony: an order-status save on an order that owns a subscription, 3 of 3 CA runs
+(Sept 2026).
 
 ---
 
@@ -656,6 +684,13 @@ warn+skip; `--project=au-develop`. Visual baselines and `auth/admin-<project>.js
 project. Per-region constants (entity IDs drift per subsite) live in a typed map in the site helper.
 Multisite: relative `goto` only (`'cart/'`, never `'/cart/'`). Scope per the user's decision (a
 site may be "staging only" while another env carries unapproved work).
+
+<a id="regional-rate-labels"></a>
+**[WARN] regional-rate-labels — a rate is labelled in the region's own words, not "tax".** Canada
+labels its rows `HST (13%)` / `PST` / `QST`; a reader keyed on `tax|vat|gst` finds none of them and
+reports a taxless order that the storefront taxed (harmony CA order 125021, C$1,514.50 missing;
+fixed in woolverine 1.4.4). A totals row that is missing on ONE region only is a framework bug —
+report it, don't special-case the spec.
 
 ---
 
@@ -696,6 +731,9 @@ The user runs; you read. Check these FIRST:
 - **The gateway radio flips back after selection** → Fastlane re-arm; `selectPaymentMethod` retries.
 - **`ERR_ABORTED` on a `goto` right after a click** → the click's navigation was still in flight
   on a slow host; `waitForURL(..., { waitUntil: 'commit' })` before the fallback.
+- **A `goto` that times out with NO document request in the trace** → nothing ever left the page:
+  a native dialog was raised and Playwright dismissed it ([admin](#admin)). It reads exactly like
+  host latency, and raising `navigationTimeout` does not fix it — harmony burned two CA runs at 120s.
 - **240s test death with no single slow step** → budget burn (15s primary misses × N, `networkidle`
   that never settles, `toHaveCount(0)` on permanently-present hidden overlays) — profile the trace.
 - **"There are some issues with the items in your basket"** → stock hold from an earlier run.
@@ -776,6 +814,9 @@ driver) may graduate at once.
   reach the sites.
 - A behaviour delta for other pilots is listed in the release message; additive changes need no
   regression round, deltas get validated by each site's next routine run.
+- **Fetch before you bump.** Several pilots release woolverine in the same week from different
+  sessions: `git fetch --tags` and read the CURRENT version before `npm version`, or the bump
+  collides with a tag that already exists (harmony tried to cut v1.3.6; it was taken).
 
 <a id="lokinator-changes"></a>
 **[SHOULD] lokinator-changes** — locator-stack behaviour (tiers, cache eviction, AI prompt) lives
@@ -812,6 +853,8 @@ in `github:saucal/lokinator-automation`, tagged the same way and pinned inside w
   `.nvmrc` + `.npmrc` at the root ([repo-root-tooling](#repo-root-tooling)).
 - Don't relitigate a settled decision, wander into the deploy actions or CI variables, or edit this
   doc to fit what you concluded ([settled-decisions](#settled-decisions)).
+- Don't save an admin editor, or fire an order action, without a `dialog → accept` bound first —
+  Playwright dismisses, and a dismissed dialog fails the NEXT step ([admin](#admin)).
 - Don't run the live suite yourself; don't touch a checkout the user may be running.
 - Don't leave a site helper without its one-line "why it stays".
 - Don't write prose comments, one-caller abstractions or "for later" scaffolding; don't run a silent flow.
