@@ -472,6 +472,24 @@ Button — a wait for `#place_order` after choosing PayPal waits forever.
 mismatch is a FINDING (ledger it, report it), not a test defect. Add a settle/poll, split into
 fast + eventual, but keep the strict check.
 
+<a id="money-asserts"></a>
+**[MUST] money-asserts — woolverine ships the READERS, and every suite then reinvents the
+comparison. Don't invent a ninth.** `expectMoney` exists, hand-written and subtly different, in
+harmony, leggari, leggariacademy, melon-optics, nopong-limited, pls and repurposedmaterials; the
+"one totals ROW, skip when the surface legitimately omits it" helper exists five times under five
+names (`expectMoneyRow`, `expectRow`, `cmp`, a `MONEY_ROWS` loop, an empty-both guard). Worse, they
+do not agree on STRICTNESS: leggari compares exact cents on purpose ("toBeCloseTo's tolerance is
+the size of the bugs we are hunting"), harmony/pls/repurposedmaterials/nopong use
+`toBeCloseTo(…, 2)`, leggariacademy `toBe`. Copy the nearest existing one, state the tolerance in a
+comment, and say in the handoff that it is a graduation candidate ([graduate](#graduate)) — the
+superset is: NaN-safe (a label like `Free` compares as text, never as `$0`), row-absent skips while
+row-present-and-wrong fails, and the message carries both rendered strings. A second suite needing
+a money assert is the trigger to move it, not to fork it again (measured across 16 suites, Sept 2026).
+- **Compare the money, not the BUCKET.** An integration can book the same amount under a different
+  row: FastSpring posts tax as a FEE named after the rate ("US (8.25%)"), so the admin box shows
+  `Fees: $82.42` and NO tax line while the storefront read that row as tax. Sum tax + fees on both
+  sides before asserting (harmony US; on CA the same order is real Woo tax on both sides).
+
 <a id="gi-negative-controls"></a>
 **[MUST] gi-negative-controls — a GI assertion that something did NOT happen is usually an artifact
 of GI's own setup.** GI's "this order earns no commission" held only because that step paid with
