@@ -777,6 +777,15 @@ project. Per-region constants (entity IDs drift per subsite) live in a typed map
 Multisite: relative `goto` only (`'cart/'`, never `'/cart/'`). Scope per the user's decision (a
 site may be "staging only" while another env carries unapproved work).
 
+<a id="no-region-less-script"></a>
+**[MUST] no-region-less-script — on a site that runs ONE region per run, every script names a
+project.** The template set (`e2e`, `e2e:<area>`) carries no `--project`, so on such a site those
+scripts select every configured project and the guard fails each test: a command that can only ever
+end in a screen of red. Ship `e2e:<region>` as the entry point and pass the area as an argument
+(`npm run e2e:ca -- e2e/specs/orders`), and delete the region-less names rather than leaving them as
+traps — `npm run e2e` then fails with npm's own "Missing script" and the list of what does exist
+(harmony, Sept 2026).
+
 <a id="regional-rate-labels"></a>
 **[WARN] regional-rate-labels — a rate is labelled in the region's own words, not "tax".** Canada
 labels its rows `HST (13%)` / `PST` / `QST`; a reader keyed on `tax|vat|gst` finds none of them and
