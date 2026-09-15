@@ -262,11 +262,15 @@ decision per site, and each costs a live run to get wrong.
 <a id="workers"></a>
 **[MUST] workers — 2 is the template default; the money paths decide whether the site can take
 it.** Drop to 1 when the target is a single shared container, and say so in the config with what you
-measured. On raven-rocks (Convesio express, one container, page caching) two workers produced a
-cart reading ANOTHER context's quantity and an admin-ajax charge answering "Request failed."; both
-disappeared at one worker (2026-09-11). Neither is fixed by test-side hygiene: an `emptyCart` at
-the start of a flow isolates your own leftovers, not the host's session and cache, and a shared
-admin storage state means two workers hit the same gateway plugin at once. Where wall clock
+measured. On raven-rocks (Convesio express, one container, page caching) two workers were
+recorded producing a cart that read ANOTHER context's quantity and an admin-ajax charge answering
+"Request failed."; both went away at one worker (2026-09-11). Treat the first as an OBSERVATION
+whose mechanism was never established, and note what it cannot be: workers are separate processes
+with separate browsers, and the page fixtures are test-scoped, so nothing is shared client-side.
+If you see it, look server-side — a page cache serving one session's cart HTML or fragments to
+another, an object cache keyed without the session — or at the test itself
+([verify-the-mechanism](#verify-the-mechanism)). The second one has a plain explanation: a small
+container runs few PHP workers, and two concurrent admin-ajax charges are enough to starve it. Where wall clock
 matters, raise it on the CLI for the READ-ONLY slices (`--workers=2` over `@visual`, search,
 security) instead of in the config — the file should stay the setting the money tests need.
 
@@ -888,11 +892,16 @@ the resilient click fell through to a related tile's "Add to cart" — buying a 
 while asserting the pinned one. Pin for visuals and readers; let the catalogue choose for
 purchases (`pickFirstProduct`, first available option per axis).
 
-<a id="shared-context"></a>
-**[MUST] shared-context — one test's leftover state is the next test's starting state.** The
-shopper context is reused across tests in a worker, and a declined-card case keeps its cart ON
-PURPOSE, so the next purchase asserted against a line it never added. Start every purchase flow
-from `emptyCart`; never assume a fixture is fresh because the test is.
+<a id="verify-the-mechanism"></a>
+**[MUST] verify-the-mechanism — a plausible cause you did not check is a rule you will write
+wrong.** A purchase found a product in the cart that it had not added, and the obvious story — a
+previous test's leftovers — got a fix, a code comment, a README paragraph and a framework release
+before anyone checked it. woolverine's page fixtures are TEST-scoped: every test opens its own
+context and it is torn down afterwards, so a cart cannot survive into the next test (proved
+directly: a test that leaves a line behind is followed by one that opens an empty cart). The real
+cause was in the same test — its add-to-cart fell through to a related product's button. The tell
+was there and got ignored: the "fix" did not fix it. When a fix does not change the symptom, stop
+and find the mechanism instead of adding a second fix.
 
 <a id="captcha-policy"></a>
 **[MUST] captcha-policy — read the site key before deciding a form is testable.** With Google's
