@@ -18,12 +18,16 @@ export default defineConfig({
   timeout: 240_000,
   expect: { timeout: 15_000, toHaveScreenshot: { maxDiffPixelRatio: 0.1 } },
   fullyParallel: false,
+  // 2 is the default; a single shared container needs 1 — see [workers] in the prompt for what
+  // two workers did to raven-rocks, and raise it on the CLI for read-only slices instead.
   workers: 2,
   retries: process.env.CI ? 1 : 0,
   reporter: [['html', { outputFolder: 'e2e/reports', open: 'never' }], ['list']],
   use: {
     actionTimeout: 15_000,
     navigationTimeout: 60_000, // slow stagings (Kinsta/VIP) regularly take >15s to fire 'load'
+    // retain-on-failure RECORDS everything and discards the passes; 'on-first-retry' captures
+    // nothing until a test has failed once, at the price of taping the retry — see [artifacts].
     trace: 'retain-on-failure',
     video: 'retain-on-failure',
     screenshot: 'off', // the woolverine fixture owns one named full-page shot per context on failure

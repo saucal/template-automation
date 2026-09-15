@@ -17,16 +17,7 @@ assertion. Follow it; where you learn something generic, put it in the framework
 Tags: **[MUST]** non-negotiable · **[STRICT]** hard rule with enumerated exceptions · **[SHOULD]**
 strong default · **[WARN]** detect + `console.warn`, never fail. Headings are stable anchors.
 
-Sections: 1. [Before you start](#before-you-start) · 2. [Inputs](#inputs) · 3. [Reference
-architecture](#reference-architecture) · 4. [Woolverine surface map](#woolverine-surface-map) ·
-5. [The recipe](#the-recipe) · 6. [Recon](#recon) · 7. [Site code rules](#site-code-rules) ·
-8. [Checkout mechanics](#checkout-mechanics) · 9. [Assertions & parity](#assertions--parity) ·
-10. [Resilience & visuals](#resilience--visuals) · 11. [Integrations](#integrations) · 12. [Multi-region
-/ multi-env](#multi-region--multi-env) · 13. [Maintenance specifics](#maintenance-specifics) ·
-14. [Live triage](#live-triage) · 15. [False passes](#false-passes) · 16. [Coverage
-self-audit](#coverage-self-audit) · 17. [Definition of done](#definition-of-done) ·
-18. [Contributing to woolverine](#contributing-to-woolverine) · 19. [Handoff](#handoff) ·
-20. [What NOT to do](#what-not-to-do)
+Sections: 1. [Before you start](#before-you-start) · 2. [Inputs](#inputs) · 3. [Reference architecture](#reference-architecture) · 4. [Woolverine surface map](#woolverine-surface-map) · 5. [The recipe](#the-recipe) · 6. [Recon](#recon) · 7. [Runner settings](#runner-settings) · 8. [Site code rules](#site-code-rules) · 9. [Checkout mechanics](#checkout-mechanics) · 10. [Assertions & parity](#assertions--parity) · 11. [Resilience & visuals](#resilience--visuals) · 12. [Integrations](#integrations) · 13. [Multi-region / multi-env](#multi-region--multi-env) · 14. [Maintenance specifics](#maintenance-specifics) · 15. [Live triage](#live-triage) · 16. [False passes](#false-passes) · 17. [Coverage self-audit](#coverage-self-audit) · 18. [Definition of done](#definition-of-done) · 19. [Contributing to woolverine](#contributing-to-woolverine) · 20. [Handoff](#handoff) · 21. [What NOT to do](#what-not-to-do)
 
 <a id="settled-decisions"></a>
 **[MUST] settled-decisions — the choices written here were already argued with the team. Implement
@@ -260,6 +251,56 @@ driver, and do one observe-only run before trusting it on a new site.** `PAYPAL_
 `KLARNA_DEBUG=2` dump every tick and refuse the final confirm — one dump beats three sandbox orders.
 A gateway woolverine doesn't drive yet gets its driver written IN woolverine (`payments.ts`, hooks
 for site tiles), not in the site.
+
+---
+
+## Runner settings
+
+The template's `playwright.config.ts` is the default, not the answer. Four of its knobs are worth a
+decision per site, and each costs a live run to get wrong.
+
+<a id="workers"></a>
+**[MUST] workers — 2 is the template default; the money paths decide whether the site can take
+it.** Drop to 1 when the target is a single shared container, and say so in the config with what you
+measured. On raven-rocks (Convesio express, one container, page caching) two workers produced a
+cart reading ANOTHER context's quantity and an admin-ajax charge answering "Request failed."; both
+disappeared at one worker (2026-09-11). Neither is fixed by test-side hygiene: an `emptyCart` at
+the start of a flow isolates your own leftovers, not the host's session and cache, and a shared
+admin storage state means two workers hit the same gateway plugin at once. Where wall clock
+matters, raise it on the CLI for the READ-ONLY slices (`--workers=2` over `@visual`, search,
+security) instead of in the config — the file should stay the setting the money tests need.
+
+<a id="artifacts"></a>
+**[SHOULD] artifacts — know what `retain-on-failure` actually does before choosing it.** It RECORDS
+every test and deletes the passing ones: the capture cost is paid on the green path, only the
+retention is conditional. `on-first-retry` captures nothing until a test has already failed once,
+which with `retries: 1` still yields a trace and a video for every problem case and costs nothing
+on a green run — at the price that what you open afterwards is the RETRY, so a flake that passes
+the second time leaves a green trace of a red run. Both are defensible; pick one per site and write
+the trade in the config. Tracing is the heavier of the two (a DOM snapshot per action).
+
+<a id="screenshot-off"></a>
+**[MUST] screenshot-off — `'off'` does not mean "no screenshots" in a woolverine suite.** The
+fixture builds the contexts itself and reads this option: it takes one named full-page shot per
+context whenever a test FAILS, whatever the value says, and `'on'` adds one per context on every
+test (three per test, on pages that run to megabytes). Leave it `'off'` and let the comment name
+where the failure shots come from, or someone will keep re-deciding it.
+
+<a id="retries-report"></a>
+**[MUST] retries-report — a retry does not hide a flake, but your REPORT filter can.** Playwright
+reports a test that failed and then passed as `flaky`, not as `passed`, so `retries: 1` locally is
+a legitimate choice. What breaks is summarising a run with `grep -E "passed|failed"`: `flaky` never
+matches, and a per-file loop reports a green table over a suite that wobbled (measured 2026-09-14).
+Any command you hand over in the [Handoff](#handoff) greps `passed|failed|flaky`.
+
+<a id="what-kills-a-run"></a>
+**[SHOULD] what-kills-a-run — before blaming the suite for memory, count the browsers.** A killed
+run does not always take its `headless_shell` with it, and they accumulate across attempts. The
+laptop that stopped two `npm run e2e` runs mid-flight had 8 GB of RAM with 6.8 GB of swap already
+in use, a SECOND Playwright suite running from another checkout, and ~240 MB of orphaned browsers
+from earlier aborts; one worker is 400-600 MB and was the last straw, not the cause
+(raven-rocks, 2026-09-14). `pgrep -fl headless_shell` and `sysctl vm.swapusage` answer this in two
+seconds. Running one spec file per process releases everything between files.
 
 ---
 
