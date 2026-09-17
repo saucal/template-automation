@@ -116,7 +116,7 @@ not `tests`, and the script is `e2e`, not `test` — see [script-not-test](#scri
 ├── .deployignore                         # the site's own; append templates/deployignore-snippet
 ├── .github/workflows/playwright.yml      # → templates/playwright.yml
 └── e2e/
-    ├── .gitignore                        # → templates/gitignore (auth/, reports/, test-results/, *-snapshots/)
+    ├── .gitignore                        # → templates/gitignore (auth/, reports/, test-results/, specs/visual-baselines/)
     ├── .lokinator-cache.json             # COMMITTED — its diff is the selector-drift report
     ├── auth/                             # gitignored: admin-<project>.json, chain-<site>-*.json, member state
     ├── reports/ · test-results/          # gitignored: html report, traces + videos
@@ -455,7 +455,7 @@ says a token is missing.
 
 - **Local-only clutter (a GI export folder, prompt drafts, `.qa/`) goes in `.git/info/exclude`**, not
   the repo's `.gitignore`. Only what every clone produces (`node_modules`, `.env`, `e2e/auth/`,
-  `e2e/reports/`, `e2e/test-results/`, `*-snapshots/`) belongs in a committed ignore file.
+  `e2e/reports/`, `e2e/test-results/`, `e2e/specs/visual-baselines/`) belongs in a committed ignore file.
 
 ---
 
@@ -693,6 +693,19 @@ never style it away.** Grid items with `min-width: auto` blow out when one image
 height. ONE eval (`gridTemplateColumns` + `scrollHeight` before/after the lazy scroll; a
 `page.on('requestfailed')` filtered to images) names it. Mask the region or scope the shot with a
 comment naming the ledger entry. No `stylePath` injection.
+
+<a id="visual-baselines-not-committed"></a>
+**[MUST] visual-baselines-not-committed — `specs/visual-baselines/` is gitignored, and the run after a
+live→staging sync is `npm run baseline`, not a diff.** The baselines are environment state, not suite
+code: staging's content is replaced every time live is synced onto it, catalogue churn moves every
+archive page in between (a category gaining or losing its last product re-flows the whole page), and
+a PNG carries the platform of the machine that shot it. Committing them puts megabytes of images in
+every commit that touches the suite (flyingtech pushed 14 of them before this rule and had to untrack
+them) and gives every other clone a baseline it can only fail against. So: the template `.gitignore`
+ignores the folder; the first visual run on a machine RECORDS (Playwright writes the missing PNG and
+fails that one test — that is expected, say so in the README); after every sync of live onto staging
+the maintainer runs `npm run baseline` once, then the suite. A visual failure between syncs is drift
+to triage (content or layout, see visual-diagnose), never a reason to re-record blind.
 
 <a id="cookie-consent"></a>
 **[MUST] cookie-consent** — identify the plugin from the live HTML, then `preseedCookieConsent(page,
