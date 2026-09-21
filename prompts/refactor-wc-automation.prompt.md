@@ -1,8 +1,8 @@
 # Migrate a Ghost Inspector suite to Playwright on woolverine
 
 Turn a WooCommerce site's Ghost Inspector export into a thin Playwright suite that runs on
-**woolverine** (`github:saucal/woolverine-automation`, Saucal's shared WooCommerce test
-framework, self-healing locators via **lokinator**). The suite you write is the SITE: its DOM
+**woolverine** (`@saucal/woolverine` from GitHub Packages, Saucal's shared WooCommerce test
+framework, self-healing locators via **lokinator**; source: `github:saucal/woolverine-automation`). The suite you write is the SITE: its DOM
 quirks, its flows, its assertions. Everything WooCommerce-generic — fixtures, checkout/cart
 fill, money readers, admin editor, refunds, Mailpit, account flows, gateway drivers, visual
 stabilizer, chain state, lint — is imported, never re-implemented.
@@ -400,7 +400,7 @@ none had merged, so it had never fired.
 <a id="package-json"></a>
 **[MUST] package-json** — `e2e`, `e2e:<area>` per existing folder, `baseline`, `typecheck`, `lint`
 (`woolverine-lint e2e/specs && tsc --noEmit`), `report` (`e2e/reports`), `setup:browsers`.
-Deps: `woolverine` (exact tag) + `dotenv`; dev: `@playwright/test`, `typescript`, `@types/node`
+Deps: `@saucal/woolverine` (a semver range — the lockfile pins it) + `dotenv`; dev: `@playwright/test`, `typescript`, `@types/node`
 (major matching `.nvmrc`). Nothing else unless the site truly needs it (no Stagehand, zod,
 playwright-core, e2e-utils).
 
@@ -953,7 +953,8 @@ Per place-order / subscription / membership test:
 
 Per suite:
 - [ ] A `@visual` slice exists (standalone or woven) and `npm run baseline` recorded it into
-  `specs/visual-baselines/` (per project); the folder is committed and non-empty. Any write side
+  `specs/visual-baselines/` (per project) on the machine that compares; the folder is gitignored
+  ([visual-baselines-not-committed](#visual-baselines-not-committed)), never empty locally. Any write side
   effect a tagged test carries is named in the spec header and the README.
 - [ ] `@plugin` tags everywhere.
 - [ ] Every deliberate omission and every known site issue written in the ledger.
@@ -969,10 +970,11 @@ Per suite:
   `npm.pkg.github.com` — a `github:` URL anywhere in the lockfile means the migration is half done.
 - Root tooling complete: `.nvmrc` (22), `.npmrc` (the `@saucal` registry + `NODE_AUTH_TOKEN`),
   `.deployignore` excludes the suite, `.gitignore` covers `node_modules` + `.env`; a fresh
-  `npm install` on Node 24 succeeds with the token exported ([private-packages](#private-packages)).
+  `npm install` on the `.nvmrc` Node succeeds with the token exported ([private-packages](#private-packages)).
 - No `expect()` in specs but `toHaveScreenshot`; every `expect` has a message.
-- `specs/visual-baselines/` exists and holds a `.png` per project — an empty or missing folder
-  means the visual slice never ran, not that the site has no visuals.
+- `specs/visual-baselines/` exists LOCALLY and holds a `.png` per project (gitignored — a fresh
+  clone has none) — an empty folder after a run means the visual slice never ran, not that the
+  site has no visuals.
 - No `goto` to cart/checkout; no raw locator actions outside lokinator wrappers (allowed: waits,
   `setInputFiles`, `dispatchEvent` for 0-height triggers, popup pages).
 - No helper that duplicates a woolverine export; no shims.
