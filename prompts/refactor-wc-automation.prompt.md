@@ -17,8 +17,6 @@ assertion. Follow it; where you learn something generic, put it in the framework
 Tags: **[MUST]** non-negotiable · **[STRICT]** hard rule with enumerated exceptions · **[SHOULD]**
 strong default · **[WARN]** detect + `console.warn`, never fail. Headings are stable anchors.
 
-Sections: 1. [Before you start](#before-you-start) · 2. [Inputs](#inputs) · 3. [Reference architecture](#reference-architecture) · 4. [Woolverine surface map](#woolverine-surface-map) · 5. [The recipe](#the-recipe) · 6. [Recon](#recon) · 7. [Runner settings](#runner-settings) · 8. [Site code rules](#site-code-rules) · 9. [Checkout mechanics](#checkout-mechanics) · 10. [Assertions & parity](#assertions--parity) · 11. [Resilience & visuals](#resilience--visuals) · 12. [Integrations](#integrations) · 13. [Multi-region / multi-env](#multi-region--multi-env) · 14. [Maintenance specifics](#maintenance-specifics) · 15. [Live triage](#live-triage) · 16. [False passes](#false-passes) · 17. [Coverage self-audit](#coverage-self-audit) · 18. [Definition of done](#definition-of-done) · 19. [Contributing to woolverine](#contributing-to-woolverine) · 20. [Handoff](#handoff) · 21. [What NOT to do](#what-not-to-do)
-
 <a id="settled-decisions"></a>
 **[MUST] settled-decisions — the choices written here were already argued with the team. Implement
 them; do not re-derive them.** Node 22 in `.nvmrc` with the workflow reading it, the framework
@@ -67,21 +65,6 @@ Read, in this order:
 | Elementor + JetMenu, Accept.Blue, alpha-prefixed order numbers, AvaTax itemized tax | `purcrystal` |
 | Multi-region EU/UK, category-nav visuals | `melon-optics` |
 | Custom subscription builder, saved-card Stripe, subscription switch + proration, wps-hide-login | `2m-networks` |
-
-The essentials (each expanded later):
-
-- **GI export is the SOURCE OF TRUTH — dump the test JSON, don't guess.** `suites/<Site>/*.json`
-  (annotated with `_gi`) is what the client approved. The old generated TS is a lossy derivative.
-- **Live-explore the real site first** (`playwright-cli`) — GI selectors have drifted.
-- **Triage GI tests, don't 1:1 port** — nav/screenshot → one data-driven visual spec; duplicates → skip.
-- **Start from the baseline, then add what the explore found.** `templates/baseline-suite.md` is
-  the floor every WooCommerce site gets whether or not the GI export or the client mentioned it;
-  the explore ADDS to that list, it does not replace it. A site missing a baseline row has a gap to
-  ledger, not a shorter suite.
-- **Import, don't write.** If woolverine has it, use it. If two sites need it, graduate it.
-- **Real events, never eval. Capture once, assert everywhere. Every step logs.**
-- **You do not run the live suite unless the user asks** — you write, typecheck, lint, list,
-  and hand the exact commands over. The user runs; you triage their report.
 
 ## Inputs
 
@@ -149,33 +132,16 @@ dashboard). Gateway plugin testing is a separate initiative.
 
 ## Woolverine surface map
 
-Check this BEFORE writing a helper. Names are exports; read the source for options.
+**Read it from the source, never from a copy here.** `grep -n "^export" ~/helper/woolverine/src/*.ts`
+lists every export in one call, the one-line header of each `src/*.ts` says what the module owns, and
+the README carries the options. A table in this doc goes stale silently — the framework releases
+weekly ([release](#release)) and a helper you "know" is missing is a helper you reimplement.
 
-| Module | Use it for |
-|---|---|
-| `createTest(config, testsDir)` → `{ test, config }` | `shopperPage` / `mobileShopperPage` / `adminPage` / `emailPage` (all lazy), artifacts, 429 backoff, view-transition freeze fix. Config: `checkout`, `cart`, `admin`, `adminAuth(project, baseURL)`, `shopperPrepare(page)`, `mobileDevice`, `mailpitUrl`. `makeLazyPage` / `openContext` for extra project contexts (open-studio `memberPage`). |
-| `defineProjects({ environments, regions? })` | env × region → Playwright projects; `baseURL` from `BASE_URL_<REGION>_<ENV>` / `BASE_URL_<ENV>` / `BASE_URL`; empty cells warn+skip. |
-| lokinator: `heal`, `resilientClick/Fill/Select/Check/Text/Locator/ExpectText`, `ctxFor(page)` | every action/read: `{ primary, alt?, ai }` — `ai` is a NOUN phrase ("the Add to basket button"). |
-| `account.ts`: `navigateToMyAccount`, `registerCustomer`, `loginAccount`, `logoutAccount`, `isLoggedIn`, `openAccountTab`, `assertMyAccountTabs`, `DEFAULT_ACCOUNT_TABS`, `PAYMENT_METHODS_TAB`, `customAccountTab`, `forgotPassword`, `setPasswordFromEmail` | standard Woo My Account markup, click-based. Hooks: `prepare`, `fillExtra`, `navigate`, `success`, `inboxEmail`, `emailPage` evidence. |
-| `cart.ts`: `goToCart({ toggle, viewCart, prepare })`, `addToCartById`, `setCartQtyAndUpdate`, `setCartShippingDestination`, `proceedToCheckout`, `readCartTotals`, `readCartLineItems`, `isBlocksCart` | drawer-aware cart nav that PROVES it reached the cart; classic + Blocks. |
-| `pdp.ts`: `openPdp`, `readPdp`, `addSimpleToCart`, `addVariableToCart`, `pickFirstProduct`, `waitUntilSettled`, `waitForStablePrice` | PDP capture/add; settle utils for AJAX-recomputed prices. |
-| `checkout.ts`: `fillCheckout(page, address, config, opts)`, `waitForCheckoutReady`, `nextCheckoutStep`, `readCheckoutTotals`, `waitForStableTotals`, `readBlocksSettled`, `readBlocksTotalsSettled`, `placeOrder`, `applyCoupon`, `orderIdFromUrl`, `settleNetwork`, `isBlockCheckout`, `waitForBlocksIdle` | classic + Blocks fill (live DOM outranks config), hooks: `prepare`, `fillExtra(page, step)`, `steps: CheckoutField[][]` + `advance` (WFACP/Aero), `fieldOverrides`, `shipTo`. Blocks path = commit-per-field + country-revert reconcile. |
-| `payments.ts`: `selectPaymentMethod`, `acceptTerms`, `clickPlaceOrder`, `submitEmptyCheckout`, `payWithStripe` / `fillStripeCard`, `payWithPaypalSandbox`, `findPaypalSmartButton`, `payWithKlarna`, `payWithAuthnet`, `payWithAffirmSandbox`, `payWithAcceptBlue`, `STRIPE_CARD` | gateway drivers (the gateway owns that DOM, not the site). `PAYPAL_DEBUG` / `KLARNA_DEBUG` = 1 dump, 2 observe-only. Verified gateway selection with retry (Fastlane re-arms). |
-| `money.ts`: `readTotals`, `readTotalsTable`, `readTotalsTableRows`, `readLineItems`, `readBlocksTotals`, `readTotalsSection({ recurring })`, `readBlocksTotalsSection`, `readAdminTotals`, `readAdminLineItems`, `readAdminOrderTotals`, `money`, `amount`, `normalizeProductName` | label-based, tax-summing, `<ins>`-aware readers for every surface. Never nth-of-type. |
-| `order-received.ts`: `readCustomerDetails`, `readOrderPaymentMethod`, `readOrderLineItem`, `normalizeAddress`, `normalizeText`, `ORDER_DETAILS_TABLE` | thank-you + view-order (same markup). |
-| `admin.ts`: `ensureAdminState`, `openOrdersList`, `openOrder`, `openSubscription`, `readOrderStatus`, `readPaymentMeta`, `readBillingEmail/Phone/Address`, `readAdminAddresses`, `readOrderTotalsRow`, `runGatewayRefund`, `readRefundLineTotal`, `readRefundedTotal`, `readComputedRefundAmount`, `dismissAdminNotices`, `gotoOrderEditorFresh`, `runOrderAction`, `trashCustomerOrders/Subscriptions` | HPOS + legacy (configured first, other as fallback); refund with all four silent-failure guards + alert surfacing (no manual fallback on a gateway refusal). |
-| `order-notes.ts`: `getOrderNoteTexts`, `expectOrderNoteMatches` | scan-all + regex, polling (HPOS renders notes late). Customer note is `p.order_note`, NOT in the timeline. |
-| `subscriptions.ts`: `openSubscription`, `goToSubscription`, `readSubscriptionDetails`, `cancelSubscriptionAsCustomer`, `setSubscriptionStatusAsAdmin`, `processRenewalAsAdmin` | WCS customer + admin; renewal settles a Pending renewal manually where the gateway can't charge (`settlePendingManually`). `wcs_debug_toggle_renewals` ships in serviceapp-client. |
-| `mailpit.ts`: `waitForMessage({ to, subject, contains })`, `findEmail`, `openEmail(emailPage, email, subject)`, `deleteMessages`, `mailpitViewUrl`, `findSiteLink`, `uniqueEmail`, `setMailpitUrl` | body-race safe, newest-first aware; ESP relays reorder — always `contains` a token of THIS order. |
-| `popups.ts`: `dismissPopups({ extra })`, `armPopupDismissal`, `preseedCookieConsent(page, family)` | common consent/newsletter families; arm the locator handler for TIMED popups; pre-seed consent cookies instead of clicking banners. |
-| `chain.ts`: `chainState<T>(file)` → `{ load, save(patch), clear }` | serial chains where a link depends on an EXPENSIVE prior step (order → refund/refund-email, account → logged shopper). Seed clears + overwrites; links merge; non-seed links `test.skip` with a runnable hint. |
-| `visual.ts`: `assertScreenshot(page, name, { mask, fullPage, locator, soft, stabilize })`, `stabilizeForScreenshot({ hide, hideOverflowRight, hideFixed })`, `dynamicMasks(page, extra)` | ONE stabilizer (lazy media forced, image poll bounded); site extras as opt-ins. |
-| `assertions.ts`: `assertTotalsParity`, `warnIfNoTaxOrShipping`, `isZeroAmount` | parity primitives. |
-| `testdata.ts`: `testAddress('US'|'CA'|'AU'|'GB'|'ES'|'DE')`, `testCustomer`, `runEmail`, `uniqueRef`, `uniquePassword` | addresses in Woo's own label forms. |
-| `auth.ts`: `ensureAdminState({ baseURL, statePath, prepare, loginPath })` | validates cached state before re-login (12h, cross-worker lock, throttle-safe, bot-gate `prepare`, wps-hide-login `loginPath`). |
-| `woolverine-lint e2e/specs` | policy: expect-home, plugin-tags, nav-clicks. `// lint-ok` opt-out with a reason. |
-
-If your site needs something generic that is not here, see [Contributing to woolverine](#contributing-to-woolverine).
+Roughly: `createTest`/`defineProjects` (fixtures + the env×region matrix), lokinator (`heal`,
+`resilient*`), and one module per surface — `account` `cart` `pdp` `checkout` `payments` `money`
+`order-received` `admin` `order-notes` `subscriptions` `mailpit` `popups` `chain` `visual`
+`assertions` `testdata` `auth` — plus `woolverine-lint`. If a site needs something generic that the
+grep does not show, see [Contributing to woolverine](#contributing-to-woolverine).
 
 ---
 
@@ -243,7 +209,9 @@ that is CSS-"visible").
 Place-order chains (place → email → backend) → ONE test driving shopper + admin + email; a
 separate serial link ONLY where the order is MUTATED (refund, renewal, switch). Duplicates → skip.
 Pinned data (FAQ item #7, a video id, a store-locator result) → behaviour assertion. Don't invent
-tests that are not in the export.
+tests that are not in the export. Start from `templates/baseline-suite.md` — the floor every
+WooCommerce site gets whether or not the GI export or the client mentioned it; the explore ADDS to
+that list, it does not replace it, and a missing baseline row is a gap to ledger, not a shorter suite.
 
 <a id="gateway-drift-recon"></a>
 **[MUST] gateway-drift-recon — the GI recording of any hosted gateway is STALE; use the woolverine
@@ -831,33 +799,30 @@ project that has earned automatic runs turns them on by adding the two blocks ba
 
 ## Live triage
 
-The user runs; you read. Check these FIRST:
+The user runs; you read. Read the trace in this order: `error-context.md` (the ARIA snapshot shows
+the real page at failure — a login form, a 404, "Invalid order.", production instead of staging),
+then the network doc requests (did the navigation you assume actually happen? a decoy link that
+`preventDefault`s "clicks" fine and goes nowhere), then `frame-snapshots`.
 
-- **`error-context.md` in the trace** — the ARIA snapshot shows the real page at failure (a login
-  form, a 404, "Invalid order.", production instead of staging).
-- **Network doc requests in the trace** — did the navigation you assume actually happen? A decoy
-  link that `preventDefault`s "clicks" fine and goes nowhere (framework `goToCart` and
-  `navigateToMyAccount` now PROVE the landing).
-- **A heal error without `| AI suggested:`** → the AI tier never answered (key/model), not the page.
-- **A regex `hasText` that "never matches" a row** → whitespace; anchor on the leaf cell.
-- **Uppercase/glued text in a comparison** → `textContent` vs `innerText` (CSS transform, `<br>`).
-- **A recurring "Subtotal" overwrote the first-payment one** → use the section readers.
-- **The gateway radio flips back after selection** → Fastlane re-arm; `selectPaymentMethod` retries.
-- **`ERR_ABORTED` on a `goto` right after a click** → the click's navigation was still in flight
-  on a slow host; `waitForURL(..., { waitUntil: 'commit' })` before the fallback.
-- **A `goto` that times out with NO document request in the trace** → nothing ever left the page:
-  a native dialog was raised and Playwright dismissed it ([admin](#admin)). It reads exactly like
-  host latency, and raising `navigationTimeout` does not fix it — harmony burned two CA runs at 120s.
-- **240s test death with no single slow step** → budget burn (15s primary misses × N, `networkidle`
-  that never settles, `toHaveCount(0)` on permanently-present hidden overlays) — profile the trace.
-- **"There are some issues with the items in your basket"** → stock hold from an earlier run.
-- **A refund that "did nothing"** → the native confirm (framework accepts it) or a gateway alert
-  (framework surfaces it) — read the thrown message, don't loosen the status assert.
-- **An order mail that never arrives** → the order carries a non-trap email (PPCP payer email);
-  the fix is the sandbox account's address, not the assertion.
-- **Selector drift** → let lokinator heal it, then fix the primary in code; keep the cache entry.
-- **Known site issues are not test bugs** — staging key mismatches (Stripe "No such charge"), a
-  wholesale catalogue with no products, a production URL in an ACF redirect row. Ledger + report.
+Then match the symptom; each one is a rule above, not a new fact:
+
+| Symptom | It is |
+|---|---|
+| A heal error without `\| AI suggested:` | the AI tier never answered (key/model), not the page — [lokinator-rules](#lokinator-rules) |
+| A regex `hasText` that "never matches" a row | whitespace; anchor on the leaf cell — [lokinator-rules](#lokinator-rules) |
+| Uppercase or glued text in a comparison | `textContent` vs `innerText` — [lokinator-rules](#lokinator-rules) |
+| Selector drift | heal it, then fix the primary in code; keep the cache entry — [lokinator-rules](#lokinator-rules) |
+| A recurring "Subtotal" overwrote the first-payment one | the section readers — [subscriptions-recurring](#subscriptions-recurring) |
+| The gateway radio flips back after selection | Fastlane re-arm — [gateway-select](#gateway-select) |
+| `ERR_ABORTED` on a `goto` right after a click | the click's navigation was still in flight — [budgets](#budgets) |
+| 240s test death with no single slow step | budget burn; profile the trace — [budgets](#budgets) |
+| A `goto` that times out with NO document request | a native dialog was raised and Playwright dismissed it — [admin](#admin). It reads exactly like host latency, and raising `navigationTimeout` does not fix it (harmony burned two CA runs at 120s) |
+| A refund that "did nothing" | the native confirm or a gateway alert; read the thrown message — [refund-asserts](#refund-asserts) |
+| "There are some issues with the items in your basket" | a stock hold from an earlier run — [stock-hold](#stock-hold) |
+| An order mail that never arrives | the order carries a non-trap email; fix the sandbox account's address, not the assertion — [gateways](#gateways) |
+
+**Known site issues are not test bugs** — staging key mismatches (Stripe "No such charge"), a
+wholesale catalogue with no products, a production URL in an ACF redirect row. Ledger + report.
 
 ---
 
@@ -935,51 +900,44 @@ checkbox is telling you the key changed, not that the test is flaky.
 
 ---
 
-## Coverage self-audit
+## Definition of done
 
-Per place-order / subscription / membership test:
+**Per place-order / subscription / membership test:**
 - [ ] The [surface matrix](#surface-matrix) is filled in, with the MERCHANT's cells named — admin
       totals rows, admin line item, both address blocks — or each empty cell ledgered.
+- [ ] Product name + line total, every totals row, full address, payment method on all four
+      surfaces; cart + checkout rows asserted individually; tax/shipping warned when missing or `$0`.
 - [ ] Every assertion re-read against [False passes](#false-passes): does it observe something the
       page did NOT already say, from a session it proved, after a state it did not itself grant?
 - [ ] Every GI-parent assertion has a home or a ledgered reason (audit TWICE — silent coverage loss
   hides in bare reads with no `expect()`: `grep -nE "await (resilientText|readTotals|read\w+)\(" specs helpers | grep -v expect`).
-- [ ] ONE test drives shopper + admin + email; serial links only for mutations.
-- [ ] Product name + line total, every totals row, full address, payment method on all four surfaces.
-- [ ] Cart + checkout rows asserted individually; tax/shipping warned when missing or `$0`.
-- [ ] Email OPENED in `emailPage`.
+- [ ] ONE test drives shopper + admin + email; serial links only for mutations. Email OPENED in `emailPage`.
 - [ ] Subscriptions: first + recurring on every surface. Memberships: plan + status + granted access.
 - [ ] Step logs cover the journey.
 
-Per suite:
+**Per suite:**
 - [ ] A `@visual` slice exists (standalone or woven) and `npm run baseline` recorded it into
-  `specs/visual-baselines/` (per project) on the machine that compares; the folder is gitignored
-  ([visual-baselines-not-committed](#visual-baselines-not-committed)), never empty locally. Any write side
-  effect a tagged test carries is named in the spec header and the README.
-- [ ] `@plugin` tags everywhere.
-- [ ] Every deliberate omission and every known site issue written in the ledger.
-- [ ] Every site-side helper has its "why it stays" line, or was deleted in the slimming pass.
-
----
-
-## Definition of done
-
-- `npx tsc --noEmit` clean · `npx woolverine-lint e2e/specs` clean · `npx playwright test --list`
-  count matches the triage table — all from the repo root.
-- `package.json` takes `@saucal/woolverine` as a semver range and the lockfile resolves it from
-  `npm.pkg.github.com` — a `github:` URL anywhere in the lockfile means the migration is half done.
-- Root tooling complete: `.nvmrc` (22), `.npmrc` (the `@saucal` registry + `NODE_AUTH_TOKEN`),
-  `.deployignore` excludes the suite, `.gitignore` covers `node_modules` + `.env`; a fresh
-  `npm install` on the `.nvmrc` Node succeeds with the token exported ([private-packages](#private-packages)).
-- No `expect()` in specs but `toHaveScreenshot`; every `expect` has a message.
-- `specs/visual-baselines/` exists LOCALLY and holds a `.png` per project (gitignored — a fresh
-  clone has none) — an empty folder after a run means the visual slice never ran, not that the
-  site has no visuals.
-- No `goto` to cart/checkout; no raw locator actions outside lokinator wrappers (allowed: waits,
+  `specs/visual-baselines/` on the machine that compares — gitignored, so a fresh clone has none and
+  an empty folder AFTER a run means the slice never ran
+  ([visual-baselines-not-committed](#visual-baselines-not-committed)). Any write side effect a tagged
+  test carries is named in the spec header and the README.
+- [ ] `@plugin` tags everywhere; no `expect()` in specs but `toHaveScreenshot`; every `expect` has a message.
+- [ ] No `goto` to cart/checkout; no raw locator actions outside lokinator wrappers (allowed: waits,
   `setInputFiles`, `dispatchEvent` for 0-height triggers, popup pages).
-- No helper that duplicates a woolverine export; no shims.
-- `.lokinator-cache.json` committed and anchored.
-- Every slice NOT live-run is named as unverified in the handoff, with the exact command to run it.
+- [ ] No helper that duplicates a woolverine export; no shims. Every site-side helper has its
+  "why it stays" line, or was deleted in the slimming pass.
+- [ ] Every deliberate omission, known site issue and NOT-live-run slice is in the ledger — the
+  last with the exact command to run it.
+
+**Per repo:**
+- [ ] `npx tsc --noEmit` clean · `npx woolverine-lint e2e/specs` clean · `npx playwright test --list`
+  count matches the triage table — all from the repo root.
+- [ ] `package.json` takes `@saucal/woolverine` as a semver range and the lockfile resolves it from
+  `npm.pkg.github.com` — a `github:` URL anywhere in the lockfile means the migration is half done.
+- [ ] Root tooling complete: `.nvmrc` (22), `.npmrc`, `.deployignore` excludes the suite,
+  `.gitignore` covers `node_modules` + `.env`; a fresh `npm install` on the `.nvmrc` Node succeeds
+  with the token exported ([private-packages](#private-packages)).
+- [ ] `.lokinator-cache.json` committed and anchored.
 
 ---
 
@@ -1021,7 +979,7 @@ in `github:saucal/lokinator-automation`, tagged the same way and pinned inside w
 ## Handoff
 
 1. **Pre-handoff verification pass** — grep/read the actual code, report per test asserted /
-   missing / ledgered ([Coverage self-audit](#coverage-self-audit), [Definition of done](#definition-of-done)).
+   missing / ledgered ([Definition of done](#definition-of-done)).
 2. **`e2e/README.md`** — projects and how to select them, setup (`nvm use`, `npm install`, `.env` keys — all from the root),
    run commands (per project / area / spec, `--ui`, `show-report`, `typecheck`, `lint`), layout,
    the site's load-bearing gotchas, known site issues. Practical and runnable.
@@ -1030,25 +988,3 @@ in `github:saucal/lokinator-automation`, tagged the same way and pinned inside w
 4. **Framework changes** — released and pushed per [release](#release); the site pinned to the tag.
 5. **State left on staging** — list every real order / account / upload the migration created.
 6. **Ledger** — GI assertions not kept (with reason), known site issues, slices not live-run.
-
----
-
-## What NOT to do
-
-- Don't reimplement anything woolverine exports; don't add shims or re-exports.
-- Don't invent test cases not in the GI export; don't drop a GI assertion silently.
-- Don't weaken assertions, widen `maxDiffPixelRatio`, or `stylePath` a flaky page.
-- Don't `goto()` cart/checkout; don't `page.evaluate()` where a locator works; don't eval-set values.
-- Don't hardcode credentials, URLs, entity IDs across regions, or totals in note regexes.
-- Don't put a token in the repo's `.npmrc` — it reads `${NODE_AUTH_TOKEN}`
-  ([private-packages](#private-packages)).
-- Don't nest `package.json` under `e2e/`, don't name the suite's script `test` or its folder
-  `tests` ([script-not-test](#script-not-test)), don't hardcode a Node version in the workflow —
-  `.nvmrc` + `.npmrc` at the root ([repo-root-tooling](#repo-root-tooling)).
-- Don't relitigate a settled decision, wander into the deploy actions or CI variables, or edit this
-  doc to fit what you concluded ([settled-decisions](#settled-decisions)).
-- Don't save an admin editor, or fire an order action, without a `dialog → accept` bound first —
-  Playwright dismisses, and a dismissed dialog fails the NEXT step ([admin](#admin)).
-- Don't run the live suite yourself; don't touch a checkout the user may be running.
-- Don't leave a site helper without its one-line "why it stays".
-- Don't write prose comments, one-caller abstractions or "for later" scaffolding; don't run a silent flow.

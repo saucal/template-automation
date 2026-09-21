@@ -2,8 +2,6 @@
 auth/
 reports/
 test-results/
-# Visual baselines are environment state, never committed: the staging content moves every time live is
-# synced onto it, and the run after a sync is `npm run baseline` (re-record), not a diff. The suite's folder
-# is specs/visual-baselines/ (woolverine SNAPSHOT_PATH_TEMPLATE); *-snapshots/ is Playwright's default name.
+# Visual baselines are environment state, never committed — see [visual-baselines-not-committed]
+# in the prompt. The folder is the one woolverine SNAPSHOT_PATH_TEMPLATE writes to.
 specs/visual-baselines/
-**/*-snapshots/

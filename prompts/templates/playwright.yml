@@ -2,34 +2,27 @@
 #
 # MANUAL ONLY ([ci-manual-dispatch]): `workflow_dispatch` is the single trigger.
 # These suites drive REAL sites — they place orders, register accounts and hit
-# payment sandboxes — so nothing starts one but a person.
+# payment sandboxes — so nothing starts one but a person. Never `on: push`, and
+# never on every PR: the stock `npx playwright init` workflow is a landmine
+# here, delete it rather than adapting it.
 #
-# The record/compare cycle still exists, as two dispatches instead of two events:
+# The record/compare cycle is two dispatches:
 #
-#   after a content sync   →  RECORD: dispatch the @visual slice with
-#                             update_snapshots=true. Content has just been
-#                             replaced from production, so every prior baseline
-#                             is stale by definition.
-#   after a deploy         →  COMPARE: dispatch the suite with the flag off. The
-#                             screenshot diff is purely the code change, because
-#                             content was frozen at the sync.
+#   after a content sync   →  RECORD: the @visual slice with update_snapshots=true
+#                             (staging content was just replaced from production,
+#                             so every prior baseline is stale by definition).
+#   after a deploy         →  COMPARE: the suite with the flag off, so the
+#                             screenshot diff is purely the code change.
 #
 # Baselines travel between the two through the Actions cache (see the test job).
-# The job logic for `pull_request` and `workflow_run` is deliberately left in
-# place below, so a project that has earned automatic runs turns them on by
-# adding the two trigger blocks back — nothing else.
 #
 # EVERY project-specific knob is marked `ADAPT:` — `grep -n 'ADAPT:' ` this file
 # after copying and work through the list. Paths follow the reference
 # architecture: package.json, the lockfile, .nvmrc and playwright.config.ts at
 # the REPO ROOT, the suite itself (specs, reports, test-results) under e2e/.
 name: Playwright Tests
-run-name: "E2E: ${{ inputs.suite || (github.event_name == 'workflow_run' && 'visual (record baselines)') || 'all' }} on ${{ inputs.environment || github.event.pull_request.base.ref || github.event.workflow_run.head_branch }}${{ inputs.grep && format(' ({0})', inputs.grep) }}"
+run-name: "E2E: ${{ inputs.suite }} on ${{ inputs.environment }}${{ inputs.grep && format(' ({0})', inputs.grep) }}"
 
-# Never `on: push`, and never on every PR. This suite drives REAL sites: it
-# places orders, registers accounts and hits live payment gateways. The stock
-# `npx playwright init` workflow (push + pull_request on main) is a landmine
-# here — delete it rather than adapting it.
 on:
   workflow_dispatch:
     inputs:
@@ -37,16 +30,14 @@ on:
         description: 'Which site to test (one Playwright project per environment)'
         type: choice
         # ADAPT: environments — mirror the config's ENVIRONMENTS array exactly
-        # ([env-as-project]). The count is per project and is NOT always two:
-        #   2+ tiers  → list them all, keep `both`
-        #   1 tier    → list the single env and DELETE the `both` option
-        # Do not invent a second tier just to fill this in.
-        default: preprod
-        options: [ preprod, staging, both ]
+        # ([env-as-project]). One tier? List the one, and drop `both` here and
+        # in the matrix below. Do not invent a second tier to fill this in.
+        default: staging
+        options: [ staging, preprod, both ]
       suite:
         description: 'Which specs to run'
         type: choice
-        # ADAPT: suites — one entry per folder under specs/, plus `all`.
+        # ADAPT: suites — one entry per folder under e2e/specs/, plus `all`.
         default: all
         options: [ all, orders, checkout, account, visual ]
       grep:
@@ -59,132 +50,45 @@ on:
         default: false
 
 concurrency:
-  group: playwright-${{ github.ref }}-${{ github.event_name }}-${{ inputs.environment || github.event.pull_request.base.ref || github.event.workflow_run.head_branch }}
+  group: playwright-${{ github.ref }}-${{ inputs.environment }}
   cancel-in-progress: true
 
-# `gh run list` (the deploy wait below) needs actions:read.
 permissions:
   contents: read
-  actions: read
   packages: read
 
 jobs:
-  # Resolves everything the test job cannot work out for itself:
-  #
-  # - The Playwright version, read out of the lockfile so the container tag
-  #   follows whatever the repo actually installs. `container.image` is resolved
-  #   before any step runs, so it can only interpolate a value from ANOTHER job
-  #   — which is the only reason this ~15s job exists. (Do NOT use `:latest`:
-  #   `npm ci` installs the LOCKED version, so the newest image would pair a
-  #   1.62 browser build with a 1.61 test package and every job would die on a
-  #   missing executable.)
-  # - Which site(s) to hit, which specs, and whether this is a record run.
-  # - On a maintenance merge: blocks until that merge's deploy has shipped.
+  # This job exists for one reason: `container.image` and `matrix` are resolved
+  # before any step runs, so they can only interpolate values from ANOTHER job.
+  # It reads the Playwright version out of the lockfile so the container tag
+  # follows whatever the repo installs. (Do NOT use `:latest`: `npm ci` installs
+  # the LOCKED version, so the newest image would pair a 1.62 browser build with
+  # a 1.61 test package and every job would die on a missing executable.)
   setup:
-    # workflow_dispatch: always.
-    # pull_request:      only a *merged* maintenance PR.
-    # workflow_run:      only a *successful* content sync.
-    #
-    # ADAPT: maintenance branch prefix — how this project names the branches its
-    # maintenance PRs come from (`maintenance/` is the action-maintenance
-    # default). ADAPT: sync run title — must match the sync workflow's run-name.
-    if: >-
-      github.event_name == 'workflow_dispatch' ||
-      (github.event_name == 'pull_request' &&
-       github.event.pull_request.merged &&
-       startsWith(github.event.pull_request.head.ref, 'maintenance/')) ||
-      (github.event_name == 'workflow_run' &&
-       github.event.workflow_run.conclusion == 'success' &&
-       github.event.workflow_run.display_title == 'Running staging-sync')
     runs-on: ubuntu-latest
     outputs:
       playwright: ${{ steps.pw.outputs.version }}
       projects: ${{ steps.plan.outputs.projects }}
-      suite: ${{ steps.plan.outputs.suite }}
-      update: ${{ steps.plan.outputs.update }}
     steps:
       - uses: actions/checkout@v4
-        with:
-          # Merged PR → exactly what landed on the base branch. workflow_run →
-          # the branch that was synced (a workflow_run job otherwise defaults to
-          # the default branch, which is not what got synced).
-          ref: ${{ github.event.pull_request.merge_commit_sha || github.event.workflow_run.head_branch || github.ref }}
-
       - id: pw
         run: |
           v=$(node -p "require('./package-lock.json').packages['node_modules/@playwright/test'].version")
           echo "version=$v" >> "$GITHUB_OUTPUT"
           echo "Playwright $v"
-
       - id: plan
+        # `both` fans out to one runner per site so a red staging cannot hide a
+        # green preprod. ADAPT: same environment list as the input above; a
+        # single-tier project keeps only the else line.
         run: |
-          # Site: an explicit dispatch input, else the branch that triggered us.
-          env='${{ inputs.environment || github.event.pull_request.base.ref || github.event.workflow_run.head_branch }}'
-
-          # ADAPT: branch → project map. One arm per branch whose name differs
-          # from the Playwright project it deploys to. A single-tier project
-          # needs at most one arm; a project whose branch and project names
-          # already match needs none.
-          case "$env" in
-            develop) env=staging ;;   # the develop branch deploys the staging site
-          esac
-
-          # `both` fans out to one runner per site so a red staging cannot hide
-          # a green preprod.
-          # ADAPT: environments — same list as the input above. On a
-          # single-tier project replace this whole if/else with just the else
-          # line:  echo "projects=[\"$env\"]" >> "$GITHUB_OUTPUT"
-          if [ "$env" = both ]; then
+          if [ '${{ inputs.environment }}' = both ]; then
             echo 'projects=["staging","preprod"]' >> "$GITHUB_OUTPUT"
           else
-            echo "projects=[\"$env\"]" >> "$GITHUB_OUTPUT"
+            echo 'projects=["${{ inputs.environment }}"]' >> "$GITHUB_OUTPUT"
           fi
-
-          # A content-sync run records; everything else compares.
-          if [ '${{ github.event_name }}' = workflow_run ]; then
-            suite=visual update=true
-          else
-            suite='${{ inputs.suite }}'
-            [ -n "$suite" ] || suite=all
-            update='${{ inputs.update_snapshots }}'
-            [ "$update" = true ] || update=false
-          fi
-          echo "suite=$suite"   >> "$GITHUB_OUTPUT"
-          echo "update=$update" >> "$GITHUB_OUTPUT"
-          echo "site=$env suite=$suite update=$update"
-
-      # Merging only STARTS the deploy. Poll the deploy run for this exact merge
-      # commit; anything other than green fails here, so we never report a red
-      # suite that is really just a failed deployment.
-      #
-      # ADAPT: deploy workflow — the filename of the workflow that deploys, and
-      # the timeout if it takes longer than ~30 min. No deploy automation? Drop
-      # this step; the compare run then races the deploy and tests stale code,
-      # so prefer triggering off the deploy's own completion instead.
-      - name: Wait for deploy
-        if: ${{ github.event_name == 'pull_request' }}
-        env:
-          GH_TOKEN: ${{ github.token }}
-          GH_REPO: ${{ github.repository }}
-        run: |
-          sha='${{ github.event.pull_request.merge_commit_sha }}'
-          for _ in $(seq 60); do   # 60 × 30s = 30 min ceiling
-            read -r st concl <<<"$(gh run list --workflow=deployment.yml \
-              --commit "$sha" --limit 1 --json status,conclusion \
-              --jq '.[] | "\(.status) \(.conclusion)"')"
-            case "$st" in
-              completed)
-                [ "$concl" = success ] || { echo "::error::Deploy $concl for $sha"; exit 1; }
-                echo "Deploy succeeded"; exit 0 ;;
-              '') echo "no deploy run for $sha yet…" ;;
-              *)  echo "Deploy $st…" ;;
-            esac
-            sleep 30
-          done
-          echo "::error::Timed out waiting for deploy of $sha"; exit 1
 
   test:
-    name: ${{ matrix.project }} / ${{ needs.setup.outputs.suite }}${{ needs.setup.outputs.update == 'true' && ' (record)' || '' }}
+    name: ${{ matrix.project }} / ${{ inputs.suite }}${{ inputs.update_snapshots && ' (record)' || '' }}
     needs: [ setup ]
     runs-on: ubuntu-latest
     timeout-minutes: 60
@@ -210,48 +114,39 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.merge_commit_sha || github.event.workflow_run.head_branch || github.ref }}
 
-      # Baselines live in the Actions cache, never in git: full-page PNGs run to
-      # ~10MB each, tens of MB per site, and they are re-recorded on every
-      # content sync — that bloats history within a couple of maintenance
-      # cycles. The key is unique per run so a record run always writes a NEW
-      # entry; restore-keys picks the most recent one, i.e. the last sync.
-      # Caches created on a branch are readable from PRs targeting that branch,
-      # which is exactly the record → compare hop.
+      # Baselines live in the Actions cache, never in git
+      # ([visual-baselines-not-committed]). The key is unique per run so a record
+      # run always writes a NEW entry; restore-keys picks the most recent one,
+      # i.e. the last record dispatch.
       - name: Restore visual baselines
         id: baselines
         uses: actions/cache/restore@v4
         with:
-          path: e2e/specs/**/*-snapshots/
+          path: e2e/specs/visual-baselines/
           key: pw-snaps-${{ matrix.project }}-${{ github.run_id }}
           restore-keys: pw-snaps-${{ matrix.project }}-
 
-      # Node version from .nvmrc, so CI and laptops run the same major. `.npmrc`
-      # (allow-git=all) is picked up from the checkout: woolverine is git-hosted.
+      # Node version from .nvmrc, so CI and laptops run the same major.
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
           cache: npm
 
-      # ADAPT: nothing — but the install MUST carry a token. @saucal/woolverine and
-      # @saucal/lokinator are private packages in GitHub Packages, and this repo's own
-      # GITHUB_TOKEN does not reach a package linked to another repo (403
-      # permission_denied: read_package). Either the org sets a PACKAGES_TOKEN secret with
-      # read:packages, or each package grants this repo read access (Packages → package
-      # settings → Manage Actions access). The expression takes the secret when it exists.
+      # ADAPT: nothing — but the install MUST carry a token ([private-packages]):
+      # this repo's own GITHUB_TOKEN does not reach a package linked to another
+      # repo. The expression takes the PACKAGES_TOKEN secret when it exists.
       - run: npm ci
         env:
           NODE_AUTH_TOKEN: ${{ secrets.PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
 
       - name: Run Playwright tests
         env:
-          SUITE:  ${{ needs.setup.outputs.suite }}
-          UPDATE: ${{ needs.setup.outputs.update }}
+          SUITE:  ${{ inputs.suite }}
+          UPDATE: ${{ inputs.update_snapshots }}
           GREP:   ${{ inputs.grep }}
           # Empty when nothing was restored — Actions caches are evicted after 7
-          # days unused, so a long gap between sync and merge lands here.
+          # days unused, so a long gap between record and compare lands here.
           MATCHED: ${{ steps.baselines.outputs.cache-matched-key }}
         run: |
           args=( --project="${{ matrix.project }}" )
@@ -275,29 +170,29 @@ jobs:
             # visual test — a confusing red that says nothing about the deploy.
             if [ "$SUITE" = visual ]; then
               # Nothing left to run; say why instead of Playwright's "No tests found".
-              echo "::error::No cached visual baselines for ${{ matrix.project }}. Run the content sync, or dispatch this workflow with update_snapshots=true."
+              echo "::error::No cached visual baselines for ${{ matrix.project }}. Dispatch this workflow with update_snapshots=true first."
               exit 1
             fi
-            echo "::warning::No cached visual baselines for ${{ matrix.project }} — skipping the visual slice. Re-run the content sync to record them."
+            echo "::warning::No cached visual baselines for ${{ matrix.project }} — skipping the visual slice."
             args+=( --grep-invert "@visual" )
           fi
           echo "npx playwright test ${args[*]}"
           npx playwright test "${args[@]}"
 
       # Only a record run writes baselines back. Saved even on failure so a
-      # partially-recorded set still beats none; the next sync overwrites it.
+      # partially-recorded set still beats none; the next record overwrites it.
       - name: Save visual baselines
-        if: ${{ needs.setup.outputs.update == 'true' && !cancelled() }}
+        if: ${{ inputs.update_snapshots && !cancelled() }}
         uses: actions/cache/save@v4
         with:
-          path: e2e/specs/**/*-snapshots/
+          path: e2e/specs/visual-baselines/
           key: pw-snaps-${{ matrix.project }}-${{ github.run_id }}
 
       - name: Upload HTML report
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
-          name: report-${{ matrix.project }}-${{ needs.setup.outputs.suite }}
+          name: report-${{ matrix.project }}-${{ inputs.suite }}
           path: e2e/reports/
           retention-days: 30
 
@@ -308,16 +203,16 @@ jobs:
         if: ${{ failure() }}
         uses: actions/upload-artifact@v4
         with:
-          name: traces-${{ matrix.project }}-${{ needs.setup.outputs.suite }}
+          name: traces-${{ matrix.project }}-${{ inputs.suite }}
           path: e2e/test-results/
           retention-days: 14
 
       # Also surfaced as an artifact on record runs, so a baseline change can be
       # eyeballed without digging into the cache.
       - name: Upload recorded baselines
-        if: ${{ needs.setup.outputs.update == 'true' && !cancelled() }}
+        if: ${{ inputs.update_snapshots && !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
           name: snapshots-${{ matrix.project }}
-          path: e2e/specs/**/*-snapshots/
+          path: e2e/specs/visual-baselines/
           retention-days: 30
