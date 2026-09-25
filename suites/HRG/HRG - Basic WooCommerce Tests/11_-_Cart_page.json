@@ -107,7 +107,7 @@
       "private": false,
       "sequence": 6,
       "target": "td.product-name > a[href*=\"/product/\"]",
-      "value": "{{prod_desc}} – {{variable1}}",
+      "value": "{{prod_desc}} - {{variable1}}",
       "variableName": ""
     },
     {
