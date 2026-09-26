@@ -91,7 +91,14 @@
       "optional": false,
       "private": false,
       "sequence": 6,
-      "target": "tfoot > tr:nth-of-type(1) > td.td > .woocommerce-Price-amount.amount",
+      "target": [
+        {
+          "selector": "tfoot > tr:nth-of-type(1) > td.td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "tr.order-totals.order-totals-subtotal > td > span"
+        }
+      ],
       "value": "{{subtotal}}",
       "variableName": ""
     },
@@ -101,7 +108,14 @@
       "optional": false,
       "private": false,
       "sequence": 7,
-      "target": "tr:nth-of-type(2) > td.td > .woocommerce-Price-amount.amount",
+      "target": [
+        {
+          "selector": "tr:nth-of-type(2) > td.td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "#body_tr.order-totals.order-totals-shipping > td > span > span"
+        }
+      ],
       "value": "{{shippingPrice}}",
       "variableName": ""
     },
@@ -111,7 +125,14 @@
       "optional": false,
       "private": false,
       "sequence": 8,
-      "target": "tr:nth-of-type(4) > td.td",
+      "target": [
+        {
+          "selector": "tr:nth-of-type(4) > td.td"
+        },
+        {
+          "selector": "tr.order-totals.order-totals-payment_method > td"
+        }
+      ],
       "value": "Credit / Debit Cards"
     },
     {
@@ -120,7 +141,14 @@
       "optional": false,
       "private": false,
       "sequence": 9,
-      "target": "tr:nth-of-type(3) > td.td > .woocommerce-Price-amount.amount",
+      "target": [
+        {
+          "selector": "tr:nth-of-type(3) > td.td > .woocommerce-Price-amount.amount"
+        },
+        {
+          "selector": "tr.order-totals.order-totals-total > td > span"
+        }
+      ],
       "value": "{{total}}",
       "variableName": ""
     },
@@ -130,7 +158,14 @@
       "optional": false,
       "private": false,
       "sequence": 10,
-      "target": "small.includes_tax > span",
+      "target": [
+        {
+          "selector": "small.includes_tax > span"
+        },
+        {
+          "selector": "tr.order-totals.order-totals-total > td > small > span"
+        }
+      ],
       "value": "{{taxPrice}}",
       "variableName": ""
     },
@@ -140,7 +175,14 @@
       "optional": false,
       "private": false,
       "sequence": 11,
-      "target": "tr:nth-of-type(5) > td.td",
+      "target": [
+        {
+          "selector": "tr:nth-of-type(5) > td.td"
+        },
+        {
+          "selector": "div:nth-child(3) > table:nth-child(5) > tbody > tr > td"
+        }
+      ],
       "value": "Order testing notes"
     },
     {
