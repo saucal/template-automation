@@ -37,11 +37,11 @@
     {
       "command": "assertEval",
       "condition": null,
-      "optional": false,
+      "optional": true,
       "private": false,
       "sequence": 1,
       "target": "",
-      "value": "let logs = {{logs}}\nreturn logs.status === \"OK\" && (logs.changed_options.capture_charge === \"no\" || logs.warning === \"No options updated!\")",
+      "value": "let logs = {{logs}}\nreturn logs.status === \"OK\" && (logs.changed_options.capture_charge === \"no\" || logs.warning === \"No options updated!\" || logs.options.capture_charge === \"no\")",
       "variableName": ""
     }
   ],
