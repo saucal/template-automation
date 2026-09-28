@@ -1,6 +1,7 @@
-# Migrate a Ghost Inspector suite to Playwright on woolverine
+# Build a WooCommerce site's Playwright suite on woolverine
 
-Turn a WooCommerce site's Ghost Inspector export into a thin Playwright suite that runs on
+Turn a WooCommerce site — its Ghost Inspector export when it has one, the baseline when it does
+not — into a thin Playwright suite that runs on
 **woolverine** (`@saucal/woolverine` from GitHub Packages, Saucal's shared WooCommerce test
 framework, self-healing locators via **lokinator**; source: `github:saucal/woolverine-automation`). The suite you write is the SITE: its DOM
 quirks, its flows, its assertions. Everything WooCommerce-generic — fixtures, checkout/cart
@@ -11,6 +12,11 @@ This is the recipe proven on 11 sites (leggari, nopong, pls, open-studio, repurp
 purcrystal, vesica, melon, leggari academy, 2m, cash fore clubs): every one is green live on
 one framework version, and every migration shrank the suite by 25–50% while KEEPING every GI
 assertion. Follow it; where you learn something generic, put it in the framework, not the site.
+
+**No Ghost Inspector export?** Same recipe, same layout, same rules. Skip [read-all-gi](#read-all-gi)
+and the GI diff (recipe step 6); the triage table starts from `templates/baseline-suite.md` plus
+what [live-explore](#live-explore) finds, and the ledger records what the baseline asks for and the
+site does not have. Everything from [The recipe](#the-recipe) on applies unchanged.
 
 ## How to read this doc
 
