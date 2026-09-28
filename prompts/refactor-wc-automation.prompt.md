@@ -215,6 +215,28 @@ not), the order-received markup for an auto-logged-in buyer (no email row, no ad
 `curl` the page HTML for hidden/duplicate markup (desktop + mobile menus both render; a closed modal
 that is CSS-"visible").
 
+<a id="guards-recon"></a>
+**[MUST] guards-recon — name the 2FA and captcha plugin on login, register and checkout before
+writing a test that goes through them.** Read the live HTML of the three forms (and the
+wp-login.php redirect for the admin) and record, per form: the plugin (Wordfence Login Security,
+Defender Pro, WP 2FA, saucal-mu-plugins, the site's own reCAPTCHA / hCaptcha / Turnstile
+integration, CF7 on a contact form the suite submits) and whether it fires for a logged-in user.
+Then check it against what `serviceapp-client`'s maintenance helper already bypasses on a
+ServiceApp-registered staging (`includes/class-sappclient-maintenance-helper.php`, read the
+constructor — the list grows): a user carrying `sc_bypass_2fa` / `sc_bypass_captcha` skips 2FA at
+login and every captcha check that consults the helper while logged in; a request from an
+allowlisted IP or carrying the `sc_bypass` URL term skips both without a user. The e2e runner sets
+both metas on `e2e-bot` / `e2e-customer` ([e2e-runner](#e2e-runner)).
+- **Covered:** nothing to do in the suite; note the plugin in the README so a failing login is
+  read as "the bypass is gone" (staging re-registered, helper disabled), not as a selector.
+- **Not covered:** the deliverable is a handoff item — "add a bypass for `<plugin>` on `<form>` to
+  serviceapp-client's maintenance helper", with the filter or hook the plugin exposes — and the
+  affected tests stay in the ledger as blocked until it lands. Never work around it in the suite:
+  no clicking through a 2FA prompt, no committed test site key, no disabling the plugin on staging.
+- **Register / login captcha** runs before there is a user, so a per-user meta never reaches it:
+  that is the URL-term or IP bypass, else [captcha-policy](#captcha-policy) (assert the form's
+  contract with a production key). Say which one the suite relies on.
+
 <a id="triage-tests"></a>
 **[MUST] triage-tests — don't 1:1 port.** Nav/screenshot tests → one data-driven visual spec.
 Place-order chains (place → email → backend) → ONE test driving shopper + admin + email; a
@@ -996,6 +1018,8 @@ checkbox is telling you the key changed, not that the test is flaky.
 - [ ] No `.github/workflows/playwright.yml`; the README shows the `maintenance.yml action=e2e`
   dispatch ([e2e-runner](#e2e-runner)). Env names are the runner's ([credentials-env](#credentials-env)).
 - [ ] Every spec passes against a blank `e2e-customer` ([blank-customer](#blank-customer)).
+- [ ] Login, register and checkout guards named ([guards-recon](#guards-recon)): each one covered by
+  serviceapp-client's helper, or a handoff item asking for the bypass.
 - [ ] `.lokinator-cache.json` committed and anchored.
 
 ---
@@ -1050,4 +1074,5 @@ in `github:saucal/lokinator-automation`, tagged the same way and pinned inside w
    (or agreed) branch. Commit; pushing and merging are the USER's call unless told otherwise.
 4. **Framework changes** — released and pushed per [release](#release); the site pinned to the tag.
 5. **State left on staging** — list every real order / account / upload the migration created.
-6. **Ledger** — GI assertions not kept (with reason), known site issues, slices not live-run.
+6. **Ledger** — GI assertions not kept (with reason), known site issues, slices not live-run, and
+   every 2FA / captcha guard serviceapp-client does not bypass yet ([guards-recon](#guards-recon)).
