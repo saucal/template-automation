@@ -1,4 +1,6 @@
-# e2e/.gitignore — node_modules and .env are root-level: add both to the site repo's own .gitignore.
+# e2e/.gitignore — e2e/ is its own package, so its install and its secrets are ignored here.
+node_modules/
+.env
 auth/
 reports/
 test-results/

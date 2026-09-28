@@ -1,6 +1,7 @@
-// playwright.config.ts — at the REPO ROOT with package.json; the suite itself lives under e2e/.
+// e2e/playwright.config.ts — e2e/ is its own package; everything runs from inside it.
 // woolverine defineProjects builds one project per environment (× region). baseURL comes from
-// the root .env: BASE_URL_<REGION>_<ENV> / BASE_URL_<ENV> / BASE_URL.
+// e2e/.env locally, or from the runner's env: BASE_URL_<REGION>_<ENV> / BASE_URL_<ENV> / BASE_URL.
+// HTTP_AUTH_USER / HTTP_AUTH_PASS become every project's httpCredentials (woolverine >= 2.1.0).
 import { defineConfig } from '@playwright/test';
 import dotenv from 'dotenv';
 import path from 'path';
@@ -8,12 +9,12 @@ import { defineProjects, SNAPSHOT_PATH_TEMPLATE } from '@saucal/woolverine';
 
 dotenv.config({ path: path.join(__dirname, '.env') });
 // lokinator's heal cache is cwd-relative by default — anchor it inside the suite (it is committed).
-process.env.LOKINATOR_CACHE ||= path.join(__dirname, 'tests', '.lokinator-cache.json');
+process.env.LOKINATOR_CACHE ||= path.join(__dirname, '.lokinator-cache.json');
 
 export default defineConfig({
-  testDir: 'e2e/specs',
-  outputDir: 'e2e/test-results',
-  // Every suite's baselines in e2e/specs/visual-baselines/ — never next to the spec.
+  testDir: 'specs',
+  outputDir: 'test-results',
+  // Every suite's baselines in specs/visual-baselines/ — never next to the spec.
   snapshotPathTemplate: SNAPSHOT_PATH_TEMPLATE,
   timeout: 240_000,
   expect: { timeout: 15_000, toHaveScreenshot: { maxDiffPixelRatio: 0.1 } },
@@ -22,7 +23,7 @@ export default defineConfig({
   // two workers did to raven-rocks, and raise it on the CLI for read-only slices instead.
   workers: 2,
   retries: process.env.CI ? 1 : 0,
-  reporter: [['html', { outputFolder: 'e2e/reports', open: 'never' }], ['list']],
+  reporter: [['html', { outputFolder: 'reports', open: 'never' }], ['list']],
   use: {
     actionTimeout: 15_000,
     navigationTimeout: 60_000, // slow stagings (Kinsta/VIP) regularly take >15s to fire 'load'

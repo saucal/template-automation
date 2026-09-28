@@ -1,8 +1,3 @@
-# Append to the site repo's .deployignore — the Playwright tooling never ships to the host.
-# (`node_modules`, `package.json` and `.nvmrc` are usually there already; check before adding.)
-e2e
-package-lock.json
-playwright.config.ts
-tsconfig.json
-.npmrc
-.env.example
+# Append to the site repo's .deployignore — the Playwright suite never ships to the host.
+# Anchored: only the repo-root e2e/ package, not a theme's or plugin's e2e/ folder.
+/e2e/

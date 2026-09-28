@@ -19,14 +19,17 @@ strong default · **[WARN]** detect + `console.warn`, never fail. Headings are s
 
 <a id="settled-decisions"></a>
 **[MUST] settled-decisions — the choices written here were already argued with the team. Implement
-them; do not re-derive them.** Node 22 in `.nvmrc` with the workflow reading it, the framework
-consumed from GitHub Packages as `@saucal/woolverine`, tooling at the repo root with the suite in
-`e2e/`: each one is the OUTCOME of a review (cash-fore-clubs #115, Sept 2026), written as the
-answer, not as an open question.
+them; do not re-derive them.** Node 22 in `e2e/.nvmrc`, the framework consumed from GitHub
+Packages as `@saucal/woolverine`, the suite as its OWN package under `e2e/`, runs started through
+the platform's `maintenance.yml action=e2e`: each one is the OUTCOME of a review (cash-fore-clubs
+#115, Sept 2026; the e2e runner, action-maintenance #122, 25 Sept 2026), written as the answer,
+not as an open question.
 
 - **Copy the reference pilot's shape; don't design a new one.** cash-fore-clubs is the layout
-  reference — `diff` the repo you are migrating against it instead of reasoning from first
-  principles. A structure you derived yourself is wrong even when it is defensible.
+  reference for what lives INSIDE `e2e/` — `diff` the repo you are migrating against it instead
+  of reasoning from first principles. Its tooling still sits at the repo root (it predates
+  [e2e-package](#e2e-package)); the package files come from `templates/`, not from the pilot.
+  A structure you derived yourself is wrong even when it is defensible.
 - **Stay inside the repo you were asked to change.** Not the shared deploy actions
   (`saucal/action-*`), not repo or org CI variables, not the other pilots, not this prompt.
 - **A hazard you verified is a paragraph, not a mandate.** Report it and stop: e.g. the deploy
@@ -51,12 +54,12 @@ Read, in this order:
   `ctxFor`, `.lokinator-cache.json`).
 - **`docs/migration-playbook.md`** — the hard-won WooCommerce lessons (real events, AJAX races, money DOM).
 - **`docs/maintenance-cycle.md`** — the steady-state loop after migration.
-- **One reference pilot** shaped like your site (table below): its `e2e/` plus the root tooling
-  files is a copy-paste-ready starting point and shows exactly where the site/framework line falls.
+- **One reference pilot** shaped like your site (table below): its `e2e/` is a copy-paste-ready
+  starting point and shows exactly where the site/framework line falls.
 
 | Site shape | Reference pilot (`saucal/<repo>`, branch `feat/woo-qa-migration`, dir `e2e/`) |
 |---|---|
-| Classic checkout, Klarna + PayPal (PPCP + Fastlane), quote/marketplace plugin, Elementor — also the layout reference (root tooling, `.nvmrc`, `.npmrc`, `.deployignore`) | `cash-fore-clubs` |
+| Classic checkout, Klarna + PayPal (PPCP + Fastlane), quote/marketplace plugin, Elementor — also the layout reference for the suite's insides (its tooling is still at the root: move it per [e2e-package](#e2e-package)) | `cash-fore-clubs` |
 | Blocks checkout, multi-region × multi-env (VIP), WCS subscriptions, wholesale, Kadence drawer | `nopong-limited` |
 | Blocks checkout inside a custom 4-step wizard (client plugin), Stripe PE, two envs | `pls` |
 | FunnelKit funnel over Blocks, membership subscription, LWA login, Josephine handoff | `open-studio` |
@@ -81,26 +84,27 @@ Read, in this order:
 
 ## Reference architecture
 
-The Node project lives at the site repo's ROOT; the suite itself lives under `e2e/`. Every
-command (`npm install`, `npm run e2e`, `npx playwright test …`) runs from the root — no `cd e2e`.
-(Decided on the cash-fore-clubs review, Sept 2026: the suite in its own folder is common
-practice, a nested `package.json` that forces a directory switch is not. The folder is `e2e`,
+`e2e/` is its own Node package — `package.json`, lockfile, config, `.env`, `.nvmrc`, `.npmrc`
+and the suite all inside it — and every command (`npm install`, `npm run e2e`, `npx playwright
+test …`) runs from `e2e/`. (Decided on the e2e runner review, 25 Sept 2026: the platform deploy
+runs `npm ci` at the repo ROOT with no registry token, so a root `package.json` that declares
+`@saucal/woolverine` fails every deploy — see [e2e-package](#e2e-package). The folder is `e2e`,
 not `tests`, and the script is `e2e`, not `test` — see [script-not-test](#script-not-test).)
 
 ```
 <repo root>
-├── package.json / package-lock.json      # → templates/package.json (deps: woolverine + dotenv; playwright + typescript dev)
-├── tsconfig.json                         # → templates/tsconfig.json (include: e2e/**/*.ts + the config)
-├── playwright.config.ts                  # → templates/playwright.config.ts (testDir e2e/specs, outputs under e2e/)
-├── .env / .env.example                   # → templates/.env.example; .env gitignored at the root
-├── .nvmrc                                # → templates/nvmrc (Node 22)
-├── .npmrc                                # → templates/npmrc (@saucal → npm.pkg.github.com; reads NODE_AUTH_TOKEN)
-├── .gitignore                            # the site's own; make sure it has `node_modules` and `.env`
-├── .deployignore                         # the site's own; append templates/deployignore-snippet
-├── .github/workflows/playwright.yml      # → templates/playwright.yml
+├── .gitignore                            # the site's own; untouched (everything the suite produces is ignored inside e2e/)
+├── .deployignore                         # the site's own; append templates/deployignore-snippet (`/e2e/`)
 └── e2e/
-    ├── .gitignore                        # → templates/gitignore (auth/, reports/, test-results/, specs/visual-baselines/)
+    ├── package.json / package-lock.json  # → templates/package.json (deps: woolverine + dotenv; playwright + typescript dev)
+    ├── tsconfig.json                     # → templates/tsconfig.json (include: **/*.ts)
+    ├── playwright.config.ts              # → templates/playwright.config.ts (testDir specs, outputs beside it)
+    ├── .env / .env.example               # → templates/.env.example; .env gitignored
+    ├── .nvmrc                            # → templates/nvmrc (Node 22)
+    ├── .npmrc                            # → templates/npmrc (@saucal → npm.pkg.github.com; reads NODE_AUTH_TOKEN)
+    ├── .gitignore                        # → templates/gitignore (node_modules/, .env, auth/, reports/, test-results/, specs/visual-baselines/)
     ├── .lokinator-cache.json             # COMMITTED — its diff is the selector-drift report
+    ├── README.md                         # how to run it: locally AND through GitHub ([Handoff](#handoff))
     ├── auth/                             # gitignored: admin-<project>.json, chain-<site>-*.json, member state
     ├── reports/ · test-results/          # gitignored: html report, traces + videos
     ├── fixtures/index.ts                 # → templates/fixtures.ts (createTest; ~30 lines)
@@ -112,9 +116,11 @@ not `tests`, and the script is `e2e`, not `test` — see [script-not-test](#scri
     └── specs/<area>/*.spec.ts            # thin: config → flow → assert*; @plugin tags
 ```
 
-Paths in this doc that start with `specs/`, `helpers/`, `fixtures/` are relative to `e2e/`.
-Playwright matches CLI file arguments against the path, so `npx playwright test specs/basic`
-still selects `e2e/specs/basic`; `woolverine-lint` takes the real path (`e2e/specs`).
+No per-repo GitHub workflow: runs go through the platform's `maintenance.yml action=e2e`
+([e2e-runner](#e2e-runner)).
+
+Paths in this doc that start with `specs/`, `helpers/`, `fixtures/` are relative to `e2e/`, which
+is also the working directory of every command.
 
 | Layer | Owns | Never |
 |---|---|---|
@@ -151,15 +157,14 @@ Proven order. Each step is a commit.
 
 1. **Branch + worktree.** In the site repo: `git worktree add ../<site>-playwright -b playwright <mainline>`
    (or the repo's existing test branch). Work in the worktree — never in a checkout the user may
-   be running. Tooling at the repo root, suite under `e2e/` ([Reference architecture](#reference-architecture)).
-2. **Scaffold from templates** ([repo-root-tooling](#repo-root-tooling)). At the root: `package.json`
+   be running. Everything under `e2e/` ([Reference architecture](#reference-architecture)).
+2. **Scaffold from templates** ([e2e-package](#e2e-package)). In `e2e/`: `package.json`
    (`"@saucal/woolverine": "^X.Y.Z"` — a normal semver range from GitHub Packages; the lockfile
-   pins the resolution), `tsconfig.json`, `.env.example`, `.nvmrc`, `.npmrc`,
+   pins the resolution), `tsconfig.json`, `.env.example`, `.nvmrc`, `.npmrc`, `.gitignore`,
    `playwright.config.ts` (`defineProjects`, `snapshotPathTemplate: SNAPSHOT_PATH_TEMPLATE` —
-   woolverine >= v1.1.3, `LOKINATOR_CACHE ||= <root>/e2e/.lokinator-cache.json`, `screenshot: 'off'`,
-   `trace: 'retain-on-failure'`); check the site's `.gitignore` has `node_modules` + `.env` and
-   append `templates/deployignore-snippet` to its `.deployignore`. Under `e2e/`: `.gitignore`,
-   `fixtures/index.ts` (`createTest`). `npm install` from the root.
+   woolverine >= v1.1.3, `LOKINATOR_CACHE ||= <e2e>/.lokinator-cache.json`, `screenshot: 'off'`,
+   `trace: 'retain-on-failure'`), `fixtures/index.ts` (`createTest`). Append
+   `templates/deployignore-snippet` to the site's `.deployignore`. `npm install` in `e2e/`.
 3. **Recon** ([Recon](#recon)): dump every GI JSON, live-explore every surface with `playwright-cli`,
    write the triage table (GI test → spec / merged / dropped-with-reason).
 4. **Types + site helper.** `types/test-config.ts` (OrderConfig, Result). `helpers/<site>.ts`: ONLY
@@ -172,8 +177,8 @@ Proven order. Each step is a commit.
 6. **Diff against GI.** For every GI assertion: a kept `expect()` or a ledgered reason. Also diff any
    helper you rewrote against the LAST GI-era version: two of four leggari failures were code silently
    LOST in migration (a staging branch of a selector, a commented-out field list).
-7. **Gates.** `npx tsc --noEmit` · `npx woolverine-lint e2e/specs` · `npx playwright test --list`
-   (count matches the triage table). All from the root. Commit.
+7. **Gates.** `npx tsc --noEmit` · `npx woolverine-lint specs` · `npx playwright test --list`
+   (count matches the triage table). All from `e2e/`. Commit.
 8. **Live run — the USER's.** Hand over the exact commands per project / per area. Triage their
    report from the trace (`error-context.md` first, then network doc requests, then `frame-snapshots`).
    Fix in `helpers/*`, never by weakening an assertion. Bump budgets only after measuring (trace
@@ -350,57 +355,67 @@ quirk, the trap) next to the code it protects. No essays, no history, no restati
 long comments burn tokens every session. Mark deliberate shortcuts `// ponytail: <ceiling>, <upgrade path>`.
 
 <a id="credentials-env"></a>
-**[MUST] credentials-env** — all creds/URLs via the repo-root `.env`; ship `.env.example` only.
+**[MUST] credentials-env** — all creds/URLs via `e2e/.env`; ship `.env.example` only. The names
+are the runner's ([e2e-runner](#e2e-runner)): `BASE_URL` / `BASE_URL_<ENV>`, `WP_ADMIN_USER` /
+`ADMIN_PASS`, `CUSTOMER_USER` / `CUSTOMER_PASS`, `HTTP_AUTH_USER` / `HTTP_AUTH_PASS`, `PAY_PAL_USER` /
+`PAY_PAL_PASS`, `AFTERPAY_USER` / `AFTERPAY_PASS`, `MAILPIT_URL`, `OPENAI_API_KEY`. A suite that
+reads its own names (`PAYPAL_USERNAME`, `PASSWORD`, `QA_CUSTOMER_USER`) gets nothing from the
+runner. No plaintext fallback password anywhere in the code.
 
 <a id="script-not-test"></a>
-**[MUST] script-not-test — the suite's npm script is `e2e`, NEVER `test`, and its folder is `e2e/`,
-never `tests/`.** The platform deploy runs, in the repo ROOT, `npm ci` -> `npm run --if-present
-build` -> `npm run --if-present test` (`saucal/action-maintenance` -> `action-build` ->
-`build-for-deployment.sh`, in that script since 2022). A root `test` script that means `playwright
-test` therefore fires on every deploy: that runner has no browsers and no `.env`, so the config
-throws and the DEPLOY goes red for unrelated changes — and if those vars were ever set it would
-place real orders instead. `--if-present` only skips a script that does not exist; it does not
-ignore failures. That slot belongs to the repo's own unit tests (leggari: three `wp-scripts
-test-unit-js` suites, reachable as `lerna run test`), which is the other reason the folder leaves
-`e2e/` free. Measured on harmony, cash-fore-clubs, repurposedmaterials and leggari, Sept 2026 —
-none had merged, so it had never fired.
+**[MUST] script-not-test — the suite's npm script is `e2e`, NEVER `test` or `build`, and its folder
+is `e2e/`, never `tests/`.** The e2e runner installs `e2e/` with `saucal/action-build`, exactly as
+a deploy installs a package: `npm ci` -> `npm run --if-present build` -> `npm run --if-present
+test`. A `test` script that means `playwright test` therefore fires INSIDE the install step, before
+the site is prepared and the env exported: the config throws and the run is red before it started.
+`--if-present` only skips a script that does not exist; it does not ignore failures. The same three
+steps run at the repo ROOT on every deploy, which is the other half of why the suite is its own
+package ([e2e-package](#e2e-package)): the root `test` slot belongs to the repo's own unit tests
+(leggari: three `wp-scripts test-unit-js` suites, reachable as `lerna run test`).
 
 <a id="package-json"></a>
 **[MUST] package-json** — `e2e`, `e2e:<area>` per existing folder, `baseline`, `typecheck`, `lint`
-(`woolverine-lint e2e/specs && tsc --noEmit`), `report` (`e2e/reports`), `setup:browsers`.
+(`woolverine-lint specs && tsc --noEmit`), `report` (`reports`), `setup:browsers`.
 Deps: `@saucal/woolverine` (a semver range — the lockfile pins it) + `dotenv`; dev: `@playwright/test`, `typescript`, `@types/node`
 (major matching `.nvmrc`). Nothing else unless the site truly needs it (no Stagehand, zod,
 playwright-core, e2e-utils).
 
 <a id="repo-root-tooling"></a>
-**[MUST] repo-root-tooling — npm, Node pinned, git deps allowed, nothing test-related deployed.**
+<a id="e2e-package"></a>
+**[MUST] e2e-package — `e2e/` is a standalone npm package: nothing of the suite at the repo root,
+nothing of it deployed.** The platform deploy runs `npm ci` + `build` + `test` at the repo ROOT
+(`saucal/action-maintenance` -> `action-build` -> `build-for-deployment.sh`, since 2022) with NO
+registry token, so a root `package.json` that declares the private `@saucal/woolverine` fails
+every deploy on `401`, and one that merely lists Playwright installs it on every deploy for
+nothing. Decided on the e2e runner review (action-maintenance #122, 25 Sept 2026), reversing the
+cash-fore-clubs #115 layout; the pilots still on root tooling move with their next update.
 - `package.json`, lockfile, `tsconfig.json`, `playwright.config.ts`, `.env(.example)`, `.nvmrc`,
-  `.npmrc` at the repo ROOT; never a nested `package.json` under `e2e/`.
+  `.npmrc`, `.gitignore` all INSIDE `e2e/`. Never a workspace member, never referenced from a
+  root `package.json` — the root stays exactly as the site had it.
 - **An allowlist-style `.gitignore` has to allowlist the suite too.** A repo that ignores `/*`
   and re-adds paths with `!` (harmony) keeps tracked files working after a rename — nothing gets
   untracked — while silently ignoring the folder: `git add e2e/<new spec>` is refused and a spec
   added later never lands. Point the `!` exception at `e2e/`.
-- **`.nvmrc` = `22`** (current LTS the pilots run on); the workflow reads it via `node-version-file`.
-- **`.npmrc` maps the scope to GitHub Packages**, nothing else:
+- **`e2e/.nvmrc` = `22`** (current LTS the pilots run on); the runner installs on it.
+- **`e2e/.npmrc` maps the scope to GitHub Packages**, nothing else:
   `@saucal:registry=https://npm.pkg.github.com` +
   `//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}`. No `allow-git` — there are no git
   dependencies left ([private-packages](#private-packages)).
 - **npm or pnpm, both work** (measured 2026-09-11, pnpm 12.4): install, typecheck, lint and
-  `--list` are identical under either, with no pnpm-specific config. Until Sept 2026 the framework
-  was a git dependency and pnpm refused it outright — `blockExoticSubdeps` on the transitive
-  lokinator, then `allowBuilds` keyed by the EXACT resolved commit sha of both packages (the tag
-  form, bare names and wildcards are all rejected: "Use exact versions only"), rewritten in every
-  consumer on every release. The registry removed all of it. npm stays the default because the
-  pilots and CI run it; a repo that moves must move whole (`pnpm import`, drop
-  `package-lock.json`, swap `npm ci` for `pnpm install --frozen-lockfile` in the workflow) — and
-  note pnpm FAILS on an import the `package.json` does not declare, which npm's hoisting hides.
-- **`.deployignore`** must exclude `e2e`, `package-lock.json`, `playwright.config.ts`,
-  `tsconfig.json`, `.npmrc`, `.env.example` (`node_modules`, `package.json`, `.nvmrc` usually are
-  already) — the suite never ships to the host. **A repo with NO `.deployignore` still needs one:**
-  `action-build-to-git` copies its own default in and then empties every `.gitignore` in the
-  bundle, so the whole suite — `.env.example` included — reaches the webroot. The new file has to
-  REPEAT the platform default verbatim (anything dropped from it starts being deployed) and add
-  the suite; measured on elka, leggariacademy and nopong-limited, Sept 2026.
+  `--list` are identical under either, with no pnpm-specific config, and `action-build` installs
+  from whichever lockfile it finds. Until Sept 2026 the framework was a git dependency and pnpm
+  refused it outright — `blockExoticSubdeps` on the transitive lokinator, then `allowBuilds` keyed
+  by the EXACT resolved commit sha of both packages, rewritten in every consumer on every release.
+  The registry removed all of it. npm stays the default because the pilots and the runner run it;
+  a suite that moves must move whole (`pnpm import`, drop `package-lock.json`) — and note pnpm
+  FAILS on an import the `package.json` does not declare, which npm's hoisting hides.
+- **`.deployignore`** gets one anchored line, `/e2e/` (`templates/deployignore-snippet`) — the
+  suite never ships to the host, and the anchor keeps a theme's or plugin's own `e2e/` folder
+  out of it. **A repo with NO `.deployignore` still needs one:** `action-build-to-git` copies its
+  own default in and then empties every `.gitignore` in the bundle, so the whole suite —
+  `.env.example` included — reaches the webroot. The new file has to REPEAT the platform default
+  verbatim (anything dropped from it starts being deployed) and add `/e2e/`; measured on elka,
+  leggariacademy and nopong-limited, Sept 2026.
 <a id="private-packages"></a>
 **[MUST] private-packages — the framework is a PRIVATE package; every install needs a token.**
 `@saucal/woolverine` and its `@saucal/lokinator` dependency live in GitHub Packages, private like
@@ -410,20 +425,16 @@ says a token is missing.
   carries `read:packages` (`gh auth refresh -h github.com -s read:packages`). A dev without `gh`
   puts a classic PAT with that scope in their OWN `~/.npmrc`, never in the repo's.
 - **In CI:** a workflow's `GITHUB_TOKEN` does NOT reach a package linked to another repo — it
-  fails with `403 permission_denied: read_package`. The suite workflow therefore passes
-  `NODE_AUTH_TOKEN: ${{ secrets.PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}` to its install step and
-  declares `permissions: packages: read`. The org either sets a `PACKAGES_TOKEN` secret
-  (`read:packages`, from the bot account, visibility all) or grants each repo read access per
-  package (Packages → package settings → Manage Actions access). Package `internal` visibility,
-  which would need neither, requires an Enterprise plan — saucal is on Team.
-- **[WARN] the platform deploy runs `npm ci` in the repo ROOT** ([script-not-test](#script-not-test)),
-  and the root `package.json` now declares a private package. On the first merge to a deploying
-  branch that install needs a registry token ON THE DEPLOY RUNNER, which is outside these repos.
-  Raise it before the merge; do not go fix the deploy actions.
+  fails with `403 permission_denied: read_package`. The e2e runner passes the org secret
+  `PACKAGES_TOKEN` (`read:packages`, from the bot account, visibility all) as `NODE_AUTH_TOKEN` to
+  the install of `e2e/`; the deploy's own root install never sees the package
+  ([e2e-package](#e2e-package)), so the deploy runner needs no token. Package `internal`
+  visibility, which would need neither, requires an Enterprise plan — saucal is on Team.
 
 - **Local-only clutter (a GI export folder, prompt drafts, `.qa/`) goes in `.git/info/exclude`**, not
-  the repo's `.gitignore`. Only what every clone produces (`node_modules`, `.env`, `e2e/auth/`,
-  `e2e/reports/`, `e2e/test-results/`, `e2e/specs/visual-baselines/`) belongs in a committed ignore file.
+  the repo's `.gitignore`. Only what every clone produces (`node_modules/`, `.env`, `auth/`,
+  `reports/`, `test-results/`, `specs/visual-baselines/`) belongs in a committed ignore file, and
+  that file is `e2e/.gitignore`.
 
 ---
 
@@ -672,7 +683,8 @@ every commit that touches the suite (flyingtech pushed 14 of them before this ru
 them) and gives every other clone a baseline it can only fail against. So: the template `.gitignore`
 ignores the folder; the first visual run on a machine RECORDS (Playwright writes the missing PNG and
 fails that one test — that is expected, say so in the README); after every sync of live onto staging
-the maintainer runs `npm run baseline` once, then the suite. A visual failure between syncs is drift
+the maintainer runs `npm run baseline` once, then the suite (on the platform, ServiceApp sends
+`update_snapshots: true` for the same reason — [e2e-runner](#e2e-runner)). A visual failure between syncs is drift
 to triage (content or layout, see visual-diagnose), never a reason to re-record blind.
 
 <a id="cookie-consent"></a>
@@ -763,7 +775,7 @@ site may be "staging only" while another env carries unapproved work).
 project.** The template set (`e2e`, `e2e:<area>`) carries no `--project`, so on such a site those
 scripts select every configured project and the guard fails each test: a command that can only ever
 end in a screen of red. Ship `e2e:<region>` as the entry point and pass the area as an argument
-(`npm run e2e:ca -- e2e/specs/orders`), and delete the region-less names rather than leaving them as
+(`npm run e2e:ca -- specs/orders`), and delete the region-less names rather than leaving them as
 traps — `npm run e2e` then fails with npm's own "Missing script" and the list of what does exist
 (harmony, Sept 2026).
 
@@ -787,13 +799,50 @@ literal `$0` warns. Promote to a hard `expect` only where the test depends on it
 (`woolverine-lint` fails otherwise); a maintenance run filters by changed plugins.
 
 <a id="ci-manual-dispatch"></a>
-**[MUST] ci-manual-dispatch** — `workflow_dispatch` is the workflow's ONLY trigger: these suites
-place real orders on real sites, so a person starts every run. The record/compare cycle stays, as
-two dispatches — after a content sync, the `@visual` slice with `update_snapshots=true`; after a
-deploy, the suite with the flag off — and the baselines travel between them through the Actions
-cache, never git. Ship the `pull_request` / `workflow_run` job logic but NOT the triggers; a
-project that has earned automatic runs turns them on by adding the two blocks back. Never
-`on: push`. → `templates/playwright.yml` (`grep -n 'ADAPT:'`).
+<a id="e2e-runner"></a>
+**[MUST] e2e-runner — runs go through the platform's `maintenance.yml action=e2e`; no per-repo
+workflow.** These suites place real orders on real sites, so nothing starts one but a person or
+ServiceApp — never `on: push`, never on every PR. The one workflow that runs them is the site's
+`.github/workflows/maintenance.yml` (`saucal/action-maintenance` v3), which ServiceApp dispatches
+and a person dispatches by hand:
+
+```
+gh workflow run maintenance.yml --ref <branch> -f action=e2e -f payload='{"grep":"@smoke"}'
+gh workflow run maintenance.yml --ref <branch> -f action=e2e -f payload='{"update_snapshots":true,"grep":"@visual"}'
+```
+
+A repo used to carry `.github/workflows/playwright.yml` (manual dispatch); it is retired — two
+workflows reading the same env and cache drift apart — delete it on the next update. What the
+runner does, so the suite does not:
+- **Users.** On every non-production run it creates `e2e-bot` (administrator) and `e2e-customer`
+  (customer) on the target with per-run passwords, bypassing 2FA and captcha, and exports them as
+  `WP_ADMIN_USER`/`ADMIN_PASS` and `CUSTOMER_USER`/`CUSTOMER_PASS`. Locally, `e2e/.env` carries the
+  staging users ServiceApp's staging action creates.
+- **Env.** `BASE_URL` and `BASE_URL_<ENV>` from the site's own home URL, `HTTP_AUTH_USER`/`PASS`
+  from the payload or repo secrets, `PAY_PAL_*` / `AFTERPAY_*` / `OPENAI_API_KEY` from org secrets,
+  `MAILPIT_URL` from a repo variable, `NODE_AUTH_TOKEN` for the install. Nothing per repo beyond
+  the site's SSH vars a deploy already needs.
+- **Baselines.** The Actions cache, never git: ServiceApp sends `update_snapshots: true` after
+  every staging sync to record, and every later run compares. With no cached baselines the
+  `@visual` slice is skipped (a `@visual` grep fails asking for `update_snapshots`).
+- **Heals.** A green run whose `.lokinator-cache.json` changed becomes a PR (`lokinator fix
+  --commit`, woolverine >= 2.0.0) against the active maintenance branch, else the default branch.
+
+<a id="blank-customer"></a>
+**[MUST] blank-customer — the suite assumes the shopper account is EMPTY and creates the state it
+needs.** `e2e-customer` is recreated on every run: no orders, no saved addresses, no payment
+methods, no subscriptions. A spec that expects "the customer's last order" or "the saved card"
+finds nothing; a flow that needs one places it first (`chainState` carries it to the tests that
+follow). The local `.env` user is whatever the staging has — never write a spec that only passes
+because of what it accumulated.
+
+<a id="no-production"></a>
+**[STRICT] no-production — no run against production until the suite carries a read-only slice.**
+The runner refuses production without `allow_production` + `grep`, and ServiceApp never sends
+`allow_production`. Before a production slice exists: a `@readonly` tag on tests that place no
+order, register nothing and change no setting, an audited list of them in the README, and the
+runner review's sign-off. There is no back door: a `base_url` on any host other than the site's
+own home counts as production and is refused the same way.
 
 ---
 
@@ -930,13 +979,17 @@ checkbox is telling you the key changed, not that the test is flaky.
   last with the exact command to run it.
 
 **Per repo:**
-- [ ] `npx tsc --noEmit` clean · `npx woolverine-lint e2e/specs` clean · `npx playwright test --list`
-  count matches the triage table — all from the repo root.
+- [ ] `npx tsc --noEmit` clean · `npx woolverine-lint specs` clean · `npx playwright test --list`
+  count matches the triage table — all from `e2e/`.
 - [ ] `package.json` takes `@saucal/woolverine` as a semver range and the lockfile resolves it from
   `npm.pkg.github.com` — a `github:` URL anywhere in the lockfile means the migration is half done.
-- [ ] Root tooling complete: `.nvmrc` (22), `.npmrc`, `.deployignore` excludes the suite,
-  `.gitignore` covers `node_modules` + `.env`; a fresh `npm install` on the `.nvmrc` Node succeeds
-  with the token exported ([private-packages](#private-packages)).
+- [ ] `e2e/` package complete: `.nvmrc` (22), `.npmrc`, `.gitignore` (`node_modules/`, `.env`,
+  `auth/`, `reports/`, `test-results/`, `specs/visual-baselines/`); no `test`/`build` script; the
+  site's `.deployignore` has `/e2e/`; nothing of the suite at the repo root; a fresh `npm install`
+  in `e2e/` on the `.nvmrc` Node succeeds with the token exported ([private-packages](#private-packages)).
+- [ ] No `.github/workflows/playwright.yml`; the README shows the `maintenance.yml action=e2e`
+  dispatch ([e2e-runner](#e2e-runner)). Env names are the runner's ([credentials-env](#credentials-env)).
+- [ ] Every spec passes against a blank `e2e-customer` ([blank-customer](#blank-customer)).
 - [ ] `.lokinator-cache.json` committed and anchored.
 
 ---
@@ -980,11 +1033,15 @@ in `github:saucal/lokinator-automation`, tagged the same way and pinned inside w
 
 1. **Pre-handoff verification pass** — grep/read the actual code, report per test asserted /
    missing / ledgered ([Definition of done](#definition-of-done)).
-2. **`e2e/README.md`** — projects and how to select them, setup (`nvm use`, `npm install`, `.env` keys — all from the root),
-   run commands (per project / area / spec, `--ui`, `show-report`, `typecheck`, `lint`), layout,
-   the site's load-bearing gotchas, known site issues. Practical and runnable.
-3. **Branch** — the suite already lives in the site repo (tooling at the root, suite under
-   `e2e/`) on the `playwright` (or agreed) branch. Commit; pushing and merging are the USER's call unless told otherwise.
+2. **`e2e/README.md`** — two ways to run it, both copy-pasteable. **Through GitHub** first: the
+   exact `gh workflow run maintenance.yml --ref <branch> -f action=e2e -f payload='…'` lines for
+   a smoke run, a full run and a baseline record, what ServiceApp sends on its own, where the
+   report artifact and the heals PR land ([e2e-runner](#e2e-runner)). Then **locally**: projects
+   and how to select them, setup (`cd e2e`, `nvm use`, `npm install`, `.env` keys), run commands
+   (per project / area / spec, `--ui`, `show-report`, `typecheck`, `lint`), layout, the site's
+   load-bearing gotchas, known site issues. Practical and runnable.
+3. **Branch** — the suite already lives in the site repo (the `e2e/` package) on the `playwright`
+   (or agreed) branch. Commit; pushing and merging are the USER's call unless told otherwise.
 4. **Framework changes** — released and pushed per [release](#release); the site pinned to the tag.
 5. **State left on staging** — list every real order / account / upload the migration created.
 6. **Ledger** — GI assertions not kept (with reason), known site issues, slices not live-run.

@@ -4,16 +4,16 @@
   "private": true,
   "scripts": {
     "e2e": "playwright test",
-    "e2e:basic": "playwright test e2e/specs/basic",
-    "e2e:orders": "playwright test e2e/specs/orders",
+    "e2e:basic": "playwright test specs/basic",
+    "e2e:orders": "playwright test specs/orders",
     "baseline": "playwright test --grep @visual --update-snapshots",
-    "report": "playwright show-report e2e/reports",
+    "report": "playwright show-report reports",
     "setup:browsers": "playwright install chromium",
     "typecheck": "tsc --noEmit",
-    "lint": "woolverine-lint e2e/specs && npm run typecheck"
+    "lint": "woolverine-lint specs && npm run typecheck"
   },
   "dependencies": {
-    "@saucal/woolverine": "^ADAPT-LATEST-MINOR",
+    "@saucal/woolverine": "^2.1.0",
     "dotenv": "^16.4.5"
   },
   "devDependencies": {
