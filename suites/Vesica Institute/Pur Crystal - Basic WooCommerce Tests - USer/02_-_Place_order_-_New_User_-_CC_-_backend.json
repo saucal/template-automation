@@ -122,19 +122,29 @@
       "variableName": ""
     },
     {
-      "command": "click",
+      "command": "pause",
       "condition": null,
       "optional": false,
       "private": false,
       "sequence": 10,
-      "target": "tbody#the-list > tr:first-of-type td.order_number > a.order-view > strong"
+      "target": "",
+      "value": "15000",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "//a[contains(@class,\"order-view\")][contains(., \"#{{orderNumber}}\")]"
     },
     {
       "command": "assertTextPresent",
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 11,
+      "sequence": 12,
       "target": "h2.woocommerce-order-data__heading",
       "value": "Order #{{orderNumber}}"
     },
@@ -143,7 +153,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 12,
+      "sequence": 13,
       "target": ".woocommerce-order-data__meta",
       "value": "Payment via Credit Card",
       "variableName": ""
@@ -153,7 +163,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 13,
+      "sequence": 14,
       "target": ".wc-order-status span#select2-order_status-container",
       "value": "Processing"
     },
@@ -162,7 +172,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 14,
+      "sequence": 15,
       "target": "div.order_data_column:nth-of-type(2) > .address > p:nth-of-type(1)",
       "value": "{{firstName}} {{lastName}}\n{{company}}\n{{street}}\n{{street2}}\n{{city}}, {{state}} {{zipCode}}",
       "variableName": ""
@@ -172,7 +182,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 15,
+      "sequence": 16,
       "target": "a[href=\"mailto:{{email}}\"]",
       "value": "{{email}}"
     },
@@ -181,7 +191,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 16,
+      "sequence": 17,
       "target": ".address > p:nth-of-type(3)",
       "value": "Phone:\n{{phone}}",
       "variableName": ""
@@ -191,7 +201,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 17,
+      "sequence": 18,
       "target": "div.order_data_column:nth-of-type(3) > .address > p:nth-of-type(1)",
       "value": "{{firstName}} {{lastName}}\n{{company2}}\n{{street}}\n{{street3}}\n{{city}}, {{state}} {{zipCode}}",
       "variableName": ""
@@ -201,7 +211,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 18,
+      "sequence": 19,
       "target": "div:nth-child(3) > div.address > p:nth-child(2)",
       "value": "Phone:\n{{phone}}",
       "variableName": ""
@@ -211,7 +221,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 19,
+      "sequence": 20,
       "target": "#order_line_items tr > td.name > a",
       "value": "{{prod_desc}}"
     },
@@ -220,7 +230,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 20,
+      "sequence": 21,
       "target": "#order_line_items td.item_cost > .view > .woocommerce-Price-amount.amount > bdi",
       "value": "{{unitPrice}}",
       "variableName": ""
@@ -230,7 +240,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 21,
+      "sequence": 22,
       "target": "#order_line_items td.quantity > .view",
       "value": "× {{qty}}",
       "variableName": ""
@@ -240,7 +250,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 22,
+      "sequence": 23,
       "target": "#order_line_items td.line_cost > .view > .woocommerce-Price-amount.amount > bdi",
       "value": "{{subtotalPrice}}",
       "variableName": ""
@@ -250,7 +260,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 23,
+      "sequence": 24,
       "target": "#order_shipping_line_items td.line_cost > .view > .woocommerce-Price-amount.amount",
       "value": "{{shippingPrice}}",
       "variableName": ""
@@ -260,7 +270,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 24,
+      "sequence": 25,
       "target": "table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(1) > td.total > .woocommerce-Price-amount.amount > bdi",
       "value": "{{subtotalPrice}}",
       "variableName": ""
@@ -270,7 +280,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 25,
+      "sequence": 26,
       "target": ".wc-order-data-row.wc-order-totals-items > table.wc-order-totals:nth-of-type(1) > tbody > tr:nth-of-type(2) > td.total > .woocommerce-Price-amount.amount > bdi",
       "value": "{{shippingPrice}}",
       "variableName": ""
@@ -280,7 +290,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 26,
+      "sequence": 27,
       "target": ".wc-order-data-row.wc-order-totals-items > table.wc-order-totals:nth-of-type(1) > tbody > tr:last-of-type > td.total > .woocommerce-Price-amount.amount > bdi",
       "value": "{{total}}",
       "variableName": ""
@@ -290,7 +300,7 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 27,
+      "sequence": 28,
       "target": "table.wc-order-totals:nth-of-type(2) > tbody > tr:nth-of-type(1) > td.total > .woocommerce-Price-amount.amount > bdi",
       "value": "{{total}}",
       "variableName": ""
