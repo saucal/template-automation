@@ -41,7 +41,7 @@
       "optional": false,
       "private": false,
       "sequence": 1,
-      "target": "a[href*=\"/wp-admin/post.php?post={{subscriptionID}}&action=edit\"]",
+      "target": "a[href*=\"/wp-admin/post.php?post={{subsID}}&action=edit\"]",
       "value": "",
       "variableName": ""
     },
@@ -113,21 +113,11 @@
       "variableName": ""
     },
     {
-      "command": "assertTextPresent",
-      "condition": null,
-      "optional": false,
-      "private": false,
-      "sequence": 8,
-      "target": "#select2-order_status-container",
-      "value": "Active",
-      "variableName": ""
-    },
-    {
       "command": "extract",
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 9,
+      "sequence": 8,
       "target": [
         {
           "selector": "#subscription_renewal_orders > div.inside > div > table > tbody > tr:first-of-type > td:nth-child(1) > a"
@@ -144,18 +134,48 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 10,
+      "sequence": 9,
       "target": "",
       "value": "let renew = \"{{renewID}}\";\nrenew = renew.replace(\"#\",\"\");\nreturn renew\n",
       "variableName": "renewID"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 10,
+      "target": "#select2-order_status-container",
+      "value": "Active",
+      "variableName": ""
+    },
+    {
+      "command": "click",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "a[href*=\"/wp-admin/post.php?post={{renewID}}&action=edit\"]",
+      "value": "",
+      "variableName": ""
+    },
+    {
+      "command": "store",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "",
+      "value": "{{renewID}}",
+      "variableName": "orderNumber"
     }
   ],
   "testFrequency": 0,
   "testFrequencyAdvanced": [],
   "viewportSize": null,
   "_gi": {
-    "testId": "63c71c660b7aefb972ffc448",
-    "suiteId": "63c71c660b7aefb972ffc439",
-    "suiteName": "Ride1Up - Common Steps for all Projects"
+    "testId": "62d56fa0760cc3cd6bc7c8ee",
+    "suiteId": "6022b879262f437a9af8ddf9",
+    "suiteName": "Common Steps for all Projects"
   }
 }
