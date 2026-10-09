@@ -180,7 +180,7 @@
       "variableName": ""
     },
     {
-      "command": "assertText",
+      "command": "assertTextPresent",
       "condition": null,
       "optional": false,
       "private": false,

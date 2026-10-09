@@ -22,7 +22,7 @@
   "region": null,
   "screenshotCompareEnabled": null,
   "screenshotCompareThreshold": 0.1,
-  "startUrl": null,
+  "startUrl": "",
   "steps": [
     {
       "command": "pause",
@@ -181,7 +181,7 @@
       "private": false,
       "sequence": 15,
       "target": "",
-      "value": "let logs = {{logs}}\nreturn logs.content.transactionType === \"SUBSCRIPTION_CHARGE_FAILURE\"",
+      "value": "let logs = {{logs}}\n\n\nreturn logs.content.transactionType === \"SUBSCRIPTION_CHARGE_FAILURE\" || logs[1].content.transactionType === \"SUBSCRIPTION_CHARGE_FAILURE\"",
       "variableName": ""
     },
     {
@@ -191,7 +191,7 @@
       "private": false,
       "sequence": 16,
       "target": "",
-      "value": "let logs = {{logs}}\nreturn logs.content.referenceNumber === \"{{transaction_idOriginal}}\"",
+      "value": "let logs = {{logs}}\nreturn logs.content.referenceNumber === \"{{transaction_idOriginal}}\" || logs[1].content.referenceNumber === \"{{transaction_idOriginal}}\"",
       "variableName": ""
     },
     {

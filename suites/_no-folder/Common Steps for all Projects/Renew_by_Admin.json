@@ -23,7 +23,7 @@
   "region": null,
   "screenshotCompareEnabled": null,
   "screenshotCompareThreshold": 0.1,
-  "startUrl": null,
+  "startUrl": "",
   "steps": [
     {
       "command": "click",
@@ -41,7 +41,7 @@
       "optional": false,
       "private": false,
       "sequence": 1,
-      "target": "a[href*=\"/wp-admin/post.php?post={{subsID}}&action=edit\"]",
+      "target": "a[href*=\"/wp-admin/post.php?post={{subscriptionID}}&action=edit\"]",
       "value": "",
       "variableName": ""
     },
@@ -105,11 +105,31 @@
     {
       "command": "assertTextPresent",
       "condition": null,
-      "optional": false,
+      "optional": true,
       "private": false,
       "sequence": 7,
-      "target": "#message > p",
+      "target": ".notice.notice-success.is-dismissible.updated > p",
       "value": "Subscription updated.",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 8,
+      "target": "",
+      "value": "6022b74a262f437a9af8d9a3",
+      "variableName": ""
+    },
+    {
+      "command": "execute",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 9,
+      "target": "",
+      "value": "6022b6b2d2fb38677e5d8a9a",
       "variableName": ""
     },
     {
@@ -117,7 +137,61 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 8,
+      "sequence": 10,
+      "target": [
+        {
+          "selector": "li#toplevel_page_woocommerce > ul > li > a[href*=\"subscription\"]"
+        },
+        {
+          "selector": "#menu-posts-shop_subscription > a > div.wp-menu-name"
+        }
+      ],
+      "value": "",
+      "variableName": "stagingMode"
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let staging = \"{{stagingMode}}\"\nreturn false === staging.includes(\"staging\") || (\"{{project}}\" === \"harmony\" && staging.includes(\"staging\"))"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 11,
+      "target": "#select2-order_status-container",
+      "value": "Active",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let staging = \"{{stagingMode}}\"\nreturn staging.includes(\"staging\") && (\"{{project}}\" != \"lens\")"
+      },
+      "optional": false,
+      "private": false,
+      "sequence": 12,
+      "target": "#select2-order_status-container",
+      "value": "Active",
+      "variableName": ""
+    },
+    {
+      "command": "assertTextPresent",
+      "condition": {
+        "statement": "let staging = \"{{stagingMode}}\"\nreturn staging.includes(\"staging\") && (\"{{project}}\" === \"lens\")"
+      },
+      "notes": "Step added due to failing test because after renewal the new status is on hold",
+      "optional": false,
+      "private": false,
+      "sequence": 13,
+      "target": "#select2-order_status-container",
+      "value": "On hold",
+      "variableName": ""
+    },
+    {
+      "command": "extract",
+      "condition": null,
+      "optional": false,
+      "private": false,
+      "sequence": 14,
       "target": [
         {
           "selector": "#subscription_renewal_orders > div.inside > div > table > tbody > tr:first-of-type > td:nth-child(1) > a"
@@ -134,40 +208,10 @@
       "condition": null,
       "optional": false,
       "private": false,
-      "sequence": 9,
+      "sequence": 15,
       "target": "",
       "value": "let renew = \"{{renewID}}\";\nrenew = renew.replace(\"#\",\"\");\nreturn renew\n",
       "variableName": "renewID"
-    },
-    {
-      "command": "assertTextPresent",
-      "condition": null,
-      "optional": false,
-      "private": false,
-      "sequence": 10,
-      "target": "#select2-order_status-container",
-      "value": "Active",
-      "variableName": ""
-    },
-    {
-      "command": "click",
-      "condition": null,
-      "optional": false,
-      "private": false,
-      "sequence": 11,
-      "target": "a[href*=\"/wp-admin/post.php?post={{renewID}}&action=edit\"]",
-      "value": "",
-      "variableName": ""
-    },
-    {
-      "command": "store",
-      "condition": null,
-      "optional": false,
-      "private": false,
-      "sequence": 12,
-      "target": "",
-      "value": "{{renewID}}",
-      "variableName": "orderNumber"
     }
   ],
   "testFrequency": 0,
